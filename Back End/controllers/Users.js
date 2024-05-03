@@ -2,6 +2,7 @@ import axios from "axios";
 import Users from "../models/UserModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { generateToken } from "../middleware/VerifyToken.js";
 
 // export const getUsers = async (req, res) => {
 //   try {
@@ -152,58 +153,28 @@ import jwt from "jsonwebtoken";
 //   }
 // };
 
-// export const Login = async (req, res) => {
-//   try {
-//     const otp = Math.floor(100000 + Math.random() * 900000);
-//     const waktu = Math.floor(Date.now() / 1000);
-//     const user = await Users.findAll({
-//       where: {
-//         nomor: req.body.nomor,
-//       },
-//     });
-//     const userId = user[0].id;
-//     const nomor = user[0].nomor;
-//     const accessToken = jwt.sign(
-//       { userId, nomor },
-//       process.env.ACCESS_TOKEN_SECRET,
-//       {
-//         expiresIn: "1d",
-//       }
-//     );
-//     const refreshToken = jwt.sign(
-//       { userId, nomor },
-//       process.env.REFRESH_TOKEN_SECRET,
-//       {
-//         expiresIn: "1d",
-//       }
-//     );
-//     await Users.update(
-//       { refresh_token: refreshToken },
-//       {
-//         where: {
-//           id: userId,
-//         },
-//       }
-//     );
-//     res.cookie("refreshToken", refreshToken, {
-//       httpOnly: true,
-//       maxAge: 24 * 60 * 60 * 1000,
-//     });
-//     const data = {
-//       target: nomor,
-//       message: `Your OTP: ${otp}`,
-//     };
 
-//     const result = await axios.post("https://api.fonnte.com/send", data, {
-//       headers: {
-//         Authorization: "xaL@fa!LhsLkwxXtn!Zv",
-//       },
-//     });
-//     res.json({ accessToken });
-//   } catch (error) {
-//     res.status(404).json({ msg: "Email tidak ditemukan" });
-//   }
-// };
+export const Login = async (req, res) => {
+    try {
+      const { email, password } = req.body;
+      if (!email || !password) {
+        return res.status(400).json({ error: "Email and password are required" });
+      }
+      const user = await Users.findOne({ where: { email: email } });
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+      const isPasswordValid = await user.comparePassword(password);
+      if (!isPasswordValid) {
+        return res.status(401).json({ error: "Invalid password" });
+      }
+      const token = generateToken(user);
+      res.status(200).json({ token });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  };
 
 // export const Logout = async (req, res) => {
 //   const refreshToken = req.cookies.refreshToken;

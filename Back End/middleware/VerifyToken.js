@@ -10,3 +10,19 @@ export const verifyToken = (req, res, next) => {
         next();
     })
 }
+
+
+export const generateToken = (user) => {
+    const payload = {
+      userId: user.id,
+      email: user.email,
+      // You can include any additional data you want in the JWT payload
+    };
+  
+    // Generate JWT token with a secret key and expiration time
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+      expiresIn: '1h', // Token expires in 1 hour
+    });
+  
+    return token;
+  };

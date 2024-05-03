@@ -7,10 +7,13 @@ import Input from "../../components/common/DynamicInput.jsx";
 import { toast } from "react-toastify";
 import { isPending } from "../../components/store/actions/todoActions.js";
 import { apiClient } from "../../utils/api/apiClient.js";
+import { ReactComponent as UsernameIcon } from "../../assets/icon/ic_email.svg";
+import { ReactComponent as PasswordIcon } from "../../assets/icon/ic_password.svg";
 
 import { formatTime } from "../../utils/helpers/formatTime.js";
 import OTPInput from "../../components/common/OTPInput.js";
 import ModalContent from "../../components/ui/Modal/ModalContent.jsx";
+import LoadingLink from "../../components/common/LoadingLink.js";
 
 const LoginPage = () => {
   const location = useLocation();
@@ -18,15 +21,9 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const isWebSetting = localStorage.getItem("isWebSetting");
   const parseWebSetting = JSON.parse(isWebSetting);
-  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [konfirmasi_password, setKonfirmasi_password] = useState("");
-  const [fullname, setFullname] = useState("");
-  const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [pin, setPIN] = useState("");
   const [keepLogin, setKeepLogin] = useState(false);
-  const [isModalVerification, setIsModalVerification] = useState(false);
 
   const data = location.state;
   const [selectedButton, setSelectedButton] = useState(data);
@@ -34,29 +31,17 @@ const LoginPage = () => {
   const [remainingTime, setRemainingTime] = useState(180);
   const [intervalId, setIntervalId] = useState(null);
 
-  useEffect(() => {
-    // setIsModalVerification(true);
-  }, []);
-
-  useEffect(() => {
-    if (remainingTime === 0) {
-      clearInterval(intervalId);
-    }
-  }, [remainingTime]);
 
   const handleButtonClick = (buttonName) => {
     setSelectedButton(buttonName);
-    setUsername("");
     setPassword("");
-    setFullname("");
-    setPhone("");
     setEmail("");
   };
-  const fetchLogin = async (phone, password, keepLogin) => {
+  const fetchLogin = async (email, password, keepLogin) => {
     dispatch(isPending(true));
     try {
       const params = new URLSearchParams();
-      params.append("nomor", phone);
+      params.append("email", email);
       params.append("password", password);
       params.append("keeplogin", keepLogin);
 
@@ -68,25 +53,25 @@ const LoginPage = () => {
       });
       dispatch(isPending(false));
       if (response?.statusCode === 200) {
-        if (
-          response?.result.status_verifikasi === "Sudah Terverifikasi" &&
-          response?.result.status_akun === "Aktif"
-        ) {
-          const apiKey = response?.result.api_key;
-          const token = response?.result.token;
-          const apiData = { apiKey, token };
-          localStorage.setItem("isLogin", JSON.stringify(apiData));
-          fetchDataProfile(apiKey, token);
-        } else {
-          handleSendOTP(phone, "sendotp");
-          const timer = setInterval(() => {
-            setRemainingTime((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
-          }, 1000);
-          setIntervalId(timer);
-          return () => {
-            clearInterval(timer);
-          };
-        }
+        // if (
+        //   response?.result.status_verifikasi === "Sudah Terverifikasi" &&
+        //   response?.result.status_akun === "Aktif"
+        // ) {
+        //   const apiKey = response?.result.api_key;
+        //   const token = response?.result.token;
+        //   const apiData = { apiKey, token };
+        //   localStorage.setItem("isLogin", JSON.stringify(apiData));
+        //   fetchDataProfile(apiKey, token);
+        // } else {
+        //   handleSendOTP(phone, "sendotp");
+        //   const timer = setInterval(() => {
+        //     setRemainingTime((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
+        //   }, 1000);
+        //   setIntervalId(timer);
+        //   return () => {
+        //     clearInterval(timer);
+        //   };
+        // }
       } else {
         toast.error(response?.result.msg, {
           position: toast.POSITION.TOP_RIGHT,
@@ -120,170 +105,92 @@ const LoginPage = () => {
     }
   };
 
-  const fetchRegister = async (
-    fullname,
-    username,
-    phone,
-    email,
-    password,
-    konfirmasi_password,
-  ) => {
-    dispatch(isPending(true));
-    try {
-      const params = new URLSearchParams();
-      params.append("full_name", fullname);
-      params.append("ponsel", phone);
-      params.append("password", password);
-      params.append("username", username);
-      params.append("konfirmasi_password", konfirmasi_password);
-      params.append("email", email);
-
-      const response = await apiClient({
-        baseurl: "user/register",
-        method: "POST",
-        XGORDON: "REGISTER",
-        body: params,
-      });
-      dispatch(isPending(false));
-      if (response?.statusCode === 200) {
-        handleSendOTP(phone, "sendotp");
-        const timer = setInterval(() => {
-          setRemainingTime((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
-        }, 1000);
-        setIntervalId(timer);
-        return () => {
-          clearInterval(timer);
-        };
-      } else {
-        toast.error(response?.result.msg, {
-          position: toast.POSITION.TOP_RIGHT,
-        });
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-  const handleLogin = (phone, password, keepLogin) => {
-    const phoneRegex = /^\+62\d{8,17}$/;
-    if (!phoneRegex.test(phone)) {
-      toast.error("Nomor telepon tidak valid. Mohon periksa masukan Anda.", {
-        position: toast.POSITION.TOP_RIGHT,
-      });
-      return;
-    }
-    fetchLogin(phone, password, keepLogin);
-  };
-  const handleRegister = (fullname, username, phone, email, password) => {
-    const fullnameRegex = /^[a-zA-Z\s-]+$/;
-    if (!fullnameRegex.test(fullname)) {
-      toast.error("Nama lengkap tidak valid. Mohon periksa masukan Anda.", {
-        position: toast.POSITION.TOP_RIGHT,
-      });
-      return;
-    }
-    const usernameRegex = /^[a-zA-Z0-9_-]{3,16}$/;
-    if (!usernameRegex.test(username)) {
-      toast.error("Username tidak valid. Mohon periksa masukan Anda.", {
-        position: toast.POSITION.TOP_RIGHT,
-      });
-      return;
-    }
-    const phoneRegex = /^\+62\d{8,17}$/;
-    if (!phoneRegex.test(phone)) {
-      toast.error("Nomor telepon tidak valid. Mohon periksa masukan Anda.", {
-        position: toast.POSITION.TOP_RIGHT,
-      });
-      return;
-    }
-    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-    if (!emailRegex.test(email)) {
-      toast.error("Email tidak valid. Mohon periksa masukan Anda.", {
-        position: toast.POSITION.TOP_RIGHT,
-      });
-      return;
-    }
-    fetchRegister(
-      fullname,
-      username,
-      phone,
-      email,
-      password,
-      konfirmasi_password,
-    );
-  };
-  const toggleModalVerification = () => {
-    setIsModalVerification(!isModalVerification);
-  };
-
-  const handleSendOTP = async (phone, api) => {
-    dispatch(isPending(true));
-    try {
-      const params = new URLSearchParams();
-      params.append("nomor", phone);
-
-      const response = await apiClient({
-        baseurl: "user/verifikasi",
-        parameter: api,
-        method: "POST",
-        XGORDON: "VERIFIKASI",
-        body: params,
-      });
-      dispatch(isPending(false));
-      if (response?.statusCode === 200) {
-        toggleModalVerification();
-        toast.success(response?.result.msg, {
-          position: toast.POSITION.TOP_RIGHT,
-        });
-      } else {
-        if (response?.result.msg === "Kode otentikasi sudah dikirim") {
-          toggleModalVerification();
-          handleSendOTP(phone, "resendotp");
-        } else {
-          toast.error(response?.result.msg, {
-            position: toast.POSITION.TOP_RIGHT,
-          });
-        }
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
-  const handleVerifAccount = async (phone, pin) => {
-    dispatch(isPending(true));
-    try {
-      const params = new URLSearchParams();
-      params.append("nomor", phone);
-      params.append("otp", pin);
-
-      const response = await apiClient({
-        baseurl: "user/verifikasi",
-        parameter: "verifotp",
-        method: "POST",
-        XGORDON: "VERIFIKASI",
-        body: params,
-      });
-      dispatch(isPending(false));
-      if (response?.statusCode === 200) {
-        const apiKey = response?.result.api_key;
-        const token = response?.result.token;
-        const apiData = { apiKey, token };
-        localStorage.setItem("isLogin", JSON.stringify(apiData));
-        const timeoutId = setTimeout(() => {
-          fetchDataProfile(apiKey, token);
-        }, 500);
-        return () => clearTimeout(timeoutId);
-      } else {
-        toast.error(response?.result.msg, {
-          position: toast.POSITION.TOP_RIGHT,
-        });
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
   return (
-    <div className="flex flex-row flex-1 w-full h-full">
+    <div className="flex flex-row bg-cardLight dark:bg-cardDark flex-1 w-full h-full items-center justify-center">
+      <div className="flex flex-row  rounded-lg bg-lightColor flex-1 max-w-4xl dark:bg-darkColor overflow-hidden">
+        <div className="sm:flex hidden flex-1 justify-center flex-col gap-1 text-darkColor p-4 py-5 bg-gradient-to-bl from-[#056BDA] to-[#033974]">
+          <div>
+            <img
+              src={require('../../assets/image/logo/light.png')}
+              alt="logo"
+              className="h-10 flex object-contain"
+            />
+          </div>
+          <span className=" text-xl font-bold">Project Management Office</span>
+          <span className=" text-sm">Sistem informasi pengelolaan aset, usulan pembuatan,
+            dan pengemangan sistem digital kota bandung</span>
+        </div>
+        <div className="flex flex-1 flex-col gap-2 p-4 py-5">
+          <div className="flex flex-col mb-3">
+            <span className=" text-3xl font-bold">Login</span>
+            <span className=" text-sm opacity-70">Selamat Datang</span>
+          </div>
+          <Input
+            label="Email"
+            icon={<UsernameIcon />}
+            value={email}
+            type="email"
+            placeholder={"Masukan Alamat Email"}
+            onChange={(event) => setEmail(event)}
+          />
+          <Input
+            label="Password"
+            icon={<PasswordIcon />}
+            value={password}
+            type="password"
+            placeholder={"Masukan Password"}
+            onChange={(event) => setPassword(event)}
+          />
+          <Input
+            label="Captcha"
+            icon={<PasswordIcon />}
+            // value={username}
+            type="text"
+            placeholder={"Masukan Captcha"}
+          // onChange={(event) => setUsername(event)}
+          />
+          <div className="flex flex-row justify-between">
+            <CheckBox
+              label="Ingat Saya"
+              onChange={(event) => setKeepLogin(event)}
+            />
+            <Button
+              initialValue="Lupa Password?"
+              type="transparent"
+              className=" text-[#0185FF]"
+              href={"/forgotpassword"}
+            />
+          </div>
+          <Button
+            initialValue="Masuk"
+            type="fill"
+            className="bg-[#0185FF] text-darkColor w-full "
+            onClick={() => {
+              if (!email || !password) {
+                toast.error("Email and password are required", {
+                  position: toast.POSITION.TOP_RIGHT,
+                });
+                return;
+              }
+
+              if (email.length < 8 || password.length < 8) {
+                toast.error("Email and password must be at least 8 characters long", {
+                  position: toast.POSITION.TOP_RIGHT,
+                });
+                return;
+              }
+
+              if (!/[a-z]/.test(password) || !/[A-Z]/.test(password) || !/\d/.test(password) || !/[\W_]/.test(password)) {
+                toast.error("Password must contain at least one uppercase letter, one lowercase letter, one digit, and one symbol", {
+                  position: toast.POSITION.TOP_RIGHT,
+                });
+                return;
+              }
+              fetchLogin(email, password, keepLogin);
+            }}
+          />
+        </div>
+      </div>
       {/* <div className="fixed top-0 right-0 p-2">
         <Button
           type="transparent"

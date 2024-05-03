@@ -6,7 +6,7 @@ const { DataTypes } = Sequelize;
 const Users = db.define(
   "users",
   {
-    nama: {
+    fullname: {
       type: DataTypes.STRING,
       allowNull: true,
     },
@@ -14,29 +14,15 @@ const Users = db.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
-    alamat: {
+    address: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    nomor: {
+    telp: {
       type: DataTypes.STRING,
-    },
-    otp: {
-      type: DataTypes.STRING,
-    },
-    waktu: {
-      type: DataTypes.INTEGER,
-    },
-    aktif: {
-      type: DataTypes.STRING,
-      allowNull: true,
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: true,
-    },
-    refresh_token: {
-      type: DataTypes.TEXT,
       allowNull: true,
     },
   },

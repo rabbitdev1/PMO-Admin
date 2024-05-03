@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(router);
 // app.use("/dokumen", express.static("public/berkas"));
 
-// Users.sync();
+Users.sync();
 HelpDeskFaq.sync();
 ListHelpdesk.sync();
 app.listen(3001, () => console.log("Server running at port 5000"));
