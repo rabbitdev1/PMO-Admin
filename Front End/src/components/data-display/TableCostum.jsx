@@ -25,9 +25,13 @@ const TableCostum = ({
   const statusBody = (rowData) => {
     return (
       <div
-        className={`${rowData.submission_status === "Dalam Antrian" ? "bg-[#333333]" : rowData.submission_status === "Diproses" ? "bg-[#F5CF08]" : rowData.submission_status === "Disetujui" ? "bg-[#13C39C]" : rowData.submission_status === "Ditolak" ? "bg-[#FF0000]" : "bg-black"} p-1 py-2 rounded-md text-xs  text-center text-darkColor`}
+        className={`${rowData.submission_status === "Dalam Antrian" ? "bg-[#333333]" :
+          rowData.submission_status === "Diproses" ? "bg-[#F5CF08]" :
+            rowData.submission_status === "Disetujui" || rowData.status === "Aktif" ? "bg-[#13C39C]" :
+              rowData.submission_status === "Ditolak" || rowData.status === "Non Aktif" ? "bg-[#FF0000]" :
+                "bg-black"} p-1 py-2 rounded-md text-xs  text-center text-darkColor`}
       >
-        {rowData.submission_status}
+        {rowData.submission_status || rowData.status}
       </div>
     );
   };
@@ -102,33 +106,33 @@ const TableCostum = ({
       className="border-1 rounded-lg overflow-hidden border-[#dddddd] dark:border-[#ffffff20]"
     >
       {dataHeader?.map((item, index) => {
-        return item.field === "submission_status" ? (
+        return item.field === "submission_status" || item.field === "status" ? (
           <Column
             key={index}
-            field="submission_status"
+            field={item.field}
             headerClassName={`bg-[#0185FF] text-darkColor`}
             bodyClassName={`${isDarkMode ? "bg-cardDark text-darkColor text-sm font-normal" : " text-lightColor text-sm font-normal"}`}
-            header="Status"
+            header={item.name}
             body={statusBody}
             sortable
           ></Column>
         ) : item.field === "createdAt" ? (
           <Column
             key={index}
-            field="createdAt"
+            field={item.field}
             headerClassName={`bg-[#0185FF] text-darkColor`}
             bodyClassName={`${isDarkMode ? "bg-cardDark text-darkColor text-sm font-normal" : " text-lightColor text-sm font-normal"}`}
-            header="Tanggal"
+            header={item.name}
             body={dateBody}
             sortable
           ></Column>
         ) : item.field === "action" ? (
           <Column
             key={index}
-            field="action"
+            field={item.field}
             headerClassName={`bg-[#0185FF] text-darkColor`}
             bodyClassName={`${isDarkMode ? "bg-cardDark text-darkColor text-sm font-normal" : " text-lightColor text-sm font-normal"}`}
-            header="Aksi"
+            header={item.name}
             body={actionBody}
           ></Column>
         ) : (

@@ -27,7 +27,6 @@ const Sidebar = () => {
         className={`flex flex-col`}
       >
         {[
-          { title: "MENU", icon: "" },
           { title: "Dashboard", icon: AllBerandaIcon, href: ["/", "/"], },
           { title: "Ajuan Permohonan", icon: AllBerandaIcon, href: ["/test", "/1"], },
           { title: "Pembanguan dan Pengembangan", icon: AllBerandaIcon, href: ["/test", "/2"], },
@@ -36,17 +35,18 @@ const Sidebar = () => {
           { title: "Pendampingan", icon: AllBerandaIcon, href: ["/test", "/5"], },
           { title: "Help Desk", icon: AllBerandaIcon, href: ["/help-desk", "/detail-help-desk"], },
           { title: "Integrasi Sistem Informasi", icon: AllBerandaIcon, href: ["/test", "/6"], },
+          { title: "SISTEM", icon: "" },
+          { title: "Akun", icon: AllBerandaIcon, href: ["/account", "/7"], },
         ].map((button, index) =>
           button.icon === "" ? (
-            // <div
-            //   key={index}
-            //   className=" items-center flex gap-2 font-semibold w-full p-2 rounded-lg"
-            // >
-            //   <span className="group-hover:text-[#212121] text-sm line-clamp-1 text-left">
-            //     {button.title}
-            //   </span>
-            // </div>
-            null
+            <div
+              key={index}
+              className=" items-center flex gap-2 font-semibold w-full p-2 px-3 "
+            >
+              <span className="group-hover:text-[#212121] text-sm line-clamp-1 text-left">
+                {button.title}
+              </span>
+            </div>
           ) : <LoadingLink
             key={index}
             href={button.href[0]}

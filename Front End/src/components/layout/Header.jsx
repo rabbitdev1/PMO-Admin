@@ -1,44 +1,41 @@
 import React, { useEffect, useState } from "react";
 
-
+import Cookies from "js-cookie";
+import { OverlayTrigger, Popover } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import useTheme from "../context/useTheme";
-import LoadingLink from "../common/LoadingLink";
-import DynamicButton from "../common/DynamicButton";
-import { ReactComponent as Ic_menu } from "../../assets/icon/ic_menus.svg";
 import { ReactComponent as Ic_dark_mode } from "../../assets/icon/ic_dark-mode.svg";
 import { ReactComponent as LogoutIcon } from "../../assets/icon/ic_logout.svg";
+import { ReactComponent as Ic_menu } from "../../assets/icon/ic_menus.svg";
+import DynamicButton from "../common/DynamicButton";
+import LoadingLink from "../common/LoadingLink";
+import useTheme from "../context/useTheme";
 import { isSideBar } from "../store/actions/todoActions";
-import { OverlayTrigger, Popover } from "react-bootstrap";
+import { CapitalizeName } from "../../utils/helpers/capitalizeName";
 
 const Header = () => {
   const { isDarkMode, toggleTheme } = useTheme();
-  const [status, setStatus] = useState(null);
   const isWebSetting = localStorage.getItem("isWebSetting");
   const parseWebSetting = JSON.parse(isWebSetting);
-  const isProfile = localStorage.getItem("isProfile");
   const [showOverlay, setShowOverlay] = useState(false);
+  const [profile, setProfile] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const authData = Cookies.get("authData");
 
   const handleCloseOverlay = () => {
     setShowOverlay(false);
   };
-  const profileData = JSON.parse(isProfile);
 
   useEffect(() => {
-    if (typeof localStorage !== "undefined") {
-      const storedStatus = localStorage.getItem("isLogin");
-      setStatus(storedStatus);
+    if (authData) {
+      setProfile(JSON.parse(authData));
     }
   }, []);
 
   return (
     <header className=" flex flex-row flex-1 bg-lightColor transition duration-300 ease-in-out dark:bg-cardDark border-b-[1px] border-[#dddddd] dark:border-[#ffffff20]">
-      <div
-        className={`lg:flex hidden w-full max-w-[280px] flex-1   p-3 py-2 `}
-      >
+      <div className={`lg:flex hidden w-full max-w-[280px] flex-1   p-3 py-2 `}>
         <div
           onClick={() => {
             setShowOverlay(false);
@@ -46,7 +43,7 @@ const Header = () => {
           className="flex items-center flex-1 justify-center flex-col "
         >
           <img
-            src={require('../../assets/image/logo/light.png')}
+            src={require("../../assets/image/logo/light.png")}
             alt="logo"
             className="h-14 w-auto flex object-contain "
           />
@@ -75,19 +72,15 @@ const Header = () => {
             setShowOverlay(false);
           }}
         >
-          <div
-            className="lg:hidden flex   flex-row items-center gap-3 h-full justify-start"
-          >
+          <div className="lg:hidden flex   flex-row items-center gap-3 h-full justify-start">
             <img
-              src={require('../../assets/image/logo/light.png')}
+              src={require("../../assets/image/logo/light.png")}
               alt="logo"
               className="h-10 w-auto flex object-contain "
             />
           </div>
         </div>
-        <div className="flex flex-row flex-1">
-
-        </div>
+        <div className="flex flex-row flex-1"></div>
         <div className="flex flex-row gap-2  justify-end ">
           <DynamicButton
             type="transparent"
@@ -110,14 +103,14 @@ const Header = () => {
                 overlay={
                   <Popover className="p-1 w-[1000px] bg-cardLight dark:bg-cardDark text-lightColor dark:text-darkColor">
                     <div className="p-2 flex flex-col ">
-                      <div className="flex flex-row gap-2 items-center mb-1">
-                      </div>
+                      <div className="flex flex-row gap-2 items-center mb-1"></div>
                       <button
                         className="flex flex-row justify-start items-center gap-2 hover:bg-[#2121210e] dark:hover:bg-[#f3f3f30e] flex-1 p-2 rounded-lg"
                         onClick={() => {
+                          Cookies.remove("authData");
+                          Cookies.remove("authApiKey");
+                          Cookies.remove("authToken");
                           setShowOverlay(!showOverlay);
-                          localStorage.removeItem("isLogin");
-                          localStorage.removeItem("isProfile");
                           navigate("/");
                           setTimeout(() => {
                             window.location.reload("/");
@@ -168,14 +161,18 @@ const Header = () => {
                   className="flex flex-row gap-2"
                 >
                   <img
-                    src={profileData?.profil}
-                    alt={profileData?.nama}
-                    className=" object-contain flex h-11 w-11 bg-darkColor dark:bg-lightColor rounded-full"
+                    src={profile?.image}
+                    alt={profile?.fullname}
+                    className=" object-cover flex h-11 w-11 bg-cardLight dark:bg-cardDark rounded-full"
                     effect="blur"
                   />
                   <div className=" flex-col items-start sm:inline-flex hidden">
-                    <span className="text-base font-semibold line-clamp-1">Rizal Sujana</span>
-                    <span className="text-xs font-light line-clamp-1 opacity-70">Operator </span>
+                    <span className="text-base font-semibold line-clamp-1 ">
+                      {CapitalizeName(profile?.fullname?.split(' ')[0])}
+                    </span>
+                    <span className="text-xs font-light line-clamp-1 opacity-70">
+                      {CapitalizeName(profile?.role)}
+                    </span>
                   </div>
                 </button>
               </OverlayTrigger>

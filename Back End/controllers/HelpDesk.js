@@ -1,6 +1,3 @@
-import axios from "axios";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import { HelpDeskFaq, ListHelpdesk } from "../models/HelpdeskModel.js";
 
 export const getFaq = async (req, res) => {
@@ -21,8 +18,17 @@ export const getFaq = async (req, res) => {
   }
 };
 
+
 export const getListHelpDesk = async (req, res) => {
   try {
+    const apiKey = req.headers['x-api-key'];
+    if (!apiKey) {
+      return res.status(401).json({
+        status: "error",
+        msg: "API Key is required",
+      });
+    }
+
     const helpdesk = await ListHelpdesk.findAll({
       attributes: [
         "id",
@@ -56,6 +62,15 @@ export const getListHelpDesk = async (req, res) => {
 export const getDetailHelpDesk = async (req, res) => {
   try {
     const { id } = req.body;
+    const apiKey = req.headers['x-api-key'];
+
+    if (!apiKey) {
+      return res.status(401).json({
+        status: "error",
+        msg: "API Key is required",
+      });
+    }
+
     const helpDeskDetail = await ListHelpdesk.findByPk(id);
 
     if (!helpDeskDetail) {
@@ -96,6 +111,14 @@ export const getDetailHelpDesk = async (req, res) => {
 export const setHelpDesk = async (req, res) => {
   try {
     let rawHelpDeskData = req.body;
+    const apiKey = req.headers['x-api-key'];
+
+    if (!apiKey) {
+      return res.status(401).json({
+        status: "error",
+        msg: "API Key is required",
+      });
+    }
 
     if (rawHelpDeskData.type_tools) {
       rawHelpDeskData.type_tools = JSON.stringify(rawHelpDeskData.type_tools);

@@ -1,4 +1,4 @@
-import CryptoJS from "crypto-js";
+import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import store from "../../components/store";
 import {
@@ -7,19 +7,6 @@ import {
 } from "../../components/store/actions/todoActions";
 import { clearLocalStorageAndRedirect } from "../helpers/clearLocalStorageAndRedirect";
 
-const isWebSetting = localStorage.getItem("isWebSetting");
-const parseWebSetting = JSON.parse(isWebSetting);
-
-const currentDate = new Date();
-const year = currentDate.getFullYear();
-const month = String(currentDate.getMonth() + 1).padStart(2, "0");
-const day = String(currentDate.getDate()).padStart(2, "0");
-
-const formattedDate =
-  parseWebSetting?.date === `${year}-${month}-${day}`
-    ? parseWebSetting?.date
-    : `${year}-${month}-${day}`;
-
 const apiClient = async ({
   baseurl = "",
   parameter = "",
@@ -27,24 +14,19 @@ const apiClient = async ({
   token = "",
   method = "GET",
   customHeaders,
-  XGORDON,
   body,
 }) => {
   const Api = process.env.REACT_APP_API;
-  const TokenXGORDON = process.env.REACT_APP_TOKEN_GORDON;
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  const originalString = XGORDON + TokenXGORDON + formattedDate;
-  const sha256Hash = CryptoJS.SHA256(originalString).toString();
-
-  // const isUser = apiKey !== "" && token !== "";
   const headers = {
     method: apiKey ? "POST" : method,
     headers: {
-      'Access-Control-Allow-Origin':'*',
+      "Access-Control-Allow-Origin": "*",
       "Content-Type": "application/x-www-form-urlencoded",
-      "Client-Timezone": `${year}-${month}-${day}`,
+      "Client-Timezone": timezone,
       ...(token && { Authorization: `Bearer ${token}` }),
-      XGORGON: sha256Hash,
+      ...(apiKey && { "X-API-Key": `${apiKey}` }),
       ...customHeaders,
     },
     ...(body && { body: body.toString() }),
@@ -52,11 +34,15 @@ const apiClient = async ({
   try {
     const response = await fetch(
       `${Api}` + baseurl + (parameter === "" ? "" : "?" + parameter),
-      headers,
+      headers
     );
 
     const result = await response.json();
-    if (response.status === 200 || response.status === 400) {
+    if (
+      response.status === 200 ||
+      response.status === 400 ||
+      response.status === 404
+    ) {
       if (result.statusCode === 429) {
         store.dispatch(isToManyRequestAction(true));
       } else {
@@ -71,6 +57,7 @@ const apiClient = async ({
       ) {
         clearLocalStorageAndRedirect();
       } else if (result.msg === "Authentication failed.") {
+        Cookies.remove("authToken");
         toast.error(result.msg, {
           position: toast.POSITION.TOP_RIGHT,
         });

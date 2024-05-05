@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import { OverlayTrigger, Popover } from "react-bootstrap";
 import { useDispatch } from "react-redux";
@@ -16,19 +17,21 @@ import DynamicInput from "../../components/common/DynamicInput";
 import useTheme from "../../components/context/useTheme";
 import TableCostum from "../../components/data-display/TableCostum";
 import TitleHeader from "../../components/layout/TitleHeader";
+import { isPending } from "../../components/store/actions/todoActions";
 import ConditionalRender from "../../components/ui/ConditionalRender";
 import ModalContent from "../../components/ui/Modal/ModalContent";
 import { apiClient } from "../../utils/api/apiClient";
 import { convertToNameValueObject } from "../../utils/helpers/convertToNameValueObject";
 import { validateFormData } from "../../utils/helpers/formDataValidation";
 import { formData as initialFormData } from './data';
-import { isPending } from "../../components/store/actions/todoActions";
 
 function HelpDeskPages() {
   const { isDarkMode } = useTheme();
   const navigate = useNavigate();
   const isWebSetting = localStorage.getItem("isWebSetting");
   const parseWebSetting = JSON.parse(isWebSetting);
+  const authApiKey = Cookies.get('authApiKey');
+  const authToken = Cookies.get('authToken');
 
   const [statusData, setStatusData] = useState([
     { title: "Pengajuan", value: "0", desc: "Data yang harus diproses", icon: PengajuanIcon, },
@@ -63,8 +66,12 @@ function HelpDeskPages() {
 
   useEffect(() => {
     fetchDataFaq();
-    fetchDataHelpDesk()
+    if (authToken) {
+      fetchDataHelpDesk(authApiKey, authToken)
+    }
+
   }, []);
+
 
   const fetchDataFaq = async () => {
     setlistFAQLoading(true);
@@ -72,7 +79,6 @@ function HelpDeskPages() {
       const response = await apiClient({
         baseurl: "helpdesk_faq",
         method: "POST",
-        XGORDON: "SLIDER",
       });
       setlistFAQLoading(false);
       if (response?.statusCode === 200) {
@@ -84,13 +90,14 @@ function HelpDeskPages() {
       console.error("Error fetching data:", error);
     }
   };
-  const fetchDataHelpDesk = async () => {
+  const fetchDataHelpDesk = async (api_key, token) => {
     setListHelpDeskLoading(true);
     try {
       const response = await apiClient({
         baseurl: "helpdesk",
         method: "POST",
-        XGORDON: "SLIDER",
+        apiKey: api_key,
+        token: token,
       });
       setListHelpDeskLoading(false);
       if (response?.statusCode === 200) {
@@ -108,7 +115,7 @@ function HelpDeskPages() {
       console.error("Error fetching data:", error);
     }
   };
-  const fetchDataCreate = async (data) => {
+  const fetchDataCreate = async (api_key, token, data) => {
     dispatch(isPending(true));
     const raw = JSON.stringify(data);
     try {
@@ -117,7 +124,8 @@ function HelpDeskPages() {
         method: "POST",
         customHeaders: { "Content-Type": "application/json" },
         body: raw,
-        XGORDON: "SLIDER",
+        apiKey: api_key,
+        token: token,
       });
       dispatch(isPending(false));
       if (response?.statusCode === 200) {
@@ -202,7 +210,7 @@ function HelpDeskPages() {
           position: toast.POSITION.TOP_RIGHT,
         });
       } else {
-        fetchDataCreate(combinedObject);
+        fetchDataCreate(authApiKey, authToken, combinedObject);
       }
 
     } else {
@@ -212,7 +220,7 @@ function HelpDeskPages() {
 
   return (
     <div className="flex flex-col gap-3 flex-1 p-3" >
-      <TitleHeader title={"Help Desk"} link1={"dashboard"} link2={"help-desk"} />
+      <TitleHeader title={"Help Desk "} link1={"dashboard"} link2={"help-desk"} />
       <section className="flex xl:flex-row flex-col gap-3" >
         <div className="flex-1 flex flex-col gap-3">
           <div className="grid xl:grid-cols-4 grid-cols-2 gap-3">
@@ -428,7 +436,7 @@ function HelpDeskPages() {
                   setisModalVerif({ data: {}, status: false })
                   setisModalCreate({ data: {}, status: false });
                   setisModalType({ data: {}, status: false })
-                  fetchDataHelpDesk()
+                  fetchDataHelpDesk(authApiKey, authToken)
                 }}
               />
             </div>

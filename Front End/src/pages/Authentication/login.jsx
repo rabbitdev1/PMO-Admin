@@ -1,28 +1,26 @@
-import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router";
+import Cookies from 'js-cookie';
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import Button from "../../components/common/DynamicButton.jsx";
-import CheckBox from "../../components/common/CheckBox.js";
-import Input from "../../components/common/DynamicInput.jsx";
+import { useLocation, useNavigate } from "react-router";
 import { toast } from "react-toastify";
-import { isPending } from "../../components/store/actions/todoActions.js";
-import { apiClient } from "../../utils/api/apiClient.js";
 import { ReactComponent as UsernameIcon } from "../../assets/icon/ic_email.svg";
 import { ReactComponent as PasswordIcon } from "../../assets/icon/ic_password.svg";
-
-import { formatTime } from "../../utils/helpers/formatTime.js";
-import OTPInput from "../../components/common/OTPInput.js";
-import ModalContent from "../../components/ui/Modal/ModalContent.jsx";
-import LoadingLink from "../../components/common/LoadingLink.js";
+import CheckBox from "../../components/common/CheckBox.js";
+import Button from "../../components/common/DynamicButton.jsx";
+import Input from "../../components/common/DynamicInput.jsx";
+import useTheme from "../../components/context/useTheme.js";
+import { isPending } from "../../components/store/actions/todoActions.js";
+import { apiClient } from "../../utils/api/apiClient.js";
 
 const LoginPage = () => {
   const location = useLocation();
   const dispatch = useDispatch();
+  const { isDarkMode } = useTheme();
   const navigate = useNavigate();
   const isWebSetting = localStorage.getItem("isWebSetting");
   const parseWebSetting = JSON.parse(isWebSetting);
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("Sadang!12");
+  const [email, setEmail] = useState("zalsujana07@gmail.com");
   const [keepLogin, setKeepLogin] = useState(false);
 
   const data = location.state;
@@ -43,35 +41,24 @@ const LoginPage = () => {
       const params = new URLSearchParams();
       params.append("email", email);
       params.append("password", password);
-      params.append("keeplogin", keepLogin);
+      params.append("keepLogin", keepLogin);
 
       const response = await apiClient({
-        baseurl: "user/login",
+        baseurl: "login",
         method: "POST",
-        XGORDON: "LOGIN",
         body: params,
       });
       dispatch(isPending(false));
       if (response?.statusCode === 200) {
-        // if (
-        //   response?.result.status_verifikasi === "Sudah Terverifikasi" &&
-        //   response?.result.status_akun === "Aktif"
-        // ) {
-        //   const apiKey = response?.result.api_key;
-        //   const token = response?.result.token;
-        //   const apiData = { apiKey, token };
-        //   localStorage.setItem("isLogin", JSON.stringify(apiData));
-        //   fetchDataProfile(apiKey, token);
-        // } else {
-        //   handleSendOTP(phone, "sendotp");
-        //   const timer = setInterval(() => {
-        //     setRemainingTime((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
-        //   }, 1000);
-        //   setIntervalId(timer);
-        //   return () => {
-        //     clearInterval(timer);
-        //   };
-        // }
+        if (response?.result?.msg === "Successful login.") {
+          Cookies.set('authToken', response.result.token, { expires: keepLogin ? 7 : 1 });
+          Cookies.set('authApiKey', response.result.apiKey, { expires: keepLogin ? 7 : 1 });
+          fetchDataProfile(response?.result?.apiKey, response?.result?.token)
+        } else {
+          toast.error(response?.result.msg, {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+        }
       } else {
         toast.error(response?.result.msg, {
           position: toast.POSITION.TOP_RIGHT,
@@ -84,20 +71,17 @@ const LoginPage = () => {
 
   const fetchDataProfile = async (api_key, token) => {
     try {
-      const params = new URLSearchParams();
-      params.append("api_key", api_key);
-
       const response = await apiClient({
-        baseurl: "user/me",
+        baseurl: "me",
         method: "POST",
-        XGORDON: "ME",
         apiKey: api_key,
         token: token,
-        body: params,
       });
       if (response?.statusCode === 200) {
-        localStorage.setItem("isProfile", JSON.stringify(response?.result));
-        navigate("/");
+        Cookies.set('authData', JSON.stringify(response.result.data), { expires: keepLogin ? 7 : 1 });
+        setTimeout(() => {
+          window.location.reload("/");
+        }, 100);
       } else {
       }
     } catch (error) {
@@ -129,6 +113,7 @@ const LoginPage = () => {
             label="Email"
             icon={<UsernameIcon />}
             value={email}
+            color={isDarkMode ? "#ffffff" : "#333333"}
             type="email"
             placeholder={"Masukan Alamat Email"}
             onChange={(event) => setEmail(event)}
@@ -137,6 +122,7 @@ const LoginPage = () => {
             label="Password"
             icon={<PasswordIcon />}
             value={password}
+            color={isDarkMode ? "#ffffff" : "#333333"}
             type="password"
             placeholder={"Masukan Password"}
             onChange={(event) => setPassword(event)}
@@ -144,6 +130,7 @@ const LoginPage = () => {
           <Input
             label="Captcha"
             icon={<PasswordIcon />}
+            color={isDarkMode ? "#ffffff" : "#333333"}
             // value={username}
             type="text"
             placeholder={"Masukan Captcha"}

@@ -1,7 +1,8 @@
 import PropTypes from "prop-types";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect, useSelector } from "react-redux";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 // Import Routes all
 import { authRoutes, nonUserRoutes, userRoutes } from "./routes/allRoutes";
@@ -19,33 +20,45 @@ import NonAuthLayout from "./routes/NonAuthLayout";
 function App() {
   const isPending = useSelector((state) => state.todoReducer.isPending);
   const location = useLocation();
+  const [authToken, setAuthToken] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
+
+  useEffect(() => {
+    const authToken = Cookies.get('authToken');
+    if (authToken) {
+      setAuthToken(authToken);
+      navigate('/');
+    } else {
+      setAuthToken(null);
+      navigate('/login');
+    }
+  }, []);
 
   return (
     <React.Fragment>
       <ToastContainer />
       <MaintenanceGuard>
         <Routes>
-          {!localStorage.getItem("isLogin")
-            ? authRoutes.map((route, idx) => (
-                <Route
-                  path={route.path}
-                  element={<NonAuthLayout>{route.component}</NonAuthLayout>}
-                  key={idx}
-                  exact={true}
-                />
-              ))
+          {!authToken ? authRoutes.map((route, idx) => (
+            <Route
+              path={route.path}
+              element={<NonAuthLayout>{route.component}</NonAuthLayout>}
+              key={idx}
+              exact={true}
+            />
+          ))
             : userRoutes.map((route, idx) => (
-                <Route
-                  path={route.path}
-                  element={<Authmiddleware>{route.component}</Authmiddleware>}
-                  key={idx}
-                  exact={true}
-                />
-              ))}
+              <Route
+                path={route.path}
+                element={<Authmiddleware>{route.component}</Authmiddleware>}
+                key={idx}
+                exact={true}
+              />
+            ))}
           {nonUserRoutes.map((route, idx) => (
             <Route
               path={route.path}

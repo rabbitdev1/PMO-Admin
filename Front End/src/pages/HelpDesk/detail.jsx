@@ -1,23 +1,17 @@
 import React, { useEffect, useState } from "react";
 
-import { convertToRaw } from "draft-js";
-import draftToHtml from "draftjs-to-html";
-import { OverlayTrigger, Popover } from "react-bootstrap";
+import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
-import { ReactComponent as PlusIcon } from "../../assets/icon/ic_dark-mode.svg";
-import DynamicButton from "../../components/common/DynamicButton";
+import { useLocation } from "react-router";
 import DynamicInput from "../../components/common/DynamicInput";
 import useTheme from "../../components/context/useTheme";
-import TableCostum from "../../components/data-display/TableCostum";
 import TitleHeader from "../../components/layout/TitleHeader";
-import ModalContent from "../../components/ui/Modal/ModalContent";
-import { formData as initialFormData } from "./data";
-import { toast } from "react-toastify";
-import { useLocation } from "react-router";
 import { apiClient } from "../../utils/api/apiClient";
 
 function DetailHelpDeskPages() {
   const { isDarkMode } = useTheme();
+  const authApiKey = Cookies.get('authApiKey');
+  const authToken = Cookies.get('authToken');
   const location = useLocation();
   const slug = location?.state?.slug || "";
   const isWebSetting = localStorage.getItem("isWebSetting");
@@ -31,10 +25,12 @@ function DetailHelpDeskPages() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    fetchDataHelpDesk();
+    if (authToken) {
+      fetchDataHelpDesk(authApiKey,authToken)
+    } 
   }, [dispatch]);
 
-  const fetchDataHelpDesk = async () => {
+  const fetchDataHelpDesk = async (api_key,token) => {
     setHelpDeskLoading(true);
     const params = new URLSearchParams();
     params.append("id", slug);
@@ -43,7 +39,8 @@ function DetailHelpDeskPages() {
         baseurl: "helpdesk/detail",
         method: "POST",
         body: params,
-        XGORDON: "SLIDER",
+        apiKey: api_key,
+        token: token,
       });
       setHelpDeskLoading(false);
       if (response?.statusCode === 200) {

@@ -1,17 +1,6 @@
-import axios from "axios";
-import Users from "../models/UserModel.js";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import moment from "moment-timezone";
 import { generateToken } from "../middleware/VerifyToken.js";
-
-// export const getUsers = async (req, res) => {
-//   try {
-//     const users = await Users.findAll();
-//     res.json(users);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+import Users from "../models/UserModel.js";
 
 // export const getUserById = async (req, res) => {
 //   try {
@@ -153,28 +142,115 @@ import { generateToken } from "../middleware/VerifyToken.js";
 //   }
 // };
 
-
 export const Login = async (req, res) => {
-    try {
-      const { email, password } = req.body;
-      if (!email || !password) {
-        return res.status(400).json({ error: "Email and password are required" });
-      }
-      const user = await Users.findOne({ where: { email: email } });
-      if (!user) {
-        return res.status(404).json({ error: "User not found" });
-      }
-      const isPasswordValid = await user.comparePassword(password);
-      if (!isPasswordValid) {
-        return res.status(401).json({ error: "Invalid password" });
-      }
-      const token = generateToken(user);
-      res.status(200).json({ token });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Internal Server Error" });
+  try {
+    const clientTimezone = req.headers["client-timezone"] || "Asia/Jakarta";
+    const { email, password, keepLogin } = req.body;
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json({ status: "error", msg: "Email and password are required" });
     }
-  };
+
+    if (!moment.tz.zone(clientTimezone)) {
+      return res
+        .status(400)
+        .json({ status: "error", msg: "Invalid timezone provided" });
+    }
+    const user = await Users.findOne({ where: { email: email } });
+    if (!user) {
+      return res.status(404).json({ status: "error", msg: "User not found" });
+    }
+    const isPasswordValid = await user.comparePassword(password);
+    if (!isPasswordValid) {
+      return res.status(400).json({ status: "error", msg: "Invalid password" });
+    }
+
+    const token = generateToken(user, keepLogin);
+    const apiKey = user.apiKey;
+    res.status(200).json({
+      status: "ok",
+      msg: "Successful login.",
+      token: token,
+      apiKey: apiKey,
+      // clientTimezone: `Data processed using timezone: ${clientTimezone}`,
+    });
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const getUser = async (req, res) => {
+  try {
+    const apiKey = req.headers["x-api-key"];
+
+    if (!apiKey) {
+      return res.status(401).json({
+        status: "error",
+        msg: "API Key is required",
+      });
+    }
+
+    // Mencari satu pengguna berdasarkan apiKey
+    const user = await Users.findOne({
+      where: { apiKey: apiKey },
+      attributes: ["fullname", "email", "address", "telp", "role", "image"],
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        status: "error",
+        msg: "No user found with the provided API key",
+      });
+    }
+
+    res.json({
+      status: "ok",
+      msg: "Data retrieved successfully",
+      data: user, // Mengembalikan objek pengguna langsung
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      status: "error",
+      msg: "Internal Server Error",
+    });
+  }
+};
+
+export const getListUser = async (req, res) => {
+  try {
+    const apiKey = req.headers["x-api-key"];
+    if (!apiKey) {
+      return res.status(401).json({
+        status: "error",
+        msg: "API Key is required",
+      });
+    }
+    const listuser = await Users.findAll({
+      attributes: ["id","fullname", "email", "address", "telp","status", "role", "image",
+      "createdAt","updatedAt"],
+    });
+    const totalItems = listuser.length;
+    const totalItemsByStatus = {
+      aktif: listuser.filter(user => user.status === 'Aktif').length,
+      nonaktif: listuser.filter(user => user.status === 'Non Aktif').length,
+    };
+    res.json({
+      status: "ok",
+      msg: "Data retrieved successfully",
+      data: listuser,
+      totalItems: totalItems,
+      totalItemsByStatus: totalItemsByStatus,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      msg: "Internal Server Error",
+    });
+  }
+};
 
 // export const Logout = async (req, res) => {
 //   const refreshToken = req.cookies.refreshToken;
