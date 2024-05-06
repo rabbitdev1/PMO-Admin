@@ -16,6 +16,10 @@ import TableCostum from "../../components/data-display/TableCostum";
 import TitleHeader from "../../components/layout/TitleHeader";
 import { isPending } from "../../components/store/actions/todoActions";
 import { apiClient } from "../../utils/api/apiClient";
+import ModalContent from "../../components/ui/Modal/ModalContent";
+import DynamicButton from "../../components/common/DynamicButton";
+import { ReactComponent as CloseIcon } from "../../assets/icon/ic_close.svg";
+import DynamicInput from "../../components/common/DynamicInput";
 
 function AccountPages() {
   const { isDarkMode } = useTheme();
@@ -36,10 +40,14 @@ function AccountPages() {
 
   const [listAccountLoading, setListAccountLoading] = useState(true);
 
+  const [formData, setFormData] = useState([]);
 
-  const [showOverlay, setShowOverlay] = useState(false);
   const [isModalType, setisModalType] = useState({ status: false, data: {} });
   const [isModalVerif, setisModalVerif] = useState({
+    status: false,
+    data: {},
+  });
+  const [isModalCreate, setisModalCreate] = useState({
     status: false,
     data: {},
   });
@@ -141,7 +149,18 @@ function AccountPages() {
       console.error("Error fetching data:", error);
     }
   };
-
+  const handleInputChange = (name, value, index) => {
+    const updatedFormData = [...formData];
+    updatedFormData[index].fields = updatedFormData[index].fields.map(
+      (field) => {
+        if (field.name === name) {
+          return { ...field, value };
+        }
+        return field;
+      }
+    );
+    setFormData(updatedFormData);
+  };
   return (
     <div className="flex flex-col gap-3 flex-1 p-3" >
       <TitleHeader title={"Pengguna"} link1={"dashboard"} link2={"help-desk"} />
@@ -173,43 +192,9 @@ function AccountPages() {
           <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
             <div className="flex flex-row gap-3 justify-between items-center">
               <span className="text-lg font-bold">Daftar Pengguna</span>
-              <OverlayTrigger
-                trigger="click"
-                placement="bottom-end"
-                show={showOverlay}
-                onHide={() => setShowOverlay(false)}
-                overlay={
-                  <Popover className="flex flex-col w-[500px] gap-3 bg-cardLight dark:bg-cardDark text-lightColor dark:text-darkColor">
-                    <div className="flex flex-col p-3 pb-2">
-                      <span className="text-base font-bold font-gilroy">
-                        Jenis Pengajuan
-                      </span>
-                    </div>
-                    <div className="flex flex-col overflow-hidden rounded-b-md pb-2">
-                      {[
-                        { title: "Pengajuan Helpdesk Infrastruktur", },
-                        { title: "Pengajuan Helpdesk Aplikasi", },
-                      ].map((item, index) => (
-                        <button
-                          key={index}
-                          className={`flex flex-row justify-start items-center gap-2 flex-1 ${index % 2 ? "" : "bg-[#f1f5f9] dark:bg-[#f1f5f907]"} py-2 p-3 hover:opacity-70`}
-                          onClick={() => {
-                            setisModalType({ data: item.title, status: true });
-                            setShowOverlay(false);
-                          }}
-                        >
-                          <span className=" text-base text-left line-clamp-2 font-gilroy">
-                            {item.title}
-                          </span>
-                        </button>
-                      ))}
-                    </div>
-                  </Popover>
-                }
-              >
-                <div
+              <div
                   onClick={() => {
-                    setShowOverlay(!showOverlay);
+                    setisModalCreate({ data: {}, status: true });
                   }}
                   className="flex flex-row gap-2 rounded-md bg-[#0185FF] p-4 py-2 cursor-pointer"
                 >
@@ -218,7 +203,6 @@ function AccountPages() {
                     <span className="text-sm ">Tambah</span>
                   </div>
                 </div>
-              </OverlayTrigger>
             </div>
             <div className="flex flex-col relative">
               <TableCostum
@@ -249,6 +233,75 @@ function AccountPages() {
           </div>
         </div>
       </section>
+
+      <ModalContent
+        className={"sm:max-w-5xl "}
+        children={
+          <div className="flex flex-col gap-3">
+            <div className="flex flex-row justify-between">
+              <span className="text-lg font-bold font-gilroy">
+                Buat Pengguna
+              </span>
+              <DynamicButton
+                iconLeft={<CloseIcon className="w-4 h-4 " />}
+                color={isDarkMode ? "#ffffff" : "#212121"}
+                type="transparent"
+                className="inline-flex p-2"
+                onClick={() => {
+                  setisModalCreate({ data: {}, status: false });
+                }}
+              />
+            </div>
+            <div className="flex flex-col overflow-hidden rounded-b-md gap-3">
+              {formData.map(
+                (section, sectionIndex) =>
+                  section.name === isModalCreate.data && (
+                    <div key={sectionIndex} className="flex flex-col gap-3">
+                      {section.fields.map((item, index) => (
+                        <div key={index} className="flex flex-col gap-2">
+                          <DynamicInput
+                            key={index}
+                            name={item.name}
+                            label={item.label}
+                            value={item.value}
+                            options={item.options}
+                            onChange={(value) =>
+                              handleInputChange(item.name, value, sectionIndex)
+                            }
+                            type={item.type}
+                            placeholder={"Masukan " + item.label}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )
+              )}
+            </div>
+            <div className="flex flex-row gap-2 justify-end">
+              <DynamicButton
+                initialValue={"Batal"}
+                type="fill"
+                color={"#ffffff"}
+                className="inline-flex bg-cardLight dark:bg-cardDark text-cardDark dark:text-cardLight"
+                onClick={() => {
+                  setisModalCreate({ data: {}, status: false });
+                }}
+              />
+              <DynamicButton
+                initialValue={"Tambah"}
+                type="fill"
+                color={"#ffffff"}
+                className="inline-flex  bg-[#0185FF] text-darkColor"
+                onClick={() => {
+                  // checkingFormData();
+                }}
+
+              />
+            </div>
+          </div>
+        }
+        active={isModalCreate.status}
+      />
 
     </div>
   );

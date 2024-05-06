@@ -6,18 +6,13 @@ import db from "./config/Database.js";
 import { HelpDeskFaq, ListHelpdesk } from "./models/HelpdeskModel.js";
 import Users from "./models/UserModel.js";
 import router from "./routes/index.js";
+import storage from "./config/Firebase.js";
+
 dotenv.config();
+
 const app = express();
-
-try {
-  await db.authenticate();
-  console.log("Database Connected...");
-} catch (error) {
-  console.error(error);
-}
-
 app.use((req, res, next) => {
-  const clientTimezone = req.get('Client-Timezone');
+  const clientTimezone = req.get("Client-Timezone");
   if (clientTimezone) {
     req.clientTimezone = clientTimezone;
   }
@@ -29,7 +24,14 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(router);
-// app.use("/dokumen", express.static("public/berkas"));
+
+try {
+  await db.authenticate();
+  console.log("Database Connected...");
+  console.log("Firestorage initialized " +storage);
+} catch (error) {
+  console.error(error);
+}
 
 Users.sync();
 HelpDeskFaq.sync();

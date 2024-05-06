@@ -162,9 +162,7 @@ export const setHelpDesk = async (req, res) => {
 
 export const deleteHelpDesk = async (req, res) => {
   try {
-    const { id } = req.body; // Extracting ID from request parameters
-
-    // Assuming ListHelpdesk is your model, find the help desk item by ID and delete it
+    const { id } = req.body; 
     const deletedItem = await ListHelpdesk.destroy({
       where: {
         id: id,

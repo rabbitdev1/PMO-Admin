@@ -1,20 +1,21 @@
-import crypto from "crypto";
-import multer from "multer";
+import multer from 'multer';
+import crypto from 'crypto';
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "public/berkas");
-  },
-  filename: (req, file, cb) => {
-    const timestamp = new Date().getTime();
-    const fileName = file.originalname;
-    const fileNameCrypted = crypto.randomBytes(16).toString("hex");
-    const ext = fileName.split(".").pop();
+const storage = multer.memoryStorage();
 
-    cb(null, `${timestamp}-${fileNameCrypted}.${ext}`);
-  },
-});
+const fileFilter = (req, file, cb) => {
+  // Validate file type
+  if (!file.mimetype.startsWith('image/')) {
+    cb(new Error('Only image files are allowed!'), false);
+  } else {
+    cb(null, true);
+  }
+};
 
-const upload = multer({ storage: storage });
+const limits = {
+  fileSize: 2 * 1024 * 1024, // 2 MB limits the upload size
+};
 
-export default upload;
+const validateImage = multer({ storage, fileFilter, limits });
+
+export default validateImage;

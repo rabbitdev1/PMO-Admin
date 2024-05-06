@@ -7,8 +7,6 @@ export const verifyToken = (req, res, next) => {
   const token = authHeader && authHeader.split(" ")[1];
   const apiKey = req.headers["x-api-key"];
 
-  console.log(token);
-  console.log(apiKey);
   if (!token || !apiKey) {
     return res
       .status(401)

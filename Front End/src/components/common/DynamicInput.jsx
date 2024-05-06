@@ -39,7 +39,7 @@ function DynamicInput({
   const handleImageChange = (event) => {
     const selectedImage = event.target.files[0];
     setImage(URL.createObjectURL(selectedImage));
-    onChange(URL.createObjectURL(selectedImage));
+    onChange(selectedImage);
   };
   const handleChangeInputArray = (index, event) => {
     const updatedValue = [...value];

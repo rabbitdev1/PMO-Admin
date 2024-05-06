@@ -179,6 +179,44 @@ function HelpDeskPages() {
       console.error("Error fetching data:", error);
     }
   };
+  const fetchUploadImages = async (api_key, token, file, combinedObject) => {
+    const Api = process.env.REACT_APP_API;
+    const myHeaders = new Headers();
+    myHeaders.append("X-API-Key", api_key);
+    myHeaders.append("Authorization", "Bearer " + token);
+
+    const formdata = new FormData();
+    formdata.append("file", file, file?.name);
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: formdata,
+    };
+    dispatch(isPending(true));
+    try {
+      fetch(Api + "upload_images", requestOptions)
+        .then((response) => response.text())
+        .then((result) => {
+          const response = JSON.parse(result);
+          if (response?.statusCode === 200) {
+            console.log(combinedObject);
+            const fixObject = {
+              ...combinedObject,
+              image_screenshot: response.data
+            };
+            fetchDataCreate(authApiKey, authToken, fixObject);
+          } else {
+            toast.error(response.msg, {
+              position: toast.POSITION.TOP_RIGHT,
+            });
+          }
+        })
+        .catch((error) => console.error(error));
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   const handleInputChange = (name, value, index) => {
     const updatedFormData = [...formData];
@@ -192,8 +230,6 @@ function HelpDeskPages() {
     );
     setFormData(updatedFormData);
   };
-
-
   const checkingFormData = () => {
     const foundObject = formData.find((obj) => obj.name === isModalCreate.data);
     if (foundObject) {
@@ -210,9 +246,12 @@ function HelpDeskPages() {
           position: toast.POSITION.TOP_RIGHT,
         });
       } else {
-        fetchDataCreate(authApiKey, authToken, combinedObject);
+        if (combinedObject?.image_screenshot) {
+          fetchUploadImages(authApiKey, authToken, combinedObject.image_screenshot, combinedObject);
+        } else {
+          fetchDataCreate(authApiKey, authToken, combinedObject);
+        }
       }
-
     } else {
       console.log("Objek tidak ditemukan dalam formData");
     }

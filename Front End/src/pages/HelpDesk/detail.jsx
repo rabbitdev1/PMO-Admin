@@ -233,7 +233,7 @@ function DetailHelpDeskPages() {
                         : key === "telp_pic"
                           ? "tel"
                           : key === "image_screenshot"
-                            ? "image"
+                            ? "textarea"
                             :key === "full_address"
                                     ? "textarea"
                                     : "text"

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 const useTheme = () => {
   const initialMode = () => {
     const savedMode = localStorage.getItem("isDarkMode");
-    return savedMode ? JSON.parse(savedMode) : true;
+    return savedMode ? JSON.parse(savedMode) : false;
   };
 
   const [isDarkMode, setIsDarkMode] = useState(initialMode);
