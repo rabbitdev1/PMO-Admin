@@ -1,3 +1,4 @@
+import { deleteImage } from "../components/UploadImage.js";
 import { HelpDeskFaq, ListHelpdesk } from "../models/HelpdeskModel.js";
 
 export const getFaq = async (req, res) => {
@@ -18,10 +19,9 @@ export const getFaq = async (req, res) => {
   }
 };
 
-
 export const getListHelpDesk = async (req, res) => {
   try {
-    const apiKey = req.headers['x-api-key'];
+    const apiKey = req.headers["x-api-key"];
     if (!apiKey) {
       return res.status(401).json({
         status: "error",
@@ -40,9 +40,13 @@ export const getListHelpDesk = async (req, res) => {
     });
     const totalItems = helpdesk.length;
     const totalItemsByStatus = {
-      diproses: helpdesk.filter(user => user.submission_status === 'Diproses').length,
-      ditolak: helpdesk.filter(user => user.submission_status === 'Ditolak').length,
-      disetujui: helpdesk.filter(user => user.submission_status === 'Disetujui').length,
+      diproses: helpdesk.filter((user) => user.submission_status === "Diproses")
+        .length,
+      ditolak: helpdesk.filter((user) => user.submission_status === "Ditolak")
+        .length,
+      disetujui: helpdesk.filter(
+        (user) => user.submission_status === "Disetujui"
+      ).length,
     };
     res.json({
       status: "ok",
@@ -62,7 +66,7 @@ export const getListHelpDesk = async (req, res) => {
 export const getDetailHelpDesk = async (req, res) => {
   try {
     const { id } = req.body;
-    const apiKey = req.headers['x-api-key'];
+    const apiKey = req.headers["x-api-key"];
 
     if (!apiKey) {
       return res.status(401).json({
@@ -111,7 +115,7 @@ export const getDetailHelpDesk = async (req, res) => {
 export const setHelpDesk = async (req, res) => {
   try {
     let rawHelpDeskData = req.body;
-    const apiKey = req.headers['x-api-key'];
+    const apiKey = req.headers["x-api-key"];
 
     if (!apiKey) {
       return res.status(401).json({
@@ -160,9 +164,60 @@ export const setHelpDesk = async (req, res) => {
   }
 };
 
+// export const deleteHelpDesk = async (req, res) => {
+//   try {
+//     const { id } = req.body;
+//     const deletedItem = await ListHelpdesk.destroy({
+//       where: {
+//         id: id,
+//       },
+//     });
+
+//     if (deletedItem) {
+//       res.status(200).json({
+//         status: "ok",
+//         msg: "Help desk item deleted successfully",
+//       });
+//     } else {
+//       res.status(404).json({
+//         status: "error",
+//         msg: "Help desk item not found",
+//       });
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({
+//       status: "error",
+//       msg: "Internal Server Error",
+//     });
+//   }
+// };
+
 export const deleteHelpDesk = async (req, res) => {
   try {
-    const { id } = req.body; 
+    const { id } = req.body;
+
+    // Cari item help desk
+    const helpDeskItem = await ListHelpdesk.findOne({
+      where: {
+        id: id,
+      },
+    });
+
+    if (!helpDeskItem) {
+      return res.status(404).json({
+        status: "error",
+        msg: "Help desk item not found",
+      });
+    }
+
+    // Hapus gambar jika ada
+    if (helpDeskItem.image_screenshoot) {
+      const fileName = helpDeskItem.image_screenshoot;
+      await deleteImage(fileName);
+    }
+
+    // Hapus item help desk
     const deletedItem = await ListHelpdesk.destroy({
       where: {
         id: id,

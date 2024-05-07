@@ -48,7 +48,7 @@ const ListHelpdesk = db.define(
       type: DataTypes.STRING(50),
       allowNull: true,
     },
-    image_screenshot: {
+    image_screenshoot: {
       type: DataTypes.STRING(255),
       allowNull: true,
     },

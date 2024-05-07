@@ -66,7 +66,7 @@ export const formData = [
         ],
       },
       {
-        name: "image_screenshot",
+        name: "image_screenshoot",
         label: "Screenshot",
         value: "",
         type: "image_upload",
@@ -311,7 +311,7 @@ export const formData = [
         type: "editor",
       },
       {
-        name: "image_screenshot",
+        name: "image_screenshoot",
         label: "Screenshot",
         value: "",
         type: "image_upload",

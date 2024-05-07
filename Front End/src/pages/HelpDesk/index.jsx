@@ -203,7 +203,7 @@ function HelpDeskPages() {
             console.log(combinedObject);
             const fixObject = {
               ...combinedObject,
-              image_screenshot: response.data
+              image_screenshoot: response.data
             };
             fetchDataCreate(authApiKey, authToken, fixObject);
           } else {
@@ -246,8 +246,8 @@ function HelpDeskPages() {
           position: toast.POSITION.TOP_RIGHT,
         });
       } else {
-        if (combinedObject?.image_screenshot) {
-          fetchUploadImages(authApiKey, authToken, combinedObject.image_screenshot, combinedObject);
+        if (combinedObject?.image_screenshoot) {
+          fetchUploadImages(authApiKey, authToken, combinedObject.image_screenshoot, combinedObject);
         } else {
           fetchDataCreate(authApiKey, authToken, combinedObject);
         }

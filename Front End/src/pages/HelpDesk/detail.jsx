@@ -7,6 +7,8 @@ import DynamicInput from "../../components/common/DynamicInput";
 import useTheme from "../../components/context/useTheme";
 import TitleHeader from "../../components/layout/TitleHeader";
 import { apiClient } from "../../utils/api/apiClient";
+import ImageComponent from "../../utils/helpers/getImageURL";
+import DynamicShow from "../../components/common/DynamicShow";
 
 function DetailHelpDeskPages() {
   const { isDarkMode } = useTheme();
@@ -26,11 +28,11 @@ function DetailHelpDeskPages() {
 
   useEffect(() => {
     if (authToken) {
-      fetchDataHelpDesk(authApiKey,authToken)
-    } 
+      fetchDataHelpDesk(authApiKey, authToken)
+    }
   }, [dispatch]);
 
-  const fetchDataHelpDesk = async (api_key,token) => {
+  const fetchDataHelpDesk = async (api_key, token) => {
     setHelpDeskLoading(true);
     const params = new URLSearchParams();
     params.append("id", slug);
@@ -170,7 +172,7 @@ function DetailHelpDeskPages() {
             <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
               <div className="flex flex-row gap-2 items-center">
                 <span className="text-base font-semibold">Status :</span>
-                <div className={`flex flex-row gap-2 p-1 px-3 rounded-md text-darkColor  ${detailHelpDesk?.submission_status === 'Ditolak'?'bg-[#FF0000]':'bg-[#0185FF]'}`}>
+                <div className={`flex flex-row gap-2 p-1 px-3 rounded-md text-darkColor  ${detailHelpDesk?.submission_status === 'Ditolak' ? 'bg-[#FF0000]' : 'bg-[#0185FF]'}`}>
                   <span className="text-sm">{detailHelpDesk?.submission_status}</span>
                 </div>
               </div>
@@ -192,7 +194,7 @@ function DetailHelpDeskPages() {
             <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
               {Object.entries(detailData).map(([key, value]) => {
                 return (
-                  <DynamicInput
+                  <DynamicShow
                     key={key}
                     name={key}
                     label={
@@ -204,7 +206,7 @@ function DetailHelpDeskPages() {
                             ? "Nomor PIC"
                             : key === "type_tools"
                               ? "Jenis Alat"
-                              : key === "image_screenshot"
+                              : key === "image_screenshoot"
                                 ? "Screenshot"
                                 : key === "period"
                                   ? "Periode Jangka Waktu"
@@ -230,13 +232,11 @@ function DetailHelpDeskPages() {
                     type={
                       key === "reason"
                         ? "html"
-                        : key === "telp_pic"
-                          ? "tel"
-                          : key === "image_screenshot"
-                            ? "textarea"
-                            :key === "full_address"
-                                    ? "textarea"
-                                    : "text"
+                        : key === "image_screenshoot"
+                            ? "images"
+                            : key === "full_address"
+                              ? "html"
+                              : "text"
                     }
                     disabled={true}
                   />
@@ -249,7 +249,6 @@ function DetailHelpDeskPages() {
           <div className="flex flex-row  bg-lightColor dark:bg-cardDark p-3 rounded-lg"></div>
         </div>
       </section>
-
     </div>
   );
 }

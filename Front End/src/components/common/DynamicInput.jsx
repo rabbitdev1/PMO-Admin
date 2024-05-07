@@ -165,17 +165,6 @@ function DynamicInput({
               rows="5"
             />
           </div>
-        ) : type === "html" ? (
-          <div
-            className={`flex flex-row gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center p-2.5 ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}
-          >
-            <div
-              dangerouslySetInnerHTML={{
-                __html: value
-              }}
-              className={`text-sm `}
-            />
-          </div>
         ) : type === "select_number" ? (
           <div
             className={`flex flex-row gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center p-2.5 ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}

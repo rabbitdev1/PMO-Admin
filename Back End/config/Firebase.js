@@ -1,5 +1,4 @@
 import { getApps, initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
@@ -11,14 +10,13 @@ const firebaseConfig = {
   appId: "1:412317160291:web:f77a65c5ed2eb9c3d87956",
 };
 
-// Initialize Firebase only if no apps have been initialized yet
 let firebaseApp;
 if (!getApps().length) {
   firebaseApp = initializeApp(firebaseConfig);
   console.log("Firebase has been initialized!");
 } else {
   console.log("Firebase app already initialized!");
-  firebaseApp = getApps()[0]; // Get the already initialized app
+  firebaseApp = getApps()[0];
 }
 
 const storage = getStorage(firebaseApp);

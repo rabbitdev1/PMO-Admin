@@ -1,4 +1,4 @@
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getStorage, ref, uploadBytes, getDownloadURL,deleteObject } from "firebase/storage";
 import crypto from "crypto";
 
 export const uploadImages = async (req, res) => {
@@ -30,13 +30,29 @@ export const uploadImages = async (req, res) => {
     const snapshot = await uploadBytes(storageRef, file.buffer, metadata);
     const downloadURL = await getDownloadURL(snapshot.ref);
 
+    console.log(snapshot);
     res.status(200).json({
       statusCode: 200,
       msg: "File uploaded successfully",
-      data: downloadURL,
+      data: snapshot.metadata.name,
     });
   } catch (error) {
     console.error("Error uploading image:", error);
     res.status(500).json({ status: "error", msg: "Internal Server Error" });
+  }
+};
+
+
+export const deleteImage = async (fileName) => {
+  try {
+    const storage = getStorage();
+    const imageRef = ref(storage, `images/${fileName}`);
+
+    await deleteObject(imageRef);
+
+    return { status: "success", msg: "Image deleted successfully" };
+  } catch (error) {
+    console.error("Error deleting image:", error);
+    throw error;
   }
 };
