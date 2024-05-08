@@ -32,6 +32,7 @@ function HelpDeskPages() {
   const parseWebSetting = JSON.parse(isWebSetting);
   const authApiKey = Cookies.get('authApiKey');
   const authToken = Cookies.get('authToken');
+  const authProfile = Cookies.get('authData');
 
   const [statusData, setStatusData] = useState([
     { title: "Pengajuan", value: "0", desc: "Data yang harus diproses", icon: PengajuanIcon, },
@@ -67,7 +68,7 @@ function HelpDeskPages() {
   useEffect(() => {
     fetchDataFaq();
     if (authToken) {
-      fetchDataHelpDesk(authApiKey, authToken)
+      fetchDataHelpDesk(authApiKey, authToken, JSON.parse(authProfile)?.role)
     }
 
   }, []);
@@ -90,12 +91,15 @@ function HelpDeskPages() {
       console.error("Error fetching data:", error);
     }
   };
-  const fetchDataHelpDesk = async (api_key, token) => {
+  const fetchDataHelpDesk = async (api_key, token, role) => {
     setListHelpDeskLoading(true);
+    const params = new URLSearchParams();
+    params.append("role", role);
     try {
       const response = await apiClient({
         baseurl: "helpdesk",
         method: "POST",
+        body: params,
         apiKey: api_key,
         token: token,
       });
@@ -147,7 +151,7 @@ function HelpDeskPages() {
       console.error("Error fetching data:", error);
     }
   };
-  const fetchDataDelete = async (id) => {
+  const fetchDataDelete = async (api_key, token, id) => {
     dispatch(isPending(true));
     const params = new URLSearchParams();
     params.append("id", id);
@@ -157,7 +161,8 @@ function HelpDeskPages() {
         baseurl: "helpdesk/delete",
         method: "POST",
         body: params,
-        XGORDON: "SLIDER",
+        apiKey: api_key,
+        token: token,
       });
       dispatch(isPending(false));
       if (response?.statusCode === 200) {
@@ -174,6 +179,25 @@ function HelpDeskPages() {
         toast.error(response.result.msg, {
           position: toast.POSITION.TOP_RIGHT,
         });
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  const fetchSetProgress = async (api_key, token, id) => {
+    const params = new URLSearchParams();
+    params.append("id", id);
+
+    try {
+      const response = await apiClient({
+        baseurl: "helpdesk/set_process",
+        method: "POST",
+        body: params,
+        apiKey: api_key,
+        token: token,
+      });
+      if (response?.statusCode === 200) {
+        navigate("/detail-help-desk", { state: { slug: id } });
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -234,7 +258,11 @@ function HelpDeskPages() {
     const foundObject = formData.find((obj) => obj.name === isModalCreate.data);
     if (foundObject) {
       const { result: nameValueObject, newObject: newObjectFromConversion } = convertToNameValueObject(foundObject);
-      const nameValueObject2 = { helpdesk_type: isModalType.data, helpdesk_title: isModalCreate.data.replace('Pengajuan', '') };
+      const nameValueObject2 = {
+        helpdesk_type: isModalType.data,
+        role: foundObject.role,
+        helpdesk_title: isModalCreate.data.replace('Pengajuan', '')
+      };
       const combinedObject = {
         ...nameValueObject,
         ...nameValueObject2,
@@ -288,52 +316,58 @@ function HelpDeskPages() {
           <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
             <div className="flex flex-row gap-3 justify-between items-center">
               <span className="text-lg font-bold">Daftar Pengajuan</span>
-              <OverlayTrigger
-                trigger="click"
-                placement="bottom-end"
-                show={showOverlay}
-                onHide={() => setShowOverlay(false)}
-                overlay={
-                  <Popover className="flex flex-col w-[500px] gap-3 bg-cardLight dark:bg-cardDark text-lightColor dark:text-darkColor">
-                    <div className="flex flex-col p-3 pb-2">
-                      <span className="text-base font-bold font-gilroy">
-                        Jenis Pengajuan
-                      </span>
-                    </div>
-                    <div className="flex flex-col overflow-hidden rounded-b-md pb-2">
-                      {[
-                        { title: "Pengajuan Helpdesk Infrastruktur", },
-                        { title: "Pengajuan Helpdesk Aplikasi", },
-                      ].map((item, index) => (
-                        <button
-                          key={index}
-                          className={`flex flex-row justify-start items-center gap-2 flex-1 ${index % 2 ? "" : "bg-[#f1f5f9] dark:bg-[#f1f5f907]"} py-2 p-3 hover:opacity-70`}
-                          onClick={() => {
-                            setisModalType({ data: item.title, status: true });
-                            setShowOverlay(false);
-                          }}
-                        >
-                          <span className=" text-base text-left line-clamp-2 font-gilroy">
-                            {item.title}
-                          </span>
-                        </button>
-                      ))}
-                    </div>
-                  </Popover>
-                }
-              >
-                <div
-                  onClick={() => {
-                    setShowOverlay(!showOverlay);
-                  }}
-                  className="flex flex-row gap-2 rounded-md bg-[#0185FF] p-4 py-2 cursor-pointer"
+              {JSON.parse(authProfile)?.role === "OPD" &&
+                <OverlayTrigger
+                  trigger="click"
+                  placement="bottom-end"
+                  show={showOverlay}
+                  onHide={() => setShowOverlay(false)}
+                  overlay={
+                    <Popover className="flex flex-col w-[500px] gap-3 bg-cardLight dark:bg-cardDark text-lightColor dark:text-darkColor">
+                      <div className="flex flex-col p-3 pb-2">
+                        <span className="text-base font-bold font-gilroy">
+                          Jenis Pengajuan
+                        </span>
+                      </div>
+                      <div className="flex flex-col overflow-hidden rounded-b-md pb-2">
+                        {[
+                          { title: "Pengajuan Helpdesk Infrastruktur", },
+                          { title: "Pengajuan Helpdesk Aplikasi", },
+                          { title: "Pengajuan Helpdesk Integrasi", },
+                          { title: "Pengajuan Helpdesk Lainnya", },
+                        ].map((item, index) => (
+                          <button
+                            key={index}
+                            className={`flex flex-row justify-start items-center gap-2 flex-1 ${index % 2 ? "" : "bg-[#f1f5f9] dark:bg-[#f1f5f907]"} py-2 p-3 hover:opacity-70`}
+                            onClick={() => {
+                              setisModalType({ data: item.title, status: true });
+                              setShowOverlay(false);
+                            }}
+                          >
+                            <span className=" text-base text-left line-clamp-2 font-gilroy">
+                              {item.title}
+                            </span>
+                          </button>
+                        ))}
+                      </div>
+                    </Popover>
+                  }
                 >
-                  <div className="flex flex-row gap-2 items-center justify-center text-darkColor">
-                    <PlusIcon className="w-4 h-5" fill="#ffffff" />
-                    <span className="text-sm ">Tambah</span>
+                  <div className="flex flex-col"  >
+                    <DynamicButton
+                      iconLeft={<PlusIcon className="w-4 h-4 " />}
+                      initialValue={'Tambah'}
+                      color={"#ffffff"}
+                      type="transparent"
+                      className="bg-[#0185FF] text-darkColor px-3"
+                      onClick={() => {
+                        setShowOverlay(!showOverlay);
+                      }}
+                    />
+
                   </div>
-                </div>
-              </OverlayTrigger>
+                </OverlayTrigger>
+              }
             </div>
             <div className="flex flex-col relative">
               <TableCostum
@@ -345,14 +379,18 @@ function HelpDeskPages() {
                   { name: "Tanggal", field: "createdAt" },
                   { name: "Aksi", field: "action" },
                 ]}
-                showAction={{ read: true, remove: true, edit: true }}
+                showAction={{ read: true, remove: JSON.parse(authProfile)?.role === "OPD" ? true : false, edit: true }}
                 onClickShow={(id) => {
-                  navigate("/detail-help-desk", { state: { slug: id } });
+                  if (JSON.parse(authProfile)?.role === "OPD") {
+                    navigate("/detail-help-desk", { state: { slug: id } });
+                  } else {
+                    fetchSetProgress(authApiKey, authToken, id)
+                  }
                 }}
                 onClickRemove={(a) => {
                   const isConfirmed = window.confirm("Apakah kamu yakin ingin menghapus pengajuan ini?");
                   if (isConfirmed) {
-                    fetchDataDelete(a)
+                    fetchDataDelete(authApiKey, authToken, a)
                   } else {
                     alert("Pengajuan tidak dihapus.");
                   }
@@ -475,7 +513,7 @@ function HelpDeskPages() {
                   setisModalVerif({ data: {}, status: false })
                   setisModalCreate({ data: {}, status: false });
                   setisModalType({ data: {}, status: false })
-                  fetchDataHelpDesk(authApiKey, authToken)
+                  fetchDataHelpDesk(authApiKey, authToken, JSON.parse(authProfile)?.role)
                 }}
               />
             </div>

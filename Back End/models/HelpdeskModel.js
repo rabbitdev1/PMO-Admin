@@ -36,6 +36,10 @@ const ListHelpdesk = db.define(
       type: DataTypes.STRING(100),
       allowNull: true,
     },
+    apiKey: {
+      type: DataTypes.STRING(200),
+      allowNull: true,
+    },
     name_pic: {
       type: DataTypes.STRING(50),
       allowNull: true,
@@ -84,12 +88,20 @@ const ListHelpdesk = db.define(
       type: DataTypes.STRING(50),
       allowNull: true,
     },
+    on_process: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     submission_status: {
       type: DataTypes.STRING(50),
       allowNull: true,
     },
     comment:{
       type: DataTypes.STRING(10000),
+      allowNull: true,
+    },
+    role:{
+      type: DataTypes.STRING(200),
       allowNull: true,
     }
   },

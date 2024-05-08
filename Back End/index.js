@@ -27,13 +27,14 @@ app.use(router);
 
 try {
   await db.authenticate();
-  console.log("Database Connected...");
-  console.log("Firestorage initialized " +storage);
+  // console.log("Database Connected...");
+  // console.log("Firestorage initialized " +storage);
 } catch (error) {
   console.error(error);
 }
 
-Users.sync();
-HelpDeskFaq.sync();
-ListHelpdesk.sync();
-app.listen(3001, () => console.log("Server running at port 5000"));
+// Users.sync();
+// HelpDeskFaq.sync();
+// ListHelpdesk.sync();
+app.listen(3001, () => 
+  console.log("Server running at port 5000"));

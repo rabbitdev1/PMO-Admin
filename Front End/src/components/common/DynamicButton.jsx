@@ -34,7 +34,7 @@ function DynamicButton({
   };
 
   const content = (
-    <div className="flex flex-row gap-2">
+    <div className="flex flex-row gap-2 items-center">
       {iconLeft && React.cloneElement(iconLeft, { fill: color })}
       {initialValue && (
         <span className="font-medium line-clamp-1">{initialValue}</span>

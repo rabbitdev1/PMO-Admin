@@ -31,7 +31,9 @@ function App() {
     const authToken = Cookies.get('authToken');
     if (authToken) {
       setAuthToken(authToken);
-      navigate('/');
+      if (location.pathname === '/login') {
+        navigate('/');
+      }
     } else {
       setAuthToken(null);
       navigate('/login');

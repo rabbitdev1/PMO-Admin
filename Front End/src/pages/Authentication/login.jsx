@@ -20,7 +20,7 @@ const LoginPage = () => {
   const isWebSetting = localStorage.getItem("isWebSetting");
   const parseWebSetting = JSON.parse(isWebSetting);
   const [password, setPassword] = useState("Sadang!12");
-  const [email, setEmail] = useState("zalsujana07@gmail.com");
+  const [email, setEmail] = useState("pmo@gmail.com");
   const [keepLogin, setKeepLogin] = useState(false);
 
   const data = location.state;
@@ -81,7 +81,7 @@ const LoginPage = () => {
         Cookies.set('authData', JSON.stringify(response.result.data), { expires: keepLogin ? 7 : 1 });
         setTimeout(() => {
           window.location.reload("/");
-        }, 100);
+        }, 500);
       } else {
       }
     } catch (error) {

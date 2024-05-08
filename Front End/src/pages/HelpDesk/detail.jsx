@@ -9,11 +9,14 @@ import TitleHeader from "../../components/layout/TitleHeader";
 import { apiClient } from "../../utils/api/apiClient";
 import ImageComponent from "../../utils/helpers/getImageURL";
 import DynamicShow from "../../components/common/DynamicShow";
+import SubmissionStatus from "./SubmissionStatus";
+import DynamicDetails from "./DynamicDetails";
 
 function DetailHelpDeskPages() {
   const { isDarkMode } = useTheme();
   const authApiKey = Cookies.get('authApiKey');
   const authToken = Cookies.get('authToken');
+  const authProfile = Cookies.get('authData');
   const location = useLocation();
   const slug = location?.state?.slug || "";
   const isWebSetting = localStorage.getItem("isWebSetting");
@@ -36,6 +39,7 @@ function DetailHelpDeskPages() {
     setHelpDeskLoading(true);
     const params = new URLSearchParams();
     params.append("id", slug);
+    params.append("role", JSON.parse(authProfile)?.role);
     try {
       const response = await apiClient({
         baseurl: "helpdesk/detail",
@@ -77,177 +81,53 @@ function DetailHelpDeskPages() {
         link2={"help-desk"}
       />
       <section className="flex flex-col gap-3">
-        <div className="flex-1 flex flex-col gap-3">
-          <div className="flex sm:flex-row flex-col bg-lightColor dark:bg-cardDark p-3 rounded-lg">
-            {[
-              {
-                title: "Dalam Antrian",
-                status: 1,
-                color: "bg-[#333333]",
-                border: "border-[#333333]",
-                text: "text-[#333333]",
-              },
-              {
-                title: "Proses",
-                status: 2,
-                color: "bg-[#F5CF08]",
-                border: "border-[#F5CF08]",
-                text: "text-[#F5CF08]",
-              },
-              {
-                title: "Selesai",
-                status: 3,
-                color: submissionStatus === 4 ? "bg-[#FF0000]" : "bg-[#13C39C]",
-                border:
-                  submissionStatus === 4
-                    ? "border-[#FF0000]"
-                    : "border-[#13C39C]",
-                text:
-                  submissionStatus === 4 ? "text-[#FF0000]" : "text-[#13C39C]",
-              },
-            ].map((item, index) => (
-              <div key={index} className="flex flex-col flex-1 ">
-                <div className="flex flex-1 gap-3 items-center flex-row py-2 text-center text-darkColor">
-                  <div
-                    className={`${index !== 0 && "border-b-2"}  flex-1 flex border-[#dddddd] dark:border-[#ffffff20]`}
-                  />
-                  <div
-                    className={`flex p-2 rounded-full border-2 ${submissionStatus >= item.status ? item.border : "border-[#dddddd] dark:border-[#ffffff20] "}`}
-                  >
-                    <div
-                      className={`flex items-center w-12 aspect-square justify-center ${submissionStatus >= item.status ? item.color : "bg-[#D9D9D9]"} rounded-full`}
-                    >
-                      <span className="text-xl  aspect-square text-center align-text-bottom font-bold">
-                        {index + 1}
-                      </span>
-                    </div>
-                  </div>
-                  <div
-                    className={`${index !== 2 && "border-b-2"}  flex-1 flex border-[#dddddd] dark:border-[#ffffff20]`}
-                  />
-                </div>
-                <div
-                  className={`flex flex-col items-center ${submissionStatus >= item.status ? item.text : "text-[#D9D9D9]"} `}
-                >
-                  <span className="text-sm font-semibold">{item.title}</span>
-                </div>
+        <SubmissionStatus submissionStatus={submissionStatus} />
+        <DynamicDetails detailData={detailData} />
+
+        <div
+          className={` ${submissionStatus === 2 ? "flex-1" : "hidden"} flex-1 flex flex-col gap-3`}
+        >
+          <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+            <DynamicShow
+              name={''}
+              label={"Jadwal Survey Lapangan"}
+              value={"30 April 2024 12:33"}
+              type={"text"}
+            />
+            <DynamicShow
+              name={''}
+              label={"Jadwal Penyelesaian Ajuan"}
+              value={"30 April 2024 12:33"}
+              type={"text"}
+            />
+            <DynamicShow
+              name={''}
+              label={"Jadwal Penyelesaian Ajuan"}
+              value={"<p>Lorem Ipsum</p>"}
+              type={"html"}
+            />
+          </div>
+        </div>
+        <div
+          className={` ${submissionStatus >= 3 ? "flex-1" : "hidden"} flex-1 flex flex-col gap-3`}
+        >
+          <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+            <div className="flex flex-row gap-2 items-center">
+              <span className="text-base font-semibold">Status :</span>
+              <div className={`flex flex-row gap-2 p-1 px-3 rounded-md text-darkColor  ${detailHelpDesk?.submission_status === 'Ditolak' ? 'bg-[#FF0000]' : 'bg-[#0185FF]'}`}>
+                <span className="text-base">{detailHelpDesk?.submission_status}</span>
               </div>
-            ))}
+            </div>
+
+            <DynamicShow
+              name={''}
+              label={"Komentar"}
+              value={"<p>Lorem Ipsum</p>"}
+              type={"html"}
+            />
           </div>
         </div>
-        <div className="flex sm:flex-row flex-col gap-3">
-          <div
-            className={` ${submissionStatus === 2 ? "flex-1" : "hidden"} flex-1 flex flex-col gap-3`}
-          >
-            <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
-              <DynamicInput
-                name={""}
-                label={"Jadwal Survey Lapangan"}
-                value={"30 April 2024 12:33"}
-                type={"text"}
-                disabled={true}
-                placeholder={""}
-              />
-              <DynamicInput
-                name={""}
-                label={"Jadwal Penyelesaian Ajuan"}
-                value={"30 April 2024 12:33"}
-                type={"text"}
-                disabled={true}
-                placeholder={""}
-              />
-              <DynamicInput
-                name={""}
-                label={"Komentar"}
-                value={"<p>Lorem Ipsum</p>"}
-                type={"html"}
-                disabled={true}
-                placeholder={""}
-              />
-            </div>
-          </div>
-          <div
-            className={` ${submissionStatus >= 3 ? "flex-1" : "hidden"} flex-1 flex flex-col gap-3`}
-          >
-            <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
-              <div className="flex flex-row gap-2 items-center">
-                <span className="text-base font-semibold">Status :</span>
-                <div className={`flex flex-row gap-2 p-1 px-3 rounded-md text-darkColor  ${detailHelpDesk?.submission_status === 'Ditolak' ? 'bg-[#FF0000]' : 'bg-[#0185FF]'}`}>
-                  <span className="text-sm">{detailHelpDesk?.submission_status}</span>
-                </div>
-              </div>
-              <DynamicInput
-                name={""}
-                label={"Komentar"}
-                value={detailHelpDesk?.comment}
-                options={[]}
-                //  onChange={(value) =>
-                //    handleInputChange(item.name, value, index)
-                //  }
-                type={"html"}
-                disabled={true}
-                placeholder={""}
-              />
-            </div>
-          </div>
-          <div className="flex-1 flex flex-col gap-3">
-            <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
-              {Object.entries(detailData).map(([key, value]) => {
-                return (
-                  <DynamicShow
-                    key={key}
-                    name={key}
-                    label={
-                      key === "helpdesk_type"
-                        ? "Jenis Pengajuan"
-                        : key === "name_pic"
-                          ? "Nama PIC"
-                          : key === "telp_pic"
-                            ? "Nomor PIC"
-                            : key === "type_tools"
-                              ? "Jenis Alat"
-                              : key === "image_screenshoot"
-                                ? "Screenshot"
-                                : key === "period"
-                                  ? "Periode Jangka Waktu"
-                                  : key === "submission_type"
-                                    ? "Jenis Pengajuan"
-                                    : key === "device_specifications"
-                                      ? "Spesifikasi Alat"
-                                      : key === "proposed_bandwidth"
-                                        ? "Pengajuan Bandwith"
-                                        : key === "total_tools"
-                                          ? "Total Alat"
-                                          : key === "reason"
-                                            ? "Alasan Pengajuan"
-                                            : key === "full_address"
-                                              ? "Alamat Lengkap"
-                                              : key === "status"
-                                                ? "Status"
-                                                : key === "helpdesk_title"
-                                                  ? "Nama Pengajuan"
-                                                  : key
-                    }
-                    value={key === "type_tools" ? value : value}
-                    type={
-                      key === "reason"
-                        ? "html"
-                        : key === "image_screenshoot"
-                            ? "images"
-                            : key === "full_address"
-                              ? "html"
-                              : "text"
-                    }
-                    disabled={true}
-                  />
-                );
-              })}
-            </div>
-          </div>
-        </div>
-        <div className="flex-1 flex flex-col gap-3">
-          <div className="flex flex-row  bg-lightColor dark:bg-cardDark p-3 rounded-lg"></div>
-        </div>
+
       </section>
     </div>
   );
