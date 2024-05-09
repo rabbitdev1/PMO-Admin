@@ -1,4 +1,5 @@
 import express from "express";
+import { storeData, getAllData, getDetailData, editData, deleteData } from "../controllers/PengajuanPermohonanSI.js";
 import {
   deleteHelpDesk,
   editProcessHelpDesk,
@@ -43,5 +44,11 @@ router.post(
   validateImage.single("file"),
   uploadImages
 );
+
+router.post("/aplikasi/storeData", storeData)
+router.get("/aplikasi/getAllData", getAllData)
+router.get("/aplikasi/getDetailData/:id", getDetailData)
+router.post("/aplikasi/editData/:id", editData)
+router.delete("/aplikasi/deleteData/:id", deleteData)
 
 export default router;
