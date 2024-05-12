@@ -7,6 +7,8 @@ import { HelpDeskFaq, ListHelpdesk } from "./models/HelpdeskModel.js";
 import Users from "./models/UserModel.js";
 import router from "./routes/index.js";
 import storage from "./config/Firebase.js";
+import morgan from "morgan";
+import { PengajuanPermohonanSi } from "./models/PengajuanPermohonanSi.js";
 
 dotenv.config();
 
@@ -18,6 +20,8 @@ app.use((req, res, next) => {
   }
   next();
 });
+
+app.use(morgan("dev"))
 
 app.use(cors());
 app.use(cookieParser());
@@ -36,5 +40,14 @@ try {
 // Users.sync();
 // HelpDeskFaq.sync();
 // ListHelpdesk.sync();
-app.listen(3001, () => 
-  console.log("Server running at port 5000"));
+// PengajuanPermohonanSi.sync();
+
+// ku solihin
+const PORT = process.env.PORT
+
+app.listen(PORT, () => {
+  console.log(`Server running at port ${PORT}`)
+})
+
+// app.listen(3001, () => 
+//   console.log("Server running at port 5000"));
