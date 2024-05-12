@@ -8,6 +8,8 @@ import {
   setHelpDesk,
 } from "../controllers/HelpDesk.js";
 import {
+  createUsers,
+  deleteUsers,
   getListUser,
   getUser,
   //   Register,
@@ -27,7 +29,8 @@ router.post("/helpdesk/delete",verifyToken, deleteHelpDesk);
 
 router.post("/me", verifyToken, getUser);
 router.post("/list_user", verifyToken, getListUser);
-// router.post("/users/create", verifyToken, createUsers);
+router.post("/users/create", verifyToken, createUsers);
+router.post("/users/delete", verifyToken, deleteUsers);
 // router.get("/users/:id", verifyToken, getUserById);
 // router.put("/users/:id", verifyToken, updateUsers);
 // router.delete("/users/:id", deleteUsers);

@@ -79,7 +79,6 @@ function DynamicInput({
           onChange={(selected) => {
             onChange(selected);
           }}
-          closeMenuOnSelect={false}
           components={animatedComponents}
           defaultValue={value}
           options={options}

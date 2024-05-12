@@ -21,8 +21,8 @@ import { isPending } from "../../components/store/actions/todoActions";
 import ConditionalRender from "../../components/ui/ConditionalRender";
 import ModalContent from "../../components/ui/Modal/ModalContent";
 import { apiClient } from "../../utils/api/apiClient";
+import fetchUploadImages from "../../utils/api/uploadImages";
 import { convertToNameValueObject } from "../../utils/helpers/convertToNameValueObject";
-import { validateFormData } from "../../utils/helpers/formDataValidation";
 import { formData as initialFormData } from './data';
 
 function HelpDeskPages() {
@@ -203,45 +203,6 @@ function HelpDeskPages() {
       console.error("Error fetching data:", error);
     }
   };
-  const fetchUploadImages = async (api_key, token, file, combinedObject) => {
-    const Api = process.env.REACT_APP_API;
-    const myHeaders = new Headers();
-    myHeaders.append("X-API-Key", api_key);
-    myHeaders.append("Authorization", "Bearer " + token);
-
-    const formdata = new FormData();
-    formdata.append("file", file, file?.name);
-
-    const requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: formdata,
-    };
-    dispatch(isPending(true));
-    try {
-      fetch(Api + "upload_images", requestOptions)
-        .then((response) => response.text())
-        .then((result) => {
-          const response = JSON.parse(result);
-          if (response?.statusCode === 200) {
-            console.log(combinedObject);
-            const fixObject = {
-              ...combinedObject,
-              image_screenshoot: response.data
-            };
-            fetchDataCreate(authApiKey, authToken, fixObject);
-          } else {
-            toast.error(response.msg, {
-              position: toast.POSITION.TOP_RIGHT,
-            });
-          }
-        })
-        .catch((error) => console.error(error));
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
-
   const handleInputChange = (name, value, index) => {
     const updatedFormData = [...formData];
     updatedFormData[index].fields = updatedFormData[index].fields.map(
@@ -254,7 +215,7 @@ function HelpDeskPages() {
     );
     setFormData(updatedFormData);
   };
-  const checkingFormData = () => {
+  const checkingFormData = async () => {
     const foundObject = formData.find((obj) => obj.name === isModalCreate.data);
     if (foundObject) {
       const { result: nameValueObject, newObject: newObjectFromConversion } = convertToNameValueObject(foundObject);
@@ -268,20 +229,72 @@ function HelpDeskPages() {
         ...nameValueObject2,
         ...newObjectFromConversion.reduce((acc, cur) => ({ ...acc, [cur.name]: cur.value }), {})
       };
-      // 
-      if (validateFormData(combinedObject)) {
-        toast.error("Terdapat nilai kosong dalam formData.", {
-          position: toast.POSITION.TOP_RIGHT,
-        });
-      } else {
-        if (combinedObject?.image_screenshoot) {
-          fetchUploadImages(authApiKey, authToken, combinedObject.image_screenshoot, combinedObject);
+
+      console.log(combinedObject);
+
+
+
+
+      if (combinedObject?.image_screenshoot) {
+        const result = await fetchUploadImages(authApiKey, authToken, combinedObject.image_screenshoot, dispatch);
+        if (result !== null) {
+          const fixObject = {
+            ...combinedObject,
+            image_screenshoot: result,
+          };
+          fetchDataCreate(authApiKey, authToken, fixObject);
         } else {
-          fetchDataCreate(authApiKey, authToken, combinedObject);
+          console.error("Error occurred during image upload.");
         }
+      } else {
+        // fetchDataCreate(authApiKey, authToken, combinedObject);
       }
+
     } else {
       console.log("Objek tidak ditemukan dalam formData");
+    }
+  }
+  function resetFormData(fieldName) {
+    const datafilter = formData.find(item => item.name === fieldName);
+    if (datafilter) {
+
+      const resetFields = datafilter.fields.map(field => {
+        if (field.type === 'input_array') {
+          const resetFields1 = field.value.map(field1 => {
+            return { ...field1, value: "" };
+          });
+          return { ...field, value: resetFields1 };
+        } else if (field.type === 'selection') {
+          return { ...field, value: [] };
+        } else if (field.type === 'multi_selection') {
+          return { ...field, value: [] };
+        } else if (field.type === 'date') {
+          return {
+            ...field, value: {
+              startDate: null,
+              endDate: null,
+            },
+          };
+        } else {
+          return { ...field, value: "" };
+        }
+      });
+
+      const combinedData = {
+        ...datafilter,
+        fields: resetFields
+      };
+      const updatedFormDataArray = formData.map(item => {
+        if (item.name === combinedData.name) {
+          return combinedData;
+        } else {
+          return item;
+        }
+      });
+      // console.log((updatedFormDataArray));
+      setFormData(updatedFormDataArray)
+    } else {
+      console.log("Field not found in formData.");
     }
   }
 
@@ -536,6 +549,7 @@ function HelpDeskPages() {
                 className="inline-flex p-2"
                 onClick={() => {
                   setisModalCreate({ data: {}, status: false });
+                  resetFormData(isModalCreate.data)
                 }}
               />
             </div>

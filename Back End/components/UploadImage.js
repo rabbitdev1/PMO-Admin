@@ -15,9 +15,9 @@ export const uploadImages = async (req, res) => {
       return res.status(400).json({ status: "error", msg: "No file uploaded" });
     }
 
-    // Create a hash for the file name
     const hash = crypto.createHash("sha256");
-    hash.update(apiKey + file.originalname);
+    const randomSalt = crypto.randomBytes(16).toString('hex');
+    hash.update(apiKey + file.originalname + randomSalt);
     const encryptedFileName = hash.digest("hex");
 
     const storage = getStorage();

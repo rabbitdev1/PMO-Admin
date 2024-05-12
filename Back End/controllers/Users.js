@@ -1,5 +1,7 @@
+import bcrypt from "bcrypt";
 import moment from "moment-timezone";
-import { generateToken } from "../middleware/VerifyToken.js";
+import { deleteImage } from "../components/UploadImage.js";
+import { generateApiKey, generateToken } from "../middleware/VerifyToken.js";
 import Users from "../models/UserModel.js";
 
 // export const getUserById = async (req, res) => {
@@ -11,24 +13,6 @@ import Users from "../models/UserModel.js";
 //       },
 //     });
 //     res.json(user);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
-// export const createUsers = async (req, res) => {
-//   try {
-//     const { nama, email, alamat, nomor, password } = req.body;
-//     const salt = await bcrypt.genSalt();
-//     const hashPassword = await bcrypt.hash(password, salt);
-//     const users = await Users.create({
-//       nama,
-//       email,
-//       alamat,
-//       nomor,
-//       password: hashPassword,
-//     });
-//     res.json(users);
 //   } catch (error) {
 //     console.log(error);
 //   }
@@ -208,7 +192,7 @@ export const getUser = async (req, res) => {
     res.json({
       status: "ok",
       msg: "Data retrieved successfully",
-      data: user, // Mengembalikan objek pengguna langsung
+      data: user,
     });
   } catch (error) {
     console.error(error);
@@ -229,13 +213,23 @@ export const getListUser = async (req, res) => {
       });
     }
     const listuser = await Users.findAll({
-      attributes: ["id","fullname", "email", "address", "telp","status", "role", "image",
-      "createdAt","updatedAt"],
+      attributes: [
+        "id",
+        "fullname",
+        "email",
+        "address",
+        "telp",
+        "status",
+        "role",
+        "image",
+        "createdAt",
+        "updatedAt",
+      ],
     });
     const totalItems = listuser.length;
     const totalItemsByStatus = {
-      aktif: listuser.filter(user => user.status === 'Aktif').length,
-      nonaktif: listuser.filter(user => user.status === 'Non Aktif').length,
+      aktif: listuser.filter((user) => user.status === "Aktif").length,
+      nonaktif: listuser.filter((user) => user.status === "Non Aktif").length,
     };
     res.json({
       status: "ok",
@@ -245,6 +239,103 @@ export const getListUser = async (req, res) => {
       totalItemsByStatus: totalItemsByStatus,
     });
   } catch (error) {
+    res.status(500).json({
+      status: "error",
+      msg: "Internal Server Error",
+    });
+  }
+};
+export const createUsers = async (req, res) => {
+  try {
+    const { fullname, email, address, role, image, telp, password } = req.body;
+    const apiKey = req.headers["x-api-key"];
+
+    if (!apiKey) {
+      return res.status(401).json({
+        status: "error",
+        msg: "API Key is required",
+      });
+    }
+    const existingUser = await Users.findOne({
+      where: {
+        email: email,
+      },
+    });
+    if (existingUser && existingUser.email) {
+      return res.status(400).json({
+        status: "error",
+        msg: "A user with the same email already exists.",
+      });
+    }
+    const salt = await bcrypt.genSalt(10);
+    const hashPassword = await bcrypt.hash(password, salt);
+    const newUser = await Users.create({
+      apiKey: generateApiKey(20),
+      fullname,
+      email,
+      role,
+      address,
+      image,
+      telp,
+      password: hashPassword,
+      status: "Aktif",
+    });
+    res.json({
+      status: "ok",
+      msg: "Successfully created the user.",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      status: "error",
+      msg: "Internal Server Error",
+    });
+  }
+};
+
+export const deleteUsers = async (req, res) => {
+  try {
+    const { id } = req.body;
+    const apiKey = req.headers["x-api-key"];
+    if (!apiKey) {
+      return res.status(401).json({
+        status: "error",
+        msg: "API Key is required",
+      });
+    }
+    const usersDeskItem = await Users.findOne({
+      where: {
+        id: id,
+      },
+    });
+    if (!usersDeskItem) {
+      return res.status(404).json({
+        status: "error",
+        msg: "Users item not found",
+      });
+    }
+    if (usersDeskItem.image) {
+      const fileName = usersDeskItem.image;
+      await deleteImage(fileName);
+    }
+    const deletedItem = await Users.destroy({
+      where: {
+        id: id,
+      },
+    });
+    if (deletedItem) {
+      res.status(200).json({
+        status: "ok",
+        msg: "Users item deleted successfully",
+      });
+    } else {
+      res.status(404).json({
+        status: "error",
+        msg: "Users item not found",
+      });
+    }
+  } catch (error) {
+    console.error(error);
     res.status(500).json({
       status: "error",
       msg: "Internal Server Error",

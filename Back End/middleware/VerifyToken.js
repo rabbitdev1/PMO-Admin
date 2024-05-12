@@ -36,13 +36,13 @@ const verifyApiKey = (apiKey, email, callback) => {
   Users.findOne({ where: { email: email, apiKey: apiKey } })
     .then((user) => {
       if (user) {
-        callback(null, true); 
+        callback(null, true);
       } else {
-        callback(new Error("API key not found or mismatch"), false); 
+        callback(new Error("API key not found or mismatch"), false);
       }
     })
     .catch((error) => {
-      callback(error, false); 
+      callback(error, false);
     });
 };
 
@@ -53,10 +53,18 @@ export const generateToken = (user, keepLogin) => {
   };
 
   const expiresIn = keepLogin ? "7d" : "1h";
-  const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn });
+  const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn,
+  });
   return token;
 };
 
-const generateApiKey = () => {
-  return crypto.randomBytes(32).toString("hex");
+export const generateApiKey = (length) => {
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  let apiKey = "AP"; // Mengawali dengan "AP"
+  for (let i = 0; i < length - 2; i++) { // Kurangi 2 untuk panjang "AP"
+    apiKey += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return apiKey;
 };
+

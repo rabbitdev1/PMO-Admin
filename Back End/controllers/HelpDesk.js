@@ -265,26 +265,22 @@ export const editProcessHelpDesk = async (req, res) => {
         msg: "API Key is required",
       });
     }
-
     const helpDeskItem = await ListHelpdesk.findOne({
       where: {
         id: id,
       },
     });
-
     if (!helpDeskItem) {
       return res.status(404).json({
         status: "error",
         msg: "Help desk item not found",
       });
     }
-
     if (helpDeskItem.on_process === 0) {
       helpDeskItem.on_process = 1;
       helpDeskItem.submission_status = "Diproses";
     }
     await helpDeskItem.save();
-
     return res.status(200).json({
       status: "ok",
       msg: "Help desk item updated successfully",
