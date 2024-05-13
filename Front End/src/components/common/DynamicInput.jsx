@@ -38,9 +38,28 @@ function DynamicInput({
 
   const handleImageChange = (event) => {
     const selectedImage = event.target.files[0];
+    const maxSize = 2 * 1024 * 1024; // 2MB
+    if (selectedImage && selectedImage.size > maxSize) {
+      alert("Ukuran file terlalu besar. Maksimum 20MB diperbolehkan.");
+      event.target.value = null;
+      return;
+    }
     setImage(URL.createObjectURL(selectedImage));
     onChange(selectedImage);
   };
+  const handlePdfChange = (e) => {
+    const file = e.target.files[0];
+    const maxSize = 20 * 1024 * 1024; // 20MB
+    if (file && file.size > maxSize) {
+      alert("Ukuran file terlalu besar. Maksimum 20MB diperbolehkan.");
+      e.target.value = null;
+      return;
+    }
+    setImage(URL.createObjectURL(file));
+    onChange(file);
+  };
+
+
   const handleChangeInputArray = (index, event) => {
     const updatedValue = [...value];
     updatedValue[index] = { ...updatedValue[index], value: event.target.value };
@@ -139,12 +158,11 @@ function DynamicInput({
             />
           </div>
         ) : type === "editor" ? (
-          <div className={`flex flex-row min-h-[300px]  bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}>
+          <div className={`flex flex-row min-h-[300px] overflow-hidden bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}>
             <Editor
               editorState={value}
               toolbarClassName="toolbarClassName"
               wrapperClassName="wrapperClassName"
-              editorClassName="editorClassName"
               editorStyle={{ lineHeight: '10%', padding: 16 }}
               onEditorStateChange={(event) => onChange(event)}
             />
@@ -216,7 +234,8 @@ function DynamicInput({
             <div
               className={`flex flex-row gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center  p-2.5 ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}
             >
-              <input type="file" onChange={handleImageChange} accept="image/*" />
+              <input type="file" onChange={handleImageChange} accept="image/jpeg, image/png"
+                maxSize={2 * 1024 * 1024} />
             </div>
             {image && (
               <div
@@ -224,6 +243,23 @@ function DynamicInput({
               >
                 <span className="text-base font-semibold">Preview Gambar</span>
                 <img src={image} alt="Preview" className="w-full max-h-56 object-contain" />
+              </div>
+            )}
+          </div>
+        ) : type === "file_upload" ? (
+          <div className="flex flex-col gap-2">
+            <div
+              className={`flex flex-row gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center  p-2.5 ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}
+            >
+              <input type="file" onChange={handlePdfChange} accept="application/pdf"
+                maxSize={20 * 1024 * 1024} />
+            </div>
+            {image && (
+              <div
+                className={`flex flex-col gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor  p-2.5 ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}
+              >
+                <span className="text-base font-semibold">Preview File</span>
+                <embed src={image} type="application/pdf" className="w-full h-96" />
               </div>
             )}
           </div>

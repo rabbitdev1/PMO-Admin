@@ -13,7 +13,7 @@ const fileFilter = (req, file, cb) => {
 };
 
 const limits = {
-  fileSize: 2 * 1024 * 1024, // 2 MB limits the upload size
+  fileSize: 2 * 1024 * 1024, 
 };
 
 const validateImage = multer({ storage, fileFilter, limits });

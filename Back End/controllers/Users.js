@@ -250,6 +250,7 @@ export const createUsers = async (req, res) => {
     const { fullname, email, address, role, image, telp, password } = req.body;
     const apiKey = req.headers["x-api-key"];
 
+    console.log(req.body);
     if (!apiKey) {
       return res.status(401).json({
         status: "error",
@@ -316,7 +317,7 @@ export const deleteUsers = async (req, res) => {
     }
     if (usersDeskItem.image) {
       const fileName = usersDeskItem.image;
-      await deleteImage(fileName);
+      await deleteImage(fileName, "users");
     }
     const deletedItem = await Users.destroy({
       where: {

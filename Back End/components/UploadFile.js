@@ -7,7 +7,7 @@ import {
 } from "firebase/storage";
 import crypto from "crypto";
 
-export const uploadImages = async (req, res) => {
+export const uploadFiles = async (req, res) => {
   try {
     const file = req.file;
     const location = req.body.location;
@@ -28,7 +28,7 @@ export const uploadImages = async (req, res) => {
     const encryptedFileName = hash.digest("hex");
 
     const storage = getStorage();
-    const storageRef = ref(storage, `images/${location}/${encryptedFileName}`);
+    const storageRef = ref(storage, `files/${location}/${encryptedFileName}`);
 
     const metadata = {
       contentType: file.mimetype,
@@ -43,15 +43,15 @@ export const uploadImages = async (req, res) => {
       data: snapshot.metadata.name,
     });
   } catch (error) {
-    console.error("Error uploading image:", error);
+    console.error("Error uploading files:", error);
     res.status(500).json({ status: "error", msg: "Internal Server Error" });
   }
 };
 
-export const deleteImage = async (fileName,location) => {
+export const deleteFiles = async (fileName,location) => {
   try {
     const storage = getStorage();
-    const imageRef = ref(storage, `images/${location}/${fileName}`);
+    const imageRef = ref(storage, `files/${location}/${fileName}`);
 
     await deleteObject(imageRef);
 

@@ -30,14 +30,14 @@ const Sidebar = () => {
         className={`flex flex-col`}
       >
         {[
-          { title: "Dashboard", role: ['operator_PMO', 'OPD','tim_teknis_infrastruktur','tim_teknis_aplikasi'], icon: AllBerandaIcon, href: ["/", "/"], },
-          { title: "Ajuan Permohonan", role: ['operator_PMO', 'OPD','tim_teknis_infrastruktur','tim_teknis_aplikasi'], icon: AllBerandaIcon, href: ["/test", "/1"], },
-          { title: "Pembanguan dan Pengembangan", role: ['operator_PMO', 'OPD','tim_teknis_infrastruktur','tim_teknis_aplikasi'], icon: AllBerandaIcon, href: ["/test", "/2"], },
-          { title: "Evaluasi Sistem Informasi", role: ['operator_PMO', 'OPD','tim_teknis_infrastruktur','tim_teknis_aplikasi'], icon: AllBerandaIcon, href: ["/test", "/3"], },
-          { title: "Evaluasi Keamanan Sistem Informasi", role: ['operator_PMO', 'OPD','tim_teknis_infrastruktur','tim_teknis_aplikasi'], icon: AllBerandaIcon, href: ["/test", "/4"], },
-          { title: "Pendampingan", role: ['operator_PMO', 'OPD','tim_teknis_infrastruktur','tim_teknis_aplikasi'], icon: AllBerandaIcon, href: ["/test", "/5"], },
-          { title: "Help Desk", role: ['operator_PMO', 'OPD','tim_teknis_infrastruktur','tim_teknis_aplikasi'], icon: AllBerandaIcon, href: ["/help-desk", "/detail-help-desk"], },
-          { title: "Integrasi Sistem Informasi", role: ['operator_PMO', 'OPD','tim_teknis_infrastruktur','tim_teknis_aplikasi'], icon: AllBerandaIcon, href: ["/test", "/6"], },
+          { title: "Dashboard", role: ['operator_PMO', 'OPD','tim_teknis_infrastruktur','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/", "/"], },
+          { title: "Ajuan Permohonan", role: ['operator_PMO', 'OPD','tim_teknis_infrastruktur','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/test", "/1"], },
+          { title: "Pembanguan dan Pengembangan", role: ['operator_PMO', 'OPD','tim_teknis_infrastruktur','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/test", "/2"], },
+          { title: "Evaluasi Sistem Informasi", role: ['operator_PMO', 'OPD','tim_teknis_infrastruktur','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/test", "/3"], },
+          { title: "Evaluasi Keamanan Sistem Informasi", role: ['operator_PMO', 'OPD','tim_teknis_infrastruktur','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/test", "/4"], },
+          { title: "Pendampingan", role: ['operator_PMO', 'OPD','tim_teknis_infrastruktur','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/test", "/5"], },
+          { title: "Help Desk", role: ['operator_PMO', 'OPD','tim_teknis_infrastruktur','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/help-desk", "/detail-help-desk"], },
+          { title: "Integrasi Sistem Informasi", role: ['operator_PMO', 'OPD','tim_teknis_infrastruktur','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/test", "/6"], },
           { title: "SISTEM", role: ['operator_PMO'], icon: "" },
           { title: "Akun", role: ['operator_PMO'], icon: AllBerandaIcon, href: ["/account", "/7"], },
         ].map((button, index) => {

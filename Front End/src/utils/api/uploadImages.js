@@ -1,12 +1,7 @@
 import { isPending } from "../../components/store/actions/todoActions";
 import { toast } from "react-toastify";
 
-const fetchUploadImages = async (
-  api_key,
-  token,
-  file,
-  dispatch,
-) => {
+const fetchUploadImages = async (api_key, token, file, location, dispatch) => {
   const Api = process.env.REACT_APP_API;
   const myHeaders = new Headers();
   myHeaders.append("X-API-Key", api_key);
@@ -14,6 +9,7 @@ const fetchUploadImages = async (
 
   const formdata = new FormData();
   formdata.append("file", file, file?.name);
+  formdata.append("location", location);
 
   const requestOptions = {
     method: "POST",
@@ -28,8 +24,7 @@ const fetchUploadImages = async (
     const jsonResponse = JSON.parse(result);
 
     if (jsonResponse?.statusCode === 200) {
-    
-      return  jsonResponse.data;
+      return jsonResponse.data;
     } else {
       toast.error(jsonResponse.msg, {
         position: toast.POSITION.TOP_RIGHT,

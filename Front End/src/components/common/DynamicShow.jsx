@@ -9,6 +9,7 @@ function DynamicShow({
   options,
   type,
   className,
+  location,
 }) {
 
   let parsedOptions = [];
@@ -37,7 +38,7 @@ function DynamicShow({
         <div
           className={`flex flex-row gap-2  bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center p-3 ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}
         >
-          <ImageComponent imagePath={"images/" + value} />
+          <ImageComponent imagePath={`images/${location}/${value}`} />
         </div>
       ) : (
         <div

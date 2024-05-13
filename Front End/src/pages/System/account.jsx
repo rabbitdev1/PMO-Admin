@@ -52,6 +52,7 @@ function AccountPages() {
         { value: "OPD", label: "Operator Perangkat Daerah" },
         { value: "tim_teknis_infrastruktur", label: "Tim Teknis Infrastruktur" },
         { value: "tim_teknis_aplikasi", label: "Tim Teknis Aplikasi" },
+        { value: "tim_teknis_integrasi", label: "Tim Teknis Integrasi" },
       ],
     },
     {
@@ -195,8 +196,8 @@ function AccountPages() {
     }, {});
 
     if (transformedData.image) {
-      const result = await fetchUploadImages(authApiKey, authToken, transformedData.image, dispatch);
-      if (result !== null) {
+      const result = await fetchUploadImages(authApiKey, authToken, transformedData.image,'users', dispatch);
+      if (result !== null) { 
         const fixObject = {
           ...transformedData,
           image: result,

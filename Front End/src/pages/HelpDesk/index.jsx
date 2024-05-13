@@ -229,14 +229,9 @@ function HelpDeskPages() {
         ...nameValueObject2,
         ...newObjectFromConversion.reduce((acc, cur) => ({ ...acc, [cur.name]: cur.value }), {})
       };
-
       console.log(combinedObject);
-
-
-
-
       if (combinedObject?.image_screenshoot) {
-        const result = await fetchUploadImages(authApiKey, authToken, combinedObject.image_screenshoot, dispatch);
+        const result = await fetchUploadImages(authApiKey, authToken,combinedObject.image_screenshoot,'helpdesk', dispatch);
         if (result !== null) {
           const fixObject = {
             ...combinedObject,
@@ -247,7 +242,7 @@ function HelpDeskPages() {
           console.error("Error occurred during image upload.");
         }
       } else {
-        // fetchDataCreate(authApiKey, authToken, combinedObject);
+        fetchDataCreate(authApiKey, authToken, combinedObject);
       }
 
     } else {
@@ -394,7 +389,7 @@ function HelpDeskPages() {
                 ]}
                 showAction={{ read: true, remove: JSON.parse(authProfile)?.role === "OPD" ? true : false, edit: true }}
                 onClickShow={(id) => {
-                  if (JSON.parse(authProfile)?.role === "OPD") {
+                  if (JSON.parse(authProfile)?.role === "OPD"||JSON.parse(authProfile)?.role === "operator_PMO") {
                     navigate("/detail-help-desk", { state: { slug: id } });
                   } else {
                     fetchSetProgress(authApiKey, authToken, id)
@@ -603,6 +598,7 @@ function HelpDeskPages() {
                 className="inline-flex bg-cardLight dark:bg-cardDark text-cardDark dark:text-cardLight"
                 onClick={() => {
                   setisModalCreate({ data: {}, status: false });
+                  resetFormData(isModalCreate.data)
                 }}
               />
               <DynamicButton

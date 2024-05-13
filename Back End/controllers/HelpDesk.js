@@ -159,7 +159,17 @@ export const getDetailHelpDesk = async (req, res) => {
       "helpdesk_title",
     ];
     for (const [key, value] of Object.entries(helpDeskDetail.toJSON())) {
-      if (value && !["submission_status", "id", "updatedAt"].includes(key)) {
+      if (
+        value &&
+        ![
+          "submission_status",
+          "id",
+          "updatedAt",
+          "apiKey",
+          "on_process",
+          "role",
+        ].includes(key)
+      ) {
         filteredDetail[key] = value;
       }
     }
@@ -254,6 +264,46 @@ export const setHelpDesk = async (req, res) => {
     });
   }
 };
+export const editHelpDesk = async (req, res) => {
+  try {
+    const { id, submission_status,comment } = req.body;
+    const apiKey = req.headers["x-api-key"];
+
+    if (!apiKey) {
+      return res.status(401).json({
+        status: "error",
+        msg: "API Key is required",
+      });
+    }
+    const helpDeskItem = await ListHelpdesk.findOne({
+      where: {
+        id: id,
+      },
+    });
+    if (!helpDeskItem) {
+      return res.status(404).json({
+        status: "error",
+        msg: "Help desk item not found",
+      });
+    }
+    if (helpDeskItem.on_process === 1) {
+      helpDeskItem.submission_status = submission_status;
+      helpDeskItem.comment = comment;
+    }
+    await helpDeskItem.save();
+    return res.status(200).json({
+      status: "ok",
+      msg: "Help desk item updated successfully",
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      status: "error",
+      msg: "Internal Server Error",
+    });
+  }
+};
+
 export const editProcessHelpDesk = async (req, res) => {
   try {
     const { id } = req.body;
@@ -322,7 +372,7 @@ export const deleteHelpDesk = async (req, res) => {
     // Hapus gambar jika ada
     if (helpDeskItem.image_screenshoot) {
       const fileName = helpDeskItem.image_screenshoot;
-      await deleteImage(fileName);
+      await deleteImage(fileName, "helpdesk");
     }
 
     // Hapus item help desk

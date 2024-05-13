@@ -11,6 +11,7 @@ const DynamicDetails = ({ detailData }) => {
             name={key}
             label={getKeyLabel(key)}
             value={value}
+            location="helpdesk"
             type={getFieldType(key)}
             disabled={true}
           />

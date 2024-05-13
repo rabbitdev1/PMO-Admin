@@ -1,6 +1,7 @@
 import express from "express";
 import {
   deleteHelpDesk,
+  editHelpDesk,
   editProcessHelpDesk,
   getDetailHelpDesk,
   getFaq,
@@ -25,6 +26,7 @@ router.post("/helpdesk", verifyToken, getListHelpDesk);
 router.post("/helpdesk/detail",verifyToken, getDetailHelpDesk);
 router.post("/helpdesk/create",verifyToken, setHelpDesk);
 router.post("/helpdesk/set_process",verifyToken, editProcessHelpDesk);
+router.post("/helpdesk/edit",verifyToken, editHelpDesk);
 router.post("/helpdesk/delete",verifyToken, deleteHelpDesk);
 
 router.post("/me", verifyToken, getUser);

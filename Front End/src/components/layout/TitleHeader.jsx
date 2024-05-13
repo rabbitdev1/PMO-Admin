@@ -12,10 +12,10 @@ const TitleHeader = ({ title ='', link1, link2 }) => {
 
     return (
         <div className="flex sm:flex-row flex-col sm:gap-2 justify-between sm:items-center ">
-            <span className="text-2xl font-bold">{location?.pathname === '/' ? 'Dashboard' :  title}</span>
+            <span className="sm:text-2xl text-xl font-bold">{location?.pathname === '/' ? 'Dashboard' :  title}</span>
             <div className='flex flex-row gap-1'>
-                {location?.pathname === '/' ? null : link1 && <LoadingLink href={'/' + (link1 === 'dashboard' ? '' : link1)} className="text-sm  ">{formattedLink1}</LoadingLink>}
-                {link2 && <LoadingLink href={'/' + link2} className="text-sm ">/ {formattedLink2}</LoadingLink>}
+                {location?.pathname === '/' ? null : link1 && <LoadingLink href={'/' + (link1 === 'dashboard' ? '' : link1)} className="sm:text-sm text-xs ">{formattedLink1}</LoadingLink>}
+                {link2 && <LoadingLink href={'/' + link2} className="sm:text-sm text-xs ">/ {formattedLink2}</LoadingLink>}
             </div>
         </div>
     );

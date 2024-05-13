@@ -3,8 +3,6 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import db from "./config/Database.js";
-import { HelpDeskFaq, ListHelpdesk } from "./models/HelpdeskModel.js";
-import Users from "./models/UserModel.js";
 import router from "./routes/index.js";
 import storage from "./config/Firebase.js";
 
@@ -27,8 +25,8 @@ app.use(router);
 
 try {
   await db.authenticate();
-  // console.log("Database Connected...");
-  // console.log("Firestorage initialized " +storage);
+  console.log("Database Connected...");
+  console.log("Firestorage initialized " +JSON.stringify(storage));
 } catch (error) {
   console.error(error);
 }
