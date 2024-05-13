@@ -235,7 +235,7 @@ function DynamicInput({
               className={`flex flex-row gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center  p-2.5 ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}
             >
               <input type="file" onChange={handleImageChange} accept="image/jpeg, image/png"
-                maxSize={2 * 1024 * 1024} />
+              />
             </div>
             {image && (
               <div
@@ -252,7 +252,7 @@ function DynamicInput({
               className={`flex flex-row gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center  p-2.5 ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}
             >
               <input type="file" onChange={handlePdfChange} accept="application/pdf"
-                maxSize={20 * 1024 * 1024} />
+              />
             </div>
             {image && (
               <div

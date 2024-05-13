@@ -36,6 +36,7 @@ function DetailHelpDeskPages() {
 
   const [submission_status, setSubmission_status] = useState(true);
   const [komentar, setKomentar] = useState('');
+  const [fileUpload, setFilesUpload] = useState('');
 
   const [isModalVerif, setisModalVerif] = useState({
     status: false,
@@ -157,7 +158,7 @@ function DetailHelpDeskPages() {
             >
               <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                 <DynamicInput
-                  label={"Status"}
+                  label={"Status Pengajuan"}
                   value={submission_status}
                   type={"radio_button"}
                   options={[
@@ -167,10 +168,10 @@ function DetailHelpDeskPages() {
                   onChange={(a) => { setSubmission_status(a) }}
                 />
                 <DynamicInput
-                  label={"Upload File Pelaporan Penanganan"}
+                  label={"Upload File Pengajuan"}
                   value={""}
                   type={"file_upload"}
-                  onChange={(a) => { console.log(a); }}
+                  onChange={(a) => { setFilesUpload(a)}}
                 />
                 <DynamicInput
                   label={"Komentar"}
@@ -185,7 +186,8 @@ function DetailHelpDeskPages() {
                   className="inline-flex  bg-[#0185FF] text-darkColor"
                   onClick={() => {
                     // checkingFormData();
-                    fetchEditHelpdesk(authApiKey, authToken, slug, submission_status, komentar)
+                    console.log(fileUpload);
+                    // fetchEditHelpdesk(authApiKey, authToken, slug, submission_status, komentar)
                   }}
 
                 />
