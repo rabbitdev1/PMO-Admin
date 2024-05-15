@@ -56,6 +56,10 @@ const ListHelpdesk = db.define(
       type: DataTypes.STRING(255),
       allowNull: true,
     },
+    fileuploaded: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+    },
     period: {
       type: DataTypes.STRING(50),
       allowNull: true,
@@ -91,6 +95,14 @@ const ListHelpdesk = db.define(
     on_process: {
       type: DataTypes.INTEGER,
       allowNull: false,
+    },
+    tool_checking: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    work_scheduling: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
     },
     submission_status: {
       type: DataTypes.STRING(50),

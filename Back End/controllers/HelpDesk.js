@@ -51,6 +51,9 @@ export const getListHelpDesk = async (req, res) => {
         }
 
         const totalItemsByStatus = {
+          divalidasi: filteredHelpdesk.filter(
+            (user) => user.submission_status === "Divalidasi"
+          ).length,
           diproses: filteredHelpdesk.filter(
             (user) => user.submission_status === "Diproses"
           ).length,
@@ -85,6 +88,9 @@ export const getListHelpDesk = async (req, res) => {
       } else {
         // Jika bukan peran OPD, kembalikan data tanpa validasi API key
         const totalItemsByStatus = {
+          divalidasi: filteredHelpdesk.filter(
+            (user) => user.submission_status === "Divalidasi"
+          ).length,
           diproses: filteredHelpdesk.filter(
             (user) => user.submission_status === "Diproses"
           ).length,
@@ -168,6 +174,8 @@ export const getDetailHelpDesk = async (req, res) => {
           "apiKey",
           "on_process",
           "role",
+          "fileuploaded",
+          "comment",
         ].includes(key)
       ) {
         filteredDetail[key] = value;
@@ -187,6 +195,15 @@ export const getDetailHelpDesk = async (req, res) => {
       filteredDetail,
       propertiesToMoveUp
     );
+
+    const filteredProcess = {};
+
+    for (const [key, value] of Object.entries(helpDeskDetail.toJSON())) {
+      if (["work_scheduling", "tool_checking"].includes(key)) {
+        filteredProcess[key] = value;
+      }
+    }
+
     res.json({
       status: "ok",
       msg: "Data retrieved successfully",
@@ -194,7 +211,9 @@ export const getDetailHelpDesk = async (req, res) => {
         id: id,
         submission_status: helpDeskDetail.submission_status,
         comment: helpDeskDetail.comment,
+        fileuploaded: helpDeskDetail.fileuploaded,
         field: rearrangedHelpdeskRequest,
+        processing: filteredProcess,
       },
     });
   } catch (error) {
@@ -266,7 +285,7 @@ export const setHelpDesk = async (req, res) => {
 };
 export const editHelpDesk = async (req, res) => {
   try {
-    const { id, submission_status,comment } = req.body;
+    const { id, submission_status, comment, fileuploaded } = req.body;
     const apiKey = req.headers["x-api-key"];
 
     if (!apiKey) {
@@ -286,9 +305,11 @@ export const editHelpDesk = async (req, res) => {
         msg: "Help desk item not found",
       });
     }
+    console.log(fileuploaded);
     if (helpDeskItem.on_process === 1) {
       helpDeskItem.submission_status = submission_status;
       helpDeskItem.comment = comment;
+      helpDeskItem.fileuploaded = fileuploaded;
     }
     await helpDeskItem.save();
     return res.status(200).json({
@@ -307,6 +328,7 @@ export const editHelpDesk = async (req, res) => {
 export const editProcessHelpDesk = async (req, res) => {
   try {
     const { id } = req.body;
+    const { status } = req.body;
     const apiKey = req.headers["x-api-key"];
 
     if (!apiKey) {
@@ -327,8 +349,8 @@ export const editProcessHelpDesk = async (req, res) => {
       });
     }
     if (helpDeskItem.on_process === 0) {
-      helpDeskItem.on_process = 1;
-      helpDeskItem.submission_status = "Diproses";
+      helpDeskItem.on_process = status;
+      helpDeskItem.submission_status = "Divalidasi";
     }
     await helpDeskItem.save();
     return res.status(200).json({

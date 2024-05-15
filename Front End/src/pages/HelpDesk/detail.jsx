@@ -17,6 +17,9 @@ import ModalContent from "../../components/ui/Modal/ModalContent";
 import { convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 import { toast } from "react-toastify";
+import fetchUploadImages from "../../utils/api/uploadImages";
+import fetchUploadFiles from "../../utils/api/uploadFiles";
+import { isPending } from "../../components/store/actions/todoActions";
 
 function DetailHelpDeskPages() {
   const { isDarkMode } = useTheme();
@@ -34,9 +37,16 @@ function DetailHelpDeskPages() {
   const [submissionStatus, setSubmissionStatus] = useState(3);
   const [detailData, setDetailData] = useState([]);
 
+  const [showProgress, setShowProgress] = useState(true);
+
+
+
   const [submission_status, setSubmission_status] = useState(true);
   const [komentar, setKomentar] = useState('');
   const [fileUpload, setFilesUpload] = useState('');
+
+  const [processField, setProcessField] = useState([]);
+
 
   const [isModalVerif, setisModalVerif] = useState({
     status: false,
@@ -71,13 +81,15 @@ function DetailHelpDeskPages() {
         setSubmissionStatus(
           response.result.data?.submission_status === "Dalam Antrian"
             ? 1
-            : response.result.data?.submission_status === "Diproses"
+            : response.result.data?.submission_status === "Divalidasi"
               ? 2
-              : response.result.data?.submission_status === "Disetujui"
+              : response.result.data?.submission_status === "Diproses"
                 ? 3
-                : response.result.data?.submission_status === "Ditolak"
+                : response.result.data?.submission_status === "Disetujui"
                   ? 4
-                  : 0
+                  : response.result.data?.submission_status === "Ditolak"
+                    ? 5
+                    : 0
         );
       } else {
         setDetailHelpDesk([]);
@@ -88,15 +100,18 @@ function DetailHelpDeskPages() {
     }
   };
 
-  const fetchEditHelpdesk = async (api_key, token, id, submission_status, komentar) => {
+  const fetchEditHelpdesk = async (api_key, token, id, submission_status, komentar, filename) => {
     let htmlConvert = '';
-    const contentState = convertToRaw(komentar.getCurrentContent());
-    htmlConvert = draftToHtml(contentState);
+    if (komentar) {
+      const contentState = convertToRaw(komentar.getCurrentContent());
+      htmlConvert = draftToHtml(contentState);
+    }
 
     const params = new URLSearchParams();
-    params.append("id", id);
-    params.append("submission_status", submission_status);
-    params.append("comment", htmlConvert);
+    if (id) params.append("id", id);
+    if (submission_status) params.append("submission_status", submission_status);
+    if (htmlConvert) params.append("comment", htmlConvert);
+    if (filename) params.append("fileuploaded", filename);
 
     try {
       const response = await apiClient({
@@ -106,6 +121,7 @@ function DetailHelpDeskPages() {
         apiKey: api_key,
         token: token,
       });
+      dispatch(isPending(false));
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
@@ -126,6 +142,37 @@ function DetailHelpDeskPages() {
     }
   };
 
+  const checkingFormData = async () => {
+    console.log(fileUpload);
+    if (fileUpload) {
+      const result = await fetchUploadFiles(authApiKey, authToken, fileUpload, 'helpdesk', dispatch);
+      console.log(result);
+      if (result !== null) {
+        fetchEditHelpdesk(authApiKey, authToken, slug, submission_status, komentar, result)
+      } else {
+        console.error("Error occurred during image upload.");
+      }
+    } else {
+      fetchEditHelpdesk(authApiKey, authToken, slug, submission_status, komentar, null)
+    }
+  }
+
+  const handleInputChange = (fieldName, value) => {
+    const updatedField = { name: fieldName, value: value };
+    const existingIndex = processField.findIndex(field => field.name === fieldName);
+    if (existingIndex !== -1) {
+      // Jika field sudah ada, update nilai value-nya
+      setProcessField(prevFields => {
+        const updatedFields = [...prevFields];
+        updatedFields[existingIndex] = updatedField;
+        return updatedFields;
+      });
+    } else {
+      // Jika field belum ada, tambahkan ke state processField
+      setProcessField(prevFields => [...prevFields, updatedField]);
+    }
+  };
+
   return (
     <div className="flex flex-col gap-3 flex-1 p-3">
       <TitleHeader
@@ -138,63 +185,141 @@ function DetailHelpDeskPages() {
         <div className="flex xl:flex-row-reverse flex-col-reverse gap-3">
           <DynamicDetails detailData={detailData} />
 
-          {JSON.parse(authProfile)?.role === "OPD" || JSON.parse(authProfile)?.role === "operator_PMO" ?
+          <div className="flex flex-1 flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+            <DynamicInput
+              label={"Status Pengajuan"}
+              value={submission_status}
+              type={"radio_button"}
+              options={[
+                { value: "Disetujui", label: "Disetujui" },
+                { value: "Ditolak", label: "Ditolak" },
+              ]}
+              onChange={(a) => { setSubmission_status(a) }}
+            />
+            <DynamicInput
+              label={"Komentar"}
+              value={komentar}
+              type={"editor"}
+              onChange={(a) => { setKomentar(a) }}
+            />
+            <DynamicButton
+              initialValue={"Simpan Perubahan"}
+              type="fill"
+              color={"#ffffff"}
+              className="inline-flex  bg-[#0185FF] text-darkColor"
+              onClick={() => {
+                checkingFormData();
+              }}
+
+            />
+          </div>
+
+          {/* {JSON.parse(authProfile)?.role === "OPD" || JSON.parse(authProfile)?.role === "operator_PMO" ?
             <div
               className={` ${submissionStatus === 2 ? "flex-1" : "hidden"} flex-1 flex flex-col gap-3`}
             >
-              <div className="flex flex-col bg-lightColor dark:bg-cardDark p-5 gap-3 items-center rounded-lg">
-                <img
-                  src={require('../../assets/image/process.gif')}
-                  alt={'processing'}
-                  className=" object-contain flex w-[20%] min-w-[200px] aspect-square "
-                  effect="blur"
-                />
-                <span className="text-base text-center">Pengajuan Anda Sedang <b>Diproses</b> Oleh pihak DISKOMINFO Kota Bandung</span>
-              </div>
+              {detailHelpDesk?.processing?.tool_checking === null ?
+                <div className="flex flex-col bg-lightColor dark:bg-cardDark p-5 gap-3 items-center rounded-lg">
+                  <img
+                    src={require('../../assets/image/process.gif')}
+                    alt={'processing'}
+                    className=" object-contain flex w-[20%] min-w-[200px] aspect-square "
+                    effect="blur"
+                  />
+                  <span className="text-base text-center">Pengajuan Anda Sedang <b>Diproses</b> Oleh pihak DISKOMINFO Kota Bandung</span>
+                </div> :
+                detailData.helpdesk_title === "Relokasi Alat" ?
+                  <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+                    {Object.entries(detailHelpDesk?.processing).map(([key, value]) => (
+                      <DynamicShow
+                        key={key}
+                        label={key === "tool_checking" ? "Pengecekan Alat" : key === "work_scheduling" ? "Jadwal Pengerjaan" : key}
+                        value={value}
+                        type={key === "tool_checking" ? "html" : key === "work_scheduling" ? "text" : key}
+                      />
+                    ))}
+                  </div> :
+                  <div className="flex flex-col bg-lightColor dark:bg-cardDark p-5 gap-3 items-center rounded-lg">
+                    <img
+                      src={require('../../assets/image/process.gif')}
+                      alt={'processing'}
+                      className=" object-contain flex w-[20%] min-w-[200px] aspect-square "
+                      effect="blur"
+                    />
+                    <span className="text-base text-center">Pengajuan Anda Sedang <b>Diproses</b> Oleh pihak DISKOMINFO Kota Bandung</span>
+                  </div>
+              }
             </div> :
             submissionStatus === 2 &&
             <div
               className={` ${submissionStatus >= 2 ? "flex-1" : "hidden"} flex-1 flex flex-col gap-3`}
             >
-              <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
-                <DynamicInput
-                  label={"Status Pengajuan"}
-                  value={submission_status}
-                  type={"radio_button"}
-                  options={[
-                    { value: "Disetujui", label: "Disetujui" },
-                    { value: "Ditolak", label: "Ditolak" },
-                  ]}
-                  onChange={(a) => { setSubmission_status(a) }}
-                />
-                <DynamicInput
-                  label={"Upload File Pengajuan"}
-                  value={""}
-                  type={"file_upload"}
-                  onChange={(a) => { setFilesUpload(a)}}
-                />
-                <DynamicInput
-                  label={"Komentar"}
-                  value={komentar}
-                  type={"editor"}
-                  onChange={(a) => { setKomentar(a) }}
-                />
-                <DynamicButton
-                  initialValue={"Simpan Perubahan"}
-                  type="fill"
-                  color={"#ffffff"}
-                  className="inline-flex  bg-[#0185FF] text-darkColor"
-                  onClick={() => {
-                    // checkingFormData();
-                    console.log(fileUpload);
-                    // fetchEditHelpdesk(authApiKey, authToken, slug, submission_status, komentar)
-                  }}
+              {detailData.helpdesk_title === "Relokasi Alat" &&
+                <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+                  <DynamicInput
+                    label={"Pengecekan alat"}
+                    value={(processField.find(field => field.name === 'tool_checking') || { value: '' }).value}
+                    type={"textarea"}
+                    onChange={(value) => handleInputChange('tool_checking', value)}
+                  />
+                  <DynamicInput
+                    label={"Penjadwalan Alat"}
+                    value={(processField.find(field => field.name === 'work_scheduling') || { value: '' }).value}
+                    type={"date"}
+                    onChange={(value) => handleInputChange('work_scheduling', value)}
+                  />
+                  <DynamicButton
+                    initialValue={"Update Perubahan"}
+                    type="fill"
+                    color={"#ffffff"}
+                    className="inline-flex  bg-[#0185FF] text-darkColor"
+                    onClick={() => {
+                      // checkingFormData();
+                      console.log(processField);
+                      setShowProgress(true)
+                    }}
 
-                />
-              </div>
+                  />
+                </div>}
+
+              {showProgress &&
+                <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+                  <DynamicInput
+                    label={"Status Pengajuan"}
+                    value={submission_status}
+                    type={"radio_button"}
+                    options={[
+                      { value: "Disetujui", label: "Disetujui" },
+                      { value: "Ditolak", label: "Ditolak" },
+                    ]}
+                    onChange={(a) => { setSubmission_status(a) }}
+                  />
+                  <DynamicInput
+                    label={"Upload File Pengajuan"}
+                    value={""}
+                    type={"file_upload"}
+                    onChange={(a) => { setFilesUpload(a) }}
+                  />
+                  <DynamicInput
+                    label={"Komentar"}
+                    value={komentar}
+                    type={"editor"}
+                    onChange={(a) => { setKomentar(a) }}
+                  />
+                  <DynamicButton
+                    initialValue={"Simpan Perubahan"}
+                    type="fill"
+                    color={"#ffffff"}
+                    className="inline-flex  bg-[#0185FF] text-darkColor"
+                    onClick={() => {
+                      checkingFormData();
+                    }}
+
+                  />
+                </div>
+              }
+
             </div>}
-
-
           <div
             className={` ${submissionStatus >= 3 ? "flex-1" : "hidden"} flex-1 flex flex-col gap-3`}
           >
@@ -205,14 +330,21 @@ function DetailHelpDeskPages() {
                   <span className="text-base">{detailHelpDesk?.submission_status}</span>
                 </div>
               </div>
+              {detailHelpDesk?.fileuploaded && (
+                <DynamicShow
+                  label={"File Pelaporan"}
+                  value={detailHelpDesk?.fileuploaded}
+                  location={'helpdesk'}
+                  type={"pdf"}
+                />
+              )}
               <DynamicShow
-                name={''}
                 label={"Komentar"}
                 value={detailHelpDesk?.comment}
                 type={"html"}
               />
             </div>
-          </div>
+          </div> */}
         </div>
 
       </section>

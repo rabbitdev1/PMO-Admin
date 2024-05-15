@@ -184,9 +184,10 @@ function HelpDeskPages() {
       console.error("Error fetching data:", error);
     }
   };
-  const fetchSetProgress = async (api_key, token, id) => {
+  const fetchSetProgress = async (api_key, token, id, status) => {
     const params = new URLSearchParams();
     params.append("id", id);
+    params.append("status", status);
 
     try {
       const response = await apiClient({
@@ -222,7 +223,7 @@ function HelpDeskPages() {
       const nameValueObject2 = {
         helpdesk_type: isModalType.data,
         role: foundObject.role,
-        helpdesk_title: isModalCreate.data.replace('Pengajuan', '')
+        helpdesk_title: isModalCreate.data.replace('Pengajuan ', '')
       };
       const combinedObject = {
         ...nameValueObject,
@@ -231,7 +232,7 @@ function HelpDeskPages() {
       };
       console.log(combinedObject);
       if (combinedObject?.image_screenshoot) {
-        const result = await fetchUploadImages(authApiKey, authToken,combinedObject.image_screenshoot,'helpdesk', dispatch);
+        const result = await fetchUploadImages(authApiKey, authToken, combinedObject.image_screenshoot, 'helpdesk', dispatch);
         if (result !== null) {
           const fixObject = {
             ...combinedObject,
@@ -389,10 +390,10 @@ function HelpDeskPages() {
                 ]}
                 showAction={{ read: true, remove: JSON.parse(authProfile)?.role === "OPD" ? true : false, edit: true }}
                 onClickShow={(id) => {
-                  if (JSON.parse(authProfile)?.role === "OPD"||JSON.parse(authProfile)?.role === "operator_PMO") {
+                  if (JSON.parse(authProfile)?.role === "OPD" || JSON.parse(authProfile)?.role === "operator_PMO") {
                     navigate("/detail-help-desk", { state: { slug: id } });
                   } else {
-                    fetchSetProgress(authApiKey, authToken, id)
+                    fetchSetProgress(authApiKey, authToken, id, 1)
                   }
                 }}
                 onClickRemove={(a) => {

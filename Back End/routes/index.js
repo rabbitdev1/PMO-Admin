@@ -19,15 +19,17 @@ import {
 import { verifyToken } from "../middleware/VerifyToken.js";
 import { uploadImages } from "../components/UploadImage.js";
 import validateImage from "../middleware/Multer.js";
+import validatePDF from "../middleware/Multer2.js";
+import { uploadFiles } from "../components/UploadFile.js";
 const router = express.Router();
 
 router.post("/helpdesk_faq", getFaq);
 router.post("/helpdesk", verifyToken, getListHelpDesk);
-router.post("/helpdesk/detail",verifyToken, getDetailHelpDesk);
-router.post("/helpdesk/create",verifyToken, setHelpDesk);
-router.post("/helpdesk/set_process",verifyToken, editProcessHelpDesk);
-router.post("/helpdesk/edit",verifyToken, editHelpDesk);
-router.post("/helpdesk/delete",verifyToken, deleteHelpDesk);
+router.post("/helpdesk/detail", verifyToken, getDetailHelpDesk);
+router.post("/helpdesk/create", verifyToken, setHelpDesk);
+router.post("/helpdesk/set_process", verifyToken, editProcessHelpDesk);
+router.post("/helpdesk/edit", verifyToken, editHelpDesk);
+router.post("/helpdesk/delete", verifyToken, deleteHelpDesk);
 
 router.post("/me", verifyToken, getUser);
 router.post("/list_user", verifyToken, getListUser);
@@ -47,6 +49,13 @@ router.post(
   verifyToken,
   validateImage.single("file"),
   uploadImages
+);
+
+router.post(
+  "/upload_files",
+  verifyToken,
+  validatePDF.single("file"),
+  uploadFiles
 );
 
 export default router;

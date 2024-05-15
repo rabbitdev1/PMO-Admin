@@ -529,7 +529,7 @@ export const formData = [
     ],
   },
   {
-    name: "Buat Pengajuan Permohonan Integrai",
+    name: "Buat Pengajuan Permohonan Integrasi",
     type: "Pengajuan Helpdesk Integrasi",
     role: ["operator_PMO","OPD","tim_teknis_integrasi"],
     fields: [
