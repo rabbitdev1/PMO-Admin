@@ -1,5 +1,7 @@
 import express from "express";
+
 import { storeData, getAllData, getDetailData, editData, deleteData } from "../controllers/PengajuanPermohonanSI.js";
+import { storeDataIntegrasisi, getDataIntegrasisi, getDetailDataIntegrasisi, updateDataIntegrasisi, deleteDataIntegrasisi} from "../controllers/IntegrasiSi.js";
 import {
   deleteHelpDesk,
   editProcessHelpDesk,
@@ -16,6 +18,9 @@ import {
 } from "../controllers/Users.js";
 import { verifyToken } from "../middleware/VerifyToken.js";
 import { uploadImages } from "../components/UploadImage.js";
+
+import upload from "../components/UploadFile.js";
+
 import validateImage from "../middleware/Multer.js";
 const router = express.Router();
 
@@ -45,10 +50,19 @@ router.post(
   uploadImages
 );
 
+//Permohonan Si
 router.post("/aplikasi/storeData", storeData)
 router.get("/aplikasi/getAllData", getAllData)
 router.get("/aplikasi/getDetailData/:id", getDetailData)
-router.post("/aplikasi/editData/:id", editData)
+router.put("/aplikasi/editData/:id", editData)
 router.delete("/aplikasi/deleteData/:id", deleteData)
+
+//Integrasi Si
+router.post('/aplikasi/storeDataIntegrasisi', upload, storeDataIntegrasisi)
+router.get('/aplikasi/getDataIntegrasisi', getDataIntegrasisi)
+router.get('/aplikasi/getDetailDataIntegrasisi/:id', getDetailDataIntegrasisi)
+router.put('/aplikasi/editDataIntegrasisi/:id', upload, updateDataIntegrasisi)
+router.delete('/aplikasi/deleteDataIntegrasisi/:id', deleteDataIntegrasisi)
+
 
 export default router;

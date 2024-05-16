@@ -9,6 +9,7 @@ import router from "./routes/index.js";
 import storage from "./config/Firebase.js";
 import morgan from "morgan";
 import { PengajuanPermohonanSi } from "./models/PengajuanPermohonanSi.js";
+import { IntegrasiSi } from "./models/IntegrasiSi.js"
 
 dotenv.config();
 
@@ -41,6 +42,7 @@ try {
 // HelpDeskFaq.sync();
 // ListHelpdesk.sync();
 // PengajuanPermohonanSi.sync();
+// IntegrasiSi.sync();
 
 // ku solihin
 const PORT = process.env.PORT
