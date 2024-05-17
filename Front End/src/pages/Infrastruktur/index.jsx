@@ -163,10 +163,9 @@ function InfrastrukturPages() {
       console.error("Error fetching data:", error);
     }
   };
-  const fetchSetProgress = async (api_key, token, id, status) => {
+  const fetchSetProgress = async (api_key, token, id,) => {
     const params = new URLSearchParams();
     params.append("id", id);
-    params.append("status", status);
 
     try {
       const response = await apiClient({
@@ -371,7 +370,7 @@ function InfrastrukturPages() {
                   if (JSON.parse(authProfile)?.role === "perangkat_daerah" || JSON.parse(authProfile)?.role === "op_pmo") {
                     navigate("/detail-infrastruktur", { state: { slug: id } });
                   } else {
-                    fetchSetProgress(authApiKey, authToken, id, 1)
+                    fetchSetProgress(authApiKey, authToken, id)
                   }
                 }}
                 onClickRemove={(a) => {

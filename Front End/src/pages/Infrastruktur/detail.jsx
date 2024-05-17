@@ -183,7 +183,7 @@ function DetailInfrastrukturPages() {
       />
       <section className="flex flex-col gap-3">
         <SubmissionStatus status={submissionStatus} />
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-row gap-3">
           {submissionStatus === 1 ?
             <div className="flex flex-col bg-lightColor dark:bg-cardDark p-5 gap-3 items-center rounded-lg">
               <img
@@ -221,8 +221,6 @@ function DetailInfrastrukturPages() {
                     <span className="text-base">{validationData.status_validation}</span>
                   </div>
                 </div>
-
-                {console.log((validationData))}
                 <DynamicShow
                   label={"Tanggapan"}
                   value={validationData?.response}
@@ -230,9 +228,9 @@ function DetailInfrastrukturPages() {
                 />
               </div>
             </div>
-
             : null
           }
+
           <DynamicDetails detailData={detailData} />
           {submissionStatus <= 2 ? JSON.parse(authProfile)?.role === "perangkat_daerah" || JSON.parse(authProfile)?.role === "op_pmo" ?
             null :

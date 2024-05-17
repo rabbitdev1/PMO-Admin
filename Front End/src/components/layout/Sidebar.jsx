@@ -31,7 +31,7 @@ const Sidebar = () => {
       >
         {[
           { title: "Dashboard", role: ['op_pmo', 'perangkat_daerah','kabid_infra','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/", "/"], },
-          { title: "Bidang Infrastruktur Teknologi, Informasi dan Komunikasi", role: ['op_pmo', 'perangkat_daerah','kabid_infra','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/infrastruktur", "/1"], },
+          { title: "Bidang Infrastruktur Teknologi, Informasi dan Komunikasi", role: ['op_pmo', 'perangkat_daerah','kabid_infra','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/infrastruktur", "/detail-infrastrukturl;"], },
           // { title: "Pembanguan dan Pengembangan", role: ['op_pmo', 'perangkat_daerah','tim_teknis_infrastruktur','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/test", "/2"], },
           // { title: "Evaluasi Sistem Informasi", role: ['op_pmo', 'perangkat_daerah','tim_teknis_infrastruktur','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/test", "/3"], },
           // { title: "Evaluasi Keamanan Sistem Informasi", role: ['op_pmo', 'perangkat_daerah','tim_teknis_infrastruktur','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/test", "/4"], },

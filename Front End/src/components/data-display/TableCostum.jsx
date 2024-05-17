@@ -25,14 +25,36 @@ const TableCostum = ({
   const statusBody = (rowData) => {
     return (
       <div
-        className={`${rowData.submission_status === "Dalam Antrian" ? "bg-[#333333]" :
-          rowData.submission_status === "Diproses" ? "bg-[#F5CF08]" :
-            rowData.submission_status === "Disetujui" || rowData.status === "Aktif" ? "bg-[#13C39C]" :
-              rowData.submission_status === "Ditolak" || rowData.status === "Non Aktif" ? "bg-[#FF0000]" :
-                "bg-black"} p-1 py-2 rounded-md text-xs  text-center text-darkColor`}
-      >
-        {rowData.submission_status || rowData.status}
-      </div>
+      className={`${
+        rowData.submission_status === 1
+          ? "bg-[#333333]"
+          : rowData.submission_status === 2
+            ? "bg-[#F5CF08]"
+            : rowData.submission_status === 3
+              ? "bg-[#FF0000]"
+              : rowData.submission_status === 4
+                ? "bg-[#FFA500]"
+                : rowData.submission_status === 5
+                  ? "bg-[#13C39C]"
+                  : rowData.submission_status === 6
+                    ? "bg-[#FF0000]"
+                    : null
+      } p-1 py-2 rounded-md text-xs  text-center text-darkColor`}
+    >
+      {(rowData.submission_status === 1
+        ? "Dalam Antrian"
+        : rowData.submission_status === 2
+          ? "Validasi"
+          : rowData.submission_status === 3
+            ? "Ditolak"
+            : rowData.submission_status === 4
+              ? "Diproses"
+              : rowData.submission_status === 5
+                ? "Diterima"
+                : rowData.submission_status === 6
+                  ? "Ditolak"
+                  : rowData.submission_status) || rowData.status}
+    </div>
     );
   };
   const dateBody = (rowData) => {

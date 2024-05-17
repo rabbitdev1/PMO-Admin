@@ -323,7 +323,6 @@ export const editInfrastruktur = async (req, res) => {
 export const editProcessInfrastruktur = async (req, res) => {
   try {
     const { id } = req.body;
-    const { status } = req.body;
     const apiKey = req.headers["x-api-key"];
 
     if (!apiKey) {
@@ -343,8 +342,11 @@ export const editProcessInfrastruktur = async (req, res) => {
         msg: "Help desk item not found",
       });
     }
-    helpDeskItem.submission_status = 2;
-    await helpDeskItem.save();
+    if (parseInt(helpDeskItem.submission_status) === 1) {
+      console.log("jalan");
+      helpDeskItem.submission_status = 2;
+      await helpDeskItem.save();
+    }
     return res.status(200).json({
       status: "ok",
       msg: "Help desk item updated successfully",
