@@ -136,7 +136,7 @@ export const formData = [
   {
     name: "Pengajuan Relokasi Alat",
     type: "Pengajuan Helpdesk Infrastruktur",
-    role: ["operator_PMO","OPD","tim_teknis_infrastruktur"],
+    role: ["op_pmo","perangkat_daerah","tim_teknis_infrastruktur"],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
@@ -178,7 +178,7 @@ export const formData = [
   {
     name: "Pengajuan Penambahan Alat",
     type: "Pengajuan Helpdesk Infrastruktur",
-    role: ["operator_PMO","OPD","tim_teknis_infrastruktur"],
+    role: ["op_pmo","perangkat_daerah","tim_teknis_infrastruktur"],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
@@ -216,7 +216,7 @@ export const formData = [
   {
     name: "Buat Pengajuan Penambahan Bandwidth",
     type: "Pengajuan Helpdesk Infrastruktur",
-    role: ["operator_PMO","OPD","tim_teknis_infrastruktur"],
+    role: ["op_pmo","perangkat_daerah","tim_teknis_infrastruktur"],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
@@ -272,7 +272,7 @@ export const formData = [
   {
     name: "Buat Pengajuan Peubahan Akses",
     type: "Pengajuan Helpdesk Aplikasi",
-    role: ["operator_PMO","OPD","tim_teknis_aplikasi"],
+    role: ["op_pmo","perangkat_daerah","tim_teknis_aplikasi"],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
@@ -305,7 +305,7 @@ export const formData = [
   {
     name: "Buat Pengajuan Troubleshooting Jaringan",
     type: "Pengajuan Helpdesk Infrastruktur",
-    role: ["operator_PMO","OPD","tim_teknis_infrastruktur"],
+    role: ["op_pmo","perangkat_daerah","tim_teknis_infrastruktur"],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
@@ -327,7 +327,7 @@ export const formData = [
   {
     name: "Buat Pengajuan Akun Zoom",
     type: "Pengajuan Helpdesk Aplikasi",
-    role: ["operator_PMO","OPD","tim_teknis_aplikasi"],
+    role: ["op_pmo","perangkat_daerah","tim_teknis_aplikasi"],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
@@ -351,7 +351,7 @@ export const formData = [
   {
     name: "Buat Pengajuan Hosting",
     type: "Pengajuan Helpdesk Infrastruktur",
-    role: ["operator_PMO","OPD","tim_teknis_infrastruktur"],
+    role: ["op_pmo","perangkat_daerah","tim_teknis_infrastruktur"],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
@@ -394,7 +394,7 @@ export const formData = [
   {
     name: "Buat Pengajuan Domain",
     type: "Pengajuan Helpdesk Infrastruktur",
-    role: ["operator_PMO","OPD","tim_teknis_infrastruktur"],
+    role: ["op_pmo","perangkat_daerah","tim_teknis_infrastruktur"],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
@@ -432,7 +432,7 @@ export const formData = [
   {
     name: "Buat Pengajuan User Account SI",
     type: "Pengajuan Helpdesk Aplikasi",
-    role: ["operator_PMO","OPD","tim_teknis_aplikasi"],
+    role: ["op_pmo","perangkat_daerah","tim_teknis_aplikasi"],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
@@ -497,7 +497,7 @@ export const formData = [
   {
     name: "Buat Pengajuan Permohonan Email",
     type: "Pengajuan Helpdesk Aplikasi",
-    role: ["operator_PMO","OPD","tim_teknis_aplikasi"],
+    role: ["op_pmo","perangkat_daerah","tim_teknis_aplikasi"],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
@@ -522,7 +522,7 @@ export const formData = [
   {
     name: "Buat Pengajuan Permohonan Celah Keamanan SI",
     type: "Pengajuan Helpdesk Aplikasi",
-    role: ["operator_PMO","OPD","tim_teknis_aplikasi"],
+    role: ["op_pmo","perangkat_daerah","tim_teknis_aplikasi"],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
@@ -531,7 +531,7 @@ export const formData = [
   {
     name: "Buat Pengajuan Permohonan Integrasi",
     type: "Pengajuan Helpdesk Integrasi",
-    role: ["operator_PMO","OPD","tim_teknis_integrasi"],
+    role: ["op_pmo","perangkat_daerah","tim_teknis_integrasi"],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
@@ -540,7 +540,7 @@ export const formData = [
   {
     name: "Permohonan Penerapan Modul TTE",
     type: "Pengajuan Helpdesk Lainnya",
-    role: ["operator_PMO","OPD"],
+    role: ["op_pmo","perangkat_daerah"],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
@@ -549,7 +549,7 @@ export const formData = [
   {
     name: "Pendampingan Analisis Data",
     type: "Pengajuan Helpdesk Lainnya",
-    role: ["operator_PMO","OPD"],
+    role: ["op_pmo","perangkat_daerah"],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },

@@ -30,16 +30,16 @@ const Sidebar = () => {
         className={`flex flex-col`}
       >
         {[
-          { title: "Dashboard", role: ['operator_PMO', 'OPD','tim_teknis_infrastruktur','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/", "/"], },
-          { title: "Ajuan Permohonan", role: ['operator_PMO', 'OPD','tim_teknis_infrastruktur','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/test", "/1"], },
-          { title: "Pembanguan dan Pengembangan", role: ['operator_PMO', 'OPD','tim_teknis_infrastruktur','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/test", "/2"], },
-          { title: "Evaluasi Sistem Informasi", role: ['operator_PMO', 'OPD','tim_teknis_infrastruktur','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/test", "/3"], },
-          { title: "Evaluasi Keamanan Sistem Informasi", role: ['operator_PMO', 'OPD','tim_teknis_infrastruktur','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/test", "/4"], },
-          { title: "Pendampingan", role: ['operator_PMO', 'OPD','tim_teknis_infrastruktur','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/test", "/5"], },
-          { title: "Help Desk", role: ['operator_PMO', 'OPD','tim_teknis_infrastruktur','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/help-desk", "/detail-help-desk"], },
-          { title: "Integrasi Sistem Informasi", role: ['operator_PMO', 'OPD','tim_teknis_infrastruktur','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/test", "/6"], },
-          { title: "SISTEM", role: ['operator_PMO'], icon: "" },
-          { title: "Akun", role: ['operator_PMO'], icon: AllBerandaIcon, href: ["/account", "/7"], },
+          { title: "Dashboard", role: ['op_pmo', 'perangkat_daerah','tim_teknis_infrastruktur','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/", "/"], },
+          { title: "Bidang Infrastruktur Teknologi, Informasi dan Komunikasi", role: ['op_pmo', 'perangkat_daerah','tim_teknis_infrastruktur','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/infrastruktur", "/1"], },
+          // { title: "Pembanguan dan Pengembangan", role: ['op_pmo', 'perangkat_daerah','tim_teknis_infrastruktur','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/test", "/2"], },
+          // { title: "Evaluasi Sistem Informasi", role: ['op_pmo', 'perangkat_daerah','tim_teknis_infrastruktur','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/test", "/3"], },
+          // { title: "Evaluasi Keamanan Sistem Informasi", role: ['op_pmo', 'perangkat_daerah','tim_teknis_infrastruktur','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/test", "/4"], },
+          // { title: "Pendampingan", role: ['op_pmo', 'perangkat_daerah','tim_teknis_infrastruktur','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/test", "/5"], },
+          // { title: "Help Desk", role: ['op_pmo', 'perangkat_daerah','tim_teknis_infrastruktur','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/help-desk", "/detail-help-desk"], },
+          // { title: "Integrasi Sistem Informasi", role: ['op_pmo', 'perangkat_daerah','tim_teknis_infrastruktur','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/test", "/6"], },
+          { title: "SISTEM", role: ['op_pmo'], icon: "" },
+          { title: "Akun", role: ['op_pmo'], icon: AllBerandaIcon, href: ["/account", "/7"], },
         ].map((button, index) => {
           const isOperatorExist = button?.role?.includes(validateSideBar?.role || '');
           if (isOperatorExist) {
@@ -75,7 +75,7 @@ const Sidebar = () => {
                     }
                   />
                 )}
-                <span className={`${tab === button.href[0] || tab === button.href[1] ? " text-cardLight" : "text-lightColor dark:text-darkColor"} group-hover:text-[#ffffff] text-sm line-clamp-2 text-left`}>
+                <span className={`${tab === button.href[0] || tab === button.href[1] ? " text-cardLight" : "text-lightColor dark:text-darkColor"} flex-1 group-hover:text-[#ffffff] text-sm line-clamp-2 text-left`}>
                   {button.title}
                 </span>
               </LoadingLink>

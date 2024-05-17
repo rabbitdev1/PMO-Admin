@@ -1,24 +1,7 @@
 import { deleteImage } from "../components/UploadImage.js";
-import { HelpDeskFaq, ListHelpdesk } from "../models/HelpdeskModel.js";
+import InfraModel from "../models/InfraModel.js";
 
-export const getFaq = async (req, res) => {
-  try {
-    const faq = await HelpDeskFaq.findAll({
-      attributes: ["id", "title", "answer"],
-    });
-    res.json({
-      status: "ok",
-      msg: "Data retrieved successfully",
-      data: faq,
-    });
-  } catch (error) {
-    res.status(500).json({
-      status: "error",
-      msg: "Internal Server Error",
-    });
-  }
-};
-export const getListHelpDesk = async (req, res) => {
+export const getListInfrastruktur = async (req, res) => {
   try {
     const { role } = req.body;
     const apiKey = req.headers["x-api-key"];
@@ -28,7 +11,7 @@ export const getListHelpDesk = async (req, res) => {
         msg: "API Key is required",
       });
     } else {
-      const helpdesk = await ListHelpdesk.findAll();
+      const helpdesk = await InfraModel.findAll();
 
       // Memeriksa apakah peran pengguna termasuk dalam peran yang diizinkan
       const filteredHelpdesk = helpdesk.filter((item) => {
@@ -71,13 +54,13 @@ export const getListHelpDesk = async (req, res) => {
             ({
               id,
               name_pic,
-              helpdesk_title,
+              submission_title,
               submission_status,
               createdAt,
             }) => ({
               id,
               name_pic,
-              helpdesk_title,
+              submission_title,
               submission_status,
               createdAt,
             })
@@ -132,7 +115,7 @@ export const getListHelpDesk = async (req, res) => {
   }
 };
 
-export const getDetailHelpDesk = async (req, res) => {
+export const getDetailInfrastruktur = async (req, res) => {
   try {
     const { id, role } = req.body;
     const apiKey = req.headers["x-api-key"];
@@ -143,7 +126,7 @@ export const getDetailHelpDesk = async (req, res) => {
         msg: "API Key is required",
       });
     }
-    const helpDeskDetail = await ListHelpdesk.findByPk(id);
+    const helpDeskDetail = await InfraModel.findByPk(id);
     if (!helpDeskDetail) {
       return res.status(404).json({
         status: "error",
@@ -224,9 +207,9 @@ export const getDetailHelpDesk = async (req, res) => {
   }
 };
 
-export const setHelpDesk = async (req, res) => {
+export const setInfrastruktur = async (req, res) => {
   try {
-    let rawHelpDeskData = req.body;
+    let rawInfrastrukturData = req.body;
     const apiKey = req.headers["x-api-key"];
 
     if (!apiKey) {
@@ -236,41 +219,43 @@ export const setHelpDesk = async (req, res) => {
       });
     }
 
-    if (rawHelpDeskData.type_tools) {
-      rawHelpDeskData.type_tools = JSON.stringify(rawHelpDeskData.type_tools);
+    if (rawInfrastrukturData.type_tools) {
+      rawInfrastrukturData.type_tools = JSON.stringify(
+        rawInfrastrukturData.type_tools
+      );
     }
 
-    Object.keys(rawHelpDeskData).forEach((key) => {
-      if (rawHelpDeskData[key] === "") {
-        rawHelpDeskData[key] = null;
+    Object.keys(rawInfrastrukturData).forEach((key) => {
+      if (rawInfrastrukturData[key] === "") {
+        rawInfrastrukturData[key] = null;
       }
     });
 
     if (
-      Array.isArray(rawHelpDeskData.period) ||
-      typeof rawHelpDeskData.period === "object"
+      Array.isArray(rawInfrastrukturData.period) ||
+      typeof rawInfrastrukturData.period === "object"
     ) {
-      rawHelpDeskData.period = JSON.stringify(rawHelpDeskData.period);
+      rawInfrastrukturData.period = JSON.stringify(rawInfrastrukturData.period);
     }
     if (
-      Array.isArray(rawHelpDeskData.role) ||
-      typeof rawHelpDeskData.role === "object"
+      Array.isArray(rawInfrastrukturData.role) ||
+      typeof rawInfrastrukturData.role === "object"
     ) {
-      rawHelpDeskData.role = JSON.stringify(rawHelpDeskData.role);
+      rawInfrastrukturData.role = JSON.stringify(rawInfrastrukturData.role);
     }
     if (
-      Array.isArray(rawHelpDeskData.device_specifications) ||
-      typeof rawHelpDeskData.device_specifications === "object"
+      Array.isArray(rawInfrastrukturData.device_specifications) ||
+      typeof rawInfrastrukturData.device_specifications === "object"
     ) {
-      rawHelpDeskData.device_specifications = JSON.stringify(
-        rawHelpDeskData.device_specifications
+      rawInfrastrukturData.device_specifications = JSON.stringify(
+        rawInfrastrukturData.device_specifications
       );
     }
 
-    rawHelpDeskData.apiKey = apiKey;
-    rawHelpDeskData.submission_status = "Dalam Antrian";
-    rawHelpDeskData.on_process = 0;
-    await ListHelpdesk.create(rawHelpDeskData);
+    rawInfrastrukturData.apiKey = apiKey;
+    rawInfrastrukturData.submission_status = "Dalam Antrian";
+    rawInfrastrukturData.on_process = 0;
+    await InfraModel.create(rawInfrastrukturData);
     res.status(200).json({
       status: "ok",
       msg: "Help desk item created successfully",
@@ -283,7 +268,7 @@ export const setHelpDesk = async (req, res) => {
     });
   }
 };
-export const editHelpDesk = async (req, res) => {
+export const editInfrastruktur = async (req, res) => {
   try {
     const { id, submission_status, comment, fileuploaded } = req.body;
     const apiKey = req.headers["x-api-key"];
@@ -294,7 +279,7 @@ export const editHelpDesk = async (req, res) => {
         msg: "API Key is required",
       });
     }
-    const helpDeskItem = await ListHelpdesk.findOne({
+    const helpDeskItem = await InfraModel.findOne({
       where: {
         id: id,
       },
@@ -325,7 +310,7 @@ export const editHelpDesk = async (req, res) => {
   }
 };
 
-export const editProcessHelpDesk = async (req, res) => {
+export const editProcessInfrastruktur = async (req, res) => {
   try {
     const { id } = req.body;
     const { status } = req.body;
@@ -337,7 +322,7 @@ export const editProcessHelpDesk = async (req, res) => {
         msg: "API Key is required",
       });
     }
-    const helpDeskItem = await ListHelpdesk.findOne({
+    const helpDeskItem = await InfraModel.findOne({
       where: {
         id: id,
       },
@@ -366,7 +351,7 @@ export const editProcessHelpDesk = async (req, res) => {
   }
 };
 
-export const deleteHelpDesk = async (req, res) => {
+export const deleteInfrastruktur = async (req, res) => {
   try {
     const { id } = req.body;
     const apiKey = req.headers["x-api-key"];
@@ -378,7 +363,7 @@ export const deleteHelpDesk = async (req, res) => {
       });
     }
     // Cari item help desk
-    const helpDeskItem = await ListHelpdesk.findOne({
+    const helpDeskItem = await InfraModel.findOne({
       where: {
         id: id,
       },
@@ -398,7 +383,7 @@ export const deleteHelpDesk = async (req, res) => {
     }
 
     // Hapus item help desk
-    const deletedItem = await ListHelpdesk.destroy({
+    const deletedItem = await InfraModel.destroy({
       where: {
         id: id,
       },

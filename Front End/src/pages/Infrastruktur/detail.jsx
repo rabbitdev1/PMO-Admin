@@ -21,7 +21,7 @@ import fetchUploadImages from "../../utils/api/uploadImages";
 import fetchUploadFiles from "../../utils/api/uploadFiles";
 import { isPending } from "../../components/store/actions/todoActions";
 
-function DetailHelpDeskPages() {
+function DetailInfrastrukturPages() {
   const { isDarkMode } = useTheme();
   const navigate = useNavigate();
   const authApiKey = Cookies.get('authApiKey');
@@ -383,4 +383,4 @@ function DetailHelpDeskPages() {
   );
 }
 
-export default DetailHelpDeskPages;
+export default DetailInfrastrukturPages;

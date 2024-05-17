@@ -78,30 +78,30 @@ function DynamicInput({
         <span className=" text-base font-semibold text-left">{label}</span>
       )}
       {type === "selection" ? (
-        <Select
-          className="p-0.5"
-          placeholder={placeholder}
-          styles={{
-            control: (baseStyles, state) => ({
-              ...baseStyles,
-              height: 50,
-              backgroundColor: isDarkMode ? '#111017' : '#f6fbf8',
-              fontSize: 14,
-              borderColor: state.isFocused ? 'grey' : isDarkMode ? '#ffffff20' : '#dddddd',
-            }),
-            option: (baseStyles, state) => ({
-              ...baseStyles,
-              backgroundColor: isDarkMode ? '#111017' : '#f6fbf8',
-            }),
+          <Select
+            className="p-0.5"
+            placeholder={placeholder}
+            styles={{
+              control: (baseStyles, state) => ({
+                ...baseStyles,
+                height: 50,
+                backgroundColor: isDarkMode ? '#111017' : '#f6fbf8',
+                fontSize: 14,
+                borderColor: state.isFocused ? 'grey' : isDarkMode ? '#ffffff20' : '#dddddd',
+              }),
+              option: (baseStyles, state) => ({
+                ...baseStyles,
+                backgroundColor: isDarkMode ? '#111017' : '#f6fbf8',
+              }),
 
-          }}
-          onChange={(selected) => {
-            onChange(selected);
-          }}
-          components={animatedComponents}
-          defaultValue={value}
-          options={options}
-        />
+            }}
+            onChange={(selected) => {
+              onChange(selected);
+            }}
+            components={animatedComponents}
+            defaultValue={value}
+            options={options}
+          />
       ) : type === "multi_selection" ? (
         <Select
           className="p-0.5"

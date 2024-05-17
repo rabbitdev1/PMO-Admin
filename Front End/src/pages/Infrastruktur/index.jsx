@@ -1,6 +1,5 @@
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Popover } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
@@ -18,14 +17,14 @@ import useTheme from "../../components/context/useTheme";
 import TableCostum from "../../components/data-display/TableCostum";
 import TitleHeader from "../../components/layout/TitleHeader";
 import { isPending } from "../../components/store/actions/todoActions";
-import ConditionalRender from "../../components/ui/ConditionalRender";
 import ModalContent from "../../components/ui/Modal/ModalContent";
 import { apiClient } from "../../utils/api/apiClient";
 import fetchUploadImages from "../../utils/api/uploadImages";
 import { convertToNameValueObject } from "../../utils/helpers/convertToNameValueObject";
 import { formData as initialFormData } from './data';
+import { validateFullname, validateTelp, validateTypeTools } from "../../utils/helpers/validateForm";
 
-function HelpDeskPages() {
+function InfrastrukturPages() {
   const { isDarkMode } = useTheme();
   const navigate = useNavigate();
   const isWebSetting = localStorage.getItem("isWebSetting");
@@ -33,6 +32,8 @@ function HelpDeskPages() {
   const authApiKey = Cookies.get('authApiKey');
   const authToken = Cookies.get('authToken');
   const authProfile = Cookies.get('authData');
+
+  const [profile, setProfile] = useState({});
 
   const [statusData, setStatusData] = useState([
     { title: "Pengajuan", value: "0", desc: "Data yang harus diproses", icon: PengajuanIcon, },
@@ -42,15 +43,11 @@ function HelpDeskPages() {
   ]);
 
 
-  const [listFAQ, setlistFAQ] = useState([]);
   const [listHelpDesk, setListHelpDesk] = useState([]);
-
-  const [listFAQLoading, setlistFAQLoading] = useState(true);
   const [listHelpDeskLoading, setListHelpDeskLoading] = useState(true);
 
   const [formData, setFormData] = useState(initialFormData);
 
-  const [showOverlay, setShowOverlay] = useState(false);
   const [isModalType, setisModalType] = useState({ status: false, data: {} });
   const [isModalFAQ, setisModalFAQ] = useState({ status: false, data: {} });
   const [isModalCreate, setisModalCreate] = useState({
@@ -66,38 +63,20 @@ function HelpDeskPages() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    fetchDataFaq();
     if (authToken) {
+      setProfile(JSON.parse(authProfile));
       fetchDataHelpDesk(authApiKey, authToken, JSON.parse(authProfile)?.role)
     }
+  }, [authToken]);
 
-  }, []);
 
-
-  const fetchDataFaq = async () => {
-    setlistFAQLoading(true);
-    try {
-      const response = await apiClient({
-        baseurl: "helpdesk_faq",
-        method: "POST",
-      });
-      setlistFAQLoading(false);
-      if (response?.statusCode === 200) {
-        setlistFAQ(response.result.data);
-      } else {
-        setlistFAQ([]);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
   const fetchDataHelpDesk = async (api_key, token, role) => {
     setListHelpDeskLoading(true);
     const params = new URLSearchParams();
     params.append("role", role);
     try {
       const response = await apiClient({
-        baseurl: "helpdesk",
+        baseurl: "infrastruktur",
         method: "POST",
         body: params,
         apiKey: api_key,
@@ -124,7 +103,7 @@ function HelpDeskPages() {
     const raw = JSON.stringify(data);
     try {
       const response = await apiClient({
-        baseurl: "helpdesk/create",
+        baseurl: "infrastruktur/create",
         method: "POST",
         customHeaders: { "Content-Type": "application/json" },
         body: raw,
@@ -158,7 +137,7 @@ function HelpDeskPages() {
 
     try {
       const response = await apiClient({
-        baseurl: "helpdesk/delete",
+        baseurl: "infrastruktur/delete",
         method: "POST",
         body: params,
         apiKey: api_key,
@@ -191,7 +170,7 @@ function HelpDeskPages() {
 
     try {
       const response = await apiClient({
-        baseurl: "helpdesk/set_process",
+        baseurl: "infrastruktur/set_process",
         method: "POST",
         body: params,
         apiKey: api_key,
@@ -221,35 +200,73 @@ function HelpDeskPages() {
     if (foundObject) {
       const { result: nameValueObject, newObject: newObjectFromConversion } = convertToNameValueObject(foundObject);
       const nameValueObject2 = {
-        helpdesk_type: isModalType.data,
+        submission_type: isModalType.data,
         role: foundObject.role,
-        helpdesk_title: isModalCreate.data.replace('Pengajuan ', '')
+        submission_title: isModalCreate.data.replace('Pengajuan ', '')
       };
       const combinedObject = {
         ...nameValueObject,
         ...nameValueObject2,
         ...newObjectFromConversion.reduce((acc, cur) => ({ ...acc, [cur.name]: cur.value }), {})
       };
-      console.log(combinedObject);
-      if (combinedObject?.image_screenshoot) {
-        const result = await fetchUploadImages(authApiKey, authToken, combinedObject.image_screenshoot, 'helpdesk', dispatch);
-        if (result !== null) {
-          const fixObject = {
-            ...combinedObject,
-            image_screenshoot: result,
-          };
-          fetchDataCreate(authApiKey, authToken, fixObject);
-        } else {
-          console.error("Error occurred during image upload.");
-        }
+      console.log(JSON.stringify(combinedObject));
+
+      if (
+        !validateFullname(combinedObject.name_pic) ||
+        !validateTypeTools(combinedObject.type_tools,'Jenis Alat yang direlokasikan')||
+        // !validateEmail(email) ||
+        // !validateAddress(address) ||
+        // !validateRole(role) ||
+        !validateTelp(combinedObject.telp_pic) 
+        // !validatePassword(password) ||
+        // !validateRepeatPassword(password, repeat_password) ||
+        // !validateImage(image)
+      ) {
+        return false;
       } else {
-        fetchDataCreate(authApiKey, authToken, combinedObject);
+       
+
+        
       }
+
+      // if (combinedObject?.image_screenshoot) {
+      //   const result = await fetchUploadImages(authApiKey, authToken, combinedObject.image_screenshoot, 'infrastruktur', dispatch);
+      //   if (result !== null) {
+      //     const fixObject = {
+      //       ...combinedObject,
+      //       image_screenshoot: result,
+      //     };
+      //     fetchDataCreate(authApiKey, authToken, fixObject);
+      //   } else {
+      //     console.error("Error occurred during image upload.");
+      //   }
+      // } else {
+      //   fetchDataCreate(authApiKey, authToken, combinedObject);
+      // }
 
     } else {
       console.log("Objek tidak ditemukan dalam formData");
     }
   }
+  const updatePic = (name, number) => {
+    const updatedData = formData.map(form => {
+      return {
+        ...form,
+        fields: form.fields.map(field => {
+          if (field.name === 'name_pic') {
+            return { ...field, value: name };
+          }
+          if (field.name === 'telp_pic') {
+            return { ...field, value: number };
+          }
+          return field;
+        })
+      };
+    });
+
+    setFormData(updatedData);
+  };
+
   function resetFormData(fieldName) {
     const datafilter = formData.find(item => item.name === fieldName);
     if (datafilter) {
@@ -326,56 +343,19 @@ function HelpDeskPages() {
             <div className="flex flex-row gap-3 justify-between items-center">
               <span className="text-lg font-bold">Daftar Pengajuan</span>
               {JSON.parse(authProfile)?.role === "perangkat_daerah" &&
-                <OverlayTrigger
-                  trigger="click"
-                  placement="bottom-end"
-                  show={showOverlay}
-                  onHide={() => setShowOverlay(false)}
-                  overlay={
-                    <Popover className="flex flex-col w-[500px] gap-3 bg-cardLight dark:bg-cardDark text-lightColor dark:text-darkColor">
-                      <div className="flex flex-col p-3 pb-2">
-                        <span className="text-base font-bold font-gilroy">
-                          Jenis Pengajuan
-                        </span>
-                      </div>
-                      <div className="flex flex-col overflow-hidden rounded-b-md pb-2">
-                        {[
-                          { title: "Pengajuan Helpdesk Infrastruktur", },
-                          { title: "Pengajuan Helpdesk Aplikasi", },
-                          { title: "Pengajuan Helpdesk Integrasi", },
-                          { title: "Pengajuan Helpdesk Lainnya", },
-                        ].map((item, index) => (
-                          <button
-                            key={index}
-                            className={`flex flex-row justify-start items-center gap-2 flex-1 ${index % 2 ? "" : "bg-[#f1f5f9] dark:bg-[#f1f5f907]"} py-2 p-3 hover:opacity-70`}
-                            onClick={() => {
-                              setisModalType({ data: item.title, status: true });
-                              setShowOverlay(false);
-                            }}
-                          >
-                            <span className=" text-base text-left line-clamp-2 font-gilroy">
-                              {item.title}
-                            </span>
-                          </button>
-                        ))}
-                      </div>
-                    </Popover>
-                  }
-                >
-                  <div className="flex flex-col"  >
-                    <DynamicButton
-                      iconLeft={<PlusIcon className="w-4 h-4 " />}
-                      initialValue={'Tambah'}
-                      color={"#ffffff"}
-                      type="transparent"
-                      className="bg-[#0185FF] text-darkColor px-3"
-                      onClick={() => {
-                        setShowOverlay(!showOverlay);
-                      }}
-                    />
+                <div className="flex flex-col"  >
+                  <DynamicButton
+                    iconLeft={<PlusIcon className="w-4 h-4 " />}
+                    initialValue={'Tambah'}
+                    color={"#ffffff"}
+                    type="transparent"
+                    className="bg-[#0185FF] text-darkColor px-3"
+                    onClick={() => {
+                      setisModalType({ data: 'Pengajuan Helpdesk Infrastruktur', status: true });
+                    }}
+                  />
 
-                  </div>
-                </OverlayTrigger>
+                </div>
               }
             </div>
             <div className="flex flex-col relative">
@@ -383,7 +363,7 @@ function HelpDeskPages() {
                 dataHeader={[
                   { name: "ID", field: "id" },
                   { name: "Nama PIC", field: "name_pic" },
-                  { name: "Jenis Pengajuan", field: "helpdesk_title" },
+                  { name: "Jenis Pengajuan", field: "submission_title" },
                   { name: "Status", field: "submission_status" },
                   { name: "Tanggal", field: "createdAt" },
                   { name: "Aksi", field: "action" },
@@ -409,64 +389,8 @@ function HelpDeskPages() {
             </div>
           </div>
         </div>
-        <div className="flex-1 flex flex-col xl:max-w-xs gap-3">
-          <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
-            <span className="text-lg font-bold">Pertanyaan Umum</span>
-            <div className="flex flex-col">
-              <ConditionalRender
-                data={listFAQ}
-                loading={listFAQLoading}
-                className={"flex flex-col min-h-[200px]"}
-                model={"emptyData"}>
-                {listFAQ.map((item, index) => (
-                  <button
-                    className={`flex flex-row p-3 py-2.5 text-left ${index % 2 === 0 ? "bg-[#f1f5f9] dark:bg-[#f1f5f907]" : ""}`}
-                    key={index}
-                    onClick={() => {
-                      setisModalFAQ({ data: item, status: true });
-                    }}
-                  >
-                    <span className="text-sm line-clamp-3">{item.title}</span>
-
-                  </button>
-                ))}
-              </ConditionalRender>
-            </div>
-          </div>
-        </div>
       </section>
 
-      <ModalContent
-        className={"sm:max-w-3xl"}
-        children={
-          <div className="flex flex-col gap-2">
-            <div className="flex flex-row justify-between items-center">
-              <span className="text-lg font-bold font-gilroy">
-                {isModalFAQ.data?.title}
-              </span>
-              <DynamicButton
-                iconLeft={<CloseIcon className="w-4 h-4 " />}
-                color={isDarkMode ? "#ffffff" : "#212121"}
-                type="transparent"
-                className="inline-flex p-2"
-                onClick={() => {
-                  setisModalFAQ({ data: {}, status: false });
-                }}
-              />
-            </div>
-            <div className="flex flex-col overflow-hidden rounded-md p-3 bg-cardLight dark:bg-cardDark">
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: isModalFAQ.data?.answer,
-                }}
-                className={`text-sm `}
-              />
-            </div>
-          </div>
-        }
-        active={isModalFAQ.status}
-        onClose={() => setisModalFAQ({ data: {}, status: false })}
-      />
       <ModalContent
         className={"sm:max-w-xl"}
         children={
@@ -483,6 +407,7 @@ function HelpDeskPages() {
                       className={`flex flex-row justify-start items-center gap-2 flex-1 ${index % 2 ? "" : "bg-[#f1f5f9] dark:bg-[#f1f5f907]"} py-2.5 p-3 hover:opacity-70`}
                       onClick={() => {
                         setisModalCreate({ data: item.name, status: true });
+                        updatePic(profile.fullname, profile.telp);
                       }}
                     >
                       <span className=" text-base text-left line-clamp-2 font-gilroy">
@@ -621,4 +546,4 @@ function HelpDeskPages() {
   );
 }
 
-export default HelpDeskPages;
+export default InfrastrukturPages;

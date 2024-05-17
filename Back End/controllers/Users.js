@@ -176,7 +176,6 @@ export const getUser = async (req, res) => {
       });
     }
 
-    // Mencari satu pengguna berdasarkan apiKey
     const user = await Users.findOne({
       where: { apiKey: apiKey },
       attributes: ["fullname", "email", "address", "telp", "role", "image"],
@@ -245,6 +244,60 @@ export const getListUser = async (req, res) => {
     });
   }
 };
+
+export const getUserById = async (req, res) => {
+  try {
+    const apiKey = req.headers["x-api-key"];
+    if (!apiKey) {
+      return res.status(401).json({
+        status: "error",
+        msg: "API Key is required",
+      });
+    }
+
+    const { id } = req.body; // Assuming the user ID is passed in the request body
+
+    if (!id) {
+      return res.status(400).json({
+        status: "error",
+        msg: "User ID is required in the request body",
+      });
+    }
+
+    const user = await Users.findByPk(id, {
+      attributes: [
+        "fullname",
+        "email",
+        "address",
+        "telp",
+        "status",
+        "role",
+        "image",
+        "createdAt",
+      ],
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        status: "error",
+        msg: "User not found",
+      });
+    }
+
+    res.json({
+      status: "ok",
+      msg: "User details retrieved successfully",
+      data: user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      msg: "Internal Server Error",
+    });
+  }
+};
+
+
 export const createUsers = async (req, res) => {
   try {
     const { fullname, email, address, role, image, telp, password } = req.body;
@@ -337,6 +390,156 @@ export const deleteUsers = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
+    res.status(500).json({
+      status: "error",
+      msg: "Internal Server Error",
+    });
+  }
+};
+
+export const checkRoleUser = async (req, res) => {
+  try {
+    const apiKey = req.headers["x-api-key"];
+    if (!apiKey) {
+      return res.status(401).json({
+        status: "error",
+        msg: "API Key is required",
+      });
+    }
+
+    // Retrieve the list of users from the database
+    const listuser = await Users.findAll({
+      attributes: ["role"],
+    });
+
+    // Extract the roles from the database result
+    const existingRoles = listuser.map((user) => user.role);
+
+    // Define the full list of roles with default status
+    const rolesList = [
+      {
+        value: "perangkat_daerah",
+        label: "Perangkat Daerah",
+        isDisabled: false,
+      },
+      { value: "kadis", label: "Kepala Dinas", isDisabled: false },
+      {
+        value: "kabid_sek",
+        label: "Kepala Bidang Sekretariat",
+        isDisabled: false,
+      },
+      {
+        value: "kabid_infra",
+        label:
+          "Kepala Bidang Infrastruktur Teknologi, Informasi dan Komunikasi",
+        isDisabled: false,
+      },
+      {
+        value: "kabid_desiminasi",
+        label: "Kepala Bidang Desiminasi Informasi",
+        isDisabled: false,
+      },
+      {
+        value: "kabid_perencanaan",
+        label: "Kepala Bidang Perencanaan teknologi,Informasi,dan Komunikasi",
+        isDisabled: false,
+      },
+      {
+        value: "kabid_upt_radio",
+        label: "Kepala Bidang UPT RADIO SONATA",
+        isDisabled: false,
+      },
+      {
+        value: "kabid_aplikasi",
+        label:
+          "Kepala Bidang Aplikasi Informatika,Persandian dan Keamanan Informasi",
+        isDisabled: false,
+      },
+      {
+        value: "ketim_sek",
+        label: "Ketua Tim Pokja Sekretariat",
+        isDisabled: false,
+      },
+      {
+        value: "ketim_infra",
+        label:
+          "Ketua Tim Pokja Bidang Infrastruktur Teknologi, Informasi dan Komunikasi",
+        isDisabled: false,
+      },
+      {
+        value: "ketim_desiminasi",
+        label: "Ketua TIm Pokja Desiminasi Informasi",
+        isDisabled: false,
+      },
+      {
+        value: "ketim_perencanaan",
+        label: "Ketua TIm Pokja Perencanaan teknologi,Informasi dan Komunikasi",
+        isDisabled: false,
+      },
+      {
+        value: "ketim_upt_radio",
+        label: "Ketua Tim Pokja UPD RADIO SONATA",
+        isDisabled: false,
+      },
+      {
+        value: "ketim_aplikasi",
+        label:
+          "Ketua Tim Pokja Aplikasi Informatika,Persandian an Keamanan Informasi",
+        isDisabled: false,
+      },
+      {
+        value: "teknis_sek",
+        label: "Anggota Tim Pokja Sekretariat",
+        isDisabled: false,
+      },
+      {
+        value: "teknis_infra",
+        label:
+          "Anggota Tim Pokja Bidang Infrastruktur Teknologi, Informasi dan Komunikasi",
+        isDisabled: false,
+      },
+      {
+        value: "teknis_desiminasi",
+        label: "Anggota TIm Pokja Desiminasi Informasi",
+        isDisabled: false,
+      },
+      {
+        value: "teknis_perencanaan",
+        label:
+          "Anggota TIm Pokja Perencanaan teknologi,Informasi dan Komunikasi",
+        isDisabled: false,
+      },
+      {
+        value: "teknis_upt_radio",
+        label: "Anggota Tim Pokja UPD RADIO SONATA",
+        isDisabled: false,
+      },
+      {
+        value: "teknis_aplikasi",
+        label:
+          "Anggota Tim Pokja Aplikasi Informatika,Persandian an Keamanan Informasi",
+        isDisabled: false,
+      },
+    ];
+
+    // Update the status to true for roles that exist in the database
+    const updatedRolesList = rolesList.map((role) => {
+      if (existingRoles.includes(role.value)) {
+        if (role.value === "perangkat_daerah") { 
+          return { ...role, isDisabled: false };
+        } else {
+          return { ...role, isDisabled: true };
+        }
+      }
+      return role;
+    });
+
+    res.json({
+      status: "ok",
+      msg: "Data retrieved successfully",
+      data: updatedRolesList,
+    });
+  } catch (error) {
     res.status(500).json({
       status: "error",
       msg: "Internal Server Error",

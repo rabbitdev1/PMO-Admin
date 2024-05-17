@@ -9,7 +9,6 @@ import TitleHeader from "../../components/layout/TitleHeader";
 import { apiClient } from "../../utils/api/apiClient";
 import ImageComponent from "../../utils/helpers/getImageURL";
 import DynamicShow from "../../components/common/DynamicShow";
-import SubmissionStatus from "./SubmissionStatus";
 import DynamicDetails from "./DynamicDetails";
 import DynamicButton from "../../components/common/DynamicButton";
 import { ReactComponent as PengajuanBerahasilIcon } from "../../assets/icon/ic_pengajuan_berhasil.svg";
@@ -21,7 +20,7 @@ import fetchUploadImages from "../../utils/api/uploadImages";
 import fetchUploadFiles from "../../utils/api/uploadFiles";
 import { isPending } from "../../components/store/actions/todoActions";
 
-function DetailHelpDeskPages() {
+function DetailsAccountPages() {
   const { isDarkMode } = useTheme();
   const navigate = useNavigate();
   const authApiKey = Cookies.get('authApiKey');
@@ -68,7 +67,7 @@ function DetailHelpDeskPages() {
     params.append("role", role);
     try {
       const response = await apiClient({
-        baseurl: "helpdesk/detail",
+        baseurl: "users/detail_users",
         method: "POST",
         body: params,
         apiKey: api_key,
@@ -76,23 +75,8 @@ function DetailHelpDeskPages() {
       });
       setHelpDeskLoading(false);
       if (response?.statusCode === 200) {
-        setDetailHelpDesk(response.result.data);
-        setDetailData(response.result.data?.field);
-        setSubmissionStatus(
-          response.result.data?.submission_status === "Dalam Antrian"
-            ? 1
-            : response.result.data?.submission_status === "Divalidasi"
-              ? 2
-              : response.result.data?.submission_status === "Diproses"
-                ? 3
-                : response.result.data?.submission_status === "Disetujui"
-                  ? 4
-                  : response.result.data?.submission_status === "Ditolak"
-                    ? 5
-                    : 0
-        );
+        setDetailData(response.result.data);
       } else {
-        setDetailHelpDesk([]);
         setDetailData([]);
       }
     } catch (error) {
@@ -176,16 +160,16 @@ function DetailHelpDeskPages() {
   return (
     <div className="flex flex-col gap-3 flex-1 p-3">
       <TitleHeader
-        title={`Detail Pengajuan Relokasi Alat # ${slug}`}
+        title={`Detail Pengguna`}
         link1={"dashboard"}
-        link2={"help-desk"}
+        link2={"account"}
       />
       <section className="flex flex-col gap-3">
-        <SubmissionStatus submissionStatus={submissionStatus} />
+        {/* <SubmissionStatus submissionStatus={submissionStatus} /> */}
         <div className="flex xl:flex-row-reverse flex-col-reverse gap-3">
           <DynamicDetails detailData={detailData} />
 
-          <div className="flex flex-1 flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+          {/* <div className="flex flex-1 flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
             <DynamicInput
               label={"Status Pengajuan"}
               value={submission_status}
@@ -212,7 +196,7 @@ function DetailHelpDeskPages() {
               }}
 
             />
-          </div>
+          </div> */}
 
           {/* {JSON.parse(authProfile)?.role === "perangkat_daerah" || JSON.parse(authProfile)?.role === "op_pmo" ?
             <div
@@ -383,4 +367,4 @@ function DetailHelpDeskPages() {
   );
 }
 
-export default DetailHelpDeskPages;
+export default DetailsAccountPages;

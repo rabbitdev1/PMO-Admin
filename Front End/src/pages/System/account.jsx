@@ -19,6 +19,7 @@ import { isPending } from "../../components/store/actions/todoActions";
 import ModalContent from "../../components/ui/Modal/ModalContent";
 import { apiClient } from "../../utils/api/apiClient";
 import fetchUploadImages from "../../utils/api/uploadImages";
+import { validateAddress, validateEmail, validateFullname, validateImage, validatePassword, validateRepeatPassword, validateRole, validateTelp } from "../../utils/helpers/validateForm";
 
 function AccountPages() {
   const { isDarkMode } = useTheme();
@@ -48,12 +49,7 @@ function AccountPages() {
       label: "Jenis Akun",
       value: [],
       type: "selection",
-      options: [
-        { value: "OPD", label: "Operator Perangkat Daerah" },
-        { value: "tim_teknis_infrastruktur", label: "Tim Teknis Infrastruktur" },
-        { value: "tim_teknis_aplikasi", label: "Tim Teknis Aplikasi" },
-        { value: "tim_teknis_integrasi", label: "Tim Teknis Integrasi" },
-      ],
+      options: [],
     },
     {
       name: "image",
@@ -89,6 +85,7 @@ function AccountPages() {
   useEffect(() => {
     if (authToken) {
       fetchDataAccount(authApiKey, authToken)
+      fetchDataCheckRole(authApiKey, authToken)
     }
   }, []);
 
@@ -96,7 +93,7 @@ function AccountPages() {
     setListAccountLoading(true);
     try {
       const response = await apiClient({
-        baseurl: "list_user",
+        baseurl: "list_users",
         method: "POST",
         apiKey: api_key,
         token: token,
@@ -111,6 +108,29 @@ function AccountPages() {
         ])
       } else {
         setListAccount([]);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  const fetchDataCheckRole = async (api_key, token) => {
+    try {
+      const response = await apiClient({
+        baseurl: "user/check_role",
+        method: "POST",
+        apiKey: api_key,
+        token: token,
+      });
+      if (response?.statusCode === 200) {
+        setFormData(prevFormData =>
+          prevFormData.map(field =>
+            field.name === "role"
+              ? { ...field, options: response.result.data }
+              : field
+          )
+        );
+      } else {
+
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -154,7 +174,7 @@ function AccountPages() {
     }
   };
 
-  const fetchDataDelete = async (id,api_key,token) => {
+  const fetchDataDelete = async (id, api_key, token) => {
     dispatch(isPending(true));
     const params = new URLSearchParams();
     params.append("id", id);
@@ -195,16 +215,41 @@ function AccountPages() {
       return acc;
     }, {});
 
-    if (transformedData.image) {
-      const result = await fetchUploadImages(authApiKey, authToken, transformedData.image,'users', dispatch);
-      if (result !== null) { 
+    const {
+      fullname,
+      email,
+      address,
+      role,
+      image,
+      telp,
+      password,
+      repeat_password,
+    } = transformedData;
+
+    console.log(transformedData);
+    if (
+      !validateFullname(fullname) ||
+      !validateEmail(email) ||
+      !validateAddress(address) ||
+      !validateRole(role) ||
+      !validateTelp(telp) ||
+      !validatePassword(password) ||
+      !validateRepeatPassword(password, repeat_password) ||
+      !validateImage(image)
+    ) {
+      return false;
+    } else {
+      const result = await fetchUploadImages(authApiKey, authToken, image, 'users', dispatch);
+      if (result !== null) {
         const fixObject = {
           ...transformedData,
           image: result,
         };
         fetchDataCreate(authApiKey, authToken, fixObject);
       } else {
-        console.error("Error occurred during image upload.");
+        toast.error("Error occurred during image upload.", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
       }
     }
   };
@@ -214,6 +259,31 @@ function AccountPages() {
     updatedFormData[index].value = value;
     setFormData(updatedFormData);
   };
+
+  const resetFormData = () => {
+    const resetFields = formData.map(field => {
+      if (field.type === 'input_array') {
+        const resetFields1 = field.value.map(field1 => {
+          return { ...field1, value: "" };
+        });
+        return { ...field, value: resetFields1 };
+      } else if (field.type === 'selection') {
+        return { ...field, value: [] };
+      } else if (field.type === 'multi_selection') {
+        return { ...field, value: [] };
+      } else if (field.type === 'date') {
+        return {
+          ...field, value: {
+            startDate: null,
+            endDate: null,
+          },
+        };
+      } else {
+        return { ...field, value: "" };
+      }
+    });
+    setFormData(resetFields);
+  }
 
   return (
     <div className="flex flex-col gap-3 flex-1 p-3" >
@@ -271,12 +341,12 @@ function AccountPages() {
                 ]}
                 showAction={{ read: true, remove: true, edit: true }}
                 onClickShow={(id) => {
-                  navigate("/detail-help-desk", { state: { slug: id } });
+                  navigate("/detail-account", { state: { slug: id } });
                 }}
                 onClickRemove={(a) => {
                   const isConfirmed = window.confirm("Apakah kamu yakin ingin menghapus pengajuan ini?");
                   if (isConfirmed) {
-                    fetchDataDelete(a,authApiKey,authToken)
+                    fetchDataDelete(a, authApiKey, authToken)
                   } else {
                     alert("Pengajuan tidak dihapus.");
                   }
@@ -289,7 +359,7 @@ function AccountPages() {
       </section>
 
       <ModalContent
-        className={"sm:max-w-5xl "}
+        className={"sm:max-w-2xl "}
         children={
           <div className="flex flex-col gap-3">
             <div className="flex flex-row justify-between">
@@ -303,6 +373,7 @@ function AccountPages() {
                 className="inline-flex p-2"
                 onClick={() => {
                   setisModalCreate({ data: {}, status: false });
+                  resetFormData()
                 }}
               />
             </div>
@@ -332,6 +403,7 @@ function AccountPages() {
                 className="inline-flex bg-cardLight dark:bg-cardDark text-cardDark dark:text-cardLight"
                 onClick={() => {
                   setisModalCreate({ data: {}, status: false });
+                  resetFormData()
                 }}
               />
               <DynamicButton
@@ -349,8 +421,6 @@ function AccountPages() {
         }
         active={isModalCreate.status}
       />
-
-
 
       <ModalContent
         className={"sm:max-w-xl"}
@@ -375,6 +445,7 @@ function AccountPages() {
                 onClick={() => {
                   setisModalVerif({ data: {}, status: false })
                   setisModalCreate({ data: {}, status: false });
+                  resetFormData()
                   setisModalType({ data: {}, status: false })
                   fetchDataAccount(authApiKey, authToken)
                 }}

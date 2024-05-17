@@ -11,14 +11,13 @@ import DynamicButton from "../common/DynamicButton";
 import LoadingLink from "../common/LoadingLink";
 import useTheme from "../context/useTheme";
 import { isSideBar } from "../store/actions/todoActions";
-import { CapitalizeName } from "../../utils/helpers/capitalizeName";
 
 const Header = () => {
   const { isDarkMode, toggleTheme } = useTheme();
   const isWebSetting = localStorage.getItem("isWebSetting");
   const parseWebSetting = JSON.parse(isWebSetting);
   const [showOverlay, setShowOverlay] = useState(false);
-  const [profile, setProfile] = useState(false);
+  const [profile, setProfile] = useState({});
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const authData = Cookies.get("authData");
@@ -168,10 +167,10 @@ const Header = () => {
                   />
                   <div className=" flex-col items-start sm:inline-flex hidden">
                     <span className="text-base font-semibold line-clamp-1 ">
-                      {CapitalizeName(profile?.fullname?.split(' ')[0])}
+                      {(profile?.fullname?.split(' ')[0])}
                     </span>
                     <span className="text-xs font-light line-clamp-1 opacity-70">
-                      {CapitalizeName(profile?.role)}
+                      {(profile?.role)}
                     </span>
                   </div>
                 </button>

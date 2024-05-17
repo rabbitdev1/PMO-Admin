@@ -5,6 +5,8 @@ import express from "express";
 import db from "./config/Database.js";
 import router from "./routes/index.js";
 import storage from "./config/Firebase.js";
+import InfraModel from "./models/InfraModel.js";
+import Users from "./models/UserModel.js";
 
 dotenv.config();
 
@@ -31,8 +33,10 @@ try {
   console.error(error);
 }
 
-// Users.sync();
 // HelpDeskFaq.sync();
 // ListHelpdesk.sync();
+
+InfraModel.sync()
+Users.sync();
 app.listen(3001, () => 
   console.log("Server running at port 5000"));

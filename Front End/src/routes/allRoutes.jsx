@@ -5,12 +5,16 @@ import DashboardPages from "../pages/Dashboard";
 import HelpDeskPages from "../pages/HelpDesk";
 import DetailHelpDeskPages from "../pages/HelpDesk/detail";
 import AccountPages from "../pages/System/account";
+import DetailsAccountPages from "../pages/System/detail";
+import DetailInfrastrukturPages from "../pages/Infrastruktur/detail";
+import InfrastrukturPages from "../pages/Infrastruktur";
 
 
 const userRoutes = [
   { path: "/", component: <DashboardPages /> },
   { path: "/help-desk", component: <HelpDeskPages /> },
   { path: "/detail-help-desk", component: <DetailHelpDeskPages /> },
+  { path: "/infrastruktur", component: <InfrastrukturPages /> },
 
 
 
@@ -22,6 +26,7 @@ const userRoutes = [
 
 
   { path: "/account", component: <AccountPages /> },
+  { path: "/detail-account", component: <DetailsAccountPages /> },
 ];
 const nonUserRoutes = [
 ];
