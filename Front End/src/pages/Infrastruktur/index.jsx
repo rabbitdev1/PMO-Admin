@@ -22,7 +22,7 @@ import { apiClient } from "../../utils/api/apiClient";
 import fetchUploadImages from "../../utils/api/uploadImages";
 import { convertToNameValueObject } from "../../utils/helpers/convertToNameValueObject";
 import { formData as initialFormData } from './data';
-import { validateFullname, validateTelp, validateTypeTools } from "../../utils/helpers/validateForm";
+import { validateArray, validateFullname, validateTelp } from "../../utils/helpers/validateForm";
 
 function InfrastrukturPages() {
   const { isDarkMode } = useTheme();
@@ -177,7 +177,7 @@ function InfrastrukturPages() {
         token: token,
       });
       if (response?.statusCode === 200) {
-        navigate("/detail-help-desk", { state: { slug: id } });
+        navigate("/detail-infrastruktur", { state: { slug: id } });
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -213,36 +213,34 @@ function InfrastrukturPages() {
 
       if (
         !validateFullname(combinedObject.name_pic) ||
-        !validateTypeTools(combinedObject.type_tools,'Jenis Alat yang direlokasikan')||
+        // !validateArray(combinedObject.type_tools || (combinedObject.initial_bandwith && combinedObject.proposed_bandwidth)) ||
         // !validateEmail(email) ||
         // !validateAddress(address) ||
         // !validateRole(role) ||
-        !validateTelp(combinedObject.telp_pic) 
+        !validateTelp(combinedObject.telp_pic)
         // !validatePassword(password) ||
         // !validateRepeatPassword(password, repeat_password) ||
         // !validateImage(image)
       ) {
         return false;
       } else {
-       
-
-        
+        if (combinedObject?.image_screenshoot) {
+          const result = await fetchUploadImages(authApiKey, authToken, combinedObject.image_screenshoot, 'infrastruktur', dispatch);
+          if (result !== null) {
+            const fixObject = {
+              ...combinedObject,
+              image_screenshoot: result,
+            };
+            fetchDataCreate(authApiKey, authToken, fixObject);
+          } else {
+            console.error("Error occurred during image upload.");
+          }
+        } else {
+          fetchDataCreate(authApiKey, authToken, combinedObject);
+        }
       }
 
-      // if (combinedObject?.image_screenshoot) {
-      //   const result = await fetchUploadImages(authApiKey, authToken, combinedObject.image_screenshoot, 'infrastruktur', dispatch);
-      //   if (result !== null) {
-      //     const fixObject = {
-      //       ...combinedObject,
-      //       image_screenshoot: result,
-      //     };
-      //     fetchDataCreate(authApiKey, authToken, fixObject);
-      //   } else {
-      //     console.error("Error occurred during image upload.");
-      //   }
-      // } else {
-      //   fetchDataCreate(authApiKey, authToken, combinedObject);
-      // }
+
 
     } else {
       console.log("Objek tidak ditemukan dalam formData");
@@ -313,7 +311,7 @@ function InfrastrukturPages() {
 
   return (
     <div className="flex flex-col gap-3 flex-1 p-3" >
-      <TitleHeader title={"Help Desk "} link1={"dashboard"} link2={"help-desk"} />
+      <TitleHeader title={"Infrastruktur "} link1={"dashboard"} />
       <section className="flex xl:flex-row flex-col gap-3" >
         <div className="flex-1 flex flex-col gap-3">
           <div className="grid xl:grid-cols-4 grid-cols-2 gap-3">
@@ -371,7 +369,7 @@ function InfrastrukturPages() {
                 showAction={{ read: true, remove: JSON.parse(authProfile)?.role === "perangkat_daerah" ? true : false, edit: true }}
                 onClickShow={(id) => {
                   if (JSON.parse(authProfile)?.role === "perangkat_daerah" || JSON.parse(authProfile)?.role === "op_pmo") {
-                    navigate("/detail-help-desk", { state: { slug: id } });
+                    navigate("/detail-infrastruktur", { state: { slug: id } });
                   } else {
                     fetchSetProgress(authApiKey, authToken, id, 1)
                   }

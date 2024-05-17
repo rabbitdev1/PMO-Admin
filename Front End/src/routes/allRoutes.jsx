@@ -15,6 +15,8 @@ const userRoutes = [
   { path: "/help-desk", component: <HelpDeskPages /> },
   { path: "/detail-help-desk", component: <DetailHelpDeskPages /> },
   { path: "/infrastruktur", component: <InfrastrukturPages /> },
+  { path: "/detail-infrastruktur", component: <DetailInfrastrukturPages /> },
+
 
 
 

@@ -23,9 +23,9 @@ function DynamicShow({
   }
   return (
     <div className="flex flex-col gap-2 w-full" >
-      <div className="flex flex-row items-center gap-2">
+      <div className="flex flex-row items-center gap-2 ">
         {label && (
-          <span className=" text-base font-semibold text-left">{label} :</span>
+          <span className=" text-sm text-left">{label} :</span>
         )} 
       </div>
       {type === "html" ? (

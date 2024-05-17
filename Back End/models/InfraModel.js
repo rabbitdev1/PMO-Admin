@@ -59,28 +59,19 @@ const InfraModel = db.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
-    submission_status: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
     status: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    on_process: {
-      type: DataTypes.STRING,
+    submission_status: {
+      type: DataTypes.INTEGER,
       allowNull: true,
-      defaultValue: false,
+      defaultValue: 1,
     },
-    tool_checking: {
-      type: DataTypes.STRING,
+    on_validation: {
+      type: DataTypes.TEXT,
       allowNull: true,
-      defaultValue: false,
-    },
-    work_scheduling: {
-      type: DataTypes.STRING,
-      allowNull: true,
-      defaultValue: false,
+      defaultValue: 1,
     },
     role: {
       type: DataTypes.STRING,
@@ -88,14 +79,6 @@ const InfraModel = db.define(
     },
     reason: {
       type: DataTypes.STRING,
-      allowNull: true,
-    },
-    fileuploaded: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    comment: {
-      type: DataTypes.TEXT,
       allowNull: true,
     },
   },

@@ -91,13 +91,13 @@ export const getListInfrastruktur = async (req, res) => {
             ({
               id,
               name_pic,
-              helpdesk_title,
+              submission_title,
               submission_status,
               createdAt,
             }) => ({
               id,
               name_pic,
-              helpdesk_title,
+              submission_title,
               submission_status,
               createdAt,
             })
@@ -145,7 +145,7 @@ export const getDetailInfrastruktur = async (req, res) => {
       "createdAt",
       "helpdesk_type",
       "role",
-      "helpdesk_title",
+      "submission_title",
     ];
     for (const [key, value] of Object.entries(helpDeskDetail.toJSON())) {
       if (
@@ -155,10 +155,10 @@ export const getDetailInfrastruktur = async (req, res) => {
           "id",
           "updatedAt",
           "apiKey",
-          "on_process",
           "role",
           "fileuploaded",
           "comment",
+          "on_validation",
         ].includes(key)
       ) {
         filteredDetail[key] = value;
@@ -197,6 +197,7 @@ export const getDetailInfrastruktur = async (req, res) => {
         fileuploaded: helpDeskDetail.fileuploaded,
         field: rearrangedHelpdeskRequest,
         processing: filteredProcess,
+        on_validation: helpDeskDetail.on_validation,
       },
     });
   } catch (error) {
@@ -253,8 +254,7 @@ export const setInfrastruktur = async (req, res) => {
     }
 
     rawInfrastrukturData.apiKey = apiKey;
-    rawInfrastrukturData.submission_status = "Dalam Antrian";
-    rawInfrastrukturData.on_process = 0;
+    rawInfrastrukturData.submission_status = 1;
     await InfraModel.create(rawInfrastrukturData);
     res.status(200).json({
       status: "ok",
@@ -270,9 +270,8 @@ export const setInfrastruktur = async (req, res) => {
 };
 export const editInfrastruktur = async (req, res) => {
   try {
-    const { id, submission_status, comment, fileuploaded } = req.body;
+    const { id, type, statusValidasi, response } = req.body;
     const apiKey = req.headers["x-api-key"];
-
     if (!apiKey) {
       return res.status(401).json({
         status: "error",
@@ -287,19 +286,30 @@ export const editInfrastruktur = async (req, res) => {
     if (!helpDeskItem) {
       return res.status(404).json({
         status: "error",
-        msg: "Help desk item not found",
+        msg: "Item not found",
       });
     }
-    console.log(fileuploaded);
-    if (helpDeskItem.on_process === 1) {
-      helpDeskItem.submission_status = submission_status;
-      helpDeskItem.comment = comment;
-      helpDeskItem.fileuploaded = fileuploaded;
+    if (type === "validation") {
+      if (parseInt(statusValidasi) === 1) {
+        helpDeskItem.submission_status = 4;
+      } else if (parseInt(statusValidasi) === 0) {
+        helpDeskItem.submission_status = 3;
+      }
+      helpDeskItem.on_validation = JSON.stringify({
+        status_validation:
+          helpDeskItem.submission_status === 3 ? "Ditolak" : "Disetujui",
+        response: response,
+      });
     }
+    // console.log(fileuploaded);
+    // helpDeskItem.submission_status = submission_status;
+    // helpDeskItem.comment = comment;
+    // helpDeskItem.fileuploaded = fileuploaded;
+
     await helpDeskItem.save();
     return res.status(200).json({
       status: "ok",
-      msg: "Help desk item updated successfully",
+      msg: "Item updated successfully",
     });
   } catch (error) {
     console.error(error);
@@ -333,10 +343,7 @@ export const editProcessInfrastruktur = async (req, res) => {
         msg: "Help desk item not found",
       });
     }
-    if (helpDeskItem.on_process === 0) {
-      helpDeskItem.on_process = status;
-      helpDeskItem.submission_status = "Divalidasi";
-    }
+    helpDeskItem.submission_status = 2;
     await helpDeskItem.save();
     return res.status(200).json({
       status: "ok",

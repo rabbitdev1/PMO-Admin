@@ -37,8 +37,8 @@ export const getListHelpDesk = async (req, res) => {
         return itemRoles.includes(role);
       });
 
-      if (role === "perangkat_daerah") {
-        // Validasi API Key untuk peran perangkat_daerah
+      if (role === "OPD") {
+        // Validasi API Key untuk peran OPD
         const validHelpdesk = filteredHelpdesk.filter(
           (item) => item.apiKey === apiKey
         );
@@ -46,7 +46,7 @@ export const getListHelpDesk = async (req, res) => {
         if (validHelpdesk.length === 0) {
           return res.status(403).json({
             status: "error",
-            msg: "Forbidden. Invalid API Key for perangkat_daerah role",
+            msg: "Forbidden. Invalid API Key for OPD role",
           });
         }
 
@@ -86,7 +86,7 @@ export const getListHelpDesk = async (req, res) => {
           totalItemsByStatus: totalItemsByStatus,
         });
       } else {
-        // Jika bukan peran perangkat_daerah, kembalikan data tanpa validasi API key
+        // Jika bukan peran OPD, kembalikan data tanpa validasi API key
         const totalItemsByStatus = {
           divalidasi: filteredHelpdesk.filter(
             (user) => user.submission_status === "Divalidasi"

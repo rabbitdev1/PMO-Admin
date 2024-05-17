@@ -74,9 +74,11 @@ function DynamicInput({
   }
   return (
     <div className="flex flex-col gap-2 w-full" >
-      {label && (
-        <span className=" text-base font-semibold text-left">{label}</span>
-      )}
+     <div className="flex flex-row items-center gap-2">
+        {label && (
+          <span className=" text-sm text-left">{label} :</span>
+        )} 
+      </div>
       {type === "selection" ? (
           <Select
             className="p-0.5"

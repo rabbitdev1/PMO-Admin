@@ -4,7 +4,8 @@ import DynamicShow from '../../components/common/DynamicShow';
 const DynamicDetails = ({ detailData }) => {
   return (
     <div className="flex-1 flex flex-col gap-3">
-      <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+      <div className="flex flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+        <span className='text-lg font-bold'>Rincian Pengajuan</span>
         {Object.entries(detailData).map(([key, value]) => (
           <DynamicShow
             key={key}
@@ -23,7 +24,7 @@ const DynamicDetails = ({ detailData }) => {
 
 const getKeyLabel = (key) => {
   switch (key) {
-    case "helpdesk_type":
+    case "submission_type":
       return "Jenis Pengajuan";
     case "name_pic":
       return "Nama PIC";
@@ -49,7 +50,7 @@ const getKeyLabel = (key) => {
       return "Alamat Lengkap";
     case "status":
       return "Status";
-    case "helpdesk_title":
+    case "submission_title":
       return "Nama Pengajuan";
     case "createdAt":
       return "Tanggal Pembuatan";

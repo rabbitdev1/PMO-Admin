@@ -109,9 +109,9 @@ export const validateImage = (image) => {
 };
 
 
-export const validateTypeTools = (type_tools,name) => {
+export const validateArray = (type_tools) => {
   if (!type_tools || type_tools.length === 0) {
-    toast.error(`${name} tidak boleh kosong`, {
+    toast.error(`Array tidak boleh kosong`, {
       position: toast.POSITION.TOP_RIGHT,
     });
     return false;

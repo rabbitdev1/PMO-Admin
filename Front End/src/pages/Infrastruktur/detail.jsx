@@ -32,18 +32,19 @@ function DetailInfrastrukturPages() {
   const isWebSetting = localStorage.getItem("isWebSetting");
   const parseWebSetting = JSON.parse(isWebSetting);
 
-  const [helpDeskLoading, setHelpDeskLoading] = useState(true);
-  const [detailHelpDesk, setDetailHelpDesk] = useState([]);
-  const [submissionStatus, setSubmissionStatus] = useState(3);
+  const [helpDeskLoading, setInfrastrukturLoading] = useState(true);
+  const [detailInfrastruktur, setDetailInfrastruktur] = useState([]);
+  const [submissionStatus, setSubmissionStatus] = useState(0);
+  const [validationData, setValidationData] = useState([]);
   const [detailData, setDetailData] = useState([]);
 
   const [showProgress, setShowProgress] = useState(true);
 
 
-
-  const [submission_status, setSubmission_status] = useState(true);
-  const [komentar, setKomentar] = useState('');
-  const [fileUpload, setFilesUpload] = useState('');
+  const [formValidasi, setFormValdiasi] = useState({
+    statusValidasi: '',
+    response: '',
+  })
 
   const [processField, setProcessField] = useState([]);
 
@@ -57,42 +58,31 @@ function DetailInfrastrukturPages() {
 
   useEffect(() => {
     if (authToken) {
-      fetchDataHelpDesk(authApiKey, authToken, JSON.parse(authProfile)?.role)
+      fetchDataInfrastruktur(authApiKey, authToken, JSON.parse(authProfile)?.role)
     }
   }, [dispatch]);
 
-  const fetchDataHelpDesk = async (api_key, token, role) => {
-    setHelpDeskLoading(true);
+  const fetchDataInfrastruktur = async (api_key, token, role) => {
+    setInfrastrukturLoading(true);
     const params = new URLSearchParams();
     params.append("id", slug);
     params.append("role", role);
     try {
       const response = await apiClient({
-        baseurl: "helpdesk/detail",
+        baseurl: "infrastruktur/detail",
         method: "POST",
         body: params,
         apiKey: api_key,
         token: token,
       });
-      setHelpDeskLoading(false);
+      setInfrastrukturLoading(false);
       if (response?.statusCode === 200) {
-        setDetailHelpDesk(response.result.data);
+        setDetailInfrastruktur(response.result.data);
         setDetailData(response.result.data?.field);
-        setSubmissionStatus(
-          response.result.data?.submission_status === "Dalam Antrian"
-            ? 1
-            : response.result.data?.submission_status === "Divalidasi"
-              ? 2
-              : response.result.data?.submission_status === "Diproses"
-                ? 3
-                : response.result.data?.submission_status === "Disetujui"
-                  ? 4
-                  : response.result.data?.submission_status === "Ditolak"
-                    ? 5
-                    : 0
-        );
+        setSubmissionStatus(response.result.data?.submission_status);
+        setValidationData(JSON.parse(response.result.data?.on_validation));
       } else {
-        setDetailHelpDesk([]);
+        setDetailInfrastruktur([]);
         setDetailData([]);
       }
     } catch (error) {
@@ -100,22 +90,28 @@ function DetailInfrastrukturPages() {
     }
   };
 
-  const fetchEditHelpdesk = async (api_key, token, id, submission_status, komentar, filename) => {
+  const fetchEditHelpdesk = async (api_key, token, id, type, data) => {
+    console.log(data.response);
+
     let htmlConvert = '';
-    if (komentar) {
-      const contentState = convertToRaw(komentar.getCurrentContent());
+    if (data.response) {
+      const contentState = convertToRaw(data.response.getCurrentContent());
       htmlConvert = draftToHtml(contentState);
     }
-
+    console.log(data);
     const params = new URLSearchParams();
-    if (id) params.append("id", id);
-    if (submission_status) params.append("submission_status", submission_status);
-    if (htmlConvert) params.append("comment", htmlConvert);
-    if (filename) params.append("fileuploaded", filename);
+    if (type === 'validation') {
+      params.append("id", id);
+      params.append("type", type);
+      params.append("statusValidasi", data.statusValidasi);
+      params.append("response", htmlConvert);
+    }
+    // if (htmlConvert) params.append("comment", htmlConvert);
+    // if (filename) params.append("fileuploaded", filename);
 
     try {
       const response = await apiClient({
-        baseurl: "helpdesk/edit",
+        baseurl: "infrastruktur/edit",
         method: "POST",
         body: params,
         apiKey: api_key,
@@ -126,7 +122,7 @@ function DetailInfrastrukturPages() {
         setisModalVerif({
           data: {
             title: 'Helpdesk Berhasil diupdate',
-            msg: 'Selamat, Pengajuan helpdesk sudah diupdate',
+            msg: 'Selamat, Pengajuan infrastruktur sudah diupdate',
             icon: PengajuanBerahasilIcon,
             color: '#13C39C'
           },
@@ -142,19 +138,24 @@ function DetailInfrastrukturPages() {
     }
   };
 
-  const checkingFormData = async () => {
-    console.log(fileUpload);
-    if (fileUpload) {
-      const result = await fetchUploadFiles(authApiKey, authToken, fileUpload, 'helpdesk', dispatch);
-      console.log(result);
-      if (result !== null) {
-        fetchEditHelpdesk(authApiKey, authToken, slug, submission_status, komentar, result)
-      } else {
-        console.error("Error occurred during image upload.");
-      }
+  const checkingFormData = async (type, data) => {
+    if (type === "validation") {
+      fetchEditHelpdesk(authApiKey, authToken, slug, type, data)
     } else {
-      fetchEditHelpdesk(authApiKey, authToken, slug, submission_status, komentar, null)
+
     }
+    // console.log(fileUpload);
+    // if (fileUpload) {
+    //   const result = await fetchUploadFiles(authApiKey, authToken, fileUpload, 'infrastruktur', dispatch);
+    //   console.log(result);
+    //   if (result !== null) {
+    //     fetchEditHelpdesk(authApiKey, authToken, slug, submission_status, komentar, result)
+    //   } else {
+    //     console.error("Error occurred during image upload.");
+    //   }
+    // } else {
+    //   fetchEditHelpdesk(authApiKey, authToken, slug, submission_status, komentar, null)
+    // }
   }
 
   const handleInputChange = (fieldName, value) => {
@@ -176,49 +177,120 @@ function DetailInfrastrukturPages() {
   return (
     <div className="flex flex-col gap-3 flex-1 p-3">
       <TitleHeader
-        title={`Detail Pengajuan Relokasi Alat # ${slug}`}
+        title={`Detail Pengajuan #${slug}`}
         link1={"dashboard"}
-        link2={"help-desk"}
+        link2={"infrastruktur"}
       />
       <section className="flex flex-col gap-3">
-        <SubmissionStatus submissionStatus={submissionStatus} />
-        <div className="flex xl:flex-row-reverse flex-col-reverse gap-3">
+        <SubmissionStatus status={submissionStatus} />
+        <div className="flex flex-col gap-3">
+          {submissionStatus === 1 ?
+            <div className="flex flex-col bg-lightColor dark:bg-cardDark p-5 gap-3 items-center rounded-lg">
+              <img
+                src={require('../../assets/image/process.gif')}
+                alt={'processing'}
+                className=" object-contain flex w-[20%] min-w-[200px] aspect-square "
+                effect="blur"
+              />
+              <span className="text-base text-center">Pengajuan Anda Sedang <b>Dalam Antrian</b> Oleh pihak DISKOMINFO Kota Bandung</span>
+            </div> :
+            null
+          }
+          {submissionStatus === 2 ? JSON.parse(authProfile)?.role === "perangkat_daerah" || JSON.parse(authProfile)?.role === "op_pmo" ?
+            <div className="flex flex-col bg-lightColor dark:bg-cardDark p-5 gap-3 items-center rounded-lg">
+              <img
+                src={require('../../assets/image/process.gif')}
+                alt={'processing'}
+                className=" object-contain flex w-[20%] min-w-[200px] aspect-square "
+                effect="blur"
+              />
+              <span className="text-base text-center">Pengajuan Anda Sedang <b>Di Validasi</b> Oleh pihak DISKOMINFO Kota Bandung</span>
+            </div> :
+            <div className="flex flex-col bg-[#F5CF08]/10 border-1 border-[#F5CF08] text-[#F5CF08] p-3 gap-3 items-center rounded-lg">
+              <span className="text-base font-semibold text-center">Cek Kelengkapan Berkas</span>
+            </div> : null
+          }
+          {submissionStatus === 3 ?
+            <div
+              className={`flex-1 flex flex-col gap-3`}
+            >
+              <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+                <div className="flex flex-row gap-2 items-center">
+                  <span className="text-base font-semibold">Status Validasi :</span>
+                  <div className={`flex flex-row gap-2 p-1 px-3 rounded-md text-darkColor bg-[#FF0000]`}>
+                    <span className="text-base">{validationData.status_validation}</span>
+                  </div>
+                </div>
+
+                {console.log((validationData))}
+                <DynamicShow
+                  label={"Tanggapan"}
+                  value={validationData?.response}
+                  type={"html"}
+                />
+              </div>
+            </div>
+
+            : null
+          }
           <DynamicDetails detailData={detailData} />
+          {submissionStatus <= 2 ? JSON.parse(authProfile)?.role === "perangkat_daerah" || JSON.parse(authProfile)?.role === "op_pmo" ?
+            null :
+            <div className="flex flex-1 flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+              <span className='text-lg font-bold'>Status Kelengkapan</span>
+              {[
+                {
+                  value: formValidasi.statusValidasi,
+                  type: "radio_button",
+                  options: [
+                    { value: "1", label: "Disetujui" },
+                    { value: "0", label: "Ditolak" },
+                  ],
+                  name: 'statusValidasi'
+                },
+                {
+                  label: "Tanggapan",
+                  value: formValidasi.response,
+                  type: "editor",
+                  name: 'response'
+                }
+              ].map((inputProps, index) => (
+                <DynamicInput
+                  key={index}
+                  label={inputProps.label}
+                  value={inputProps.value}
+                  type={inputProps.type}
+                  options={inputProps.options}
+                  onChange={(value) => {
+                    setFormValdiasi((prevState) => ({
+                      ...prevState,
+                      [inputProps.name]: value,
+                    }));
 
-          <div className="flex flex-1 flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
-            <DynamicInput
-              label={"Status Pengajuan"}
-              value={submission_status}
-              type={"radio_button"}
-              options={[
-                { value: "Disetujui", label: "Disetujui" },
-                { value: "Ditolak", label: "Ditolak" },
-              ]}
-              onChange={(a) => { setSubmission_status(a) }}
-            />
-            <DynamicInput
-              label={"Komentar"}
-              value={komentar}
-              type={"editor"}
-              onChange={(a) => { setKomentar(a) }}
-            />
-            <DynamicButton
-              initialValue={"Simpan Perubahan"}
-              type="fill"
-              color={"#ffffff"}
-              className="inline-flex  bg-[#0185FF] text-darkColor"
-              onClick={() => {
-                checkingFormData();
-              }}
+                  }}
+                />
+              ))}
+              <DynamicButton
+                initialValue={"Lanjutkan"}
+                type="fill"
+                color={"#ffffff"}
+                className="inline-flex  bg-[#0185FF] text-darkColor"
+                onClick={() => {
+                  checkingFormData('validation', formValidasi);
+                }}
+              />
+            </div>
+            : null
+          }
 
-            />
-          </div>
+
+
 
           {/* {JSON.parse(authProfile)?.role === "perangkat_daerah" || JSON.parse(authProfile)?.role === "op_pmo" ?
             <div
               className={` ${submissionStatus === 2 ? "flex-1" : "hidden"} flex-1 flex flex-col gap-3`}
             >
-              {detailHelpDesk?.processing?.tool_checking === null ?
+              {detailInfrastruktur?.processing?.tool_checking === null ?
                 <div className="flex flex-col bg-lightColor dark:bg-cardDark p-5 gap-3 items-center rounded-lg">
                   <img
                     src={require('../../assets/image/process.gif')}
@@ -230,7 +302,7 @@ function DetailInfrastrukturPages() {
                 </div> :
                 detailData.helpdesk_title === "Relokasi Alat" ?
                   <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
-                    {Object.entries(detailHelpDesk?.processing).map(([key, value]) => (
+                    {Object.entries(detailInfrastruktur?.processing).map(([key, value]) => (
                       <DynamicShow
                         key={key}
                         label={key === "tool_checking" ? "Pengecekan Alat" : key === "work_scheduling" ? "Jadwal Pengerjaan" : key}
@@ -326,21 +398,21 @@ function DetailInfrastrukturPages() {
             <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
               <div className="flex flex-row gap-2 items-center">
                 <span className="text-base font-semibold">Status :</span>
-                <div className={`flex flex-row gap-2 p-1 px-3 rounded-md text-darkColor  ${detailHelpDesk?.submission_status === 'Ditolak' ? 'bg-[#FF0000]' : 'bg-[#0185FF]'}`}>
-                  <span className="text-base">{detailHelpDesk?.submission_status}</span>
+                <div className={`flex flex-row gap-2 p-1 px-3 rounded-md text-darkColor  ${detailInfrastruktur?.submission_status === 'Ditolak' ? 'bg-[#FF0000]' : 'bg-[#0185FF]'}`}>
+                  <span className="text-base">{detailInfrastruktur?.submission_status}</span>
                 </div>
               </div>
-              {detailHelpDesk?.fileuploaded && (
+              {detailInfrastruktur?.fileuploaded && (
                 <DynamicShow
                   label={"File Pelaporan"}
-                  value={detailHelpDesk?.fileuploaded}
-                  location={'helpdesk'}
+                  value={detailInfrastruktur?.fileuploaded}
+                  location={'infrastruktur'}
                   type={"pdf"}
                 />
               )}
               <DynamicShow
                 label={"Komentar"}
-                value={detailHelpDesk?.comment}
+                value={detailInfrastruktur?.comment}
                 type={"html"}
               />
             </div>
@@ -371,7 +443,7 @@ function DetailInfrastrukturPages() {
                 className={`inline-flex flex-1 bg-[${isModalVerif.data.color}] text-darkColor`}
                 onClick={() => {
                   setisModalVerif({ data: {}, status: false })
-                  fetchDataHelpDesk(authApiKey, authToken, JSON.parse(authProfile)?.role)
+                  fetchDataInfrastruktur(authApiKey, authToken, JSON.parse(authProfile)?.role)
                 }}
               />
             </div>
