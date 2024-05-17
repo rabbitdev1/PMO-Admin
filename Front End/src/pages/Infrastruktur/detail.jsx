@@ -45,8 +45,7 @@ function DetailInfrastrukturPages() {
     statusValidasi: '',
     response: '',
   })
-
-  const [processField, setProcessField] = useState([]);
+  const [formProcess, setFormProcess] = useState({})
 
 
   const [isModalVerif, setisModalVerif] = useState({
@@ -157,23 +156,6 @@ function DetailInfrastrukturPages() {
     //   fetchEditHelpdesk(authApiKey, authToken, slug, submission_status, komentar, null)
     // }
   }
-
-  const handleInputChange = (fieldName, value) => {
-    const updatedField = { name: fieldName, value: value };
-    const existingIndex = processField.findIndex(field => field.name === fieldName);
-    if (existingIndex !== -1) {
-      // Jika field sudah ada, update nilai value-nya
-      setProcessField(prevFields => {
-        const updatedFields = [...prevFields];
-        updatedFields[existingIndex] = updatedField;
-        return updatedFields;
-      });
-    } else {
-      // Jika field belum ada, tambahkan ke state processField
-      setProcessField(prevFields => [...prevFields, updatedField]);
-    }
-  };
-
   return (
     <div className="flex flex-col gap-3 flex-1 p-3">
       <TitleHeader
@@ -183,28 +165,34 @@ function DetailInfrastrukturPages() {
       />
       <section className="flex flex-col gap-3">
         <SubmissionStatus status={submissionStatus} />
-        <div className="flex flex-row gap-3">
+        <div className={`flex ${submissionStatus === 2 ? 'sm:flex-col' :
+          submissionStatus === 4 ? JSON.parse(authProfile)?.role === "perangkat_daerah" || JSON.parse(authProfile)?.role === "op_pmo" ? 'sm:flex-row' : 'sm:flex-col' :
+            'sm:flex-row'} flex-col gap-3`}>
           {submissionStatus === 1 ?
-            <div className="flex flex-col bg-lightColor dark:bg-cardDark p-5 gap-3 items-center rounded-lg">
-              <img
-                src={require('../../assets/image/process.gif')}
-                alt={'processing'}
-                className=" object-contain flex w-[20%] min-w-[200px] aspect-square "
-                effect="blur"
-              />
-              <span className="text-base text-center">Pengajuan Anda Sedang <b>Dalam Antrian</b> Oleh pihak DISKOMINFO Kota Bandung</span>
+            <div className="flex flex-col flex-1">
+              <div className="flex flex-col bg-lightColor dark:bg-cardDark p-5 gap-3 items-center rounded-lg">
+                <img
+                  src={require('../../assets/image/process.gif')}
+                  alt={'processing'}
+                  className=" object-contain flex w-[20%] min-w-[200px] aspect-square "
+                  effect="blur"
+                />
+                <span className="text-base text-center">Pengajuan Anda Sedang <b>Dalam Antrian</b> Oleh pihak DISKOMINFO Kota Bandung</span>
+              </div>
             </div> :
             null
           }
           {submissionStatus === 2 ? JSON.parse(authProfile)?.role === "perangkat_daerah" || JSON.parse(authProfile)?.role === "op_pmo" ?
-            <div className="flex flex-col bg-lightColor dark:bg-cardDark p-5 gap-3 items-center rounded-lg">
-              <img
-                src={require('../../assets/image/process.gif')}
-                alt={'processing'}
-                className=" object-contain flex w-[20%] min-w-[200px] aspect-square "
-                effect="blur"
-              />
-              <span className="text-base text-center">Pengajuan Anda Sedang <b>Di Validasi</b> Oleh pihak DISKOMINFO Kota Bandung</span>
+            <div className="flex flex-col flex-1">
+              <div className="flex flex-col bg-lightColor dark:bg-cardDark p-5 gap-3 items-center rounded-lg">
+                <img
+                  src={require('../../assets/image/process.gif')}
+                  alt={'processing'}
+                  className=" object-contain flex w-[20%] min-w-[200px] aspect-square "
+                  effect="blur"
+                />
+                <span className="text-base text-center">Pengajuan Anda Sedang <b>Di Validasi</b> Oleh pihak DISKOMINFO Kota Bandung</span>
+              </div>
             </div> :
             <div className="flex flex-col bg-[#F5CF08]/10 border-1 border-[#F5CF08] text-[#F5CF08] p-3 gap-3 items-center rounded-lg">
               <span className="text-base font-semibold text-center">Cek Kelengkapan Berkas</span>
@@ -212,7 +200,7 @@ function DetailInfrastrukturPages() {
           }
           {submissionStatus === 3 ?
             <div
-              className={`flex-1 flex flex-col gap-3`}
+              className={`flex-1 flex flex-col flex-1 gap-3`}
             >
               <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                 <div className="flex flex-row gap-2 items-center">
@@ -230,8 +218,63 @@ function DetailInfrastrukturPages() {
             </div>
             : null
           }
-
+          {submissionStatus === 4 ? JSON.parse(authProfile)?.role === "perangkat_daerah" || JSON.parse(authProfile)?.role === "op_pmo" ?
+            <div className="flex flex-col flex-1">
+              <div className="flex flex-col bg-lightColor dark:bg-cardDark p-5 gap-3 items-center rounded-lg">
+                <img
+                  src={require('../../assets/image/process.gif')}
+                  alt={'processing'}
+                  className=" object-contain flex w-[20%] min-w-[200px] aspect-square "
+                  effect="blur"
+                />
+                <span className="text-base text-center">Pengajuan Anda Sedang <b>Di Proses</b> Oleh pihak DISKOMINFO Kota Bandung</span>
+              </div>
+            </div> :
+            <div className="flex flex-1 flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+              <span className='text-lg font-bold'>Proses Pengajuan</span>
+              {[
+                {
+                  label: "Pengecekan Alat",
+                  value: formProcess.response,
+                  type: "textarea",
+                  name: 'checking_tools'
+                },
+                {
+                  label: "Jadwal Pengerjaan",
+                  value: formProcess.response,
+                  type: "date",
+                  name: 'working_schedule'
+                }
+              ].map((inputProps, index) => (
+                <DynamicInput
+                  key={index}
+                  label={inputProps.label}
+                  value={inputProps.value}
+                  type={inputProps.type}
+                  options={inputProps.options}
+                  onChange={(value) => {
+                    setFormProcess(prevState => ({
+                      ...prevState,
+                      [inputProps.name]: value
+                    }));
+                  }}
+                  />
+              ))}
+              <DynamicButton
+                initialValue={"Lanjutkan"}
+                type="fill"
+                color={"#ffffff"}
+                className="inline-flex  bg-[#0185FF] text-darkColor"
+                onClick={() => {
+                  console.log(formProcess);
+                  // checkingFormData('validation', formValidasi);
+                }}
+              />
+            </div>
+            : null
+          }
           <DynamicDetails detailData={detailData} />
+          
           {submissionStatus <= 2 ? JSON.parse(authProfile)?.role === "perangkat_daerah" || JSON.parse(authProfile)?.role === "op_pmo" ?
             null :
             <div className="flex flex-1 flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
