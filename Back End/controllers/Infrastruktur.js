@@ -12,10 +12,10 @@ export const getListInfrastruktur = async (req, res) => {
         msg: "API Key is required",
       });
     } else {
-      const helpdesk = await InfraModel.findAll();
+      const infrastruktur = await InfraModel.findAll();
 
       // Memeriksa apakah peran pengguna termasuk dalam peran yang diizinkan
-      const filteredHelpdesk = helpdesk.filter((item) => {
+      const filteredinfrastruktur = infrastruktur.filter((item) => {
         if (!item.role) return false; // Jika item tidak memiliki role, maka tidak dimasukkan ke dalam respons
         const itemRoles = JSON.parse(item.role);
         return itemRoles.includes(role);
@@ -23,35 +23,35 @@ export const getListInfrastruktur = async (req, res) => {
 
       if (role === "perangkat_daerah") {
         // Validasi API Key untuk peran perangkat_daerah
-        const validHelpdesk = filteredHelpdesk.filter(
+        const validinfrastruktur = filteredinfrastruktur.filter(
           (item) => item.apiKey === apiKey
         );
 
-        if (validHelpdesk.length === 0) {
-          return res.status(403).json({
+        if (validinfrastruktur.length === 0) {
+          return res.status(400).json({
             status: "error",
-            msg: "Forbidden. Invalid API Key for perangkat_daerah role",
+            msg: "Item not found",
           });
         }
 
         const totalItemsByStatus = {
-          divalidasi: filteredHelpdesk.filter(
+          divalidasi: filteredinfrastruktur.filter(
             (user) => user.submission_status === "Divalidasi"
           ).length,
-          diproses: filteredHelpdesk.filter(
+          diproses: filteredinfrastruktur.filter(
             (user) => user.submission_status === "Diproses"
           ).length,
-          ditolak: filteredHelpdesk.filter(
+          ditolak: filteredinfrastruktur.filter(
             (user) => user.submission_status === "Ditolak"
           ).length,
-          disetujui: filteredHelpdesk.filter(
+          disetujui: filteredinfrastruktur.filter(
             (user) => user.submission_status === "Disetujui"
           ).length,
         };
         res.json({
           status: "ok",
-          msg: "Data Helpdesk retrieved successfully",
-          data: validHelpdesk.map((item) => {
+          msg: "Data infrastruktur retrieved successfully",
+          data: validinfrastruktur.map((item) => {
             const fields = JSON.parse(item.fields);
             return {
               id: item.id,
@@ -61,29 +61,29 @@ export const getListInfrastruktur = async (req, res) => {
               createdAt: item.createdAt,
             };
           }),
-          totalItems: validHelpdesk.length,
+          totalItems: validinfrastruktur.length,
           totalItemsByStatus: totalItemsByStatus,
         });
       } else {
         // Jika bukan peran perangkat_daerah, kembalikan data tanpa validasi API key
         const totalItemsByStatus = {
-          divalidasi: filteredHelpdesk.filter(
+          divalidasi: filteredinfrastruktur.filter(
             (user) => user.submission_status === "Divalidasi"
           ).length,
-          diproses: filteredHelpdesk.filter(
+          diproses: filteredinfrastruktur.filter(
             (user) => user.submission_status === "Diproses"
           ).length,
-          ditolak: filteredHelpdesk.filter(
+          ditolak: filteredinfrastruktur.filter(
             (user) => user.submission_status === "Ditolak"
           ).length,
-          disetujui: filteredHelpdesk.filter(
+          disetujui: filteredinfrastruktur.filter(
             (user) => user.submission_status === "Disetujui"
           ).length,
         };
         res.json({
           status: "ok",
-          msg: "Data Helpdesk retrieved successfully",
-          data: filteredHelpdesk.map((item) => {
+          msg: "Data infrastruktur retrieved successfully",
+          data: filteredinfrastruktur.map((item) => {
             const fields = JSON.parse(item.fields);
             return {
               id: item.id,
@@ -93,7 +93,7 @@ export const getListInfrastruktur = async (req, res) => {
               createdAt: item.createdAt,
             };
           }),
-          totalItems: filteredHelpdesk.length,
+          totalItems: filteredinfrastruktur.length,
           totalItemsByStatus: totalItemsByStatus,
         });
       }
@@ -119,15 +119,15 @@ export const getDetailInfrastruktur = async (req, res) => {
       });
     }
 
-    const helpDeskDetail = await InfraModel.findByPk(id);
-    if (!helpDeskDetail) {
+    const infrastrukturDetail = await InfraModel.findByPk(id);
+    if (!infrastrukturDetail) {
       return res.status(404).json({
         status: "error",
-        msg: "Help desk item not found",
+        msg: "Item not found",
       });
     }
 
-    const userHasPermission = helpDeskDetail.dataValues.role.includes(role);
+    const userHasPermission = infrastrukturDetail.dataValues.role.includes(role);
     if (!userHasPermission) {
       return res.status(403).json({
         status: "error",
@@ -135,7 +135,7 @@ export const getDetailInfrastruktur = async (req, res) => {
       });
     }
 
-    const fields = JSON.parse(helpDeskDetail.fields);
+    const fields = JSON.parse(infrastrukturDetail.fields);
     // Move specific properties to the top of the object
     const propertiesToMoveUp = [
       "createdAt",
@@ -154,20 +154,20 @@ export const getDetailInfrastruktur = async (req, res) => {
     };
 
     // Add createdAt to fields before rearranging
-    fields.createdAt = helpDeskDetail.createdAt;
+    fields.createdAt = infrastrukturDetail.createdAt;
     const rearrangedData = rearrangeObject(fields, propertiesToMoveUp);
     res.json({
       status: "ok",
       msg: "Data retrieved successfully",
       data: {
-        id: helpDeskDetail.id,
-        submission_status: helpDeskDetail.submission_status,
-        comment: helpDeskDetail.comment,
-        fileuploaded: helpDeskDetail.fileuploaded,
+        id: infrastrukturDetail.id,
+        submission_status: infrastrukturDetail.submission_status,
+        comment: infrastrukturDetail.comment,
+        fileuploaded: infrastrukturDetail.fileuploaded,
         fields: rearrangedData,
-        on_validation: helpDeskDetail.on_validation,
-        on_process: helpDeskDetail.on_process,
-        on_finish: helpDeskDetail.on_finish,
+        on_validation: infrastrukturDetail.on_validation,
+        on_process: infrastrukturDetail.on_process,
+        on_finish: infrastrukturDetail.on_finish,
       },
     });
   } catch (error) {
@@ -214,7 +214,7 @@ export const setInfrastruktur = async (req, res) => {
     await InfraModel.create(rawData);
     res.status(200).json({
       status: "ok",
-      msg: "Help desk item created successfully",
+      msg: "Item created successfully",
     });
   } catch (error) {
     console.error(error);
@@ -234,12 +234,12 @@ export const editInfrastruktur = async (req, res) => {
         msg: "API Key is required",
       });
     }
-    const helpDeskItem = await InfraModel.findOne({
+    const infrastrukturItem = await InfraModel.findOne({
       where: {
         id: id,
       },
     });
-    if (!helpDeskItem) {
+    if (!infrastrukturItem) {
       return res.status(404).json({
         status: "error",
         msg: "Item not found",
@@ -249,22 +249,22 @@ export const editInfrastruktur = async (req, res) => {
     console.log(convertData);
     if (type === "validation") {
       if (convertData.status_validation === "Disetujui") {
-        helpDeskItem.submission_status = 4;
+        infrastrukturItem.submission_status = 4;
       } else if (convertData.status_validation === "Ditolak") {
-        helpDeskItem.submission_status = 3;
+        infrastrukturItem.submission_status = 3;
       }
-      helpDeskItem.on_validation = data;
+      infrastrukturItem.on_validation = data;
     } else if (type === "process") {
-      helpDeskItem.on_process = data;
+      infrastrukturItem.on_process = data;
     } else if (type === "finish") {
       if (convertData.submission_status === "Disetujui") {
-        helpDeskItem.submission_status = 5;
+        infrastrukturItem.submission_status = 5;
       } else if (convertData.submission_status === "Ditolak") {
-        helpDeskItem.submission_status = 6;
+        infrastrukturItem.submission_status = 6;
       }
-      helpDeskItem.on_finish = data;
+      infrastrukturItem.on_finish = data;
     }
-    await helpDeskItem.save();
+    await infrastrukturItem.save();
     return res.status(200).json({
       status: "ok",
       msg: "Item updated successfully",
@@ -289,25 +289,25 @@ export const editProcessInfrastruktur = async (req, res) => {
         msg: "API Key is required",
       });
     }
-    const helpDeskItem = await InfraModel.findOne({
+    const infrastrukturItem = await InfraModel.findOne({
       where: {
         id: id,
       },
     });
-    if (!helpDeskItem) {
+    if (!infrastrukturItem) {
       return res.status(404).json({
         status: "error",
-        msg: "Help desk item not found",
+        msg: "Item not found",
       });
     }
-    if (parseInt(helpDeskItem.submission_status) === 1) {
+    if (parseInt(infrastrukturItem.submission_status) === 1) {
       console.log("jalan");
-      helpDeskItem.submission_status = 2;
-      await helpDeskItem.save();
+      infrastrukturItem.submission_status = 2;
+      await infrastrukturItem.save();
     }
     return res.status(200).json({
       status: "ok",
-      msg: "Help desk item updated successfully",
+      msg: "Item updated successfully",
     });
   } catch (error) {
     console.error(error);
@@ -330,23 +330,23 @@ export const deleteInfrastruktur = async (req, res) => {
       });
     }
 
-    const helpDeskItem = await InfraModel.findOne({
+    const infrastrukturItem = await InfraModel.findOne({
       where: {
         id: id,
       },
     });
 
-    if (!helpDeskItem) {
+    if (!infrastrukturItem) {
       return res.status(404).json({
         status: "error",
-        msg: "Help desk item not found",
+        msg: "Item not found",
       });
     }
 
     const mergedDataProcess = {
-      ...JSON.parse(helpDeskItem.on_validation),
-      ...JSON.parse(helpDeskItem.on_process),
-      ...JSON.parse(helpDeskItem.on_finish),
+      ...JSON.parse(infrastrukturItem.on_validation),
+      ...JSON.parse(infrastrukturItem.on_process),
+      ...JSON.parse(infrastrukturItem.on_finish),
     };
     console.log("Merged Data:", mergedDataProcess);
     const findValueByTitle = (data, title) => data[title];
@@ -373,12 +373,12 @@ export const deleteInfrastruktur = async (req, res) => {
     if (deletedItem) {
       res.status(200).json({
         status: "ok",
-        msg: "Help desk item deleted successfully",
+        msg: "Item deleted successfully",
       });
     } else {
       res.status(404).json({
         status: "error",
-        msg: "Help desk item not found",
+        msg: "Item not found",
       });
     }
   } catch (error) {

@@ -424,7 +424,7 @@ export const checkRoleUser = async (req, res) => {
       },
       { value: "kadis", label: "Kepala Dinas", isDisabled: false },
       {
-        value: "kabid_sek",
+        value: "sekretariat",
         label: "Kepala Bidang Sekretariat",
         isDisabled: false,
       },

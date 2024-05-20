@@ -78,6 +78,8 @@ const getFieldType = (key) => {
       return "images";
     case "type_tools":
       return "array";
+      case "createdAt":
+        return "date";
     default:
       return "text";
   }

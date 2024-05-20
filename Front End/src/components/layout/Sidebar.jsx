@@ -37,7 +37,7 @@ const Sidebar = () => {
           { title: "Bidang Desiminasi Informasi", role: ['op_pmo','perangkat_daerah','kabid_desiminasi','ketim_desiminasi','teknis_desiminasi'], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
           { title: "Bidang Perancangan Teknologi, Informasi dan Komunikasi", role: ['op_pmo','perangkat_daerah','kabid_perencanaan','ketim_perencanaan','teknis_perencanaan'], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
           { title: "UPT Radio Sonata", role: ['op_pmo','perangkat_daerah','kabid_upt_radio','ketim_upt_radio','teknis_upt_radio'], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
-          { title: "Sekertariat", role: ['op_pmo','kabid_sek','ketim_sek','teknis_sek'], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
+          { title: "Sekertariat", role: ['op_pmo','sekretariat','ketim_sek','teknis_sek'], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
           { title: "SISTEM", role: ['op_pmo'], icon: "" },
           { title: "Akun", role: ['op_pmo'], icon: AllBerandaIcon, href: ["/account", "/1"], },
 
