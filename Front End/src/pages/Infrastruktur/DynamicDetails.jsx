@@ -1,22 +1,31 @@
 import React from 'react';
 import DynamicShow from '../../components/common/DynamicShow';
+import ConditionalRender from '../../components/ui/ConditionalRender';
 
-const DynamicDetails = ({ detailData }) => {
+const DynamicDetails = ({ detailData, loading }) => {
   return (
     <div className="flex-1 flex flex-col gap-3">
-      <div className="flex flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
-        <span className='text-lg font-bold'>Rincian Pengajuan</span>
-        {Object.entries(detailData).map(([key, value]) => (
-          <DynamicShow
-            key={key}
-            name={key}
-            label={getKeyLabel(key)}
-            value={value}
-            location="helpdesk"
-            type={getFieldType(key)}
-            disabled={true}
-          />
-        ))}
+      <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+        <ConditionalRender
+          data={detailData}
+          loading={loading}
+          className={"flex flex-col min-h-[200px]"}
+          model={"emptyData"}>
+          <div className='flex flex-col gap-3'>
+            <span className='text-lg font-bold'>Rincian Pengajuan</span>
+            {Object.entries(detailData).map(([key, value]) => ( 
+                <DynamicShow
+                  key={key}
+                  name={key}
+                  label={getKeyLabel(key)}
+                  value={value}
+                  location="helpdesk"
+                  type={getFieldType(key)}
+                  disabled={true}
+                />
+            ))}
+          </div>
+        </ConditionalRender>
       </div>
     </div>
   );
@@ -62,10 +71,13 @@ const getKeyLabel = (key) => {
 const getFieldType = (key) => {
   switch (key) {
     case "reason":
-    case "full_address":
       return "html";
+    case "full_address":
+      return "text";
     case "image_screenshoot":
       return "images";
+    case "type_tools":
+      return "array";
     default:
       return "text";
   }

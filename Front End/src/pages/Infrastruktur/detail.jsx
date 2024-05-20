@@ -20,6 +20,10 @@ import { toast } from "react-toastify";
 import fetchUploadImages from "../../utils/api/uploadImages";
 import fetchUploadFiles from "../../utils/api/uploadFiles";
 import { isPending } from "../../components/store/actions/todoActions";
+import DalamAntrianView from "./Logical/DalamAntrianView";
+import ValidationStatus from "./Logical/ValidationStatus";
+import ProcessStatus from "./Logical/ProcessStatus";
+import FinishStatus from "./Logical/FinishStatus";
 
 function DetailInfrastrukturPages() {
   const { isDarkMode } = useTheme();
@@ -32,21 +36,13 @@ function DetailInfrastrukturPages() {
   const isWebSetting = localStorage.getItem("isWebSetting");
   const parseWebSetting = JSON.parse(isWebSetting);
 
-  const [helpDeskLoading, setInfrastrukturLoading] = useState(true);
-  const [detailInfrastruktur, setDetailInfrastruktur] = useState([]);
+  const [infrastrukturLoading, setInfrastrukturLoading] = useState(true);
   const [submissionStatus, setSubmissionStatus] = useState(0);
-  const [validationData, setValidationData] = useState([]);
+  const [validationData, setValidationData] = useState({});
+  const [processData, setProcessData] = useState({});
+  const [finishData, setfinishData] = useState({});
+
   const [detailData, setDetailData] = useState([]);
-
-  const [showProgress, setShowProgress] = useState(true);
-
-
-  const [formValidasi, setFormValdiasi] = useState({
-    statusValidasi: '',
-    response: '',
-  })
-  const [formProcess, setFormProcess] = useState({})
-
 
   const [isModalVerif, setisModalVerif] = useState({
     status: false,
@@ -76,12 +72,12 @@ function DetailInfrastrukturPages() {
       });
       setInfrastrukturLoading(false);
       if (response?.statusCode === 200) {
-        setDetailInfrastruktur(response.result.data);
-        setDetailData(response.result.data?.field);
+        setDetailData(response.result.data.fields);
         setSubmissionStatus(response.result.data?.submission_status);
         setValidationData(JSON.parse(response.result.data?.on_validation));
+        setProcessData(JSON.parse(response.result.data?.on_process));
+        setfinishData(JSON.parse(response.result.data?.on_finish));
       } else {
-        setDetailInfrastruktur([]);
         setDetailData([]);
       }
     } catch (error) {
@@ -89,23 +85,30 @@ function DetailInfrastrukturPages() {
     }
   };
 
-  const fetchEditHelpdesk = async (api_key, token, id, type, data) => {
-    console.log(data.response);
-
+  const fetchEditinfrastruktur = async (api_key, token, id, type, data) => {
     let htmlConvert = '';
-    if (data.response) {
-      const contentState = convertToRaw(data.response.getCurrentContent());
-      htmlConvert = draftToHtml(contentState);
+    if (type === 'validation' || type === 'process') {
+      if (data?.response) {
+        const contentState = convertToRaw(data?.response.getCurrentContent());
+        htmlConvert = draftToHtml(contentState);
+      }
     }
-    console.log(data);
     const params = new URLSearchParams();
     if (type === 'validation') {
       params.append("id", id);
       params.append("type", type);
-      params.append("statusValidasi", data.statusValidasi);
-      params.append("response", htmlConvert);
+      params.append("data", JSON.stringify({ status_validation: parseInt(data.statusValidasi) === 0 ? 'Ditolak' : 'Disetujui', response: htmlConvert }));
+    } else if (type === 'process') {
+      params.append("id", id);
+      params.append("type", type);
+      params.append("data", JSON.stringify({ checking_tools: data.checking_tools, working_schedule: data.working_schedule }));
     }
-    // if (htmlConvert) params.append("comment", htmlConvert);
+    else if (type === 'finish') {
+      params.append("id", id);
+      params.append("type", type);
+      params.append("data", JSON.stringify({ submission_status: parseInt(data.submission_status) === 0 ? 'Ditolak' : 'Disetujui', file_upload: data.file_upload, response: data.response }));
+    }
+
     // if (filename) params.append("fileuploaded", filename);
 
     try {
@@ -120,7 +123,7 @@ function DetailInfrastrukturPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: 'Helpdesk Berhasil diupdate',
+            title: 'infrastruktur Berhasil diupdate',
             msg: 'Selamat, Pengajuan infrastruktur sudah diupdate',
             icon: PengajuanBerahasilIcon,
             color: '#13C39C'
@@ -139,22 +142,24 @@ function DetailInfrastrukturPages() {
 
   const checkingFormData = async (type, data) => {
     if (type === "validation") {
-      fetchEditHelpdesk(authApiKey, authToken, slug, type, data)
-    } else {
+      fetchEditinfrastruktur(authApiKey, authToken, slug, type, data)
+    } else if (type === "process") {
+      fetchEditinfrastruktur(authApiKey, authToken, slug, type, data)
+    } else if (type === "finish") {
+      if (data.file_submission) {
+        const result = await fetchUploadFiles(authApiKey, authToken, data.file_submission, 'infrastruktur', dispatch);
+        if (result !== null) {
+          let combineData = {};
+          combineData = { ...data, file_upload: result }
+          fetchEditinfrastruktur(authApiKey, authToken, slug, type, combineData)
+        } else {
+          console.error("Error occurred during image upload.");
+        }
+      } else {
+        fetchEditinfrastruktur(authApiKey, authToken, slug, type, data)
+      }
 
     }
-    // console.log(fileUpload);
-    // if (fileUpload) {
-    //   const result = await fetchUploadFiles(authApiKey, authToken, fileUpload, 'infrastruktur', dispatch);
-    //   console.log(result);
-    //   if (result !== null) {
-    //     fetchEditHelpdesk(authApiKey, authToken, slug, submission_status, komentar, result)
-    //   } else {
-    //     console.error("Error occurred during image upload.");
-    //   }
-    // } else {
-    //   fetchEditHelpdesk(authApiKey, authToken, slug, submission_status, komentar, null)
-    // }
   }
   return (
     <div className="flex flex-col gap-3 flex-1 p-3">
@@ -165,123 +170,37 @@ function DetailInfrastrukturPages() {
       />
       <section className="flex flex-col gap-3">
         <SubmissionStatus status={submissionStatus} />
-        <div className={`flex ${submissionStatus === 2 ? 'sm:flex-col' :
+        <div className={`flex ${submissionStatus === 2 ? JSON.parse(authProfile)?.role === "perangkat_daerah" || JSON.parse(authProfile)?.role === "op_pmo" ? 'sm:flex-row' : 'sm:flex-col' :
           submissionStatus === 4 ? JSON.parse(authProfile)?.role === "perangkat_daerah" || JSON.parse(authProfile)?.role === "op_pmo" ? 'sm:flex-row' : 'sm:flex-col' :
             'sm:flex-row'} flex-col gap-3`}>
-          {submissionStatus === 1 ?
-            <div className="flex flex-col flex-1">
-              <div className="flex flex-col bg-lightColor dark:bg-cardDark p-5 gap-3 items-center rounded-lg">
-                <img
-                  src={require('../../assets/image/process.gif')}
-                  alt={'processing'}
-                  className=" object-contain flex w-[20%] min-w-[200px] aspect-square "
-                  effect="blur"
-                />
-                <span className="text-base text-center">Pengajuan Anda Sedang <b>Dalam Antrian</b> Oleh pihak DISKOMINFO Kota Bandung</span>
-              </div>
-            </div> :
-            null
-          }
-          {submissionStatus === 2 ? JSON.parse(authProfile)?.role === "perangkat_daerah" || JSON.parse(authProfile)?.role === "op_pmo" ?
-            <div className="flex flex-col flex-1">
-              <div className="flex flex-col bg-lightColor dark:bg-cardDark p-5 gap-3 items-center rounded-lg">
-                <img
-                  src={require('../../assets/image/process.gif')}
-                  alt={'processing'}
-                  className=" object-contain flex w-[20%] min-w-[200px] aspect-square "
-                  effect="blur"
-                />
-                <span className="text-base text-center">Pengajuan Anda Sedang <b>Di Validasi</b> Oleh pihak DISKOMINFO Kota Bandung</span>
-              </div>
-            </div> :
-            <div className="flex flex-col bg-[#F5CF08]/10 border-1 border-[#F5CF08] text-[#F5CF08] p-3 gap-3 items-center rounded-lg">
-              <span className="text-base font-semibold text-center">Cek Kelengkapan Berkas</span>
-            </div> : null
-          }
-          {submissionStatus === 3 ?
-            <div
-              className={`flex-1 flex flex-col flex-1 gap-3`}
-            >
-              <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
-                <div className="flex flex-row gap-2 items-center">
-                  <span className="text-base font-semibold">Status Validasi :</span>
-                  <div className={`flex flex-row gap-2 p-1 px-3 rounded-md text-darkColor bg-[#FF0000]`}>
-                    <span className="text-base">{validationData.status_validation}</span>
-                  </div>
-                </div>
-                <DynamicShow
-                  label={"Tanggapan"}
-                  value={validationData?.response}
-                  type={"html"}
-                />
-              </div>
-            </div>
-            : null
-          }
-          {submissionStatus === 4 ? JSON.parse(authProfile)?.role === "perangkat_daerah" || JSON.parse(authProfile)?.role === "op_pmo" ?
-            <div className="flex flex-col flex-1">
-              <div className="flex flex-col bg-lightColor dark:bg-cardDark p-5 gap-3 items-center rounded-lg">
-                <img
-                  src={require('../../assets/image/process.gif')}
-                  alt={'processing'}
-                  className=" object-contain flex w-[20%] min-w-[200px] aspect-square "
-                  effect="blur"
-                />
-                <span className="text-base text-center">Pengajuan Anda Sedang <b>Di Proses</b> Oleh pihak DISKOMINFO Kota Bandung</span>
-              </div>
-            </div> :
-            <div className="flex flex-1 flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
-              <span className='text-lg font-bold'>Proses Pengajuan</span>
-              {[
-                {
-                  label: "Pengecekan Alat",
-                  value: formProcess.response,
-                  type: "textarea",
-                  name: 'checking_tools'
-                },
-                {
-                  label: "Jadwal Pengerjaan",
-                  value: formProcess.response,
-                  type: "date",
-                  name: 'working_schedule'
-                }
-              ].map((inputProps, index) => (
-                <DynamicInput
-                  key={index}
-                  label={inputProps.label}
-                  value={inputProps.value}
-                  type={inputProps.type}
-                  options={inputProps.options}
-                  onChange={(value) => {
-                    setFormProcess(prevState => ({
-                      ...prevState,
-                      [inputProps.name]: value
-                    }));
-                  }}
-                  />
-              ))}
-              <DynamicButton
-                initialValue={"Lanjutkan"}
-                type="fill"
-                color={"#ffffff"}
-                className="inline-flex  bg-[#0185FF] text-darkColor"
-                onClick={() => {
-                  console.log(formProcess);
-                  // checkingFormData('validation', formValidasi);
-                }}
-              />
-            </div>
-            : null
-          }
-          <DynamicDetails detailData={detailData} />
-          
+          <DalamAntrianView submissionStatus={submissionStatus} />
+          <ValidationStatus
+            submissionStatus={submissionStatus}
+            validationData={validationData}
+            authProfile={authProfile}
+          />
+          <ProcessStatus
+            submissionStatus={submissionStatus}
+            authProfile={authProfile}
+            processData={processData}
+            setProcessData={setProcessData}
+            finishData={finishData}
+            setfinishData={setfinishData}
+            checkingFormData={checkingFormData}
+          />
+          <FinishStatus
+            submissionStatus={submissionStatus}
+            finishData={finishData}
+          />
+          <DynamicDetails detailData={detailData} loading={infrastrukturLoading} />
+
           {submissionStatus <= 2 ? JSON.parse(authProfile)?.role === "perangkat_daerah" || JSON.parse(authProfile)?.role === "op_pmo" ?
             null :
             <div className="flex flex-1 flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
               <span className='text-lg font-bold'>Status Kelengkapan</span>
               {[
                 {
-                  value: formValidasi.statusValidasi,
+                  value: validationData.statusValidasi,
                   type: "radio_button",
                   options: [
                     { value: "1", label: "Disetujui" },
@@ -291,7 +210,7 @@ function DetailInfrastrukturPages() {
                 },
                 {
                   label: "Tanggapan",
-                  value: formValidasi.response,
+                  value: validationData.response,
                   type: "editor",
                   name: 'response'
                 }
@@ -303,7 +222,7 @@ function DetailInfrastrukturPages() {
                   type={inputProps.type}
                   options={inputProps.options}
                   onChange={(value) => {
-                    setFormValdiasi((prevState) => ({
+                    setValidationData((prevState) => ({
                       ...prevState,
                       [inputProps.name]: value,
                     }));
@@ -312,154 +231,19 @@ function DetailInfrastrukturPages() {
                 />
               ))}
               <DynamicButton
-                initialValue={"Lanjutkan"}
+                initialValue={"Lanjutkan "}
                 type="fill"
                 color={"#ffffff"}
                 className="inline-flex  bg-[#0185FF] text-darkColor"
                 onClick={() => {
-                  checkingFormData('validation', formValidasi);
+                  checkingFormData('validation', validationData);
                 }}
               />
             </div>
             : null
           }
 
-
-
-
-          {/* {JSON.parse(authProfile)?.role === "perangkat_daerah" || JSON.parse(authProfile)?.role === "op_pmo" ?
-            <div
-              className={` ${submissionStatus === 2 ? "flex-1" : "hidden"} flex-1 flex flex-col gap-3`}
-            >
-              {detailInfrastruktur?.processing?.tool_checking === null ?
-                <div className="flex flex-col bg-lightColor dark:bg-cardDark p-5 gap-3 items-center rounded-lg">
-                  <img
-                    src={require('../../assets/image/process.gif')}
-                    alt={'processing'}
-                    className=" object-contain flex w-[20%] min-w-[200px] aspect-square "
-                    effect="blur"
-                  />
-                  <span className="text-base text-center">Pengajuan Anda Sedang <b>Diproses</b> Oleh pihak DISKOMINFO Kota Bandung</span>
-                </div> :
-                detailData.helpdesk_title === "Relokasi Alat" ?
-                  <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
-                    {Object.entries(detailInfrastruktur?.processing).map(([key, value]) => (
-                      <DynamicShow
-                        key={key}
-                        label={key === "tool_checking" ? "Pengecekan Alat" : key === "work_scheduling" ? "Jadwal Pengerjaan" : key}
-                        value={value}
-                        type={key === "tool_checking" ? "html" : key === "work_scheduling" ? "text" : key}
-                      />
-                    ))}
-                  </div> :
-                  <div className="flex flex-col bg-lightColor dark:bg-cardDark p-5 gap-3 items-center rounded-lg">
-                    <img
-                      src={require('../../assets/image/process.gif')}
-                      alt={'processing'}
-                      className=" object-contain flex w-[20%] min-w-[200px] aspect-square "
-                      effect="blur"
-                    />
-                    <span className="text-base text-center">Pengajuan Anda Sedang <b>Diproses</b> Oleh pihak DISKOMINFO Kota Bandung</span>
-                  </div>
-              }
-            </div> :
-            submissionStatus === 2 &&
-            <div
-              className={` ${submissionStatus >= 2 ? "flex-1" : "hidden"} flex-1 flex flex-col gap-3`}
-            >
-              {detailData.helpdesk_title === "Relokasi Alat" &&
-                <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
-                  <DynamicInput
-                    label={"Pengecekan alat"}
-                    value={(processField.find(field => field.name === 'tool_checking') || { value: '' }).value}
-                    type={"textarea"}
-                    onChange={(value) => handleInputChange('tool_checking', value)}
-                  />
-                  <DynamicInput
-                    label={"Penjadwalan Alat"}
-                    value={(processField.find(field => field.name === 'work_scheduling') || { value: '' }).value}
-                    type={"date"}
-                    onChange={(value) => handleInputChange('work_scheduling', value)}
-                  />
-                  <DynamicButton
-                    initialValue={"Update Perubahan"}
-                    type="fill"
-                    color={"#ffffff"}
-                    className="inline-flex  bg-[#0185FF] text-darkColor"
-                    onClick={() => {
-                      // checkingFormData();
-                      console.log(processField);
-                      setShowProgress(true)
-                    }}
-
-                  />
-                </div>}
-
-              {showProgress &&
-                <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
-                  <DynamicInput
-                    label={"Status Pengajuan"}
-                    value={submission_status}
-                    type={"radio_button"}
-                    options={[
-                      { value: "Disetujui", label: "Disetujui" },
-                      { value: "Ditolak", label: "Ditolak" },
-                    ]}
-                    onChange={(a) => { setSubmission_status(a) }}
-                  />
-                  <DynamicInput
-                    label={"Upload File Pengajuan"}
-                    value={""}
-                    type={"file_upload"}
-                    onChange={(a) => { setFilesUpload(a) }}
-                  />
-                  <DynamicInput
-                    label={"Komentar"}
-                    value={komentar}
-                    type={"editor"}
-                    onChange={(a) => { setKomentar(a) }}
-                  />
-                  <DynamicButton
-                    initialValue={"Simpan Perubahan"}
-                    type="fill"
-                    color={"#ffffff"}
-                    className="inline-flex  bg-[#0185FF] text-darkColor"
-                    onClick={() => {
-                      checkingFormData();
-                    }}
-
-                  />
-                </div>
-              }
-
-            </div>}
-          <div
-            className={` ${submissionStatus >= 3 ? "flex-1" : "hidden"} flex-1 flex flex-col gap-3`}
-          >
-            <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
-              <div className="flex flex-row gap-2 items-center">
-                <span className="text-base font-semibold">Status :</span>
-                <div className={`flex flex-row gap-2 p-1 px-3 rounded-md text-darkColor  ${detailInfrastruktur?.submission_status === 'Ditolak' ? 'bg-[#FF0000]' : 'bg-[#0185FF]'}`}>
-                  <span className="text-base">{detailInfrastruktur?.submission_status}</span>
-                </div>
-              </div>
-              {detailInfrastruktur?.fileuploaded && (
-                <DynamicShow
-                  label={"File Pelaporan"}
-                  value={detailInfrastruktur?.fileuploaded}
-                  location={'infrastruktur'}
-                  type={"pdf"}
-                />
-              )}
-              <DynamicShow
-                label={"Komentar"}
-                value={detailInfrastruktur?.comment}
-                type={"html"}
-              />
-            </div>
-          </div> */}
         </div>
-
       </section>
 
       <ModalContent

@@ -7,35 +7,6 @@ const status = ({ status }) => {
     <div className="flex-1 flex flex-col gap-3">
       <div className="flex sm:flex-row flex-col bg-lightColor dark:bg-cardDark p-3 rounded-lg">
         {[
-          // {
-          //   title: "Dalam Antrian",
-          //   status: 1,
-          //   color: "bg-[#333333]",
-          //   border: "border-[#333333]",
-          //   text: "text-[#333333]",
-          // },
-          // {
-          //   title: "Validasi",
-          //   status: 2,
-          //   color: "bg-[#F5CF08]",
-          //   border: "border-[#F5CF08]",
-          //   text: "text-[#F5CF08]",
-          // },
-          // {
-          //   title: "Proses",
-          //   status: 3,
-          //   color: "bg-[#F5CF08]",
-          //   border: "border-[#F5CF08]",
-          //   text: "text-[#F5CF08]",
-          // },
-          // {
-          //   title: "Selesai",
-          //   status: 4,
-          //   color: status === 4 ? "bg-[#FF0000]" : "bg-[#13C39C]",
-          //   border: status === 4 ? "border-[#FF0000]" : "border-[#13C39C]",
-          //   text: status === 4 ? "text-[#FF0000]" : "text-[#13C39C]",
-          // },
-
           {
             title: "Dalam Antrian",
             status: 1,
@@ -61,8 +32,8 @@ const status = ({ status }) => {
             title: "Selesai",
             status: 5,
             color: status === 5 ? "bg-[#13C39C]" : status === 6 ? "bg-[#FF0000]" : "bg-[#13C39C]",
-            border: status === 5 ? "border-[#13C39C]" : status === 6 ? "border-[#13C39C]" : "border-[#13C39C]",
-            text: status === 5 ? "text-[#13C39C]" : 6 ? "text-[#FF0000]" : "text-[#13C39C]",
+            border: status === 5 ? "border-[#13C39C]" : status === 6 ? "border-[#FF0000]" : "border-[#13C39C]",
+            text: status === 5 ? "text-[#13C39C]" : status === 6 ? "text-[#FF0000]" : "text-[#13C39C]",
           },
         ].map((item, index) => (
           <div key={index} className="flex flex-col flex-1 ">

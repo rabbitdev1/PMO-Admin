@@ -26,7 +26,7 @@ function DynamicShow({
       <div className="flex flex-row items-center gap-2 ">
         {label && (
           <span className=" text-sm text-left">{label} :</span>
-        )} 
+        )}
       </div>
       {type === "html" ? (
         <div
@@ -50,6 +50,12 @@ function DynamicShow({
           className={`flex flex-row gap-2  bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center p-3 ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}
         >
           <PDFComponent imagePath={`files/${location}/${value}`} />
+        </div>
+      ) : type === "array" ? (
+        <div
+          className={`flex flex-row gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center p-3 ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}
+        >
+          <span className="text-sm ">{JSON.stringify(value)}</span>
         </div>
       ) : (
         <div

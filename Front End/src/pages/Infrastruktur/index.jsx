@@ -101,6 +101,7 @@ function InfrastrukturPages() {
   const fetchDataCreate = async (api_key, token, data) => {
     dispatch(isPending(true));
     const raw = JSON.stringify(data);
+
     try {
       const response = await apiClient({
         baseurl: "infrastruktur/create",
@@ -121,6 +122,7 @@ function InfrastrukturPages() {
           },
           status: true
         })
+        resetFormData(isModalCreate.data)
       } else {
         toast.error(response.result.msg, {
           position: toast.POSITION.TOP_RIGHT,
@@ -130,10 +132,11 @@ function InfrastrukturPages() {
       console.error("Error fetching data:", error);
     }
   };
-  const fetchDataDelete = async (api_key, token, id) => {
+  const fetchDataDelete = async (api_key, token, id, layanan) => {
     dispatch(isPending(true));
     const params = new URLSearchParams();
     params.append("id", id);
+    params.append("layanan", layanan);
 
     try {
       const response = await apiClient({
@@ -366,20 +369,31 @@ function InfrastrukturPages() {
                   { name: "Aksi", field: "action" },
                 ]}
                 showAction={{ read: true, remove: JSON.parse(authProfile)?.role === "perangkat_daerah" ? true : false, edit: true }}
-                onClickShow={(id) => {
+                onClickShow={(data) => {
                   if (JSON.parse(authProfile)?.role === "perangkat_daerah" || JSON.parse(authProfile)?.role === "op_pmo") {
-                    navigate("/detail-infrastruktur", { state: { slug: id } });
+                    navigate("/detail-infrastruktur", { state: { slug: data.id } });
                   } else {
-                    fetchSetProgress(authApiKey, authToken, id)
+                    fetchSetProgress(authApiKey, authToken, data.id)
                   }
                 }}
-                onClickRemove={(a) => {
-                  const isConfirmed = window.confirm("Apakah kamu yakin ingin menghapus pengajuan ini?");
-                  if (isConfirmed) {
-                    fetchDataDelete(authApiKey, authToken, a)
+                onClickRemove={(data) => {
+                  if (data.submission_status === 2) {
+                    toast.error('Pengajuan dalam proses validasi, tidak bisa di hapus', {
+                      position: toast.POSITION.TOP_RIGHT,
+                    });
+                  } else if (data.submission_status === 4) {
+                    toast.error('Pengajuan dalam proses diskominfo, tidak bisa di hapus', {
+                      position: toast.POSITION.TOP_RIGHT,
+                    });
                   } else {
-                    alert("Pengajuan tidak dihapus.");
+                    const isConfirmed = window.confirm("Apakah kamu yakin ingin menghapus pengajuan ini?");
+                    if (isConfirmed) {
+                      fetchDataDelete(authApiKey, authToken, data.id, "infrastruktur")
+                    } else {
+                      alert("Pengajuan tidak dihapus.");
+                    }
                   }
+
                 }}
                 data={listHelpDesk}
               />

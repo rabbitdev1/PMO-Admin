@@ -31,13 +31,7 @@ const Sidebar = () => {
       >
         {[
           { title: "Dashboard", role: ['op_pmo', 'perangkat_daerah','kabid_infra','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/", "/"], },
-          { title: "Bidang Infrastruktur Teknologi, Informasi dan Komunikasi", role: ['op_pmo', 'perangkat_daerah','kabid_infra','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/infrastruktur", "/detail-infrastrukturl;"], },
-          // { title: "Pembanguan dan Pengembangan", role: ['op_pmo', 'perangkat_daerah','tim_teknis_infrastruktur','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/test", "/2"], },
-          // { title: "Evaluasi Sistem Informasi", role: ['op_pmo', 'perangkat_daerah','tim_teknis_infrastruktur','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/test", "/3"], },
-          // { title: "Evaluasi Keamanan Sistem Informasi", role: ['op_pmo', 'perangkat_daerah','tim_teknis_infrastruktur','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/test", "/4"], },
-          // { title: "Pendampingan", role: ['op_pmo', 'perangkat_daerah','tim_teknis_infrastruktur','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/test", "/5"], },
-          // { title: "Help Desk", role: ['op_pmo', 'perangkat_daerah','tim_teknis_infrastruktur','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/help-desk", "/detail-help-desk"], },
-          // { title: "Integrasi Sistem Informasi", role: ['op_pmo', 'perangkat_daerah','tim_teknis_infrastruktur','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/test", "/6"], },
+          { title: "Bidang Infrastruktur Teknologi, Informasi dan Komunikasi", role: ['op_pmo', 'perangkat_daerah','kabid_infra','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/infrastruktur", "/detail-infrastruktur"], },
           { title: "SISTEM", role: ['op_pmo'], icon: "" },
           { title: "Akun", role: ['op_pmo'], icon: AllBerandaIcon, href: ["/account", "/7"], },
         ].map((button, index) => {

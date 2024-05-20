@@ -70,7 +70,7 @@ const TableCostum = ({
             type="transparent"
             className="bg-[#0185FF] text-darkColor text-xs "
             onClick={() => {
-              onClickShow(rowData.id);
+              onClickShow(rowData);
             }}
           />
         )}
@@ -81,7 +81,7 @@ const TableCostum = ({
             type="transparent"
             className="bg-[#FB4B4B] text-darkColor text-xs "
             onClick={() => {
-              onClickRemove(rowData.id);
+              onClickRemove(rowData);
             }}
           />
         )}

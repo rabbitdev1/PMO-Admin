@@ -9,77 +9,41 @@ const InfraModel = db.define(
   {
     submission_title: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
     submission_type: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
     apiKey: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
-    name_pic: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    telp_pic: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    type_tools: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    image_screenshoot: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    period: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    submission_type: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    device_specifications: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    proposed_bandwidth: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    total_tools: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
-    full_address: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    status: {
-      type: DataTypes.STRING,
-      allowNull: true,
+    fields: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      defaultValue: {},
     },
     submission_status: {
       type: DataTypes.INTEGER,
-      allowNull: true,
+      allowNull: false,
       defaultValue: 1,
     },
     on_validation: {
       type: DataTypes.TEXT,
-      allowNull: true,
-      defaultValue: 1,
+      allowNull: false,
+    },
+    on_process: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    on_finish: {
+      type: DataTypes.TEXT,
+      allowNull: false,
     },
     role: {
       type: DataTypes.STRING,
-      allowNull: true,
-    },
-    reason: {
-      type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
   },
   {

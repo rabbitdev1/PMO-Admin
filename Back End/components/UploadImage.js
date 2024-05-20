@@ -48,7 +48,7 @@ export const uploadImages = async (req, res) => {
   }
 };
 
-export const deleteImage = async (fileName,location) => {
+export const deleteImage = async (fileName, location) => {
   try {
     const storage = getStorage();
     const imageRef = ref(storage, `images/${location}/${fileName}`);
@@ -57,7 +57,11 @@ export const deleteImage = async (fileName,location) => {
 
     return { status: "success", msg: "Image deleted successfully" };
   } catch (error) {
-    console.error("Error deleting image:", error);
-    throw error;
+    if (error.code === 'storage/object-not-found') {
+      return { status: "error", msg: "Image not found" };
+    } else {
+      console.error("Error deleting image:", error);
+      throw error;
+    }
   }
 };
