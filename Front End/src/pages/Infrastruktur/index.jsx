@@ -22,14 +22,11 @@ import { apiClient } from "../../utils/api/apiClient";
 import fetchUploadImages from "../../utils/api/uploadImages";
 import { convertToNameValueObject } from "../../utils/helpers/convertToNameValueObject";
 import { formData as initialFormData } from './data';
-import { validateArray, validateFullname, validateTelp } from "../../utils/helpers/validateForm";
 import { isValidatorRelokasiAlat } from "./validators";
 
 function InfrastrukturPages() {
   const { isDarkMode } = useTheme();
   const navigate = useNavigate();
-  const isWebSetting = localStorage.getItem("isWebSetting");
-  const parseWebSetting = JSON.parse(isWebSetting);
   const authApiKey = Cookies.get('authApiKey');
   const authToken = Cookies.get('authToken');
   const authProfile = Cookies.get('authData');

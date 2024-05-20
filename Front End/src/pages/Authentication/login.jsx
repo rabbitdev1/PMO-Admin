@@ -17,8 +17,6 @@ const LoginPage = () => {
   const dispatch = useDispatch();
   const { isDarkMode } = useTheme();
   const navigate = useNavigate();
-  const isWebSetting = localStorage.getItem("isWebSetting");
-  const parseWebSetting = JSON.parse(isWebSetting);
   const [password, setPassword] = useState("Sadang!12");
   const [email, setEmail] = useState("pmo@gmail.com");
   const [keepLogin, setKeepLogin] = useState(false);

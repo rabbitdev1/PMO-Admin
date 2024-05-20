@@ -208,8 +208,8 @@ export const setInfrastruktur = async (req, res) => {
     rawData.fields = JSON.stringify(processedData);
     rawData.submission_status = 1;
     rawData.on_process = JSON.stringify({});
-    rawData.on_validation = JSON.stringify({});
-    rawData.on_finish = JSON.stringify({});
+    rawData.on_validation = JSON.stringify({ statusValidasi: "1" });
+    rawData.on_finish = JSON.stringify({ submission_status: "0" });
 
     await InfraModel.create(rawData);
     res.status(200).json({
@@ -358,11 +358,9 @@ export const deleteInfrastruktur = async (req, res) => {
     );
     const foundValue = fileUploadValue || imageScreenshotValue;
     if (foundValue) {
-      
       await deleteFiles(foundValue, layanan);
       console.log("Data ditemukan");
       console.log(foundValue, layanan);
-
     } else {
       console.log("Data tidak ditemukan");
     }
@@ -383,7 +381,6 @@ export const deleteInfrastruktur = async (req, res) => {
         msg: "Help desk item not found",
       });
     }
-  
   } catch (error) {
     console.error(error);
     res.status(500).json({

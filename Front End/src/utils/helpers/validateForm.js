@@ -1,8 +1,8 @@
 import { toast } from "react-toastify";
 
-export const validateFullname = (fullname) => {
-  if (!fullname || fullname.length < 4) {
-    toast.error("Nama Lengkap minimal 4 Huruf", {
+export const validateFullname = (value, title) => {
+  if (!value || value.length < 4) {
+    toast.error(title + " minimal 4 Huruf", {
       position: toast.POSITION.TOP_RIGHT,
     });
     return false;
@@ -10,10 +10,10 @@ export const validateFullname = (fullname) => {
   return true;
 };
 
-export const validateEmail = (email) => {
+export const validateEmail = (value, title) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!email || !emailRegex.test(email)) {
-    toast.error("Email tidak valid", {
+  if (!value || !emailRegex.test(value)) {
+    toast.error(title + "tidak valid", {
       position: toast.POSITION.TOP_RIGHT,
     });
     return false;
@@ -21,9 +21,9 @@ export const validateEmail = (email) => {
   return true;
 };
 
-export const validateAddress = (address) => {
-  if (!address || address.length < 10) {
-    toast.error("Alamat minimal 10 karakter", {
+export const validateAddress = (value, title) => {
+  if (!value || value.length < 10) {
+    toast.error(title + " minimal 10 karakter", {
       position: toast.POSITION.TOP_RIGHT,
     });
     return false;
@@ -31,9 +31,9 @@ export const validateAddress = (address) => {
   return true;
 };
 
-export const validateRole = (role) => {
-  if (!role || role.length === 0) {
-    toast.error("Peran harus dipilih", {
+export const validateRole = (value, title) => {
+  if (!value || value.length === 0) {
+    toast.error(title + " harus dipilih", {
       position: toast.POSITION.TOP_RIGHT,
     });
     return false;
@@ -41,13 +41,13 @@ export const validateRole = (role) => {
   return true;
 };
 
-export const validateTelp = (telp) => {
-  if (telp?.startsWith("+62")) {
-    telp = "0" + telp.slice(3);
+export const validateTelp = (value, title) => {
+  if (value?.startsWith("+62")) {
+    value = "0" + value.slice(3);
   }
   const phoneRegex = /^[0-9]{10,15}$/;
-  if (!telp || !phoneRegex.test(telp)) {
-    toast.error("Nomor telepon tidak valid, harus antara 10-15 digit", {
+  if (!value || !phoneRegex.test(value)) {
+    toast.error(title + " tidak valid, harus antara 10-15 digit", {
       position: toast.POSITION.TOP_RIGHT,
     });
     return false;
@@ -55,12 +55,14 @@ export const validateTelp = (telp) => {
   return true;
 };
 
-export const validatePassword = (password) => {
+export const validatePassword = (value, title) => {
   const passwordRegex =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
-  if (!password || !passwordRegex.test(password)) {
+  if (!value || !passwordRegex.test(value)) {
     toast.error(
-      "Password harus mengandung minimal 6 karakter, termasuk 1 huruf besar, 1 huruf kecil, 1 angka, dan 1 simbol",
+      "Password pada " +
+        title +
+        " harus mengandung minimal 6 karakter, termasuk 1 huruf besar, 1 huruf kecil, 1 angka, dan 1 simbol",
       {
         position: toast.POSITION.TOP_RIGHT,
       }
@@ -80,38 +82,91 @@ export const validateRepeatPassword = (password, repeatPassword) => {
   return true;
 };
 
-export const validateImage = (image) => {
+export const validateImage = (value, title) => {
   const validImageTypes = ["image/jpeg", "image/png", "image/gif"];
   const maxSizeInBytes = 2 * 1024 * 1024; // 2 MB
 
-  if (!image) {
-    toast.error("Gambar tidak boleh kosong", {
+  if (!value) {
+    toast.error("Gambar pada " + title + " tidak boleh kosong", {
       position: toast.POSITION.TOP_RIGHT,
     });
     return false;
   }
 
-  if (!validImageTypes.includes(image.type)) {
-    toast.error("Tipe file gambar tidak valid. Harus JPG, PNG, atau GIF", {
-      position: toast.POSITION.TOP_RIGHT,
-    });
+  if (!validImageTypes.includes(value.type)) {
+    toast.error(
+      "Tipe file gambar pada " +
+        title +
+        " tidak valid. Harus JPG, PNG, atau GIF",
+      {
+        position: toast.POSITION.TOP_RIGHT,
+      }
+    );
     return false;
   }
 
-  if (image.size > maxSizeInBytes) {
-    toast.error("Ukuran file gambar tidak boleh lebih dari 2 MB", {
-      position: toast.POSITION.TOP_RIGHT,
-    });
+  if (value.size > maxSizeInBytes) {
+    toast.error(
+      "Ukuran file gambar pada " + title + " tidak boleh lebih dari 2 MB",
+      {
+        position: toast.POSITION.TOP_RIGHT,
+      }
+    );
     return false;
   }
 
   return true;
 };
 
+export const validateArray = (value, title) => {
+  if (!value || value.length === 0) {
+    toast.error(title + ` tidak boleh kosong`, {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+    return false;
+  }
+  return true;
+};
 
-export const validateArray = (type_tools) => {
-  if (!type_tools || type_tools.length === 0) {
-    toast.error(`Array tidak boleh kosong`, {
+export const validateHTML = (value, title) => {
+  // Regex untuk memastikan format awal benar
+  const regex = /^<p>(.*?)<\/p>\n$/;
+  const match = value.match(regex);
+
+  if (match) {
+    const content = match[1]; // Ambil konten di dalam tag <p>
+    const wordCount = content.trim().split(/\s+/).length; // Hitung jumlah kata
+    if (wordCount >= 10) {
+      return true;
+    } else {
+      toast.error(title + " Tidak Boleh Kosong, Minimal 10 Kata", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      return false;
+    }
+  } else {
+    toast.error(
+      title + "Invalid format. Reason must be in the format <p>...</p>\\n",
+      {
+        position: toast.POSITION.TOP_RIGHT,
+      }
+    );
+    return false;
+  }
+};
+export const validateRadioBottom = (value, title) => {
+  if (!value || value.length < 1) {
+    toast.error("Pilih salah satu pada " + title, {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+    return false;
+  }
+  return true;
+};
+
+export const validateTextArea = (value, title) => {
+  if (!value || value.length < 4) {
+    toast.error(title + " minimal 4 kata", {
       position: toast.POSITION.TOP_RIGHT,
     });
     return false;

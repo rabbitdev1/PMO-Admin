@@ -177,7 +177,7 @@ function DynamicInput({
               className="h-full flex-1 w-full bg-lightColor dark:bg-darkColor text-sm  min-h-[150px]"
               name={name}
               placeholder={placeholder}
-              value={value}
+              value={value||''}
               disabled={disabled}
               style={{ outline: "none" }}
               onChange={(event) => onChange(event.target.value)}

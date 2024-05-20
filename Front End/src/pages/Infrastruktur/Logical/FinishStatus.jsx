@@ -6,7 +6,7 @@ const FinishStatus = ({ submissionStatus, finishData }) => {
     <>
       {submissionStatus >= 5 ? (
         <div className={`flex-1 flex flex-col gap-3`}>
-          <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+          <div className="flex flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
             <div className="flex flex-row gap-2 items-center">
               <span className="text-base font-semibold">Status Pengajuan :</span>
               <div className={`flex flex-row gap-2 p-1 px-3 rounded-md text-darkColor ${finishData.submission_status === "Disetujui" ? 'bg-[#13C39C]' : 'bg-[#FF0000]'}`}>

@@ -25,8 +25,6 @@ function AccountPages() {
   const { isDarkMode } = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isWebSetting = localStorage.getItem("isWebSetting");
-  const parseWebSetting = JSON.parse(isWebSetting);
   const authApiKey = Cookies.get('authApiKey');
   const authToken = Cookies.get('authToken');
 

@@ -9,20 +9,12 @@ export const MaintenanceGuard = ({ children }) => {
   const isToManyRequestMode = useSelector(
     (state) => state.todoReducer.isToManyRequestMode,
   );
-  const [webSetting, setWebSetting] = useState();
-
-  useEffect(() => {
-    if (typeof localStorage !== "undefined") {
-      const isWebSetting = localStorage.getItem("isWebSetting");
-      setWebSetting(JSON.parse(isWebSetting));
-    }
-  }, []);
 
   return isMaintenanceMode ? (
     <div className="flex bg-[#F7FBFA] min-w-full min-h-screen items-center justify-center flex-col p-4 font-gilroy">
       <div className="gap-3 flex flex-col items-center container max-w-6xl">
         <img
-          src={webSetting?.otherImage["maintenance"] || ""}
+          src={ ""}
           alt="other"
           className=" w-1/2 aspect-square object-cover flex max-w-xs"
         />

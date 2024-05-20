@@ -28,8 +28,6 @@ import { formData as initialFormData } from './data';
 function HelpDeskPages() {
   const { isDarkMode } = useTheme();
   const navigate = useNavigate();
-  const isWebSetting = localStorage.getItem("isWebSetting");
-  const parseWebSetting = JSON.parse(isWebSetting);
   const authApiKey = Cookies.get('authApiKey');
   const authToken = Cookies.get('authToken');
   const authProfile = Cookies.get('authData');

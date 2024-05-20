@@ -5,8 +5,6 @@
 
 
 // function DashboardPages() {
-//   const isWebSetting = localStorage.getItem("isWebSetting");
-//   const parseWebSetting = JSON.parse(isWebSetting);
 //   const [sliderData, setSliderData] = useState([]);
 
 //   const [sliderLoading, setSliderLoading] = useState(true);

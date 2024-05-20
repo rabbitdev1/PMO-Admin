@@ -17,15 +17,6 @@ const Authmiddleware = (props) => {
   const setSideBar = useSelector((state) => state.todoReducer.isSideBar);
   const dispatch = useDispatch();
 
-  const [webSetting, setWebSetting] = useState();
-
-  useEffect(() => {
-    if (typeof localStorage !== "undefined") {
-      const isWebSetting = localStorage.getItem("isWebSetting");
-      setWebSetting(JSON.parse(isWebSetting));
-    }
-  }, []);
-
   useEffect(() => {
     const header = document.querySelector("header");
     setHeaderHeight(header.offsetHeight);

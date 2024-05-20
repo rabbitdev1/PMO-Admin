@@ -28,8 +28,6 @@ function DetailsAccountPages() {
   const authProfile = Cookies.get('authData');
   const location = useLocation();
   const slug = location?.state?.slug || "";
-  const isWebSetting = localStorage.getItem("isWebSetting");
-  const parseWebSetting = JSON.parse(isWebSetting);
 
   const [helpDeskLoading, setHelpDeskLoading] = useState(true);
   const [detailHelpDesk, setDetailHelpDesk] = useState([]);

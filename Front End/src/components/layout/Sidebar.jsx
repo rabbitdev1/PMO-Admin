@@ -32,8 +32,15 @@ const Sidebar = () => {
         {[
           { title: "Dashboard", role: ['op_pmo', 'perangkat_daerah','kabid_infra','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/", "/"], },
           { title: "Bidang Infrastruktur Teknologi, Informasi dan Komunikasi", role: ['op_pmo', 'perangkat_daerah','kabid_infra','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/infrastruktur", "/detail-infrastruktur"], },
+          { title: "Bidang Aplikasi Informatika, Persandian dan Keamanan Informasi", role: ['op_pmo','perangkat_daerah','kabid_aplikasi','ketim_aplikasi','teknis_aplikasi'], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
+          { title: "Bidang Data Statistik", role: ['op_pmo', 'perangkat_daerah','tim_teknis_aplikasi','tim_teknis_integrasi'], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
+          { title: "Bidang Desiminasi Informasi", role: ['op_pmo','perangkat_daerah','kabid_desiminasi','ketim_desiminasi','teknis_desiminasi'], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
+          { title: "Bidang Perancangan Teknologi, Informasi dan Komunikasi", role: ['op_pmo','perangkat_daerah','kabid_perencanaan','ketim_perencanaan','teknis_perencanaan'], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
+          { title: "UPT Radio Sonata", role: ['op_pmo','perangkat_daerah','kabid_upt_radio','ketim_upt_radio','teknis_upt_radio'], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
+          { title: "Sekertariat", role: ['op_pmo','kabid_sek','ketim_sek','teknis_sek'], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
           { title: "SISTEM", role: ['op_pmo'], icon: "" },
-          { title: "Akun", role: ['op_pmo'], icon: AllBerandaIcon, href: ["/account", "/7"], },
+          { title: "Akun", role: ['op_pmo'], icon: AllBerandaIcon, href: ["/account", "/1"], },
+
         ].map((button, index) => {
           const isOperatorExist = button?.role?.includes(validateSideBar?.role || '');
           if (isOperatorExist) {

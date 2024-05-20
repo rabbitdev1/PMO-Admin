@@ -13,15 +13,7 @@ import LoadingLink from "../common/LoadingLink";
 const Footer = () => {
   const { isDarkMode } = useTheme();
   const [status, setStatus] = useState(null);
-  const [webSetting, setWebSetting] = useState();
   const { hostname } = window.location;
-
-  useEffect(() => {
-    if (typeof localStorage !== "undefined") {
-      const isWebSetting = localStorage.getItem("isWebSetting");
-      setWebSetting(JSON.parse(isWebSetting));
-    }
-  }, []);
 
   useEffect(() => {
     if (typeof localStorage !== "undefined") {
@@ -31,7 +23,7 @@ const Footer = () => {
   }, []);
 
   return (
-    <footer className="flex flex-col transition duration-300 ease-in-out mx-auto w-full items-center font-gilroy p-3">
+    <footer className="flex flex-col transition duration-300 ease-in-out mx-auto w-full items-center font-gilroy p-3 bg-lightColor dark:bg-darkColor">
       <span className="text-sm opacity-70">Copyright © Designed & Developed by Diskominfo 2024</span>
     </footer>
   );

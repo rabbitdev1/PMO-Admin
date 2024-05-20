@@ -14,8 +14,6 @@ import { isSideBar } from "../store/actions/todoActions";
 
 const Header = () => {
   const { isDarkMode, toggleTheme } = useTheme();
-  const isWebSetting = localStorage.getItem("isWebSetting");
-  const parseWebSetting = JSON.parse(isWebSetting);
   const [showOverlay, setShowOverlay] = useState(false);
   const [profile, setProfile] = useState({});
   const navigate = useNavigate();

@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 function CountdownTimer({ expired, onResponse, type }) {
-  const isWebSetting = localStorage.getItem("isWebSetting");
-  const parseWebSetting = JSON.parse(isWebSetting);
-  const startTime = new Date(parseWebSetting?.datetime);
+  const startTime = new Date();
   const endTime = new Date(expired);
 
   // Calculate the initial remaining time

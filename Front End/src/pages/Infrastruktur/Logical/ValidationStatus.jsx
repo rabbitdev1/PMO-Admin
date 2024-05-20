@@ -2,6 +2,8 @@ import React from 'react';
 import DynamicShow from '../../../components/common/DynamicShow';
 import DynamicInput from '../../../components/common/DynamicInput';
 import DynamicButton from '../../../components/common/DynamicButton';
+import { toast } from 'react-toastify';
+import { validateTextArea } from '../../../utils/helpers/validateForm';
 
 const ValidationStatus = ({ submissionStatus, validationData, authProfile, position, setValidationData, checkingFormData }) => {
   return (
@@ -87,12 +89,18 @@ const ValidationStatus = ({ submissionStatus, validationData, authProfile, posit
               );
             })}
             <DynamicButton
-              initialValue={"Lanjutkan "}
+              initialValue={"Lanjutkan"}
               type="fill"
               color={"#ffffff"}
               className="inline-flex  bg-[#0185FF] text-darkColor"
               onClick={() => {
-                checkingFormData('validation', validationData);
+                if (validationData.statusValidasi === '0' && validationData?.response === undefined) {
+                  toast.error('Wajib masukan Tanggapan', {
+                    position: toast.POSITION.TOP_RIGHT,
+                  });
+                } else {
+                  checkingFormData('validation', validationData);
+                }
               }}
             />
           </div>

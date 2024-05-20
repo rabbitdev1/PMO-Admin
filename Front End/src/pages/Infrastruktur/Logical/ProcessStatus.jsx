@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import DynamicShow from '../../../components/common/DynamicShow';
 import DynamicInput from '../../../components/common/DynamicInput';
 import DynamicButton from '../../../components/common/DynamicButton';
+import { toast } from 'react-toastify';
 
 const ProcessStatus = ({ submissionStatus, authProfile, processData, setProcessData, finishData, setfinishData, checkingFormData }) => {
     const profile = JSON.parse(authProfile);
     const isPerangkatDaerahOrOpPmo = profile?.role === "perangkat_daerah" || profile?.role === "op_pmo";
 
+
+    const [showProcessFinish, setShowProcessFinish] = useState(false);
     return (
         <>
             {submissionStatus === 4 ? isPerangkatDaerahOrOpPmo ?
@@ -71,17 +74,28 @@ const ProcessStatus = ({ submissionStatus, authProfile, processData, setProcessD
                                 }}
                             />
                         ))}
-                        <DynamicButton
-                            initialValue={"Lanjutkan Proses"}
-                            type="fill"
-                            color={"#ffffff"}
-                            className="inline-flex  bg-[#0185FF] text-darkColor"
-                            onClick={() => {
-                                checkingFormData('process', processData);
-                            }}
-                        />
+                        <div className='flex sm:flex-row flex-col gap-2'>
+                            <DynamicButton
+                                initialValue={"Update Proses ke Operator daerah"}
+                                type="fill"
+                                color={"#ffffff"}
+                                className="inline-flex  bg-[#0185FF] text-darkColor"
+                                onClick={() => {
+                                    checkingFormData('process', processData);
+                                }}
+                            />
+                            <DynamicButton
+                                initialValue={"Langsung ke Proses Selesai"}
+                                type="fill"
+                                color={"#ffffff"}
+                                className="inline-flex  bg-[#0185FF] text-darkColor"
+                                onClick={() => {
+                                    setShowProcessFinish(!showProcessFinish)
+                                }}
+                            />
+                        </div>
                     </div>
-                    {processData.checking_tools && processData.working_schedule ?
+                    {showProcessFinish ?
                         <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                             <span className='text-lg font-bold'>Proses Selesai</span>
                             {/* {JSON.stringify(processData)} */}
@@ -130,7 +144,14 @@ const ProcessStatus = ({ submissionStatus, authProfile, processData, setProcessD
                                 color={"#ffffff"}
                                 className="inline-flex  bg-[#0185FF] text-darkColor"
                                 onClick={() => {
-                                    checkingFormData('finish', finishData);
+                                    if (finishData?.response === undefined) {
+                                        toast.error('Wajib masukan Tanggapan', {
+                                            position: toast.POSITION.TOP_RIGHT,
+                                        });
+                                    } else {
+                                        checkingFormData('finish', finishData);
+                                    }
+
                                 }}
                             />
                         </div> : null
