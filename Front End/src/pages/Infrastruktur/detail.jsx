@@ -178,6 +178,7 @@ function DetailInfrastrukturPages() {
             submissionStatus={submissionStatus}
             validationData={validationData}
             authProfile={authProfile}
+            position={'top'}
           />
           <ProcessStatus
             submissionStatus={submissionStatus}
@@ -194,55 +195,14 @@ function DetailInfrastrukturPages() {
           />
           <DynamicDetails detailData={detailData} loading={infrastrukturLoading} />
 
-          {submissionStatus <= 2 ? JSON.parse(authProfile)?.role === "perangkat_daerah" || JSON.parse(authProfile)?.role === "op_pmo" ?
-            null :
-            <div className="flex flex-1 flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
-              <span className='text-lg font-bold'>Status Kelengkapan</span>
-              {[
-                {
-                  value: validationData.statusValidasi,
-                  type: "radio_button",
-                  options: [
-                    { value: "1", label: "Disetujui" },
-                    { value: "0", label: "Ditolak" },
-                  ],
-                  name: 'statusValidasi'
-                },
-                {
-                  label: "Tanggapan",
-                  value: validationData.response,
-                  type: "editor",
-                  name: 'response'
-                }
-              ].map((inputProps, index) => (
-                <DynamicInput
-                  key={index}
-                  label={inputProps.label}
-                  value={inputProps.value}
-                  type={inputProps.type}
-                  options={inputProps.options}
-                  onChange={(value) => {
-                    setValidationData((prevState) => ({
-                      ...prevState,
-                      [inputProps.name]: value,
-                    }));
-
-                  }}
-                />
-              ))}
-              <DynamicButton
-                initialValue={"Lanjutkan "}
-                type="fill"
-                color={"#ffffff"}
-                className="inline-flex  bg-[#0185FF] text-darkColor"
-                onClick={() => {
-                  checkingFormData('validation', validationData);
-                }}
-              />
-            </div>
-            : null
-          }
-
+          <ValidationStatus
+            submissionStatus={submissionStatus}
+            validationData={validationData}
+            authProfile={authProfile}
+            setValidationData={setValidationData}
+            checkingFormData={checkingFormData}
+            position={'bottom'}
+          />
         </div>
       </section>
 

@@ -24,8 +24,8 @@ export const uploadFiles = async (req, res) => {
 
     const hash = crypto.createHash("sha256");
     const randomSalt = crypto.randomBytes(16).toString("hex");
-    hash.update(apiKey + file.originalname + randomSalt);
-    const encryptedFileName = hash.digest("hex");
+    hash.update(file.originalname + randomSalt);
+    const encryptedFileName = apiKey + hash.digest("hex");
 
     const storage = getStorage();
     const storageRef = ref(storage, `files/${location}/${encryptedFileName}`);
@@ -48,7 +48,7 @@ export const uploadFiles = async (req, res) => {
   }
 };
 
-export const deleteFiles = async (fileName,location) => {
+export const deleteFiles = async (fileName, location) => {
   try {
     const storage = getStorage();
     const imageRef = ref(storage, `files/${location}/${fileName}`);
@@ -57,7 +57,11 @@ export const deleteFiles = async (fileName,location) => {
 
     return { status: "success", msg: "Image deleted successfully" };
   } catch (error) {
-    console.error("Error deleting image:", error);
-    throw error;
+    if (error.code === "storage/object-not-found") {
+      return { status: "error", msg: "Image not found" };
+    } else {
+      console.error("Error deleting image:", error);
+      throw error;
+    }
   }
 };

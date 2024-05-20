@@ -23,6 +23,7 @@ import fetchUploadImages from "../../utils/api/uploadImages";
 import { convertToNameValueObject } from "../../utils/helpers/convertToNameValueObject";
 import { formData as initialFormData } from './data';
 import { validateArray, validateFullname, validateTelp } from "../../utils/helpers/validateForm";
+import { isValidatorRelokasiAlat } from "./validators";
 
 function InfrastrukturPages() {
   const { isDarkMode } = useTheme();
@@ -213,41 +214,34 @@ function InfrastrukturPages() {
       };
       console.log(JSON.stringify(combinedObject));
 
-      if (
-        !validateFullname(combinedObject.name_pic) ||
-        // !validateArray(combinedObject.type_tools || (combinedObject.initial_bandwith && combinedObject.proposed_bandwidth)) ||
-        // !validateEmail(email) ||
-        // !validateAddress(address) ||
-        // !validateRole(role) ||
-        !validateTelp(combinedObject.telp_pic)
-        // !validatePassword(password) ||
-        // !validateRepeatPassword(password, repeat_password) ||
-        // !validateImage(image)
-      ) {
-        return false;
-      } else {
-        if (combinedObject?.image_screenshoot) {
-          const result = await fetchUploadImages(authApiKey, authToken, combinedObject.image_screenshoot, 'infrastruktur', dispatch);
-          if (result !== null) {
-            const fixObject = {
-              ...combinedObject,
-              image_screenshoot: result,
-            };
-            fetchDataCreate(authApiKey, authToken, fixObject);
-          } else {
-            console.error("Error occurred during image upload.");
-          }
+      if (combinedObject?.submission_title === "Relokasi Alat") {
+        if (isValidatorRelokasiAlat(combinedObject)) {
+          await handleImageUploadAndFetch(combinedObject);
         } else {
-          fetchDataCreate(authApiKey, authToken, combinedObject);
+          return false;
         }
       }
-
-
 
     } else {
       console.log("Objek tidak ditemukan dalam formData");
     }
   }
+  const handleImageUploadAndFetch = async (obj) => {
+    if (obj.image_screenshoot) {
+      const result = await fetchUploadImages(authApiKey, authToken, obj.image_screenshoot, 'infrastruktur', dispatch);
+      if (result !== null) {
+        const fixObject = {
+          ...obj,
+          image_screenshoot: result,
+        };
+        fetchDataCreate(authApiKey, authToken, fixObject);
+      } else {
+        console.error("Error occurred during image upload.");
+      }
+    } else {
+      fetchDataCreate(authApiKey, authToken, obj);
+    }
+  };
   const updatePic = (name, number) => {
     const updatedData = formData.map(form => {
       return {

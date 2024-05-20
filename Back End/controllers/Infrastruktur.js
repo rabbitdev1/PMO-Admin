@@ -1,3 +1,4 @@
+import { deleteFiles } from "../components/UploadFile.js";
 import { deleteImage } from "../components/UploadImage.js";
 import InfraModel from "../models/InfraModel.js";
 
@@ -357,7 +358,11 @@ export const deleteInfrastruktur = async (req, res) => {
     );
     const foundValue = fileUploadValue || imageScreenshotValue;
     if (foundValue) {
-      await deleteImage(foundValue, layanan);
+      
+      await deleteFiles(foundValue, layanan);
+      console.log("Data ditemukan");
+      console.log(foundValue, layanan);
+
     } else {
       console.log("Data tidak ditemukan");
     }
@@ -378,6 +383,7 @@ export const deleteInfrastruktur = async (req, res) => {
         msg: "Help desk item not found",
       });
     }
+  
   } catch (error) {
     console.error(error);
     res.status(500).json({
