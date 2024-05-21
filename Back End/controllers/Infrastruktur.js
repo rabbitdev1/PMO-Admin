@@ -14,15 +14,13 @@ export const getListInfrastruktur = async (req, res) => {
     } else {
       const infrastruktur = await InfraModel.findAll();
 
-      // Memeriksa apakah peran pengguna termasuk dalam peran yang diizinkan
       const filteredinfrastruktur = infrastruktur.filter((item) => {
-        if (!item.role) return false; // Jika item tidak memiliki role, maka tidak dimasukkan ke dalam respons
+        if (!item.role) return false; 
         const itemRoles = JSON.parse(item.role);
         return itemRoles.includes(role);
       });
 
       if (role === "perangkat_daerah") {
-        // Validasi API Key untuk peran perangkat_daerah
         const validinfrastruktur = filteredinfrastruktur.filter(
           (item) => item.apiKey === apiKey
         );
