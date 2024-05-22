@@ -5,8 +5,13 @@ import express from "express";
 import db from "./config/Database.js";
 import router from "./routes/index.js";
 import storage from "./config/Firebase.js";
+
 import InfraModel from "./models/InfraModel.js";
 import Users from "./models/UserModel.js";
+
+import morgan from "morgan";
+import { PengajuanPermohonanSi } from "./models/PengajuanPermohonanSi.js";
+
 
 dotenv.config();
 
@@ -18,6 +23,8 @@ app.use((req, res, next) => {
   }
   next();
 });
+
+app.use(morgan("dev"))
 
 app.use(cors());
 app.use(cookieParser());
@@ -36,7 +43,20 @@ try {
 // HelpDeskFaq.sync();
 // ListHelpdesk.sync();
 
+
 InfraModel.sync()
 Users.sync();
 app.listen(3001, () => 
   console.log("Server running at port 5000"));
+
+// PengajuanPermohonanSi.sync();
+
+// ku solihin
+const PORT = process.env.PORT
+
+app.listen(PORT, () => {
+  console.log(`Server running at port ${PORT}`)
+})
+
+// app.listen(3001, () => 
+//   console.log("Server running at port 5000"));
