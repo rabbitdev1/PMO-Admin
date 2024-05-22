@@ -19,6 +19,7 @@ const Sidebar = () => {
   const location = useLocation();
 
   useEffect(() => {
+    
     setValidateSideBar(JSON?.parse(authProfile || null))
     const formatPathname = (pathname) => {
       return pathname.replace("/", "/").replace(/^\w/, (c) => c.toUpperCase());
