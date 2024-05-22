@@ -4,10 +4,10 @@ import LoginPages from "../pages/Authentication/login";
 import DashboardPages from "../pages/Dashboard";
 import HelpDeskPages from "../pages/HelpDesk";
 import DetailHelpDeskPages from "../pages/HelpDesk/detail";
-import AccountPages from "../pages/System/account";
-import DetailsAccountPages from "../pages/System/detail";
 import DetailInfrastrukturPages from "../pages/Infrastruktur/detail";
 import InfrastrukturPages from "../pages/Infrastruktur";
+import DetailsAccountPages from "../pages/System/Account/detail";
+import AccountPages from "../pages/System/Account/account";
 
 
 const userRoutes = [

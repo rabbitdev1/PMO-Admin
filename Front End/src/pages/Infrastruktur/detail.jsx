@@ -9,7 +9,6 @@ import TitleHeader from "../../components/layout/TitleHeader";
 import { apiClient } from "../../utils/api/apiClient";
 import ImageComponent from "../../utils/helpers/getImageURL";
 import DynamicShow from "../../components/common/DynamicShow";
-import SubmissionStatus from "./SubmissionStatus";
 import DynamicDetails from "./DynamicDetails";
 import DynamicButton from "../../components/common/DynamicButton";
 import { ReactComponent as PengajuanBerahasilIcon } from "../../assets/icon/ic_pengajuan_berhasil.svg";
@@ -24,6 +23,7 @@ import DalamAntrianView from "./Logical/DalamAntrianView";
 import ValidationStatus from "./Logical/ValidationStatus";
 import ProcessStatus from "./Logical/ProcessStatus";
 import FinishStatus from "./Logical/FinishStatus";
+import SubmissionStatus from "../../components/ui/SubmissionStatus";
 
 function DetailInfrastrukturPages() {
   const { isDarkMode } = useTheme();

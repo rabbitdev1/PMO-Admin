@@ -64,10 +64,10 @@ function DynamicShow({ label, value, options, type, className, location }) {
         </div>
       ) : (
         <div
-          className={`flex flex-row gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center p-3 ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}
-        >
-          <span className="text-sm ">{value}</span>
-        </div>
+      className={`flex flex-col gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-start p-3 ${className} rounded-lg border border-[#dddddd] dark:border-[#ffffff20]`}
+    >
+      <span className="text-sm  whitespace-normal">{value}</span>
+    </div>
       )}
     </div>
   );

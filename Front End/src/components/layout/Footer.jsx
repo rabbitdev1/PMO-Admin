@@ -23,8 +23,11 @@ const Footer = () => {
   }, []);
 
   return (
-    <footer className="flex flex-col transition duration-300 ease-in-out mx-auto w-full items-center font-gilroy p-3 bg-lightColor dark:bg-darkColor">
-      <span className="text-sm opacity-70">Copyright © Designed & Developed by Diskominfo 2024</span>
+    <footer className="flex sm:flex-row flex-col justify-between transition duration-300 ease-in-out mx-auto w-full items-center font-gilroy p-3 px-4 bg-lightColor dark:bg-cardDark border-[1px] border-[#dddddd] dark:border-[#ffffff20]" >
+      <span className="text-sm opacity-70">COPYRIGHT © 2024 Diskominfo All rights Reserved
+
+</span>
+      <span className="text-sm opacity-70">Hand-crafted & Made by TIM PMO</span>
     </footer>
   );
 };

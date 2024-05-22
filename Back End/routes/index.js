@@ -57,7 +57,7 @@ router.post("/list_users", verifyToken, getListUser);
 router.post("/user/check_role", verifyToken, checkRoleUser);
 router.post("/users/create", verifyToken, createUsers);
 router.post("/users/delete", verifyToken, deleteUsers);
-router.post("/users/detail_users", verifyToken, getUserById);
+router.post("/users/detail", verifyToken, getUserById);
 // router.put("/users/:id", verifyToken, updateUsers);
 // router.delete("/users/:id", deleteUsers);
 

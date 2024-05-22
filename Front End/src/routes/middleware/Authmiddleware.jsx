@@ -63,7 +63,7 @@ const Authmiddleware = (props) => {
 
       <div className="flex flex-col dark:bg-darkColor dark:border-darkColor dark:text-darkColor bg-cardLight border-lightColor text-lightColor transition duration-300 ease-in-out min-h-screen font-gilroy">
         <header
-          className={`fixed z-10 top-0 w-full  shadow-sm transition-transform duration-500 ease-in-out ${hideHeader ? "-translate-y-full" : "translate-y-0"}`}
+          className={`fixed z-10 top-0 w-full transition-transform duration-500 ease-in-out ${hideHeader ? "-translate-y-full" : "translate-y-0"}`}
         >
           <Header />
         </header>

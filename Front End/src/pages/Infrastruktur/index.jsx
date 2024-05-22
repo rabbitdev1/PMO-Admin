@@ -1,16 +1,13 @@
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { ReactComponent as CloseIcon } from "../../assets/icon/ic_close.svg";
 import { ReactComponent as PengajuanBerahasilIcon } from "../../assets/icon/ic_pengajuan_berhasil.svg";
 import { ReactComponent as PengajuanGagalIcon } from "../../assets/icon/ic_pengajuan_gagal.svg";
 import { ReactComponent as PlusIcon } from "../../assets/icon/ic_plus.svg";
-import { ReactComponent as DisetujuiIcon } from "../../assets/icon/status/ic_disetujui.svg";
-import { ReactComponent as DitolakIcon } from "../../assets/icon/status/ic_ditolak.svg";
-import { ReactComponent as PengajuanIcon } from "../../assets/icon/status/ic_pengajuan.svg";
-import { ReactComponent as DiprosesIcon } from "../../assets/icon/status/ic_proses.svg";
+import { ReactComponent as DocumentIcon } from "../../assets/icon/ic_document.svg";
 import DynamicButton from "../../components/common/DynamicButton";
 import DynamicInput from "../../components/common/DynamicInput";
 import useTheme from "../../components/context/useTheme";
@@ -27,6 +24,7 @@ import { isValidatorRelokasiAlat } from "./validators";
 function InfrastrukturPages() {
   const { isDarkMode } = useTheme();
   const navigate = useNavigate();
+  const location = useLocation();
   const authApiKey = Cookies.get('authApiKey');
   const authToken = Cookies.get('authToken');
   const authProfile = Cookies.get('authData');
@@ -34,15 +32,15 @@ function InfrastrukturPages() {
   const [profile, setProfile] = useState({});
 
   const [statusData, setStatusData] = useState([
-    { title: "Pengajuan", value: "0", desc: "Data yang harus diproses", icon: PengajuanIcon, },
-    { title: "Proses", value: "0", desc: "Data proses berjalan", icon: DiprosesIcon, },
-    { title: "Ditolak", value: "0", desc: "Data pengajuan ditolak", icon: DitolakIcon, },
-    { title: "Selesai", value: "0", desc: "Data pengajuan selesai", icon: DisetujuiIcon, },
+    { title: "Pengajuan", value: "0", desc: "Data yang akan diproses", icon: DocumentIcon, color: '#333333' },
+    { title: "Proses", value: "0", desc: "Data proses berjalan", icon: DocumentIcon, color: '#FFA500' },
+    { title: "Ditolak", value: "0", desc: "Data pengajuan ditolak", icon: DocumentIcon, color: '#FF0000' },
+    { title: "Selesai", value: "0", desc: "Data pengajuan selesai", icon: DocumentIcon, color: '#13C39C' },
   ]);
 
 
-  const [listHelpDesk, setListHelpDesk] = useState([]);
-  const [listHelpDeskLoading, setListHelpDeskLoading] = useState(true);
+  const [listInfrasturktur, setListInfrasturktur] = useState([]);
+  const [listInfrasturkturLoading, setListInfrasturkturLoading] = useState(true);
 
   const [formData, setFormData] = useState(initialFormData);
 
@@ -60,16 +58,18 @@ function InfrastrukturPages() {
 
   const dispatch = useDispatch();
 
+  const data = location.state;
   useEffect(() => {
+    console.log(data);
     if (authToken) {
       setProfile(JSON.parse(authProfile));
-      fetchDataHelpDesk(authApiKey, authToken, JSON.parse(authProfile)?.role)
+      fetchDataInfrasturktur(authApiKey, authToken, JSON.parse(authProfile)?.role)
     }
-  }, [authToken]);
+  }, [data,authToken]);
 
 
-  const fetchDataHelpDesk = async (api_key, token, role) => {
-    setListHelpDeskLoading(true);
+  const fetchDataInfrasturktur = async (api_key, token, role) => {
+    setListInfrasturkturLoading(true);
     const params = new URLSearchParams();
     params.append("role", role);
     try {
@@ -80,9 +80,9 @@ function InfrastrukturPages() {
         apiKey: api_key,
         token: token,
       });
-      setListHelpDeskLoading(false);
+      setListInfrasturkturLoading(false);
       if (response?.statusCode === 200) {
-        setListHelpDesk(response.result.data);
+        setListInfrasturktur(response.result.data);
         setStatusData([
           { ...statusData[0], value: response?.result?.totalItems, },
           { ...statusData[1], value: response?.result?.totalItemsByStatus?.diproses || 0, },
@@ -90,7 +90,7 @@ function InfrastrukturPages() {
           { ...statusData[3], value: response?.result?.totalItemsByStatus?.disetujui || 0, },
         ])
       } else {
-        setListHelpDesk([]);
+        setListInfrasturktur([]);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -113,7 +113,7 @@ function InfrastrukturPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: 'Pengajuan Helpdesk Berhasil',
+            title: 'Pengajuan Infrasturktur Berhasil',
             msg: 'Selamat, Pengajuan anda sudah diterima',
             icon: PengajuanBerahasilIcon,
             color: '#13C39C'
@@ -148,7 +148,7 @@ function InfrastrukturPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: 'Pengajuan Helpdesk Berhasil Dihapus',
+            title: 'Pengajuan Infrasturktur Berhasil Dihapus',
             msg: response.result.msg,
             icon: PengajuanGagalIcon,
             color: '#FB4B4B'
@@ -303,32 +303,38 @@ function InfrastrukturPages() {
   }
 
   return (
-    <div className="flex flex-col gap-3 flex-1 p-3" >
-      <TitleHeader title={"Infrastruktur "} link1={"dashboard"} />
+    <div className="flex flex-col gap-3 flex-1 p-4" >
+      <TitleHeader title={"Bidang Infrastruktur Teknologi, Informasi dan Komunikasi"} link1={"dashboard"} link2={'Bidang Infrastruktur Teknologi, Informasi dan Komunikasi'} />
       <section className="flex xl:flex-row flex-col gap-3" >
         <div className="flex-1 flex flex-col gap-3">
-          <div className="grid xl:grid-cols-4 grid-cols-2 gap-3">
-            {statusData.map((item, index) => (
-              <div
-                key={index}
-                className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg flex-1"
-              >
-                <span className="text-lg font-semibold">{item.title}</span>
-                <div className="flex flex-row gap-2 flex-1 ">
-                  <div className="flex flex-row">
-                    {item.icon && (
-                      <item.icon
-                        className="w-12 h-12" fill="#ffffff"
-                      />
-                    )}
+          <div className="flex md:flex-row flex-col gap-3">
+            <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg flex-1 md:max-w-xs shadow-sm"
+            >
+              sdf
+            </div>
+            <div className=" flex-1 grid grid-cols-2 gap-3">
+              {statusData.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg flex-1 shadow-sm"
+                >
+                  <span className="text-lg font-semibold">{item.title}</span>
+                  <div className="flex flex-row gap-2 flex-1 ">
+                    <div className="flex flex-row">
+                      {item.icon && (
+                        <item.icon
+                          className="w-12 h-12" fill={item.color}
+                        />
+                      )}
+                    </div>
+                    <div className="flex flex-col flex-1 justify-end">
+                      <span className="text-3xl font-bold">{item.value}</span>
+                    </div>
                   </div>
-                  <div className="flex flex-col flex-1 justify-end">
-                    <span className="text-3xl font-bold">{item.value}</span>
-                  </div>
+                  <span className="text-xs opacity-70 flex-1">{item.desc}</span>
                 </div>
-                <span className="text-xs opacity-70 flex-1">{item.desc}</span>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
           <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
             <div className="flex flex-row gap-3 justify-between items-center">
@@ -337,12 +343,12 @@ function InfrastrukturPages() {
                 <div className="flex flex-col"  >
                   <DynamicButton
                     iconLeft={<PlusIcon className="w-4 h-4 " />}
-                    initialValue={'Tambah'}
+                    initialValue={'Ajukan Permohonan'}
                     color={"#ffffff"}
                     type="transparent"
                     className="bg-[#0185FF] text-darkColor px-3"
                     onClick={() => {
-                      setisModalType({ data: 'Pengajuan Helpdesk Infrastruktur', status: true });
+                      setisModalType({ data: 'Pengajuan Infrastruktur', status: true });
                     }}
                   />
 
@@ -386,7 +392,7 @@ function InfrastrukturPages() {
                   }
 
                 }}
-                data={listHelpDesk}
+                data={listInfrasturktur}
               />
             </div>
           </div>
@@ -449,7 +455,7 @@ function InfrastrukturPages() {
                   setisModalVerif({ data: {}, status: false })
                   setisModalCreate({ data: {}, status: false });
                   setisModalType({ data: {}, status: false })
-                  fetchDataHelpDesk(authApiKey, authToken, JSON.parse(authProfile)?.role)
+                  fetchDataInfrasturktur(authApiKey, authToken, JSON.parse(authProfile)?.role)
                 }}
               />
             </div>
@@ -530,7 +536,7 @@ function InfrastrukturPages() {
                 }}
               />
               <DynamicButton
-                initialValue={"Tambah"}
+                initialValue={"Ajukan Permohonan"}
                 type="fill"
                 color={"#ffffff"}
                 className="inline-flex  bg-[#0185FF] text-darkColor"

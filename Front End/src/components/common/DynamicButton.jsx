@@ -14,8 +14,8 @@ function DynamicButton({
   className,
   disabled,
 }) {
-  if (type !== "fill" && type !== "outline" && type !== "transparent") {
-    console.error("Invalid type provided for DynamicButton. Please provide 'fill' or 'outline'.");
+  if (type !== "fill" && type !== "no-padding" && type !== "transparent") {
+    console.error("Invalid type provided for DynamicButton. Please provide 'fill' or 'no-padding'.");
     return null;
   }
 
@@ -28,7 +28,7 @@ function DynamicButton({
 
   const commonProps = {
     onClick: handleClick,
-    className: `${type === "fill" ? "px-4" : "p-2"
+    className: `${type === "fill" ? "px-4" : type === "no-padding" ? "p-0" : "p-2"
       }  rounded-lg text-sm h-auto py-2.5 hover:opacity-80  justify-center items-center gap-2 flex select-none no-underline  ${className} `,
     disabled,
   };

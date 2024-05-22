@@ -3,23 +3,23 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
-import { ReactComponent as CloseIcon } from "../../assets/icon/ic_close.svg";
-import { ReactComponent as PengajuanBerahasilIcon } from "../../assets/icon/ic_pengajuan_berhasil.svg";
-import { ReactComponent as PengajuanGagalIcon } from "../../assets/icon/ic_pengajuan_gagal.svg";
-import { ReactComponent as PlusIcon } from "../../assets/icon/ic_plus.svg";
-import { ReactComponent as DitolakIcon } from "../../assets/icon/status/ic_ditolak.svg";
-import { ReactComponent as PengajuanIcon } from "../../assets/icon/status/ic_pengajuan.svg";
-import { ReactComponent as DiprosesIcon } from "../../assets/icon/status/ic_proses.svg";
-import DynamicButton from "../../components/common/DynamicButton";
-import DynamicInput from "../../components/common/DynamicInput";
-import useTheme from "../../components/context/useTheme";
-import TableCostum from "../../components/data-display/TableCostum";
-import TitleHeader from "../../components/layout/TitleHeader";
-import { isPending } from "../../components/store/actions/todoActions";
-import ModalContent from "../../components/ui/Modal/ModalContent";
-import { apiClient } from "../../utils/api/apiClient";
-import fetchUploadImages from "../../utils/api/uploadImages";
-import { validateAddress, validateEmail, validateFullname, validateImage, validatePassword, validateRepeatPassword, validateRole, validateTelp } from "../../utils/helpers/validateForm";
+import { ReactComponent as CloseIcon } from "../../../assets/icon/ic_close.svg";
+import { ReactComponent as PengajuanBerahasilIcon } from "../../../assets/icon/ic_pengajuan_berhasil.svg";
+import { ReactComponent as PengajuanGagalIcon } from "../../../assets/icon/ic_pengajuan_gagal.svg";
+import { ReactComponent as PlusIcon } from "../../../assets/icon/ic_plus.svg";
+import { ReactComponent as DitolakIcon } from "../../../assets/icon/status/ic_ditolak.svg";
+import { ReactComponent as PengajuanIcon } from "../../../assets/icon/status/ic_pengajuan.svg";
+import { ReactComponent as DiprosesIcon } from "../../../assets/icon/status/ic_proses.svg";
+import DynamicButton from "../../../components/common/DynamicButton";
+import DynamicInput from "../../../components/common/DynamicInput";
+import useTheme from "../../../components/context/useTheme";
+import TableCostum from "../../../components/data-display/TableCostum";
+import TitleHeader from "../../../components/layout/TitleHeader";
+import { isPending } from "../../../components/store/actions/todoActions";
+import ModalContent from "../../../components/ui/Modal/ModalContent";
+import { apiClient } from "../../../utils/api/apiClient";
+import fetchUploadImages from "../../../utils/api/uploadImages";
+import { validateAddress, validateEmail, validateFullname, validateImage, validatePassword, validateRepeatPassword, validateRole, validateTelp } from "../../../utils/helpers/validateForm";
 
 function AccountPages() {
   const { isDarkMode } = useTheme();
@@ -226,14 +226,14 @@ function AccountPages() {
 
     console.log(transformedData);
     if (
-      !validateFullname(fullname) ||
-      !validateEmail(email) ||
-      !validateAddress(address) ||
-      !validateRole(role) ||
-      !validateTelp(telp) ||
-      !validatePassword(password) ||
+      !validateFullname(fullname, 'Nama Lengkap') ||
+      !validateEmail(email,'Email Perangkat Daerah') ||
+      !validateAddress(address,'Alamat Lengkap') ||
+      !validateRole(role,'Role') ||
+      !validateTelp(telp,'Nomor Telepon') ||
+      !validatePassword(password,'Password') ||
       !validateRepeatPassword(password, repeat_password) ||
-      !validateImage(image)
+      !validateImage(image,'Foto profle')
     ) {
       return false;
     } else {

@@ -1,11 +1,14 @@
 import React from 'react';
-import DynamicShow from '../../components/common/DynamicShow';
+import DynamicShow from '../../../components/common/DynamicShow';
 
 const DynamicDetails = ({ detailData }) => {
+ // Destructure to remove unwanted keys
+ const { fullname, image, role, ...filteredData } = detailData;
+
   return (
     <div className="flex-1 flex flex-col gap-3">
-      <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
-        {Object.entries(detailData).map(([key, value]) => (
+      <div className="flex flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+        {Object.entries(filteredData).map(([key, value]) => (
           <DynamicShow
             key={key}
             name={key}
@@ -45,7 +48,7 @@ const getKeyLabel = (key) => {
 const getFieldType = (key) => {
   switch (key) {
     case "reason":
-    case "full_address":
+    case "address":
       return "html";
     case "image_screenshoot":
       return "images";

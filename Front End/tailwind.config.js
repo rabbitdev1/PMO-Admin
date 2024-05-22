@@ -21,11 +21,11 @@ module.exports = {
         darkColor: "#ffffff",
       },
       colors: {
-        lightColor: "#f6fbf8",
-        cardLight: "#eff0f4",
+        lightColor: "#fefdfe",
+        cardLight: "#eef1f9",
 
-        darkColor: "#111017",
-        cardDark: "#1d1928",
+        darkColor: "#10172a",
+        cardDark: "#1e2736",
       },
       boxShadow: {
         inner: "0 0 4px 0 rgba(0, 0, 0, 0.25)",

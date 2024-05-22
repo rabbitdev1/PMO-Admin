@@ -2,7 +2,7 @@
 export const formData = [
   {
     name: "Pengajuan Relokasi Alat",
-    type: "Pengajuan Helpdesk Infrastruktur",
+    type: "Pengajuan Infrastruktur",
     role: ["op_pmo", "perangkat_daerah", "kabid_infra","ketim_infra","teknis_infra"],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
@@ -44,7 +44,7 @@ export const formData = [
   },
   {
     name: "Pengajuan Penambahan Alat",
-    type: "Pengajuan Helpdesk Infrastruktur",
+    type: "Pengajuan Infrastruktur",
     role: ["op_pmo", "perangkat_daerah", "kabid_infra","ketim_infra","teknis_infra"],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
@@ -81,8 +81,8 @@ export const formData = [
     ],
   },
   {
-    name: "Buat Pengajuan Penambahan Bandwidth",
-    type: "Pengajuan Helpdesk Infrastruktur",
+    name: "Pengajuan Penambahan Bandwidth",
+    type: "Pengajuan Infrastruktur",
     role: ["op_pmo", "perangkat_daerah", "kabid_infra","ketim_infra","teknis_infra"],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
@@ -137,8 +137,8 @@ export const formData = [
     ],
   },
   {
-    name: "Buat Pengajuan Troubleshooting Jaringan",
-    type: "Pengajuan Helpdesk Infrastruktur",
+    name: "Pengajuan Troubleshooting Aplikasi dan Jaringan",
+    type: "Pengajuan Infrastruktur",
     role: ["op_pmo", "perangkat_daerah", "kabid_infra","ketim_infra","teknis_infra"],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
@@ -159,8 +159,8 @@ export const formData = [
     ],
   },
   {
-    name: "Buat Pengajuan Hosting",
-    type: "Pengajuan Helpdesk Infrastruktur",
+    name: "Pengajuan Hosting",
+    type: "Pengajuan Infrastruktur",
     role: ["op_pmo", "perangkat_daerah", "kabid_infra","ketim_infra","teknis_infra"],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
@@ -202,8 +202,8 @@ export const formData = [
     ],
   },
   {
-    name: "Buat Pengajuan Domain",
-    type: "Pengajuan Helpdesk Infrastruktur",
+    name: "Pengajuan Domain",
+    type: "Pengajuan Infrastruktur",
     role: ["op_pmo", "perangkat_daerah", "kabid_infra","ketim_infra","teknis_infra"],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
@@ -239,5 +239,4 @@ export const formData = [
       },
     ],
   },
-
 ]

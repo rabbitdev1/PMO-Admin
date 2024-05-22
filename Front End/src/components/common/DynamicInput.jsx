@@ -87,13 +87,13 @@ function DynamicInput({
               control: (baseStyles, state) => ({
                 ...baseStyles,
                 height: 50,
-                backgroundColor: isDarkMode ? '#111017' : '#f6fbf8',
+                backgroundColor: isDarkMode ? '#10172a' : '#fefdfe',
                 fontSize: 14,
                 borderColor: state.isFocused ? 'grey' : isDarkMode ? '#ffffff20' : '#dddddd',
               }),
               option: (baseStyles, state) => ({
                 ...baseStyles,
-                backgroundColor: isDarkMode ? '#111017' : '#f6fbf8',
+                backgroundColor: isDarkMode ? '#10172a' : '#fefdfe',
               }),
 
             }}
@@ -112,13 +112,13 @@ function DynamicInput({
             control: (baseStyles, state) => ({
               ...baseStyles,
               height: 50,
-              backgroundColor: isDarkMode ? '#111017' : '#f6fbf8',
+              backgroundColor: isDarkMode ? '#10172a' : '#fefdfe',
               fontSize: 14,
               borderColor: state.isFocused ? 'grey' : isDarkMode ? '#ffffff20' : '#dddddd',
             }),
             option: (baseStyles, state) => ({
               ...baseStyles,
-              backgroundColor: isDarkMode ? '#111017' : '#f6fbf8',
+              backgroundColor: isDarkMode ? '#10172a' : '#fefdfe',
             }),
 
           }}

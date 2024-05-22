@@ -1,6 +1,5 @@
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Popover } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
