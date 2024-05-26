@@ -107,12 +107,12 @@ const ProcessStatus = ({ submissionStatus, authProfile, processData, setProcessD
                                     name: "submission_status",
                                     type: "radio_button",
                                     options: [
-                                        { value: "1", label: "Disetujui" },
-                                        { value: "0", label: "Ditolak" },
+                                        { value: "1", label: "Menyetujui" },
+                                        { value: "0", label: "Tidak Menyetujui" },
                                     ],
                                 },
                                 {
-                                    label: "Upload File Pengajuan",
+                                    label: "Upload Surat Pemberitahuan untuk OPD",
                                     value: finishData.file_submission,
                                     name: 'file_submission',
                                     type: "file_upload",

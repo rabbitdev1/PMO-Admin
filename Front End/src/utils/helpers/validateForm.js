@@ -22,8 +22,8 @@ export const validateEmail = (value, title) => {
 };
 
 export const validateAddress = (value, title) => {
-  if (!value || value.length < 10) {
-    toast.error(title + " minimal 10 karakter", {
+  if (!value || value.length < 1) {
+    toast.error(title + "Tidak boleh Kosong", {
       position: toast.POSITION.TOP_RIGHT,
     });
     return false;
@@ -136,10 +136,10 @@ export const validateHTML = (value, title) => {
   if (match) {
     const content = match[1]; // Ambil konten di dalam tag <p>
     const wordCount = content.trim().split(/\s+/).length; // Hitung jumlah kata
-    if (wordCount >= 10) {
+    if (wordCount >= 1) {
       return true;
     } else {
-      toast.error(title + " Tidak Boleh Kosong, Minimal 10 Kata", {
+      toast.error(title + " Tidak Boleh Kosong", {
         position: toast.POSITION.TOP_RIGHT,
       });
       return false;

@@ -2,7 +2,7 @@
 export const formData = [
   {
     name: "Pengajuan Relokasi Alat",
-    type: "Pengajuan Infrastruktur",
+    type: "Pengajuan Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi",
     role: ["op_pmo", "perangkat_daerah", "kabid_infra","ketim_infra","teknis_infra"],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
@@ -44,7 +44,7 @@ export const formData = [
   },
   {
     name: "Pengajuan Penambahan Alat",
-    type: "Pengajuan Infrastruktur",
+    type: "Pengajuan Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi",
     role: ["op_pmo", "perangkat_daerah", "kabid_infra","ketim_infra","teknis_infra"],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
@@ -82,7 +82,7 @@ export const formData = [
   },
   {
     name: "Pengajuan Penambahan Bandwidth",
-    type: "Pengajuan Infrastruktur",
+    type: "Pengajuan Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi",
     role: ["op_pmo", "perangkat_daerah", "kabid_infra","ketim_infra","teknis_infra"],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
@@ -138,7 +138,7 @@ export const formData = [
   },
   {
     name: "Pengajuan Troubleshooting Aplikasi dan Jaringan",
-    type: "Pengajuan Infrastruktur",
+    type: "Pengajuan Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi",
     role: ["op_pmo", "perangkat_daerah", "kabid_infra","ketim_infra","teknis_infra"],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
@@ -160,7 +160,7 @@ export const formData = [
   },
   {
     name: "Pengajuan Hosting",
-    type: "Pengajuan Infrastruktur",
+    type: "Pengajuan Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi",
     role: ["op_pmo", "perangkat_daerah", "kabid_infra","ketim_infra","teknis_infra"],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
@@ -203,7 +203,7 @@ export const formData = [
   },
   {
     name: "Pengajuan Domain",
-    type: "Pengajuan Infrastruktur",
+    type: "Pengajuan Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi",
     role: ["op_pmo", "perangkat_daerah", "kabid_infra","ketim_infra","teknis_infra"],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },

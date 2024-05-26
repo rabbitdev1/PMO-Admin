@@ -12,9 +12,9 @@ import AccountPages from "../pages/System/Account/account";
 
 const userRoutes = [
   { path: "/", component: <DashboardPages /> },
-  { path: "/help-desk", component: <HelpDeskPages /> },
-  { path: "/detail-help-desk", component: <DetailHelpDeskPages /> },
-  { path: "/infrastruktur", component: <InfrastrukturPages /> },
+  // { path: "/help-desk", component: <HelpDeskPages /> },
+  // { path: "/detail-help-desk", component: <DetailHelpDeskPages /> },
+  { path: "/layanan-pengelolaan-infrastruktur-teknologi-informasi-komunikasi", component: <InfrastrukturPages /> },
   { path: "/detail-infrastruktur", component: <DetailInfrastrukturPages /> },
 
 

@@ -9,7 +9,7 @@ const ValidationStatus = ({ submissionStatus, validationData, authProfile, posit
   return (
     position === 'top' ?
       <>
-        {submissionStatus === 2 ? JSON.parse(authProfile)?.role === "perangkat_daerah" || JSON.parse(authProfile)?.role === "op_pmo" ?
+        {submissionStatus === 2 ? JSON.parse(authProfile)?.role === "perangkat_daerah" || JSON.parse(authProfile)?.role === "kabid_infra" ?
           <div className="flex flex-col flex-1">
             <div className="flex flex-col bg-lightColor dark:bg-cardDark p-5 gap-3 items-center rounded-lg">
               <img
@@ -18,7 +18,7 @@ const ValidationStatus = ({ submissionStatus, validationData, authProfile, posit
                 className=" object-contain flex w-[20%] min-w-[200px] aspect-square "
                 effect="blur"
               />
-              <span className="text-base text-center">Pengajuan Anda Sedang <b>Di Validasi</b> Oleh pihak DISKOMINFO Kota Bandung</span>
+              <span className="text-base text-center">Pengajuan Sedang <b>Di Validasi</b> Oleh pihak DISKOMINFO Kota Bandung</span>
             </div>
           </div> :
           <div className="flex flex-col bg-[#F5CF08]/10 border-1 border-[#F5CF08] text-[#F5CF08] p-3 gap-3 items-center rounded-lg">
@@ -47,7 +47,7 @@ const ValidationStatus = ({ submissionStatus, validationData, authProfile, posit
         }
       </> :
       <>
-        {submissionStatus <= 2 ? JSON.parse(authProfile)?.role === "perangkat_daerah" || JSON.parse(authProfile)?.role === "op_pmo" ?
+        {submissionStatus <= 2 ? JSON.parse(authProfile)?.role === "perangkat_daerah" || JSON.parse(authProfile)?.role === "kabid_infra" ?
           null :
           <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
             <span className='text-lg font-bold'>Status Kelengkapan</span>

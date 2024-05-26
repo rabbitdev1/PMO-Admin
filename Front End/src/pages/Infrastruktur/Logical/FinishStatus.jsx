@@ -21,7 +21,7 @@ const FinishStatus = ({ submissionStatus, finishData }) => {
               />}
             {finishData?.file_upload &&
               <DynamicShow
-                label={"File Hasil Pengajuan"}
+                label={"File Surat Pemberitahuan untuk OPD"}
                 value={finishData?.file_upload}
                 location={'infrastruktur'}
                 type={"pdf"}

@@ -168,7 +168,7 @@ function DetailInfrastrukturPages() {
       />
       <section className="flex flex-col gap-3">
         <SubmissionStatus status={submissionStatus} />
-        <div className={`flex ${submissionStatus === 2 ? JSON.parse(authProfile)?.role === "perangkat_daerah" || JSON.parse(authProfile)?.role === "op_pmo" ? 'sm:flex-row' : 'sm:flex-col' :
+        <div className={`flex ${submissionStatus === 2 ? JSON.parse(authProfile)?.role === "perangkat_daerah" || JSON.parse(authProfile)?.role === "kabid_infra" ? 'sm:flex-row' : 'sm:flex-col' :
           submissionStatus === 4 ? JSON.parse(authProfile)?.role === "perangkat_daerah" || JSON.parse(authProfile)?.role === "op_pmo" ? 'sm:flex-row' : 'sm:flex-col' :
             'sm:flex-row'} flex-col gap-3`}>
           <DalamAntrianView submissionStatus={submissionStatus} />

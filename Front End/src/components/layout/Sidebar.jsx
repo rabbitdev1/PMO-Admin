@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ReactComponent as AllBerandaIcon } from "../../assets/icon/ic_homapages.svg";
 import { ReactComponent as LeftArrowIcon } from "../../assets/icon/ic_leftarrow.svg";
 import Cookies from "js-cookie";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import LoadingLink from "../common/LoadingLink";
 import useTheme from "../context/useTheme";
 
@@ -15,7 +15,7 @@ const Sidebar = () => {
   const { isDarkMode } = useTheme();
   const [validateSideBar, setValidateSideBar] = useState("");
   const [expandedMenuIndex, setExpandedMenuIndex] = useState(null);
-
+  const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const Sidebar = () => {
       return pathname.replace("/", "/").replace(/^\w/, (c) => c.toUpperCase());
     };
     setTab(formatPathname(location.pathname));
-    setState(formatPathname(location.state));
+    setState((location.state));
   }, [location]);
 
   const toggleSubmenu = (index) => {
@@ -51,27 +51,27 @@ const Sidebar = () => {
   const menuItems = [
     { title: "MENU", role: ['/'], icon: "" },
     { title: "Dashboard", role: ['op_pmo', 'perangkat_daerah', 'kabid_infra',], icon: AllBerandaIcon, href: ["/", "/"], },
-    { title: "LAYANAN", role: ['/'], icon: "" },
-    {
-      title: "Infrastruktur Teknologi, Informasi dan Komunikasi", role: ['op_pmo', 'perangkat_daerah', 'kabid_infra',],
-      submenu: [{ title: 'Relokasi Alat', href: '/infrastruktur', state: 'Pengajuan Relokasi Alat' },
-      { title: 'Penambahan Alat', href: '/infrastruktur', state: 'Pengajuan Penambahan Alat' },
-      { title: 'Penambahan Bandwith', href: '/infrastruktur', state: 'Pengajuan Penambahan Bandwidth' },
-      { title: 'Torubleshooting Aplikasi dan Jaringan', href: '/infrastruktur', state: 'Pengajuan Troubleshooting Aplikasi dan Jaringan' },
-      { title: 'Hosting', href: '/infrastruktur', state: 'Pengajuan Hosting' },
-      { title: 'Domain', href: '/infrastruktur', state: 'Pengajuan Domain' },
-        // { title: 'Perubahan Akses', href: '/infrastruktur', state: 'Pengajuan Relokasi Alat' },
-      ],
-      icon: AllBerandaIcon, href: ["/infrastruktur", "/detail-infrastruktur"],
-    },
-    { title: "Aplikasi Informatika, Persandian dan Keamanan Informasi", role: ['op_pmo', 'perangkat_daerah',], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
-    { title: "Data Statistik", role: ['op_pmo', 'perangkat_daerah',], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
-    { title: "Desiminasi Informasi", role: ['op_pmo', 'perangkat_daerah',], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
-    { title: "Perancangan Teknologi, Informasi dan Komunikasi", role: ['op_pmo', 'perangkat_daerah',], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
-    { title: "UPT Radio Sonata", role: ['op_pmo', 'perangkat_daerah',], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
-    { title: "Sekertariat", role: ['op_pmo', 'sekretariat',], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
-    { title: "SISTEM", role: ['op_pmo'], icon: "" },
     { title: "Akun", role: ['op_pmo'], icon: AllBerandaIcon, href: ["/account", "/1"], },
+
+    { title: "LAYANAN", role: ['/'], icon: "" },
+    { title: "Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan", role: ['op_pmo', 'perangkat_daerah',], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
+    {
+      title: "Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi", role: ['op_pmo', 'perangkat_daerah', 'kabid_infra',],
+      submenu: [{ title: 'Relokasi Alat', href: '/layanan-pengelolaan-infrastruktur-teknologi-informasi-komunikasi', state: 'Relokasi Alat' },
+      { title: 'Penambahan Alat', href: '/layanan-pengelolaan-infrastruktur-teknologi-informasi-komunikasi', state: 'Penambahan Alat' },
+      { title: 'Penambahan Bandwith', href: '/layanan-pengelolaan-infrastruktur-teknologi-informasi-komunikasi', state: 'Penambahan Bandwidth' },
+      { title: 'Torubleshooting Aplikasi dan Jaringan', href: '/layanan-pengelolaan-infrastruktur-teknologi-informasi-komunikasi', state: 'Troubleshooting Aplikasi dan Jaringan' },
+      { title: 'Hosting', href: '/layanan-pengelolaan-infrastruktur-teknologi-informasi-komunikasi', state: 'Hosting' },
+      { title: 'Domain', href: '/layanan-pengelolaan-infrastruktur-teknologi-informasi-komunikasi', state: 'Domain' },
+      ],
+      icon: AllBerandaIcon, href: ["/layanan-pengelolaan-infrastruktur-teknologi-informasi-komunikasi", "/detail-infrastruktur"],
+    },
+
+    { title: "Layanan Teknologi dan Sistem Informasi", role: ['op_pmo', 'perangkat_daerah',], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
+    { title: "Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi", role: ['op_pmo', 'perangkat_daerah',], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
+    { title: "Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi", role: ['op_pmo', 'perangkat_daerah',], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
+    { title: "Layanan UPT RADIO SONATA", role: ['op_pmo', 'perangkat_daerah',], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
+    { title: "Layanan Pendaftaran Magang", role: ['op_pmo', 'perangkat_daerah',], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
   ];
 
   const renderMenuItems = (items) => {
@@ -95,9 +95,14 @@ const Sidebar = () => {
               <div
                 onClick={() => {
                   if (button.submenu) {
-                    toggleSubmenu(index);
+                    if (validateSideBar?.role === 'perangkat_daerah') {
+                      toggleSubmenu(index);
+                    } else {
+                      navigate(button.href[0], { state: button.state });
+                    }
                   } else {
-                    window.location.href = button.href[0];
+                    toggleSubmenu(index);
+                    navigate(button.href[0], { state: button.state });
                   }
                 }}
                 onMouseOver={() => setHoveredIndex(index)}
@@ -114,9 +119,10 @@ const Sidebar = () => {
                     }
                   />
                 )}
-                <span className={`${tab === button.href[0] || tab === button.href[1] ? "text-cardLight" : "text-lightColor dark:text-darkColor"} flex-1 group-hover:text-[#ffffff] text-sm line-clamp-2 text-left select-none`}>
+                <span className={`${tab === button.href[0] || tab === button.href[1] ? "text-cardLight" : "text-lightColor dark:text-darkColor"} flex-1 group-hover:text-[#ffffff] text-sm line-clamp-3 text-left select-none`}>
                   {button.title}
                 </span>
+                {button.submenu && validateSideBar?.role === 'perangkat_daerah' &&
                 <LeftArrowIcon
                   className={`h-4 w-4 transform transition-transform duration-200 ${expandedMenuIndex === index ? 'rotate-90' : ''}`}
                   fill={
@@ -125,6 +131,7 @@ const Sidebar = () => {
                       : isDarkMode ? "#ffffff" : "#212121"
                   }
                 />
+                }
               </div>
             )}
             {button.submenu && (

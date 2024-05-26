@@ -13,7 +13,7 @@ const DalamAntrianView = ({ submissionStatus }) => {
               effect="blur"
             />
             <span className="text-base text-center">
-              Pengajuan Anda Sedang <b>Dalam Antrian</b> Oleh pihak DISKOMINFO Kota Bandung
+              Pengajuan Sedang <b>Dalam Antrian</b> Oleh pihak DISKOMINFO Kota Bandung
             </span>
           </div>
         </div>

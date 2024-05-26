@@ -62,6 +62,8 @@ export const getListInfrastruktur = async (req, res) => {
           totalItems: validinfrastruktur.length,
           totalItemsByStatus: totalItemsByStatus,
         });
+
+        
       } else {
         // Jika bukan peran perangkat_daerah, kembalikan data tanpa validasi API key
         const totalItemsByStatus = {

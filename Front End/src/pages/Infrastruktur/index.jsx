@@ -58,14 +58,14 @@ function InfrastrukturPages() {
 
   const dispatch = useDispatch();
 
-  const data = location.state;
+  const dataState = location.state;
   useEffect(() => {
-    console.log(data);
+    console.log(dataState);
     if (authToken) {
       setProfile(JSON.parse(authProfile));
       fetchDataInfrasturktur(authApiKey, authToken, JSON.parse(authProfile)?.role)
     }
-  }, [data,authToken]);
+  }, [dataState, authToken]);
 
 
   const fetchDataInfrasturktur = async (api_key, token, role) => {
@@ -82,7 +82,13 @@ function InfrastrukturPages() {
       });
       setListInfrasturkturLoading(false);
       if (response?.statusCode === 200) {
-        setListInfrasturktur(response.result.data);
+        if (JSON.parse(authProfile)?.role === "perangkat_daerah") {
+          const filteredSubmissions = response.result.data.filter(submission => submission.submission_title === dataState);
+          setListInfrasturktur(filteredSubmissions);
+        } else {
+          setListInfrasturktur(response.result.data);
+        }
+
         setStatusData([
           { ...statusData[0], value: response?.result?.totalItems, },
           { ...statusData[1], value: response?.result?.totalItemsByStatus?.diproses || 0, },
@@ -304,7 +310,7 @@ function InfrastrukturPages() {
 
   return (
     <div className="flex flex-col gap-3 flex-1 p-4" >
-      <TitleHeader title={"Bidang Infrastruktur Teknologi, Informasi dan Komunikasi"} link1={"dashboard"} link2={'Bidang Infrastruktur Teknologi, Informasi dan Komunikasi'} />
+      <TitleHeader title={"Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi"} link1={"dashboard"} link2={'Bidang Infrastruktur Teknologi, Informasi dan Komunikasi'} />
       <section className="flex xl:flex-row flex-col gap-3" >
         <div className="flex-1 flex flex-col gap-3">
           <div className="flex md:flex-row flex-col gap-3">
@@ -348,7 +354,7 @@ function InfrastrukturPages() {
                     type="transparent"
                     className="bg-[#0185FF] text-darkColor px-3"
                     onClick={() => {
-                      setisModalType({ data: 'Pengajuan Infrastruktur', status: true });
+                      setisModalType({ data: 'Pengajuan Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi', status: true });
                     }}
                   />
 
@@ -367,7 +373,7 @@ function InfrastrukturPages() {
                 ]}
                 showAction={{ read: true, remove: JSON.parse(authProfile)?.role === "perangkat_daerah" ? true : false, edit: true }}
                 onClickShow={(data) => {
-                  if (JSON.parse(authProfile)?.role === "perangkat_daerah" || JSON.parse(authProfile)?.role === "op_pmo") {
+                  if (JSON.parse(authProfile)?.role === "perangkat_daerah" || JSON.parse(authProfile)?.role === "kabid_infra") {
                     navigate("/detail-infrastruktur", { state: { slug: data.id } });
                   } else {
                     fetchSetProgress(authApiKey, authToken, data.id)
