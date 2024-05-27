@@ -31,7 +31,7 @@ const ProcessStatus = ({ submissionStatus, authProfile, processData, setProcessD
             name: 'checking_tools'
         }
     ];
-    const PenambahanBandwithProcess = [
+    const PenambahanBandwidthProcess = [
         {
             label: "Konfigurasi",
             value: processData.config,
@@ -65,6 +65,31 @@ const ProcessStatus = ({ submissionStatus, authProfile, processData, setProcessD
         }
     ];
     const PenambahanAlatFinish = [
+        {
+            label: "Status Pengajuan",
+            value: finishData.submission_status,
+            name: "submission_status",
+            type: "radio_button",
+            options: [
+                { value: "1", label: "Menyetujui" },
+                { value: "0", label: "Tidak Menyetujui" },
+            ],
+        },
+        {
+            label: "Upload Surat Pemberitahuan untuk OPD",
+            value: finishData.file_submission,
+            name: 'file_submission',
+            type: "file_upload",
+        },
+        {
+            label: "Tanggapan",
+            value: finishData.response || null,
+            type: "textarea",
+            name: 'response'
+        }
+    ];
+
+    const PenambahanBandwidthFinish = [
         {
             label: "Status Pengajuan",
             value: finishData.submission_status,
@@ -161,7 +186,7 @@ const ProcessStatus = ({ submissionStatus, authProfile, processData, setProcessD
                         {renderProcessInputs(detailData.submission_title === "Relokasi Alat" ?
                             RelokasiAlatProcess : detailData.submission_title === "Penambahan Alat" ?
                                 PenambahanAlatProcess : detailData.submission_title === "Penambahan Bandwidth" ?
-                                    PenambahanBandwithProcess : [])}
+                                    PenambahanBandwidthProcess : [])}
                         <div className='flex sm:flex-row flex-col gap-2'>
                             <DynamicButton
                                 initialValue={"Update Proses ke Operator daerah"}
@@ -200,7 +225,8 @@ const ProcessStatus = ({ submissionStatus, authProfile, processData, setProcessD
                             <span className='text-lg font-bold'>Proses Selesai</span>
                             {renderFinishInputs(detailData.submission_title === "Relokasi Alat" ?
                                 RelokasiAlatFinish : detailData.submission_title === "Penambahan Alat" ?
-                                    PenambahanAlatFinish : [])}
+                                PenambahanAlatFinish : detailData.submission_title === "Penambahan Bandwidth" ?
+                                PenambahanBandwidthFinish : [])}
                             <DynamicButton
                                 initialValue={"Pengajuan Selesai"}
                                 type="fill"

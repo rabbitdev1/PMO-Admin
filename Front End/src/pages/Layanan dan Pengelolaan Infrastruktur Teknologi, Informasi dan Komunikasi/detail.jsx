@@ -93,9 +93,19 @@ function DetailInfrastrukturPages() {
       params.append("type", type);
       params.append("data", JSON.stringify({ status_validation: parseInt(data.statusValidasi) === 0 ? 'Ditolak' : 'Disetujui', response: htmlConvert }));
     } else if (type === 'process') {
+      const dataFilter = {
+        checking_tools: data?.checking_tools,
+        working_schedule: data?.working_schedule,
+        config: data?.config,
+      };
+
+      const filteredDataProcess = Object.fromEntries(
+        Object.entries(dataFilter).filter(([_, value]) => value !== undefined && value !== null && value !== '')
+      );
+
       params.append("id", id);
       params.append("type", type);
-      params.append("data", JSON.stringify({ checking_tools: data.checking_tools, working_schedule: data.working_schedule, config: data.config }));
+      params.append("data", JSON.stringify(filteredDataProcess));
     }
     else if (type === 'finish') {
       params.append("id", id);
