@@ -30,6 +30,15 @@ export const validateAddress = (value, title) => {
   }
   return true;
 };
+export const validateText = (value, title) => {
+  if (!value || value.length < 1) {
+    toast.error(title + " Tidak boleh Kosong", {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+    return false;
+  }
+  return true;
+};
 
 export const validateRole = (value, title) => {
   if (!value || value.length === 0) {

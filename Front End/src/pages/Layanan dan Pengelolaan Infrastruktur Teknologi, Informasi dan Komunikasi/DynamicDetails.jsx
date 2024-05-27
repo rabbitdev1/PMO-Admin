@@ -19,7 +19,7 @@ const DynamicDetails = ({ detailData, loading }) => {
                 name={key}
                 label={getKeyLabel(key)}
                 value={value}
-                location="helpdesk"
+                location="infrastruktur"
                 type={getFieldType(key)}
                 disabled={true}
               />

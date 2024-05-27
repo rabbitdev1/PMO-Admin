@@ -1,4 +1,4 @@
-import { validateAddress, validateArray, validateFullname, validateHTML, validatePeriod, validateRadioBottom, validateTelp } from "../../utils/helpers/validateForm";
+import { validateAddress, validateArray, validateFullname, validateHTML, validateImage, validatePeriod, validateRadioBottom, validateTelp, validateText } from "../../utils/helpers/validateForm";
 
 export const isValidatorRelokasiAlat = (obj) => {
   let isValid = true;
@@ -38,3 +38,15 @@ export const isValidatorPenambahanBandwith = (obj) => {
 
   return isValid;
 };
+
+export const isValidatorTroubleShooting = (obj) => {
+  let isValid = true;
+  isValid = isValid && validateFullname(obj.name_pic, "Nama PIC");
+  isValid = isValid && validateTelp(obj.telp_pic, "Nomor PIC");
+  isValid = isValid && validateHTML(obj.reason, "Alasan Pengajuan");
+  isValid = isValid && validateText(obj.incident, "Waktu Kejadian");
+  isValid = isValid && validateImage(obj.image_screenshoot, "Screenshot");
+
+  return isValid;
+};
+

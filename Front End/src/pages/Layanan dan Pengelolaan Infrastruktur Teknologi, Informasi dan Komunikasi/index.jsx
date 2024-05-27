@@ -19,7 +19,7 @@ import { apiClient } from "../../utils/api/apiClient";
 import fetchUploadImages from "../../utils/api/uploadImages";
 import { convertToNameValueObject } from "../../utils/helpers/convertToNameValueObject";
 import { formData as initialFormData } from './data';
-import { isValidatorPenambahanAlat, isValidatorPenambahanBandwith, isValidatorRelokasiAlat } from "./validators";
+import { isValidatorPenambahanAlat, isValidatorPenambahanBandwith, isValidatorRelokasiAlat, isValidatorTroubleShooting } from "./validators";
 
 function InfrastrukturPages() {
   const { isDarkMode } = useTheme();
@@ -237,6 +237,12 @@ function InfrastrukturPages() {
         }
       } else if (combinedObject?.submission_title === "Penambahan Bandwidth") {
         if (isValidatorPenambahanBandwith(combinedObject)) {
+          await handleImageUploadAndFetch(combinedObject);
+        } else {
+          return false;
+        }
+      } else if (combinedObject?.submission_title === "Troubleshooting Aplikasi dan Jaringan") {
+        if (isValidatorTroubleShooting(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
         } else {
           return false;

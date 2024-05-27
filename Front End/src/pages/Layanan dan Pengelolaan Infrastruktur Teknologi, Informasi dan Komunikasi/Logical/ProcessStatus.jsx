@@ -39,6 +39,14 @@ const ProcessStatus = ({ submissionStatus, authProfile, processData, setProcessD
             name: 'config'
         }
     ];
+    const TroubleshootingProcess = [
+        {
+            label: "Penjadwalan",
+            value: processData.working_schedule,
+            type: "date",
+            name: 'working_schedule'
+        }
+    ];
 
     const RelokasiAlatFinish = [
         {
@@ -88,8 +96,31 @@ const ProcessStatus = ({ submissionStatus, authProfile, processData, setProcessD
             name: 'response'
         }
     ];
-
     const PenambahanBandwidthFinish = [
+        {
+            label: "Status Pengajuan",
+            value: finishData.submission_status,
+            name: "submission_status",
+            type: "radio_button",
+            options: [
+                { value: "1", label: "Menyetujui" },
+                { value: "0", label: "Tidak Menyetujui" },
+            ],
+        },
+        {
+            label: "Upload Surat Pemberitahuan untuk OPD",
+            value: finishData.file_submission,
+            name: 'file_submission',
+            type: "file_upload",
+        },
+        {
+            label: "Tanggapan",
+            value: finishData.response || null,
+            type: "textarea",
+            name: 'response'
+        }
+    ];
+    const TroubleshootingFinish = [
         {
             label: "Status Pengajuan",
             value: finishData.submission_status,
@@ -186,7 +217,11 @@ const ProcessStatus = ({ submissionStatus, authProfile, processData, setProcessD
                         {renderProcessInputs(detailData.submission_title === "Relokasi Alat" ?
                             RelokasiAlatProcess : detailData.submission_title === "Penambahan Alat" ?
                                 PenambahanAlatProcess : detailData.submission_title === "Penambahan Bandwidth" ?
-                                    PenambahanBandwidthProcess : [])}
+                                    PenambahanBandwidthProcess : detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan" ?
+                                        TroubleshootingProcess : []
+
+
+                        )}
                         <div className='flex sm:flex-row flex-col gap-2'>
                             <DynamicButton
                                 initialValue={"Update Proses ke Operator daerah"}
@@ -197,12 +232,16 @@ const ProcessStatus = ({ submissionStatus, authProfile, processData, setProcessD
                                     if (processData?.working_schedule) {
                                         const { startDate, endDate } = processData.working_schedule;
                                         const workingScheduleArray = [startDate, endDate];
-
                                         const result = {
                                             working_schedule: workingScheduleArray,
-                                            checking_tools: processData?.checking_tools || []
+                                            checking_tools: processData?.checking_tools
                                         };
-                                        checkingFormData('process', result);
+                                        const filteredDataResult = Object.fromEntries(
+                                            Object.entries(result).filter(([_, value]) => {
+                                                return value !== undefined && value !== null && value !== '' && !(Array.isArray(value) && value.length === 0);
+                                            })
+                                        );
+                                        checkingFormData('process', filteredDataResult);
                                     } else {
                                         checkingFormData('process', processData);
                                     }
@@ -225,8 +264,9 @@ const ProcessStatus = ({ submissionStatus, authProfile, processData, setProcessD
                             <span className='text-lg font-bold'>Proses Selesai</span>
                             {renderFinishInputs(detailData.submission_title === "Relokasi Alat" ?
                                 RelokasiAlatFinish : detailData.submission_title === "Penambahan Alat" ?
-                                PenambahanAlatFinish : detailData.submission_title === "Penambahan Bandwidth" ?
-                                PenambahanBandwidthFinish : [])}
+                                    PenambahanAlatFinish : detailData.submission_title === "Penambahan Bandwidth" ?
+                                        PenambahanBandwidthFinish : detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan" ?
+                                        TroubleshootingFinish : [])}
                             <DynamicButton
                                 initialValue={"Pengajuan Selesai"}
                                 type="fill"
