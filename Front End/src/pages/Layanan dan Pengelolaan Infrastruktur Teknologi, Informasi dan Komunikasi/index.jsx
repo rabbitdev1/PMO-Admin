@@ -33,7 +33,7 @@ function InfrastrukturPages() {
   const [statusData, setStatusData] = useState([
     { title: "Pengajuan", value: "0", desc: "Data yang akan diproses", icon: DocumentIcon, color: '#333333' },
     { title: "Proses", value: "0", desc: "Data proses berjalan", icon: DocumentIcon, color: '#FFA500' },
-    { title: "Ditolak", value: "0", desc: "Data pengajuan ditolak", icon: DocumentIcon, color: '#FF0000' },
+    { title: "Ditolak / Tidak Disetujui", value: "0", desc: "Data pengajuan ditolak / tidak disetujui", icon: DocumentIcon, color: '#FF0000' },
     { title: "Selesai", value: "0", desc: "Data pengajuan selesai", icon: DocumentIcon, color: '#13C39C' },
   ]);
 

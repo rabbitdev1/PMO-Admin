@@ -14,14 +14,13 @@ import { uploadImages } from "../components/UploadImage.js";
 import validateImage from "../middleware/Multer.js";
 import validatePDF from "../middleware/Multer2.js";
 import { uploadFiles } from "../components/UploadFile.js";
-import {
-  deleteInfrastruktur,
-  editInfrastruktur,
-  editProcessInfrastruktur,
-  getDetailInfrastruktur,
-  getListInfrastruktur,
-  setInfrastruktur,
-} from "../controllers/Infrastruktur.js";
+
+import { getListInfrastruktur } from "../controllers/Infrastruktur/listInfrastruktur.js";
+import { getDetailInfrastruktur } from "../controllers/Infrastruktur/detailInfrastruktur.js";
+import { editProcessInfrastruktur, setInfrastruktur } from "../controllers/Infrastruktur/index.js";
+import { editInfrastruktur } from "../controllers/Infrastruktur/editInfrastruktur.js";
+import { deleteInfrastruktur } from "../controllers/Infrastruktur/deleteInfrastruktur.js";
+
 const router = express.Router();
 
 router.post("/infrastruktur", verifyToken, getListInfrastruktur);
