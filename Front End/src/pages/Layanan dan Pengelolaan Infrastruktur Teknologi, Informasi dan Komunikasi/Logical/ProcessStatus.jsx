@@ -31,6 +31,14 @@ const ProcessStatus = ({ submissionStatus, authProfile, processData, setProcessD
             name: 'checking_tools'
         }
     ];
+    const PenambahanBandwithProcess = [
+        {
+            label: "Konfigurasi",
+            value: processData.config,
+            type: "textarea",
+            name: 'config'
+        }
+    ];
 
     const RelokasiAlatFinish = [
         {
@@ -152,7 +160,8 @@ const ProcessStatus = ({ submissionStatus, authProfile, processData, setProcessD
                         <span className='text-lg font-bold'>Proses Pengajuan</span>
                         {renderProcessInputs(detailData.submission_title === "Relokasi Alat" ?
                             RelokasiAlatProcess : detailData.submission_title === "Penambahan Alat" ?
-                                PenambahanAlatProcess : [])}
+                                PenambahanAlatProcess : detailData.submission_title === "Penambahan Bandwidth" ?
+                                    PenambahanBandwithProcess : [])}
                         <div className='flex sm:flex-row flex-col gap-2'>
                             <DynamicButton
                                 initialValue={"Update Proses ke Operator daerah"}
@@ -160,13 +169,19 @@ const ProcessStatus = ({ submissionStatus, authProfile, processData, setProcessD
                                 color={"#ffffff"}
                                 className="inline-flex  bg-[#0185FF] text-darkColor"
                                 onClick={() => {
-                                    const { startDate, endDate } = processData.working_schedule;
-                                    const workingScheduleArray = [startDate, endDate];
-                                    const result = {
-                                        working_schedule: workingScheduleArray,
-                                        checking_tools: processData.checking_tools
-                                    };
-                                    checkingFormData('process', result);
+                                    if (processData?.working_schedule) {
+                                        const { startDate, endDate } = processData.working_schedule;
+                                        const workingScheduleArray = [startDate, endDate];
+
+                                        const result = {
+                                            working_schedule: workingScheduleArray,
+                                            checking_tools: processData?.checking_tools || []
+                                        };
+                                        checkingFormData('process', result);
+                                    } else {
+                                        checkingFormData('process', processData);
+                                    }
+
                                 }}
                             />
                             <DynamicButton

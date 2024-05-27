@@ -95,7 +95,7 @@ function DetailInfrastrukturPages() {
     } else if (type === 'process') {
       params.append("id", id);
       params.append("type", type);
-      params.append("data", JSON.stringify({ checking_tools: data.checking_tools, working_schedule: data.working_schedule }));
+      params.append("data", JSON.stringify({ checking_tools: data.checking_tools, working_schedule: data.working_schedule, config: data.config }));
     }
     else if (type === 'finish') {
       params.append("id", id);
