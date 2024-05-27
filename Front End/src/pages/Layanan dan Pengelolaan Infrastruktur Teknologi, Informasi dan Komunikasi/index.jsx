@@ -19,7 +19,7 @@ import { apiClient } from "../../utils/api/apiClient";
 import fetchUploadImages from "../../utils/api/uploadImages";
 import { convertToNameValueObject } from "../../utils/helpers/convertToNameValueObject";
 import { formData as initialFormData } from './data';
-import { isValidatorPenambahanAlat, isValidatorPenambahanBandwith, isValidatorRelokasiAlat, isValidatorTroubleShooting } from "./validators";
+import { isValidatorDomain, isValidatorHosting, isValidatorPenambahanAlat, isValidatorPenambahanBandwith, isValidatorRelokasiAlat, isValidatorTroubleShooting } from "./validators";
 
 function InfrastrukturPages() {
   const { isDarkMode } = useTheme();
@@ -243,6 +243,18 @@ function InfrastrukturPages() {
         }
       } else if (combinedObject?.submission_title === "Troubleshooting Aplikasi dan Jaringan") {
         if (isValidatorTroubleShooting(combinedObject)) {
+          await handleImageUploadAndFetch(combinedObject);
+        } else {
+          return false;
+        }
+      } else if (combinedObject?.submission_title === "Hosting") {
+        if (isValidatorHosting(combinedObject)) {
+          await handleImageUploadAndFetch(combinedObject);
+        } else {
+          return false;
+        }
+      } else if (combinedObject?.submission_title === "Domain") {
+        if (isValidatorDomain(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
         } else {
           return false;

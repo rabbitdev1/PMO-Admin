@@ -1,11 +1,12 @@
 import React, { useState } from "react";
+import InputMask from 'react-input-mask';
 import PhoneInput from "react-phone-number-input";
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { ReactComponent as EyeSlashIcon } from "../../assets/icon/ic_eye-slash.svg";
 import { ReactComponent as EyeIcon } from "../../assets/icon/ic_eye.svg";
-import { ReactComponent as PlusIcon } from "../../assets/icon/ic_plus.svg";
 import { ReactComponent as MinusIcon } from "../../assets/icon/ic_minus.svg";
+import { ReactComponent as PlusIcon } from "../../assets/icon/ic_plus.svg";
 import useTheme from "../context/useTheme";
 
 import { Editor } from 'react-draft-wysiwyg';
@@ -74,38 +75,44 @@ function DynamicInput({
   } catch (error) {
     // Handle JSON parsing error here
   }
+  const validateIP = (ip) => {
+    const regex = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+    return regex.test(ip);
+  };
+
+
   return (
     <div className="flex flex-col gap-2 w-full" >
-     <div className="flex flex-row items-center gap-2">
+      <div className="flex flex-row items-center gap-2">
         {label && (
           <span className=" text-sm text-left">{label} :</span>
-        )} 
+        )}
       </div>
       {type === "selection" ? (
-          <Select
-            className="p-0.5"
-            placeholder={placeholder}
-            styles={{
-              control: (baseStyles, state) => ({
-                ...baseStyles,
-                height: 50,
-                backgroundColor: isDarkMode ? '#10172a' : '#fefdfe',
-                fontSize: 14,
-                borderColor: state.isFocused ? 'grey' : isDarkMode ? '#ffffff20' : '#dddddd',
-              }),
-              option: (baseStyles, state) => ({
-                ...baseStyles,
-                backgroundColor: isDarkMode ? '#10172a' : '#fefdfe',
-              }),
+        <Select
+          className="p-0.5"
+          placeholder={placeholder}
+          styles={{
+            control: (baseStyles, state) => ({
+              ...baseStyles,
+              height: 50,
+              backgroundColor: isDarkMode ? '#10172a' : '#fefdfe',
+              fontSize: 14,
+              borderColor: state.isFocused ? 'grey' : isDarkMode ? '#ffffff20' : '#dddddd',
+            }),
+            option: (baseStyles, state) => ({
+              ...baseStyles,
+              backgroundColor: isDarkMode ? '#10172a' : '#fefdfe',
+            }),
 
-            }}
-            onChange={(selected) => {
-              onChange(selected);
-            }}
-            components={animatedComponents}
-            defaultValue={value}
-            options={options}
-          />
+          }}
+          onChange={(selected) => {
+            onChange(selected);
+          }}
+          components={animatedComponents}
+          defaultValue={value}
+          options={options}
+        />
       ) : type === "multi_selection" ? (
         <Select
           className="p-0.5"
@@ -179,7 +186,7 @@ function DynamicInput({
               className="h-full flex-1 w-full bg-lightColor dark:bg-darkColor text-sm  min-h-[150px]"
               name={name}
               placeholder={placeholder}
-              value={value||''}
+              value={value || ''}
               disabled={disabled}
               style={{ outline: "none" }}
               onChange={(event) => onChange(event.target.value)}
@@ -299,6 +306,23 @@ function DynamicInput({
                 </div>
               </div>
             ))}
+          </div>
+        ) : type === "ipaddress" ? (
+          <div
+            className={`flex flex-row gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center p-2.5 ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}
+          >
+            {icon && React.cloneElement(icon, { className: 'h-5 w-6', fill: color })}
+            <InputMask mask="999.999.999.999" value={value} onChange={(event) => onChange(event.target.value)}>
+              {(inputProps) => <input
+                {...inputProps}
+                type="text"
+                className="h-7 flex-1 w-full text-sm bg-transparent"
+                name={name}
+                placeholder={placeholder}
+                disabled={disabled}
+                style={{ outline: 'none' }}
+              />}
+            </InputMask>
           </div>
         ) : (
           <div

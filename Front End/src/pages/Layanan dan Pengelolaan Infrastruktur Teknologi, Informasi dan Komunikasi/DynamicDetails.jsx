@@ -14,15 +14,26 @@ const DynamicDetails = ({ detailData, loading }) => {
           <div className='flex flex-col gap-3'>
             <span className='text-lg font-bold'>Rincian Pengajuan</span>
             {Object.entries(detailData).map(([key, value]) => (
-              <DynamicShow
-                key={key}
-                name={key}
-                label={getKeyLabel(key)}
-                value={value}
-                location="infrastruktur"
-                type={getFieldType(key)}
-                disabled={true}
-              />
+              key === 'device_specifications' ?
+                <DynamicShow
+                  key={key}
+                  name={key}
+                  label={getKeyLabel(key)}
+                  value={JSON.stringify(value)}
+                  location="infrastruktur"
+                  type={getFieldType(key)}
+                  disabled={true}
+                />
+                :
+                <DynamicShow
+                  key={key}
+                  name={key}
+                  label={getKeyLabel(key)}
+                  value={value}
+                  location="infrastruktur"
+                  type={getFieldType(key)}
+                  disabled={true}
+                />
             ))}
           </div>
         </ConditionalRender>
@@ -63,6 +74,10 @@ const getKeyLabel = (key) => {
       return "Nama Pengajuan";
     case "createdAt":
       return "Tanggal Pembuatan";
+    case "other_requirements":
+      return "Requirement Lainnya";
+    case "app":
+      return "Nama Aplikasi";
     default:
       return key;
   }

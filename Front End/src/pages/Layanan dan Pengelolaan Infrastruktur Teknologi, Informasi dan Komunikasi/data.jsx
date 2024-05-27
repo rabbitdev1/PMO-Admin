@@ -176,9 +176,9 @@ export const formData = [
         value: [],
         type: "selection",
         options: [
-          { value: "alat_1", label: "Alat 1" },
-          { value: "alat_2", label: "Alat 2" },
-          { value: "alat_3", label: "Alat 3" },
+          { value: "aplikasi_1", label: "Aplikasi 1" },
+          { value: "aplikasi_2", label: "Aplikasi 2" },
+          { value: "aplikasi_3", label: "Aplikasi 3" },
         ],
       },
       {
@@ -234,7 +234,7 @@ export const formData = [
         name: "ip_address",
         label: "Usulan IP Address",
         value: "",
-        type: "number",
+        type: "ipaddress",
       },
       {
         name: "reason",

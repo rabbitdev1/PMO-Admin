@@ -1,4 +1,4 @@
-import { validateAddress, validateArray, validateFullname, validateHTML, validateImage, validatePeriod, validateRadioBottom, validateTelp, validateText } from "../../utils/helpers/validateForm";
+import { validateAddress, validateArray, validateFullname, validateHTML, validateImage, validateIPAddress, validatePeriod, validateRadioBottom, validateTelp, validateText, validateTextArea } from "../../utils/helpers/validateForm";
 
 export const isValidatorRelokasiAlat = (obj) => {
   let isValid = true;
@@ -43,10 +43,34 @@ export const isValidatorTroubleShooting = (obj) => {
   let isValid = true;
   isValid = isValid && validateFullname(obj.name_pic, "Nama PIC");
   isValid = isValid && validateTelp(obj.telp_pic, "Nomor PIC");
-  isValid = isValid && validateHTML(obj.reason, "Alasan Pengajuan");
   isValid = isValid && validateText(obj.incident, "Waktu Kejadian");
+  isValid = isValid && validateHTML(obj.reason, "Alasan Pengajuan");
   isValid = isValid && validateImage(obj.image_screenshoot, "Screenshot");
 
   return isValid;
 };
+
+export const isValidatorHosting = (obj) => {
+  let isValid = true;
+  isValid = isValid && validateFullname(obj.name_pic, "Nama PIC");
+  isValid = isValid && validateTelp(obj.telp_pic, "Nomor PIC");
+  isValid = isValid && validateArray(obj.app, "Nama Aplikasi");
+  isValid = isValid && validateTextArea(obj.other_requirements, "Requirement Lainnya");
+  isValid = isValid && validateHTML(obj.reason, "Alasan Pengajuan");
+
+  return isValid;
+};
+
+export const isValidatorDomain = (obj) => {
+  let isValid = true;
+  isValid = isValid && validateFullname(obj.name_pic, "Nama PIC");
+  isValid = isValid && validateTelp(obj.telp_pic, "Nomor PIC");
+  isValid = isValid && validateArray(obj.app, "Nama Aplikasi");
+  isValid = isValid && validateText(obj.domain_name, "Usulan Domain");
+  isValid = isValid && validateIPAddress(obj.ip_address, "IP Address");
+  isValid = isValid && validateHTML(obj.reason, "Alasan Pengajuan");
+
+  return isValid;
+};
+
 
