@@ -73,6 +73,10 @@ function DetailInfrastrukturPages() {
         setfinishData(JSON.parse(response.result.data?.on_finish));
       } else {
         setDetailData([]);
+        navigate("/");
+        toast.error(response.result.msg, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
       }
     } catch (error) {
       console.error("Error fetching data:", error);

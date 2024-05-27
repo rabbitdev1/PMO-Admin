@@ -1,4 +1,5 @@
 import { deleteFiles } from "../../components/UploadFile.js";
+import { deleteImage } from "../../components/UploadImage.js";
 import InfraModel from "../../models/InfraModel.js";
 
 export const deleteInfrastruktur = async (req, res) => {
@@ -30,6 +31,7 @@ export const deleteInfrastruktur = async (req, res) => {
       ...JSON.parse(infrastrukturItem.on_validation),
       ...JSON.parse(infrastrukturItem.on_process),
       ...JSON.parse(infrastrukturItem.on_finish),
+      ...JSON.parse(infrastrukturItem.fields),
     };
     console.log("Merged Data:", mergedDataProcess);
     const findValueByTitle = (data, title) => data[title];
@@ -37,17 +39,17 @@ export const deleteInfrastruktur = async (req, res) => {
     const fileUploadValue = findValueByTitle(mergedDataProcess, "file_upload");
     const imageScreenshotValue = findValueByTitle(
       mergedDataProcess,
-      "image_screenshot"
+      "image_screenshoot"
     );
     const foundValue = fileUploadValue || imageScreenshotValue;
     if (foundValue) {
       await deleteFiles(foundValue, layanan);
+      await deleteImage(foundValue, layanan);
       console.log("Data ditemukan");
       console.log(foundValue, layanan);
     } else {
       console.log("Data tidak ditemukan");
     }
-
     const deletedItem = await InfraModel.destroy({
       where: {
         id: id,
