@@ -1,14 +1,5 @@
 import express from "express";
 import {
-  deleteHelpDesk,
-  editHelpDesk,
-  editProcessHelpDesk,
-  getDetailHelpDesk,
-  getFaq,
-  getListHelpDesk,
-  setHelpDesk,
-} from "../controllers/HelpDesk.js";
-import {
   checkRoleUser,
   createUsers,
   deleteUsers,
@@ -32,16 +23,6 @@ import {
   setInfrastruktur,
 } from "../controllers/Infrastruktur.js";
 const router = express.Router();
-
-router.post("/helpdesk_faq", getFaq);
-router.post("/helpdesk", verifyToken, getListHelpDesk);
-router.post("/helpdesk/detail", verifyToken, getDetailHelpDesk);
-router.post("/helpdesk/create", verifyToken, setHelpDesk);
-router.post("/helpdesk/set_process", verifyToken, editProcessHelpDesk);
-router.post("/helpdesk/edit", verifyToken, editHelpDesk);
-router.post("/helpdesk/delete", verifyToken, deleteHelpDesk);
-
-
 
 router.post("/infrastruktur", verifyToken, getListInfrastruktur);
 router.post("/infrastruktur/detail", verifyToken, getDetailInfrastruktur);

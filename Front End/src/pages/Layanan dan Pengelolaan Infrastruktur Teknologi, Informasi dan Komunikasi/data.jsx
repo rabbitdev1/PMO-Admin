@@ -93,10 +93,12 @@ export const formData = [
         value: [],
         type: "selection",
         options: [
-          { value: "alat_1", label: "Alat 1" },
-          { value: "alat_2", label: "Alat 2" },
-          { value: "alat_3", label: "Alat 3" },
-        ],
+          { value: "1", label: "1 Mbps" },
+          { value: "2", label: "2 Mbps" },
+          { value: "5", label: "5 Mbps" },
+          { value: "10", label: "10 Mbps" },
+          { value: "20", label: "20 Mbps" }
+        ]
       },
       {
         name: "proposed_bandwidth",
@@ -104,10 +106,12 @@ export const formData = [
         value: [],
         type: "selection",
         options: [
-          { value: "alat_1", label: "Alat 1" },
-          { value: "alat_2", label: "Alat 2" },
-          { value: "alat_3", label: "Alat 3" },
-        ],
+          { value: "1", label: "1 Mbps" },
+          { value: "2", label: "2 Mbps" },
+          { value: "5", label: "5 Mbps" },
+          { value: "10", label: "10 Mbps" },
+          { value: "20", label: "20 Mbps" }
+        ]
       },
       {
         name: "reason",
@@ -116,8 +120,8 @@ export const formData = [
         type: "editor",
       },
       {
-        name: "status",
-        label: "Status",
+        name: "status_BDO",
+        label: "Status BDO",
         value: "",
         type: "radio_button",
         options: [
@@ -133,6 +137,7 @@ export const formData = [
           endDate: null,
         },
         type: "date",
+        visible: false,
       },
     ],
   },

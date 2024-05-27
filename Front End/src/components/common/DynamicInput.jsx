@@ -4,6 +4,8 @@ import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { ReactComponent as EyeSlashIcon } from "../../assets/icon/ic_eye-slash.svg";
 import { ReactComponent as EyeIcon } from "../../assets/icon/ic_eye.svg";
+import { ReactComponent as PlusIcon } from "../../assets/icon/ic_plus.svg";
+import { ReactComponent as MinusIcon } from "../../assets/icon/ic_minus.svg";
 import useTheme from "../context/useTheme";
 
 import { Editor } from 'react-draft-wysiwyg';
@@ -210,11 +212,11 @@ function DynamicInput({
               }
             />
             <div className="flex flex-row gap-2">
-              {parseInt(value) > 0 && <button onClick={() => onChange(parseInt(value) - 1)} className="bg-red-400">
-                <EyeIcon className="h-7 w-6" fill="#666666" />
+              {parseInt(value) > 0 && <button onClick={() => onChange(parseInt(value) - 1)} className="bg-[#0285ff] p-2 rounded-md">
+                <MinusIcon className="h-3 w-4" fill="#ffffff" />
               </button>}
-              <button onClick={() => onChange(value === '' ? 1 : parseInt(value) + 1)} className="bg-blue-400">
-                <EyeIcon className="h-7 w-6" fill="#666666" />
+              <button onClick={() => onChange(value === '' ? 1 : parseInt(value) + 1)} className="bg-[#0285ff] p-2 rounded-md">
+                <PlusIcon className="h-3 w-4" fill="#ffffff" />
               </button>
             </div>
 

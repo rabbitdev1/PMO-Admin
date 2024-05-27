@@ -13,3 +13,16 @@ export const formatDate = (isoString) => {
   });
   return `${formattedDate} ${formattedTime}`;
 };
+
+export const formatMultiDate = (isoStringArray) => {
+  const formattedDates = isoStringArray.map((isoString) => {
+    const date = new Date(isoString);
+    return date.toLocaleDateString("id-ID", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    });
+  });
+
+  return `${formattedDates[0]} s/d ${formattedDates[1]}`;
+};

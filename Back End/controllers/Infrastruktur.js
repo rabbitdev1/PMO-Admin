@@ -1,5 +1,4 @@
 import { deleteFiles } from "../components/UploadFile.js";
-import { deleteImage } from "../components/UploadImage.js";
 import InfraModel from "../models/InfraModel.js";
 
 export const getListInfrastruktur = async (req, res) => {
@@ -15,7 +14,7 @@ export const getListInfrastruktur = async (req, res) => {
       const infrastruktur = await InfraModel.findAll();
 
       const filteredinfrastruktur = infrastruktur.filter((item) => {
-        if (!item.role) return false; 
+        if (!item.role) return false;
         const itemRoles = JSON.parse(item.role);
         return itemRoles.includes(role);
       });
@@ -62,8 +61,6 @@ export const getListInfrastruktur = async (req, res) => {
           totalItems: validinfrastruktur.length,
           totalItemsByStatus: totalItemsByStatus,
         });
-
-        
       } else {
         // Jika bukan peran perangkat_daerah, kembalikan data tanpa validasi API key
         const totalItemsByStatus = {
@@ -127,7 +124,8 @@ export const getDetailInfrastruktur = async (req, res) => {
       });
     }
 
-    const userHasPermission = infrastrukturDetail.dataValues.role.includes(role);
+    const userHasPermission =
+      infrastrukturDetail.dataValues.role.includes(role);
     if (!userHasPermission) {
       return res.status(403).json({
         status: "error",
@@ -257,9 +255,15 @@ export const editInfrastruktur = async (req, res) => {
     } else if (type === "process") {
       infrastrukturItem.on_process = data;
     } else if (type === "finish") {
-      if (convertData.submission_status === "Disetujui") {
+      if (
+        convertData.submission_status === "Menyetujui" ||
+        convertData.submission_status === "Disetujui"
+      ) {
         infrastrukturItem.submission_status = 5;
-      } else if (convertData.submission_status === "Ditolak") {
+      } else if (
+        convertData.submission_status === "Tidak Menyetujui" ||
+        convertData.submission_status === "Ditolak"
+      ) {
         infrastrukturItem.submission_status = 6;
       }
       infrastrukturItem.on_finish = data;

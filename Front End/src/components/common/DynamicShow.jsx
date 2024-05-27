@@ -3,7 +3,7 @@ import React from "react";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import ImageComponent from "../../utils/helpers/getImageURL";
 import PDFComponent from "../../utils/helpers/getPDFURL";
-import { formatDate } from "../../utils/helpers/formatDate";
+import { formatDate, formatMultiDate } from "../../utils/helpers/formatDate";
 import { formatArray } from "../../utils/helpers/formatArray";
 
 
@@ -62,12 +62,18 @@ function DynamicShow({ label, value, options, type, className, location }) {
         >
           <span className="text-sm">{formatDate(value)}</span>
         </div>
+      ) : type === "multidate" ? (
+        <div
+          className={`flex flex-row gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center p-3 ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}
+        >
+          <span className="text-sm">{formatMultiDate(value)}</span>
+        </div>
       ) : (
         <div
-      className={`flex flex-col gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-start p-3 ${className} rounded-lg border border-[#dddddd] dark:border-[#ffffff20]`}
-    >
-      <span className="text-sm  whitespace-normal">{value}</span>
-    </div>
+          className={`flex flex-col gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-start p-3 ${className} rounded-lg border border-[#dddddd] dark:border-[#ffffff20]`}
+        >
+          <span className="text-sm  whitespace-normal">{value}</span>
+        </div>
       )}
     </div>
   );

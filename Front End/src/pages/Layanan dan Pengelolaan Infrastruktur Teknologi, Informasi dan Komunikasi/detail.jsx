@@ -1,29 +1,25 @@
 import React, { useEffect, useState } from "react";
 
+import { convertToRaw } from "draft-js";
+import draftToHtml from "draftjs-to-html";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
-import DynamicInput from "../../components/common/DynamicInput";
+import { toast } from "react-toastify";
+import { ReactComponent as PengajuanBerahasilIcon } from "../../assets/icon/ic_pengajuan_berhasil.svg";
+import DynamicButton from "../../components/common/DynamicButton";
 import useTheme from "../../components/context/useTheme";
 import TitleHeader from "../../components/layout/TitleHeader";
-import { apiClient } from "../../utils/api/apiClient";
-import ImageComponent from "../../utils/helpers/getImageURL";
-import DynamicShow from "../../components/common/DynamicShow";
-import DynamicDetails from "./DynamicDetails";
-import DynamicButton from "../../components/common/DynamicButton";
-import { ReactComponent as PengajuanBerahasilIcon } from "../../assets/icon/ic_pengajuan_berhasil.svg";
-import ModalContent from "../../components/ui/Modal/ModalContent";
-import { convertToRaw } from "draft-js";
-import draftToHtml from "draftjs-to-html";
-import { toast } from "react-toastify";
-import fetchUploadImages from "../../utils/api/uploadImages";
-import fetchUploadFiles from "../../utils/api/uploadFiles";
 import { isPending } from "../../components/store/actions/todoActions";
-import DalamAntrianView from "./Logical/DalamAntrianView";
-import ValidationStatus from "./Logical/ValidationStatus";
-import ProcessStatus from "./Logical/ProcessStatus";
-import FinishStatus from "./Logical/FinishStatus";
+import ModalContent from "../../components/ui/Modal/ModalContent";
 import SubmissionStatus from "../../components/ui/SubmissionStatus";
+import { apiClient } from "../../utils/api/apiClient";
+import fetchUploadFiles from "../../utils/api/uploadFiles";
+import DynamicDetails from "./DynamicDetails";
+import DalamAntrianView from "./Logical/DalamAntrianView";
+import FinishStatus from "./Logical/FinishStatus";
+import ProcessStatus from "./Logical/ProcessStatus";
+import ValidationStatus from "./Logical/ValidationStatus";
 
 function DetailInfrastrukturPages() {
   const { isDarkMode } = useTheme();
@@ -104,7 +100,7 @@ function DetailInfrastrukturPages() {
     else if (type === 'finish') {
       params.append("id", id);
       params.append("type", type);
-      params.append("data", JSON.stringify({ submission_status: parseInt(data.submission_status) === 0 ? 'Ditolak' : 'Disetujui', file_upload: data.file_upload, response: data.response }));
+      params.append("data", JSON.stringify({ submission_status: parseInt(data.submission_status) === 0 ? 'Tidak Menyetujui' : 'Menyetujui', file_upload: data.file_upload, response: data.response }));
     }
 
     // if (filename) params.append("fileuploaded", filename);
@@ -179,6 +175,7 @@ function DetailInfrastrukturPages() {
             position={'top'}
           />
           <ProcessStatus
+            detailData={detailData}
             submissionStatus={submissionStatus}
             authProfile={authProfile}
             processData={processData}

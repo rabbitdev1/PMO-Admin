@@ -173,3 +173,23 @@ export const validateTextArea = (value, title) => {
   }
   return true;
 };
+export const validatePeriod = (value, title) => {
+  if (!value[0] || !value[1]) {
+    toast.error("Mohon isi kedua tanggal untuk " + title, {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+    return false;
+  }
+  if (value[0] > value[1]) {
+    toast.error(
+      "Tanggal mulai tidak boleh lebih besar dari tanggal selesai untuk " +
+        title,
+      {
+        position: toast.POSITION.TOP_RIGHT,
+      }
+    );
+    return false;
+  }
+
+  return true;
+};
