@@ -5,8 +5,8 @@ export const isValidatorRelokasiAlat = (obj) => {
   isValid = isValid && validateFullname(obj.name_pic, "Nama PIC");
   isValid = isValid && validateTelp(obj.telp_pic, "Nomor PIC");
   isValid = isValid && validateArray(obj.type_tools, "Jenis Alat yang direlokasikan");
+  isValid = isValid && validateText(obj.distance_estimation, "Estimati Jarak");
   isValid = isValid && validateHTML(obj.reason, "Alasan Pengajuan");
-  isValid = isValid && validateAddress(obj.full_address, "Alamat");
   isValid = isValid && validateRadioBottom(obj.status, 'Status');
 
   return isValid;

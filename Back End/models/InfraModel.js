@@ -33,6 +33,10 @@ const InfraModel = db.define(
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    on_validation_technique: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
     on_process: {
       type: DataTypes.TEXT,
       allowNull: false,

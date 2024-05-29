@@ -60,6 +60,7 @@ export const getDetailInfrastruktur = async (req, res) => {
           fileuploaded: infrastrukturDetail.fileuploaded,
           fields: rearrangedData,
           on_validation: infrastrukturDetail.on_validation,
+          on_validation_technique: infrastrukturDetail.on_validation_technique,
           on_process: infrastrukturDetail.on_process,
           on_finish: infrastrukturDetail.on_finish,
         },

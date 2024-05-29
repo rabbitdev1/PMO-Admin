@@ -31,6 +31,8 @@ export const editInfrastruktur = async (req, res) => {
           infrastrukturItem.submission_status = 3;
         }
         infrastrukturItem.on_validation = data;
+      } else if (type === "validation_technique") {
+        infrastrukturItem.on_validation_technique = data;
       } else if (type === "process") {
         infrastrukturItem.on_process = data;
       } else if (type === "finish") {
@@ -38,12 +40,12 @@ export const editInfrastruktur = async (req, res) => {
           convertData.submission_status === "Menyetujui" ||
           convertData.submission_status === "Disetujui"
         ) {
-          infrastrukturItem.submission_status = 5;
+          infrastrukturItem.submission_status = 7;
         } else if (
           convertData.submission_status === "Tidak Menyetujui" ||
           convertData.submission_status === "Ditolak"
         ) {
-          infrastrukturItem.submission_status = 6;
+          infrastrukturItem.submission_status = 8;
         }
         infrastrukturItem.on_finish = data;
       }

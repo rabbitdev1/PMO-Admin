@@ -33,16 +33,16 @@ export const getListInfrastruktur = async (req, res) => {
   
           const totalItemsByStatus = {
             divalidasi: filteredinfrastruktur.filter(
-              (user) => user.submission_status === 2
+              (user) => user.submission_status === 2||user.submission_status === 4
             ).length,
             diproses: filteredinfrastruktur.filter(
-              (user) => user.submission_status === 4
+              (user) => user.submission_status === 6
             ).length,
             ditolak: filteredinfrastruktur.filter(
-              (user) => user.submission_status === 6|| user.submission_status === 3
+              (user) => user.submission_status === 3|| user.submission_status === 5|| user.submission_status === 8
             ).length,
             disetujui: filteredinfrastruktur.filter(
-              (user) => user.submission_status === 5
+              (user) => user.submission_status === 7
             ).length,
           };
           res.json({
@@ -65,16 +65,16 @@ export const getListInfrastruktur = async (req, res) => {
           // Jika bukan peran perangkat_daerah, kembalikan data tanpa validasi API key
           const totalItemsByStatus = {
             divalidasi: filteredinfrastruktur.filter(
-              (user) => user.submission_status === 2
+              (user) => user.submission_status === 2||user.submission_status === 4
             ).length,
             diproses: filteredinfrastruktur.filter(
-              (user) => user.submission_status === 4
+              (user) => user.submission_status === 6
             ).length,
             ditolak: filteredinfrastruktur.filter(
-              (user) => user.submission_status === 6|| user.submission_status === 3
+              (user) => user.submission_status === 3|| user.submission_status === 5|| user.submission_status === 8
             ).length,
             disetujui: filteredinfrastruktur.filter(
-              (user) => user.submission_status === 5 
+              (user) => user.submission_status === 7
             ).length,
           };
           res.json({

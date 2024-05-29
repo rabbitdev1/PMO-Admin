@@ -20,6 +20,8 @@ import DalamAntrianView from "./Logical/DalamAntrianView";
 import FinishStatus from "./Logical/FinishStatus";
 import ProcessStatus from "./Logical/ProcessStatus";
 import ValidationStatus from "./Logical/ValidationStatus";
+import ValidationStatusTechnique from "./Logical/ValidationStatusTechnique";
+import fetchUploadImages from "../../utils/api/uploadImages";
 
 function DetailInfrastrukturPages() {
   const { isDarkMode } = useTheme();
@@ -33,6 +35,7 @@ function DetailInfrastrukturPages() {
   const [infrastrukturLoading, setInfrastrukturLoading] = useState(true);
   const [submissionStatus, setSubmissionStatus] = useState(0);
   const [validationData, setValidationData] = useState({});
+  const [validationDataTechnique, setValidationDataTechnique] = useState({});
   const [processData, setProcessData] = useState({});
   const [finishData, setfinishData] = useState({});
 
@@ -69,6 +72,7 @@ function DetailInfrastrukturPages() {
         setDetailData(response.result.data.fields);
         setSubmissionStatus(response.result.data?.submission_status);
         setValidationData(JSON.parse(response.result.data?.on_validation));
+        setValidationDataTechnique(JSON.parse(response.result.data?.on_validation_technique));
         setProcessData(JSON.parse(response.result.data?.on_process));
         setfinishData(JSON.parse(response.result.data?.on_finish));
       } else {
@@ -84,37 +88,37 @@ function DetailInfrastrukturPages() {
   };
 
   const fetchEditinfrastruktur = async (api_key, token, id, type, data) => {
+    dispatch(isPending(true));
     let htmlConvert = '';
-    if (type === 'validation' || type === 'process') {
-      if (data?.response) {
-        const contentState = convertToRaw(data?.response.getCurrentContent());
-        htmlConvert = draftToHtml(contentState);
-      }
+
+    if (['validation', 'validation_technique', 'process'].includes(type) && data?.response) {
+      const contentState = convertToRaw(data.response.getCurrentContent());
+      htmlConvert = draftToHtml(contentState);
     }
     const params = new URLSearchParams();
+    params.append("id", id);
+    params.append("type", type);
+
     if (type === 'validation') {
-      params.append("id", id);
-      params.append("type", type);
-      params.append("data", JSON.stringify({ status_validation: parseInt(data.statusValidasi) === 0 ? 'Ditolak' : 'Disetujui', response: htmlConvert }));
-    } else if (type === 'process') {
-      const dataFilter = {
-        checking_tools: data?.checking_tools,
-        working_schedule: data?.working_schedule,
-        config: data?.config,
+      params.append("data", JSON.stringify({
+        ...data,
+        status_validation: parseInt(data.status_validation) === 0 ? 'Ditolak' : 'Disetujui',
+        response: htmlConvert
+      }));
+    } else if (['validation_technique', 'process'].includes(type)) {
+      const filteredData = {
+        ...data,
+        response: htmlConvert
       };
-
-      const filteredDataProcess = Object.fromEntries(
-        Object.entries(dataFilter).filter(([_, value]) => value !== undefined && value !== null && value !== '')
+      const cleanedData = Object.fromEntries(
+        Object.entries(filteredData).filter(([_, value]) => value !== undefined && value !== null && value !== '')
       );
-
-      params.append("id", id);
-      params.append("type", type);
-      params.append("data", JSON.stringify(filteredDataProcess));
-    }
-    else if (type === 'finish') {
-      params.append("id", id);
-      params.append("type", type);
-      params.append("data", JSON.stringify({ submission_status: parseInt(data.submission_status) === 0 ? 'Tidak Menyetujui' : 'Menyetujui', file_upload: data.file_upload, response: data.response }));
+      params.append("data", JSON.stringify(cleanedData));
+    } else if (type === 'finish') {
+      params.append("data", JSON.stringify({
+        ...data,
+        submission_status: parseInt(data.submission_status) === 0 ? 'Tidak Menyetujui' : 'Menyetujui',
+      }));
     }
 
     // if (filename) params.append("fileuploaded", filename);
@@ -148,12 +152,42 @@ function DetailInfrastrukturPages() {
     }
   };
 
+
   const checkingFormData = async (type, data) => {
     if (type === "validation") {
       fetchEditinfrastruktur(authApiKey, authToken, slug, type, data)
-    } else if (type === "process") {
+    } else if (type === "validation_technique") {
       fetchEditinfrastruktur(authApiKey, authToken, slug, type, data)
-    } else if (type === "finish") {
+    } else if (type === "process") {
+      if (data.upload_foto_alat_sebelum_di_relokasi || data.upload_foto_alat_sesudah_di_relokasi) {
+        try {
+          const uploadPromises = [];
+          if (data.upload_foto_alat_sebelum_di_relokasi) {
+            uploadPromises.push(fetchUploadImages(authApiKey, authToken, data.upload_foto_alat_sebelum_di_relokasi, 'infrastruktur', dispatch));
+          }
+          if (data.upload_foto_alat_sesudah_di_relokasi) {
+            uploadPromises.push(fetchUploadImages(authApiKey, authToken, data.upload_foto_alat_sesudah_di_relokasi, 'infrastruktur', dispatch));
+          }
+
+          const [resultBefore, resultAfter] = await Promise.all(uploadPromises);
+
+          let combineData = { ...data };
+          if (resultBefore) {
+            combineData.upload_foto_alat_sebelum_di_relokasi = resultBefore;
+          }
+          if (resultAfter) {
+            combineData.upload_foto_alat_sesudah_di_relokasi = resultAfter;
+          }
+
+          fetchEditinfrastruktur(authApiKey, authToken, slug, type, combineData);
+        } catch (error) {
+          console.error("Error occurred during image upload:", error);
+        }
+      } else {
+        fetchEditinfrastruktur(authApiKey, authToken, slug, type, data);
+      }
+    }
+    else if (type === "finish") {
       if (data.file_submission) {
         const result = await fetchUploadFiles(authApiKey, authToken, data.file_submission, 'infrastruktur', dispatch);
         if (result !== null) {
@@ -178,40 +212,54 @@ function DetailInfrastrukturPages() {
       />
       <section className="flex flex-col gap-3">
         <SubmissionStatus status={submissionStatus} />
-        <div className={`flex ${submissionStatus === 2 ? JSON.parse(authProfile)?.role === "perangkat_daerah" || JSON.parse(authProfile)?.role === "kabid_infra" ? 'sm:flex-row' : 'sm:flex-col' :
-          submissionStatus === 4 ? JSON.parse(authProfile)?.role === "perangkat_daerah" || JSON.parse(authProfile)?.role === "op_pmo" ? 'sm:flex-row' : 'sm:flex-col' :
-            'md:flex-row'} flex-col gap-3`}>
-          <DalamAntrianView submissionStatus={submissionStatus} />
-          <ValidationStatus
+        <div className={`flex  flex-col gap-3`}>
+          <DalamAntrianView
             submissionStatus={submissionStatus}
-            validationData={validationData}
-            authProfile={authProfile}
-            position={'top'}
-          />
-          <ProcessStatus
             detailData={detailData}
-            submissionStatus={submissionStatus}
-            authProfile={authProfile}
-            processData={processData}
-            setProcessData={setProcessData}
-            finishData={finishData}
-            setfinishData={setfinishData}
-            checkingFormData={checkingFormData}
-          />
-          <FinishStatus
-            submissionStatus={submissionStatus}
-            finishData={finishData}
-          />
-          <DynamicDetails detailData={detailData} loading={infrastrukturLoading} />
-
+            infrastrukturLoading={infrastrukturLoading} />
           <ValidationStatus
             submissionStatus={submissionStatus}
             validationData={validationData}
             authProfile={authProfile}
+            detailData={detailData}
+            infrastrukturLoading={infrastrukturLoading}
             setValidationData={setValidationData}
             checkingFormData={checkingFormData}
-            position={'bottom'}
           />
+          <ValidationStatusTechnique
+            slug={slug}
+            submissionStatus={submissionStatus}
+            validationData={validationDataTechnique}
+            setValidationData={setValidationDataTechnique}
+            authProfile={authProfile}
+            detailData={detailData}
+            infrastrukturLoading={infrastrukturLoading}
+            checkingFormData={checkingFormData}
+            setisModalVerif={setisModalVerif}
+          />
+          <ProcessStatus
+            slug={slug}
+            validationData={validationDataTechnique}
+            submissionStatus={submissionStatus}
+            processData={processData}
+            authProfile={authProfile}
+            detailData={detailData}
+            infrastrukturLoading={infrastrukturLoading}
+            checkingFormData={checkingFormData}
+            setisModalVerif={setisModalVerif}
+            finishData={finishData}
+            setfinishData={setfinishData}
+          />
+
+          <FinishStatus
+            detailData={detailData}
+            infrastrukturLoading={infrastrukturLoading} 
+            validationData={validationDataTechnique}
+            processData={processData}
+            submissionStatus={submissionStatus}
+            finishData={finishData}
+          />
+
         </div>
       </section>
 

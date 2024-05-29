@@ -189,7 +189,7 @@ function InfrastrukturPages() {
     const updatedFormData = [...formData];
     const currentSection = updatedFormData[sectionIndex];
     const fieldToUpdateIndex = currentSection.fields.findIndex(field => field.name === fieldName);
-  
+
     if (fieldName === 'status_BDO') {
       // Check if the selected value is 'temporary'
       const isTemporary = value === 'temporary';
@@ -201,10 +201,10 @@ function InfrastrukturPages() {
         updatedFormData[sectionIndex].fields[periodFieldIndex].value = { startDate: null, endDate: null };
       }
     }
-  
+
     // Update the value of the field
     updatedFormData[sectionIndex].fields[fieldToUpdateIndex].value = value;
-  
+
     setFormData(updatedFormData);
   };
   const checkingFormData = async () => {
@@ -408,10 +408,10 @@ function InfrastrukturPages() {
                 ]}
                 showAction={{ read: true, remove: JSON.parse(authProfile)?.role === "perangkat_daerah" ? true : false, edit: true }}
                 onClickShow={(data) => {
-                  if (JSON.parse(authProfile)?.role === "perangkat_daerah" || JSON.parse(authProfile)?.role === "kabid_infra") {
-                    navigate("/detail-infrastruktur", { state: { slug: data.id } });
-                  } else {
+                  if (JSON.parse(authProfile)?.role === "op_pmo") {
                     fetchSetProgress(authApiKey, authToken, data.id)
+                  } else {
+                    navigate("/detail-infrastruktur", { state: { slug: data.id } });
                   }
                 }}
                 onClickRemove={(data) => {
@@ -531,18 +531,19 @@ function InfrastrukturPages() {
                       {section.fields.map((item, index) => (
                         <div key={index} className="flex flex-col gap-2">
                           {item.visible !== false && (
-                          <DynamicInput
-                            key={index}
-                            name={item.name}
-                            label={item.label}
-                            value={item.value}
-                            options={item.options}
-                            onChange={(value) =>
-                              handleInputChange(item.name, value, sectionIndex)
-                            }
-                            type={item.type}
-                            placeholder={"Masukan " + item.label}
-                          />
+                            <DynamicInput
+                              key={index}
+                              name={item.name}
+                              label={item.label}
+                              noted={item.noted}
+                              value={item.value}
+                              options={item.options}
+                              onChange={(value) =>
+                                handleInputChange(item.name, value, sectionIndex)
+                              }
+                              type={item.type}
+                              placeholder={"Masukan " + item.label}
+                            />
                           )}
                           {item?.field && item?.field?.map((itemField, indexField) => (
                             item?.value?.value === itemField.type_select &&

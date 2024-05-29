@@ -1,74 +1,57 @@
-import React from 'react';
-import DynamicShow from '../../../components/common/DynamicShow';
-import DynamicInput from '../../../components/common/DynamicInput';
-import DynamicButton from '../../../components/common/DynamicButton';
-import { toast } from 'react-toastify';
-import { validateTextArea } from '../../../utils/helpers/validateForm';
+import React from "react";
+import DynamicShow from "../../../components/common/DynamicShow";
+import DynamicInput from "../../../components/common/DynamicInput";
+import DynamicButton from "../../../components/common/DynamicButton";
+import { toast } from "react-toastify";
+import { validateTextArea } from "../../../utils/helpers/validateForm";
+import DynamicDetails from "../DynamicDetails";
 
-const ValidationStatus = ({ submissionStatus, validationData, authProfile, position, setValidationData, checkingFormData }) => {
+const ValidationStatus = ({
+  submissionStatus,
+  validationData,
+  authProfile,
+  setValidationData,
+  checkingFormData,
+  detailData,
+  infrastrukturLoading,
+}) => {
   return (
-    position === 'top' ?
-      <>
-        {submissionStatus === 2 ? JSON.parse(authProfile)?.role === "perangkat_daerah" || JSON.parse(authProfile)?.role === "kabid_infra" ?
-          <div className="flex flex-col flex-1">
-            <div className="flex flex-col bg-lightColor dark:bg-cardDark p-5 gap-3 items-center rounded-lg">
-              <img
-                src={require('../../../assets/image/process.gif')}
-                alt={'processing'}
-                className=" object-contain flex w-[20%] min-w-[200px] aspect-square "
-                effect="blur"
-              />
-              <span className="text-base text-center">Pengajuan Sedang <b>Di Validasi</b> Oleh pihak DISKOMINFO Kota Bandung</span>
-            </div>
-          </div> :
+    <>
+      {submissionStatus === 2 && (JSON.parse(authProfile)?.role === "op_pmo" ?
+        <div className="flex flex-col gap-3">
           <div className="flex flex-col bg-[#F5CF08]/10 border-1 border-[#F5CF08] text-[#F5CF08] p-3 gap-3 items-center rounded-lg">
-            <span className="text-base font-semibold text-center">Cek Kelengkapan Berkas</span>
-          </div> : null
-        }
-        {submissionStatus === 3 ?
-          <div
-            className={`flex-1 flex flex-col gap-3`}
-          >
-            <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
-              <div className="flex flex-row gap-2 items-center">
-                <span className="text-base font-semibold">Status Validasi :</span>
-                <div className={`flex flex-row gap-2 p-1 px-3 rounded-md text-darkColor bg-[#FF0000]`}>
-                  <span className="text-base">{validationData.status_validation}</span>
-                </div>
-              </div>
-              <DynamicShow
-                label={"Tanggapan"}
-                value={validationData?.response}
-                type={"html"}
-              />
-            </div>
+            <span className="text-base font-semibold text-center">
+              Cek Kelengkapan Berkas
+            </span>
           </div>
-          : null
-        }
-      </> :
-      <>
-        {submissionStatus <= 2 ? JSON.parse(authProfile)?.role === "perangkat_daerah" || JSON.parse(authProfile)?.role === "kabid_infra" ?
-          null :
+          <DynamicDetails
+            detailData={detailData}
+            loading={infrastrukturLoading}
+          />
           <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
-            <span className='text-lg font-bold'>Status Kelengkapan</span>
+            <span className="text-lg font-bold">Status Kelengkapan Dokumen</span>
             {[
               {
-                value: validationData.statusValidasi,
+                value: validationData.status_validation,
                 type: "radio_button",
                 options: [
                   { value: "1", label: "Disetujui" },
                   { value: "0", label: "Ditolak" },
                 ],
-                name: 'statusValidasi'
+                name: "status_validation",
               },
               {
                 label: "Tanggapan",
                 value: validationData.response,
                 type: "editor",
-                name: 'response'
-              }
+                name: "response",
+              },
             ].map((inputProps, index) => {
-              if (inputProps.name === "response" && (validationData.statusValidasi === "1" || validationData.statusValidasi === undefined)) {
+              if (
+                inputProps.name === "response" &&
+                (validationData.status_validation === "1" ||
+                  validationData.status_validation === undefined)
+              ) {
                 return null;
               }
 
@@ -94,19 +77,64 @@ const ValidationStatus = ({ submissionStatus, validationData, authProfile, posit
               color={"#ffffff"}
               className="inline-flex  bg-[#0185FF] text-darkColor"
               onClick={() => {
-                if (validationData.statusValidasi === '0' && validationData?.response === undefined) {
-                  toast.error('Wajib masukan Tanggapan', {
+                if (
+                  validationData.status_validation === "0" &&
+                  validationData?.response === undefined
+                ) {
+                  toast.error("Wajib masukan Tanggapan", {
                     position: toast.POSITION.TOP_RIGHT,
                   });
                 } else {
-                  checkingFormData('validation', validationData);
+                  checkingFormData("validation", validationData);
                 }
               }}
             />
           </div>
-          : null
-        }
-      </>
+        </div>
+        :
+        <div className='flex flex-col lg:flex-row gap-3'>
+          <div className="flex flex-col flex-1">
+            <div className="flex flex-col bg-lightColor dark:bg-cardDark p-5 gap-3 items-center rounded-lg">
+              <img
+                src={require('../../../assets/image/process.gif')}
+                alt={'processing'}
+                className="object-contain flex w-[20%] min-w-[200px] aspect-square"
+                effect="blur"
+              />
+              <span className="text-base text-center">
+                Pengajuan Sedang <b>Di Validasi</b> Oleh pihak DISKOMINFO Kota
+                Bandung
+              </span>
+            </div>
+          </div>
+          <DynamicDetails detailData={detailData} loading={infrastrukturLoading} />
+        </div>
+      )}
+      {submissionStatus === 3 && (
+        <div className='flex flex-col lg:flex-row gap-3'>
+          <div className={`flex-1 flex flex-col gap-3`}>
+            <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+              <div className="flex flex-row gap-2 items-center">
+                <span className="text-base font-semibold">Status Kelengkapan Dokumen :</span>
+                <div
+                  className={`flex flex-row gap-2 p-1 px-3 rounded-md text-darkColor bg-[#FF0000]`}
+                >
+                  <span className="text-base">
+                    {validationData.status_validation}
+                  </span>
+                </div>
+              </div>
+              <DynamicShow
+                label={"Tanggapan"}
+                value={validationData?.response}
+                type={"html"}
+              />
+            </div>
+          </div>
+          <DynamicDetails detailData={detailData} loading={infrastrukturLoading} />
+        </div>
+      )}
+    </>
   );
 };
 

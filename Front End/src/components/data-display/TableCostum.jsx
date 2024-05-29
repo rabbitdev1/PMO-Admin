@@ -27,32 +27,34 @@ const TableCostum = ({
       <div
         className={`${rowData.submission_status === 1
           ? "bg-[#333333]"
-          : rowData.submission_status === 2
+          : rowData.submission_status === 2 ||rowData.submission_status === 4
             ? "bg-[#F5CF08]"
-            : rowData.submission_status === 3
+            : rowData.submission_status === 3 ||rowData.submission_status === 5||rowData.submission_status === 8
               ? "bg-[#FF0000]"
-              : rowData.submission_status === 4
+              : rowData.submission_status === 6
                 ? "bg-[#FFA500]"
-                : rowData.submission_status === 5
+                : rowData.submission_status === 7
                   ? "bg-[#13C39C]"
-                  : rowData.submission_status === 6
-                    ? "bg-[#FF0000]"
-                    : null
+                  :  null
           } p-1 py-2 rounded-md text-xs  text-center text-darkColor`}
       >
         {(rowData.submission_status === 1
           ? "Dalam Antrian"
           : rowData.submission_status === 2
-            ? "Validasi"
+            ? "Validasi Dokumen"
             : rowData.submission_status === 3
               ? "Ditolak"
               : rowData.submission_status === 4
-                ? "Diproses"
+                ? "Validasi Kelengkapan"
                 : rowData.submission_status === 5
-                  ? rowData.submission_title === 'Relokasi Alat' || rowData.submission_title === 'Penambahan Alat' ? 'Menyetujui' : "Diterima"
+                  ? 'Ditolak'
                   : rowData.submission_status === 6
-                    ? rowData.submission_title === 'Relokasi Alat' || rowData.submission_title === 'Penambahan Alat' ? 'Tidak Menyetujui' : "Ditolak"
-                    : rowData.submission_status) || rowData.status}
+                    ? 'Diproses'
+                    : rowData.submission_status === 7
+                      ? 'Pengajuan Selesai'
+                      : rowData.submission_status === 8
+                        ? 'Tidak Menyetujui'
+                        : rowData.submission_status) || rowData.status}
 
         { }
       </div>

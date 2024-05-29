@@ -78,6 +78,8 @@ const getKeyLabel = (key) => {
       return "Requirement Lainnya";
     case "app":
       return "Nama Aplikasi";
+      case "distance_estimation":
+        return "Estimasi Jarak";
     default:
       return key;
   }

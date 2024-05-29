@@ -461,7 +461,7 @@ export const checkRoleUser = async (req, res) => {
         isDisabled: false,
       },
       {
-        value: "ketim_infra",
+        value: "katim_infra",
         label:
           "Ketua Tim Pokja Bidang Infrastruktur Teknologi, Informasi dan Komunikasi",
         isDisabled: false,

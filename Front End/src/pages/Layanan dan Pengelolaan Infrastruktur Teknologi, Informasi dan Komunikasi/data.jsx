@@ -3,7 +3,7 @@ export const formData = [
   {
     name: "Pengajuan Relokasi Alat",
     type: "Pengajuan Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi",
-    role: ["op_pmo", "perangkat_daerah", "kabid_infra","ketim_infra","teknis_infra"],
+    role: ["op_pmo", "perangkat_daerah", "kabid_infra","katim_infra","teknis_infra"],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
@@ -19,16 +19,17 @@ export const formData = [
         ],
       },
       {
+        name: "distance_estimation",
+        label: "Estimasi Jarak",
+        value: "",
+        type: "textarea",
+        noted:'Contoh: Ruang A ke Ruang B sekitar 30 Meter',
+      },
+      {
         name: "reason",
         label: "Alasan Pengajuan",
         value: "",
         type: "editor",
-      },
-      {
-        name: "full_address",
-        label: "Alamat Lengkap",
-        value: "",
-        type: "textarea",
       },
       {
         name: "status",
@@ -45,7 +46,7 @@ export const formData = [
   {
     name: "Pengajuan Penambahan Alat",
     type: "Pengajuan Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi",
-    role: ["op_pmo", "perangkat_daerah", "kabid_infra","ketim_infra","teknis_infra"],
+    role: ["op_pmo", "perangkat_daerah", "kabid_infra","katim_infra","teknis_infra"],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
@@ -55,9 +56,9 @@ export const formData = [
         value: [],
         type: "multi_selection",
         options: [
-          { value: "alat_1", label: "Alat 1" },
-          { value: "alat_2", label: "Alat 2" },
-          { value: "alat_3", label: "Alat 3" },
+          { value: "wifi", label: "Akses Point (Wifi)" },
+          { value: "LAN", label: "Kabel LAN" },
+          { value: "switch", label: "Switch" },
         ],
       },
       {
@@ -73,17 +74,18 @@ export const formData = [
         type: "editor",
       },
       {
-        name: "full_address",
-        label: "Alamat Lengkap",
+        name: "distance_estimation",
+        label: "Estimasi Jarak",
         value: "",
         type: "textarea",
+        noted:'perangkat utama (router) ke lokasi perangkat yang akan ditambahkan (router) sekitar 30 Meter',
       },
     ],
   },
   {
     name: "Pengajuan Penambahan Bandwidth",
     type: "Pengajuan Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi",
-    role: ["op_pmo", "perangkat_daerah", "kabid_infra","ketim_infra","teknis_infra"],
+    role: ["op_pmo", "perangkat_daerah", "kabid_infra","katim_infra","teknis_infra"],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
@@ -144,7 +146,7 @@ export const formData = [
   {
     name: "Pengajuan Troubleshooting Aplikasi dan Jaringan",
     type: "Pengajuan Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi",
-    role: ["op_pmo", "perangkat_daerah", "kabid_infra","ketim_infra","teknis_infra"],
+    role: ["op_pmo", "perangkat_daerah", "kabid_infra","katim_infra","teknis_infra"],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
@@ -166,7 +168,7 @@ export const formData = [
   {
     name: "Pengajuan Hosting",
     type: "Pengajuan Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi",
-    role: ["op_pmo", "perangkat_daerah", "kabid_infra","ketim_infra","teknis_infra"],
+    role: ["op_pmo", "perangkat_daerah", "kabid_infra","katim_infra","teknis_infra"],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
@@ -209,7 +211,7 @@ export const formData = [
   {
     name: "Pengajuan Domain",
     type: "Pengajuan Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi",
-    role: ["op_pmo", "perangkat_daerah", "kabid_infra","ketim_infra","teknis_infra"],
+    role: ["op_pmo", "perangkat_daerah", "kabid_infra","katim_infra","teknis_infra"],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },

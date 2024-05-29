@@ -20,6 +20,7 @@ function DynamicInput({
   value,
   options,
   color,
+  noted,
   type,
   disabled,
   placeholder,
@@ -179,19 +180,26 @@ function DynamicInput({
             />
           </div>
         ) : type === "textarea" ? (
-          <div
-            className={`flex flex-row gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center p-2.5 ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}
-          >
-            <textarea
-              className="h-full flex-1 w-full bg-lightColor dark:bg-darkColor text-sm  min-h-[150px]"
-              name={name}
-              placeholder={placeholder}
-              value={value || ''}
-              disabled={disabled}
-              style={{ outline: "none" }}
-              onChange={(event) => onChange(event.target.value)}
-              rows="5"
-            />
+          <div className="flex flex-col gap-2">
+            <div
+              className={`flex flex-row gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center p-2.5 ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}
+            >
+              <textarea
+                className="h-full flex-1 w-full bg-lightColor dark:bg-darkColor text-sm  min-h-[150px]"
+                name={name}
+                placeholder={placeholder}
+                value={value || ''}
+                disabled={disabled}
+                style={{ outline: "none" }}
+                onChange={(event) => onChange(event.target.value)}
+                rows="5"
+              />
+            </div>
+            {noted &&
+              <div className="flex flex-row gap-2">
+                <span className="text-sm ">{noted}</span>
+              </div>
+            }
           </div>
         ) : type === "select_number" ? (
           <div
