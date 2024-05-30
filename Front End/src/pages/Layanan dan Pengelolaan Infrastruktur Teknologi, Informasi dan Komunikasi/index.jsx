@@ -415,15 +415,11 @@ function InfrastrukturPages() {
                   }
                 }}
                 onClickRemove={(data) => {
-                  if (data.submission_status === 2) {
+                  if (data.submission_status === 2||data.submission_status === 4||data.submission_status === 6) {
                     toast.error('Pengajuan dalam proses validasi, tidak bisa di hapus', {
                       position: toast.POSITION.TOP_RIGHT,
                     });
-                  } else if (data.submission_status === 4) {
-                    toast.error('Pengajuan dalam proses diskominfo, tidak bisa di hapus', {
-                      position: toast.POSITION.TOP_RIGHT,
-                    });
-                  } else {
+                  }  else {
                     const isConfirmed = window.confirm("Apakah kamu yakin ingin menghapus pengajuan ini?");
                     if (isConfirmed) {
                       fetchDataDelete(authApiKey, authToken, data.id, "infrastruktur")
