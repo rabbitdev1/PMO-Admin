@@ -72,7 +72,7 @@ export const formData = [
         label: "Estimasi Jarak",
         value: "",
         type: "textarea",
-        noted:'perangkat utama (router) ke lokasi perangkat yang akan ditambahkan (router) sekitar 30 Meter',
+        noted:'Contoh: Perangkat utama (router) ke lokasi perangkat yang akan ditambahkan (router) sekitar 30 Meter',
       },
     ],
   },
