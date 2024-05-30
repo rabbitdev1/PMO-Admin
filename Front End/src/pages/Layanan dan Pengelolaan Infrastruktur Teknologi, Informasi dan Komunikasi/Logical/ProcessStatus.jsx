@@ -38,13 +38,13 @@ const ProcessStatus = ({
     ];
     const PenambahanAlatProcess = [
         {
-            label: "Upload Foto Alat Sebelum di Relokasi",
+            label: "Upload Foto Alat Sebelum Penambahan Alat",
             value: inputLocal.upload_foto_alat_sebelum_di_relokasi,
             type: "image_upload",
             name: 'upload_foto_alat_sebelum_di_relokasi'
         },
         {
-            label: "Upload Foto Alat Sesudah di Relokasi",
+            label: "Upload Foto Alat Sesudah Penambahan Alat",
             value: inputLocal.upload_foto_alat_sesudah_di_relokasi,
             type: "image_upload",
             name: 'upload_foto_alat_sesudah_di_relokasi'
@@ -227,7 +227,7 @@ const ProcessStatus = ({
                             {renderProcessInputs(detailData.submission_title === "Relokasi Alat" ?
                                 RelokasiAlatProcess :
                                  detailData.submission_title === "Penambahan Alat" ?
-                                 PenambahanBandwidthProcess : detailData.submission_title === "Penambahan Bandwidth" ?
+                                 PenambahanAlatProcess : detailData.submission_title === "Penambahan Bandwidth" ?
                                         PenambahanBandwidthProcess : detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan" ?
                                         PenambahanBandwidthProcess :
                                 []
