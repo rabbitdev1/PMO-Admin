@@ -4,8 +4,8 @@ import ConditionalRender from '../../components/ui/ConditionalRender';
 
 const DynamicDetails = ({ detailData, loading }) => {
   return (
-    <div className="flex-1 flex flex-col gap-3 ">
-      <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+    <div className="flex-1 flex flex-col gap-3">
+      <div className="flex flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
         <ConditionalRender
           data={detailData}
           loading={loading}

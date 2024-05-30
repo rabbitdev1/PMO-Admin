@@ -56,16 +56,10 @@ export const formData = [
         value: [],
         type: "multi_selection",
         options: [
-          { value: "wifi", label: "Akses Point (Wifi)" },
-          { value: "LAN", label: "Kabel LAN" },
-          { value: "switch", label: "Switch" },
+          { value: "Akses Point (Wifi)", label: "Akses Point (Wifi)" },
+          { value: "Kabel LAN", label: "Kabel LAN" },
+          { value: "Switch", label: "Switch" },
         ],
-      },
-      {
-        name: "total_tools",
-        label: "Jumlah Usulan Alat",
-        value: "",
-        type: "select_number",
       },
       {
         name: "reason",

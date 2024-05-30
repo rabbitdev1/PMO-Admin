@@ -35,6 +35,20 @@ const ProcessStatus = ({
             type: "image_upload",
             name: 'upload_foto_alat_sesudah_di_relokasi'
         }
+    ];
+    const PenambahanAlatProcess = [
+        {
+            label: "Upload Foto Alat Sebelum di Relokasi",
+            value: inputLocal.upload_foto_alat_sebelum_di_relokasi,
+            type: "image_upload",
+            name: 'upload_foto_alat_sebelum_di_relokasi'
+        },
+        {
+            label: "Upload Foto Alat Sesudah di Relokasi",
+            value: inputLocal.upload_foto_alat_sesudah_di_relokasi,
+            type: "image_upload",
+            name: 'upload_foto_alat_sesudah_di_relokasi'
+        }
 
     ];
 
@@ -73,7 +87,6 @@ const ProcessStatus = ({
             name: 'response'
         }
     ];
-
     const PenambahanBandwidthFinish = [
         {
             label: "Status Pengajuan",
@@ -98,8 +111,31 @@ const ProcessStatus = ({
             name: 'response'
         }
     ];
+    const PenambahanAlatFinish = [
+        {
+            label: "Status Pengajuan",
+            value: finishData.submission_status,
+            name: "submission_status",
+            type: "radio_button",
+            options: [
+                { value: "1", label: "Menyetujui" },
+                { value: "0", label: "Tidak Menyetujui" },
+            ],
+        },
+        {
+            label: "Upload Surat Pemberitahuan untuk OPD",
+            value: finishData.file_submission,
+            name: 'file_submission',
+            type: "file_upload",
+        },
+        {
+            label: "Tanggapan",
+            value: finishData.response || null,
+            type: "textarea",
+            name: 'response'
+        }
+    ];
 
-    
     const fetchSetProgress = async (api_key, token, status) => {
         const params = new URLSearchParams();
         params.append("id", slug);
@@ -304,10 +340,6 @@ const ProcessStatus = ({
                                               PenambahanBandwidthFinish :  detailData.submission_title === "Domain" ?
                                               PenambahanBandwidthFinish 
                                     : []
-
-
-
-
                                 )}
                                 <DynamicButton
                                     initialValue={"Pengajuan Selesai"}
