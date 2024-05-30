@@ -190,17 +190,17 @@ function InfrastrukturPages() {
     const currentSection = updatedFormData[sectionIndex];
     const fieldToUpdateIndex = currentSection.fields.findIndex(field => field.name === fieldName);
 
-    if (fieldName === 'status_BDO') {
-      // Check if the selected value is 'temporary'
-      const isTemporary = value === 'temporary';
-      // Update the visibility of the 'period' field based on the status
-      const periodFieldIndex = currentSection.fields.findIndex(field => field.name === 'period');
-      updatedFormData[sectionIndex].fields[periodFieldIndex].visible = isTemporary;
+    // if (fieldName === 'status_BDO') {
+    //   // Check if the selected value is 'temporary'
+    //   const isTemporary = value === 'temporary';
+    //   // Update the visibility of the 'period' field based on the status
+    //   const periodFieldIndex = currentSection.fields.findIndex(field => field.name === 'period');
+    //   updatedFormData[sectionIndex].fields[periodFieldIndex].visible = isTemporary;
 
-      if (!isTemporary) {
-        updatedFormData[sectionIndex].fields[periodFieldIndex].value = { startDate: null, endDate: null };
-      }
-    }
+    //   if (!isTemporary) {
+    //     updatedFormData[sectionIndex].fields[periodFieldIndex].value = { startDate: null, endDate: null };
+    //   }
+    // }
 
     // Update the value of the field
     updatedFormData[sectionIndex].fields[fieldToUpdateIndex].value = value;
