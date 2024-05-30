@@ -35,11 +35,49 @@ const ProcessStatus = ({
             type: "image_upload",
             name: 'upload_foto_alat_sesudah_di_relokasi'
         }
+    ];
+    const PenambahanAlatProcess = [
+        {
+            label: "Upload Foto Alat Sebelum di Relokasi",
+            value: inputLocal.upload_foto_alat_sebelum_di_relokasi,
+            type: "image_upload",
+            name: 'upload_foto_alat_sebelum_di_relokasi'
+        },
+        {
+            label: "Upload Foto Alat Sesudah di Relokasi",
+            value: inputLocal.upload_foto_alat_sesudah_di_relokasi,
+            type: "image_upload",
+            name: 'upload_foto_alat_sesudah_di_relokasi'
+        }
 
     ];
 
 
     const RelokasiAlatFinish = [
+        {
+            label: "Status Pengajuan",
+            value: finishData.submission_status,
+            name: "submission_status",
+            type: "radio_button",
+            options: [
+                { value: "1", label: "Menyetujui" },
+                { value: "0", label: "Tidak Menyetujui" },
+            ],
+        },
+        {
+            label: "Upload Surat Pemberitahuan untuk OPD",
+            value: finishData.file_submission,
+            name: 'file_submission',
+            type: "file_upload",
+        },
+        {
+            label: "Tanggapan",
+            value: finishData.response || null,
+            type: "textarea",
+            name: 'response'
+        }
+    ];
+    const PenambahanAlatFinish = [
         {
             label: "Status Pengajuan",
             value: finishData.submission_status,
@@ -153,11 +191,12 @@ const ProcessStatus = ({
                             ))}
                             {renderProcessInputs(detailData.submission_title === "Relokasi Alat" ?
                                 RelokasiAlatProcess :
-                                //  detailData.submission_title === "Penambahan Alat" ?
-                                //     PenambahanAlatProcess : detailData.submission_title === "Penambahan Bandwidth" ?
-                                //         PenambahanBandwidthProcess : detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan" ?
-                                //             TroubleshootingProcess :
-                                []
+                                detailData.submission_title === "Penambahan Alat" ?
+                                    PenambahanAlatProcess :
+                                    //  detailData.submission_title === "Penambahan Bandwidth" ?
+                                    //         PenambahanBandwidthProcess : detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan" ?
+                                    //             TroubleshootingProcess :
+                                    []
                             )}
                             <div className='flex sm:flex-row flex-col gap-2'>
                                 <DynamicButton
@@ -242,16 +281,14 @@ const ProcessStatus = ({
                                 <span className='text-lg font-bold'>Proses Selesai</span>
                                 {renderFinishInputs(detailData.submission_title === "Relokasi Alat" ?
                                     RelokasiAlatFinish
-                                    //   : detailData.submission_title === "Penambahan Alat" ?
-                                    //       PenambahanAlatFinish : detailData.submission_title === "Penambahan Bandwidth" ?
-                                    //           PenambahanBandwidthFinish : detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan" ?
-                                    //               TroubleshootingFinish : detailData.submission_title === "Hosting" ?
-                                    //                   HostingFinish :  detailData.submission_title === "Domain" ?
-                                    //                   DomainFinish 
-                                    : []
-
-
-
+                                    : detailData.submission_title === "Penambahan Alat" ?
+                                        PenambahanAlatFinish :
+                                        //  detailData.submission_title === "Penambahan Bandwidth" ?
+                                        //           PenambahanBandwidthFinish : detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan" ?
+                                        //               TroubleshootingFinish : detailData.submission_title === "Hosting" ?
+                                        //                   HostingFinish :  detailData.submission_title === "Domain" ?
+                                        //                   DomainFinish  :
+                                        []
 
                                 )}
                                 <DynamicButton

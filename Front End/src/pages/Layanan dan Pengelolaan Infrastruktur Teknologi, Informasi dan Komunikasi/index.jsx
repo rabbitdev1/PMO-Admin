@@ -532,7 +532,6 @@ function InfrastrukturPages() {
                         <div key={index} className="flex flex-col gap-2">
                           {item.visible !== false && (
                             <DynamicInput
-                              key={index}
                               name={item.name}
                               label={item.label}
                               noted={item.noted}
@@ -547,7 +546,27 @@ function InfrastrukturPages() {
                           )}
                           {section.name === "Pengajuan Penambahan Alat" && (
                             item.label === "Jenis Alat yang dibutuhkan" && item.value?.length !== 0 && (
-                              <div>{JSON.stringify(item.value)}</div>
+                              <div className="flex flex-col gap-1">
+                                <span className="text-sm font-bold">Jumlah Usulan Alat Yang Dipilih :</span>
+                                <div className="grid grid-cols-1 md:grid-cols-3 sm:grid-cols-2 gap-3">
+                                  {item.value.map((selectedItem, selectedItemIndex) => (
+                                    <DynamicInput
+                                      key={selectedItemIndex}
+                                      name={selectedItem.value}
+                                      label={`Jumlah ${selectedItem.label}`}
+                                      value={selectedItem.quantity || ''}
+                                      onChange={(value) => {
+                                        const updatedFormData = [...formData];
+                                        const alatField = updatedFormData[sectionIndex].fields[index].value;
+                                        alatField[selectedItemIndex].quantity = value;
+                                        setFormData(updatedFormData);
+                                      }}
+                                      type={'select_number'}
+                                      placeholder={`Masukan Jumlah ${selectedItem.label}`}
+                                    />
+                                  ))}
+                                </div>
+                              </div>
                             )
                           )}
                           {item?.field && item?.field?.map((itemField, indexField) => (
@@ -573,6 +592,7 @@ function InfrastrukturPages() {
                   )
               )}
             </div>
+
             <div className="flex flex-row gap-2 justify-end">
               <DynamicButton
                 initialValue={"Batal"}

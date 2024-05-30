@@ -38,6 +38,20 @@ const ValidationStatusTechnique = ({
       name: 'working_schedule'
     }
   ];
+  const PenambahanAlatValidateTechnique = [
+    {
+      label: "Tanggapan Tim Teknisi",
+      value: inputLocal.team_response,
+      type: "textarea",
+      name: 'team_response'
+    },
+    {
+      label: "Jadwal Pengerjaan",
+      value: inputLocal.working_schedule,
+      type: "date",
+      name: 'working_schedule'
+    }
+  ];
 
   const fetchSetProgress = async (api_key, token, status) => {
     const params = new URLSearchParams();
@@ -99,11 +113,12 @@ const ValidationStatusTechnique = ({
                 <span className='text-lg font-bold'>Tahapan Validasi</span>
                 {renderProcessInputs(detailData.submission_title === "Relokasi Alat" ?
                   RelokasiAlatValidateTechnique :
-                  //  detailData.submission_title === "Penambahan Alat" ?
-                  //     PenambahanAlatProcess : detailData.submission_title === "Penambahan Bandwidth" ?
-                  //         PenambahanBandwidthProcess : detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan" ?
-                  //             TroubleshootingProcess :
-                  []
+                  detailData.submission_title === "Penambahan Alat" ?
+                    PenambahanAlatValidateTechnique :
+                    // detailData.submission_title === "Penambahan Bandwidth" ?
+                    //         PenambahanBandwidthProcess : detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan" ?
+                    //             TroubleshootingProcess :
+                    []
                 )}
                 <div className='flex sm:flex-row flex-col gap-2'>
                   <DynamicButton

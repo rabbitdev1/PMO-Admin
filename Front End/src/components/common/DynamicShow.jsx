@@ -4,7 +4,6 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import ImageComponent from "../../utils/helpers/getImageURL";
 import PDFComponent from "../../utils/helpers/getPDFURL";
 import { formatDate, formatMultiDate } from "../../utils/helpers/formatDate";
-import { formatArray } from "../../utils/helpers/formatArray";
 
 
 
@@ -44,17 +43,17 @@ function DynamicShow({ label, value, options, type, className, location }) {
           <PDFComponent imagePath={`files/${location}/${value}`} />
         </div>
       ) : type === "array" ? (
-        <div
-          className={`flex flex-row gap-2  bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center p-2 ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}
-        >
-          {formatArray(value).map((item, index) => (
-            <div
-              key={index}
-              className={`flex items-center p-1.5 px-3 text-lightColor bg-[#e6e6e6] dark:text-darkColor rounded-sm border-1 border-[#dddddd] dark:border-[#ffffff20]`}
-            >
-              <span className="text-xs">{item}</span>
-            </div>
-          ))}
+        <div className={`flex flex-row gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center p-2 ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}>
+          {value.map((item, index) => {
+            const name = typeof item === 'object' ? item.name : item;
+            const displayValue = typeof item === 'object' && item.value ? ` : (${item.value})` : '';
+
+            return (
+              <div key={index} className={`flex items-center p-1.5 px-3 text-lightColor bg-[#e6e6e6] dark:text-darkColor rounded-sm border-1 border-[#dddddd] dark:border-[#ffffff20]`}>
+                <span className="text-xs">{name}{displayValue}</span>
+              </div>
+            );
+          })}
         </div>
       ) : type === "date" ? (
         <div
