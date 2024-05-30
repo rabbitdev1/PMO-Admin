@@ -38,7 +38,35 @@ const ValidationStatusTechnique = ({
       name: 'working_schedule'
     }
   ];
+  const PenambahanBandwidthValidateTechnique = [
+    {
+      label: "Tanggapan Tim Teknisi",
+      value: inputLocal.team_response,
+      type: "textarea",
+      name: 'team_response'
+    },
+    {
+      label: "Jadwal Pengerjaan",
+      value: inputLocal.working_schedule,
+      type: "date",
+      name: 'working_schedule'
+    }
+  ];
   const PenambahanAlatValidateTechnique = [
+    {
+      label: "Tanggapan Tim Teknisi",
+      value: inputLocal.team_response,
+      type: "textarea",
+      name: 'team_response'
+    },
+    {
+      label: "Jadwal Pengerjaan",
+      value: inputLocal.working_schedule,
+      type: "date",
+      name: 'working_schedule'
+    }
+  ];
+  const TroubleshootingValidateTechnique = [
     {
       label: "Tanggapan Tim Teknisi",
       value: inputLocal.team_response,
@@ -113,12 +141,11 @@ const ValidationStatusTechnique = ({
                 <span className='text-lg font-bold'>Tahapan Validasi</span>
                 {renderProcessInputs(detailData.submission_title === "Relokasi Alat" ?
                   RelokasiAlatValidateTechnique :
-                  detailData.submission_title === "Penambahan Alat" ?
-                    PenambahanAlatValidateTechnique :
-                    // detailData.submission_title === "Penambahan Bandwidth" ?
-                    //         PenambahanBandwidthProcess : detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan" ?
-                    //             TroubleshootingProcess :
-                    []
+                   detailData.submission_title === "Penambahan Alat" ?
+                   PenambahanAlatValidateTechnique : detailData.submission_title === "Penambahan Bandwidth" ?
+                          PenambahanBandwidthValidateTechnique : detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan" ?
+                          TroubleshootingValidateTechnique :
+                  []
                 )}
                 <div className='flex sm:flex-row flex-col gap-2'>
                   <DynamicButton
@@ -284,7 +311,7 @@ const ValidationStatusTechnique = ({
               {Object.entries(validationData).map(([key, value]) => (
                 <DynamicShow
                   key={key}
-                  label={key === "team_response" ? "Tanggapan dari Tim" : key === "working_schedule" ? "Jadwal Kerja" : key === "response" ? "Tanggapan dari Ketua Tim" : key}
+                  label={key === "team_response" ? "Tanggapan dari Tim" : key === "working_schedule" ? "Jadwal Kerja" : key === "response_katim" ? "Tanggapan dari Ketua Tim" : key}
                   value={value}
                   type={key === "team_response" ? 'text' : key === "working_schedule" ? "multidate" : key === "response" ? "html" : 'text'}
                 />

@@ -72,7 +72,7 @@ export const formData = [
         label: "Estimasi Jarak",
         value: "",
         type: "textarea",
-        noted:'perangkat utama (router) ke lokasi perangkat yang akan ditambahkan (router) sekitar 30 Meter',
+        noted:'Contoh: Perangkat utama (router) ke lokasi perangkat yang akan ditambahkan (router) sekitar 30 Meter',
       },
     ],
   },
@@ -89,11 +89,10 @@ export const formData = [
         value: [],
         type: "selection",
         options: [
-          { value: "1", label: "1 Mbps" },
-          { value: "2", label: "2 Mbps" },
-          { value: "5", label: "5 Mbps" },
-          { value: "10", label: "10 Mbps" },
-          { value: "20", label: "20 Mbps" }
+          { value: "15", label: "15 Mbps" },
+          { value: "20", label: "20 Mbps" },
+          { value: "25", label: "25 Mbps" },
+          { value: "30", label: "30 Mbps" },
         ]
       },
       {
@@ -121,16 +120,16 @@ export const formData = [
         value: "",
         type: "editor",
       },
-      {
-        name: "status_BDO",
-        label: "Status BDO",
-        value: "",
-        type: "radio_button",
-        options: [
-          { value: "permanent", label: "Permanen" },
-          { value: "temporary", label: "Sementara" },
-        ],
-      },
+      // {
+      //   name: "status_BDO",
+      //   label: "Status BDO",
+      //   value: "",
+      //   type: "radio_button",
+      //   options: [
+      //     { value: "permanent", label: "Permanen" },
+      //     { value: "temporary", label: "Sementara" },
+      //   ],
+      // },
       {
         name: "period",
         label: "Periode Jangka Waktu",

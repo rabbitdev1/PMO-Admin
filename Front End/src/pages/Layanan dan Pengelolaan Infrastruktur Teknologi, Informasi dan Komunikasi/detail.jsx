@@ -26,9 +26,9 @@ import fetchUploadImages from "../../utils/api/uploadImages";
 function DetailInfrastrukturPages() {
   const { isDarkMode } = useTheme();
   const navigate = useNavigate();
-  const authApiKey = Cookies.get('authApiKey');
-  const authToken = Cookies.get('authToken');
-  const authProfile = Cookies.get('authData');
+  const authApiKey = Cookies.get("authApiKey");
+  const authToken = Cookies.get("authToken");
+  const authProfile = Cookies.get("authData");
   const location = useLocation();
   const slug = location?.state?.slug || "";
 
@@ -50,7 +50,11 @@ function DetailInfrastrukturPages() {
 
   useEffect(() => {
     if (authToken) {
-      fetchDataInfrastruktur(authApiKey, authToken, JSON.parse(authProfile)?.role)
+      fetchDataInfrastruktur(
+        authApiKey,
+        authToken,
+        JSON.parse(authProfile)?.role
+      );
     }
   }, [dispatch]);
 
@@ -72,7 +76,9 @@ function DetailInfrastrukturPages() {
         setDetailData(response.result.data.fields);
         setSubmissionStatus(response.result.data?.submission_status);
         setValidationData(JSON.parse(response.result.data?.on_validation));
-        setValidationDataTechnique(JSON.parse(response.result.data?.on_validation_technique));
+        setValidationDataTechnique(
+          JSON.parse(response.result.data?.on_validation_technique)
+        );
         setProcessData(JSON.parse(response.result.data?.on_process));
         setfinishData(JSON.parse(response.result.data?.on_finish));
       } else {
@@ -89,9 +95,12 @@ function DetailInfrastrukturPages() {
 
   const fetchEditinfrastruktur = async (api_key, token, id, type, data) => {
     dispatch(isPending(true));
-    let htmlConvert = '';
+    let htmlConvert = "";
 
-    if (['validation', 'validation_technique', 'process'].includes(type) && data?.response) {
+    if (
+      ["validation", "validation_technique", "process"].includes(type) &&
+      data?.response
+    ) {
       const contentState = convertToRaw(data.response.getCurrentContent());
       htmlConvert = draftToHtml(contentState);
     }
@@ -99,26 +108,38 @@ function DetailInfrastrukturPages() {
     params.append("id", id);
     params.append("type", type);
 
-    if (type === 'validation') {
-      params.append("data", JSON.stringify({
-        ...data,
-        status_validation: parseInt(data.status_validation) === 0 ? 'Ditolak' : 'Disetujui',
-        response: htmlConvert
-      }));
-    } else if (['validation_technique', 'process'].includes(type)) {
+    if (type === "validation") {
+      params.append(
+        "data",
+        JSON.stringify({
+          ...data,
+          status_validation:
+            parseInt(data.status_validation) === 0 ? "Ditolak" : "Disetujui",
+          response: htmlConvert,
+        })
+      );
+    } else if (["validation_technique", "process"].includes(type)) {
       const filteredData = {
         ...data,
-        response: htmlConvert
+        response: htmlConvert,
       };
       const cleanedData = Object.fromEntries(
-        Object.entries(filteredData).filter(([_, value]) => value !== undefined && value !== null && value !== '')
+        Object.entries(filteredData).filter(
+          ([_, value]) => value !== undefined && value !== null && value !== ""
+        )
       );
       params.append("data", JSON.stringify(cleanedData));
-    } else if (type === 'finish') {
-      params.append("data", JSON.stringify({
-        ...data,
-        submission_status: parseInt(data.submission_status) === 0 ? 'Tidak Menyetujui' : 'Menyetujui',
-      }));
+    } else if (type === "finish") {
+      params.append(
+        "data",
+        JSON.stringify({
+          ...data,
+          submission_status:
+            parseInt(data.submission_status) === 0
+              ? "Tidak Menyetujui"
+              : "Menyetujui",
+        })
+      );
     }
 
     // if (filename) params.append("fileuploaded", filename);
@@ -135,13 +156,13 @@ function DetailInfrastrukturPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: 'infrastruktur Berhasil diupdate',
-            msg: 'Selamat, Pengajuan infrastruktur sudah diupdate',
+            title: "infrastruktur Berhasil diupdate",
+            msg: "Selamat, Pengajuan infrastruktur sudah diupdate",
             icon: PengajuanBerahasilIcon,
-            color: '#13C39C'
+            color: "#13C39C",
           },
-          status: true
-        })
+          status: true,
+        });
       } else {
         toast.error(response.result.msg, {
           position: toast.POSITION.TOP_RIGHT,
@@ -152,33 +173,126 @@ function DetailInfrastrukturPages() {
     }
   };
 
-
   const checkingFormData = async (type, data) => {
     if (type === "validation") {
-      fetchEditinfrastruktur(authApiKey, authToken, slug, type, data)
+      fetchEditinfrastruktur(authApiKey, authToken, slug, type, data);
     } else if (type === "validation_technique") {
-      fetchEditinfrastruktur(authApiKey, authToken, slug, type, data)
+      fetchEditinfrastruktur(authApiKey, authToken, slug, type, data);
     } else if (type === "process") {
-      if (data.upload_foto_alat_sebelum_di_relokasi || data.upload_foto_alat_sesudah_di_relokasi) {
+      // if (
+      //   data.upload_foto_alat_sebelum_di_relokasi ||
+      //   data.upload_foto_alat_sesudah_di_relokasi ||
+      // ) {
+      //   try {
+      //     const uploadPromises = [];
+      //     if (data.upload_foto_alat_sebelum_di_relokasi) {
+      //       uploadPromises.push(
+      //         fetchUploadImages(
+      //           authApiKey,
+      //           authToken,
+      //           data.upload_foto_alat_sebelum_di_relokasi,
+      //           "infrastruktur",
+      //           dispatch
+      //         )
+      //       );
+      //     }
+      //     if (data.upload_foto_alat_sesudah_di_relokasi) {
+      //       uploadPromises.push(
+      //         fetchUploadImages(
+      //           authApiKey,
+      //           authToken,
+      //           data.upload_foto_alat_sesudah_di_relokasi,
+      //           "infrastruktur",
+      //           dispatch
+      //         )
+      //       );
+      //     }
+
+      //     const [resultBefore, resultAfter] = await Promise.all(uploadPromises);
+
+      //     let combineData = { ...data };
+      //     if (resultBefore) {
+      //       combineData.upload_foto_alat_sebelum_di_relokasi = resultBefore;
+      //     }
+      //     if (resultAfter) {
+      //       combineData.upload_foto_alat_sesudah_di_relokasi = resultAfter;
+      //     }
+
+      //     fetchEditinfrastruktur(
+      //       authApiKey,
+      //       authToken,
+      //       slug,
+      //       type,
+      //       combineData
+      //     );
+      //   } catch (error) {
+      //     console.error("Error occurred during image upload:", error);
+      //   }
+      // } else {
+      //   fetchEditinfrastruktur(authApiKey, authToken, slug, type, data);
+      // }
+      if (
+        data.upload_foto_alat_sebelum_di_relokasi ||
+        data.upload_foto_alat_sesudah_di_relokasi ||
+        data.upload_foto_kegiatan
+      ) {
         try {
           const uploadPromises = [];
+          const resultMapping = {};
+      
           if (data.upload_foto_alat_sebelum_di_relokasi) {
-            uploadPromises.push(fetchUploadImages(authApiKey, authToken, data.upload_foto_alat_sebelum_di_relokasi, 'infrastruktur', dispatch));
+            uploadPromises.push(
+              fetchUploadImages(
+                authApiKey,
+                authToken,
+                data.upload_foto_alat_sebelum_di_relokasi,
+                "infrastruktur",
+                dispatch
+              ).then(result => {
+                resultMapping.upload_foto_alat_sebelum_di_relokasi = result;
+              })
+            );
           }
           if (data.upload_foto_alat_sesudah_di_relokasi) {
-            uploadPromises.push(fetchUploadImages(authApiKey, authToken, data.upload_foto_alat_sesudah_di_relokasi, 'infrastruktur', dispatch));
+            uploadPromises.push(
+              fetchUploadImages(
+                authApiKey,
+                authToken,
+                data.upload_foto_alat_sesudah_di_relokasi,
+                "infrastruktur",
+                dispatch
+              ).then(result => {
+                resultMapping.upload_foto_alat_sesudah_di_relokasi = result;
+              })
+            );
           }
-
-          const [resultBefore, resultAfter] = await Promise.all(uploadPromises);
-
+          if (data.upload_foto_kegiatan) {
+            uploadPromises.push(
+              fetchUploadImages(
+                authApiKey,
+                authToken,
+                data.upload_foto_kegiatan,
+                "infrastruktur",
+                dispatch
+              ).then(result => {
+                resultMapping.upload_foto_kegiatan = result;
+              })
+            );
+          }
+      
+          await Promise.all(uploadPromises);
+      
           let combineData = { ...data };
-          if (resultBefore) {
-            combineData.upload_foto_alat_sebelum_di_relokasi = resultBefore;
+          if (resultMapping.upload_foto_alat_sebelum_di_relokasi) {
+            combineData.upload_foto_alat_sebelum_di_relokasi = resultMapping.upload_foto_alat_sebelum_di_relokasi;
           }
-          if (resultAfter) {
-            combineData.upload_foto_alat_sesudah_di_relokasi = resultAfter;
+          if (resultMapping.upload_foto_alat_sesudah_di_relokasi) {
+            combineData.upload_foto_alat_sesudah_di_relokasi = resultMapping.upload_foto_alat_sesudah_di_relokasi;
           }
-
+          if (resultMapping.upload_foto_kegiatan) {
+            combineData.upload_foto_kegiatan = resultMapping.upload_foto_kegiatan;
+          }
+      
           fetchEditinfrastruktur(authApiKey, authToken, slug, type, combineData);
         } catch (error) {
           console.error("Error occurred during image upload:", error);
@@ -186,23 +300,34 @@ function DetailInfrastrukturPages() {
       } else {
         fetchEditinfrastruktur(authApiKey, authToken, slug, type, data);
       }
-    }
-    else if (type === "finish") {
+      
+    } else if (type === "finish") {
       if (data.file_submission) {
-        const result = await fetchUploadFiles(authApiKey, authToken, data.file_submission, 'infrastruktur', dispatch);
+        const result = await fetchUploadFiles(
+          authApiKey,
+          authToken,
+          data.file_submission,
+          "infrastruktur",
+          dispatch
+        );
         if (result !== null) {
           let combineData = {};
-          combineData = { ...data, file_upload: result }
-          fetchEditinfrastruktur(authApiKey, authToken, slug, type, combineData)
+          combineData = { ...data, file_upload: result };
+          fetchEditinfrastruktur(
+            authApiKey,
+            authToken,
+            slug,
+            type,
+            combineData
+          );
         } else {
           console.error("Error occurred during image upload.");
         }
       } else {
-        fetchEditinfrastruktur(authApiKey, authToken, slug, type, data)
+        fetchEditinfrastruktur(authApiKey, authToken, slug, type, data);
       }
-
     }
-  }
+  };
   return (
     <div className="flex flex-col gap-3 flex-1 p-3">
       <TitleHeader
@@ -216,7 +341,8 @@ function DetailInfrastrukturPages() {
           <DalamAntrianView
             submissionStatus={submissionStatus}
             detailData={detailData}
-            infrastrukturLoading={infrastrukturLoading} />
+            infrastrukturLoading={infrastrukturLoading}
+          />
           <ValidationStatus
             submissionStatus={submissionStatus}
             validationData={validationData}
@@ -253,13 +379,12 @@ function DetailInfrastrukturPages() {
 
           <FinishStatus
             detailData={detailData}
-            infrastrukturLoading={infrastrukturLoading} 
+            infrastrukturLoading={infrastrukturLoading}
             validationData={validationDataTechnique}
             processData={processData}
             submissionStatus={submissionStatus}
             finishData={finishData}
           />
-
         </div>
       </section>
 
@@ -268,14 +393,19 @@ function DetailInfrastrukturPages() {
         children={
           <div className="flex flex-col gap-2">
             <div className="flex flex-col items-center justify-center ">
-              {isModalVerif.data?.icon &&
+              {isModalVerif.data?.icon && (
                 <isModalVerif.data.icon
                   className={`flex flex-col flex-1 max-w-[150%] aspect-square bg-[${isModalVerif.data.color}] rounded-full`}
-                />}
+                />
+              )}
             </div>
             <div className="flex  flex-col items-center justify-center ">
-              <span className="text-lg font-bold">{isModalVerif.data?.title}</span>
-              <span className="text-sm font-light opacity-70">{isModalVerif.data?.msg}</span>
+              <span className="text-lg font-bold">
+                {isModalVerif.data?.title}
+              </span>
+              <span className="text-sm font-light opacity-70">
+                {isModalVerif.data?.msg}
+              </span>
             </div>
             <div className="flex flex-col gap-2 ">
               <DynamicButton
@@ -284,8 +414,12 @@ function DetailInfrastrukturPages() {
                 color={"#ffffff"}
                 className={`inline-flex flex-1 bg-[${isModalVerif.data.color}] text-darkColor`}
                 onClick={() => {
-                  setisModalVerif({ data: {}, status: false })
-                  fetchDataInfrastruktur(authApiKey, authToken, JSON.parse(authProfile)?.role)
+                  setisModalVerif({ data: {}, status: false });
+                  fetchDataInfrastruktur(
+                    authApiKey,
+                    authToken,
+                    JSON.parse(authProfile)?.role
+                  );
                 }}
               />
             </div>

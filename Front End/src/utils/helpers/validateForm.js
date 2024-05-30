@@ -248,3 +248,40 @@ export const validatePeriod = (value, title) => {
   console.log('Validation succeeded: ', value);
   return true;
 };
+
+export const validatePeriod1 = (value, title) => {
+  if (!value || !value[0] || !value[1]) {
+    console.log('Validation failed: Both dates are required.');
+    toast.error("Mohon isi kedua tanggal untuk " + title, {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+    return false;
+  }
+
+  const startDate = new Date(value[0]);
+  const endDate = new Date(value[1]);
+
+  if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+    console.log('Validation failed: Invalid date format.');
+    toast.error("Format tanggal tidak valid untuk " + title, {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+    return false;
+  }
+
+  if (startDate > endDate) {
+    console.log('Validation failed: Start date is greater than end date.');
+    toast.error(
+      "Tanggal mulai tidak boleh lebih besar dari tanggal selesai untuk " +
+        title,
+      {
+        position: toast.POSITION.TOP_RIGHT,
+      }
+    );
+    return false;
+  }
+
+  console.log('Validation succeeded: ', value);
+  return true;
+};
+
