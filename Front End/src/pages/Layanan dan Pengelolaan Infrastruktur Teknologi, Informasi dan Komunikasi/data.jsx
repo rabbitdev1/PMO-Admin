@@ -102,11 +102,17 @@ export const formData = [
         value: [],
         type: "selection",
         options: [
-          { value: "1", label: "1 Mbps" },
-          { value: "2", label: "2 Mbps" },
-          { value: "5", label: "5 Mbps" },
-          { value: "10", label: "10 Mbps" },
-          { value: "20", label: "20 Mbps" }
+          { value: "50", label: "50 Mbps" },
+          { value: "55", label: "55 Mbps" },
+          { value: "60", label: "60 Mbps" },
+          { value: "65", label: "65 Mbps" },
+          { value: "70", label: "70 Mbps" },
+          { value: "75", label: "75 Mbps" },
+          { value: "80", label: "80 Mbps" },
+          { value: "85", label: "85 Mbps" },
+          { value: "90", label: "90 Mbps" },
+          { value: "95", label: "95 Mbps" },
+          { value: "100", label: "100 Mbps" },
         ]
       },
       {
