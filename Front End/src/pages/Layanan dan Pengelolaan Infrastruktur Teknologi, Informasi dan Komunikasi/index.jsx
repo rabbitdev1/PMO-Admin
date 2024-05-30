@@ -545,6 +545,12 @@ function InfrastrukturPages() {
                               placeholder={"Masukan " + item.label}
                             />
                           )}
+                          {item.label}
+                          {section.name === "Pengajuan Penambahan Alat" && (
+                            item.label === "Jenis Alat yang dibutuhkan" && item.value?.length !== 0 && (
+                              <div>{JSON.stringify(item.value)}</div>
+                            )
+                          )}
                           {item?.field && item?.field?.map((itemField, indexField) => (
                             item?.value?.value === itemField.type_select &&
                             <DynamicInput
