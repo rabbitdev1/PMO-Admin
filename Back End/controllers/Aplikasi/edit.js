@@ -1,4 +1,4 @@
-import InfraModel from "../../models/InfraModel.js";
+import Aplikasi from "../../models/Aplikasi.js";
 
 export const editDataAplikasi = async(req, res) => {
     try {
@@ -10,12 +10,12 @@ export const editDataAplikasi = async(req, res) => {
                 msg: "API Key is required",
             });
         }
-        const infrastrukturItem = await InfraModel.findOne({
+        const aplikasiItem = await Aplikasi.findOne({
             where: {
                 id: id,
             },
         });
-        if (!infrastrukturItem) {
+        if (!aplikasiItem) {
             return res.status(404).json({
                 status: "error",
                 msg: "Item not found",
@@ -25,30 +25,30 @@ export const editDataAplikasi = async(req, res) => {
         console.log(convertData);
         if (type === "validation") {
             if (convertData.status_validation === "Disetujui") {
-                infrastrukturItem.submission_status = 4;
+                aplikasiItem.submission_status = 4;
             } else if (convertData.status_validation === "Ditolak") {
-                infrastrukturItem.submission_status = 3;
+                aplikasiItem.submission_status = 3;
             }
-            infrastrukturItem.on_validation = data;
+            aplikasiItem.on_validation = data;
         } else if (type === "validation_technique") {
-            infrastrukturItem.on_validation_technique = data;
+            aplikasiItem.on_validation_technique = data;
         } else if (type === "process") {
-            infrastrukturItem.on_process = data;
+            aplikasiItem.on_process = data;
         } else if (type === "finish") {
             if (
                 convertData.submission_status === "Menyetujui" ||
                 convertData.submission_status === "Disetujui"
             ) {
-                infrastrukturItem.submission_status = 7;
+                aplikasiItem.submission_status = 7;
             } else if (
                 convertData.submission_status === "Tidak Menyetujui" ||
                 convertData.submission_status === "Ditolak"
             ) {
-                infrastrukturItem.submission_status = 8;
+                aplikasiItem.submission_status = 8;
             }
-            infrastrukturItem.on_finish = data;
+            aplikasiItem.on_finish = data;
         }
-        await infrastrukturItem.save();
+        await aplikasiItem.save();
         return res.status(200).json({
             status: "ok",
             msg: "Item updated successfully",

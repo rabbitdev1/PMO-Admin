@@ -1,4 +1,4 @@
-import InfraModel from "../../models/InfraModel.js";
+import Aplikasi from "../../models/Aplikasi.js";
 
 export const getListDataAplikasi = async(req, res) => {
     try {
@@ -10,21 +10,21 @@ export const getListDataAplikasi = async(req, res) => {
                 msg: "API Key is required",
             });
         } else {
-            const infrastruktur = await InfraModel.findAll();
-            infrastruktur.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            const aplikasi = await Aplikasi.findAll();
+            aplikasi.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
-            const filteredinfrastruktur = infrastruktur.filter((item) => {
+            const filteredaplikasi = aplikasi.filter((item) => {
                 if (!item.role) return false;
                 const itemRoles = JSON.parse(item.role);
                 return itemRoles.includes(role);
             });
 
             if (role === "perangkat_daerah") {
-                const validinfrastruktur = filteredinfrastruktur.filter(
+                const validaplikasi = filteredaplikasi.filter(
                     (item) => item.apiKey === apiKey
                 );
 
-                if (validinfrastruktur.length === 0) {
+                if (validaplikasi.length === 0) {
                     return res.status(400).json({
                         status: "error",
                         msg: "Item not found",
@@ -32,23 +32,23 @@ export const getListDataAplikasi = async(req, res) => {
                 }
 
                 const totalItemsByStatus = {
-                    divalidasi: filteredinfrastruktur.filter(
+                    divalidasi: filteredaplikasi.filter(
                         (user) => user.submission_status === 2 || user.submission_status === 4
                     ).length,
-                    diproses: filteredinfrastruktur.filter(
+                    diproses: filteredaplikasi.filter(
                         (user) => user.submission_status === 6
                     ).length,
-                    ditolak: filteredinfrastruktur.filter(
+                    ditolak: filteredaplikasi.filter(
                         (user) => user.submission_status === 3 || user.submission_status === 5 || user.submission_status === 8
                     ).length,
-                    disetujui: filteredinfrastruktur.filter(
+                    disetujui: filteredaplikasi.filter(
                         (user) => user.submission_status === 7
                     ).length,
                 };
                 res.json({
                     status: "ok",
-                    msg: "Data infrastruktur retrieved successfully",
-                    data: validinfrastruktur.map((item) => {
+                    msg: "Data aplikasi retrieved successfully",
+                    data: validaplikasi.map((item) => {
                         const fields = JSON.parse(item.fields);
                         return {
                             id: item.id,
@@ -58,29 +58,29 @@ export const getListDataAplikasi = async(req, res) => {
                             createdAt: item.createdAt,
                         };
                     }),
-                    totalItems: validinfrastruktur.length,
+                    totalItems: validaplikasi.length,
                     totalItemsByStatus: totalItemsByStatus,
                 });
             } else {
                 // Jika bukan peran perangkat_daerah, kembalikan data tanpa validasi API key
                 const totalItemsByStatus = {
-                    divalidasi: filteredinfrastruktur.filter(
+                    divalidasi: filteredaplikasi.filter(
                         (user) => user.submission_status === 2 || user.submission_status === 4
                     ).length,
-                    diproses: filteredinfrastruktur.filter(
+                    diproses: filteredaplikasi.filter(
                         (user) => user.submission_status === 6
                     ).length,
-                    ditolak: filteredinfrastruktur.filter(
+                    ditolak: filteredaplikasi.filter(
                         (user) => user.submission_status === 3 || user.submission_status === 5 || user.submission_status === 8
                     ).length,
-                    disetujui: filteredinfrastruktur.filter(
+                    disetujui: filteredaplikasi.filter(
                         (user) => user.submission_status === 7
                     ).length,
                 };
                 res.json({
                     status: "ok",
-                    msg: "Data infrastruktur retrieved successfully",
-                    data: filteredinfrastruktur.map((item) => {
+                    msg: "Data aplikasi retrieved successfully",
+                    data: filteredaplikasi.map((item) => {
                         const fields = JSON.parse(item.fields);
                         return {
                             id: item.id,
@@ -90,7 +90,7 @@ export const getListDataAplikasi = async(req, res) => {
                             createdAt: item.createdAt,
                         };
                     }),
-                    totalItems: filteredinfrastruktur.length,
+                    totalItems: filteredaplikasi.length,
                     totalItemsByStatus: totalItemsByStatus,
                 });
             }

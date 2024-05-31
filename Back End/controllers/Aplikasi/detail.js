@@ -1,4 +1,4 @@
-import InfraModel from "../../models/InfraModel.js";
+import Aplikasi from "../../models/Aplikasi.js";
 
 export const getDetailDataAplikasi = async(req, res) => {
     try {
@@ -12,8 +12,8 @@ export const getDetailDataAplikasi = async(req, res) => {
             });
         }
 
-        const infrastrukturDetail = await InfraModel.findByPk(id);
-        if (!infrastrukturDetail) {
+        const aplikasiDetail = await Aplikasi.findByPk(id);
+        if (!aplikasiDetail) {
             return res.status(404).json({
                 status: "error",
                 msg: "Item not found",
@@ -21,7 +21,7 @@ export const getDetailDataAplikasi = async(req, res) => {
         }
 
         const userHasPermission =
-            infrastrukturDetail.dataValues.role.includes(role);
+        aplikasiDetail.dataValues.role.includes(role);
         if (!userHasPermission) {
             return res.status(403).json({
                 status: "error",
@@ -29,7 +29,7 @@ export const getDetailDataAplikasi = async(req, res) => {
             });
         }
 
-        const fields = JSON.parse(infrastrukturDetail.fields);
+        const fields = JSON.parse(aplikasiDetail.fields);
         // Move specific properties to the top of the object
         const propertiesToMoveUp = [
             "createdAt",
@@ -48,21 +48,21 @@ export const getDetailDataAplikasi = async(req, res) => {
         };
 
         // Add createdAt to fields before rearranging
-        fields.createdAt = infrastrukturDetail.createdAt;
+        fields.createdAt = aplikasiDetail.createdAt;
         const rearrangedData = rearrangeObject(fields, propertiesToMoveUp);
         res.json({
             status: "ok",
             msg: "Data retrieved successfully",
             data: {
-                id: infrastrukturDetail.id,
-                submission_status: infrastrukturDetail.submission_status,
-                comment: infrastrukturDetail.comment,
-                fileuploaded: infrastrukturDetail.fileuploaded,
+                id: aplikasiDetail.id,
+                submission_status: aplikasiDetail.submission_status,
+                comment: aplikasiDetail.comment,
+                fileuploaded: aplikasiDetail.fileuploaded,
                 fields: rearrangedData,
-                on_validation: infrastrukturDetail.on_validation,
-                on_validation_technique: infrastrukturDetail.on_validation_technique,
-                on_process: infrastrukturDetail.on_process,
-                on_finish: infrastrukturDetail.on_finish,
+                on_validation: aplikasiDetail.on_validation,
+                on_validation_technique: aplikasiDetail.on_validation_technique,
+                on_process: aplikasiDetail.on_process,
+                on_finish: aplikasiDetail.on_finish,
             },
         });
     } catch (error) {

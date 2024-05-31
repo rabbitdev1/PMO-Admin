@@ -1,4 +1,4 @@
-import InfraModel from "../../models/InfraModel.js";
+import Aplikasi from "../../models/Aplikasi.js";
 
 export const setStatusDataAplikasi = async(req, res) => {
     try {
@@ -33,7 +33,7 @@ export const setStatusDataAplikasi = async(req, res) => {
         rawData.on_validation_technique = JSON.stringify({});
         rawData.on_finish = JSON.stringify({ submission_status: "0" });
 
-        await InfraModel.create(rawData);
+        await Aplikasi.create(rawData);
         res.status(200).json({
             status: "ok",
             msg: "Item created successfully",
@@ -58,31 +58,31 @@ export const editProcessDataAplikasi = async(req, res) => {
                 msg: "API Key is required",
             });
         }
-        const infrastrukturItem = await InfraModel.findOne({
+        const aplikasiItem = await Aplikasi.findOne({
             where: {
                 id: id,
             },
         });
-        if (!infrastrukturItem) {
+        if (!aplikasiItem) {
             return res.status(404).json({
                 status: "error",
                 msg: "Item not found",
             });
         }
-        if (parseInt(infrastrukturItem.submission_status) === 1) {
+        if (parseInt(aplikasiItem.submission_status) === 1) {
             console.log("jalan");
-            infrastrukturItem.submission_status = 2;
-            await infrastrukturItem.save();
-        } else if (parseInt(infrastrukturItem.submission_status) === 4) {
+            aplikasiItem.submission_status = 2;
+            await aplikasiItem.save();
+        } else if (parseInt(aplikasiItem.submission_status) === 4) {
             console.log("jalan");
             if (status === "Ditolak") {
-                infrastrukturItem.submission_status = 5;
+                aplikasiItem.submission_status = 5;
             } else if (status === "Lanjutkan") {
-                infrastrukturItem.submission_status = 6;
+                aplikasiItem.submission_status = 6;
             } else {
-                infrastrukturItem.submission_status = 4;
+                aplikasiItem.submission_status = 4;
             }
-            await infrastrukturItem.save();
+            await aplikasiItem.save();
         }
         return res.status(200).json({
             status: "ok",
