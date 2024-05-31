@@ -345,7 +345,9 @@ function InfrastrukturPages() {
 
   return (
     <div className="flex flex-col gap-3 flex-1 p-4" >
-      <TitleHeader title={"Layanan Pengajuan"} link1={"dashboard"} link2={'Bidang Infrastruktur Teknologi, Informasi dan Komunikasi'} />
+      <TitleHeader title={"Layanan Pengajuan"}
+        link1={"dashboard"}
+        link2={'Bidang Infrastruktur Teknologi, Informasi dan Komunikasi'} />
       <section className="flex xl:flex-row flex-col gap-3" >
         <div className="flex-1 flex flex-col gap-3">
           <div className="flex md:flex-row flex-col gap-3">

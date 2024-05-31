@@ -315,7 +315,7 @@ function DetailInfrastrukturPages() {
       <TitleHeader
         title={`Detail Pengajuan ${detailData.submission_title} #${slug}`}
         link1={"dashboard"}
-        link2={"infrastruktur"}
+        link2={"Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi"}
       />
       <section className="flex flex-col gap-3">
         <SubmissionStatus status={submissionStatus} />
