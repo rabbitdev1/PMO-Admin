@@ -2,7 +2,13 @@ export const formData = [
   {
     name: "Pengajuan Relokasi Alat",
     type: "Pengajuan Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi",
-    role: ["op_pmo", "perangkat_daerah", "kabid_infra","katim_infra","teknis_infra"],
+    role: [
+      "op_pmo",
+      "perangkat_daerah",
+      "kabid_infra",
+      "katim_infra",
+      "teknis_infra",
+    ],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
@@ -22,7 +28,7 @@ export const formData = [
         label: "Estimasi Jarak",
         value: "",
         type: "textarea",
-        noted:'Contoh: Ruang A ke Ruang B sekitar 30 Meter',
+        noted: "Contoh: Ruang A ke Ruang B sekitar 30 Meter",
       },
       {
         name: "reason",
@@ -45,7 +51,13 @@ export const formData = [
   {
     name: "Pengajuan Penambahan Alat",
     type: "Pengajuan Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi",
-    role: ["op_pmo", "perangkat_daerah", "kabid_infra","katim_infra","teknis_infra"],
+    role: [
+      "op_pmo",
+      "perangkat_daerah",
+      "kabid_infra",
+      "katim_infra",
+      "teknis_infra",
+    ],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
@@ -71,14 +83,21 @@ export const formData = [
         label: "Estimasi Jarak",
         value: "",
         type: "textarea",
-        noted:'Contoh: Perangkat utama (router) ke lokasi perangkat yang akan ditambahkan (router) sekitar 30 Meter',
+        noted:
+          "Contoh: Perangkat utama (router) ke lokasi perangkat yang akan ditambahkan (router) sekitar 30 Meter",
       },
     ],
   },
   {
     name: "Pengajuan Penambahan Bandwidth",
     type: "Pengajuan Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi",
-    role: ["op_pmo", "perangkat_daerah", "kabid_infra","katim_infra","teknis_infra"],
+    role: [
+      "op_pmo",
+      "perangkat_daerah",
+      "kabid_infra",
+      "katim_infra",
+      "teknis_infra",
+    ],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
@@ -92,7 +111,7 @@ export const formData = [
           { value: "20", label: "20 Mbps" },
           { value: "25", label: "25 Mbps" },
           { value: "30", label: "30 Mbps" },
-        ]
+        ],
       },
       {
         name: "proposed_bandwidth",
@@ -111,7 +130,7 @@ export const formData = [
           { value: "90", label: "90 Mbps" },
           { value: "95", label: "95 Mbps" },
           { value: "100", label: "100 Mbps" },
-        ]
+        ],
       },
       {
         name: "reason",
@@ -145,7 +164,13 @@ export const formData = [
   {
     name: "Pengajuan Troubleshooting Aplikasi dan Jaringan",
     type: "Pengajuan Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi",
-    role: ["op_pmo", "perangkat_daerah", "kabid_infra","katim_infra","teknis_infra"],
+    role: [
+      "op_pmo",
+      "perangkat_daerah",
+      "kabid_infra",
+      "katim_infra",
+      "teknis_infra",
+    ],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
@@ -167,7 +192,13 @@ export const formData = [
   {
     name: "Pengajuan Hosting",
     type: "Pengajuan Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi",
-    role: ["op_pmo", "perangkat_daerah", "kabid_infra","katim_infra","teknis_infra"],
+    role: [
+      "op_pmo",
+      "perangkat_daerah",
+      "kabid_infra",
+      "katim_infra",
+      "teknis_infra",
+    ],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
@@ -210,7 +241,13 @@ export const formData = [
   {
     name: "Pengajuan Domain",
     type: "Pengajuan Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi",
-    role: ["op_pmo", "perangkat_daerah", "kabid_infra","katim_infra","teknis_infra"],
+    role: [
+      "op_pmo",
+      "perangkat_daerah",
+      "kabid_infra",
+      "katim_infra",
+      "teknis_infra",
+    ],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
@@ -245,129 +282,246 @@ export const formData = [
       },
     ],
   },
-]
+];
 
+export const formData2 = [
+  {
+    name: "Pengajuan User Account SI",
+    type: "Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan",
+    role: [
+      "op_pmo",
+      "perangkat_daerah",
+      "kabid_infra",
+      "katim_infra",
+      "teknis_infra",
+    ],
+    fields: [
+      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
+      { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
+      {
+        name: "submission_type",
+        label: "Jenis Pengajuan",
+        value: [],
+        type: "selection",
+        options: [
+          {
+            value: "reset_password",
+            label: "Reset Password",
+          },
+          {
+            value: "new_account",
+            label: "Pembuatan Akun Baru",
+          },
+        ],
+        field: [
+          {
+            name: "password",
+            label: "Password Lama",
+            value: "",
+            type: "password",
+            type_select: "reset_password",
+          },
+          {
+            name: "new_password",
+            label: "Password Baru",
+            value: "",
+            type: "password",
+            type_select: "reset_password",
+          },
+          {
+            name: "repeat_password",
+            label: "Ulangi Password",
+            value: "",
+            type: "password",
+            type_select: "reset_password",
+          },
+          {
+            name: "account_type",
+            label: "Jenis Akun",
+            value: [],
+            type: "selection",
+            type_select: "new_account",
+            options: [
+              { value: "account_1", label: "Akun 1" },
+              { value: "account_2", label: "Akun 2" },
+            ],
+          },
+        ],
+      },
+      {
+        name: "reason",
+        label: "Alasan Pengajuan",
+        value: "",
+        type: "editor",
+      },
+    ],
+  },
+];
+
+export const formData3 = [
+  {
+    name: "Pengajuan Integrasi",
+    type: "Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan",
+    role: [
+      "op_pmo",
+      "perangkat_daerah",
+      "kabid_infra",
+      "katim_infra",
+      "teknis_infra",
+    ],
+    fields: [
+      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
+      { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
+      {
+        name: "app_name",
+        label: "Nama Aplikasi",
+        value: "",
+        type: "text",
+        field: [
+          {
+            name: "app_desc",
+            label: "Deskripsi Aplikasi",
+            value: "",
+            type: "editor",
+          },
+          {
+            name: "needed_data",
+            label: "Data Yang di Butuhkan",
+            value: "",
+            type: "editor",
+          },
+        ],
+      },
+      {
+        name: "integration",
+        label: "Tujuan Integrasi",
+        value: "",
+        type: "editor",
+      },
+    ],
+  },
+];
 
 // processForms.js
 
 // Function to get RelokasiAlatProcess
 const getRelokasiAlatProcess = (inputLocal) => [
   {
-      label: "Upload Foto Alat Sebelum di Relokasi",
-      value: inputLocal.upload_foto_alat_sebelum_di_relokasi,
-      type: "image_upload",
-      name: 'upload_foto_alat_sebelum_di_relokasi'
+    label: "Upload Foto Alat Sebelum di Relokasi",
+    value: inputLocal.upload_foto_alat_sebelum_di_relokasi,
+    type: "image_upload",
+    name: "upload_foto_alat_sebelum_di_relokasi",
   },
   {
-      label: "Upload Foto Alat Sesudah di Relokasi",
-      value: inputLocal.upload_foto_alat_sesudah_di_relokasi,
-      type: "image_upload",
-      name: 'upload_foto_alat_sesudah_di_relokasi'
-  }
+    label: "Upload Foto Alat Sesudah di Relokasi",
+    value: inputLocal.upload_foto_alat_sesudah_di_relokasi,
+    type: "image_upload",
+    name: "upload_foto_alat_sesudah_di_relokasi",
+  },
 ];
 
 // Function to get PenambahanAlatProcess
 const getPenambahanAlatProcess = (inputLocal) => [
   {
-      label: "Upload Foto Alat Sebelum Penambahan Alat",
-      value: inputLocal.upload_foto_alat_sebelum_di_tambahkan,
-      type: "image_upload",
-      name: 'upload_foto_alat_sebelum_di_tambahkan'
+    label: "Upload Foto Alat Sebelum Penambahan Alat",
+    value: inputLocal.upload_foto_alat_sebelum_di_tambahkan,
+    type: "image_upload",
+    name: "upload_foto_alat_sebelum_di_tambahkan",
   },
   {
-      label: "Upload Foto Alat Sesudah Penambahan Alat",
-      value: inputLocal.upload_foto_alat_sesudah_di_tambahkan,
-      type: "image_upload",
-      name: 'upload_foto_alat_sesudah_di_tambahkan'
-  }
+    label: "Upload Foto Alat Sesudah Penambahan Alat",
+    value: inputLocal.upload_foto_alat_sesudah_di_tambahkan,
+    type: "image_upload",
+    name: "upload_foto_alat_sesudah_di_tambahkan",
+  },
 ];
 
 // Function to get PenambahanBandwidthProcess
 const getPenambahanBandwidthProcess = (inputLocal) => [
   {
-      label: "Upload Foto Kegiatan",
-      value: inputLocal.upload_foto_kegiatan,
-      type: "image_upload",
-      name: 'upload_foto_kegiatan'
-  }
+    label: "Upload Foto Kegiatan",
+    value: inputLocal.upload_foto_kegiatan,
+    type: "image_upload",
+    name: "upload_foto_kegiatan",
+  },
 ];
 
 // Function to get RelokasiAlatFinish
 const getRelokasiAlatFinish = (finishData) => [
   {
-      label: "Status Pengajuan",
-      value: finishData.submission_status,
-      name: "submission_status",
-      type: "radio_button",
-      options: [
-          { value: "1", label: "Menyetujui" },
-          { value: "0", label: "Tidak Menyetujui" }
-      ]
+    label: "Status Pengajuan",
+    value: finishData.submission_status,
+    name: "submission_status",
+    type: "radio_button",
+    options: [
+      { value: "1", label: "Menyetujui" },
+      { value: "0", label: "Tidak Menyetujui" },
+    ],
   },
   {
-      label: "Upload Surat Pemberitahuan untuk OPD",
-      value: finishData.file_submission,
-      name: 'file_submission',
-      type: "file_upload"
+    label: "Upload Surat Pemberitahuan untuk OPD",
+    value: finishData.file_submission,
+    name: "file_submission",
+    type: "file_upload",
   },
   {
-      label: "Tanggapan",
-      value: finishData.response || null,
-      type: "textarea",
-      name: 'response'
-  }
+    label: "Tanggapan",
+    value: finishData.response || null,
+    type: "textarea",
+    name: "response",
+  },
 ];
 
 // Function to get PenambahanBandwidthFinish
 const getPenambahanBandwidthFinish = (finishData) => [
   {
-      label: "Status Pengajuan",
-      value: finishData.submission_status,
-      name: "submission_status",
-      type: "radio_button",
-      options: [
-          { value: "1", label: "Menyetujui" },
-          { value: "0", label: "Tidak Menyetujui" }
-      ]
+    label: "Status Pengajuan",
+    value: finishData.submission_status,
+    name: "submission_status",
+    type: "radio_button",
+    options: [
+      { value: "1", label: "Menyetujui" },
+      { value: "0", label: "Tidak Menyetujui" },
+    ],
   },
   {
-      label: "Upload Surat Pemberitahuan untuk OPD",
-      value: finishData.file_submission,
-      name: 'file_submission',
-      type: "file_upload"
+    label: "Upload Surat Pemberitahuan untuk OPD",
+    value: finishData.file_submission,
+    name: "file_submission",
+    type: "file_upload",
   },
   {
-      label: "Tanggapan",
-      value: finishData.response || null,
-      type: "textarea",
-      name: 'response'
-  }
+    label: "Tanggapan",
+    value: finishData.response || null,
+    type: "textarea",
+    name: "response",
+  },
 ];
 
 // Function to get PenambahanAlatFinish
 const getPenambahanAlatFinish = (finishData) => [
   {
-      label: "Status Pengajuan",
-      value: finishData.submission_status,
-      name: "submission_status",
-      type: "radio_button",
-      options: [
-          { value: "1", label: "Menyetujui" },
-          { value: "0", label: "Tidak Menyetujui" }
-      ]
+    label: "Status Pengajuan",
+    value: finishData.submission_status,
+    name: "submission_status",
+    type: "radio_button",
+    options: [
+      { value: "1", label: "Menyetujui" },
+      { value: "0", label: "Tidak Menyetujui" },
+    ],
   },
   {
-      label: "Upload Surat Pemberitahuan untuk OPD",
-      value: finishData.file_submission,
-      name: 'file_submission',
-      type: "file_upload"
+    label: "Upload Surat Pemberitahuan untuk OPD",
+    value: finishData.file_submission,
+    name: "file_submission",
+    type: "file_upload",
   },
   {
-      label: "Tanggapan",
-      value: finishData.response || null,
-      type: "textarea",
-      name: 'response'
-  }
+    label: "Tanggapan",
+    value: finishData.response || null,
+    type: "textarea",
+    name: "response",
+  },
 ];
 
 export {
@@ -376,5 +530,5 @@ export {
   getPenambahanBandwidthProcess,
   getRelokasiAlatFinish,
   getPenambahanBandwidthFinish,
-  getPenambahanAlatFinish
+  getPenambahanAlatFinish,
 };
