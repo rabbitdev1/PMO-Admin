@@ -313,7 +313,7 @@ function DetailInfrastrukturPages() {
   return (
     <div className="flex flex-col gap-3 flex-1 p-3">
       <TitleHeader
-        title={`Detail Pengajuan #${slug}`}
+        title={`Detail Pengajuan ${detailData.submission_title} #${slug}`}
         link1={"dashboard"}
         link2={"infrastruktur"}
       />
