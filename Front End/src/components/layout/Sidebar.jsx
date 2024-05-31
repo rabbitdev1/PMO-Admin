@@ -59,15 +59,23 @@ const Sidebar = () => {
     },
 
     { title: "LAYANAN", role: ['/'], icon: "" },
-    { title: "Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan", role: ['op_pmo', 'perangkat_daerah',], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
+    {
+      title: "Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan", role: ['op_pmo', 'perangkat_daerah',],
+      submenu: [
+        { title: 'Intergrasi Sistem Informasi', href: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", state: 'Intergrasi Sistem Informasi' },
+        { title: 'User Akun Sistem Informasi', href: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", state: 'User Akun Sistem Informasi' },
+        { title: 'Penerapan Modul TTE', href: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", state: 'Penerapan Modul TTE' },
+      ], icon: AllBerandaIcon, href: ["/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", "/detail-1"],
+    },
     {
       title: "Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi", role: ['op_pmo', 'perangkat_daerah', 'kabid_infra', 'teknis_infra', 'katim_infra'],
-      submenu: [{ title: 'Relokasi Alat', href: '/layanan-pengelolaan-infrastruktur-teknologi-informasi-komunikasi', state: 'Relokasi Alat' },
-      { title: 'Penambahan Alat', href: '/layanan-pengelolaan-infrastruktur-teknologi-informasi-komunikasi', state: 'Penambahan Alat' },
-      { title: 'Penambahan Bandwith', href: '/layanan-pengelolaan-infrastruktur-teknologi-informasi-komunikasi', state: 'Penambahan Bandwidth' },
-      { title: 'Torubleshooting Aplikasi dan Jaringan', href: '/layanan-pengelolaan-infrastruktur-teknologi-informasi-komunikasi', state: 'Troubleshooting Aplikasi dan Jaringan' },
-      { title: 'Hosting', href: '/layanan-pengelolaan-infrastruktur-teknologi-informasi-komunikasi', state: 'Hosting' },
-      { title: 'Domain', href: '/layanan-pengelolaan-infrastruktur-teknologi-informasi-komunikasi', state: 'Domain' },
+      submenu: [
+        { title: 'Relokasi Alat', href: '/layanan-pengelolaan-infrastruktur-teknologi-informasi-komunikasi', state: 'Relokasi Alat' },
+        { title: 'Penambahan Alat', href: '/layanan-pengelolaan-infrastruktur-teknologi-informasi-komunikasi', state: 'Penambahan Alat' },
+        { title: 'Penambahan Bandwith', href: '/layanan-pengelolaan-infrastruktur-teknologi-informasi-komunikasi', state: 'Penambahan Bandwidth' },
+        { title: 'Torubleshooting Aplikasi dan Jaringan', href: '/layanan-pengelolaan-infrastruktur-teknologi-informasi-komunikasi', state: 'Troubleshooting Aplikasi dan Jaringan' },
+        { title: 'Hosting', href: '/layanan-pengelolaan-infrastruktur-teknologi-informasi-komunikasi', state: 'Hosting' },
+        { title: 'Domain', href: '/layanan-pengelolaan-infrastruktur-teknologi-informasi-komunikasi', state: 'Domain' },
       ],
       icon: AllBerandaIcon, href: ["/layanan-pengelolaan-infrastruktur-teknologi-informasi-komunikasi", "/detail-infrastruktur"],
     },
