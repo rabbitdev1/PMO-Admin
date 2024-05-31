@@ -7,6 +7,7 @@ import DynamicShow from "../../../components/common/DynamicShow";
 import { apiClient } from "../../../utils/api/apiClient";
 import { validateImage } from "../../../utils/helpers/validateForm";
 import DynamicDetails from "../DynamicDetails";
+import { getPenambahanAlatFinish, getPenambahanAlatProcess, getPenambahanBandwidthFinish, getPenambahanBandwidthProcess, getRelokasiAlatFinish, getRelokasiAlatProcess } from "../data";
 
 const ProcessStatus = ({
     submissionStatus,
@@ -22,119 +23,126 @@ const ProcessStatus = ({
 }) => {
 
     const [inputLocal, setInputLocal] = useState({});
-    const RelokasiAlatProcess = [
-        {
-            label: "Upload Foto Alat Sebelum di Relokasi",
-            value: inputLocal.upload_foto_alat_sebelum_di_relokasi,
-            type: "image_upload",
-            name: 'upload_foto_alat_sebelum_di_relokasi'
-        },
-        {
-            label: "Upload Foto Alat Sesudah di Relokasi",
-            value: inputLocal.upload_foto_alat_sesudah_di_relokasi,
-            type: "image_upload",
-            name: 'upload_foto_alat_sesudah_di_relokasi'
-        }
-    ];
-    const PenambahanAlatProcess = [
-        {
-            label: "Upload Foto Alat Sebelum Penambahan Alat",
-            value: inputLocal.upload_foto_alat_sebelum_di_tambahkan,
-            type: "image_upload",
-            name: 'upload_foto_alat_sebelum_di_tambahkan'
-        },
-        {
-            label: "Upload Foto Alat Sesudah Penambahan Alat",
-            value: inputLocal.upload_foto_alat_sesudah_di_tambahkan,
-            type: "image_upload",
-            name: 'upload_foto_alat_sesudah_di_tambahkan'
-        }
+    // const RelokasiAlatProcess = [
+    //     {
+    //         label: "Upload Foto Alat Sebelum di Relokasi",
+    //         value: inputLocal.upload_foto_alat_sebelum_di_relokasi,
+    //         type: "image_upload",
+    //         name: 'upload_foto_alat_sebelum_di_relokasi'
+    //     },
+    //     {
+    //         label: "Upload Foto Alat Sesudah di Relokasi",
+    //         value: inputLocal.upload_foto_alat_sesudah_di_relokasi,
+    //         type: "image_upload",
+    //         name: 'upload_foto_alat_sesudah_di_relokasi'
+    //     }
+    // ];
+    // const PenambahanAlatProcess = [
+    //     {
+    //         label: "Upload Foto Alat Sebelum Penambahan Alat",
+    //         value: inputLocal.upload_foto_alat_sebelum_di_tambahkan,
+    //         type: "image_upload",
+    //         name: 'upload_foto_alat_sebelum_di_tambahkan'
+    //     },
+    //     {
+    //         label: "Upload Foto Alat Sesudah Penambahan Alat",
+    //         value: inputLocal.upload_foto_alat_sesudah_di_tambahkan,
+    //         type: "image_upload",
+    //         name: 'upload_foto_alat_sesudah_di_tambahkan'
+    //     }
 
-    ];
+    // ];
 
-    const PenambahanBandwidthProcess = [
-        {
-            label: "Upload Foto Kegiatan",
-            value: inputLocal.upload_foto_kegiatan,
-            type: "image_upload",
-            name: 'upload_foto_kegiatan'
-        },
+    // const PenambahanBandwidthProcess = [
+    //     {
+    //         label: "Upload Foto Kegiatan",
+    //         value: inputLocal.upload_foto_kegiatan,
+    //         type: "image_upload",
+    //         name: 'upload_foto_kegiatan'
+    //     },
 
-    ];
+    // ];
 
 
-    const RelokasiAlatFinish = [
-        {
-            label: "Status Pengajuan",
-            value: finishData.submission_status,
-            name: "submission_status",
-            type: "radio_button",
-            options: [
-                { value: "1", label: "Menyetujui" },
-                { value: "0", label: "Tidak Menyetujui" },
-            ],
-        },
-        {
-            label: "Upload Surat Pemberitahuan untuk OPD",
-            value: finishData.file_submission,
-            name: 'file_submission',
-            type: "file_upload",
-        },
-        {
-            label: "Tanggapan",
-            value: finishData.response || null,
-            type: "textarea",
-            name: 'response'
-        }
-    ];
-    const PenambahanBandwidthFinish = [
-        {
-            label: "Status Pengajuan",
-            value: finishData.submission_status,
-            name: "submission_status",
-            type: "radio_button",
-            options: [
-                { value: "1", label: "Menyetujui" },
-                { value: "0", label: "Tidak Menyetujui" },
-            ],
-        },
-        {
-            label: "Upload Surat Pemberitahuan untuk OPD",
-            value: finishData.file_submission,
-            name: 'file_submission',
-            type: "file_upload",
-        },
-        {
-            label: "Tanggapan",
-            value: finishData.response || null,
-            type: "textarea",
-            name: 'response'
-        }
-    ];
-    const PenambahanAlatFinish = [
-        {
-            label: "Status Pengajuan",
-            value: finishData.submission_status,
-            name: "submission_status",
-            type: "radio_button",
-            options: [
-                { value: "1", label: "Menyetujui" },
-                { value: "0", label: "Tidak Menyetujui" },
-            ],
-        },
-        {
-            label: "Upload Surat Pemberitahuan untuk OPD",
-            value: finishData.file_submission,
-            name: 'file_submission',
-            type: "file_upload",
-        },
-        {
-            label: "Tanggapan",
-            value: finishData.response || null,
-            type: "textarea",
-            name: 'response'
-        }
-    ];
+    // const RelokasiAlatFinish = [
+    //     {
+    //         label: "Status Pengajuan",
+    //         value: finishData.submission_status,
+    //         name: "submission_status",
+    //         type: "radio_button",
+    //         options: [
+    //             { value: "1", label: "Menyetujui" },
+    //             { value: "0", label: "Tidak Menyetujui" },
+    //         ],
+    //     },
+    //     {
+    //         label: "Upload Surat Pemberitahuan untuk OPD",
+    //         value: finishData.file_submission,
+    //         name: 'file_submission',
+    //         type: "file_upload",
+    //     },
+    //     {
+    //         label: "Tanggapan",
+    //         value: finishData.response || null,
+    //         type: "textarea",
+    //         name: 'response'
+    //     }
+    // ];
+    // const PenambahanBandwidthFinish = [
+    //     {
+    //         label: "Status Pengajuan",
+    //         value: finishData.submission_status,
+    //         name: "submission_status",
+    //         type: "radio_button",
+    //         options: [
+    //             { value: "1", label: "Menyetujui" },
+    //             { value: "0", label: "Tidak Menyetujui" },
+    //         ],
+    //     },
+    //     {
+    //         label: "Upload Surat Pemberitahuan untuk OPD",
+    //         value: finishData.file_submission,
+    //         name: 'file_submission',
+    //         type: "file_upload",
+    //     },
+    //     {
+    //         label: "Tanggapan",
+    //         value: finishData.response || null,
+    //         type: "textarea",
+    //         name: 'response'
+    //     }
+    // ];
+    // const PenambahanAlatFinish = [
+    //     {
+    //         label: "Status Pengajuan",
+    //         value: finishData.submission_status,
+    //         name: "submission_status",
+    //         type: "radio_button",
+    //         options: [
+    //             { value: "1", label: "Menyetujui" },
+    //             { value: "0", label: "Tidak Menyetujui" },
+    //         ],
+    //     },
+    //     {
+    //         label: "Upload Surat Pemberitahuan untuk OPD",
+    //         value: finishData.file_submission,
+    //         name: 'file_submission',
+    //         type: "file_upload",
+    //     },
+    //     {
+    //         label: "Tanggapan",
+    //         value: finishData.response || null,
+    //         type: "textarea",
+    //         name: 'response'
+    //     }
+    // ];
+    const RelokasiAlatProcess = getRelokasiAlatProcess(inputLocal);
+    const PenambahanAlatProcess = getPenambahanAlatProcess(inputLocal);
+    const PenambahanBandwidthProcess = getPenambahanBandwidthProcess(inputLocal);
+
+    const RelokasiAlatFinish = getRelokasiAlatFinish(finishData);
+    const PenambahanBandwidthFinish = getPenambahanBandwidthFinish(finishData);
+    const PenambahanAlatFinish = getPenambahanAlatFinish(finishData);
 
     const fetchSetProgress = async (api_key, token, status) => {
         const params = new URLSearchParams();
@@ -361,7 +369,7 @@ const ProcessStatus = ({
                                 {renderFinishInputs(detailData.submission_title === "Relokasi Alat" ?
                                     RelokasiAlatFinish
                                     : detailData.submission_title === "Penambahan Alat" ?
-                                        PenambahanBandwidthFinish : detailData.submission_title === "Penambahan Bandwidth" ?
+                                    PenambahanAlatFinish : detailData.submission_title === "Penambahan Bandwidth" ?
                                             PenambahanBandwidthFinish : detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan" ?
                                                 PenambahanBandwidthFinish : detailData.submission_title === "Hosting" ?
                                                     PenambahanBandwidthFinish : detailData.submission_title === "Domain" ?
