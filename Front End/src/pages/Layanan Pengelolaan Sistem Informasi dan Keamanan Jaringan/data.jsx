@@ -115,6 +115,61 @@ export const formData = [
       },
     ],
   },
+  {
+    name: "Pengajuan Penerapan Modul TTE",
+    type: "Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan",
+    role: [
+      "op_pmo",
+      "perangkat_daerah",
+      "kabid_infra",
+      "katim_infra",
+      "teknis_infra",
+    ],
+    fields: [
+      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
+      { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
+      {
+        name: "app_name",
+        label: "Nama Aplikasi",
+        value: [],
+        type: "selection",
+        options: [
+          { value: "15", label: "15 Mbps" },
+          { value: "20", label: "20 Mbps" },
+          { value: "25", label: "25 Mbps" },
+          { value: "30", label: "30 Mbps" },
+        ]
+      },
+      {
+        name: "app_desc",
+        label: "Deskripsi Aplikasi",
+        value: "",
+        type: "editor",
+      },
+      {
+        name: "reason",
+        label: "Alasan Pengajuan",
+        value: "",
+        type: "editor",
+      },
+      {
+        name: "file_submission",
+        label: "Dokumen Proses Bisnis",
+        value: "",
+        type: "file_upload"
+      },
+      {
+        name: "period",
+        label: "Jadwal Penerapan",
+        value: {
+          startDate: null,
+          endDate: null,
+        },
+        type: "date",
+        visible: true,
+      }
+    ],
+  },
 ]
 
 
