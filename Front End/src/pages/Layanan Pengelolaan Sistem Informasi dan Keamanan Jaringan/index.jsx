@@ -20,7 +20,7 @@ import fetchUploadImages from "../../utils/api/uploadImages";
 import { convertToNameValueObject } from "../../utils/helpers/convertToNameValueObject";
 
 import { formData as initialFormData } from './data';
-import {  isValidatorDomainPenerapanModulTTE, isValidatorPenerapanModulTTE, isValidatorUserAccountSI } from "./validators";
+import { isValidatorDomainPenerapanModulTTE, isValidatorPenerapanModulTTE, isValidatorUserAccountSI } from "./validators";
 
 function AplikasiPages() {
   const { isDarkMode } = useTheme();
@@ -266,7 +266,7 @@ function AplikasiPages() {
       };
       console.log(JSON.stringify(combinedObject));
 
-      if (combinedObject?.submission_title === "User Account SI") {
+      if (combinedObject?.submission_title === "User Akun Sistem Informasi") {
         if (isValidatorUserAccountSI(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
         } else {
@@ -274,7 +274,12 @@ function AplikasiPages() {
         }
       } else if (combinedObject?.submission_title === "Penerapan Modul TTE") {
         if (isValidatorPenerapanModulTTE(combinedObject)) {
-      else if (combinedObject?.submission_title === "Integrasi") {
+          await handleImageUploadAndFetch(combinedObject);
+        } else {
+          return false;
+        }
+      }
+      else if (combinedObject?.submission_title === "Intergrasi Sistem Informasi") {
         if (isValidatorIntegrasi(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
         } else {
@@ -660,7 +665,7 @@ function AplikasiPages() {
                             item?.field?.map(
                               (itemField, indexField) =>
                                 item?.value?.value ===
-                                  itemField.type_select && (
+                                itemField.type_select && (
                                   <DynamicInput
                                     key={indexField}
                                     name={itemField.name}
