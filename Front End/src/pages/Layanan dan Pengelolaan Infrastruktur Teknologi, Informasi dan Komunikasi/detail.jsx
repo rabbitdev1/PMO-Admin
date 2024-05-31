@@ -179,61 +179,11 @@ function DetailInfrastrukturPages() {
     } else if (type === "validation_technique") {
       fetchEditinfrastruktur(authApiKey, authToken, slug, type, data);
     } else if (type === "process") {
-      // if (
-      //   data.upload_foto_alat_sebelum_di_relokasi ||
-      //   data.upload_foto_alat_sesudah_di_relokasi ||
-      // ) {
-      //   try {
-      //     const uploadPromises = [];
-      //     if (data.upload_foto_alat_sebelum_di_relokasi) {
-      //       uploadPromises.push(
-      //         fetchUploadImages(
-      //           authApiKey,
-      //           authToken,
-      //           data.upload_foto_alat_sebelum_di_relokasi,
-      //           "infrastruktur",
-      //           dispatch
-      //         )
-      //       );
-      //     }
-      //     if (data.upload_foto_alat_sesudah_di_relokasi) {
-      //       uploadPromises.push(
-      //         fetchUploadImages(
-      //           authApiKey,
-      //           authToken,
-      //           data.upload_foto_alat_sesudah_di_relokasi,
-      //           "infrastruktur",
-      //           dispatch
-      //         )
-      //       );
-      //     }
-
-      //     const [resultBefore, resultAfter] = await Promise.all(uploadPromises);
-
-      //     let combineData = { ...data };
-      //     if (resultBefore) {
-      //       combineData.upload_foto_alat_sebelum_di_relokasi = resultBefore;
-      //     }
-      //     if (resultAfter) {
-      //       combineData.upload_foto_alat_sesudah_di_relokasi = resultAfter;
-      //     }
-
-      //     fetchEditinfrastruktur(
-      //       authApiKey,
-      //       authToken,
-      //       slug,
-      //       type,
-      //       combineData
-      //     );
-      //   } catch (error) {
-      //     console.error("Error occurred during image upload:", error);
-      //   }
-      // } else {
-      //   fetchEditinfrastruktur(authApiKey, authToken, slug, type, data);
-      // }
       if (
         data.upload_foto_alat_sebelum_di_relokasi ||
         data.upload_foto_alat_sesudah_di_relokasi ||
+        data.upload_foto_alat_sebelum_di_tambahkan ||
+        data.upload_foto_alat_sesudah_di_tambahkan ||
         data.upload_foto_kegiatan
       ) {
         try {
@@ -266,6 +216,32 @@ function DetailInfrastrukturPages() {
               })
             );
           }
+          if (data.upload_foto_alat_sebelum_di_tambahkan) {
+            uploadPromises.push(
+              fetchUploadImages(
+                authApiKey,
+                authToken,
+                data.upload_foto_alat_sebelum_di_tambahkan,
+                "infrastruktur",
+                dispatch
+              ).then(result => {
+                resultMapping.upload_foto_alat_sebelum_di_tambahkan = result;
+              })
+            );
+          }
+          if (data.upload_foto_alat_sesudah_di_tambahkan) {
+            uploadPromises.push(
+              fetchUploadImages(
+                authApiKey,
+                authToken,
+                data.upload_foto_alat_sesudah_di_tambahkan,
+                "infrastruktur",
+                dispatch
+              ).then(result => {
+                resultMapping.upload_foto_alat_sesudah_di_tambahkan = result;
+              })
+            );
+          }
           if (data.upload_foto_kegiatan) {
             uploadPromises.push(
               fetchUploadImages(
@@ -288,6 +264,12 @@ function DetailInfrastrukturPages() {
           }
           if (resultMapping.upload_foto_alat_sesudah_di_relokasi) {
             combineData.upload_foto_alat_sesudah_di_relokasi = resultMapping.upload_foto_alat_sesudah_di_relokasi;
+          }
+          if (resultMapping.upload_foto_alat_sebelum_di_tambahkan) {
+            combineData.upload_foto_alat_sebelum_di_tambahkan = resultMapping.upload_foto_alat_sebelum_di_tambahkan;
+          }
+          if (resultMapping.upload_foto_alat_sesudah_di_tambahkan) {
+            combineData.upload_foto_alat_sesudah_di_tambahkan = resultMapping.upload_foto_alat_sesudah_di_tambahkan;
           }
           if (resultMapping.upload_foto_kegiatan) {
             combineData.upload_foto_kegiatan = resultMapping.upload_foto_kegiatan;
