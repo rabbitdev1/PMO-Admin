@@ -46,20 +46,20 @@ const FinishStatus = ({
                     ? "Foto Alat Sebelum Di Relokasikan"
                     : key === "upload_foto_alat_sesudah_di_relokasi"
                       ? "Foto Alat Sesudah Di Relokasikan"
-                      : key === "upload_foto_kegiatan"
-                        ? "Foto Kegiatan"
-                        : key
+                      : key === "upload_foto_alat_sebelum_di_tambahkan"
+                        ? "Foto Alat Sebelum Di Tambahkan"
+                        : key === "upload_foto_alat_sesudah_di_tambahkan"
+                          ? "Foto Alat Sesudah Di Tambahkan"
+                          : key === "upload_foto_kegiatan"
+                            ? "Foto Kegiatan"
+                            : key
                 }
                 value={value}
                 location={"infrastruktur"}
                 type={
-                  key === "upload_foto_alat_sebelum_di_relokasi"
+                  key === "upload_foto_alat_sebelum_di_relokasi" || key === "upload_foto_alat_sesudah_di_relokasi" || key === "upload_foto_alat_sebelum_di_tambahkan" || key === "upload_foto_alat_sesudah_di_tambahkan" || key === "upload_foto_kegiatan"
                     ? "images"
-                    : key === "upload_foto_alat_sesudah_di_relokasi"
-                      ? "images"
-                      : key === "upload_foto_kegiatan"
-                        ? "images"
-                        : "text"
+                    : "text"
                 }
               />
             ))}
