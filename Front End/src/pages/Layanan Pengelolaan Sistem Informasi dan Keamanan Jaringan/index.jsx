@@ -19,6 +19,7 @@ import { apiClient } from "../../utils/api/apiClient";
 import fetchUploadImages from "../../utils/api/uploadImages";
 import { convertToNameValueObject } from "../../utils/helpers/convertToNameValueObject";
 
+
 import { formData as initialFormData } from "./data";
 import {
   isValidatorDomainPenerapanModulTTE,
@@ -270,7 +271,6 @@ function AplikasiPages() {
         ),
       };
       console.log(JSON.stringify(combinedObject));
-console.log(combinedObject?.submission_title);
       if (combinedObject?.submission_title === "User Akun Sistem Informasi") {
         if (isValidatorUserAccountSI(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
@@ -283,6 +283,7 @@ console.log(combinedObject?.submission_title);
         } else {
           return false;
         }
+
       } else if (combinedObject?.submission_title === "Integrasi Sistem Informasi") {
         if (isValidatorIntegrasi(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
@@ -670,7 +671,7 @@ console.log(combinedObject?.submission_title);
                             item?.field?.map(
                               (itemField, indexField) =>
                                 item?.value?.value ===
-                                  itemField.type_select && (
+                                itemField.type_select && (
                                   <DynamicInput
                                     key={indexField}
                                     name={itemField.name}
