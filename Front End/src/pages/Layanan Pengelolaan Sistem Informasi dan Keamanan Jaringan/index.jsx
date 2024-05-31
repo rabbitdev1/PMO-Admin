@@ -19,8 +19,14 @@ import { apiClient } from "../../utils/api/apiClient";
 import fetchUploadImages from "../../utils/api/uploadImages";
 import { convertToNameValueObject } from "../../utils/helpers/convertToNameValueObject";
 
-import { formData as initialFormData } from './data';
-import { isValidatorDomainPenerapanModulTTE, isValidatorPenerapanModulTTE, isValidatorUserAccountSI } from "./validators";
+
+import { formData as initialFormData } from "./data";
+import {
+  isValidatorDomainPenerapanModulTTE,
+  isValidatorIntegrasi,
+  isValidatorPenerapanModulTTE,
+  isValidatorUserAccountSI,
+} from "./validators";
 
 function AplikasiPages() {
   const { isDarkMode } = useTheme();
@@ -265,7 +271,6 @@ function AplikasiPages() {
         ),
       };
       console.log(JSON.stringify(combinedObject));
-
       if (combinedObject?.submission_title === "User Akun Sistem Informasi") {
         if (isValidatorUserAccountSI(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
@@ -278,8 +283,8 @@ function AplikasiPages() {
         } else {
           return false;
         }
-      }
-      else if (combinedObject?.submission_title === "Intergrasi Sistem Informasi") {
+
+      } else if (combinedObject?.submission_title === "Integrasi Sistem Informasi") {
         if (isValidatorIntegrasi(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
         } else {
@@ -375,12 +380,13 @@ function AplikasiPages() {
   }
 
   return (
-    <div className="flex flex-col gap-3 flex-1 p-4" >
-      <TitleHeader title={"Layanan Pengajuan"}
+    <div className="flex flex-col gap-3 flex-1 p-4">
+      <TitleHeader
+        title={"Layanan Pengajuan"}
         link1={"dashboard"}
-        link2={'Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan'} />
-      <section className="flex xl:flex-row flex-col gap-3" >
-
+        link2={"Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan"}
+      />
+      <section className="flex xl:flex-row flex-col gap-3">
         <div className="flex-1 flex flex-col gap-3">
           <div className="flex md:flex-row flex-col gap-3">
             {JSON.parse(authProfile)?.role === "perangkat_daerah" && (

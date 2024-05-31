@@ -71,7 +71,8 @@ export const formData = [
     ],
   },
   {
-    name: "Pengajuan Intergrasi Sistem Informasi",
+
+    name: "Pengajuan Integrasi Sistem Informasi",
     type: "Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan",
     role: [
       "op_pmo",
