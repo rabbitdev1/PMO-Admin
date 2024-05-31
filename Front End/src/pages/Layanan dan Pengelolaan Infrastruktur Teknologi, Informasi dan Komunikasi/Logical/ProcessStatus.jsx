@@ -39,15 +39,15 @@ const ProcessStatus = ({
     const PenambahanAlatProcess = [
         {
             label: "Upload Foto Alat Sebelum Penambahan Alat",
-            value: inputLocal.upload_foto_alat_sebelum_di_relokasi,
+            value: inputLocal.upload_foto_alat_sebelum_di_tambahkan,
             type: "image_upload",
-            name: 'upload_foto_alat_sebelum_di_relokasi'
+            name: 'upload_foto_alat_sebelum_di_tambahkan'
         },
         {
             label: "Upload Foto Alat Sesudah Penambahan Alat",
-            value: inputLocal.upload_foto_alat_sesudah_di_relokasi,
+            value: inputLocal.upload_foto_alat_sesudah_di_tambahkan,
             type: "image_upload",
-            name: 'upload_foto_alat_sesudah_di_relokasi'
+            name: 'upload_foto_alat_sesudah_di_tambahkan'
         }
 
     ];
@@ -226,11 +226,11 @@ const ProcessStatus = ({
                             ))}
                             {renderProcessInputs(detailData.submission_title === "Relokasi Alat" ?
                                 RelokasiAlatProcess :
-                                 detailData.submission_title === "Penambahan Alat" ?
-                                 PenambahanAlatProcess : detailData.submission_title === "Penambahan Bandwidth" ?
+                                detailData.submission_title === "Penambahan Alat" ?
+                                    PenambahanAlatProcess : detailData.submission_title === "Penambahan Bandwidth" ?
                                         PenambahanBandwidthProcess : detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan" ?
-                                        PenambahanBandwidthProcess :
-                                []
+                                            PenambahanBandwidthProcess :
+                                            []
                             )}
                             <div className='flex sm:flex-row flex-col gap-2'>
                                 <DynamicButton
@@ -240,33 +240,34 @@ const ProcessStatus = ({
                                     className="inline-flex  bg-[#0185FF] text-darkColor"
                                     onClick={() => {
                                         const result = {
-                                          ...inputLocal,
+                                            ...inputLocal,
                                         };
-                                      
+
                                         const filteredDataResult = Object.fromEntries(
-                                          Object.entries(result).filter(([_, value]) => {
-                                            return value !== undefined && value !== null && value !== '' && !(Array.isArray(value) && value.length === 0);
-                                          })
+                                            Object.entries(result).filter(([_, value]) => {
+                                                return value !== undefined && value !== null && value !== '' && !(Array.isArray(value) && value.length === 0);
+                                            })
                                         );
-                                      
-                                        let isValid = true; 
-                                      
+
+                                        let isValid = true;
+
                                         if (detailData.submission_title === "Relokasi Alat") {
-                                          isValid = isValid && validateImage(inputLocal.upload_foto_alat_sebelum_di_relokasi, "Upload Foto Alat Sebelum di Relokasi");
-                                          isValid = isValid && validateImage(inputLocal.upload_foto_alat_sesudah_di_relokasi, "Upload Foto Alat Sesudah di Relokasi");
+                                            isValid = isValid && validateImage(inputLocal.upload_foto_alat_sebelum_di_relokasi, "Upload Foto Alat Sebelum di Relokasi");
+                                            isValid = isValid && validateImage(inputLocal.upload_foto_alat_sesudah_di_relokasi, "Upload Foto Alat Sesudah di Relokasi");
                                         } else if (detailData.submission_title === "Penambahan Alat") {
-                                          // Tidak ada validasi tambahan untuk "Penambahan Alat"
+                                            isValid = isValid && validateImage(inputLocal.upload_foto_alat_sebelum_di_tambahkan, "Upload Foto Alat Sebelum di Tambahkan");
+                                            isValid = isValid && validateImage(inputLocal.upload_foto_alat_sesudah_di_tambahkan, "Upload Foto Alat Sesudah di Tambahkan");
                                         } else if (detailData.submission_title === "Penambahan Bandwidth") {
-                                          isValid = isValid && validateImage(inputLocal.upload_foto_kegiatan, "Upload Foto Kegiatan");
+                                            isValid = isValid && validateImage(inputLocal.upload_foto_kegiatan, "Upload Foto Kegiatan");
                                         } else if (detailData.submission_title === "Troubleshooting") {
-                                          // Tidak ada validasi tambahan untuk "Troubleshooting"
+                                            // Tidak ada validasi tambahan untuk "Troubleshooting"
                                         }
-                                      
+
                                         if (isValid) {
-                                          checkingFormData('process', filteredDataResult);
+                                            checkingFormData('process', filteredDataResult);
                                         }
-                                      }}
-                                      
+                                    }}
+
                                 />
                             </div>
                         </div> :
@@ -290,13 +291,26 @@ const ProcessStatus = ({
                                 {Object.entries(processData).map(([key, value]) => (
                                     <DynamicShow
                                         key={key}
-                                        label={key === "upload_foto_alat_sebelum_di_relokasi" ? "Foto Alat Sebelum Di Relokasikan" :
-                                         key === "upload_foto_alat_sesudah_di_relokasi" ? "Foto Alat Sesudah Di Relokasikan" :
-                                          key === "upload_foto_kegiatan" ? "Foto Kegiatan" :
-                                           key}
+                                        label={
+                                            key === "upload_foto_alat_sebelum_di_relokasi"
+                                                ? "Foto Alat Sebelum Di Relokasikan"
+                                                : key === "upload_foto_alat_sesudah_di_relokasi"
+                                                    ? "Foto Alat Sesudah Di Relokasikan"
+                                                    : key === "upload_foto_alat_sebelum_di_tambahkan"
+                                                        ? "Foto Alat Sebelum Di Tambahkan"
+                                                        : key === "upload_foto_alat_sesudah_di_tambahkan"
+                                                            ? "Foto Alat Sesudah Di Tambahkan"
+                                                            : key === "upload_foto_kegiatan"
+                                                                ? "Foto Kegiatan"
+                                                                : key
+                                        }
                                         value={value}
-                                        location={'infrastruktur'}
-                                        type={key === "upload_foto_alat_sebelum_di_relokasi" ? 'images' : key === "upload_foto_alat_sesudah_di_relokasi" ? "images" : key === "upload_foto_kegiatan" ? "images" : 'text'}
+                                        location={"infrastruktur"}
+                                        type={
+                                            key === "upload_foto_alat_sebelum_di_relokasi" || key === "upload_foto_alat_sesudah_di_relokasi" || key === "upload_foto_alat_sebelum_di_tambahkan" || key === "upload_foto_alat_sesudah_di_tambahkan" || key === "upload_foto_kegiatan"
+                                                ? "images"
+                                                : "text"
+                                        }
                                     />
                                 ))}
                             </div>
@@ -318,28 +332,41 @@ const ProcessStatus = ({
                                 ))}
                                 {Object.entries(processData).map(([key, value]) => (
                                     <DynamicShow
-                                    key={key}
-                                    label={key === "upload_foto_alat_sebelum_di_relokasi" ? "Foto Alat Sebelum Di Relokasikan" :
-                                     key === "upload_foto_alat_sesudah_di_relokasi" ? "Foto Alat Sesudah Di Relokasikan" :
-                                      key === "upload_foto_kegiatan" ? "Foto Kegiatan" :
-                                       key}
-                                    value={value}
-                                    location={'infrastruktur'}
-                                    type={key === "upload_foto_alat_sebelum_di_relokasi" ? 'images' : key === "upload_foto_alat_sesudah_di_relokasi" ? "images" : key === "upload_foto_kegiatan" ? "images" : 'text'}
-                                />
+                                        key={key}
+                                        label={
+                                            key === "upload_foto_alat_sebelum_di_relokasi"
+                                                ? "Foto Alat Sebelum Di Relokasikan"
+                                                : key === "upload_foto_alat_sesudah_di_relokasi"
+                                                    ? "Foto Alat Sesudah Di Relokasikan"
+                                                    : key === "upload_foto_alat_sebelum_di_tambahkan"
+                                                        ? "Foto Alat Sebelum Di Tambahkan"
+                                                        : key === "upload_foto_alat_sesudah_di_tambahkan"
+                                                            ? "Foto Alat Sesudah Di Tambahkan"
+                                                            : key === "upload_foto_kegiatan"
+                                                                ? "Foto Kegiatan"
+                                                                : key
+                                        }
+                                        value={value}
+                                        location={"infrastruktur"}
+                                        type={
+                                            key === "upload_foto_alat_sebelum_di_relokasi" || key === "upload_foto_alat_sesudah_di_relokasi" || key === "upload_foto_alat_sebelum_di_tambahkan" || key === "upload_foto_alat_sesudah_di_tambahkan" || key === "upload_foto_kegiatan"
+                                                ? "images"
+                                                : "text"
+                                        }
+                                    />
                                 ))}
                             </div>
                             <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                                 <span className='text-lg font-bold'>Proses Selesai</span>
                                 {renderFinishInputs(detailData.submission_title === "Relokasi Alat" ?
                                     RelokasiAlatFinish
-                                      : detailData.submission_title === "Penambahan Alat" ?
-                                      PenambahanBandwidthFinish : detailData.submission_title === "Penambahan Bandwidth" ?
-                                              PenambahanBandwidthFinish : detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan" ?
-                                              PenambahanBandwidthFinish : detailData.submission_title === "Hosting" ?
-                                              PenambahanBandwidthFinish :  detailData.submission_title === "Domain" ?
-                                              PenambahanBandwidthFinish 
-                                    : []
+                                    : detailData.submission_title === "Penambahan Alat" ?
+                                        PenambahanBandwidthFinish : detailData.submission_title === "Penambahan Bandwidth" ?
+                                            PenambahanBandwidthFinish : detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan" ?
+                                                PenambahanBandwidthFinish : detailData.submission_title === "Hosting" ?
+                                                    PenambahanBandwidthFinish : detailData.submission_title === "Domain" ?
+                                                        PenambahanBandwidthFinish
+                                                        : []
                                 )}
                                 <DynamicButton
                                     initialValue={"Pengajuan Selesai"}
@@ -401,10 +428,26 @@ const ProcessStatus = ({
                             {Object.entries(processData).map(([key, value]) => (
                                 <DynamicShow
                                     key={key}
-                                    label={key === "upload_foto_alat_sebelum_di_relokasi" ? "Foto Alat Sebelum Di Relokasikan" : key === "upload_foto_alat_sesudah_di_relokasi" ? "Foto Alat Sesudah Di Relokasikan" : key}
+                                    label={
+                                        key === "upload_foto_alat_sebelum_di_relokasi"
+                                            ? "Foto Alat Sebelum Di Relokasikan"
+                                            : key === "upload_foto_alat_sesudah_di_relokasi"
+                                                ? "Foto Alat Sesudah Di Relokasikan"
+                                                : key === "upload_foto_alat_sebelum_di_tambahkan"
+                                                    ? "Foto Alat Sebelum Di Tambahkan"
+                                                    : key === "upload_foto_alat_sesudah_di_tambahkan"
+                                                        ? "Foto Alat Sesudah Di Tambahkan"
+                                                        : key === "upload_foto_kegiatan"
+                                                            ? "Foto Kegiatan"
+                                                            : key
+                                    }
                                     value={value}
-                                    location={'infrastruktur'}
-                                    type={key === "upload_foto_alat_sebelum_di_relokasi" ? 'images' : key === "upload_foto_alat_sesudah_di_relokasi" ? "images" : 'text'}
+                                    location={"infrastruktur"}
+                                    type={
+                                        key === "upload_foto_alat_sebelum_di_relokasi" || key === "upload_foto_alat_sesudah_di_relokasi" || key === "upload_foto_alat_sebelum_di_tambahkan" || key === "upload_foto_alat_sesudah_di_tambahkan" || key === "upload_foto_kegiatan"
+                                            ? "images"
+                                            : "text"
+                                    }
                                 />
                             ))}
                         </div>
