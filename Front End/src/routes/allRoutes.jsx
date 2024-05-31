@@ -7,6 +7,7 @@ import DetailInfrastrukturPages from "../pages/Layanan dan Pengelolaan Infrastru
 import AccountPages from "../pages/System/Account/account";
 import DetailsAccountPages from "../pages/System/Account/detail";
 import AplikasiPages from "../pages/Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan";
+import DetailAplikasiPages from "../pages/Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi/detail";
 
 
 const userRoutes = [
@@ -15,6 +16,8 @@ const userRoutes = [
   { path: "/detail-infrastruktur", component: <DetailInfrastrukturPages /> },
 
   { path: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", component: <AplikasiPages /> },
+  { path: "/detail-aplikasi", component: <DetailAplikasiPages /> },
+
 
 
 
