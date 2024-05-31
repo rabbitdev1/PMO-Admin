@@ -21,7 +21,7 @@ import { convertToNameValueObject } from "../../utils/helpers/convertToNameValue
 import { formData as initialFormData } from './data';
 import { isValidatorDomain, isValidatorHosting, isValidatorPenambahanAlat, isValidatorPenambahanBandwith, isValidatorRelokasiAlat, isValidatorTroubleShooting } from "./validators";
 
-function InfrastrukturPages() {
+function AplikasiPages() {
   const { isDarkMode } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
@@ -346,15 +346,15 @@ function InfrastrukturPages() {
   return (
     <div className="flex flex-col gap-3 flex-1 p-4" >
       <TitleHeader title={"Layanan Pengajuan"}
-        link1={"dashboard"}
-        link2={'Bidang Infrastruktur Teknologi, Informasi dan Komunikasi'} />
+       link1={"dashboard"} 
+      link2={'Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan'} />
       <section className="flex xl:flex-row flex-col gap-3" >
         <div className="flex-1 flex flex-col gap-3">
           <div className="flex md:flex-row flex-col gap-3">
             {(JSON.parse(authProfile)?.role === "perangkat_daerah") &&
               <div className="flex flex-col gap-2 bg-[#0185FF] p-3 rounded-lg flex-1 md:max-w-xs shadow-sm"
               >
-                <span className="sm:text-xl text-sm text-darkColor font-semibold">Selamat datang di Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi</span>
+                <span className="sm:text-xl text-sm text-darkColor font-semibold">Selamat datang di Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan</span>
                 <div className="flex flex-col flex-1 justify-end items-end">
                   <DynamicButton
                     initialValue={'Tutorial Pengajuan'}
@@ -362,7 +362,7 @@ function InfrastrukturPages() {
                     type="transparent"
                     className="bg-[#ffffff] text-[#0185FF] px-3"
                     onClick={() => {
-                      // setisModalType({ data: 'Pengajuan Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi', status: true });
+                      // setisModalType({ data: 'Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan', status: true });
                     }}
                   />
                 </div>
@@ -405,7 +405,7 @@ function InfrastrukturPages() {
                     type="transparent"
                     className="bg-[#0185FF] text-darkColor px-3"
                     onClick={() => {
-                      setisModalType({ data: 'Pengajuan Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi', status: true });
+                      setisModalType({ data: 'Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan', status: true });
                     }}
                   />
 
@@ -635,4 +635,4 @@ function InfrastrukturPages() {
   );
 }
 
-export default InfrastrukturPages;
+export default AplikasiPages;
