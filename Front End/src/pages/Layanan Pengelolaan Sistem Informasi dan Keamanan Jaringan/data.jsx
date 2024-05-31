@@ -1,6 +1,6 @@
 export const formData = [
   {
-    name: "Pengajuan User Account SI",
+    name: "Pengajuan User Akun Sistem Informasi",
     type: "Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan",
     role: [
       "op_pmo",
@@ -71,7 +71,7 @@ export const formData = [
     ],
   },
   {
-    name: "Pengajuan Integrasi",
+    name: "Pengajuan Integrasi Sistem Informasi",
     type: "Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan",
     role: [
       "op_pmo",
