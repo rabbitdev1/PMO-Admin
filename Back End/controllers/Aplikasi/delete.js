@@ -1,6 +1,6 @@
 import { deleteFiles } from "../../components/UploadFile.js";
 import { deleteImage } from "../../components/UploadImage.js";
-import InfraModel from "../../models/InfraModel.js";
+import Aplikasi from "../../models/Aplikasi.js";
 
 export const deleteDataAplikasi = async(req, res) => {
     try {
@@ -14,13 +14,13 @@ export const deleteDataAplikasi = async(req, res) => {
             });
         }
 
-        const infrastrukturItem = await InfraModel.findOne({
+        const aplikasiItem = await Aplikasi.findOne({
             where: {
                 id: id,
             },
         });
 
-        if (!infrastrukturItem) {
+        if (!aplikasiItem) {
             return res.status(404).json({
                 status: "error",
                 msg: "Item not found",
@@ -28,10 +28,10 @@ export const deleteDataAplikasi = async(req, res) => {
         }
 
         const mergedDataProcess = {
-            ...JSON.parse(infrastrukturItem.on_validation),
-            ...JSON.parse(infrastrukturItem.on_process),
-            ...JSON.parse(infrastrukturItem.on_finish),
-            ...JSON.parse(infrastrukturItem.fields),
+            ...JSON.parse(aplikasiItem.on_validation),
+            ...JSON.parse(aplikasiItem.on_process),
+            ...JSON.parse(aplikasiItem.on_finish),
+            ...JSON.parse(aplikasiItem.fields),
         };
         console.log("Merged Data:", mergedDataProcess);
         const findValueByTitle = (data, title) => data[title];
@@ -50,7 +50,7 @@ export const deleteDataAplikasi = async(req, res) => {
         } else {
             console.log("Data tidak ditemukan");
         }
-        const deletedItem = await InfraModel.destroy({
+        const deletedItem = await Aplikasi.destroy({
             where: {
                 id: id,
             },
