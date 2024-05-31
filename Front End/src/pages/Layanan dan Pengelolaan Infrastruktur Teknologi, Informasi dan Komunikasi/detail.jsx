@@ -23,7 +23,7 @@ import ValidationStatus from "./Logical/ValidationStatus";
 import ValidationStatusTechnique from "./Logical/ValidationStatusTechnique";
 import fetchUploadImages from "../../utils/api/uploadImages";
 
-function DetailInfrastrukturPages() {
+function DetailAplikasiPages() {
   const { isDarkMode } = useTheme();
   const navigate = useNavigate();
   const authApiKey = Cookies.get("authApiKey");
@@ -413,4 +413,4 @@ function DetailInfrastrukturPages() {
   );
 }
 
-export default DetailInfrastrukturPages;
+export default DetailAplikasiPages;
