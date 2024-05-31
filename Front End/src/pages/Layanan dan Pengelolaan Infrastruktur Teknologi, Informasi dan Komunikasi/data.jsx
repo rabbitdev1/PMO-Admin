@@ -247,9 +247,6 @@ export const formData = [
   },
 ]
 
-
-// processForms.js
-
 // Function to get RelokasiAlatProcess
 const getRelokasiAlatProcess = (inputLocal) => [
   {
