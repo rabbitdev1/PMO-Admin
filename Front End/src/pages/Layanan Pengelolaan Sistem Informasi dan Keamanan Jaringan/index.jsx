@@ -70,7 +70,7 @@ function AplikasiPages() {
     params.append("role", role);
     try {
       const response = await apiClient({
-        baseurl: "infrastruktur",
+        baseurl: "aplikasi",
         method: "POST",
         body: params,
         apiKey: api_key,
@@ -104,7 +104,7 @@ function AplikasiPages() {
 
     try {
       const response = await apiClient({
-        baseurl: "infrastruktur/create",
+        baseurl: "aplikasi/create",
         method: "POST",
         customHeaders: { "Content-Type": "application/json" },
         body: raw,
@@ -140,7 +140,7 @@ function AplikasiPages() {
 
     try {
       const response = await apiClient({
-        baseurl: "infrastruktur/delete",
+        baseurl: "aplikasi/delete",
         method: "POST",
         body: params,
         apiKey: api_key,
@@ -172,14 +172,14 @@ function AplikasiPages() {
 
     try {
       const response = await apiClient({
-        baseurl: "infrastruktur/set_process",
+        baseurl: "aplikasi/set_process",
         method: "POST",
         body: params,
         apiKey: api_key,
         token: token,
       });
       if (response?.statusCode === 200) {
-        navigate("/detail-infrastruktur", { state: { slug: id } });
+        navigate("/detail-aplikasi", { state: { slug: id } });
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -267,7 +267,7 @@ function AplikasiPages() {
   }
   const handleImageUploadAndFetch = async (obj) => {
     if (obj.image_screenshoot) {
-      const result = await fetchUploadImages(authApiKey, authToken, obj.image_screenshoot, 'infrastruktur', dispatch);
+      const result = await fetchUploadImages(authApiKey, authToken, obj.image_screenshoot, 'aplikasi', dispatch);
       if (result !== null) {
         const fixObject = {
           ...obj,
@@ -427,7 +427,7 @@ function AplikasiPages() {
                   if (JSON.parse(authProfile)?.role === "op_pmo") {
                     fetchSetProgress(authApiKey, authToken, data.id)
                   } else {
-                    navigate("/detail-infrastruktur", { state: { slug: data.id } });
+                    navigate("/detail-aplikasi", { state: { slug: data.id } });
                   }
                 }}
                 onClickRemove={(data) => {
@@ -438,7 +438,7 @@ function AplikasiPages() {
                   } else {
                     const isConfirmed = window.confirm("Apakah kamu yakin ingin menghapus pengajuan ini?");
                     if (isConfirmed) {
-                      fetchDataDelete(authApiKey, authToken, data.id, "infrastruktur")
+                      fetchDataDelete(authApiKey, authToken, data.id, "aplikasi")
                     } else {
                       alert("Pengajuan tidak dihapus.");
                     }

@@ -1,6 +1,6 @@
 import InfraModel from "../../models/InfraModel.js";
 
-export const setStatusDataInfrastruktur = async(req, res) => {
+export const setStatusDataAplikasi = async(req, res) => {
     try {
         let rawData = req.body;
         const apiKey = req.headers["x-api-key"];
@@ -47,7 +47,7 @@ export const setStatusDataInfrastruktur = async(req, res) => {
     }
 };
 
-export const editProcessDataInfrastruktur = async(req, res) => {
+export const editProcessDataAplikasi = async(req, res) => {
     try {
         const { id, status } = req.body;
         const apiKey = req.headers["x-api-key"];
