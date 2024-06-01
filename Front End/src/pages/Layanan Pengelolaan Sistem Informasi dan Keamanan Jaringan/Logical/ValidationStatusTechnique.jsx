@@ -291,7 +291,7 @@ const ValidationStatusTechnique = ({
               </span>
             </div>
           </div>
-          <DynamicDetails location={"infrastruktur"}detailData={detailData} loading={loading} />
+          <DynamicDetails location={"aplikasi"}detailData={detailData} loading={loading} />
         </div>
       )}
       {submissionStatus === 5 && (
@@ -318,7 +318,7 @@ const ValidationStatusTechnique = ({
               ))}
             </div>
           </div>
-          <DynamicDetails location={"infrastruktur"}detailData={detailData} loading={loading} />
+          <DynamicDetails location={"aplikasi"}detailData={detailData} loading={loading} />
         </div>
       )}
     </>

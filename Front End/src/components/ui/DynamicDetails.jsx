@@ -1,8 +1,8 @@
 import React from 'react';
-import DynamicShow from '../../components/common/DynamicShow';
-import ConditionalRender from '../../components/ui/ConditionalRender';
+import DynamicShow from '../common/DynamicShow';
+import ConditionalRender from './ConditionalRender';
 
-const DynamicDetails = ({ detailData, loading }) => {
+const DynamicDetails = ({ detailData, loading, location }) => {
   return (
     <div className="flex-1 flex flex-col gap-3">
       <div className="flex flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
@@ -20,7 +20,7 @@ const DynamicDetails = ({ detailData, loading }) => {
                   name={key}
                   label={getKeyLabel(key)}
                   value={JSON.stringify(value)}
-                  location="infrastruktur"
+                  location={location}
                   type={getFieldType(key)}
                   disabled={true}
                 />
@@ -30,7 +30,7 @@ const DynamicDetails = ({ detailData, loading }) => {
                   name={key}
                   label={getKeyLabel(key)}
                   value={value}
-                  location="infrastruktur"
+                  location={location}
                   type={getFieldType(key)}
                   disabled={true}
                 />
@@ -82,6 +82,12 @@ const getKeyLabel = (key) => {
       return "Estimasi Jarak";
     case "initial_bandwith":
       return "Bandwidth Awal";
+      case "file_process_bisiness":
+        return "Proses Bisnis";
+        case "app_name":
+          return "Nama Aplikasi";
+          case "app_desc":
+            return "Deskripsi Aplikasi";
     default:
       return key;
   }
@@ -89,12 +95,14 @@ const getKeyLabel = (key) => {
 
 const getFieldType = (key) => {
   switch (key) {
-    case "reason":
+    case "reason"||'app_desc':
       return "html";
     case "full_address":
       return "text";
     case "image_screenshoot":
       return "images";
+    case "file_process_bisiness":
+      return "pdf";
     case "type_tools":
       return "array";
     case "createdAt":

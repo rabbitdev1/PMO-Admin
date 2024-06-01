@@ -18,7 +18,7 @@ const ProcessStatus = ({
     setisModalVerif,
     checkingFormData,
     detailData,
-    loading,
+    infrastrukturLoading,
     finishData, setfinishData,
 }) => {
 
@@ -201,7 +201,7 @@ const ProcessStatus = ({
                                                                 : key
                                         }
                                         value={value}
-                                        location={"infrastruktur"}
+                                        location={"aplikasi"}
                                         type={
                                             key === "upload_foto_alat_sebelum_di_relokasi" || key === "upload_foto_alat_sesudah_di_relokasi" || key === "upload_foto_alat_sebelum_di_tambahkan" || key === "upload_foto_alat_sesudah_di_tambahkan" || key === "upload_foto_kegiatan"
                                                 ? "images"
@@ -243,7 +243,7 @@ const ProcessStatus = ({
                                                                 : key
                                         }
                                         value={value}
-                                        location={"infrastruktur"}
+                                        location={"aplikasi"}
                                         type={
                                             key === "upload_foto_alat_sebelum_di_relokasi" || key === "upload_foto_alat_sesudah_di_relokasi" || key === "upload_foto_alat_sebelum_di_tambahkan" || key === "upload_foto_alat_sesudah_di_tambahkan" || key === "upload_foto_kegiatan"
                                                 ? "images"
@@ -291,7 +291,7 @@ const ProcessStatus = ({
                 )}
                 <DynamicDetails
                     detailData={detailData}
-                    loading={loading}
+                    loading={infrastrukturLoading}
                 />
             </div>
             :
@@ -338,7 +338,7 @@ const ProcessStatus = ({
                                                             : key
                                     }
                                     value={value}
-                                    location={"infrastruktur"}
+                                    location={"aplikasi"}
                                     type={
                                         key === "upload_foto_alat_sebelum_di_relokasi" || key === "upload_foto_alat_sesudah_di_relokasi" || key === "upload_foto_alat_sebelum_di_tambahkan" || key === "upload_foto_alat_sesudah_di_tambahkan" || key === "upload_foto_kegiatan"
                                             ? "images"
@@ -349,7 +349,7 @@ const ProcessStatus = ({
                         </div>
                     }
                 </div>
-                <DynamicDetails location={"infrastruktur"}detailData={detailData} loading={loading} />
+                <DynamicDetails location={"aplikasi"}detailData={detailData} loading={infrastrukturLoading} />
             </div>
         )
     );
