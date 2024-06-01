@@ -1,13 +1,13 @@
 export const formData = [
   {
-    name: "Pengajuan User Account SI",
+    name: "Pengajuan User Akun Sistem Informasi",
     type: "Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan",
     role: [
       "op_pmo",
       "perangkat_daerah",
-      "kabid_infra",
-      "katim_infra",
-      "teknis_infra",
+      "kabid_aplikasi",
+      "katim_aplikasi",
+      "teknis_aplikasi",
     ],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
@@ -71,14 +71,15 @@ export const formData = [
     ],
   },
   {
-    name: "Pengajuan Integrasi",
+
+    name: "Pengajuan Integrasi Sistem Informasi",
     type: "Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan",
     role: [
       "op_pmo",
       "perangkat_daerah",
-      "kabid_infra",
-      "katim_infra",
-      "teknis_infra",
+      "kabid_aplikasi",
+      "katim_aplikasi",
+      "teknis_aplikasi",
     ],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
@@ -121,9 +122,9 @@ export const formData = [
     role: [
       "op_pmo",
       "perangkat_daerah",
-      "kabid_infra",
-      "katim_infra",
-      "teknis_infra",
+      "kabid_aplikasi",
+      "katim_aplikasi",
+      "teknis_aplikasi",
     ],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
@@ -153,7 +154,7 @@ export const formData = [
         type: "editor",
       },
       {
-        name: "file_submission",
+        name: "file_process_bisiness",
         label: "Dokumen Proses Bisnis",
         value: "",
         type: "file_upload"
@@ -294,10 +295,6 @@ const getPenambahanAlatFinish = (finishData) => [
 ];
 
 export {
-  getRelokasiAlatProcess,
-  getPenambahanAlatProcess,
-  getPenambahanBandwidthProcess,
-  getRelokasiAlatFinish,
-  getPenambahanBandwidthFinish,
-  getPenambahanAlatFinish
+  getPenambahanAlatFinish, getPenambahanAlatProcess, getPenambahanBandwidthFinish, getPenambahanBandwidthProcess,
+  getRelokasiAlatFinish, getRelokasiAlatProcess
 };

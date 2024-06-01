@@ -1,4 +1,4 @@
-import { validateAddress, validateArray, validateFullname, validateHTML, validateImage, validateIPAddress, validatePeriod, validatePeriod1, validateRadioBottom, validateTelp, validateText, validateTextArea } from "../../utils/helpers/validateForm";
+import { validateArray, validateFullname, validateHTML, validateImage, validateIPAddress, validatePeriod1, validateRadioBottom, validateTelp, validateText, validateTextArea } from "../../utils/helpers/validateForm";
 
 export const isValidatorRelokasiAlat = (obj) => {
   let isValid = true;

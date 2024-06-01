@@ -15,15 +15,14 @@ import ModalContent from "../../components/ui/Modal/ModalContent";
 import SubmissionStatus from "../../components/ui/SubmissionStatus";
 import { apiClient } from "../../utils/api/apiClient";
 import fetchUploadFiles from "../../utils/api/uploadFiles";
-import DynamicDetails from "./DynamicDetails";
+import fetchUploadImages from "../../utils/api/uploadImages";
 import DalamAntrianView from "./Logical/DalamAntrianView";
 import FinishStatus from "./Logical/FinishStatus";
 import ProcessStatus from "./Logical/ProcessStatus";
 import ValidationStatus from "./Logical/ValidationStatus";
 import ValidationStatusTechnique from "./Logical/ValidationStatusTechnique";
-import fetchUploadImages from "../../utils/api/uploadImages";
 
-function DetailInfrastrukturPages() {
+function DetailAplikasiPages() {
   const { isDarkMode } = useTheme();
   const navigate = useNavigate();
   const authApiKey = Cookies.get("authApiKey");
@@ -32,7 +31,7 @@ function DetailInfrastrukturPages() {
   const location = useLocation();
   const slug = location?.state?.slug || "";
 
-  const [infrastrukturLoading, setInfrastrukturLoading] = useState(true);
+  const [aplikasiLoading, setAplikasiLoading] = useState(true);
   const [submissionStatus, setSubmissionStatus] = useState(0);
   const [validationData, setValidationData] = useState({});
   const [validationDataTechnique, setValidationDataTechnique] = useState({});
@@ -50,7 +49,7 @@ function DetailInfrastrukturPages() {
 
   useEffect(() => {
     if (authToken) {
-      fetchDataInfrastruktur(
+      fetchDataAplikasi(
         authApiKey,
         authToken,
         JSON.parse(authProfile)?.role
@@ -58,20 +57,20 @@ function DetailInfrastrukturPages() {
     }
   }, [dispatch]);
 
-  const fetchDataInfrastruktur = async (api_key, token, role) => {
-    setInfrastrukturLoading(true);
+  const fetchDataAplikasi = async (api_key, token, role) => {
+    setAplikasiLoading(true);
     const params = new URLSearchParams();
     params.append("id", slug);
     params.append("role", role);
     try {
       const response = await apiClient({
-        baseurl: "infrastruktur/detail",
+        baseurl: "aplikasi/detail",
         method: "POST",
         body: params,
         apiKey: api_key,
         token: token,
       });
-      setInfrastrukturLoading(false);
+      setAplikasiLoading(false);
       if (response?.statusCode === 200) {
         setDetailData(response.result.data.fields);
         setSubmissionStatus(response.result.data?.submission_status);
@@ -93,7 +92,7 @@ function DetailInfrastrukturPages() {
     }
   };
 
-  const fetchEditinfrastruktur = async (api_key, token, id, type, data) => {
+  const fetchEditaplikasi = async (api_key, token, id, type, data) => {
     dispatch(isPending(true));
     let htmlConvert = "";
 
@@ -146,7 +145,7 @@ function DetailInfrastrukturPages() {
 
     try {
       const response = await apiClient({
-        baseurl: "infrastruktur/edit",
+        baseurl: "aplikasi/edit",
         method: "POST",
         body: params,
         apiKey: api_key,
@@ -156,8 +155,8 @@ function DetailInfrastrukturPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "infrastruktur Berhasil diupdate",
-            msg: "Selamat, Pengajuan infrastruktur sudah diupdate",
+            title: "aplikasi Berhasil diupdate",
+            msg: "Selamat, Pengajuan aplikasi sudah diupdate",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
           },
@@ -175,9 +174,9 @@ function DetailInfrastrukturPages() {
 
   const checkingFormData = async (type, data) => {
     if (type === "validation") {
-      fetchEditinfrastruktur(authApiKey, authToken, slug, type, data);
+      fetchEditaplikasi(authApiKey, authToken, slug, type, data);
     } else if (type === "validation_technique") {
-      fetchEditinfrastruktur(authApiKey, authToken, slug, type, data);
+      fetchEditaplikasi(authApiKey, authToken, slug, type, data);
     } else if (type === "process") {
       if (
         data.upload_foto_alat_sebelum_di_relokasi ||
@@ -196,7 +195,7 @@ function DetailInfrastrukturPages() {
                 authApiKey,
                 authToken,
                 data.upload_foto_alat_sebelum_di_relokasi,
-                "infrastruktur",
+                "aplikasi",
                 dispatch
               ).then(result => {
                 resultMapping.upload_foto_alat_sebelum_di_relokasi = result;
@@ -209,7 +208,7 @@ function DetailInfrastrukturPages() {
                 authApiKey,
                 authToken,
                 data.upload_foto_alat_sesudah_di_relokasi,
-                "infrastruktur",
+                "aplikasi",
                 dispatch
               ).then(result => {
                 resultMapping.upload_foto_alat_sesudah_di_relokasi = result;
@@ -222,7 +221,7 @@ function DetailInfrastrukturPages() {
                 authApiKey,
                 authToken,
                 data.upload_foto_alat_sebelum_di_tambahkan,
-                "infrastruktur",
+                "aplikasi",
                 dispatch
               ).then(result => {
                 resultMapping.upload_foto_alat_sebelum_di_tambahkan = result;
@@ -235,7 +234,7 @@ function DetailInfrastrukturPages() {
                 authApiKey,
                 authToken,
                 data.upload_foto_alat_sesudah_di_tambahkan,
-                "infrastruktur",
+                "aplikasi",
                 dispatch
               ).then(result => {
                 resultMapping.upload_foto_alat_sesudah_di_tambahkan = result;
@@ -248,7 +247,7 @@ function DetailInfrastrukturPages() {
                 authApiKey,
                 authToken,
                 data.upload_foto_kegiatan,
-                "infrastruktur",
+                "aplikasi",
                 dispatch
               ).then(result => {
                 resultMapping.upload_foto_kegiatan = result;
@@ -275,12 +274,12 @@ function DetailInfrastrukturPages() {
             combineData.upload_foto_kegiatan = resultMapping.upload_foto_kegiatan;
           }
       
-          fetchEditinfrastruktur(authApiKey, authToken, slug, type, combineData);
+          fetchEditaplikasi(authApiKey, authToken, slug, type, combineData);
         } catch (error) {
           console.error("Error occurred during image upload:", error);
         }
       } else {
-        fetchEditinfrastruktur(authApiKey, authToken, slug, type, data);
+        fetchEditaplikasi(authApiKey, authToken, slug, type, data);
       }
       
     } else if (type === "finish") {
@@ -289,13 +288,13 @@ function DetailInfrastrukturPages() {
           authApiKey,
           authToken,
           data.file_submission,
-          "infrastruktur",
+          "aplikasi",
           dispatch
         );
         if (result !== null) {
           let combineData = {};
           combineData = { ...data, file_upload: result };
-          fetchEditinfrastruktur(
+          fetchEditaplikasi(
             authApiKey,
             authToken,
             slug,
@@ -306,7 +305,7 @@ function DetailInfrastrukturPages() {
           console.error("Error occurred during image upload.");
         }
       } else {
-        fetchEditinfrastruktur(authApiKey, authToken, slug, type, data);
+        fetchEditaplikasi(authApiKey, authToken, slug, type, data);
       }
     }
   };
@@ -323,14 +322,14 @@ function DetailInfrastrukturPages() {
           <DalamAntrianView
             submissionStatus={submissionStatus}
             detailData={detailData}
-            infrastrukturLoading={infrastrukturLoading}
+            loading={aplikasiLoading}
           />
           <ValidationStatus
             submissionStatus={submissionStatus}
             validationData={validationData}
             authProfile={authProfile}
             detailData={detailData}
-            infrastrukturLoading={infrastrukturLoading}
+            loading={aplikasiLoading}
             setValidationData={setValidationData}
             checkingFormData={checkingFormData}
           />
@@ -341,7 +340,7 @@ function DetailInfrastrukturPages() {
             setValidationData={setValidationDataTechnique}
             authProfile={authProfile}
             detailData={detailData}
-            infrastrukturLoading={infrastrukturLoading}
+            loading={aplikasiLoading}
             checkingFormData={checkingFormData}
             setisModalVerif={setisModalVerif}
           />
@@ -352,7 +351,7 @@ function DetailInfrastrukturPages() {
             processData={processData}
             authProfile={authProfile}
             detailData={detailData}
-            infrastrukturLoading={infrastrukturLoading}
+            aplikasiLoading={aplikasiLoading}
             checkingFormData={checkingFormData}
             setisModalVerif={setisModalVerif}
             finishData={finishData}
@@ -361,7 +360,7 @@ function DetailInfrastrukturPages() {
 
           <FinishStatus
             detailData={detailData}
-            infrastrukturLoading={infrastrukturLoading}
+            aplikasiLoading={aplikasiLoading}
             validationData={validationDataTechnique}
             processData={processData}
             submissionStatus={submissionStatus}
@@ -397,7 +396,7 @@ function DetailInfrastrukturPages() {
                 className={`inline-flex flex-1 bg-[${isModalVerif.data.color}] text-darkColor`}
                 onClick={() => {
                   setisModalVerif({ data: {}, status: false });
-                  fetchDataInfrastruktur(
+                  fetchDataAplikasi(
                     authApiKey,
                     authToken,
                     JSON.parse(authProfile)?.role
@@ -413,4 +412,4 @@ function DetailInfrastrukturPages() {
   );
 }
 
-export default DetailInfrastrukturPages;
+export default DetailAplikasiPages;

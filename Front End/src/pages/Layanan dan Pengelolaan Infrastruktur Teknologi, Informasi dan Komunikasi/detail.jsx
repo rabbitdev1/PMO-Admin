@@ -15,13 +15,12 @@ import ModalContent from "../../components/ui/Modal/ModalContent";
 import SubmissionStatus from "../../components/ui/SubmissionStatus";
 import { apiClient } from "../../utils/api/apiClient";
 import fetchUploadFiles from "../../utils/api/uploadFiles";
-import DynamicDetails from "./DynamicDetails";
+import fetchUploadImages from "../../utils/api/uploadImages";
 import DalamAntrianView from "./Logical/DalamAntrianView";
 import FinishStatus from "./Logical/FinishStatus";
 import ProcessStatus from "./Logical/ProcessStatus";
 import ValidationStatus from "./Logical/ValidationStatus";
 import ValidationStatusTechnique from "./Logical/ValidationStatusTechnique";
-import fetchUploadImages from "../../utils/api/uploadImages";
 
 function DetailInfrastrukturPages() {
   const { isDarkMode } = useTheme();
@@ -323,14 +322,14 @@ function DetailInfrastrukturPages() {
           <DalamAntrianView
             submissionStatus={submissionStatus}
             detailData={detailData}
-            infrastrukturLoading={infrastrukturLoading}
+            loading={infrastrukturLoading}
           />
           <ValidationStatus
             submissionStatus={submissionStatus}
             validationData={validationData}
             authProfile={authProfile}
             detailData={detailData}
-            infrastrukturLoading={infrastrukturLoading}
+            loading={infrastrukturLoading}
             setValidationData={setValidationData}
             checkingFormData={checkingFormData}
           />
@@ -341,7 +340,7 @@ function DetailInfrastrukturPages() {
             setValidationData={setValidationDataTechnique}
             authProfile={authProfile}
             detailData={detailData}
-            infrastrukturLoading={infrastrukturLoading}
+            loading={infrastrukturLoading}
             checkingFormData={checkingFormData}
             setisModalVerif={setisModalVerif}
           />
@@ -352,7 +351,7 @@ function DetailInfrastrukturPages() {
             processData={processData}
             authProfile={authProfile}
             detailData={detailData}
-            infrastrukturLoading={infrastrukturLoading}
+            loading={infrastrukturLoading}
             checkingFormData={checkingFormData}
             setisModalVerif={setisModalVerif}
             finishData={finishData}
@@ -361,7 +360,7 @@ function DetailInfrastrukturPages() {
 
           <FinishStatus
             detailData={detailData}
-            infrastrukturLoading={infrastrukturLoading}
+            loading={infrastrukturLoading}
             validationData={validationDataTechnique}
             processData={processData}
             submissionStatus={submissionStatus}

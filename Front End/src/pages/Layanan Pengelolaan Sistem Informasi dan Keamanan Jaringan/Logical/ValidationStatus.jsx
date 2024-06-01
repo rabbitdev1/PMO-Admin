@@ -1,10 +1,9 @@
 import React from "react";
-import DynamicShow from "../../../components/common/DynamicShow";
-import DynamicInput from "../../../components/common/DynamicInput";
-import DynamicButton from "../../../components/common/DynamicButton";
 import { toast } from "react-toastify";
-import { validateTextArea } from "../../../utils/helpers/validateForm";
-import DynamicDetails from "../DynamicDetails";
+import DynamicButton from "../../../components/common/DynamicButton";
+import DynamicInput from "../../../components/common/DynamicInput";
+import DynamicShow from "../../../components/common/DynamicShow";
+import DynamicDetails from "../../../components/ui/DynamicDetails";
 
 const ValidationStatus = ({
   submissionStatus,
@@ -13,7 +12,7 @@ const ValidationStatus = ({
   setValidationData,
   checkingFormData,
   detailData,
-  infrastrukturLoading,
+  loading,
 }) => {
   return (
     <>
@@ -26,7 +25,7 @@ const ValidationStatus = ({
           </div>
           <DynamicDetails
             detailData={detailData}
-            loading={infrastrukturLoading}
+            loading={loading}
           />
           <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
             <span className="text-lg font-bold">Status Kelengkapan Dokumen</span>
@@ -107,7 +106,7 @@ const ValidationStatus = ({
               </span>
             </div>
           </div>
-          <DynamicDetails detailData={detailData} loading={infrastrukturLoading} />
+          <DynamicDetails location={"aplikasi"}detailData={detailData} loading={loading} />
         </div>
       )}
       {submissionStatus === 3 && (
@@ -131,7 +130,7 @@ const ValidationStatus = ({
               />
             </div>
           </div>
-          <DynamicDetails detailData={detailData} loading={infrastrukturLoading} />
+          <DynamicDetails location={"aplikasi"}detailData={detailData} loading={loading} />
         </div>
       )}
     </>

@@ -1,6 +1,6 @@
 import React from "react";
 import DynamicShow from "../../../components/common/DynamicShow";
-import DynamicDetails from "../DynamicDetails";
+import DynamicDetails from "../../../components/ui/DynamicDetails";
 
 const FinishStatus = ({
   submissionStatus,
@@ -8,7 +8,7 @@ const FinishStatus = ({
   validationData,
   processData,
   detailData,
-  infrastrukturLoading,
+  loading,
 }) => {
   return (
     submissionStatus >= 7 && (
@@ -83,7 +83,7 @@ const FinishStatus = ({
         </div>
         <DynamicDetails
           detailData={detailData}
-          loading={infrastrukturLoading}
+          loading={loading}
         />
       </div>
     )

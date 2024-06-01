@@ -1,7 +1,7 @@
 import React from 'react';
-import DynamicDetails from '../DynamicDetails';
+import DynamicDetails from '../../../components/ui/DynamicDetails';
 
-const DalamAntrianView = ({ submissionStatus, detailData, infrastrukturLoading }) => {
+const DalamAntrianView = ({ submissionStatus, detailData, loading }) => {
   return (
     submissionStatus === 1 &&
     <div className='flex flex-col lg:flex-row gap-3'>
@@ -18,7 +18,7 @@ const DalamAntrianView = ({ submissionStatus, detailData, infrastrukturLoading }
           </span>
         </div>
       </div>
-      <DynamicDetails detailData={detailData} loading={infrastrukturLoading} />
+      <DynamicDetails location={"aplikasi"}detailData={detailData} loading={loading} />
     </div>
   );
 };
