@@ -4,9 +4,9 @@ import { ReactComponent as PengajuanBerahasilIcon } from "../../../assets/icon/i
 import DynamicButton from "../../../components/common/DynamicButton";
 import DynamicInput from "../../../components/common/DynamicInput";
 import DynamicShow from "../../../components/common/DynamicShow";
+import DynamicDetails from "../../../components/ui/DynamicDetails";
 import { apiClient } from "../../../utils/api/apiClient";
 import { validateImage } from "../../../utils/helpers/validateForm";
-import DynamicDetails from "../DynamicDetails";
 import { getPenambahanAlatFinish, getPenambahanAlatProcess, getPenambahanBandwidthFinish, getPenambahanBandwidthProcess, getRelokasiAlatFinish, getRelokasiAlatProcess } from "../data";
 
 const ProcessStatus = ({
@@ -18,7 +18,7 @@ const ProcessStatus = ({
     setisModalVerif,
     checkingFormData,
     detailData,
-    infrastrukturLoading,
+    loading,
     finishData, setfinishData,
 }) => {
 
@@ -291,7 +291,7 @@ const ProcessStatus = ({
                 )}
                 <DynamicDetails
                     detailData={detailData}
-                    loading={infrastrukturLoading}
+                    loading={loading}
                 />
             </div>
             :
@@ -349,7 +349,7 @@ const ProcessStatus = ({
                         </div>
                     }
                 </div>
-                <DynamicDetails detailData={detailData} loading={infrastrukturLoading} />
+                <DynamicDetails location={"infrastruktur"}detailData={detailData} loading={loading} />
             </div>
         )
     );

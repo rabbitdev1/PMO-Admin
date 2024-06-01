@@ -1,13 +1,13 @@
-import React, { useState } from "react";
 import Cookies from "js-cookie";
-import DynamicShow from "../../../components/common/DynamicShow";
-import DynamicInput from "../../../components/common/DynamicInput";
-import DynamicButton from "../../../components/common/DynamicButton";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { validatePeriod, validateText, validateTextArea } from "../../../utils/helpers/validateForm";
-import DynamicDetails from "../DynamicDetails";
-import { apiClient } from "../../../utils/api/apiClient";
 import { ReactComponent as PengajuanBerahasilIcon } from "../../../assets/icon/ic_pengajuan_berhasil.svg";
+import DynamicButton from "../../../components/common/DynamicButton";
+import DynamicInput from "../../../components/common/DynamicInput";
+import DynamicShow from "../../../components/common/DynamicShow";
+import DynamicDetails from "../../../components/ui/DynamicDetails";
+import { apiClient } from "../../../utils/api/apiClient";
+import { validatePeriod, validateText } from "../../../utils/helpers/validateForm";
 
 const ValidationStatusTechnique = ({
   submissionStatus,
@@ -18,7 +18,7 @@ const ValidationStatusTechnique = ({
   setisModalVerif,
   checkingFormData,
   detailData,
-  infrastrukturLoading,
+  loading,
 }) => {
   const authApiKey = Cookies.get('authApiKey');
   const authToken = Cookies.get('authToken');
@@ -273,7 +273,7 @@ const ValidationStatusTechnique = ({
 
           <DynamicDetails
             detailData={detailData}
-            loading={infrastrukturLoading}
+            loading={loading}
           />
         </div>
         :
@@ -291,7 +291,7 @@ const ValidationStatusTechnique = ({
               </span>
             </div>
           </div>
-          <DynamicDetails detailData={detailData} loading={infrastrukturLoading} />
+          <DynamicDetails location={"infrastruktur"}detailData={detailData} loading={loading} />
         </div>
       )}
       {submissionStatus === 5 && (
@@ -318,7 +318,7 @@ const ValidationStatusTechnique = ({
               ))}
             </div>
           </div>
-          <DynamicDetails detailData={detailData} loading={infrastrukturLoading} />
+          <DynamicDetails location={"infrastruktur"}detailData={detailData} loading={loading} />
         </div>
       )}
     </>

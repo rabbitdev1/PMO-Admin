@@ -405,10 +405,6 @@ const getPenambahanAlatFinish = (finishData) => [
 ];
 
 export {
-  getRelokasiAlatProcess,
-  getPenambahanAlatProcess,
-  getPenambahanBandwidthProcess,
-  getRelokasiAlatFinish,
-  getPenambahanBandwidthFinish,
-  getPenambahanAlatFinish,
+  getPenambahanAlatFinish, getPenambahanAlatProcess, getPenambahanBandwidthFinish, getPenambahanBandwidthProcess,
+  getRelokasiAlatFinish, getRelokasiAlatProcess
 };
