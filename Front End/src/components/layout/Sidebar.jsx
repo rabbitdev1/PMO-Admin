@@ -51,7 +51,6 @@ const Sidebar = () => {
   const menuItems = [
     { title: "MENU", role: ['/'], icon: "" },
     { title: "Dashboard", role: ['op_pmo', 'perangkat_daerah', 'kabid_infra', 'teknis_infra', 'katim_infra'], icon: AllBerandaIcon, href: ["/", "/"], },
-    { title: "Akun", role: ['op_pmo'], icon: AllBerandaIcon, href: ["/account", "/1"], },
     {
       title: "Data Alat", role: ['kabid_infra', 'teknis_infra', 'katim_infra'],
       submenu: [{ title: 'Relokasi Alat', href: '/layanan-pengelolaan-infrastruktur-teknologi-informasi-komunikasi', state: 'Relokasi Alat' },
@@ -62,8 +61,8 @@ const Sidebar = () => {
     {
       title: "Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan", role: ['op_pmo', 'perangkat_daerah',],
       submenu: [
-        { title: 'Intergrasi Sistem Informasi', href: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", state: 'Integrasi Sistem Informasi' },
         { title: 'User Akun Sistem Informasi', href: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", state: 'User Akun Sistem Informasi' },
+        { title: 'Intergrasi Sistem Informasi', href: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", state: 'Integrasi Sistem Informasi' },
         { title: 'Penerapan Modul TTE', href: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", state: 'Penerapan Modul TTE' },
       ], icon: AllBerandaIcon, href: ["/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", "/detail-1"],
     },
@@ -85,6 +84,9 @@ const Sidebar = () => {
     { title: "Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi", role: ['op_pmo', 'perangkat_daerah',], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
     { title: "Layanan UPT RADIO SONATA", role: ['op_pmo', 'perangkat_daerah',], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
     { title: "Layanan Pendaftaran Magang", role: ['op_pmo', 'perangkat_daerah',], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
+    { title: "PENGATURAN", role: ['/'], icon: "" },
+    { title: "Akun", role: ['op_pmo'], icon: AllBerandaIcon, href: ["/account", "/1"], },
+
   ];
 
   const renderMenuItems = (items) => {
@@ -162,7 +164,7 @@ const Sidebar = () => {
 
   return (
     <div className="flex flex-col gap-3 w-full pb-40 font-gilroy p-3">
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 mb-40">
         {renderMenuItems(menuItems)}
       </div>
     </div>

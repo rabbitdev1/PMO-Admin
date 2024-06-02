@@ -4,9 +4,9 @@ import { ReactComponent as PengajuanBerahasilIcon } from "../../../assets/icon/i
 import DynamicButton from "../../../components/common/DynamicButton";
 import DynamicInput from "../../../components/common/DynamicInput";
 import DynamicShow from "../../../components/common/DynamicShow";
+import DynamicDetails from "../../../components/ui/DynamicDetails";
 import { apiClient } from "../../../utils/api/apiClient";
 import { validateImage } from "../../../utils/helpers/validateForm";
-import DynamicDetails from "../DynamicDetails";
 import { getPenambahanAlatFinish, getPenambahanAlatProcess, getPenambahanBandwidthFinish, getPenambahanBandwidthProcess, getRelokasiAlatFinish, getRelokasiAlatProcess } from "../data";
 
 const ProcessStatus = ({
@@ -201,7 +201,7 @@ const ProcessStatus = ({
                                                                 : key
                                         }
                                         value={value}
-                                        location={"infrastruktur"}
+                                        location={"aplikasi"}
                                         type={
                                             key === "upload_foto_alat_sebelum_di_relokasi" || key === "upload_foto_alat_sesudah_di_relokasi" || key === "upload_foto_alat_sebelum_di_tambahkan" || key === "upload_foto_alat_sesudah_di_tambahkan" || key === "upload_foto_kegiatan"
                                                 ? "images"
@@ -243,7 +243,7 @@ const ProcessStatus = ({
                                                                 : key
                                         }
                                         value={value}
-                                        location={"infrastruktur"}
+                                        location={"aplikasi"}
                                         type={
                                             key === "upload_foto_alat_sebelum_di_relokasi" || key === "upload_foto_alat_sesudah_di_relokasi" || key === "upload_foto_alat_sebelum_di_tambahkan" || key === "upload_foto_alat_sesudah_di_tambahkan" || key === "upload_foto_kegiatan"
                                                 ? "images"
@@ -338,7 +338,7 @@ const ProcessStatus = ({
                                                             : key
                                     }
                                     value={value}
-                                    location={"infrastruktur"}
+                                    location={"aplikasi"}
                                     type={
                                         key === "upload_foto_alat_sebelum_di_relokasi" || key === "upload_foto_alat_sesudah_di_relokasi" || key === "upload_foto_alat_sebelum_di_tambahkan" || key === "upload_foto_alat_sesudah_di_tambahkan" || key === "upload_foto_kegiatan"
                                             ? "images"
@@ -349,7 +349,7 @@ const ProcessStatus = ({
                         </div>
                     }
                 </div>
-                <DynamicDetails detailData={detailData} loading={infrastrukturLoading} />
+                <DynamicDetails location={"aplikasi"}detailData={detailData} loading={infrastrukturLoading} />
             </div>
         )
     );

@@ -4,9 +4,9 @@ import { ReactComponent as PengajuanBerahasilIcon } from "../../../assets/icon/i
 import DynamicButton from "../../../components/common/DynamicButton";
 import DynamicInput from "../../../components/common/DynamicInput";
 import DynamicShow from "../../../components/common/DynamicShow";
+import DynamicDetails from "../../../components/ui/DynamicDetails";
 import { apiClient } from "../../../utils/api/apiClient";
 import { validateImage } from "../../../utils/helpers/validateForm";
-import DynamicDetails from "../DynamicDetails";
 import { getPenambahanAlatFinish, getPenambahanAlatProcess, getPenambahanBandwidthFinish, getPenambahanBandwidthProcess, getRelokasiAlatFinish, getRelokasiAlatProcess } from "../data";
 
 const ProcessStatus = ({
@@ -18,7 +18,7 @@ const ProcessStatus = ({
     setisModalVerif,
     checkingFormData,
     detailData,
-    infrastrukturLoading,
+    loading,
     finishData, setfinishData,
 }) => {
 
@@ -125,8 +125,10 @@ const ProcessStatus = ({
                                 detailData.submission_title === "Penambahan Alat" ?
                                     PenambahanAlatProcess : detailData.submission_title === "Penambahan Bandwidth" ?
                                         PenambahanBandwidthProcess : detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan" ?
-                                            PenambahanBandwidthProcess :
-                                            []
+                                            [] : detailData.submission_title === "Hosting" ?
+                                                [] : detailData.submission_title === "Domain" ?
+                                                    []
+                                                    : []
                             )}
                             <div className='flex sm:flex-row flex-col gap-2'>
                                 <DynamicButton
@@ -155,10 +157,13 @@ const ProcessStatus = ({
                                             isValid = isValid && validateImage(inputLocal.upload_foto_alat_sesudah_di_tambahkan, "Upload Foto Alat Sesudah di Tambahkan");
                                         } else if (detailData.submission_title === "Penambahan Bandwidth") {
                                             isValid = isValid && validateImage(inputLocal.upload_foto_kegiatan, "Upload Foto Kegiatan");
-                                        } else if (detailData.submission_title === "Troubleshooting") {
+                                        } else if (detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan") {
+                                            // Tidak ada validasi tambahan untuk "Troubleshooting"
+                                        } else if (detailData.submission_title === "Hosting") {
+                                            // Tidak ada validasi tambahan untuk "Troubleshooting"
+                                        } else if (detailData.submission_title === "Domain") {
                                             // Tidak ada validasi tambahan untuk "Troubleshooting"
                                         }
-
                                         if (isValid) {
                                             checkingFormData('process', filteredDataResult);
                                         }
@@ -259,9 +264,9 @@ const ProcessStatus = ({
                                     : detailData.submission_title === "Penambahan Alat" ?
                                         PenambahanAlatFinish : detailData.submission_title === "Penambahan Bandwidth" ?
                                             PenambahanBandwidthFinish : detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan" ?
-                                                PenambahanBandwidthFinish : detailData.submission_title === "Hosting" ?
-                                                    PenambahanBandwidthFinish : detailData.submission_title === "Domain" ?
-                                                        PenambahanBandwidthFinish
+                                                [] : detailData.submission_title === "Hosting" ?
+                                                    [] : detailData.submission_title === "Domain" ?
+                                                        []
                                                         : []
                                 )}
                                 <DynamicButton
@@ -291,7 +296,7 @@ const ProcessStatus = ({
                 )}
                 <DynamicDetails
                     detailData={detailData}
-                    loading={infrastrukturLoading}
+                    loading={loading}
                 />
             </div>
             :
@@ -349,7 +354,7 @@ const ProcessStatus = ({
                         </div>
                     }
                 </div>
-                <DynamicDetails detailData={detailData} loading={infrastrukturLoading} />
+                <DynamicDetails location={"infrastruktur"} detailData={detailData} loading={loading} />
             </div>
         )
     );

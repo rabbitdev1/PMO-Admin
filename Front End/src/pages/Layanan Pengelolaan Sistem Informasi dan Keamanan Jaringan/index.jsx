@@ -16,16 +16,15 @@ import TitleHeader from "../../components/layout/TitleHeader";
 import { isPending } from "../../components/store/actions/todoActions";
 import ModalContent from "../../components/ui/Modal/ModalContent";
 import { apiClient } from "../../utils/api/apiClient";
-import fetchUploadImages from "../../utils/api/uploadImages";
 import { convertToNameValueObject } from "../../utils/helpers/convertToNameValueObject";
 
 
+import fetchUploadFiles from "../../utils/api/uploadFiles";
 import { formData as initialFormData } from "./data";
 import {
-  isValidatorDomainPenerapanModulTTE,
   isValidatorIntegrasi,
   isValidatorPenerapanModulTTE,
-  isValidatorUserAccountSI,
+  isValidatorUserAccountSI
 } from "./validators";
 
 function AplikasiPages() {
@@ -296,18 +295,18 @@ function AplikasiPages() {
     }
   };
   const handleImageUploadAndFetch = async (obj) => {
-    if (obj.image_screenshoot) {
-      const result = await fetchUploadImages(
+    if (obj.file_process_bisiness) {
+      const result = await fetchUploadFiles(
         authApiKey,
         authToken,
-        obj.image_screenshoot,
+        obj.file_process_bisiness,
         "aplikasi",
         dispatch
       );
       if (result !== null) {
         const fixObject = {
           ...obj,
-          image_screenshoot: result,
+          file_process_bisiness: result,
         };
         fetchDataCreate(authApiKey, authToken, fixObject);
       } else {
