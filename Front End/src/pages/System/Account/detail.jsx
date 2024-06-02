@@ -3,23 +3,13 @@ import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
-import DynamicInput from "../../../components/common/DynamicInput";
+import DynamicButton from "../../../components/common/DynamicButton";
+import DynamicShow from "../../../components/common/DynamicShow";
 import useTheme from "../../../components/context/useTheme";
 import TitleHeader from "../../../components/layout/TitleHeader";
-import { apiClient } from "../../../utils/api/apiClient";
-import ImageComponent from "../../../utils/helpers/getImageURL";
-import DynamicShow from "../../../components/common/DynamicShow";
-import DynamicDetails from "./DynamicDetails";
-import DynamicButton from "../../../components/common/DynamicButton";
-import { ReactComponent as PengajuanBerahasilIcon } from "../../../assets/icon/ic_pengajuan_berhasil.svg";
+import DynamicDetails from "../../../components/ui/DynamicDetails";
 import ModalContent from "../../../components/ui/Modal/ModalContent";
-import { convertToRaw } from "draft-js";
-import draftToHtml from "draftjs-to-html";
-import { toast } from "react-toastify";
-import fetchUploadImages from "../../../utils/api/uploadImages";
-import fetchUploadFiles from "../../../utils/api/uploadFiles";
-import { isPending } from "../../../components/store/actions/todoActions";
-import ConditionalRender from "../../../components/ui/ConditionalRender";
+import { apiClient } from "../../../utils/api/apiClient";
 
 function DetailsAccountPages() {
   const { isDarkMode } = useTheme();
@@ -30,20 +20,8 @@ function DetailsAccountPages() {
   const location = useLocation();
   const slug = location?.state?.slug || "";
 
-  const [helpDeskLoading, setHelpDeskLoading] = useState(true);
-  const [detailHelpDesk, setDetailHelpDesk] = useState([]);
-  const [submissionStatus, setSubmissionStatus] = useState(3);
+  const [accountLoading, setAccountLoading] = useState(true);
   const [detailData, setDetailData] = useState([]);
-
-  const [showProgress, setShowProgress] = useState(true);
-
-
-
-  const [submission_status, setSubmission_status] = useState(true);
-  const [komentar, setKomentar] = useState('');
-  const [fileUpload, setFilesUpload] = useState('');
-
-  const [processField, setProcessField] = useState([]);
 
 
   const [isModalVerif, setisModalVerif] = useState({
@@ -54,14 +32,13 @@ function DetailsAccountPages() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(slug);
     if (authToken) {
-      fetchDataHelpDesk(authApiKey, authToken, JSON.parse(authProfile)?.role)
+      fetchDataAccount(authApiKey, authToken, JSON.parse(authProfile)?.role)
     }
   }, [dispatch]);
 
-  const fetchDataHelpDesk = async (api_key, token, role) => {
-    setHelpDeskLoading(true);
+  const fetchDataAccount = async (api_key, token, role) => {
+    setAccountLoading(true);
     const params = new URLSearchParams();
     params.append("id", slug.id);
     params.append("role", role);
@@ -73,7 +50,7 @@ function DetailsAccountPages() {
         apiKey: api_key,
         token: token,
       });
-      setHelpDeskLoading(false);
+      setAccountLoading(false);
       if (response?.statusCode === 200) {
         setDetailData(response.result.data);
       } else {
@@ -84,89 +61,16 @@ function DetailsAccountPages() {
     }
   };
 
-  const fetchEditHelpdesk = async (api_key, token, id, submission_status, komentar, filename) => {
-    let htmlConvert = '';
-    if (komentar) {
-      const contentState = convertToRaw(komentar.getCurrentContent());
-      htmlConvert = draftToHtml(contentState);
-    }
-
-    const params = new URLSearchParams();
-    if (id) params.append("id", id);
-    if (submission_status) params.append("submission_status", submission_status);
-    if (htmlConvert) params.append("comment", htmlConvert);
-    if (filename) params.append("fileuploaded", filename);
-
-    try {
-      const response = await apiClient({
-        baseurl: "helpdesk/edit",
-        method: "POST",
-        body: params,
-        apiKey: api_key,
-        token: token,
-      });
-      dispatch(isPending(false));
-      if (response?.statusCode === 200) {
-        setisModalVerif({
-          data: {
-            title: 'Helpdesk Berhasil diupdate',
-            msg: 'Selamat, Pengajuan helpdesk sudah diupdate',
-            icon: PengajuanBerahasilIcon,
-            color: '#13C39C'
-          },
-          status: true
-        })
-      } else {
-        toast.error(response.result.msg, {
-          position: toast.POSITION.TOP_RIGHT,
-        });
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
-  const checkingFormData = async () => {
-    console.log(fileUpload);
-    if (fileUpload) {
-      const result = await fetchUploadFiles(authApiKey, authToken, fileUpload, 'helpdesk', dispatch);
-      console.log(result);
-      if (result !== null) {
-        fetchEditHelpdesk(authApiKey, authToken, slug, submission_status, komentar, result)
-      } else {
-        console.error("Error occurred during image upload.");
-      }
-    } else {
-      fetchEditHelpdesk(authApiKey, authToken, slug, submission_status, komentar, null)
-    }
-  }
-
-  const handleInputChange = (fieldName, value) => {
-    const updatedField = { name: fieldName, value: value };
-    const existingIndex = processField.findIndex(field => field.name === fieldName);
-    if (existingIndex !== -1) {
-      // Jika field sudah ada, update nilai value-nya
-      setProcessField(prevFields => {
-        const updatedFields = [...prevFields];
-        updatedFields[existingIndex] = updatedField;
-        return updatedFields;
-      });
-    } else {
-      // Jika field belum ada, tambahkan ke state processField
-      setProcessField(prevFields => [...prevFields, updatedField]);
-    }
-  };
-
   return (
     <div className="flex flex-col gap-3 flex-1 p-3">
       <TitleHeader
         title={`Detail Pengguna`}
         link1={"dashboard"}
-        link2={"account"}
+        link2={"Account"}
       />
       <section className="flex flex-col gap-3">
-        <div className="flex sm:flex-row flex-1 flex-col gap-3">
-          <div className="flex flex-col flex-1 max-w-xs">
+        <div className="flex md:flex-row flex-col flex-1 gap-3">
+          <div className="flex flex-col flex-1 md:max-w-sm">
             <div className="flex flex-col  gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
               {detailData && detailData?.image &&
                 <DynamicShow
@@ -181,7 +85,9 @@ function DetailsAccountPages() {
               </div>
             </div>
           </div>
-          <DynamicDetails detailData={detailData} />
+          <div className="flex flex-1 flex-col ">
+            <DynamicDetails location={"users"} detailData={detailData} loading={accountLoading} />
+          </div>
         </div>
 
       </section>
@@ -208,7 +114,7 @@ function DetailsAccountPages() {
                 className={`inline-flex flex-1 bg-[${isModalVerif.data.color}] text-darkColor`}
                 onClick={() => {
                   setisModalVerif({ data: {}, status: false })
-                  fetchDataHelpDesk(authApiKey, authToken, JSON.parse(authProfile)?.role)
+                  fetchDataAccount(authApiKey, authToken, JSON.parse(authProfile)?.role)
                 }}
               />
             </div>

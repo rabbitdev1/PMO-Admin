@@ -18,7 +18,7 @@ const DalamAntrianView = ({ submissionStatus, detailData, loading }) => {
           </span>
         </div>
       </div>
-      <DynamicDetails location={"infrastruktur"}detailData={detailData} loading={loading} />
+      <DynamicDetails location={"aplikasi"}detailData={detailData} loading={loading} />
     </div>
   );
 };

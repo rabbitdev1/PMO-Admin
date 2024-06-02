@@ -4,10 +4,13 @@ import db from "../config/Database.js";
 
 const { DataTypes } = Sequelize;
 
-// Definisikan model Users terlebih dahulu
-const Users = db.define(
-    "users", {
-        fullname: {
+const Aplikasi = db.define(
+    "list_aplikasi", {
+        submission_title: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        submission_type: {
             type: DataTypes.STRING,
             allowNull: false,
         },
@@ -15,31 +18,33 @@ const Users = db.define(
             type: DataTypes.STRING,
             allowNull: false,
         },
-        email: {
-            type: DataTypes.STRING,
+        fields: {
+            type: DataTypes.TEXT,
+            allowNull: false,
+            defaultValue: {},
+        },
+        submission_status: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            defaultValue: 1,
+        },
+        on_validation: {
+            type: DataTypes.TEXT,
             allowNull: false,
         },
-        address: {
-            type: DataTypes.STRING,
+        on_validation_technique: {
+            type: DataTypes.TEXT,
             allowNull: false,
         },
-        telp: {
-            type: DataTypes.STRING,
+        on_process: {
+            type: DataTypes.TEXT,
+            allowNull: false,
+        },
+        on_finish: {
+            type: DataTypes.TEXT,
             allowNull: false,
         },
         role: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        status_account: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        image: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        password: {
             type: DataTypes.STRING,
             allowNull: false,
         },
@@ -48,9 +53,5 @@ const Users = db.define(
     }
 );
 
-// Tambahkan comparePassword setelah definisi Users
-Users.prototype.comparePassword = function(password) {
-    return bcrypt.compare(password, this.password);
-};
 
-export default Users;
+export default Aplikasi;
