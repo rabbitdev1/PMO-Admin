@@ -82,12 +82,14 @@ const getKeyLabel = (key) => {
       return "Estimasi Jarak";
     case "initial_bandwith":
       return "Bandwidth Awal";
-      case "file_process_bisiness":
-        return "Proses Bisnis";
-        case "app_name":
-          return "Nama Aplikasi";
-          case "app_desc":
-            return "Deskripsi Aplikasi";
+    case "file_process_bisiness":
+      return "Proses Bisnis";
+    case "app_name":
+      return "Nama Aplikasi";
+    case "app_desc":
+      return "Deskripsi Aplikasi";
+    case "fullname":
+      return "Nama Lengkap";
     default:
       return key;
   }
@@ -95,11 +97,13 @@ const getKeyLabel = (key) => {
 
 const getFieldType = (key) => {
   switch (key) {
-    case "reason"||'app_desc':
+    case "reason":
+    case "app_desc":
       return "html";
     case "full_address":
       return "text";
     case "image_screenshoot":
+    case "image":
       return "images";
     case "file_process_bisiness":
       return "pdf";
