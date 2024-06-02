@@ -59,7 +59,7 @@ const Sidebar = () => {
 
     { title: "LAYANAN", role: ['/'], icon: "" },
     {
-      title: "Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan", role: ['op_pmo', 'perangkat_daerah','katim_aplikasi','anggota_aplikasi'],
+      title: "Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan", role: ['op_pmo', 'perangkat_daerah','kabid_aplikasi','teknis_aplikasi','katim_aplikasi'],
       submenu: [
         { title: 'User Akun Sistem Informasi', href: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", state: 'User Akun Sistem Informasi' },
         { title: 'Intergrasi Sistem Informasi', href: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", state: 'Integrasi Sistem Informasi' },
@@ -84,7 +84,7 @@ const Sidebar = () => {
     { title: "Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi", role: ['op_pmo', 'perangkat_daerah',], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
     { title: "Layanan UPT RADIO SONATA", role: ['op_pmo', 'perangkat_daerah',], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
     { title: "Layanan Pendaftaran Magang", role: ['op_pmo', 'perangkat_daerah',], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
-    { title: "PENGATURAN", role: ['/'], icon: "" },
+    { title: "PENGATURAN", role: [ 'op_pmo'], icon: "" },
     { title: "Akun", role: ['op_pmo'], icon: AllBerandaIcon, href: ["/account", "/1"], },
 
   ];

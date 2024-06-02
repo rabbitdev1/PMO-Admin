@@ -381,7 +381,7 @@ function AplikasiPages() {
   return (
     <div className="flex flex-col gap-3 flex-1 p-4">
       <TitleHeader
-        title={"Layanan Pengajuan"}
+        title={JSON.parse(authProfile)?.role === "perangkat_daerah" ? "Layanan Pengajuan" : "Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan"}
         link1={"dashboard"}
         link2={"Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan"}
       />

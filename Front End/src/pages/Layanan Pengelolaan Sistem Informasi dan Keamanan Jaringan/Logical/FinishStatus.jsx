@@ -8,7 +8,7 @@ const FinishStatus = ({
   validationData,
   processData,
   detailData,
-  Loading,
+  loading,
 }) => {
   return (
     submissionStatus >= 7 && (
@@ -42,23 +42,14 @@ const FinishStatus = ({
               <DynamicShow
                 key={key}
                 label={
-                  key === "upload_foto_alat_sebelum_di_relokasi"
-                    ? "Foto Alat Sebelum Di Relokasikan"
-                    : key === "upload_foto_alat_sesudah_di_relokasi"
-                      ? "Foto Alat Sesudah Di Relokasikan"
-                      : key === "upload_foto_alat_sebelum_di_tambahkan"
-                        ? "Foto Alat Sebelum Di Tambahkan"
-                        : key === "upload_foto_alat_sesudah_di_tambahkan"
-                          ? "Foto Alat Sesudah Di Tambahkan"
-                          : key === "upload_foto_kegiatan"
-                            ? "Foto Kegiatan"
-                            : key
+                  key === "upload_dokumen_hasil_integrasi"
+                    ? "Dokumen Hasil Integrasi"
+                    : key
                 }
                 value={value}
                 location={"aplikasi"}
                 type={
-                  key === "upload_foto_alat_sebelum_di_relokasi" || key === "upload_foto_alat_sesudah_di_relokasi" || key === "upload_foto_alat_sebelum_di_tambahkan" || key === "upload_foto_alat_sesudah_di_tambahkan" || key === "upload_foto_kegiatan"
-                    ? "images"
+                  key === "upload_dokumen_hasil_integrasi" ? "pdf"
                     : "text"
                 }
               />
@@ -83,7 +74,7 @@ const FinishStatus = ({
         </div>
         <DynamicDetails
           detailData={detailData}
-          loading={Loading}
+          loading={loading}
         />
       </div>
     )
