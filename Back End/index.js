@@ -12,6 +12,7 @@ import Aplikasi from "./models/Aplikasi.js";
 dotenv.config();
 
 const app = express();
+
 app.use((req, res, next) => {
     const clientTimezone = req.get("Client-Timezone");
     if (clientTimezone) {
@@ -34,11 +35,8 @@ try {
     console.error(error);
 }
 
-// HelpDeskFaq.sync();
-// ListHelpdesk.sync();
-
 Aplikasi.sync();
-InfraModel.sync()
+InfraModel.sync();
 Users.sync();
-app.listen(3001, () =>
-    console.log("Server running at port 5000"));
+
+app.listen(3001, () => console.log("Server running at port 5000"));

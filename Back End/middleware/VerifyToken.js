@@ -1,70 +1,47 @@
-import crypto from "crypto";
-import jwt from "jsonwebtoken";
-import Users from "../models/UserModel.js";
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+import Users from '../models/UserModel.js';
 
-export const verifyToken = (req, res, next) => {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
-  const apiKey = req.headers["x-api-key"];
+dotenv.config();
 
-  if (!token || !apiKey) {
-    return res
-      .status(401)
-      .json({ status: 401, msg: "Unauthorized: Token and API Key required" });
-  }
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
-    if (err) {
-      return res
-        .status(403)
-        .json({ status: 403, msg: "Forbidden: Invalid token" });
+export const verifyToken = async(req, res, next) => {
+    const token = req.header('Authorization').replace('Bearer ', '');
+
+    if (!token) {
+        return res.status(401).json({ status: 'error', msg: 'Access denied. No token provided.' });
     }
-    // Verifikasi API key disini, asumsikan function untuk memeriksa API key dari database
-    verifyApiKey(apiKey, decoded.email, (err, valid) => {
-      if (err || !valid) {
-        return res
-          .status(403)
-          .json({ status: 403, msg: "Forbidden: Invalid API key" });
-      }
-      req.email = decoded.email;
-      next();
-    });
-  });
-};
-
-const verifyApiKey = (apiKey, email, callback) => {
-  // Pemeriksaan ke database atau cache
-  Users.findOne({ where: { email: email, apiKey: apiKey } })
-    .then((user) => {
-      if (user) {
-        callback(null, true);
-      } else {
-        callback(new Error("API key not found or mismatch"), false);
-      }
-    })
-    .catch((error) => {
-      callback(error, false);
-    });
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const user = await Users.findOne({ where: { id: decoded.id, activeSession: token } });
+        if (!user) {
+            return res.status(401).json({ status: 'error', msg: 'Invalid token or session has expired.' });
+        }
+        req.user = user;
+        next();
+    } catch (ex) {
+        res.status(400).json({ status: 'error', msg: 'Invalid token.' });
+    }
 };
 
 export const generateToken = (user, keepLogin) => {
-  const payload = {
-    userId: user.id,
-    email: user.email,
-  };
+    const payload = {
+        id: user.id,
+        email: user.email,
+        role: user.role
+    };
 
-  const expiresIn = keepLogin ? "7d" : "1h";
-  const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn,
-  });
-  return token;
+    const options = {
+        expiresIn: keepLogin ? '7d' : '1d' // Change expiration time based on 'keepLogin'
+    };
+
+    return jwt.sign(payload, process.env.JWT_SECRET, options);
 };
 
 export const generateApiKey = (length) => {
-  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  let apiKey = "AP"; // Mengawali dengan "AP"
-  for (let i = 0; i < length - 2; i++) { // Kurangi 2 untuk panjang "AP"
-    apiKey += characters.charAt(Math.floor(Math.random() * characters.length));
-  }
-  return apiKey;
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    let apiKey = "AP";
+    for (let i = 0; i < length - 2; i++) {
+        apiKey += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return apiKey;
 };
-

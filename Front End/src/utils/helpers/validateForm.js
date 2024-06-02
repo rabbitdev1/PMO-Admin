@@ -1,14 +1,15 @@
 import { toast } from "react-toastify";
 
 export const validateFullname = (value, title) => {
-    if (!value || value.length < 4) {
-        toast.error(title + " minimal 4 Huruf", {
+    if (!value || value.length < 4 || value.length > 20) {
+        toast.error(title + " harus memiliki panjang antara 4 dan 20 karakter", {
             position: toast.POSITION.TOP_RIGHT,
         });
         return false;
     }
     return true;
 };
+
 
 export const validateEmail = (value, title) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

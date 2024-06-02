@@ -176,104 +176,30 @@ function DetailAplikasiPages() {
     if (type === "validation") {
       fetchEditaplikasi(authApiKey, authToken, slug, type, data);
     } else if (type === "validation_technique") {
-      fetchEditaplikasi(authApiKey, authToken, slug, type, data);
-    } else if (type === "process") {
-      if (
-        data.upload_foto_alat_sebelum_di_relokasi ||
-        data.upload_foto_alat_sesudah_di_relokasi ||
-        data.upload_foto_alat_sebelum_di_tambahkan ||
-        data.upload_foto_alat_sesudah_di_tambahkan ||
-        data.upload_foto_kegiatan
+      if (data.file_scema_integration
       ) {
         try {
           const uploadPromises = [];
           const resultMapping = {};
-      
-          if (data.upload_foto_alat_sebelum_di_relokasi) {
+          if (data.file_scema_integration) {
             uploadPromises.push(
-              fetchUploadImages(
+              fetchUploadFiles(
                 authApiKey,
                 authToken,
-                data.upload_foto_alat_sebelum_di_relokasi,
+                data.file_scema_integration,
                 "aplikasi",
                 dispatch
               ).then(result => {
-                resultMapping.upload_foto_alat_sebelum_di_relokasi = result;
+                resultMapping.file_scema_integration = result;
               })
             );
           }
-          if (data.upload_foto_alat_sesudah_di_relokasi) {
-            uploadPromises.push(
-              fetchUploadImages(
-                authApiKey,
-                authToken,
-                data.upload_foto_alat_sesudah_di_relokasi,
-                "aplikasi",
-                dispatch
-              ).then(result => {
-                resultMapping.upload_foto_alat_sesudah_di_relokasi = result;
-              })
-            );
-          }
-          if (data.upload_foto_alat_sebelum_di_tambahkan) {
-            uploadPromises.push(
-              fetchUploadImages(
-                authApiKey,
-                authToken,
-                data.upload_foto_alat_sebelum_di_tambahkan,
-                "aplikasi",
-                dispatch
-              ).then(result => {
-                resultMapping.upload_foto_alat_sebelum_di_tambahkan = result;
-              })
-            );
-          }
-          if (data.upload_foto_alat_sesudah_di_tambahkan) {
-            uploadPromises.push(
-              fetchUploadImages(
-                authApiKey,
-                authToken,
-                data.upload_foto_alat_sesudah_di_tambahkan,
-                "aplikasi",
-                dispatch
-              ).then(result => {
-                resultMapping.upload_foto_alat_sesudah_di_tambahkan = result;
-              })
-            );
-          }
-          if (data.upload_foto_kegiatan) {
-            uploadPromises.push(
-              fetchUploadImages(
-                authApiKey,
-                authToken,
-                data.upload_foto_kegiatan,
-                "aplikasi",
-                dispatch
-              ).then(result => {
-                resultMapping.upload_foto_kegiatan = result;
-              })
-            );
-          }
-      
           await Promise.all(uploadPromises);
-      
+
           let combineData = { ...data };
-          if (resultMapping.upload_foto_alat_sebelum_di_relokasi) {
-            combineData.upload_foto_alat_sebelum_di_relokasi = resultMapping.upload_foto_alat_sebelum_di_relokasi;
+          if (resultMapping.file_scema_integration) {
+            combineData.file_scema_integration = resultMapping.file_scema_integration;
           }
-          if (resultMapping.upload_foto_alat_sesudah_di_relokasi) {
-            combineData.upload_foto_alat_sesudah_di_relokasi = resultMapping.upload_foto_alat_sesudah_di_relokasi;
-          }
-          if (resultMapping.upload_foto_alat_sebelum_di_tambahkan) {
-            combineData.upload_foto_alat_sebelum_di_tambahkan = resultMapping.upload_foto_alat_sebelum_di_tambahkan;
-          }
-          if (resultMapping.upload_foto_alat_sesudah_di_tambahkan) {
-            combineData.upload_foto_alat_sesudah_di_tambahkan = resultMapping.upload_foto_alat_sesudah_di_tambahkan;
-          }
-          if (resultMapping.upload_foto_kegiatan) {
-            combineData.upload_foto_kegiatan = resultMapping.upload_foto_kegiatan;
-          }
-      
           fetchEditaplikasi(authApiKey, authToken, slug, type, combineData);
         } catch (error) {
           console.error("Error occurred during image upload:", error);
@@ -281,7 +207,60 @@ function DetailAplikasiPages() {
       } else {
         fetchEditaplikasi(authApiKey, authToken, slug, type, data);
       }
-      
+    } else if (type === "process") {
+      if (
+        data.upload_dokumen_hasil_integrasi ||
+        data.upload_foto_alat_sesudah_di_relokasi
+      ) {
+        try {
+          const uploadPromises = [];
+          const resultMapping = {};
+
+          if (data.upload_dokumen_hasil_integrasi) {
+            uploadPromises.push(
+              fetchUploadFiles(
+                authApiKey,
+                authToken,
+                data.upload_dokumen_hasil_integrasi,
+                "aplikasi",
+                dispatch
+              ).then(result => {
+                resultMapping.upload_dokumen_hasil_integrasi = result;
+              })
+            );
+          }
+          // if (data.upload_foto_alat_sesudah_di_relokasi) {
+          //   uploadPromises.push(
+          //     fetchUploadImages(
+          //       authApiKey,
+          //       authToken,
+          //       data.upload_foto_alat_sesudah_di_relokasi,
+          //       "aplikasi",
+          //       dispatch
+          //     ).then(result => {
+          //       resultMapping.upload_foto_alat_sesudah_di_relokasi = result;
+          //     })
+          //   );
+          // }
+
+          await Promise.all(uploadPromises);
+
+          let combineData = { ...data };
+          if (resultMapping.upload_dokumen_hasil_integrasi) {
+            combineData.upload_dokumen_hasil_integrasi = resultMapping.upload_dokumen_hasil_integrasi;
+          }
+          // if (resultMapping.upload_foto_alat_sesudah_di_relokasi) {
+          //   combineData.upload_foto_alat_sesudah_di_relokasi = resultMapping.upload_foto_alat_sesudah_di_relokasi;
+          // }
+
+          fetchEditaplikasi(authApiKey, authToken, slug, type, combineData);
+        } catch (error) {
+          console.error("Error occurred during image upload:", error);
+        }
+      } else {
+        fetchEditaplikasi(authApiKey, authToken, slug, type, data);
+      }
+
     } else if (type === "finish") {
       if (data.file_submission) {
         const result = await fetchUploadFiles(
@@ -351,7 +330,7 @@ function DetailAplikasiPages() {
             processData={processData}
             authProfile={authProfile}
             detailData={detailData}
-            aplikasiLoading={aplikasiLoading}
+            loading={aplikasiLoading}
             checkingFormData={checkingFormData}
             setisModalVerif={setisModalVerif}
             finishData={finishData}
@@ -360,7 +339,7 @@ function DetailAplikasiPages() {
 
           <FinishStatus
             detailData={detailData}
-            aplikasiLoading={aplikasiLoading}
+            loading={aplikasiLoading}
             validationData={validationDataTechnique}
             processData={processData}
             submissionStatus={submissionStatus}
