@@ -50,7 +50,7 @@ const Sidebar = () => {
 
   const menuItems = [
     { title: "MENU", role: ['/'], icon: "" },
-    { title: "Dashboard", role: ['op_pmo', 'perangkat_daerah', 'kabid_infra', 'teknis_infra', 'katim_infra'], icon: AllBerandaIcon, href: ["/", "/"], },
+    { title: "Dashboard", role: ['op_pmo', 'perangkat_daerah', 'kabid_infra', 'teknis_infra', 'katim_infra','katim_aplikasi','anggota_aplikasi'], icon: AllBerandaIcon, href: ["/", "/"], },
     {
       title: "Data Alat", role: ['kabid_infra', 'teknis_infra', 'katim_infra'],
       submenu: [{ title: 'Relokasi Alat', href: '/layanan-pengelolaan-infrastruktur-teknologi-informasi-komunikasi', state: 'Relokasi Alat' },
