@@ -1,6 +1,6 @@
-import React from 'react';
-import DynamicShow from '../common/DynamicShow';
-import ConditionalRender from './ConditionalRender';
+import React from "react";
+import DynamicShow from "../common/DynamicShow";
+import ConditionalRender from "./ConditionalRender";
 
 const DynamicDetails = ({ detailData, loading, location }) => {
   return (
@@ -10,11 +10,12 @@ const DynamicDetails = ({ detailData, loading, location }) => {
           data={detailData}
           loading={loading}
           className={"flex flex-col min-h-[200px]"}
-          model={"emptyData"}>
-          <div className='flex flex-col gap-3'>
-            <span className='text-lg font-bold'>Rincian Pengajuan</span>
-            {Object.entries(detailData).map(([key, value]) => (
-              key === 'device_specifications' ?
+          model={"emptyData"}
+        >
+          <div className="flex flex-col gap-3">
+            <span className="text-lg font-bold">Rincian Pengajuan</span>
+            {Object.entries(detailData).map(([key, value]) =>
+              key === "device_specifications" ? (
                 <DynamicShow
                   key={key}
                   name={key}
@@ -24,7 +25,7 @@ const DynamicDetails = ({ detailData, loading, location }) => {
                   type={getFieldType(key)}
                   disabled={true}
                 />
-                :
+              ) : (
                 <DynamicShow
                   key={key}
                   name={key}
@@ -34,13 +35,14 @@ const DynamicDetails = ({ detailData, loading, location }) => {
                   type={getFieldType(key)}
                   disabled={true}
                 />
-            ))}
+              )
+            )}
           </div>
         </ConditionalRender>
       </div>
     </div>
   );
-}
+};
 
 const getKeyLabel = (key) => {
   switch (key) {
@@ -90,15 +92,25 @@ const getKeyLabel = (key) => {
       return "Deskripsi Aplikasi";
     case "fullname":
       return "Nama Lengkap";
+    case "account_type":
+      return "Jenis Akun";
+    case "needed_data":
+      return "Data yang dibutuhkan";
+    case "integration":
+      return "Tujuan Integrasi";
     default:
       return key;
   }
-}
+};
 
 const getFieldType = (key) => {
   switch (key) {
     case "reason":
     case "app_desc":
+      return "html";
+    case "needed_data":
+      return "html";
+    case "integration":
       return "html";
     case "full_address":
       return "text";
@@ -109,6 +121,8 @@ const getFieldType = (key) => {
       return "pdf";
     case "type_tools":
       return "array";
+    // case "account_type":
+    //   return "array";
     case "createdAt":
       return "date";
     case "period":
@@ -116,6 +130,6 @@ const getFieldType = (key) => {
     default:
       return "text";
   }
-}
+};
 
 export default DynamicDetails;

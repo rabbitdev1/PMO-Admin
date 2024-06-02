@@ -8,7 +8,7 @@ const FinishStatus = ({
   validationData,
   processData,
   detailData,
-  infrastrukturLoading,
+  Loading,
 }) => {
   return (
     submissionStatus >= 7 && (
@@ -83,7 +83,7 @@ const FinishStatus = ({
         </div>
         <DynamicDetails
           detailData={detailData}
-          loading={infrastrukturLoading}
+          loading={Loading}
         />
       </div>
     )
