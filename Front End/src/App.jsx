@@ -52,7 +52,7 @@ function App() {
         token: token,
       });
       if (response?.statusCode === 200) {
-        Cookies.set('authData', JSON.stringify(response.result.data), { expires: 0.5 });
+        Cookies.set('authData', JSON.stringify(response.result.data), { expires: 1 });
       } else {
       }
     } catch (error) {

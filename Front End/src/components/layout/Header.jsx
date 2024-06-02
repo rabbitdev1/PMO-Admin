@@ -10,7 +10,7 @@ import { ReactComponent as Ic_menu } from "../../assets/icon/ic_menus.svg";
 import DynamicButton from "../common/DynamicButton";
 import LoadingLink from "../common/LoadingLink";
 import useTheme from "../context/useTheme";
-import { isSideBar } from "../store/actions/todoActions";
+import { isPending, isSideBar } from "../store/actions/todoActions";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import {
   Popover,
@@ -24,6 +24,7 @@ import {
   Avatar,
 } from "@material-tailwind/react";
 import { storage } from "../../config/Firebase";
+import { apiClient } from "../../utils/api/apiClient";
 
 const Header = () => {
   const { isDarkMode, toggleTheme } = useTheme();
@@ -31,6 +32,8 @@ const Header = () => {
   const [profile, setProfile] = useState({});
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const authApiKey = Cookies.get('authApiKey');
+  const authToken = Cookies.get('authToken');
   const authData = Cookies.get("authData");
   const [imageUrl, setImageUrl] = useState('');
 
@@ -44,6 +47,33 @@ const Header = () => {
       getImageURL(JSON.parse(authData)?.image);
     }
   }, []);
+
+  const fetchLogout = async (api_key, token) => {
+    dispatch(isPending(true));
+    try {
+
+      const response = await apiClient({
+        baseurl: "logout",
+        method: "POST",
+        apiKey: api_key,
+        token,
+      });
+      dispatch(isPending(false));
+      if (response?.statusCode === 200) {
+        Cookies.remove("authData");
+        Cookies.remove("authApiKey");
+        Cookies.remove("authToken");
+        setShowOverlay(!showOverlay); 
+        setTimeout(() => {
+          window.location.reload("/");
+        }, 500);
+      } else {
+
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   const getImageURL = async (imagePath) => {
     try {
@@ -59,7 +89,7 @@ const Header = () => {
       }
     }
   };
-  
+
   return (
     <header className=" flex flex-row flex-1 bg-lightColor transition duration-300 ease-in-out dark:bg-cardDark border-b-[1px] border-[#dddddd] dark:border-[#ffffff20] h-16">
       <div className={`lg:flex flex-col hidden w-full max-w-[280px] flex-1 p-3 py-2 border-r-[1px] border-[#dddddd] dark:border-[#ffffff20]`}>
@@ -118,59 +148,6 @@ const Header = () => {
               />
             </Button>
           </PopoverHandler>
-          {/* <PopoverContent>
-            <div className="bg-red-400">dsfsfs</div>
-            <div className="p-2 flex flex-col ">
-              <div className="flex flex-row gap-2 items-center mb-1"></div>
-              <button
-                className="flex flex-row justify-start items-center gap-2 hover:bg-[#2121210e] dark:hover:bg-[#f3f3f30e] flex-1 p-2 rounded-lg"
-                onClick={() => {
-                  Cookies.remove("authData");
-                  Cookies.remove("authApiKey");
-                  Cookies.remove("authToken");
-                  setShowOverlay(!showOverlay);
-                  navigate("/");
-                  setTimeout(() => {
-                    window.location.reload("/");
-                  }, 500);
-                }}
-              >
-                <LogoutIcon
-                  className=" h-6 w-6"
-                  fill={isDarkMode ? "#ffffff" : "#000000"}
-                />
-                <span className=" text-base line-clamp-1 ">
-                  Log Out
-                </span>
-              </button>
-            </div>
-            <div
-              className="p-2 flex flex-row gap-2"
-              onClick={() => {
-                setShowOverlay(!showOverlay);
-              }}
-            >
-              <LoadingLink
-                to={"/privacy"}
-                onClick={() => {
-                  setShowOverlay(!showOverlay);
-                }}
-                className="opacity-60 text-xs font-light line-clamp-1 no-underline text-lightColor dark:text-darkColor"
-              >
-                Kebijakan Privasi
-              </LoadingLink>
-              <LoadingLink
-                to={"/term-and-conditional"}
-                onClick={() => {
-                  setShowOverlay(!showOverlay);
-                }}
-                className="opacity-60 text-xs font-light line-clamp-1 no-underline text-lightColor dark:text-darkColor"
-              >
-                Persyaratan Layanan
-              </LoadingLink>
-            </div>
-
-          </PopoverContent> */}
 
           <PopoverContent className="flex flex-col  w-72 font-gilroy p-0 shadow-none bg-lightColor text-lightColor dark:text-darkColor dark:bg-cardDark border-[1px] border-[#dddddd] dark:border-[#ffffff20]">
             <div className="flex flex-row items-center gap-2 p-2.5 ">
@@ -227,14 +204,7 @@ const Header = () => {
                 iconLeft={<Ic_light_mode className={`h-5 aspect-square`} />}
                 className="inline-flex"
                 onClick={() => {
-                  Cookies.remove("authData");
-                  Cookies.remove("authApiKey");
-                  Cookies.remove("authToken");
-                  setShowOverlay(!showOverlay);
-                  navigate("/");
-                  setTimeout(() => {
-                    window.location.reload("/");
-                  }, 500);
+                  fetchLogout(authApiKey, authToken)
                 }}
               />
             </div>
@@ -258,111 +228,7 @@ const Header = () => {
             }}
           />
         </div>
-
       </div>
-      {/* <div className="flex flex-row gap-2 mx-auto flex-1 w-full justify-between  p-3">
-       
-       
-        <div className="flex flex-row flex-1"></div>
-        <div className="flex flex-row gap-2  justify-end ">
-          <DynamicButton
-            type="transparent"
-            color={isDarkMode ? "#ffffff" : "#0185FF"}
-            iconLeft={<Ic_dark_mode className={`h-5 w-5 aspect-square`} />}
-            className="inline-flex border-1 border-[#2121298] dark:border-[#ffffff18]"
-            onClick={() => {
-              console.log("Mode Dark " + !isDarkMode);
-              toggleTheme();
-            }}
-          />
-          <div className="flex flex-row gap-2  justify-end">
-            <div className="flex flex-row gap-2 items-center ">
-              <OverlayTrigger
-                // trigger={[ "focus"]}
-                trigger="click"
-                placement="bottom-end"
-                show={showOverlay}
-                onHide={handleCloseOverlay}
-                overlay={
-                  <Popover className="p-1 w-[1000px] bg-cardLight dark:bg-cardDark text-lightColor dark:text-darkColor">
-                    <div className="p-2 flex flex-col ">
-                      <div className="flex flex-row gap-2 items-center mb-1"></div>
-                      <button
-                        className="flex flex-row justify-start items-center gap-2 hover:bg-[#2121210e] dark:hover:bg-[#f3f3f30e] flex-1 p-2 rounded-lg"
-                        onClick={() => {
-                          Cookies.remove("authData");
-                          Cookies.remove("authApiKey");
-                          Cookies.remove("authToken");
-                          setShowOverlay(!showOverlay);
-                          navigate("/");
-                          setTimeout(() => {
-                            window.location.reload("/");
-                          }, 500);
-                        }}
-                      >
-                        <LogoutIcon
-                          className=" h-6 w-6"
-                          fill={isDarkMode ? "#ffffff" : "#000000"}
-                        />
-                        <span className=" text-base line-clamp-1 ">
-                          Log Out
-                        </span>
-                      </button>
-                    </div>
-                    <div
-                      className="p-2 flex flex-row gap-2"
-                      onClick={() => {
-                        setShowOverlay(!showOverlay);
-                      }}
-                    >
-                      <LoadingLink
-                        to={"/privacy"}
-                        onClick={() => {
-                          setShowOverlay(!showOverlay);
-                        }}
-                        className="opacity-60 text-xs font-light line-clamp-1 no-underline text-lightColor dark:text-darkColor"
-                      >
-                        Kebijakan Privasi
-                      </LoadingLink>
-                      <LoadingLink
-                        to={"/term-and-conditional"}
-                        onClick={() => {
-                          setShowOverlay(!showOverlay);
-                        }}
-                        className="opacity-60 text-xs font-light line-clamp-1 no-underline text-lightColor dark:text-darkColor"
-                      >
-                        Persyaratan Layanan
-                      </LoadingLink>
-                    </div>
-                  </Popover>
-                }
-              >
-                <button
-                  onClick={() => {
-                    setShowOverlay(!showOverlay);
-                  }}
-                  className="flex flex-row gap-2"
-                >
-                  <img
-                    src={profile?.image}
-                    alt={profile?.fullname}
-                    className=" object-cover flex h-9 w-9 bg-cardLight dark:bg-cardDark rounded-full"
-                    effect="blur"
-                  />
-                  <div className=" flex-col items-start sm:inline-flex hidden">
-                    <span className="text-base font-semibold line-clamp-1 ">
-                      {(profile?.fullname?.split(' ')[0])}
-                    </span>
-                    <span className="text-xs font-light line-clamp-1 opacity-70">
-                      {(profile?.role)}
-                    </span>
-                  </div>
-                </button>
-              </OverlayTrigger>
-            </div>
-          </div>
-        </div>
-      </div> */}
     </header>
   );
 };

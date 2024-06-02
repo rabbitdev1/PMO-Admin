@@ -21,18 +21,6 @@ const LoginPage = () => {
   const [email, setEmail] = useState("pmo@gmail.com");
   const [keepLogin, setKeepLogin] = useState(false);
 
-  const data = location.state;
-  const [selectedButton, setSelectedButton] = useState(data);
-
-  const [remainingTime, setRemainingTime] = useState(180);
-  const [intervalId, setIntervalId] = useState(null);
-
-
-  const handleButtonClick = (buttonName) => {
-    setSelectedButton(buttonName);
-    setPassword("");
-    setEmail("");
-  };
   const fetchLogin = async (email, password, keepLogin) => {
     dispatch(isPending(true));
     try {
@@ -49,8 +37,6 @@ const LoginPage = () => {
       dispatch(isPending(false));
       if (response?.statusCode === 200) {
         if (response?.result?.msg === "Successful login.") {
-          Cookies.set('authToken', response.result.token, { expires: keepLogin ? 7 : 1 });
-          Cookies.set('authApiKey', response.result.apiKey, { expires: keepLogin ? 7 : 1 });
           fetchDataProfile(response?.result?.apiKey, response?.result?.token)
         } else {
           toast.error(response?.result.msg, {
@@ -76,7 +62,10 @@ const LoginPage = () => {
         token: token,
       });
       if (response?.statusCode === 200) {
-        Cookies.set('authData', JSON.stringify(response.result.data), { expires: keepLogin ? 1 : 0.5 });
+        Cookies.set('authToken', token, { expires: keepLogin ? 1 : 1 });
+        Cookies.set('authApiKey', api_key, { expires: keepLogin ? 1 : 1 });
+        Cookies.set('authData', JSON.stringify(response.result.data), { expires: keepLogin ? 1 : 1 });
+
         setTimeout(() => {
           window.location.reload("/");
         }, 500);
