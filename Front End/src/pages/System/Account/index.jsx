@@ -31,13 +31,12 @@ function AccountPages() {
   const [statusData, setStatusData] = useState([
     { title: "Total Pengguna", value: "0", desc: "Data yang harus diproses", icon: PengajuanIcon, },
     { title: "Aktif", value: "0", desc: "Data aktif", icon: DiprosesIcon, },
-    { title: "Non Aktif", value: "0", desc: "Data tidak aktif", icon: DitolakIcon, },
+    { title: "Tidak Aktif", value: "0", desc: "Data tidak aktif", icon: DitolakIcon, },
   ]);
 
   const [listAccount, setListAccount] = useState([]);
 
   const [listAccountLoading, setListAccountLoading] = useState(true);
-
   const [formData, setFormData] = useState([
     { name: "fullname", label: "Nama Lengkap", value: "", type: "text" },
     { name: "email", label: "Email", value: "", type: "email" },
@@ -70,7 +69,6 @@ function AccountPages() {
     },
   ]);
 
-  const [isModalType, setisModalType] = useState({ status: false, data: {} });
   const [isModalVerif, setisModalVerif] = useState({
     status: false,
     data: {},
@@ -172,10 +170,10 @@ function AccountPages() {
     }
   };
 
-  const fetchDataDelete = async (id, api_key, token) => {
+  const fetchDataDelete = async (data, api_key, token) => {
     dispatch(isPending(true));
     const params = new URLSearchParams();
-    params.append("id", id);
+    params.append("id", data.id);
 
     try {
       const response = await apiClient({
@@ -227,13 +225,13 @@ function AccountPages() {
     console.log(transformedData);
     if (
       !validateFullname(fullname, 'Nama Lengkap') ||
-      !validateEmail(email,'Email Perangkat Daerah') ||
-      !validateAddress(address,'Alamat Lengkap') ||
-      !validateRole(role,'Role') ||
-      !validateTelp(telp,'Nomor Telepon') ||
-      !validatePassword(password,'Password') ||
+      !validateEmail(email, 'Email Perangkat Daerah') ||
+      !validateAddress(address, 'Alamat Lengkap') ||
+      !validateRole(role, 'Role') ||
+      !validateTelp(telp, 'Nomor Telepon') ||
+      !validatePassword(password, 'Password') ||
       !validateRepeatPassword(password, repeat_password) ||
-      !validateImage(image,'Foto profle')
+      !validateImage(image, 'Foto profle')
     ) {
       return false;
     } else {
@@ -285,7 +283,7 @@ function AccountPages() {
 
   return (
     <div className="flex flex-col gap-3 flex-1 p-3" >
-      <TitleHeader title={"Pengguna"} link1={"dashboard"} link2={"help-desk"} />
+      <TitleHeader title={"Pengguna"} link1={"dashboard"} link2={"Account"} />
       <section className="flex md:flex-row flex-col gap-3" >
         <div className="flex-1 flex flex-col gap-3">
           <div className="grid md:grid-cols-3 grid-cols-2 gap-3">
@@ -333,20 +331,33 @@ function AccountPages() {
                   { name: "Nama ", field: "fullname" },
                   { name: "Email", field: "email" },
                   { name: "Role", field: "role" },
-                  { name: "Status", field: "status" },
+                  { name: "Status", field: "status_account" },
                   { name: "Tanggal Buat", field: "createdAt" },
                   { name: "Aksi", field: "action" },
                 ]}
-                showAction={{ read: true, remove: true, edit: true }}
+                showAction={{
+                  read: true, remove: true,
+                }}
                 onClickShow={(id) => {
                   navigate("/detail-account", { state: { slug: id } });
                 }}
                 onClickRemove={(a) => {
-                  const isConfirmed = window.confirm("Apakah kamu yakin ingin menghapus pengajuan ini?");
-                  if (isConfirmed) {
-                    fetchDataDelete(a, authApiKey, authToken)
-                  } else {
-                    alert("Pengajuan tidak dihapus.");
+                  console.log(a.role);
+                  if (a.role === "op_pmo") {
+                    toast.error(
+                      "Admin tidak bisa di hapus",
+                      {
+                        position: toast.POSITION.TOP_RIGHT,
+                      }
+                    );
+                  }
+                  else {
+                    const isConfirmed = window.confirm("Apakah kamu yakin ingin menghapus akun ini?");
+                    if (isConfirmed) {
+                      fetchDataDelete(a, authApiKey, authToken)
+                    } else {
+                      alert("Pengajuan tidak dihapus.");
+                    }
                   }
                 }}
                 data={listAccount}
@@ -444,8 +455,8 @@ function AccountPages() {
                   setisModalVerif({ data: {}, status: false })
                   setisModalCreate({ data: {}, status: false });
                   resetFormData()
-                  setisModalType({ data: {}, status: false })
                   fetchDataAccount(authApiKey, authToken)
+                  fetchDataCheckRole(authApiKey, authToken)
                 }}
               />
             </div>

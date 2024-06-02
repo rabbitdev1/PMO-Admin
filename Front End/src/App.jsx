@@ -16,6 +16,7 @@ import { MaintenanceGuard } from "./components/layout/MaintenanceGuard";
 
 import NotFoundPage from "./components/layout/NotFoundPage";
 import NonAuthLayout from "./routes/NonAuthLayout";
+import { apiClient } from "./utils/api/apiClient";
 
 function App() {
   const isPending = useSelector((state) => state.todoReducer.isPending);
@@ -28,9 +29,11 @@ function App() {
   }, [location]);
 
   useEffect(() => {
+    const authApiKey = Cookies.get('authApiKey');
     const authToken = Cookies.get('authToken');
-    if (authToken) {
+    if (authToken && authApiKey) {
       setAuthToken(authToken);
+      fetchDataProfile(authApiKey, authToken)
       if (location.pathname === '/login') {
         navigate('/');
       }
@@ -39,6 +42,23 @@ function App() {
       navigate('/login');
     }
   }, []);
+
+  const fetchDataProfile = async (api_key, token) => {
+    try {
+      const response = await apiClient({
+        baseurl: "me",
+        method: "POST",
+        apiKey: api_key,
+        token: token,
+      });
+      if (response?.statusCode === 200) {
+        Cookies.set('authData', JSON.stringify(response.result.data), { expires: 0.5 });
+      } else {
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   return (
     <React.Fragment>

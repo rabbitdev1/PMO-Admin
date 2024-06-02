@@ -27,15 +27,15 @@ const TableCostum = ({
       <div
         className={`${rowData.submission_status === 1
           ? "bg-[#333333]"
-          : rowData.submission_status === 2 ||rowData.submission_status === 4
+          : rowData.submission_status === 2 || rowData.submission_status === 4
             ? "bg-[#F5CF08]"
-            : rowData.submission_status === 3 ||rowData.submission_status === 5||rowData.submission_status === 8
+            : rowData.submission_status === 3 || rowData.submission_status === 5 || rowData.submission_status === 8
               ? "bg-[#FF0000]"
               : rowData.submission_status === 6
                 ? "bg-[#FFA500]"
-                : rowData.submission_status === 7
+                : rowData.submission_status === 7 || rowData.status_account === "Aktif"
                   ? "bg-[#13C39C]"
-                  :  null
+                  : null
           } p-1 py-2 rounded-md text-xs  text-center text-darkColor`}
       >
         {(rowData.submission_status === 1
@@ -54,7 +54,8 @@ const TableCostum = ({
                       ? 'Pengajuan Selesai'
                       : rowData.submission_status === 8
                         ? 'Tidak Menyetujui'
-                        : rowData.submission_status) || rowData.status}
+                        : rowData.submission_status) ||
+          (rowData.status_account) || null}
 
         { }
       </div>
@@ -131,7 +132,7 @@ const TableCostum = ({
       className="border-1 rounded-lg overflow-hidden border-[#dddddd] dark:border-[#ffffff20]"
     >
       {dataHeader?.map((item, index) => {
-        return item.field === "submission_status" || item.field === "status" ? (
+        return item.field === "submission_status" || item.field === "status_account" ? (
           <Column
             key={index}
             field={item.field}

@@ -5,7 +5,7 @@ import DashboardPages from "../pages/Dashboard";
 import InfrastrukturPages from "../pages/Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi";
 import DetailInfrastrukturPages from "../pages/Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi/detail";
 
-import AccountPages from "../pages/System/Account/account";
+import AccountPages from "../pages/System/Account";
 import DetailsAccountPages from "../pages/System/Account/detail";
 
 import AplikasiPages from "../pages/Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan";

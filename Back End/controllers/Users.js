@@ -218,7 +218,7 @@ export const getListUser = async(req, res) => {
                 "email",
                 "address",
                 "telp",
-                "status",
+                "status_account",
                 "role",
                 "image",
                 "createdAt",
@@ -227,8 +227,8 @@ export const getListUser = async(req, res) => {
         });
         const totalItems = listuser.length;
         const totalItemsByStatus = {
-            aktif: listuser.filter((user) => user.status === "Aktif").length,
-            nonaktif: listuser.filter((user) => user.status === "Non Aktif").length,
+            aktif: listuser.filter((user) => user.status_account === "Aktif").length,
+            nonaktif: listuser.filter((user) => user.status_account === "Non Aktif").length,
         };
         res.json({
             status: "ok",
@@ -270,7 +270,7 @@ export const getUserById = async(req, res) => {
                 "email",
                 "address",
                 "telp",
-                "status",
+                "status_account",
                 "role",
                 "image",
                 "createdAt",
@@ -332,7 +332,7 @@ export const createUsers = async(req, res) => {
             image,
             telp,
             password: hashPassword,
-            status: "Aktif",
+            status_account: "Aktif",
         });
         res.json({
             status: "ok",
@@ -517,7 +517,7 @@ export const checkRoleUser = async(req, res) => {
         // Update the status to true for roles that exist in the database
         const updatedRolesList = rolesList.map((role) => {
             if (existingRoles.includes(role.value)) {
-                if (role.value === "perangkat_daerah") {
+                if (role.value === "perangkat_daerah" || role.value === "teknis_infra" || role.value === "teknis_aplikasi") {
                     return {...role, isDisabled: false };
                 } else {
                     return {...role, isDisabled: true };
