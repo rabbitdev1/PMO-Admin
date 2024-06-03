@@ -44,12 +44,14 @@ const FinishStatus = ({
                 label={
                   key === "upload_dokumen_hasil_integrasi"
                     ? "Dokumen Hasil Integrasi"
+                    : "upload_dokumen_laporan_modul_tte"
+                    ? "Surat Pengesahan"
                     : key
                 }
                 value={value}
                 location={"aplikasi"}
                 type={
-                  key === "upload_dokumen_hasil_integrasi" ? "pdf"
+                  key === "upload_dokumen_hasil_integrasi" || "upload_dokumen_laporan_modul_tte" ? "pdf"
                     : "text"
                 }
               />
