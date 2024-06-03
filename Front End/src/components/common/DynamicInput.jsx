@@ -121,6 +121,7 @@ function DynamicInput({
           styles={{
             control: (baseStyles, state) => ({
               ...baseStyles,
+              padding:5,
               backgroundColor: isDarkMode ? '#10172a' : '#fefdfe',
               fontSize: 14,
               borderColor: state.isFocused ? 'grey' : isDarkMode ? '#ffffff20' : '#dddddd',
