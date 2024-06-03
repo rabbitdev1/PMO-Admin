@@ -66,8 +66,8 @@ function AplikasiPages() {
     },
   ]);
 
-  const [listInfrasturktur, setListInfrasturktur] = useState([]);
-  const [listInfrasturkturLoading, setListInfrasturkturLoading] =
+  const [listAplikasi, setListAplikasi] = useState([]);
+  const [listAplikasiLoading, setListAplikasiLoading] =
     useState(true);
 
   const [formData, setFormData] = useState(initialFormData);
@@ -87,7 +87,7 @@ function AplikasiPages() {
 
   useEffect(() => {
     if (authToken) {
-      fetchDataInfrasturktur(
+      fetchDataAplikasi(
         authApiKey,
         authToken,
         JSON.parse(authProfile)?.role
@@ -95,8 +95,8 @@ function AplikasiPages() {
     }
   }, [dataState, authToken]);
 
-  const fetchDataInfrasturktur = async (api_key, token, role) => {
-    setListInfrasturkturLoading(true);
+  const fetchDataAplikasi = async (api_key, token, role) => {
+    setListAplikasiLoading(true);
     const params = new URLSearchParams();
     params.append("role", role);
     try {
@@ -107,15 +107,15 @@ function AplikasiPages() {
         apiKey: api_key,
         token: token,
       });
-      setListInfrasturkturLoading(false);
+      setListAplikasiLoading(false);
       if (response?.statusCode === 200) {
         if (JSON.parse(authProfile)?.role === "perangkat_daerah") {
           const filteredSubmissions = response.result.data.filter(
             (submission) => submission.submission_title === dataState
           );
-          setListInfrasturktur(filteredSubmissions);
+          setListAplikasi(filteredSubmissions);
         } else {
-          setListInfrasturktur(response.result.data);
+          setListAplikasi(response.result.data);
         }
 
         setStatusData([
@@ -134,7 +134,7 @@ function AplikasiPages() {
           },
         ]);
       } else {
-        setListInfrasturktur([]);
+        setListAplikasi([]);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -506,7 +506,7 @@ function AplikasiPages() {
                     }
                   }
                 }}
-                data={listInfrasturktur}
+                data={listAplikasi}
               />
             </div>
           </div>
@@ -577,7 +577,7 @@ function AplikasiPages() {
                   setisModalVerif({ data: {}, status: false });
                   setisModalCreate({ data: {}, status: false });
                   setisModalType({ data: {}, status: false });
-                  fetchDataInfrasturktur(
+                  fetchDataAplikasi(
                     authApiKey,
                     authToken,
                     JSON.parse(authProfile)?.role
