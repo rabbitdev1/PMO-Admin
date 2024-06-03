@@ -53,7 +53,6 @@ function InfrastrukturPages() {
     data: {},
   });
 
-
   const dispatch = useDispatch();
   const dataState = location.state;
 
@@ -345,7 +344,8 @@ function InfrastrukturPages() {
 
   return (
     <div className="flex flex-col gap-3 flex-1 p-4" >
-      <TitleHeader title={"Layanan Pengajuan"}
+      <TitleHeader         title={JSON.parse(authProfile)?.role === "perangkat_daerah" ? "Layanan Pengajuan" : "Layanan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi"}
+
         link1={"dashboard"}
         link2={'Bidang Infrastruktur Teknologi, Informasi dan Komunikasi'} />
       <section className="flex xl:flex-row flex-col gap-3" >

@@ -157,7 +157,7 @@ function AplikasiPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Pengajuan Infrasturktur Berhasil",
+            title: "Pengajuan Aplikasi Berhasil",
             msg: "Selamat, Pengajuan anda sudah diterima",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
@@ -192,7 +192,7 @@ function AplikasiPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Pengajuan Infrasturktur Berhasil Dihapus",
+            title: "Pengajuan Aplikasi Berhasil Dihapus",
             msg: response.result.msg,
             icon: PengajuanGagalIcon,
             color: "#FB4B4B",
@@ -381,7 +381,7 @@ function AplikasiPages() {
   return (
     <div className="flex flex-col gap-3 flex-1 p-4">
       <TitleHeader
-        title={"Layanan Pengajuan"}
+        title={JSON.parse(authProfile)?.role === "perangkat_daerah" ? "Layanan Pengajuan" : "Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan"}
         link1={"dashboard"}
         link2={"Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan"}
       />

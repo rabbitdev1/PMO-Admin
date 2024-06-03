@@ -1,10 +1,9 @@
-import bcrypt from "bcrypt"; // Pastikan bcrypt diimpor
+import bcrypt from "bcrypt";
 import { Sequelize } from "sequelize";
 import db from "../config/Database.js";
 
 const { DataTypes } = Sequelize;
 
-// Definisikan model Users terlebih dahulu
 const Users = db.define(
     "users", {
         fullname: {
@@ -12,8 +11,12 @@ const Users = db.define(
             allowNull: false,
         },
         apiKey: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(100),
             allowNull: false,
+        },
+        activeSession: {
+            type: DataTypes.STRING,
+            allowNull: true,
         },
         email: {
             type: DataTypes.STRING,
@@ -48,7 +51,6 @@ const Users = db.define(
     }
 );
 
-// Tambahkan comparePassword setelah definisi Users
 Users.prototype.comparePassword = function(password) {
     return bcrypt.compare(password, this.password);
 };
