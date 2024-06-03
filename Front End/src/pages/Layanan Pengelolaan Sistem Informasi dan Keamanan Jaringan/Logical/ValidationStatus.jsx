@@ -125,6 +125,7 @@ const ValidationStatus = ({
               </div>
               <DynamicShow
                 label={"Tanggapan"}
+                location={'aplikasi'}
                 value={validationData?.response}
                 type={"html"}
               />
