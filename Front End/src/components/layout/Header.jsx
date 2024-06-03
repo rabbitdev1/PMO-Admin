@@ -201,7 +201,7 @@ const Header = () => {
                 initialValue={'Log Out'}
                 type="no-padding"
                 color={isDarkMode ? "#ffffff" : "#212121"}
-                iconLeft={<Ic_light_mode className={`h-5 aspect-square`} />}
+                iconLeft={<LogoutIcon className={`h-5 aspect-square`} />}
                 className="inline-flex"
                 onClick={() => {
                   fetchLogout(authApiKey, authToken)
