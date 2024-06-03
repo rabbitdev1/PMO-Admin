@@ -18,7 +18,7 @@ const ProcessStatus = ({
     setisModalVerif,
     checkingFormData,
     detailData,
-    Loading,
+    loading,
     finishData, setfinishData,
 }) => {
 
@@ -28,9 +28,9 @@ const ProcessStatus = ({
 
     const IntergasiSIFinish = getIntergasiSIFinish(finishData);
 
-    const ModulTTEProcess = getModulTTEProcess (inputLocal);
+    const ModulTTEProcess = getModulTTEProcess(inputLocal);
 
-    const ModulTTEFinish = getModulTTEFinish (finishData);
+    const ModulTTEFinish = getModulTTEFinish(finishData);
 
     const fetchSetProgress = async (api_key, token, status) => {
         const params = new URLSearchParams();
@@ -121,9 +121,9 @@ const ProcessStatus = ({
                                 />
                             ))}
                             {renderProcessInputs(detailData.submission_title === "Integrasi Sistem Informasi" ?
-                                IntergasiSIProcess : 
-                                detailData.submission_title === "Penerapan Modul TTE" ? ModulTTEProcess : 
-                                []
+                                IntergasiSIProcess :
+                                detailData.submission_title === "Penerapan Modul TTE" ? ModulTTEProcess :
+                                    []
                             )}
                             <div className='flex sm:flex-row flex-col gap-2'>
                                 <DynamicButton
@@ -182,9 +182,9 @@ const ProcessStatus = ({
                                             key === "upload_dokumen_hasil_integrasi"
                                                 ? "File Dokumen Hasil Integrasikan"
                                                 : "upload_dokumen_laporan_modul_tte"
-                                                ? "Upload Surat Pengesahan"
-                                                :
-                                                key
+                                                    ? "Upload Surat Pengesahan"
+                                                    :
+                                                    key
                                         }
                                         value={value}
                                         location={"aplikasi"}
@@ -219,9 +219,9 @@ const ProcessStatus = ({
                                             key === "upload_dokumen_hasil_integrasi"
                                                 ? "File Dokumen Hasil Integrasikan"
                                                 : "upload_dokumen_laporan_modul_tte"
-                                                ? "Surat Pengesahan"
-                                                :
-                                                key
+                                                    ? "Surat Pengesahan"
+                                                    :
+                                                    key
                                         }
                                         value={value}
                                         location={"aplikasi"}
@@ -236,9 +236,9 @@ const ProcessStatus = ({
                             <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                                 <span className='text-lg font-bold'>Proses Selesai</span>
                                 {renderFinishInputs(detailData.submission_title === "Integrasi Sistem Informasi" ?
-                                    IntergasiSIFinish : 
-                                    detailData.submission_title === "Penerapan Modul TTE" ? ModulTTEFinish : 
-                                    []
+                                    IntergasiSIFinish :
+                                    detailData.submission_title === "Penerapan Modul TTE" ? ModulTTEFinish :
+                                        []
                                 )}
                                 <DynamicButton
                                     initialValue={"Pengajuan Selesai"}
@@ -266,8 +266,10 @@ const ProcessStatus = ({
 
                 )}
                 <DynamicDetails
+
+                    location={'aplikasi'}
                     detailData={detailData}
-                    loading={Loading}
+                    loading={loading}
                 />
             </div>
             :
@@ -302,11 +304,11 @@ const ProcessStatus = ({
                                     key={key}
                                     label={
                                         key === "upload_dokumen_hasil_integrasi"
-                                        ? "File Dokumen Hasil Integrasikan"
-                                        : "upload_dokumen_laporan_modul_tte"
-                                        ? "Surat Pengesahan"
-                                        :
-                                        key
+                                            ? "File Dokumen Hasil Integrasikan"
+                                            : "upload_dokumen_laporan_modul_tte"
+                                                ? "Surat Pengesahan"
+                                                :
+                                                key
                                     }
                                     value={value}
                                     location={"aplikasi"}
@@ -320,7 +322,7 @@ const ProcessStatus = ({
                         </div>
                     }
                 </div>
-                <DynamicDetails location={"aplikasi"} detailData={detailData} loading={Loading} />
+                <DynamicDetails location={"aplikasi"} detailData={detailData} loading={loading} />
             </div>
         )
     );
