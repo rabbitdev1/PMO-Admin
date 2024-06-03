@@ -44,6 +44,20 @@ const ValidationStatusTechnique = ({
       name: 'working_schedule'
     },
   ];
+  const ModulTTEValidateTechnique = [
+    {
+      label: "Tanggapan Tim",
+      value: inputLocal.team_response,
+      type: "textarea",
+      name: 'team_response'
+    },
+    {
+      label: "Jadwal Pengerjaan",
+      value: inputLocal.working_schedule,
+      type: "date",
+      name: 'working_schedule'
+    },
+  ];
 
   const fetchSetProgress = async (api_key, token, status) => {
     const params = new URLSearchParams();
@@ -61,7 +75,7 @@ const ValidationStatusTechnique = ({
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: 'aplikasi Berhasil diupdate',
+            title: 'Aplikasi Berhasil Diupdate',
             msg: 'Selamat, Pengajuan aplikasi sudah diupdate',
             icon: PengajuanBerahasilIcon,
             color: '#13C39C'
@@ -104,7 +118,9 @@ const ValidationStatusTechnique = ({
               <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                 <span className='text-lg font-bold'>Tahapan Validasi</span>
                 {renderProcessInputs(detailData.submission_title === "Integrasi Sistem Informasi" ?
-                  IntegrasiSIValidateTechnique : []
+                  IntegrasiSIValidateTechnique :
+                  detailData.submission_title === "Penerapan Modul TTE" ? ModulTTEValidateTechnique :
+                    []
                 )}
                 <div className='flex sm:flex-row flex-col gap-2'>
                   <DynamicButton
@@ -125,8 +141,8 @@ const ValidationStatusTechnique = ({
                         })
                       );
                       let isValid = true;
-                      isValid = isValid && validateFile(inputLocal.file_scema_integration, "Skema Integrasi")
-                      isValid = isValid && validateText(inputLocal.team_response, "Tanggapan Tim Teknisi")
+                      // isValid = isValid && validateFile(inputLocal.file_scema_integration, "Skema Integrasi")
+                      isValid = isValid && validateText(inputLocal.team_response, "Tanggapan Tim Teknis")
                       isValid = isValid && validatePeriod(inputLocal.working_schedule, "Jadwal Pengerjaan")
 
                       if (isValid) {
@@ -148,6 +164,7 @@ const ValidationStatusTechnique = ({
                   {Object.entries(validationData).map(([key, value]) => (
                     <DynamicShow
                       key={key}
+                      location={'aplikasi'}
                       label={key === "team_response" ? "Tanggapan dari Tim" : key === "working_schedule" ? "Jadwal Kerja" : key}
                       value={value}
                       type={key === "team_response" ? 'text' : key === "working_schedule" ? "multidate" : 'text'}
@@ -164,7 +181,8 @@ const ValidationStatusTechnique = ({
                   key === 'response_katim' ? null :
                     <DynamicShow
                       key={key}
-                      label={key === "team_response" ? "Tanggapan dari Tim" : key === "working_schedule" ? "Jadwal Kerja" : key}
+                      location={'aplikasi'}
+                      label={key === "team_response" ? "Tanggapan dari Tim Teknis" : key === "working_schedule" ? "Jadwal Kerja" : key}
                       value={value}
                       type={key === "team_response" ? 'text' : key === "working_schedule" ? "multidate" : 'text'}
                     />
@@ -232,6 +250,7 @@ const ValidationStatusTechnique = ({
           )}
 
           <DynamicDetails
+            location={'aplikasi'}
             detailData={detailData}
             loading={loading}
           />
@@ -271,6 +290,7 @@ const ValidationStatusTechnique = ({
               {Object.entries(validationData).map(([key, value]) => (
                 <DynamicShow
                   key={key}
+                  location={'aplikasi'}
                   label={key === "team_response" ? "Tanggapan dari Tim" : key === "working_schedule" ? "Jadwal Kerja" : key === "response_katim" ? "Tanggapan dari Ketua Tim" : key}
                   value={value}
                   type={key === "team_response" ? 'text' : key === "working_schedule" ? "multidate" : key === "response" ? "html" : 'text'}
