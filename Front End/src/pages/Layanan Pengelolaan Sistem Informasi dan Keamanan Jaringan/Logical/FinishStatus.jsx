@@ -75,6 +75,8 @@ const FinishStatus = ({
           </div>
         </div>
         <DynamicDetails
+
+location={'aplikasi'}
           detailData={detailData}
           loading={loading}
         />
