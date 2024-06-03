@@ -7,6 +7,7 @@ export const isValidatorUserAccountSI = (obj) => {
   isValid = isValid && validateFullname(obj.name_pic, "Nama PIC");
   isValid = isValid && validateTelp(obj.telp_pic, "Nomor PIC");
   isValid = isValid && validateHTML(obj.reason, "Alasan Pengajuan");
+  isValid = isValid && validateArray(obj.account_type, "Jenis Akun");
 
   return isValid;
 };

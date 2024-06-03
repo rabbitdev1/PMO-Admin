@@ -157,7 +157,7 @@ function AplikasiPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Pengajuan Infrasturktur Berhasil",
+            title: "Pengajuan Aplikasi Berhasil",
             msg: "Selamat, Pengajuan anda sudah diterima",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
@@ -192,7 +192,7 @@ function AplikasiPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Pengajuan Infrasturktur Berhasil Dihapus",
+            title: "Pengajuan Aplikasi Berhasil Dihapus",
             msg: response.result.msg,
             icon: PengajuanGagalIcon,
             color: "#FB4B4B",
