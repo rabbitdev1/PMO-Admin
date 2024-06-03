@@ -98,6 +98,8 @@ const getKeyLabel = (key) => {
       return "Data yang dibutuhkan";
     case "integration":
       return "Tujuan Integrasi";
+    case "file_scema_integration":
+      return "Skema Integrasi";
     default:
       return key;
   }
@@ -127,6 +129,8 @@ const getFieldType = (key) => {
       return "date";
     case "period":
       return "multidate";
+    case "file_scema_integration":
+      return "pdf";
     default:
       return "text";
   }
