@@ -46,12 +46,14 @@ const FinishStatus = ({
                     ? "Dokumen Hasil Integrasi"
                     : "upload_dokumen_laporan_modul_tte"
                     ? "Surat Pengesahan"
+                    : "upload_dokumen_laporan_pembuatan_akun"
+                    ? "Dokumen Laporan Hasil Pembuatan Akun"
                     : key
                 }
                 value={value}
                 location={"aplikasi"}
                 type={
-                  key === "upload_dokumen_hasil_integrasi" || "upload_dokumen_laporan_modul_tte" ? "pdf"
+                  key === "upload_dokumen_hasil_integrasi" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun" ? "pdf"
                     : "text"
                 }
               />
