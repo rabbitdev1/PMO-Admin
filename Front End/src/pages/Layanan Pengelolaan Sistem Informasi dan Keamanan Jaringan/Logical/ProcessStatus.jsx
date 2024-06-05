@@ -18,7 +18,7 @@ const ProcessStatus = ({
     setisModalVerif,
     checkingFormData,
     detailData,
-    Loading,
+    loading,
     finishData, setfinishData,
 }) => {
 
@@ -28,9 +28,9 @@ const ProcessStatus = ({
 
     const IntergasiSIFinish = getIntergasiSIFinish(finishData);
 
-    const ModulTTEProcess = getModulTTEProcess (inputLocal);
+    const ModulTTEProcess = getModulTTEProcess(inputLocal);
 
-    const ModulTTEFinish = getModulTTEFinish (finishData);
+    const ModulTTEFinish = getModulTTEFinish(finishData);
 
     const UserAkunSIProcess = getUserAccountSIProcess (inputLocal);
 
@@ -129,6 +129,7 @@ const ProcessStatus = ({
                                 detailData.submission_title === "Penerapan Modul TTE" ? ModulTTEProcess : 
                                 detailData.submission_title === "User Akun Sistem Informasi" ? UserAkunSIProcess :
                                 []
+
                             )}
                             <div className='flex sm:flex-row flex-col gap-2'>
                                 <DynamicButton
@@ -236,7 +237,7 @@ const ProcessStatus = ({
                                                 key
                                         }
                                         value={value}
-                                        location={"aplikasi"}
+                                        location={"aplikasi"}   
                                         type={
                                             key === "upload_dokumen_hasil_integrasi" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun"
                                                 ? "pdf"
@@ -279,8 +280,10 @@ const ProcessStatus = ({
 
                 )}
                 <DynamicDetails
+
+                    location={'aplikasi'}
                     detailData={detailData}
-                    loading={Loading}
+                    loading={loading}
                 />
             </div>
             :
@@ -335,7 +338,7 @@ const ProcessStatus = ({
                         </div>
                     }
                 </div>
-                <DynamicDetails location={"aplikasi"} detailData={detailData} loading={Loading} />
+                <DynamicDetails location={"aplikasi"} detailData={detailData} loading={loading} />
             </div>
         )
     );

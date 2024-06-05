@@ -31,6 +31,7 @@ import {
 } from "../controllers/Infrastruktur/index.js";
 import { editDataInfrastruktur } from "../controllers/Infrastruktur/edit.js";
 import { deleteDataInfrastruktur } from "../controllers/Infrastruktur/delete.js";
+import { getListDataTools } from "../controllers/Infrastruktur/list_tools.js";
 
 const router = express.Router();
 
@@ -41,6 +42,9 @@ router.post("/infrastruktur/create", verifyToken, setStatusDataInfrastruktur);
 router.post("/infrastruktur/set_process", verifyToken, editProcessDataInfrastruktur);
 router.post("/infrastruktur/edit", verifyToken, editDataInfrastruktur);
 router.post("/infrastruktur/delete", verifyToken, deleteDataInfrastruktur);
+router.post("/infrastruktur/list_tools", verifyToken, getListDataTools);
+
+
 
 // Aplikasi routes
 router.post("/aplikasi", verifyToken, getListDataAplikasi);

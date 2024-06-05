@@ -132,7 +132,7 @@ const ValidationStatusTechnique = ({
               <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                 <span className='text-lg font-bold'>Tahapan Validasi</span>
                 {renderProcessInputs(detailData.submission_title === "Integrasi Sistem Informasi" ?
-                  IntegrasiSIValidateTechnique : 
+                  IntegrasiSIValidateTechnique :
                   detailData.submission_title === "Penerapan Modul TTE" ? ModulTTEValidateTechnique :
                   detailData.submission_title === "User Akun Sistem Informasi" ? UserAccountSIValidateTechnique :
                   []
@@ -158,7 +158,7 @@ const ValidationStatusTechnique = ({
                       let isValid = true;
                       // isValid = isValid && validateFile(inputLocal.file_scema_integration, "Skema Integrasi")
                       isValid = isValid && validateText(inputLocal.team_response, "Tanggapan Tim Teknis")
-                      isValid = isValid && validatePeriod(inputLocal.working_schedule, "Jadwal Pengerjaan") 
+                      isValid = isValid && validatePeriod(inputLocal.working_schedule, "Jadwal Pengerjaan")
 
                       if (isValid) {
                         checkingFormData('validation_technique', filteredDataResult);
@@ -195,6 +195,7 @@ const ValidationStatusTechnique = ({
                   key === 'response_katim' ? null :
                     <DynamicShow
                       key={key}
+                      location={'aplikasi'}
                       label={key === "team_response" ? "Tanggapan dari Tim Teknis" : key === "working_schedule" ? "Jadwal Kerja" : key}
                       value={value}
                       type={key === "team_response" ? 'text' : key === "working_schedule" ? "multidate" : 'text'}
@@ -263,6 +264,7 @@ const ValidationStatusTechnique = ({
           )}
 
           <DynamicDetails
+            location={'aplikasi'}
             detailData={detailData}
             loading={loading}
           />
@@ -302,7 +304,8 @@ const ValidationStatusTechnique = ({
               {Object.entries(validationData).map(([key, value]) => (
                 <DynamicShow
                   key={key}
-                  label={key === "team_response" ? "Tanggapan dari Tim Teknis" : key === "working_schedule" ? "Jadwal Kerja" : key === "response_katim" ? "Tanggapan dari Ketua Tim" : key}
+                  location={'aplikasi'}
+                  label={key === "team_response" ? "Tanggapan dari Tim" : key === "working_schedule" ? "Jadwal Kerja" : key === "response_katim" ? "Tanggapan dari Ketua Tim" : key}
                   value={value}
                   type={key === "team_response" ? 'text' : key === "working_schedule" ? "multidate" : key === "response" ? "html" : 'text'}
                 />

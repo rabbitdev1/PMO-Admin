@@ -59,6 +59,7 @@ function InfrastrukturPages() {
   useEffect(() => {
     if (authToken) {
       fetchDataInfrasturktur(authApiKey, authToken, JSON.parse(authProfile)?.role)
+      fetchDataAlat(authApiKey, authToken)
     }
   }, [dataState, authToken]);
 
@@ -92,6 +93,42 @@ function InfrastrukturPages() {
         ])
       } else {
         setListInfrasturktur([]);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  const fetchDataAlat = async (api_key, token) => {
+    const params = new URLSearchParams();
+    try {
+      const response = await apiClient({
+        baseurl: "infrastruktur/list_tools",
+        method: "POST",
+        body: params,
+        apiKey: api_key,
+        token: token,
+      });
+      if (response?.statusCode === 200) {
+        const formattedOptions = response.result.data.map(item => ({
+          value: item.name_tools,
+          label: item.name_tools
+        }));
+        setFormData(prevFormData =>
+          prevFormData.map(form =>
+            form.name === "Pengajuan Relokasi Alat" || form.name === "Pengajuan Penambahan Alat"
+              ? {
+                ...form,
+                fields: form.fields.map(field =>
+                  field.name === "type_tools"
+                    ? { ...field, options: formattedOptions }
+                    : field
+                )
+              }
+              : form
+          )
+        );
+      } else {
+
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -160,6 +197,7 @@ function InfrastrukturPages() {
         toast.error(response.result.msg, {
           position: toast.POSITION.TOP_RIGHT,
         });
+        fetchDataInfrasturktur(authApiKey, authToken, JSON.parse(authProfile)?.role)
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -344,7 +382,7 @@ function InfrastrukturPages() {
 
   return (
     <div className="flex flex-col gap-3 flex-1 p-4" >
-      <TitleHeader         title={JSON.parse(authProfile)?.role === "perangkat_daerah" ? "Layanan Pengajuan" : "Layanan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi"}
+      <TitleHeader title={JSON.parse(authProfile)?.role === "perangkat_daerah" ? "Layanan Pengajuan" : "Layanan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi"}
 
         link1={"dashboard"}
         link2={'Bidang Infrastruktur Teknologi, Informasi dan Komunikasi'} />

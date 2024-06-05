@@ -269,7 +269,7 @@ function DetailAplikasiPages() {
           }
           if (data.upload_dokumen_laporan_modul_tte) {
             uploadPromises.push(
-              fetchUploadImages(
+              fetchUploadFiles(
                 authApiKey,
                 authToken,
                 data.upload_dokumen_laporan_modul_tte,
