@@ -25,6 +25,7 @@ const Sidebar = () => {
     };
     setTab(formatPathname(location.pathname));
     setState((location.state));
+    console.log(validateSideBar?.role);
   }, [location]);
 
   const toggleSubmenu = (index) => {
@@ -50,7 +51,7 @@ const Sidebar = () => {
 
   const menuItems = [
     { title: "MENU", role: ['/'], icon: "" },
-    { title: "Dashboard", role: ['op_pmo', 'perangkat_daerah', 'kabid_infra', 'teknis_infra', 'katim_infra', 'katim_aplikasi', 'anggota_aplikasi'], icon: AllBerandaIcon, href: ["/", "/"], },
+    { title: "Dashboard", role: ['op_pmo', 'perangkat_daerah', 'kabid_infra', 'teknis_infra', 'katim_infra', 'katim_aplikasi', 'kabid_aplikasi', 'teknis_aplikasi'], icon: AllBerandaIcon, href: ["/", "/"], },
     {
       title: "Data Alat", role: ['kabid_infra', 'teknis_infra', 'katim_infra'],
       icon: AllBerandaIcon, href: ["/data-alat-infrastruktur", "/detail-infrastruktur"],
@@ -141,7 +142,7 @@ const Sidebar = () => {
                   <LeftArrowIcon
                     className={`h-4 w-4 transform transition-transform duration-200 ${expandedMenuIndex === index ? 'rotate-90' : ''}`}
                     fill={
-                      tab === button.href[0] || tab === button.href[1]||tab === button.href[2] ? "#ffffff" : hoveredIndex === index
+                      tab === button.href[0] || tab === button.href[1] || tab === button.href[2] ? "#ffffff" : hoveredIndex === index
                         ? "#ffffff"
                         : isDarkMode ? "#ffffff" : "#212121"
                     }

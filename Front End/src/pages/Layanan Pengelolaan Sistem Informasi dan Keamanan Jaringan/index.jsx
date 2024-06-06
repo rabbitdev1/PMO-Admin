@@ -671,7 +671,7 @@ function AplikasiPages() {
                                 </div>
                               </div>
                             )}
-                          {item?.field &&
+                          {/* {item?.field &&
                             item?.field?.map(
                               (itemField, indexField) =>
                                 item?.value?.value ===
@@ -693,7 +693,7 @@ function AplikasiPages() {
                                     placeholder={"Masukan " + itemField.label}
                                   />
                                 )
-                            )}
+                            )} */}
                         </div>
                       ))}
                     </div>

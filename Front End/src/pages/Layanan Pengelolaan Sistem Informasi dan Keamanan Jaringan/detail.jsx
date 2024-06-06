@@ -282,7 +282,7 @@ function DetailAplikasiPages() {
           }
           if (data.upload_dokumen_laporan_pembuatan_akun) {
             uploadPromises.push(
-              fetchUploadImages(
+              fetchUploadFiles(
                 authApiKey,
                 authToken,
                 data.upload_dokumen_laporan_pembuatan_akun,
