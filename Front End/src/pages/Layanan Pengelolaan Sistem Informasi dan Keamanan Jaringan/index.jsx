@@ -529,7 +529,7 @@ function AplikasiPages() {
                       className={`flex flex-row justify-start items-center gap-2 flex-1 ${index % 2 ? "" : "bg-[#f1f5f9] dark:bg-[#f1f5f907]"} py-2.5 p-3 hover:opacity-70`}
                       onClick={() => {
                         if (item.name === "Pengajuan Permohonan Sistem Informasi") {
-                          navigate("/permohonan-sistem-informasi");
+                          navigate("/permohonan-sistem-informasi", { state: 'Permohonan Sistem Informasi' });
                           // navigate("/permohonan-sistem-informasi", { state: { slug: data.id } });
                         } else {
                           setisModalCreate({ data: item.name, status: true });
