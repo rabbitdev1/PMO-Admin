@@ -83,7 +83,14 @@ const Sidebar = () => {
     { title: "Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi", role: ['op_pmo', 'perangkat_daerah',], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
     { title: "Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi", role: ['op_pmo', 'perangkat_daerah',], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
     { title: "Layanan UPT RADIO SONATA", role: ['op_pmo', 'perangkat_daerah',], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
-    { title: "Layanan Pendaftaran Magang", role: ['op_pmo', 'perangkat_daerah',], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
+
+    { title: "Layanan Sekretariat", role: ['op_pmo', 'perangkat_daerah', 'katim_aplikasi', 'teknis_aplikasi'],
+    submenu: [
+      { title: "Pendaftaran Magang", href: "/layanan-sekretariat", state: 'Pendaftaran Magang' },
+    ]    
+    , icon: AllBerandaIcon, href: ["/layanan-sekretariat", "/detail-sekretariat"], 
+    },
+
     { title: "PENGATURAN", role: ['op_pmo'], icon: "" },
     { title: "Akun", role: ['op_pmo'], icon: AllBerandaIcon, href: ["/account", "/1"], },
 
