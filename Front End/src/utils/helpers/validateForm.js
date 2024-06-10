@@ -62,7 +62,7 @@ export const validateRole = (value, title) => {
 };
 
 export const validateTelp = (value, title) => {
-    if (value.startsWith("+62")) {
+    if (value?.startsWith("+62")) {
         value = "0" + value.slice(3);
     }
     const phoneRegex = /^[0-9]{10,15}$/;

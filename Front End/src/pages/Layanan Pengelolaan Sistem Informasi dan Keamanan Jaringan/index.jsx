@@ -528,11 +528,16 @@ function AplikasiPages() {
                       key={index}
                       className={`flex flex-row justify-start items-center gap-2 flex-1 ${index % 2 ? "" : "bg-[#f1f5f9] dark:bg-[#f1f5f907]"} py-2.5 p-3 hover:opacity-70`}
                       onClick={() => {
-                        setisModalCreate({ data: item.name, status: true });
-                        updatePic(
-                          JSON.parse(authProfile).fullname,
-                          JSON.parse(authProfile).telp
-                        );
+                        if (item.name === "Pengajuan Permohonan Sistem Informasi") {
+                          navigate("/permohonan-sistem-informasi", { state: 'Permohonan Sistem Informasi' });
+                          // navigate("/permohonan-sistem-informasi", { state: { slug: data.id } });
+                        } else {
+                          setisModalCreate({ data: item.name, status: true });
+                          updatePic(
+                            JSON.parse(authProfile).fullname,
+                            JSON.parse(authProfile).telp
+                          );
+                        }
                       }}
                     >
                       <span className=" text-base text-left line-clamp-2 font-gilroy">
@@ -666,7 +671,7 @@ function AplikasiPages() {
                                 </div>
                               </div>
                             )}
-                          {item?.field &&
+                          {/* {item?.field &&
                             item?.field?.map(
                               (itemField, indexField) =>
                                 item?.value?.value ===
@@ -688,7 +693,7 @@ function AplikasiPages() {
                                     placeholder={"Masukan " + itemField.label}
                                   />
                                 )
-                            )}
+                            )} */}
                         </div>
                       ))}
                     </div>

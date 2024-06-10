@@ -51,21 +51,20 @@ const Header = () => {
   const fetchLogout = async (api_key, token) => {
     dispatch(isPending(true));
     try {
-
       const response = await apiClient({
         baseurl: "logout",
         method: "POST",
         apiKey: api_key,
         token,
       });
-      dispatch(isPending(false));
       if (response?.statusCode === 200) {
-        Cookies.remove("authData");
-        Cookies.remove("authApiKey");
-        Cookies.remove("authToken");
-        setShowOverlay(!showOverlay); 
+        setShowOverlay(true); 
         setTimeout(() => {
+      dispatch(isPending(false));
           window.location.reload("/");
+          Cookies.remove("authData");
+          Cookies.remove("authApiKey");
+          Cookies.remove("authToken");
         }, 500);
       } else {
 
