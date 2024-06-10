@@ -40,6 +40,7 @@ import {
 } from "../controllers/Sekretariat/index.js";
 import { editDataSekretariat } from "../controllers/Sekretariat/edit.js";
 import { deleteDataSekretariat } from "../controllers/Sekretariat/delete.js";
+
 import { getListDataManagementInfrastrukturTIK } from "../controllers/ManagementInfrastrukturTIK/list.js";
 import { getListDataPerencanaanTIK } from "../controllers/PerencanaanTIK/list.js";
 import { getDetailDataPerencanaanTIK } from "../controllers/PerencanaanTIK/detail.js";
@@ -56,6 +57,18 @@ import {
 } from "../controllers/ManagementInfrastrukturTIK/index.js";
 import { editDataManagementInfrastrukturTIK } from "../controllers/ManagementInfrastrukturTIK/edit.js";
 import { deleteDataManagementInfrastrukturTIK } from "../controllers/ManagementInfrastrukturTIK/delete.js";
+
+import { getListDataUptRadio } from "../controllers/UptRadio/list.js";
+import { getDetailDataUptRadio } from "../controllers/UptRadio/detail.js";
+import { editProcessDataUptRadio, setStatusDataUptRadio } from "../controllers/UptRadio/index.js";
+import { editDataUptRadio } from "../controllers/UptRadio/edit.js";
+import { deleteDataUptRadio } from "../controllers/UptRadio/delete.js";
+import { getListDataTeknologiSI } from "../controllers/TeknologiSI/list.js";
+import { getDetailDataTeknologiSI } from "../controllers/TeknologiSI/detail.js";
+import { editProcessDataTeknologiSI, setStatusDataTeknologiSI } from "../controllers/TeknologiSI/index.js";
+import { editDataTeknologiSI } from "../controllers/TeknologiSI/edit.js";
+import { deleteDataTeknologiSI } from "../controllers/TeknologiSI/delete.js";
+
 
 const router = express.Router();
 
@@ -131,6 +144,26 @@ router.post(
   verifyToken,
   deleteDataManagementInfrastrukturTIK
 );
+
+
+// Upt Radio routes
+router.post("/uptradio", verifyToken, getListDataUptRadio);
+router.post("/uptradio/detail", verifyToken, getDetailDataUptRadio);
+router.post("/uptradio/create", verifyToken, setStatusDataUptRadio);
+router.post("/uptradio/set_process", verifyToken, editProcessDataUptRadio);
+router.post("/uptradio/edit", verifyToken, editDataUptRadio);
+router.post("/uptradio/delete", verifyToken, deleteDataUptRadio);
+router.post("/uptradio/list_tools", verifyToken, getListDataTools);
+
+// Teknologi SI routes
+router.post("/teknologisi", verifyToken, getListDataTeknologiSI);
+router.post("/teknologisi/detail", verifyToken, getDetailDataTeknologiSI);
+router.post("/teknologisi/create", verifyToken, setStatusDataTeknologiSI);
+router.post("/teknologisi/set_process", verifyToken, editProcessDataTeknologiSI);
+router.post("/teknologisi/edit", verifyToken, editDataTeknologiSI);
+router.post("/teknologisi/delete", verifyToken, deleteDataTeknologiSI);
+router.post("/teknologisi/list_tools", verifyToken, getListDataTools);
+
 
 // Aplikasi routes
 router.post("/aplikasi", verifyToken, getListDataAplikasi);
