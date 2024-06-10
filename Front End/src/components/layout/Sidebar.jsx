@@ -25,6 +25,7 @@ const Sidebar = () => {
     };
     setTab(formatPathname(location.pathname));
     setState((location.state));
+    console.log(validateSideBar?.role);
   }, [location]);
 
   const toggleSubmenu = (index) => {
@@ -50,7 +51,7 @@ const Sidebar = () => {
 
   const menuItems = [
     { title: "MENU", role: ['/'], icon: "" },
-    { title: "Dashboard", role: ['op_pmo', 'perangkat_daerah', 'kabid_infra', 'teknis_infra', 'katim_infra', 'katim_aplikasi', 'anggota_aplikasi'], icon: AllBerandaIcon, href: ["/", "/"], },
+    { title: "Dashboard", role: ['op_pmo', 'perangkat_daerah', 'kabid_infra', 'teknis_infra', 'katim_infra', 'katim_aplikasi', 'kabid_aplikasi', 'teknis_aplikasi'], icon: AllBerandaIcon, href: ["/", "/"], },
     {
       title: "Data Alat", role: ['kabid_infra', 'teknis_infra', 'katim_infra'],
       icon: AllBerandaIcon, href: ["/data-alat-infrastruktur", "/detail-infrastruktur"],
@@ -60,11 +61,11 @@ const Sidebar = () => {
     {
       title: "Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan", role: ['op_pmo', 'perangkat_daerah', 'kabid_aplikasi', 'teknis_aplikasi', 'katim_aplikasi'],
       submenu: [
-        { title: 'Permohonan SI', href: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", state: 'Permohonan SI' },
+        { title: 'Permohonan Sistem Informasi', href: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", state: 'Permohonan Sistem Informasi' },
         { title: 'User Akun Sistem Informasi', href: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", state: 'User Akun Sistem Informasi' },
         { title: 'Intergrasi Sistem Informasi', href: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", state: 'Integrasi Sistem Informasi' },
         { title: 'Penerapan Modul TTE', href: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", state: 'Penerapan Modul TTE' },
-      ], icon: AllBerandaIcon, href: ["/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", "/detail-aplikasi"],
+      ], icon: AllBerandaIcon, href: ["/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", "/detail-aplikasi", "/permohonan-sistem-informasi"],
     },
     {
       title: "Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi", role: ['op_pmo', 'perangkat_daerah', 'kabid_infra', 'teknis_infra', 'katim_infra'],
@@ -122,26 +123,26 @@ const Sidebar = () => {
                 }}
                 onMouseOver={() => setHoveredIndex(index)}
                 onMouseOut={() => setHoveredIndex(null)}
-                className={`${tab === button.href[0] || tab === button.href[1] ? "bg-[#0185FF]" : ""} hover:bg-[#0185FF] rounded-md cursor-pointer group items-center flex gap-2 w-full p-2.5`}
+                className={`${tab === button.href[0] || tab === button.href[1] || tab === button.href[2] ? "bg-[#0185FF]" : ""} hover:bg-[#0185FF] rounded-md cursor-pointer group items-center flex gap-2 w-full p-2.5`}
               >
                 {button.icon && (
                   <button.icon
                     className="h-5 w-5"
                     fill={
-                      tab === button.href[0] || tab === button.href[1] ? "#ffffff" : hoveredIndex === index
+                      tab === button.href[0] || tab === button.href[1] || tab === button.href[2] ? "#ffffff" : hoveredIndex === index
                         ? "#ffffff"
                         : isDarkMode ? "#ffffff" : "#0185FF"
                     }
                   />
                 )}
-                <span className={`${tab === button.href[0] || tab === button.href[1] ? "text-cardLight" : "text-lightColor dark:text-darkColor"} flex-1 group-hover:text-[#ffffff] text-sm line-clamp-3 text-left select-none`}>
+                <span className={`${tab === button.href[0] || tab === button.href[1] || tab === button.href[2] ? "text-cardLight" : "text-lightColor dark:text-darkColor"} flex-1 group-hover:text-[#ffffff] text-sm line-clamp-3 text-left select-none`}>
                   {button.title}
                 </span>
                 {button.submenu && validateSideBar?.role === 'perangkat_daerah' &&
                   <LeftArrowIcon
                     className={`h-4 w-4 transform transition-transform duration-200 ${expandedMenuIndex === index ? 'rotate-90' : ''}`}
                     fill={
-                      tab === button.href[0] || tab === button.href[1] ? "#ffffff" : hoveredIndex === index
+                      tab === button.href[0] || tab === button.href[1] || tab === button.href[2] ? "#ffffff" : hoveredIndex === index
                         ? "#ffffff"
                         : isDarkMode ? "#ffffff" : "#212121"
                     }

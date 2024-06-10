@@ -178,7 +178,8 @@ function DetailAplikasiPages() {
     } else if (type === "validation_technique") {
       if (
         data.file_scema_integration ||
-        data.upload_dokumen_laporan_modul_tte
+        data.upload_dokumen_laporan_modul_tte ||
+        data.upload_dokumen_laporan_pembuatan_akun
       ) {
         try {
           const uploadPromises = [];
@@ -210,6 +211,20 @@ function DetailAplikasiPages() {
               })
             );
           }
+
+          if (data.upload_dokumen_laporan_pembuatan_akun) {
+            uploadPromises.push(
+              fetchUploadFiles(
+                authApiKey,
+                authToken,
+                data.upload_dokumen_laporan_pembuatan_akun,
+                "aplikasi",
+                dispatch
+              ).then(result => {
+                resultMapping.upload_dokumen_laporan_pembuatan_akun = result;
+              })
+            );
+          }
           await Promise.all(uploadPromises);
 
           let combineData = { ...data };
@@ -218,6 +233,9 @@ function DetailAplikasiPages() {
           }
           if (resultMapping.upload_dokumen_laporan_modul_tte) {
             combineData.upload_dokumen_laporan_modul_tte = resultMapping.upload_dokumen_laporan_modul_tte;
+          }
+          if (resultMapping.upload_dokumen_laporan_pembuatan_akun) {
+            combineData.upload_dokumen_laporan_pembuatan_akun = resultMapping.upload_dokumen_laporan_pembuatan_akun;
           }
           fetchEditaplikasi(authApiKey, authToken, slug, type, combineData);
         } catch (error) {
@@ -229,7 +247,8 @@ function DetailAplikasiPages() {
     } else if (type === "process") {
       if (
         data.upload_dokumen_hasil_integrasi ||
-        data.upload_dokumen_laporan_modul_tte
+        data.upload_dokumen_laporan_modul_tte ||
+        data.upload_dokumen_laporan_pembuatan_akun
       ) {
         try {
           const uploadPromises = [];
@@ -261,6 +280,19 @@ function DetailAplikasiPages() {
               })
             );
           }
+          if (data.upload_dokumen_laporan_pembuatan_akun) {
+            uploadPromises.push(
+              fetchUploadFiles(
+                authApiKey,
+                authToken,
+                data.upload_dokumen_laporan_pembuatan_akun,
+                "aplikasi",
+                dispatch
+              ).then(result => {
+                resultMapping.upload_dokumen_laporan_pembuatan_akun = result;
+              })
+            );
+          }
 
           await Promise.all(uploadPromises);
 
@@ -270,6 +302,9 @@ function DetailAplikasiPages() {
           }
           if (resultMapping.upload_dokumen_laporan_modul_tte) {
             combineData.upload_dokumen_laporan_modul_tte = resultMapping.upload_dokumen_laporan_modul_tte;
+          }
+          if (resultMapping.upload_dokumen_laporan_pembuatan_akun) {
+            combineData.upload_dokumen_laporan_pembuatan_akun = resultMapping.upload_dokumen_laporan_pembuatan_akun;
           }
 
           fetchEditaplikasi(authApiKey, authToken, slug, type, combineData);
