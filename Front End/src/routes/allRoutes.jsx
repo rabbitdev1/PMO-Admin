@@ -14,6 +14,10 @@ import DataAlatInfraPage from "../pages/Layanan dan Pengelolaan Infrastruktur Te
 import SekretariatPages from "../pages/Layanan Sekretariat";
 import DetailSekretariatPages from "../pages/Layanan Sekretariat/detail";
 import CreateAplikasiPages from "../pages/Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan/create";
+import LayananTeknologiSIPages from "../pages/Layanan Teknologi dan Sistem Informasi";
+import LayananManagemenInfrastrukturTeknologiInformasiPages from "../pages/Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi";
+import LayananPenyusunanPerencanaanSIPages from "../pages/Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi";
+import DetailTeknologiSistemInformasiPages from "../pages/Layanan Teknologi dan Sistem Informasi/detail";
 
 
 const userRoutes = [
@@ -23,6 +27,17 @@ const userRoutes = [
 
   { path: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", component: <AplikasiPages /> },
   { path: "/detail-aplikasi", component: <DetailAplikasiPages /> },
+
+
+  { path: "/layanan-teknologi-dan-sistem-informasi", component: <LayananTeknologiSIPages /> },
+  { path: "/detail-teknologi-dan-sistem-informasi", component: <DetailTeknologiSistemInformasiPages /> },
+
+
+  { path: "/layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi", component: <LayananManagemenInfrastrukturTeknologiInformasiPages /> },
+
+  { path: "/layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi", component: <LayananPenyusunanPerencanaanSIPages /> },
+
+
 
   { path: "/layanan-sekretariat", component: <SekretariatPages /> },
   { path: "/detail-sekretariat", component: <DetailSekretariatPages /> },
