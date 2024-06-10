@@ -11,7 +11,10 @@ import DetailsAccountPages from "../pages/System/Account/detail";
 import AplikasiPages from "../pages/Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan";
 import DetailAplikasiPages from "../pages/Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan/detail";
 import DataAlatInfraPage from "../pages/Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi/List Tools";
+import SekretariatPages from "../pages/Layanan Sekretariat";
+import DetailSekretariatPages from "../pages/Layanan Sekretariat/detail";
 import CreateAplikasiPages from "../pages/Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan/create";
+
 
 const userRoutes = [
   { path: "/", component: <DashboardPages /> },
@@ -20,6 +23,9 @@ const userRoutes = [
 
   { path: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", component: <AplikasiPages /> },
   { path: "/detail-aplikasi", component: <DetailAplikasiPages /> },
+
+  { path: "/layanan-sekretariat", component: <SekretariatPages /> },
+  { path: "/detail-sekretariat", component: <DetailSekretariatPages /> },
   { path: "/permohonan-sistem-informasi", component: <CreateAplikasiPages /> },
 
 ];

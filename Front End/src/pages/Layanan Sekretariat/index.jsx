@@ -22,12 +22,10 @@ import { convertToNameValueObject } from "../../utils/helpers/convertToNameValue
 import fetchUploadFiles from "../../utils/api/uploadFiles";
 import { formData as initialFormData } from "./data";
 import {
-  isValidatorIntegrasi,
-  isValidatorPenerapanModulTTE,
-  isValidatorUserAccountSI
+  isValidatorPendaftaranMagang
 } from "./validators";
 
-function AplikasiPages() {
+function SekretariatPages() {
   const { isDarkMode } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
@@ -66,8 +64,8 @@ function AplikasiPages() {
     },
   ]);
 
-  const [listAplikasi, setListAplikasi] = useState([]);
-  const [listAplikasiLoading, setListAplikasiLoading] =
+  const [listSekretariat, setListSekretariat] = useState([]);
+  const [listSekretariatLoading, setListSekretariatLoading] =
     useState(true);
 
   const [formData, setFormData] = useState(initialFormData);
@@ -87,7 +85,7 @@ function AplikasiPages() {
 
   useEffect(() => {
     if (authToken) {
-      fetchDataAplikasi(
+      fetchDataSekretariat(
         authApiKey,
         authToken,
         JSON.parse(authProfile)?.role
@@ -95,27 +93,27 @@ function AplikasiPages() {
     }
   }, [dataState, authToken]);
 
-  const fetchDataAplikasi = async (api_key, token, role) => {
-    setListAplikasiLoading(true);
+  const fetchDataSekretariat = async (api_key, token, role) => {
+    setListSekretariatLoading(true);
     const params = new URLSearchParams();
     params.append("role", role);
     try {
       const response = await apiClient({
-        baseurl: "aplikasi",
+        baseurl: "sekretariat",
         method: "POST",
         body: params,
         apiKey: api_key,
         token: token,
       });
-      setListAplikasiLoading(false);
+      setListSekretariatLoading(false);
       if (response?.statusCode === 200) {
         if (JSON.parse(authProfile)?.role === "perangkat_daerah") {
           const filteredSubmissions = response.result.data.filter(
             (submission) => submission.submission_title === dataState
           );
-          setListAplikasi(filteredSubmissions);
+          setListSekretariat(filteredSubmissions);
         } else {
-          setListAplikasi(response.result.data);
+          setListSekretariat(response.result.data);
         }
 
         setStatusData([
@@ -134,7 +132,7 @@ function AplikasiPages() {
           },
         ]);
       } else {
-        setListAplikasi([]);
+        setListSekretariat([]);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -146,7 +144,7 @@ function AplikasiPages() {
 
     try {
       const response = await apiClient({
-        baseurl: "aplikasi/create",
+        baseurl: "sekretariat/create",
         method: "POST",
         customHeaders: { "Content-Type": "application/json" },
         body: raw,
@@ -157,7 +155,7 @@ function AplikasiPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Pengajuan Aplikasi Berhasil",
+            title: "Pengajuan Sekretariat Berhasil",
             msg: "Selamat, Pengajuan anda sudah diterima",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
@@ -182,7 +180,7 @@ function AplikasiPages() {
 
     try {
       const response = await apiClient({
-        baseurl: "aplikasi/delete",
+        baseurl: "sekretariat/delete",
         method: "POST",
         body: params,
         apiKey: api_key,
@@ -192,7 +190,7 @@ function AplikasiPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Pengajuan Aplikasi Berhasil Dihapus",
+            title: "Pengajuan Sekretariat Berhasil Dihapus",
             msg: response.result.msg,
             icon: PengajuanGagalIcon,
             color: "#FB4B4B",
@@ -214,14 +212,14 @@ function AplikasiPages() {
 
     try {
       const response = await apiClient({
-        baseurl: "aplikasi/set_process",
+        baseurl: "sekretariat/set_process",
         method: "POST",
         body: params,
         apiKey: api_key,
         token: token,
       });
       if (response?.statusCode === 200) {
-        navigate("/detail-aplikasi", { state: { slug: id } });
+        navigate("/detail-sekretariat", { state: { slug: id } });
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -270,26 +268,13 @@ function AplikasiPages() {
         ),
       };
       console.log(JSON.stringify(combinedObject));
-      if (combinedObject?.submission_title === "User Akun Sistem Informasi") {
-        if (isValidatorUserAccountSI(combinedObject)) {
+      if (combinedObject?.submission_title === "Pendaftaran Magang") {
+        if (isValidatorPendaftaranMagang(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
         } else {
           return false;
         }
-      } else if (combinedObject?.submission_title === "Penerapan Modul TTE") {
-        if (isValidatorPenerapanModulTTE(combinedObject)) {
-          await handleImageUploadAndFetch(combinedObject);
-        } else {
-          return false;
-        }
-
-      } else if (combinedObject?.submission_title === "Integrasi Sistem Informasi") {
-        if (isValidatorIntegrasi(combinedObject)) {
-          await handleImageUploadAndFetch(combinedObject);
-        } else {
-          return false;
-        }
-      }
+      } 
     } else {
       console.log("Objek tidak ditemukan dalam formData");
     }
@@ -300,7 +285,7 @@ function AplikasiPages() {
         authApiKey,
         authToken,
         obj.file_process_bisiness,
-        "aplikasi",
+        "sekretariat",
         dispatch
       );
       if (result !== null) {
@@ -381,9 +366,9 @@ function AplikasiPages() {
   return (
     <div className="flex flex-col gap-3 flex-1 p-4">
       <TitleHeader
-        title={JSON.parse(authProfile)?.role === "perangkat_daerah" ? "Layanan Pengajuan" : "Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan"}
+        title={JSON.parse(authProfile)?.role === "perangkat_daerah" ? "Layanan Pengajuan" : "Layanan Sekretariat"}
         link1={"dashboard"}
-        link2={"Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan"}
+        link2={"Layanan Sekretariat"}
       />
       <section className="flex xl:flex-row flex-col gap-3">
         <div className="flex-1 flex flex-col gap-3">
@@ -391,8 +376,7 @@ function AplikasiPages() {
             {JSON.parse(authProfile)?.role === "perangkat_daerah" && (
               <div className="flex flex-col gap-2 bg-[#0185FF] p-3 rounded-lg flex-1 md:max-w-xs shadow-sm">
                 <span className="sm:text-xl text-sm text-darkColor font-semibold">
-                  Selamat datang di Layanan Pengelolaan Sistem Informasi dan
-                  Keamanan Jaringan
+                  Selamat datang di Layanan Sekretariat
                 </span>
                 <div className="flex flex-col flex-1 justify-end items-end">
                   <DynamicButton
@@ -445,7 +429,7 @@ function AplikasiPages() {
                     className="bg-[#0185FF] text-darkColor px-3"
                     onClick={() => {
                       setisModalType({
-                        data: "Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan",
+                        data: "Pengajuan Layanan Sekretariat",
                         status: true,
                       });
                     }}
@@ -475,7 +459,7 @@ function AplikasiPages() {
                   if (JSON.parse(authProfile)?.role === "op_pmo") {
                     fetchSetProgress(authApiKey, authToken, data.id);
                   } else {
-                    navigate("/detail-aplikasi", { state: { slug: data.id } });
+                    navigate("/detail-sekretariat", { state: { slug: data.id } });
                   }
                 }}
                 onClickRemove={(data) => {
@@ -499,14 +483,14 @@ function AplikasiPages() {
                         authApiKey,
                         authToken,
                         data.id,
-                        "aplikasi"
+                        "sekretariat"
                       );
                     } else {
                       alert("Pengajuan tidak dihapus.");
                     }
                   }
                 }}
-                data={listAplikasi}
+                data={listSekretariat}
               />
             </div>
           </div>
@@ -528,16 +512,11 @@ function AplikasiPages() {
                       key={index}
                       className={`flex flex-row justify-start items-center gap-2 flex-1 ${index % 2 ? "" : "bg-[#f1f5f9] dark:bg-[#f1f5f907]"} py-2.5 p-3 hover:opacity-70`}
                       onClick={() => {
-                        if (item.name === "Pengajuan Permohonan Sistem Informasi") {
-                          navigate("/permohonan-sistem-informasi", { state: 'Permohonan Sistem Informasi' });
-                          // navigate("/permohonan-sistem-informasi", { state: { slug: data.id } });
-                        } else {
-                          setisModalCreate({ data: item.name, status: true });
-                          updatePic(
-                            JSON.parse(authProfile).fullname,
-                            JSON.parse(authProfile).telp
-                          );
-                        }
+                        setisModalCreate({ data: item.name, status: true });
+                        updatePic(
+                          JSON.parse(authProfile).fullname,
+                          JSON.parse(authProfile).telp
+                        );
                       }}
                     >
                       <span className=" text-base text-left line-clamp-2 font-gilroy">
@@ -582,7 +561,7 @@ function AplikasiPages() {
                   setisModalVerif({ data: {}, status: false });
                   setisModalCreate({ data: {}, status: false });
                   setisModalType({ data: {}, status: false });
-                  fetchDataAplikasi(
+                  fetchDataSekretariat(
                     authApiKey,
                     authToken,
                     JSON.parse(authProfile)?.role
@@ -671,7 +650,7 @@ function AplikasiPages() {
                                 </div>
                               </div>
                             )}
-                          {/* {item?.field &&
+                          {item?.field &&
                             item?.field?.map(
                               (itemField, indexField) =>
                                 item?.value?.value ===
@@ -693,7 +672,7 @@ function AplikasiPages() {
                                     placeholder={"Masukan " + itemField.label}
                                   />
                                 )
-                            )} */}
+                            )}
                         </div>
                       ))}
                     </div>
@@ -730,4 +709,4 @@ function AplikasiPages() {
   );
 }
 
-export default AplikasiPages;
+export default SekretariatPages;
