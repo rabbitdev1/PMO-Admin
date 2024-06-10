@@ -42,12 +42,14 @@ const startServer = async () => {
         await InfraModel.sync();
         await Users.sync();
         await Sekretariat.sync();
+        
     } catch (error) {
         console.error("Unable to connect to the database:", error);
         process.exit(1); // Exit process with failure
     }
 
-    const PORT = process.env.DB_PORT; // Default to port 3000 if PORT is not set
+    const PORT = process.env.PORT; // Default to port 3000 if PORT is not set
+    // const PORT = process.env.DB_PORT; // Default to port 3000 if PORT is not set
     app.listen(PORT, () => console.log(`Server running at port ${PORT}`));
 };
 
