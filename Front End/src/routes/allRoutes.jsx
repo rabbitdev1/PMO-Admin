@@ -18,6 +18,8 @@ import LayananTeknologiSIPages from "../pages/Layanan Teknologi dan Sistem Infor
 import LayananManagemenInfrastrukturTeknologiInformasiPages from "../pages/Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi";
 import LayananPenyusunanPerencanaanSIPages from "../pages/Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi";
 import DetailTeknologiSistemInformasiPages from "../pages/Layanan Teknologi dan Sistem Informasi/detail";
+import LayananPenyusunanPerencanaanTIKPages from "../pages/Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi";
+import DetailPerencanaanTIKPages from "../pages/Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi/detail";
 
 
 const userRoutes = [
@@ -35,7 +37,8 @@ const userRoutes = [
 
   { path: "/layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi", component: <LayananManagemenInfrastrukturTeknologiInformasiPages /> },
 
-  { path: "/layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi", component: <LayananPenyusunanPerencanaanSIPages /> },
+  { path: "/layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi", component: <LayananPenyusunanPerencanaanTIKPages /> },
+  { path: "/detail-layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi", component: <DetailPerencanaanTIKPages /> },
 
 
 

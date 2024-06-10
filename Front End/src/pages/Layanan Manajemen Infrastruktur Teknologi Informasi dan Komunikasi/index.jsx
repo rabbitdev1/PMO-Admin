@@ -70,7 +70,7 @@ function LayananManagemenInfrastrukturTeknologiInformasiPages() {
     params.append("role", role);
     try {
       const response = await apiClient({
-        baseurl: "infrastruktur",
+        baseurl: "managementinfrastrukturtik",
         method: "POST",
         body: params,
         apiKey: api_key,
@@ -102,7 +102,7 @@ function LayananManagemenInfrastrukturTeknologiInformasiPages() {
     const params = new URLSearchParams();
     try {
       const response = await apiClient({
-        baseurl: "infrastruktur/list_tools",
+        baseurl: "managementinfrastrukturtik/list_tools",
         method: "POST",
         body: params,
         apiKey: api_key,
@@ -140,7 +140,7 @@ function LayananManagemenInfrastrukturTeknologiInformasiPages() {
 
     try {
       const response = await apiClient({
-        baseurl: "infrastruktur/create",
+        baseurl: "managementinfrastrukturtik/create",
         method: "POST",
         customHeaders: { "Content-Type": "application/json" },
         body: raw,
@@ -176,7 +176,7 @@ function LayananManagemenInfrastrukturTeknologiInformasiPages() {
 
     try {
       const response = await apiClient({
-        baseurl: "infrastruktur/delete",
+        baseurl: "managementinfrastrukturtik/delete",
         method: "POST",
         body: params,
         apiKey: api_key,
@@ -209,7 +209,7 @@ function LayananManagemenInfrastrukturTeknologiInformasiPages() {
 
     try {
       const response = await apiClient({
-        baseurl: "infrastruktur/set_process",
+        baseurl: "managementinfrastrukturtik/set_process",
         method: "POST",
         body: params,
         apiKey: api_key,
@@ -260,13 +260,13 @@ function LayananManagemenInfrastrukturTeknologiInformasiPages() {
       };
       console.log(JSON.stringify(combinedObject));
 
-      if (combinedObject?.submission_title === "Layanan ZOOM") {
+      if (combinedObject?.submission_title === "Pendampingan Pengolahan dan Analisis Data") {
         if (isValidatorLayananZoom(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
         } else {
           return false;
         }
-      } else if (combinedObject?.submission_title === "Permohonan Liputan") {
+      } else if (combinedObject?.submission_title === "Pelayanan Produksi Data dari Situs Web") {
         if (isValidatorpermohonanLiputan(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
         } else {

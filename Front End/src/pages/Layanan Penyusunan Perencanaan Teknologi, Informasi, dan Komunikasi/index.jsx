@@ -21,7 +21,7 @@ import { convertToNameValueObject } from "../../utils/helpers/convertToNameValue
 import { formData as initialFormData } from './data';
 import { isValidatorDomain, isValidatorHosting, isValidatorLayananZoom, isValidatorPenambahanAlat, isValidatorPenambahanBandwith, isValidatorpermohonanLiputan, isValidatorRelokasiAlat, isValidatorTroubleShooting } from "./validators";
 
-function LayananPenyusunanPerencanaanSIPages() {
+function LayananPenyusunanPerencanaanTIKPages() {
   const { isDarkMode } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
@@ -38,8 +38,8 @@ function LayananPenyusunanPerencanaanSIPages() {
   ]);
 
 
-  const [listInfrasturktur, setListInfrasturktur] = useState([]);
-  const [listInfrasturkturLoading, setListInfrasturkturLoading] = useState(true);
+  const [listPerencanaanTIK, setListPerencanaanTIK] = useState([]);
+  const [listPerencanaanTIKLoading, setListPerencanaanTIKLoading] = useState(true);
 
   const [formData, setFormData] = useState(initialFormData);
 
@@ -58,31 +58,31 @@ function LayananPenyusunanPerencanaanSIPages() {
 
   useEffect(() => {
     if (authToken) {
-      fetchDataInfrasturktur(authApiKey, authToken, JSON.parse(authProfile)?.role)
+      fetchDataPerencanaanTIK(authApiKey, authToken, JSON.parse(authProfile)?.role)
       fetchDataAlat(authApiKey, authToken)
     }
   }, [dataState, authToken]);
 
 
-  const fetchDataInfrasturktur = async (api_key, token, role) => {
-    setListInfrasturkturLoading(true);
+  const fetchDataPerencanaanTIK = async (api_key, token, role) => {
+    setListPerencanaanTIKLoading(true);
     const params = new URLSearchParams();
     params.append("role", role);
     try {
       const response = await apiClient({
-        baseurl: "infrastruktur",
+        baseurl: "perencanaantik",
         method: "POST",
         body: params,
         apiKey: api_key,
         token: token,
       });
-      setListInfrasturkturLoading(false);
+      setListPerencanaanTIKLoading(false);
       if (response?.statusCode === 200) {
         if (JSON.parse(authProfile)?.role === "perangkat_daerah") {
           const filteredSubmissions = response.result.data.filter(submission => submission.submission_title === dataState);
-          setListInfrasturktur(filteredSubmissions);
+          setListPerencanaanTIK(filteredSubmissions);
         } else {
-          setListInfrasturktur(response.result.data);
+          setListPerencanaanTIK(response.result.data);
         }
 
         setStatusData([
@@ -92,7 +92,7 @@ function LayananPenyusunanPerencanaanSIPages() {
           { ...statusData[3], value: response?.result?.totalItemsByStatus?.disetujui || 0, },
         ])
       } else {
-        setListInfrasturktur([]);
+        setListPerencanaanTIK([]);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -102,7 +102,7 @@ function LayananPenyusunanPerencanaanSIPages() {
     const params = new URLSearchParams();
     try {
       const response = await apiClient({
-        baseurl: "infrastruktur/list_tools",
+        baseurl: "perencanaantik/list_tools",
         method: "POST",
         body: params,
         apiKey: api_key,
@@ -140,7 +140,7 @@ function LayananPenyusunanPerencanaanSIPages() {
 
     try {
       const response = await apiClient({
-        baseurl: "infrastruktur/create",
+        baseurl: "perencanaantik/create",
         method: "POST",
         customHeaders: { "Content-Type": "application/json" },
         body: raw,
@@ -151,7 +151,7 @@ function LayananPenyusunanPerencanaanSIPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: 'Pengajuan Infrasturktur Berhasil',
+            title: 'Pengajuan PerencanaanTIK Berhasil',
             msg: 'Selamat, Pengajuan anda sudah diterima',
             icon: PengajuanBerahasilIcon,
             color: '#13C39C'
@@ -176,7 +176,7 @@ function LayananPenyusunanPerencanaanSIPages() {
 
     try {
       const response = await apiClient({
-        baseurl: "infrastruktur/delete",
+        baseurl: "perencanaantik/delete",
         method: "POST",
         body: params,
         apiKey: api_key,
@@ -186,7 +186,7 @@ function LayananPenyusunanPerencanaanSIPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: 'Pengajuan Infrasturktur Berhasil Dihapus',
+            title: 'Pengajuan PerencanaanTIK Berhasil Dihapus',
             msg: response.result.msg,
             icon: PengajuanGagalIcon,
             color: '#FB4B4B'
@@ -197,7 +197,7 @@ function LayananPenyusunanPerencanaanSIPages() {
         toast.error(response.result.msg, {
           position: toast.POSITION.TOP_RIGHT,
         });
-        fetchDataInfrasturktur(authApiKey, authToken, JSON.parse(authProfile)?.role)
+        fetchDataPerencanaanTIK(authApiKey, authToken, JSON.parse(authProfile)?.role)
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -209,14 +209,14 @@ function LayananPenyusunanPerencanaanSIPages() {
 
     try {
       const response = await apiClient({
-        baseurl: "infrastruktur/set_process",
+        baseurl: "perencanaantik/set_process",
         method: "POST",
         body: params,
         apiKey: api_key,
         token: token,
       });
       if (response?.statusCode === 200) {
-        navigate("/detail-infrastruktur", { state: { slug: id } });
+        navigate("/detail-layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi", { state: { slug: id } });
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -260,7 +260,7 @@ function LayananPenyusunanPerencanaanSIPages() {
       };
       console.log(JSON.stringify(combinedObject));
 
-      if (combinedObject?.submission_title === "Layanan ZOOM") {
+      if (combinedObject?.submission_title === "Penyusunan Kebijakan") {
         if (isValidatorLayananZoom(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
         } else {
@@ -279,7 +279,7 @@ function LayananPenyusunanPerencanaanSIPages() {
   }
   const handleImageUploadAndFetch = async (obj) => {
     if (obj.image_screenshoot) {
-      const result = await fetchUploadImages(authApiKey, authToken, obj.image_screenshoot, 'infrastruktur', dispatch);
+      const result = await fetchUploadImages(authApiKey, authToken, obj.image_screenshoot, 'perencanaantik', dispatch);
       if (result !== null) {
         const fixObject = {
           ...obj,
@@ -357,10 +357,10 @@ function LayananPenyusunanPerencanaanSIPages() {
 
   return (
     <div className="flex flex-col gap-3 flex-1 p-4" >
-      <TitleHeader title={JSON.parse(authProfile)?.role === "perangkat_daerah" ? "Layanan Pengajuan" : "Layanan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi"}
+      <TitleHeader title={JSON.parse(authProfile)?.role === "perangkat_daerah" ? "Layanan Pengajuan" : "Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi"}
 
         link1={"dashboard"}
-        link2={'Bidang Infrastruktur Teknologi, Informasi dan Komunikasi'} />
+        link2={'Bidang Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi'} />
       <section className="flex xl:flex-row flex-col gap-3" >
         <div className="flex-1 flex flex-col gap-3">
           <div className="flex md:flex-row flex-col gap-3">
@@ -440,7 +440,7 @@ function LayananPenyusunanPerencanaanSIPages() {
                   if (JSON.parse(authProfile)?.role === "op_pmo") {
                     fetchSetProgress(authApiKey, authToken, data.id)
                   } else {
-                    navigate("/detail-infrastruktur", { state: { slug: data.id } });
+                    navigate("/detail-layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi", { state: { slug: data.id } });
                   }
                 }}
                 onClickRemove={(data) => {
@@ -451,14 +451,14 @@ function LayananPenyusunanPerencanaanSIPages() {
                   } else {
                     const isConfirmed = window.confirm("Apakah kamu yakin ingin menghapus pengajuan ini?");
                     if (isConfirmed) {
-                      fetchDataDelete(authApiKey, authToken, data.id, "infrastruktur")
+                      fetchDataDelete(authApiKey, authToken, data.id, "perencanaantik")
                     } else {
                       alert("Pengajuan tidak dihapus.");
                     }
                   }
 
                 }}
-                data={listInfrasturktur}
+                data={listPerencanaanTIK}
               />
             </div>
           </div>
@@ -521,7 +521,7 @@ function LayananPenyusunanPerencanaanSIPages() {
                   setisModalVerif({ data: {}, status: false })
                   setisModalCreate({ data: {}, status: false });
                   setisModalType({ data: {}, status: false })
-                  fetchDataInfrasturktur(authApiKey, authToken, JSON.parse(authProfile)?.role)
+                  fetchDataPerencanaanTIK(authApiKey, authToken, JSON.parse(authProfile)?.role)
                 }}
               />
             </div>
@@ -648,4 +648,4 @@ function LayananPenyusunanPerencanaanSIPages() {
   );
 }
 
-export default LayananPenyusunanPerencanaanSIPages;
+export default LayananPenyusunanPerencanaanTIKPages;
