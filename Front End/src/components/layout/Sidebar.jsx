@@ -51,7 +51,7 @@ const Sidebar = () => {
 
   const menuItems = [
     { title: "MENU", role: ['/'], icon: "" },
-    { title: "Dashboard", role: ['op_pmo', 'perangkat_daerah', 'kabid_infra', 'teknis_infra', 'katim_infra', 'katim_aplikasi', 'kabid_aplikasi', 'teknis_aplikasi','kabid_perencanaan'], icon: AllBerandaIcon, href: ["/", "/"], },
+    { title: "Dashboard", role: ['op_pmo', 'perangkat_daerah', 'kabid_infra', 'teknis_infra', 'katim_infra', 'katim_aplikasi', 'kabid_aplikasi', 'teknis_aplikasi', 'kabid_perencanaan'], icon: AllBerandaIcon, href: ["/", "/"], },
     {
       title: "Data Alat", role: ['kabid_infra', 'teknis_infra', 'katim_infra'],
       icon: AllBerandaIcon, href: ["/data-alat-infrastruktur", "/detail-infrastruktur"],
@@ -59,7 +59,7 @@ const Sidebar = () => {
 
     { title: "LAYANAN", role: ['/'], icon: "" },
     {
-      title: "Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan", role: ['op_pmo', 'perangkat_daerah', 'kabid_aplikasi', 'teknis_aplikasi', 'katim_aplikasi','kabid_perencanaan'],
+      title: "Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan", role: ['op_pmo', 'perangkat_daerah', 'kabid_aplikasi', 'teknis_aplikasi', 'katim_aplikasi', 'kabid_perencanaan'],
       submenu: [
         { title: 'Permohonan Sistem Informasi', href: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", state: 'Permohonan Sistem Informasi' },
         { title: 'User Akun Sistem Informasi', href: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", state: 'User Akun Sistem Informasi' },
@@ -80,16 +80,42 @@ const Sidebar = () => {
       icon: AllBerandaIcon, href: ["/layanan-pengelolaan-infrastruktur-teknologi-informasi-komunikasi", "/detail-infrastruktur"],
     },
 
-    { title: "Layanan Teknologi dan Sistem Informasi", role: ['op_pmo', 'perangkat_daerah',], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
-    { title: "Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi", role: ['op_pmo', 'perangkat_daerah',], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
-    { title: "Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi", role: ['op_pmo', 'perangkat_daerah',], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
-    { title: "Layanan UPT RADIO SONATA", role: ['op_pmo', 'perangkat_daerah',], icon: AllBerandaIcon, href: ["/1", "/detail-1"], },
+    {
+      title: "Layanan Teknologi dan Sistem Informasi", role: ['op_pmo', 'perangkat_daerah',],
+      submenu: [
+        { title: 'Zoom', href: '/layanan-teknologi-dan-sistem-informasi', state: 'Zoom' },
+        { title: 'Permohonan Liputan', href: '/layanan-teknologi-dan-sistem-informasi', state: 'Permohonan Liputan' },
+      ],
+      icon: AllBerandaIcon, href: ["/layanan-teknologi-dan-sistem-informasi", "/detail-teknologi-dan-sistem-informasi"],
 
-    { title: "Layanan Sekretariat", role: ['op_pmo', 'perangkat_daerah', 'katim_aplikasi', 'teknis_aplikasi'],
-    submenu: [
-      { title: "Pendaftaran Magang", href: "/layanan-sekretariat", state: 'Pendaftaran Magang' },
-    ]    
-    , icon: AllBerandaIcon, href: ["/layanan-sekretariat", "/detail-sekretariat"], 
+    },
+    {
+      title: "Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi", role: ['op_pmo', 'perangkat_daerah',],
+      submenu: [
+        { title: 'Pendampingan pengolahan dan analisis data', href: '/layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi', state: 'Pendampingan pengolahan dan analisis data' },
+        { title: 'Pelayanan Produksi data dari situs Web', href: '/layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi', state: 'Pelayanan Produksi data dari situs Web' },
+      ],
+      icon: AllBerandaIcon, href: ["/layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi", "/detail-1"],
+    },
+    {
+      title: "Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi", role: ['op_pmo', 'perangkat_daerah',],
+      submenu: [
+        { title: 'Penyusunan Kebijakan', href: '/layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi', state: 'Penyusunan Kebijakan' },
+      ],
+      icon: AllBerandaIcon, href: ["/layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi", "/detail-1"],
+    },
+    {
+      title: "Layanan UPT RADIO SONATA", role: ['op_pmo', 'perangkat_daerah',],
+      submenu: [
+        { title: 'Permohonan Podcast', href: '/layanan-upt-radio-sonata', state: 'Permohonan Podcast' },
+      ], icon: AllBerandaIcon, href: ["/layanan-upt-radio-sonata", "/detail-1"],
+    },
+    {
+      title: "Layanan Sekretariat", role: ['op_pmo', 'perangkat_daerah', 'katim_aplikasi', 'teknis_aplikasi'],
+      submenu: [
+        { title: "Pendaftaran Magang", href: "/layanan-sekretariat", state: 'Pendaftaran Magang' },
+      ]
+      , icon: AllBerandaIcon, href: ["/layanan-sekretariat", "/detail-sekretariat"],
     },
 
     { title: "PENGATURAN", role: ['op_pmo'], icon: "" },
