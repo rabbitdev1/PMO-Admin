@@ -206,8 +206,8 @@ function CreateAplikasiPages() {
         'op_pmo',
         'perangkat_daerah',
         'kabid_aplikasi',
-        'katim_aplikasi',
-        'teknis_aplikasi',
+        'kabid_infra',
+        'kabid_perencanaan',
       ]
     };
 
