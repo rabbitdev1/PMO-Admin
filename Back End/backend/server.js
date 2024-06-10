@@ -9,6 +9,8 @@ import InfraModel from "./models/InfraModel.js";
 import Users from "./models/UserModel.js";
 import Aplikasi from "./models/Aplikasi.js";
 import Sekretariat from "./models/SekretariatModel.js";
+import UptRadio from "./models/UptRadioModel.js";
+import TeknologiSI from "./models/TeknologiSIModel.js";
 
 dotenv.config();
 
@@ -42,14 +44,14 @@ const startServer = async () => {
         await InfraModel.sync();
         await Users.sync();
         await Sekretariat.sync();
-        
+        await UptRadio.sync();
+        await TeknologiSI.sync();
     } catch (error) {
         console.error("Unable to connect to the database:", error);
         process.exit(1); // Exit process with failure
     }
 
-    const PORT = process.env.PORT; // Default to port 3000 if PORT is not set
-    // const PORT = process.env.DB_PORT; // Default to port 3000 if PORT is not set
+    const PORT = process.env.DEV_PORT; // De
     app.listen(PORT, () => console.log(`Server running at port ${PORT}`));
 };
 
