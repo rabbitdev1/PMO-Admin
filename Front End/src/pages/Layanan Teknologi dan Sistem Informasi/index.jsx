@@ -70,7 +70,7 @@ function LayananTeknologiSIPages() {
     params.append("role", role);
     try {
       const response = await apiClient({
-        baseurl: "infrastruktur",
+        baseurl: "teknologisi",
         method: "POST",
         body: params,
         apiKey: api_key,
@@ -102,7 +102,7 @@ function LayananTeknologiSIPages() {
     const params = new URLSearchParams();
     try {
       const response = await apiClient({
-        baseurl: "infrastruktur/list_tools",
+        baseurl: "teknologisi/list_tools",
         method: "POST",
         body: params,
         apiKey: api_key,
@@ -140,7 +140,7 @@ function LayananTeknologiSIPages() {
 
     try {
       const response = await apiClient({
-        baseurl: "infrastruktur/create",
+        baseurl: "teknologisi/create",
         method: "POST",
         customHeaders: { "Content-Type": "application/json" },
         body: raw,
@@ -176,7 +176,7 @@ function LayananTeknologiSIPages() {
 
     try {
       const response = await apiClient({
-        baseurl: "infrastruktur/delete",
+        baseurl: "teknologisi/delete",
         method: "POST",
         body: params,
         apiKey: api_key,
@@ -209,7 +209,7 @@ function LayananTeknologiSIPages() {
 
     try {
       const response = await apiClient({
-        baseurl: "infrastruktur/set_process",
+        baseurl: "teknologisi/set_process",
         method: "POST",
         body: params,
         apiKey: api_key,
