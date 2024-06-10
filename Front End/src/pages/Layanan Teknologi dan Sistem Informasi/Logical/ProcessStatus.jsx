@@ -39,7 +39,7 @@ const ProcessStatus = ({
 
         try {
             const response = await apiClient({
-                baseurl: "infrastruktur/set_process",
+                baseurl: "teknologisi/set_process",
                 method: "POST",
                 body: params,
                 apiKey: api_key,
