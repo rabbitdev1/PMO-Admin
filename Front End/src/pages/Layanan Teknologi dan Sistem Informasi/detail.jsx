@@ -64,7 +64,7 @@ function DetailTeknologiSistemInformasiPages() {
     params.append("role", role);
     try {
       const response = await apiClient({
-        baseurl: "infrastruktur/detail",
+        baseurl: "teknologisi/detail",
         method: "POST",
         body: params,
         apiKey: api_key,
@@ -145,7 +145,7 @@ function DetailTeknologiSistemInformasiPages() {
 
     try {
       const response = await apiClient({
-        baseurl: "infrastruktur/edit",
+        baseurl: "teknologisi/edit",
         method: "POST",
         body: params,
         apiKey: api_key,
