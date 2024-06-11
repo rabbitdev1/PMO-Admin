@@ -1,5 +1,4 @@
-import PerencanaanTIKModel from "../../models/PerencanaanTIKModel.js";
-import SekretariatModel from "../../models/SekretariatModel.js";
+import PerencanaanTIK from "../../models/PerencanaanTIKModel.js";
 
 export const getDetailDataPerencanaanTIK = async(req, res) => {
     try {
@@ -13,8 +12,8 @@ export const getDetailDataPerencanaanTIK = async(req, res) => {
             });
         }
 
-        const perencanaanTIKDetail = await PerencanaanTIKModel.findByPk(id);
-        if (!perencanaanTIKDetail) {
+        const perencanaantikDetail = await PerencanaanTIK.findByPk(id);
+        if (!perencanaantikDetail) {
             return res.status(404).json({
                 status: "error",
                 msg: "Item not found",
@@ -22,7 +21,7 @@ export const getDetailDataPerencanaanTIK = async(req, res) => {
         }
 
         const userHasPermission =
-        perencanaanTIKDetail.dataValues.role.includes(role);
+        perencanaantikDetail.dataValues.role.includes(role);
         if (!userHasPermission) {
             return res.status(403).json({
                 status: "error",
@@ -30,7 +29,7 @@ export const getDetailDataPerencanaanTIK = async(req, res) => {
             });
         }
 
-        const fields = JSON.parse(perencanaanTIKDetail.fields);
+        const fields = JSON.parse(perencanaantikDetail.fields);
         // Move specific properties to the top of the object
         const propertiesToMoveUp = [
             "createdAt",
@@ -49,21 +48,21 @@ export const getDetailDataPerencanaanTIK = async(req, res) => {
         };
 
         // Add createdAt to fields before rearranging
-        fields.createdAt = perencanaanTIKDetail.createdAt;
+        fields.createdAt = perencanaantikDetail.createdAt;
         const rearrangedData = rearrangeObject(fields, propertiesToMoveUp);
         res.json({
             status: "ok",
             msg: "Data retrieved successfully",
             data: {
-                id: perencanaanTIKDetail.id,
-                submission_status: perencanaanTIKDetail.submission_status,
-                comment: perencanaanTIKDetail.comment,
-                fileuploaded: perencanaanTIKDetail.fileuploaded,
+                id: perencanaantikDetail.id,
+                submission_status: perencanaantikDetail.submission_status,
+                comment: perencanaantikDetail.comment,
+                fileuploaded: perencanaantikDetail.fileuploaded,
                 fields: rearrangedData,
-                on_validation: perencanaanTIKDetail.on_validation,
-                on_validation_technique: perencanaanTIKDetail.on_validation_technique,
-                on_process: perencanaanTIKDetail.on_process,
-                on_finish: perencanaanTIKDetail.on_finish,
+                on_validation: perencanaantikDetail.on_validation,
+                on_validation_technique: perencanaantikDetail.on_validation_technique,
+                on_process: perencanaantikDetail.on_process,
+                on_finish: perencanaantikDetail.on_finish,
             },
         });
     } catch (error) {

@@ -64,7 +64,7 @@ function DetailInfrastrukturPages() {
     params.append("role", role);
     try {
       const response = await apiClient({
-        baseurl: "infrastruktur/detail",
+        baseurl: "managementinfrastrukturtik/detail",
         method: "POST",
         body: params,
         apiKey: api_key,
@@ -145,7 +145,7 @@ function DetailInfrastrukturPages() {
 
     try {
       const response = await apiClient({
-        baseurl: "infrastruktur/edit",
+        baseurl: "managementinfrastrukturtik/edit",
         method: "POST",
         body: params,
         apiKey: api_key,

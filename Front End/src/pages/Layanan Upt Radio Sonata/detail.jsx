@@ -22,7 +22,7 @@ import ProcessStatus from "./Logical/ProcessStatus";
 import ValidationStatus from "./Logical/ValidationStatus";
 import ValidationStatusTechnique from "./Logical/ValidationStatusTechnique";
 
-function DetailPerencanaanTIKPages() {
+function DetailUptRadioPages() {
   const { isDarkMode } = useTheme();
   const navigate = useNavigate();
   const authApiKey = Cookies.get("authApiKey");
@@ -31,7 +31,7 @@ function DetailPerencanaanTIKPages() {
   const location = useLocation();
   const slug = location?.state?.slug || "";
 
-  const [PerencanaanTIKLoading, setPerencanaanTIKLoading] = useState(true);
+  const [sekretariatLoading, setSekretariatLoading] = useState(true);
   const [submissionStatus, setSubmissionStatus] = useState(0);
   const [validationData, setValidationData] = useState({});
   const [validationDataTechnique, setValidationDataTechnique] = useState({});
@@ -49,7 +49,7 @@ function DetailPerencanaanTIKPages() {
 
   useEffect(() => {
     if (authToken) {
-      fetchDataPerencanaanTIK(
+      fetchDataSekretariat(
         authApiKey,
         authToken,
         JSON.parse(authProfile)?.role
@@ -57,20 +57,20 @@ function DetailPerencanaanTIKPages() {
     }
   }, [dispatch]);
 
-  const fetchDataPerencanaanTIK = async (api_key, token, role) => {
-    setPerencanaanTIKLoading(true);
+  const fetchDataSekretariat = async (api_key, token, role) => {
+    setSekretariatLoading(true);
     const params = new URLSearchParams();
     params.append("id", slug);
     params.append("role", role);
     try {
       const response = await apiClient({
-        baseurl: "perencanaantik/detail",
+        baseurl: "sekretariat/detail",
         method: "POST",
         body: params,
         apiKey: api_key,
         token: token,
       });
-      setPerencanaanTIKLoading(false);
+      setSekretariatLoading(false);
       if (response?.statusCode === 200) {
         setDetailData(response.result.data.fields);
         setSubmissionStatus(response.result.data?.submission_status);
@@ -92,7 +92,7 @@ function DetailPerencanaanTIKPages() {
     }
   };
 
-  const fetchEditperencanaantik = async (api_key, token, id, type, data) => {
+  const fetchEditsekretariat = async (api_key, token, id, type, data) => {
     dispatch(isPending(true));
     let htmlConvert = "";
 
@@ -145,7 +145,7 @@ function DetailPerencanaanTIKPages() {
 
     try {
       const response = await apiClient({
-        baseurl: "perencanaantik/edit",
+        baseurl: "sekretariat/edit",
         method: "POST",
         body: params,
         apiKey: api_key,
@@ -155,8 +155,8 @@ function DetailPerencanaanTIKPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "perencanaantik Berhasil diupdate",
-            msg: "Selamat, Pengajuan perencanaantik sudah diupdate",
+            title: "Sekretariat Berhasil Diupdate",
+            msg: "Selamat, Pengajuan sekretariat sudah diupdate",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
           },
@@ -174,127 +174,160 @@ function DetailPerencanaanTIKPages() {
 
   const checkingFormData = async (type, data) => {
     if (type === "validation") {
-      fetchEditperencanaantik(authApiKey, authToken, slug, type, data);
+      fetchEditsekretariat(authApiKey, authToken, slug, type, data);
     } else if (type === "validation_technique") {
-      fetchEditperencanaantik(authApiKey, authToken, slug, type, data);
-    } else if (type === "process") {
       if (
-        data.upload_foto_alat_sebelum_di_relokasi ||
-        data.upload_foto_alat_sesudah_di_relokasi ||
-        data.upload_foto_alat_sebelum_di_tambahkan ||
-        data.upload_foto_alat_sesudah_di_tambahkan ||
-        data.upload_foto_kegiatan
+        data.file_scema_integration ||
+        data.upload_dokumen_laporan_modul_tte ||
+        data.upload_dokumen_laporan_pembuatan_akun
       ) {
         try {
           const uploadPromises = [];
           const resultMapping = {};
-      
-          if (data.upload_foto_alat_sebelum_di_relokasi) {
+          if (data.file_scema_integration) {
             uploadPromises.push(
-              fetchUploadImages(
+              fetchUploadFiles(
                 authApiKey,
                 authToken,
-                data.upload_foto_alat_sebelum_di_relokasi,
-                "perencanaantik",
+                data.file_scema_integration,
+                "sekretariat",
                 dispatch
               ).then(result => {
-                resultMapping.upload_foto_alat_sebelum_di_relokasi = result;
+                resultMapping.file_scema_integration = result;
               })
             );
           }
-          if (data.upload_foto_alat_sesudah_di_relokasi) {
+
+          if (data.upload_dokumen_laporan_modul_tte) {
             uploadPromises.push(
-              fetchUploadImages(
+              fetchUploadFiles(
                 authApiKey,
                 authToken,
-                data.upload_foto_alat_sesudah_di_relokasi,
-                "perencanaantik",
+                data.upload_dokumen_laporan_modul_tte,
+                "sekretariat",
                 dispatch
               ).then(result => {
-                resultMapping.upload_foto_alat_sesudah_di_relokasi = result;
+                resultMapping.upload_dokumen_laporan_modul_tte = result;
               })
             );
           }
-          if (data.upload_foto_alat_sebelum_di_tambahkan) {
+
+          if (data.upload_dokumen_laporan_pembuatan_akun) {
             uploadPromises.push(
-              fetchUploadImages(
+              fetchUploadFiles(
                 authApiKey,
                 authToken,
-                data.upload_foto_alat_sebelum_di_tambahkan,
-                "perencanaantik",
+                data.upload_dokumen_laporan_pembuatan_akun,
+                "sekretariat",
                 dispatch
               ).then(result => {
-                resultMapping.upload_foto_alat_sebelum_di_tambahkan = result;
+                resultMapping.upload_dokumen_laporan_pembuatan_akun = result;
               })
             );
           }
-          if (data.upload_foto_alat_sesudah_di_tambahkan) {
-            uploadPromises.push(
-              fetchUploadImages(
-                authApiKey,
-                authToken,
-                data.upload_foto_alat_sesudah_di_tambahkan,
-                "perencanaantik",
-                dispatch
-              ).then(result => {
-                resultMapping.upload_foto_alat_sesudah_di_tambahkan = result;
-              })
-            );
-          }
-          if (data.upload_foto_kegiatan) {
-            uploadPromises.push(
-              fetchUploadImages(
-                authApiKey,
-                authToken,
-                data.upload_foto_kegiatan,
-                "perencanaantik",
-                dispatch
-              ).then(result => {
-                resultMapping.upload_foto_kegiatan = result;
-              })
-            );
-          }
-      
           await Promise.all(uploadPromises);
-      
+
           let combineData = { ...data };
-          if (resultMapping.upload_foto_alat_sebelum_di_relokasi) {
-            combineData.upload_foto_alat_sebelum_di_relokasi = resultMapping.upload_foto_alat_sebelum_di_relokasi;
+          if (resultMapping.file_scema_integration) {
+            combineData.file_scema_integration = resultMapping.file_scema_integration;
           }
-          if (resultMapping.upload_foto_alat_sesudah_di_relokasi) {
-            combineData.upload_foto_alat_sesudah_di_relokasi = resultMapping.upload_foto_alat_sesudah_di_relokasi;
+          if (resultMapping.upload_dokumen_laporan_modul_tte) {
+            combineData.upload_dokumen_laporan_modul_tte = resultMapping.upload_dokumen_laporan_modul_tte;
           }
-          if (resultMapping.upload_foto_alat_sebelum_di_tambahkan) {
-            combineData.upload_foto_alat_sebelum_di_tambahkan = resultMapping.upload_foto_alat_sebelum_di_tambahkan;
+          if (resultMapping.upload_dokumen_laporan_pembuatan_akun) {
+            combineData.upload_dokumen_laporan_pembuatan_akun = resultMapping.upload_dokumen_laporan_pembuatan_akun;
           }
-          if (resultMapping.upload_foto_alat_sesudah_di_tambahkan) {
-            combineData.upload_foto_alat_sesudah_di_tambahkan = resultMapping.upload_foto_alat_sesudah_di_tambahkan;
-          }
-          if (resultMapping.upload_foto_kegiatan) {
-            combineData.upload_foto_kegiatan = resultMapping.upload_foto_kegiatan;
-          }
-      
-          fetchEditperencanaantik(authApiKey, authToken, slug, type, combineData);
+          fetchEditsekretariat(authApiKey, authToken, slug, type, combineData);
         } catch (error) {
           console.error("Error occurred during image upload:", error);
         }
       } else {
-        fetchEditperencanaantik(authApiKey, authToken, slug, type, data);
+        fetchEditsekretariat(authApiKey, authToken, slug, type, data);
       }
-      
+    } else if (type === "process") {
+      if (
+        data.upload_dokumen_hasil_integrasi ||
+        data.upload_dokumen_laporan_modul_tte ||
+        data.upload_dokumen_laporan_pembuatan_akun
+      ) {
+        try {
+          const uploadPromises = [];
+          const resultMapping = {};
+
+          if (data.upload_dokumen_hasil_integrasi) {
+            uploadPromises.push(
+              fetchUploadFiles(
+                authApiKey,
+                authToken,
+                data.upload_dokumen_hasil_integrasi,
+                "sekretariat",
+                dispatch
+              ).then(result => {
+                resultMapping.upload_dokumen_hasil_integrasi = result;
+              })
+            );
+          }
+          if (data.upload_dokumen_laporan_modul_tte) {
+            uploadPromises.push(
+              fetchUploadFiles(
+                authApiKey,
+                authToken,
+                data.upload_dokumen_laporan_modul_tte,
+                "sekretariat",
+                dispatch
+              ).then(result => {
+                resultMapping.upload_dokumen_laporan_modul_tte = result;
+              })
+            );
+          }
+          if (data.upload_dokumen_laporan_pembuatan_akun) {
+            uploadPromises.push(
+              fetchUploadImages(
+                authApiKey,
+                authToken,
+                data.upload_dokumen_laporan_pembuatan_akun,
+                "sekretariat",
+                dispatch
+              ).then(result => {
+                resultMapping.upload_dokumen_laporan_pembuatan_akun = result;
+              })
+            );
+          }
+
+          await Promise.all(uploadPromises);
+
+          let combineData = { ...data };
+          if (resultMapping.upload_dokumen_hasil_integrasi) {
+            combineData.upload_dokumen_hasil_integrasi = resultMapping.upload_dokumen_hasil_integrasi;
+          }
+          if (resultMapping.upload_dokumen_laporan_modul_tte) {
+            combineData.upload_dokumen_laporan_modul_tte = resultMapping.upload_dokumen_laporan_modul_tte;
+          }
+          if (resultMapping.upload_dokumen_laporan_pembuatan_akun) {
+            combineData.upload_dokumen_laporan_pembuatan_akun = resultMapping.upload_dokumen_laporan_pembuatan_akun;
+          }
+
+          fetchEditsekretariat(authApiKey, authToken, slug, type, combineData);
+        } catch (error) {
+          console.error("Error occurred during image upload:", error);
+        }
+      } else {
+        fetchEditsekretariat(authApiKey, authToken, slug, type, data);
+      }
+
     } else if (type === "finish") {
       if (data.file_submission) {
         const result = await fetchUploadFiles(
           authApiKey,
           authToken,
           data.file_submission,
-          "perencanaantik",
+          "sekretariat",
           dispatch
         );
         if (result !== null) {
           let combineData = {};
           combineData = { ...data, file_upload: result };
-          fetchEditperencanaantik(
+          fetchEditsekretariat(
             authApiKey,
             authToken,
             slug,
@@ -305,7 +338,7 @@ function DetailPerencanaanTIKPages() {
           console.error("Error occurred during image upload.");
         }
       } else {
-        fetchEditperencanaantik(authApiKey, authToken, slug, type, data);
+        fetchEditsekretariat(authApiKey, authToken, slug, type, data);
       }
     }
   };
@@ -314,7 +347,7 @@ function DetailPerencanaanTIKPages() {
       <TitleHeader
         title={`Detail Pengajuan ${detailData.submission_title} #${slug}`}
         link1={"dashboard"}
-        link2={"Bidang Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi"}
+        link2={"Layanan Sekretariat"}
       />
       <section className="flex flex-col gap-3">
         <SubmissionStatus status={submissionStatus} />
@@ -322,14 +355,14 @@ function DetailPerencanaanTIKPages() {
           <DalamAntrianView
             submissionStatus={submissionStatus}
             detailData={detailData}
-            loading={PerencanaanTIKLoading}
+            loading={sekretariatLoading}
           />
           <ValidationStatus
             submissionStatus={submissionStatus}
             validationData={validationData}
             authProfile={authProfile}
             detailData={detailData}
-            loading={PerencanaanTIKLoading}
+            loading={sekretariatLoading}
             setValidationData={setValidationData}
             checkingFormData={checkingFormData}
           />
@@ -340,7 +373,7 @@ function DetailPerencanaanTIKPages() {
             setValidationData={setValidationDataTechnique}
             authProfile={authProfile}
             detailData={detailData}
-            loading={PerencanaanTIKLoading}
+            loading={sekretariatLoading}
             checkingFormData={checkingFormData}
             setisModalVerif={setisModalVerif}
           />
@@ -351,7 +384,7 @@ function DetailPerencanaanTIKPages() {
             processData={processData}
             authProfile={authProfile}
             detailData={detailData}
-            loading={PerencanaanTIKLoading}
+            loading={sekretariatLoading}
             checkingFormData={checkingFormData}
             setisModalVerif={setisModalVerif}
             finishData={finishData}
@@ -360,7 +393,7 @@ function DetailPerencanaanTIKPages() {
 
           <FinishStatus
             detailData={detailData}
-            loading={PerencanaanTIKLoading}
+            loading={sekretariatLoading}
             validationData={validationDataTechnique}
             processData={processData}
             submissionStatus={submissionStatus}
@@ -396,7 +429,7 @@ function DetailPerencanaanTIKPages() {
                 className={`inline-flex flex-1 bg-[${isModalVerif.data.color}] text-darkColor`}
                 onClick={() => {
                   setisModalVerif({ data: {}, status: false });
-                  fetchDataPerencanaanTIK(
+                  fetchDataSekretariat(
                     authApiKey,
                     authToken,
                     JSON.parse(authProfile)?.role
@@ -412,4 +445,4 @@ function DetailPerencanaanTIKPages() {
   );
 }
 
-export default DetailPerencanaanTIKPages;
+export default DetailUptRadioPages;

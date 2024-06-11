@@ -1,4 +1,4 @@
-import PerencanaanTIKModel from "../../models/PerencanaanTIKModel.js";
+import PerencanaanTIK from "../../models/PerencanaanTIKModel.js";
 
 export const getListDataPerencanaanTIK = async(req, res) => {
     try {
@@ -10,21 +10,21 @@ export const getListDataPerencanaanTIK = async(req, res) => {
                 msg: "API Key is required",
             });
         } else {
-            const perencanaanTIK = await PerencanaanTIKModel.findAll();
-            perencanaanTIK.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            const perencanaantik = await PerencanaanTIK.findAll();
+            perencanaantik.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
-            const filteredperencanaanTIK = perencanaanTIK.filter((item) => {
+            const filteredperencanaantik = perencanaantik.filter((item) => {
                 if (!item.role) return false;
                 const itemRoles = JSON.parse(item.role);
                 return itemRoles.includes(role);
             });
 
             if (role === "perangkat_daerah") {
-                const validperencanaanTIK = filteredperencanaanTIK.filter(
+                const validperencanaantik = filteredperencanaantik.filter(
                     (item) => item.apiKey === apiKey
                 );
 
-                if (validperencanaanTIK.length === 0) {
+                if (validperencanaantik.length === 0) {
                     return res.status(400).json({
                         status: "error",
                         msg: "Item not found",
@@ -32,23 +32,23 @@ export const getListDataPerencanaanTIK = async(req, res) => {
                 }
 
                 const totalItemsByStatus = {
-                    divalidasi: filteredperencanaanTIK.filter(
+                    divalidasi: filteredperencanaantik.filter(
                         (user) => user.submission_status === 2 || user.submission_status === 4
                     ).length,
-                    diproses: filteredperencanaanTIK.filter(
+                    diproses: filteredperencanaantik.filter(
                         (user) => user.submission_status === 6
                     ).length,
-                    ditolak: filteredperencanaanTIK.filter(
+                    ditolak: filteredperencanaantik.filter(
                         (user) => user.submission_status === 3 || user.submission_status === 5 || user.submission_status === 8
                     ).length,
-                    disetujui: filteredperencanaanTIK.filter(
+                    disetujui: filteredperencanaantik.filter(
                         (user) => user.submission_status === 7
                     ).length,
                 };
                 res.json({
                     status: "ok",
-                    msg: "Data perencanaanTIK retrieved successfully",
-                    data: validperencanaanTIK.map((item) => {
+                    msg: "Data perencanaantik retrieved successfully",
+                    data: validperencanaantik.map((item) => {
                         const fields = JSON.parse(item.fields);
                         return {
                             id: item.id,
@@ -58,29 +58,29 @@ export const getListDataPerencanaanTIK = async(req, res) => {
                             createdAt: item.createdAt,
                         };
                     }),
-                    totalItems: validperencanaanTIK.length,
+                    totalItems: validperencanaantik.length,
                     totalItemsByStatus: totalItemsByStatus,
                 });
             } else {
                 // Jika bukan peran perangkat_daerah, kembalikan data tanpa validasi API key
                 const totalItemsByStatus = {
-                    divalidasi: filteredperencanaanTIK.filter(
+                    divalidasi: filteredperencanaantik.filter(
                         (user) => user.submission_status === 2 || user.submission_status === 4
                     ).length,
-                    diproses: filteredperencanaanTIK.filter(
+                    diproses: filteredperencanaantik.filter(
                         (user) => user.submission_status === 6
                     ).length,
-                    ditolak: filteredperencanaanTIK.filter(
+                    ditolak: filteredperencanaantik.filter(
                         (user) => user.submission_status === 3 || user.submission_status === 5 || user.submission_status === 8
                     ).length,
-                    disetujui: filteredperencanaanTIK.filter(
+                    disetujui: filteredperencanaantik.filter(
                         (user) => user.submission_status === 7
                     ).length,
                 };
                 res.json({
                     status: "ok",
-                    msg: "Data perencanaanTIK retrieved successfully",
-                    data: filteredperencanaanTIK.map((item) => {
+                    msg: "Data perencanaantik retrieved successfully",
+                    data: filteredperencanaantik.map((item) => {
                         const fields = JSON.parse(item.fields);
                         return {
                             id: item.id,
@@ -90,7 +90,7 @@ export const getListDataPerencanaanTIK = async(req, res) => {
                             createdAt: item.createdAt,
                         };
                     }),
-                    totalItems: filteredperencanaanTIK.length,
+                    totalItems: filteredperencanaantik.length,
                     totalItemsByStatus: totalItemsByStatus,
                 });
             }
