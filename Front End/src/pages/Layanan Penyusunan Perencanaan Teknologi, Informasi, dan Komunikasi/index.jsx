@@ -266,13 +266,7 @@ function LayananPenyusunanPerencanaanTIKPages() {
         } else {
           return false;
         }
-      } else if (combinedObject?.submission_title === "Permohonan Liputan") {
-        if (isValidatorpermohonanLiputan(combinedObject)) {
-          await handleImageUploadAndFetch(combinedObject);
-        } else {
-          return false;
-        }
-      }
+      } 
     } else {
       console.log("Objek tidak ditemukan dalam formData");
     }

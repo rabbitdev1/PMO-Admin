@@ -234,23 +234,32 @@ function AplikasiPages() {
       (field) => field.name === fieldName
     );
 
-    // if (fieldName === 'status_BDO') {
-    //   // Check if the selected value is 'temporary'
-    //   const isTemporary = value === 'temporary';
-    //   // Update the visibility of the 'period' field based on the status
-    //   const periodFieldIndex = currentSection.fields.findIndex(field => field.name === 'period');
-    //   updatedFormData[sectionIndex].fields[periodFieldIndex].visible = isTemporary;
+    if (fieldName === 'submission_type_user_account') {
+      const isResetPassword = value.value === 'reset_password';
+      const isNewAccount = value.value === 'new_account';
 
-    //   if (!isTemporary) {
-    //     updatedFormData[sectionIndex].fields[periodFieldIndex].value = { startDate: null, endDate: null };
-    //   }
-    // }
+      // Set visibility for reset_password related fields
+      ['password', 'new_password', 'repeat_password'].forEach(name => {
+        const fieldIndex = currentSection.fields.findIndex(field => field.name === name);
+        if (fieldIndex !== -1) {
+          updatedFormData[sectionIndex].fields[fieldIndex].visible = isResetPassword;
+        }
+      });
+
+      // Set visibility for new_account related fields
+      const accountTypeFieldIndex = currentSection.fields.findIndex(field => field.name === 'account_type');
+      if (accountTypeFieldIndex !== -1) {
+        updatedFormData[sectionIndex].fields[accountTypeFieldIndex].visible = isNewAccount;
+      }
+    }
 
     // Update the value of the field
     updatedFormData[sectionIndex].fields[fieldToUpdateIndex].value = value;
 
     setFormData(updatedFormData);
   };
+
+
   const checkingFormData = async () => {
     const foundObject = formData.find((obj) => obj.name === isModalCreate.data);
     if (foundObject) {
