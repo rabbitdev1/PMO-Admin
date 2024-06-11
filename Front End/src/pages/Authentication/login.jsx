@@ -11,6 +11,7 @@ import Input from "../../components/common/DynamicInput.jsx";
 import useTheme from "../../components/context/useTheme.js";
 import { isPending } from "../../components/store/actions/todoActions.js";
 import { apiClient } from "../../utils/api/apiClient.js";
+import ReCAPTCHA from 'react-google-recaptcha';
 
 const LoginPage = () => {
   const location = useLocation();
@@ -20,6 +21,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState("Sadang!12");
   const [email, setEmail] = useState("pmo@gmail.com");
   const [keepLogin, setKeepLogin] = useState(false);
+  const [captchaValue, setCaptchaValue] = useState(null);
 
   const fetchLogin = async (email, password, keepLogin) => {
     dispatch(isPending(true));
@@ -114,14 +116,13 @@ const LoginPage = () => {
             placeholder={"Masukan Password"}
             onChange={(event) => setPassword(event)}
           />
-          <Input
-            label="Captcha"
-            icon={<PasswordIcon />}
-            color={isDarkMode ? "#ffffff" : "#333333"}
-            // value={username}
-            type="text"
-            placeholder={"Masukan Captcha"}
-          // onChange={(event) => setUsername(event)}
+          <ReCAPTCHA
+            sitekey="6LfB-_UpAAAAADb4LZJuJweoaCxi6v7QPjUT6ISw" // Ganti dengan site key Anda
+            onChange={(value) => {
+              console.log("Captcha value:", value)
+              setCaptchaValue(value)
+            }
+            }
           />
           <div className="flex flex-row justify-between">
             <CheckBox
@@ -160,7 +161,13 @@ const LoginPage = () => {
                 });
                 return;
               }
-              fetchLogin(email, password, keepLogin);
+              if (captchaValue) {
+                fetchLogin(email, password, keepLogin);
+              } else {
+                toast.error("Please complete the captcha", {
+                  position: toast.POSITION.TOP_RIGHT,
+                });
+              }
             }}
           />
         </div>

@@ -260,19 +260,13 @@ function LayananPenyusunanPerencanaanSIPages() {
       };
       console.log(JSON.stringify(combinedObject));
 
-      if (combinedObject?.submission_title === "Layanan ZOOM") {
+      if (combinedObject?.submission_title === "Penyusunan Kebijakan") {
         if (isValidatorLayananZoom(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
         } else {
           return false;
         }
-      } else if (combinedObject?.submission_title === "Permohonan Liputan") {
-        if (isValidatorpermohonanLiputan(combinedObject)) {
-          await handleImageUploadAndFetch(combinedObject);
-        } else {
-          return false;
-        }
-      }
+      } 
     } else {
       console.log("Objek tidak ditemukan dalam formData");
     }

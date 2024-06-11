@@ -11,30 +11,6 @@ export const formData = [
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
-      {
-        name: "app_name",
-        label: "Nama Aplikasi",
-        value: "",
-        type: "text",
-      },
-      {
-        name: "app_desc",
-        label: "Deskripsi Aplikasi",
-        value: "",
-        type: "editor",
-      },
-      {
-        name: "needed_data",
-        label: "Data yang dibutuhkan",
-        value: "",
-        type: "editor",
-      },
-      {
-        name: "integration",
-        label: "Tujuan Integrasi",
-        value: "",
-        type: "editor",
-      },
     ],
   },
 ]

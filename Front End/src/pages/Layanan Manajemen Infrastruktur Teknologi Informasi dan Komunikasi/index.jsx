@@ -260,13 +260,13 @@ function LayananManagemenInfrastrukturTeknologiInformasiPages() {
       };
       console.log(JSON.stringify(combinedObject));
 
-      if (combinedObject?.submission_title === "Layanan ZOOM") {
+      if (combinedObject?.submission_title === "Pendampingan Pengolahan dan Analisis Data") {
         if (isValidatorLayananZoom(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
         } else {
           return false;
         }
-      } else if (combinedObject?.submission_title === "Permohonan Liputan") {
+      } else if (combinedObject?.submission_title === "Pelayanan Produksi Data dari Situs Web") {
         if (isValidatorpermohonanLiputan(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
         } else {
