@@ -20,6 +20,8 @@ import LayananPenyusunanPerencanaanSIPages from "../pages/Layanan Penyusunan Per
 import DetailTeknologiSistemInformasiPages from "../pages/Layanan Teknologi dan Sistem Informasi/detail";
 import LayananPenyusunanPerencanaanTIKPages from "../pages/Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi";
 import DetailPerencanaanTIKPages from "../pages/Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi/detail";
+import UptRadioPages from "../pages/Layanan Upt Radio Sonata";
+import DetailUptRadioPages from "../pages/Layanan Upt Radio Sonata/detail";
 
 
 const userRoutes = [
@@ -42,8 +44,12 @@ const userRoutes = [
 
 
 
+  { path: "/layanan-upt-radio-sonata", component: <UptRadioPages /> },
+  { path: "/detail-upt-radio-sonata", component: <DetailUptRadioPages /> },
+
   { path: "/layanan-sekretariat", component: <SekretariatPages /> },
   { path: "/detail-sekretariat", component: <DetailSekretariatPages /> },
+
   { path: "/permohonan-sistem-informasi", component: <CreateAplikasiPages /> },
 
 ];
