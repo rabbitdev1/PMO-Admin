@@ -12,62 +12,6 @@ export const formData = [
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
-      {
-        name: "submission_type",
-        label: "Jenis Pengajuan",
-        value: [],
-        type: "selection",
-        options: [
-          {
-            value: "reset_password",
-            label: "Reset Password",
-          },
-          {
-            value: "new_account",
-            label: "Pembuatan Akun Baru",
-          },
-        ],
-        field: [
-          {
-            name: "password",
-            label: "Password Lama",
-            value: "",
-            type: "password",
-            type_select: "reset_password",
-          },
-          {
-            name: "new_password",
-            label: "Password Baru",
-            value: "",
-            type: "password",
-            type_select: "reset_password",
-          },
-          {
-            name: "repeat_password",
-            label: "Ulangi Password",
-            value: "",
-            type: "password",
-            type_select: "reset_password",
-          },
-          {
-            name: "account_type",
-            label: "Jenis Akun",
-            value: [],
-            type: "selection",
-            type_select: "new_account",
-            options: [
-              { value: "account_1", label: "Akun 1" },
-              { value: "account_2", label: "Akun 2" },
-            ],
-          },
-        ],
-      },
-      {
-        name: "reason",
-        label: "Alasan Pengajuan",
-        value: "",
-        type: "editor",
-      },
     ],
   },
   {
@@ -84,7 +28,7 @@ export const formData = [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
       {
-        name: "submission_type",
+        name: "submission_type_user_account",
         label: "Jenis Pengajuan",
         value: [],
         type: "selection",
@@ -98,41 +42,40 @@ export const formData = [
             label: "Pembuatan Akun Baru",
           },
         ],
-        field: [
-          {
-            name: "password",
-            label: "Password Lama",
-            value: "",
-            type: "password",
-            type_select: "reset_password",
-          },
-          {
-            name: "new_password",
-            label: "Password Baru",
-            value: "",
-            type: "password",
-            type_select: "reset_password",
-          },
-          {
-            name: "repeat_password",
-            label: "Ulangi Password",
-            value: "",
-            type: "password",
-            type_select: "reset_password",
-          },
-          {
-            name: "account_type",
-            label: "Jenis Akun",
-            value: [],
-            type: "selection",
-            type_select: "new_account",
-            options: [
-              { value: "account_1", label: "Akun 1" },
-              { value: "account_2", label: "Akun 2" },
-            ],
-          },
-        ],
       },
+      {
+        name: "account_type",
+        label: "Jenis Akun",
+        value: [],
+        type: "selection",
+        options: [
+          { value: "account_1", label: "Akun 1" },
+          { value: "account_2", label: "Akun 2" },
+        ],
+        visible: false,
+      },
+      {
+        name: "password",
+        label: "Password Lama",
+        value: "",
+        type: "password",
+        visible: false,
+      },
+      {
+        name: "new_password",
+        label: "Password Baru",
+        value: "",
+        type: "password",
+        visible: false,
+      },
+      {
+        name: "repeat_password",
+        label: "Ulangi Password",
+        value: "",
+        type: "password",
+        visible: false,
+      },
+
       {
         name: "reason",
         label: "Alasan Pengajuan",

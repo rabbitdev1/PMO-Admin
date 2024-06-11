@@ -49,7 +49,7 @@ import {
   setStatusDataPerencanaanTIK,
 } from "../controllers/PerencanaanTIK/index.js";
 import { editDataPerencanaanTIK } from "../controllers/PerencanaanTIK/edit.js";
-import { deleteDataPerencanaanTIKModel } from "../controllers/PerencanaanTIK/delete.js";
+import { deleteDataPerencanaanTIK } from "../controllers/PerencanaanTIK/delete.js";
 import { getDetailDataManagementInfrastrukturTIK } from "../controllers/ManagementInfrastrukturTIK/detail.js";
 import {
   editProcessDataManagementInfrastrukturTIK,
@@ -89,11 +89,7 @@ router.post("/infrastruktur/list_tools", verifyToken, getListDataTools);
 router.post("/sekretariat", verifyToken, getListDataSekretariat);
 router.post("/sekretariat/detail", verifyToken, getDetailDataSekretariat);
 router.post("/sekretariat/create", verifyToken, setStatusDataSekretariat);
-router.post(
-  "/sekretariat/set_process",
-  verifyToken,
-  editProcessDataSekretariat
-);
+router.post("/sekretariat/set_process", verifyToken, editProcessDataSekretariat);
 router.post("/sekretariat/edit", verifyToken, editDataSekretariat);
 router.post("/sekretariat/delete", verifyToken, deleteDataSekretariat);
 
@@ -101,17 +97,9 @@ router.post("/sekretariat/delete", verifyToken, deleteDataSekretariat);
 router.post("/perencanaantik", verifyToken, getListDataPerencanaanTIK);
 router.post("/perencanaantik/detail", verifyToken, getDetailDataPerencanaanTIK);
 router.post("/perencanaantik/create", verifyToken, setStatusDataPerencanaanTIK);
-router.post(
-  "/perencanaantik/set_process",
-  verifyToken,
-  editProcessDataPerencanaanTIK
-);
+router.post("/perencanaantik/set_process", verifyToken, editProcessDataPerencanaanTIK);
 router.post("/perencanaantik/edit", verifyToken, editDataPerencanaanTIK);
-router.post(
-  "/perencanaantik/delete",
-  verifyToken,
-  deleteDataPerencanaanTIKModel
-);
+router.post("/perencanaantik/delete", verifyToken, deleteDataPerencanaanTIK);
 
 // ManagementInfrastrukturTIK routes
 router.post(
@@ -120,27 +108,27 @@ router.post(
   getListDataManagementInfrastrukturTIK
 );
 router.post(
-  "/perencanaantik/detail",
+  "/managementinfrastrukturtik/detail",
   verifyToken,
   getDetailDataManagementInfrastrukturTIK
 );
 router.post(
-  "/perencanaantik/create",
+  "/managementinfrastrukturtik/create",
   verifyToken,
   setStatusDataManagementInfrastrukturTIK
 );
 router.post(
-  "/perencanaantik/set_process",
+  "/managementinfrastrukturtik/set_process",
   verifyToken,
   editProcessDataManagementInfrastrukturTIK
 );
 router.post(
-  "/perencanaantik/edit",
+  "/managementinfrastrukturtik/edit",
   verifyToken,
   editDataManagementInfrastrukturTIK
 );
 router.post(
-  "/perencanaantik/delete",
+  "/managementinfrastrukturtik/delete",
   verifyToken,
   deleteDataManagementInfrastrukturTIK
 );

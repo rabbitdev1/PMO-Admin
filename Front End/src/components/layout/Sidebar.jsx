@@ -83,7 +83,7 @@ const Sidebar = () => {
     {
       title: "Layanan Teknologi dan Sistem Informasi", role: ['op_pmo', 'perangkat_daerah',],
       submenu: [
-        { title: 'Zoom', href: '/layanan-teknologi-dan-sistem-informasi', state: 'Zoom' },
+        { title: 'Zoom', href: '/layanan-teknologi-dan-sistem-informasi', state: 'Layanan ZOOM' },
         { title: 'Permohonan Liputan', href: '/layanan-teknologi-dan-sistem-informasi', state: 'Permohonan Liputan' },
       ],
       icon: AllBerandaIcon, href: ["/layanan-teknologi-dan-sistem-informasi", "/detail-teknologi-dan-sistem-informasi"],
@@ -92,10 +92,10 @@ const Sidebar = () => {
     {
       title: "Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi", role: ['op_pmo', 'perangkat_daerah',],
       submenu: [
-        { title: 'Pendampingan pengolahan dan analisis data', href: '/layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi', state: 'Pendampingan pengolahan dan analisis data' },
+        { title: 'Pendampingan Pengolahan dan Analisis Data', href: '/layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi', state: 'Pendampingan Pengolahan dan Analisis Data' },
         { title: 'Pelayanan Produksi data dari situs Web', href: '/layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi', state: 'Pelayanan Produksi data dari situs Web' },
       ],
-      icon: AllBerandaIcon, href: ["/layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi", "/detail-1"],
+      icon: AllBerandaIcon, href: ["/layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi", "/detail-layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi"],
     },
     {
       title: "Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi", role: ['op_pmo', 'perangkat_daerah',],

@@ -1,5 +1,4 @@
-import PerencanaanTIKModel from "../../models/PerencanaanTIKModel.js";
-import SekretariatModel from "../../models/SekretariatModel.js";
+import PerencanaanTIK from "../../models/PerencanaanTIKModel.js";
 
 export const editDataPerencanaanTIK = async(req, res) => {
     try {
@@ -11,12 +10,12 @@ export const editDataPerencanaanTIK = async(req, res) => {
                 msg: "API Key is required",
             });
         }
-        const PerencanaanTIKItem = await PerencanaanTIKModel.findOne({
+        const perencanaantikItem = await PerencanaanTIK.findOne({
             where: {
                 id: id,
             },
         });
-        if (!PerencanaanTIKItem) {
+        if (!perencanaantikItem) {
             return res.status(404).json({
                 status: "error",
                 msg: "Item not found",
@@ -26,30 +25,30 @@ export const editDataPerencanaanTIK = async(req, res) => {
         console.log(convertData);
         if (type === "validation") {
             if (convertData.status_validation === "Disetujui") {
-                PerencanaanTIKItem.submission_status = 4;
+                perencanaantikItem.submission_status = 4;
             } else if (convertData.status_validation === "Ditolak") {
-                PerencanaanTIKItem.submission_status = 3;
+                perencanaantikItem.submission_status = 3;
             }
-            PerencanaanTIKItem.on_validation = data;
+            perencanaantikItem.on_validation = data;
         } else if (type === "validation_technique") {
-            PerencanaanTIKItem.on_validation_technique = data;
+            perencanaantikItem.on_validation_technique = data;
         } else if (type === "process") {
-            PerencanaanTIKItem.on_process = data;
+            perencanaantikItem.on_process = data;
         } else if (type === "finish") {
             if (
                 convertData.submission_status === "Menyetujui" ||
                 convertData.submission_status === "Disetujui"
             ) {
-                PerencanaanTIKItem.submission_status = 7;
+                perencanaantikItem.submission_status = 7;
             } else if (
                 convertData.submission_status === "Tidak Menyetujui" ||
                 convertData.submission_status === "Ditolak"
             ) {
-                PerencanaanTIKItem.submission_status = 8;
+                perencanaantikItem.submission_status = 8;
             }
-            PerencanaanTIKItem.on_finish = data;
+            perencanaantikItem.on_finish = data;
         }
-        await PerencanaanTIKItem.save();
+        await perencanaantikItem.save();
         return res.status(200).json({
             status: "ok",
             msg: "Item updated successfully",

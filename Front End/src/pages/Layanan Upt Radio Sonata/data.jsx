@@ -1,7 +1,7 @@
 export const formData = [
   {
-    name: "Pengajuan Pendaftaran Magang",
-    type: "Pengajuan Layanan Sekretariat",
+    name: "Permohonan Podcast",
+    type: "Pengajuan Layanan Radio Sonata",
     role: [
       "op_pmo",
       "perangkat_daerah",
@@ -11,6 +11,7 @@ export const formData = [
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
+      
     ],
   },
 ]

@@ -1,8 +1,8 @@
 import { deleteFiles } from "../../components/UploadFile.js";
 import { deleteImage } from "../../components/UploadImage.js";
-import PerencanaanTIKModel from "../../models/PerencanaanTIKModel.js";
+import PerencanaanTIK from "../../models/PerencanaanTIKModel.js";
 
-export const deleteDataPerencanaanTIKModel = async(req, res) => {
+export const deleteDataPerencanaanTIK = async(req, res) => {
     try {
         const { id, layanan } = req.body;
         const apiKey = req.headers["x-api-key"];
@@ -14,13 +14,13 @@ export const deleteDataPerencanaanTIKModel = async(req, res) => {
             });
         }
 
-        const PerencanaanTIKItem = await PerencanaanTIKModel.findOne({
+        const perencanaantikItem = await PerencanaanTIK.findOne({
             where: {
                 id: id,
             },
         });
 
-        if (!PerencanaanTIKItem) {
+        if (!perencanaantikItem) {
             return res.status(404).json({
                 status: "error",
                 msg: "Item not found",
@@ -28,10 +28,10 @@ export const deleteDataPerencanaanTIKModel = async(req, res) => {
         }
 
         const mergedDataProcess = {
-            ...JSON.parse(PerencanaanTIKItem.on_validation),
-            ...JSON.parse(PerencanaanTIKItem.on_process),
-            ...JSON.parse(PerencanaanTIKItem.on_finish),
-            ...JSON.parse(PerencanaanTIKItem.fields),
+            ...JSON.parse(perencanaantikItem.on_validation),
+            ...JSON.parse(perencanaantikItem.on_process),
+            ...JSON.parse(perencanaantikItem.on_finish),
+            ...JSON.parse(perencanaantikItem.fields),
         };
         console.log("Merged Data:", mergedDataProcess);
         const findValueByTitle = (data, title) => data[title];
@@ -45,12 +45,12 @@ export const deleteDataPerencanaanTIKModel = async(req, res) => {
         if (foundValue) {
             await deleteFiles(foundValue, layanan);
             await deleteImage(foundValue, layanan);
-            console.log("Data ditemukan");
+            console.log("Data ditemukan");  
             console.log(foundValue, layanan);
         } else {
             console.log("Data tidak ditemukan");
         }
-        const deletedItem = await PerencanaanTIKModel.destroy({
+        const deletedItem = await PerencanaanTIK.destroy({
             where: {
                 id: id,
             },

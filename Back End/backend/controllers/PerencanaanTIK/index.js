@@ -1,5 +1,4 @@
-import PerencanaanTIKModel from "../../models/PerencanaanTIKModel.js";
-import SekretariatModel from "../../models/SekretariatModel.js";
+import PerencanaanTIK from "../../models/PerencanaanTIKModel.js";
 
 export const setStatusDataPerencanaanTIK = async(req, res) => {
     try {
@@ -34,7 +33,7 @@ export const setStatusDataPerencanaanTIK = async(req, res) => {
         rawData.on_validation_technique = JSON.stringify({});
         rawData.on_finish = JSON.stringify({ submission_status: "0" });
 
-        await PerencanaanTIKModel.create(rawData);
+        await PerencanaanTIK.create(rawData);
         res.status(200).json({
             status: "ok",
             msg: "Item created successfully",
@@ -59,31 +58,31 @@ export const editProcessDataPerencanaanTIK = async(req, res) => {
                 msg: "API Key is required",
             });
         }
-        const PerencanaanTIKItem = await PerencanaanTIKModel.findOne({
+        const perencanaantikItem = await PerencanaanTIK.findOne({
             where: {
                 id: id,
             },
         });
-        if (!PerencanaanTIKItem) {
+        if (!perencanaantikItem) {
             return res.status(404).json({
                 status: "error",
                 msg: "Item not found",
             });
         }
-        if (parseInt(PerencanaanTIKItem.submission_status) === 1) {
+        if (parseInt(perencanaantikItem.submission_status) === 1) {
             console.log("jalan");
-            PerencanaanTIKItem.submission_status = 2;
-            await PerencanaanTIKItem.save();
-        } else if (parseInt(PerencanaanTIKItem.submission_status) === 4) {
+            perencanaantikItem.submission_status = 2;
+            await perencanaantikItem.save();
+        } else if (parseInt(perencanaantikItem.submission_status) === 4) {
             console.log("jalan");
             if (status === "Ditolak") {
-                PerencanaanTIKItem.submission_status = 5;
+                perencanaantikItem.submission_status = 5;
             } else if (status === "Lanjutkan") {
-                PerencanaanTIKItem.submission_status = 6;
+                perencanaantikItem.submission_status = 6;
             } else {
-                PerencanaanTIKItem.submission_status = 4;
+                perencanaantikItem.submission_status = 4;
             }
-            await PerencanaanTIKItem.save();
+            await perencanaantikItem.save();
         }
         return res.status(200).json({
             status: "ok",

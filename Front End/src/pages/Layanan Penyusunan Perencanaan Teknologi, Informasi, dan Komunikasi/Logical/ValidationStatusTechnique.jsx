@@ -88,7 +88,7 @@ const ValidationStatusTechnique = ({
 
     try {
       const response = await apiClient({
-        baseurl: "infrastruktur/set_process",
+        baseurl: "perencanaantik/set_process",
         method: "POST",
         body: params,
         apiKey: api_key,
