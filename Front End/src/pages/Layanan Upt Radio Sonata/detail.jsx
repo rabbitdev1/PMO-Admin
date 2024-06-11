@@ -31,7 +31,7 @@ function DetailUptRadioPages() {
   const location = useLocation();
   const slug = location?.state?.slug || "";
 
-  const [sekretariatLoading, setSekretariatLoading] = useState(true);
+  const [uptradioLoading, setUptradioLoading] = useState(true);
   const [submissionStatus, setSubmissionStatus] = useState(0);
   const [validationData, setValidationData] = useState({});
   const [validationDataTechnique, setValidationDataTechnique] = useState({});
@@ -49,7 +49,7 @@ function DetailUptRadioPages() {
 
   useEffect(() => {
     if (authToken) {
-      fetchDataSekretariat(
+      fetchDataUptradio(
         authApiKey,
         authToken,
         JSON.parse(authProfile)?.role
@@ -57,20 +57,20 @@ function DetailUptRadioPages() {
     }
   }, [dispatch]);
 
-  const fetchDataSekretariat = async (api_key, token, role) => {
-    setSekretariatLoading(true);
+  const fetchDataUptradio = async (api_key, token, role) => {
+    setUptradioLoading(true);
     const params = new URLSearchParams();
     params.append("id", slug);
     params.append("role", role);
     try {
       const response = await apiClient({
-        baseurl: "sekretariat/detail",
+        baseurl: "uptradio/detail",
         method: "POST",
         body: params,
         apiKey: api_key,
         token: token,
       });
-      setSekretariatLoading(false);
+      setUptradioLoading(false);
       if (response?.statusCode === 200) {
         setDetailData(response.result.data.fields);
         setSubmissionStatus(response.result.data?.submission_status);
@@ -92,7 +92,7 @@ function DetailUptRadioPages() {
     }
   };
 
-  const fetchEditsekretariat = async (api_key, token, id, type, data) => {
+  const fetchEdituptradio = async (api_key, token, id, type, data) => {
     dispatch(isPending(true));
     let htmlConvert = "";
 
@@ -145,7 +145,7 @@ function DetailUptRadioPages() {
 
     try {
       const response = await apiClient({
-        baseurl: "sekretariat/edit",
+        baseurl: "uptradio/edit",
         method: "POST",
         body: params,
         apiKey: api_key,
@@ -155,8 +155,8 @@ function DetailUptRadioPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Sekretariat Berhasil Diupdate",
-            msg: "Selamat, Pengajuan sekretariat sudah diupdate",
+            title: "Uptradio Berhasil Diupdate",
+            msg: "Selamat, Pengajuan uptradio sudah diupdate",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
           },
@@ -174,7 +174,7 @@ function DetailUptRadioPages() {
 
   const checkingFormData = async (type, data) => {
     if (type === "validation") {
-      fetchEditsekretariat(authApiKey, authToken, slug, type, data);
+      fetchEdituptradio(authApiKey, authToken, slug, type, data);
     } else if (type === "validation_technique") {
       if (
         data.file_scema_integration ||
@@ -190,7 +190,7 @@ function DetailUptRadioPages() {
                 authApiKey,
                 authToken,
                 data.file_scema_integration,
-                "sekretariat",
+                "uptradio",
                 dispatch
               ).then(result => {
                 resultMapping.file_scema_integration = result;
@@ -204,7 +204,7 @@ function DetailUptRadioPages() {
                 authApiKey,
                 authToken,
                 data.upload_dokumen_laporan_modul_tte,
-                "sekretariat",
+                "uptradio",
                 dispatch
               ).then(result => {
                 resultMapping.upload_dokumen_laporan_modul_tte = result;
@@ -218,7 +218,7 @@ function DetailUptRadioPages() {
                 authApiKey,
                 authToken,
                 data.upload_dokumen_laporan_pembuatan_akun,
-                "sekretariat",
+                "uptradio",
                 dispatch
               ).then(result => {
                 resultMapping.upload_dokumen_laporan_pembuatan_akun = result;
@@ -237,12 +237,12 @@ function DetailUptRadioPages() {
           if (resultMapping.upload_dokumen_laporan_pembuatan_akun) {
             combineData.upload_dokumen_laporan_pembuatan_akun = resultMapping.upload_dokumen_laporan_pembuatan_akun;
           }
-          fetchEditsekretariat(authApiKey, authToken, slug, type, combineData);
+          fetchEdituptradio(authApiKey, authToken, slug, type, combineData);
         } catch (error) {
           console.error("Error occurred during image upload:", error);
         }
       } else {
-        fetchEditsekretariat(authApiKey, authToken, slug, type, data);
+        fetchEdituptradio(authApiKey, authToken, slug, type, data);
       }
     } else if (type === "process") {
       if (
@@ -260,7 +260,7 @@ function DetailUptRadioPages() {
                 authApiKey,
                 authToken,
                 data.upload_dokumen_hasil_integrasi,
-                "sekretariat",
+                "uptradio",
                 dispatch
               ).then(result => {
                 resultMapping.upload_dokumen_hasil_integrasi = result;
@@ -273,7 +273,7 @@ function DetailUptRadioPages() {
                 authApiKey,
                 authToken,
                 data.upload_dokumen_laporan_modul_tte,
-                "sekretariat",
+                "uptradio",
                 dispatch
               ).then(result => {
                 resultMapping.upload_dokumen_laporan_modul_tte = result;
@@ -286,7 +286,7 @@ function DetailUptRadioPages() {
                 authApiKey,
                 authToken,
                 data.upload_dokumen_laporan_pembuatan_akun,
-                "sekretariat",
+                "uptradio",
                 dispatch
               ).then(result => {
                 resultMapping.upload_dokumen_laporan_pembuatan_akun = result;
@@ -307,12 +307,12 @@ function DetailUptRadioPages() {
             combineData.upload_dokumen_laporan_pembuatan_akun = resultMapping.upload_dokumen_laporan_pembuatan_akun;
           }
 
-          fetchEditsekretariat(authApiKey, authToken, slug, type, combineData);
+          fetchEdituptradio(authApiKey, authToken, slug, type, combineData);
         } catch (error) {
           console.error("Error occurred during image upload:", error);
         }
       } else {
-        fetchEditsekretariat(authApiKey, authToken, slug, type, data);
+        fetchEdituptradio(authApiKey, authToken, slug, type, data);
       }
 
     } else if (type === "finish") {
@@ -321,13 +321,13 @@ function DetailUptRadioPages() {
           authApiKey,
           authToken,
           data.file_submission,
-          "sekretariat",
+          "uptradio",
           dispatch
         );
         if (result !== null) {
           let combineData = {};
           combineData = { ...data, file_upload: result };
-          fetchEditsekretariat(
+          fetchEdituptradio(
             authApiKey,
             authToken,
             slug,
@@ -338,7 +338,7 @@ function DetailUptRadioPages() {
           console.error("Error occurred during image upload.");
         }
       } else {
-        fetchEditsekretariat(authApiKey, authToken, slug, type, data);
+        fetchEdituptradio(authApiKey, authToken, slug, type, data);
       }
     }
   };
@@ -347,7 +347,7 @@ function DetailUptRadioPages() {
       <TitleHeader
         title={`Detail Pengajuan ${detailData.submission_title} #${slug}`}
         link1={"dashboard"}
-        link2={"Layanan Sekretariat"}
+        link2={"Layanan UPT RADIO SONATA"}
       />
       <section className="flex flex-col gap-3">
         <SubmissionStatus status={submissionStatus} />
@@ -355,14 +355,14 @@ function DetailUptRadioPages() {
           <DalamAntrianView
             submissionStatus={submissionStatus}
             detailData={detailData}
-            loading={sekretariatLoading}
+            loading={uptradioLoading}
           />
           <ValidationStatus
             submissionStatus={submissionStatus}
             validationData={validationData}
             authProfile={authProfile}
             detailData={detailData}
-            loading={sekretariatLoading}
+            loading={uptradioLoading}
             setValidationData={setValidationData}
             checkingFormData={checkingFormData}
           />
@@ -373,7 +373,7 @@ function DetailUptRadioPages() {
             setValidationData={setValidationDataTechnique}
             authProfile={authProfile}
             detailData={detailData}
-            loading={sekretariatLoading}
+            loading={uptradioLoading}
             checkingFormData={checkingFormData}
             setisModalVerif={setisModalVerif}
           />
@@ -384,7 +384,7 @@ function DetailUptRadioPages() {
             processData={processData}
             authProfile={authProfile}
             detailData={detailData}
-            loading={sekretariatLoading}
+            loading={uptradioLoading}
             checkingFormData={checkingFormData}
             setisModalVerif={setisModalVerif}
             finishData={finishData}
@@ -393,7 +393,7 @@ function DetailUptRadioPages() {
 
           <FinishStatus
             detailData={detailData}
-            loading={sekretariatLoading}
+            loading={uptradioLoading}
             validationData={validationDataTechnique}
             processData={processData}
             submissionStatus={submissionStatus}
@@ -429,7 +429,7 @@ function DetailUptRadioPages() {
                 className={`inline-flex flex-1 bg-[${isModalVerif.data.color}] text-darkColor`}
                 onClick={() => {
                   setisModalVerif({ data: {}, status: false });
-                  fetchDataSekretariat(
+                  fetchDataUptradio(
                     authApiKey,
                     authToken,
                     JSON.parse(authProfile)?.role

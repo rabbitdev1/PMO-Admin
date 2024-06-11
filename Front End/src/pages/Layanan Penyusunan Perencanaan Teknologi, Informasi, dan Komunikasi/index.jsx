@@ -151,7 +151,7 @@ function LayananPenyusunanPerencanaanTIKPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: 'Pengajuan PerencanaanTIK Berhasil',
+            title: 'Pengajuan Perencanaan Teknologi, Informasi, dan Komunikasi Berhasil',
             msg: 'Selamat, Pengajuan anda sudah diterima',
             icon: PengajuanBerahasilIcon,
             color: '#13C39C'
@@ -186,7 +186,7 @@ function LayananPenyusunanPerencanaanTIKPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: 'Pengajuan PerencanaanTIK Berhasil Dihapus',
+            title: 'Pengajuan Perencanaan Teknologi, Informasi, dan Komunikasi Berhasil Dihapus',
             msg: response.result.msg,
             icon: PengajuanGagalIcon,
             color: '#FB4B4B'

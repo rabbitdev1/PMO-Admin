@@ -22,7 +22,7 @@ import ProcessStatus from "./Logical/ProcessStatus";
 import ValidationStatus from "./Logical/ValidationStatus";
 import ValidationStatusTechnique from "./Logical/ValidationStatusTechnique";
 
-function DetailInfrastrukturPages() {
+function DetailLayananManagemenInfrastrukturTeknologiInformasiPages() {
   const { isDarkMode } = useTheme();
   const navigate = useNavigate();
   const authApiKey = Cookies.get("authApiKey");
@@ -31,7 +31,7 @@ function DetailInfrastrukturPages() {
   const location = useLocation();
   const slug = location?.state?.slug || "";
 
-  const [infrastrukturLoading, setInfrastrukturLoading] = useState(true);
+  const [managementinfrastrukturLoading, setManagementInfrastrukturLoading] = useState(true);
   const [submissionStatus, setSubmissionStatus] = useState(0);
   const [validationData, setValidationData] = useState({});
   const [validationDataTechnique, setValidationDataTechnique] = useState({});
@@ -49,7 +49,7 @@ function DetailInfrastrukturPages() {
 
   useEffect(() => {
     if (authToken) {
-      fetchDataInfrastruktur(
+      fetchDataManagementInfrastruktur(
         authApiKey,
         authToken,
         JSON.parse(authProfile)?.role
@@ -57,8 +57,8 @@ function DetailInfrastrukturPages() {
     }
   }, [dispatch]);
 
-  const fetchDataInfrastruktur = async (api_key, token, role) => {
-    setInfrastrukturLoading(true);
+  const fetchDataManagementInfrastruktur = async (api_key, token, role) => {
+    setManagementInfrastrukturLoading(true);
     const params = new URLSearchParams();
     params.append("id", slug);
     params.append("role", role);
@@ -70,7 +70,7 @@ function DetailInfrastrukturPages() {
         apiKey: api_key,
         token: token,
       });
-      setInfrastrukturLoading(false);
+      setManagementInfrastrukturLoading(false);
       if (response?.statusCode === 200) {
         setDetailData(response.result.data.fields);
         setSubmissionStatus(response.result.data?.submission_status);
@@ -92,7 +92,7 @@ function DetailInfrastrukturPages() {
     }
   };
 
-  const fetchEditinfrastruktur = async (api_key, token, id, type, data) => {
+  const fetchEditmanagementinfrastruktur = async (api_key, token, id, type, data) => {
     dispatch(isPending(true));
     let htmlConvert = "";
 
@@ -155,8 +155,8 @@ function DetailInfrastrukturPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "infrastruktur Berhasil diupdate",
-            msg: "Selamat, Pengajuan infrastruktur sudah diupdate",
+            title: "management infrastruktur Berhasil diupdate",
+            msg: "Selamat, Pengajuan management infrastruktur sudah diupdate",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
           },
@@ -174,9 +174,9 @@ function DetailInfrastrukturPages() {
 
   const checkingFormData = async (type, data) => {
     if (type === "validation") {
-      fetchEditinfrastruktur(authApiKey, authToken, slug, type, data);
+      fetchEditmanagementinfrastruktur(authApiKey, authToken, slug, type, data);
     } else if (type === "validation_technique") {
-      fetchEditinfrastruktur(authApiKey, authToken, slug, type, data);
+      fetchEditmanagementinfrastruktur(authApiKey, authToken, slug, type, data);
     } else if (type === "process") {
       if (
         data.upload_foto_alat_sebelum_di_relokasi ||
@@ -195,7 +195,7 @@ function DetailInfrastrukturPages() {
                 authApiKey,
                 authToken,
                 data.upload_foto_alat_sebelum_di_relokasi,
-                "infrastruktur",
+                "managementinfrastrukturtik",
                 dispatch
               ).then(result => {
                 resultMapping.upload_foto_alat_sebelum_di_relokasi = result;
@@ -208,7 +208,7 @@ function DetailInfrastrukturPages() {
                 authApiKey,
                 authToken,
                 data.upload_foto_alat_sesudah_di_relokasi,
-                "infrastruktur",
+                "managementinfrastrukturtik",
                 dispatch
               ).then(result => {
                 resultMapping.upload_foto_alat_sesudah_di_relokasi = result;
@@ -221,7 +221,7 @@ function DetailInfrastrukturPages() {
                 authApiKey,
                 authToken,
                 data.upload_foto_alat_sebelum_di_tambahkan,
-                "infrastruktur",
+                "managementinfrastrukturtik",
                 dispatch
               ).then(result => {
                 resultMapping.upload_foto_alat_sebelum_di_tambahkan = result;
@@ -234,7 +234,7 @@ function DetailInfrastrukturPages() {
                 authApiKey,
                 authToken,
                 data.upload_foto_alat_sesudah_di_tambahkan,
-                "infrastruktur",
+                "managementinfrastrukturtik",
                 dispatch
               ).then(result => {
                 resultMapping.upload_foto_alat_sesudah_di_tambahkan = result;
@@ -247,7 +247,7 @@ function DetailInfrastrukturPages() {
                 authApiKey,
                 authToken,
                 data.upload_foto_kegiatan,
-                "infrastruktur",
+                "managementinfrastrukturtik",
                 dispatch
               ).then(result => {
                 resultMapping.upload_foto_kegiatan = result;
@@ -274,12 +274,12 @@ function DetailInfrastrukturPages() {
             combineData.upload_foto_kegiatan = resultMapping.upload_foto_kegiatan;
           }
       
-          fetchEditinfrastruktur(authApiKey, authToken, slug, type, combineData);
+          fetchEditmanagementinfrastruktur(authApiKey, authToken, slug, type, combineData);
         } catch (error) {
           console.error("Error occurred during image upload:", error);
         }
       } else {
-        fetchEditinfrastruktur(authApiKey, authToken, slug, type, data);
+        fetchEditmanagementinfrastruktur(authApiKey, authToken, slug, type, data);
       }
       
     } else if (type === "finish") {
@@ -288,13 +288,13 @@ function DetailInfrastrukturPages() {
           authApiKey,
           authToken,
           data.file_submission,
-          "infrastruktur",
+          "managementinfrastrukturtik",
           dispatch
         );
         if (result !== null) {
           let combineData = {};
           combineData = { ...data, file_upload: result };
-          fetchEditinfrastruktur(
+          fetchEditmanagementinfrastruktur(
             authApiKey,
             authToken,
             slug,
@@ -305,7 +305,7 @@ function DetailInfrastrukturPages() {
           console.error("Error occurred during image upload.");
         }
       } else {
-        fetchEditinfrastruktur(authApiKey, authToken, slug, type, data);
+        fetchEditmanagementinfrastruktur(authApiKey, authToken, slug, type, data);
       }
     }
   };
@@ -314,7 +314,7 @@ function DetailInfrastrukturPages() {
       <TitleHeader
         title={`Detail Pengajuan ${detailData.submission_title} #${slug}`}
         link1={"dashboard"}
-        link2={"Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi"}
+        link2={"Bidang Manajemen Infrastruktur Teknologi Informasi dan Komunikasi"}
       />
       <section className="flex flex-col gap-3">
         <SubmissionStatus status={submissionStatus} />
@@ -322,14 +322,14 @@ function DetailInfrastrukturPages() {
           <DalamAntrianView
             submissionStatus={submissionStatus}
             detailData={detailData}
-            loading={infrastrukturLoading}
+            loading={managementinfrastrukturLoading}
           />
           <ValidationStatus
             submissionStatus={submissionStatus}
             validationData={validationData}
             authProfile={authProfile}
             detailData={detailData}
-            loading={infrastrukturLoading}
+            loading={managementinfrastrukturLoading}
             setValidationData={setValidationData}
             checkingFormData={checkingFormData}
           />
@@ -340,7 +340,7 @@ function DetailInfrastrukturPages() {
             setValidationData={setValidationDataTechnique}
             authProfile={authProfile}
             detailData={detailData}
-            loading={infrastrukturLoading}
+            loading={managementinfrastrukturLoading}
             checkingFormData={checkingFormData}
             setisModalVerif={setisModalVerif}
           />
@@ -351,7 +351,7 @@ function DetailInfrastrukturPages() {
             processData={processData}
             authProfile={authProfile}
             detailData={detailData}
-            loading={infrastrukturLoading}
+            loading={managementinfrastrukturLoading}
             checkingFormData={checkingFormData}
             setisModalVerif={setisModalVerif}
             finishData={finishData}
@@ -360,7 +360,7 @@ function DetailInfrastrukturPages() {
 
           <FinishStatus
             detailData={detailData}
-            loading={infrastrukturLoading}
+            loading={managementinfrastrukturLoading}
             validationData={validationDataTechnique}
             processData={processData}
             submissionStatus={submissionStatus}
@@ -396,7 +396,7 @@ function DetailInfrastrukturPages() {
                 className={`inline-flex flex-1 bg-[${isModalVerif.data.color}] text-darkColor`}
                 onClick={() => {
                   setisModalVerif({ data: {}, status: false });
-                  fetchDataInfrastruktur(
+                  fetchDataManagementInfrastruktur(
                     authApiKey,
                     authToken,
                     JSON.parse(authProfile)?.role
@@ -412,4 +412,4 @@ function DetailInfrastrukturPages() {
   );
 }
 
-export default DetailInfrastrukturPages;
+export default DetailLayananManagemenInfrastrukturTeknologiInformasiPages;
