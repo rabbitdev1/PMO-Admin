@@ -38,8 +38,8 @@ function LayananManagemenInfrastrukturTeknologiInformasiPages() {
   ]);
 
 
-  const [listInfrasturktur, setListInfrasturktur] = useState([]);
-  const [listInfrasturkturLoading, setListInfrasturkturLoading] = useState(true);
+  const [listManagementInfrastruktur, setlistManagementInfrastruktur] = useState([]);
+  const [listManagementInfrastrukturLoading, setlistManagementInfrastrukturLoading] = useState(true);
 
   const [formData, setFormData] = useState(initialFormData);
 
@@ -58,14 +58,14 @@ function LayananManagemenInfrastrukturTeknologiInformasiPages() {
 
   useEffect(() => {
     if (authToken) {
-      fetchDataInfrasturktur(authApiKey, authToken, JSON.parse(authProfile)?.role)
+      fetchDataManagementInfrastruktur(authApiKey, authToken, JSON.parse(authProfile)?.role)
       fetchDataAlat(authApiKey, authToken)
     }
   }, [dataState, authToken]);
 
 
-  const fetchDataInfrasturktur = async (api_key, token, role) => {
-    setListInfrasturkturLoading(true);
+  const fetchDataManagementInfrastruktur = async (api_key, token, role) => {
+    setlistManagementInfrastrukturLoading(true);
     const params = new URLSearchParams();
     params.append("role", role);
     try {
@@ -76,13 +76,13 @@ function LayananManagemenInfrastrukturTeknologiInformasiPages() {
         apiKey: api_key,
         token: token,
       });
-      setListInfrasturkturLoading(false);
+      setlistManagementInfrastrukturLoading(false);
       if (response?.statusCode === 200) {
         if (JSON.parse(authProfile)?.role === "perangkat_daerah") {
           const filteredSubmissions = response.result.data.filter(submission => submission.submission_title === dataState);
-          setListInfrasturktur(filteredSubmissions);
+          setlistManagementInfrastruktur(filteredSubmissions);
         } else {
-          setListInfrasturktur(response.result.data);
+          setlistManagementInfrastruktur(response.result.data);
         }
 
         setStatusData([
@@ -92,7 +92,7 @@ function LayananManagemenInfrastrukturTeknologiInformasiPages() {
           { ...statusData[3], value: response?.result?.totalItemsByStatus?.disetujui || 0, },
         ])
       } else {
-        setListInfrasturktur([]);
+        setlistManagementInfrastrukturLoading([]);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -151,7 +151,7 @@ function LayananManagemenInfrastrukturTeknologiInformasiPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: 'Pengajuan Infrasturktur Berhasil',
+            title: 'Pengajuan Manajemen Infrastruktur Berhasil',
             msg: 'Selamat, Pengajuan anda sudah diterima',
             icon: PengajuanBerahasilIcon,
             color: '#13C39C'
@@ -186,7 +186,7 @@ function LayananManagemenInfrastrukturTeknologiInformasiPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: 'Pengajuan Infrasturktur Berhasil Dihapus',
+            title: 'Pengajuan Manajemen Infrastruktur Berhasil Dihapus',
             msg: response.result.msg,
             icon: PengajuanGagalIcon,
             color: '#FB4B4B'
@@ -197,7 +197,7 @@ function LayananManagemenInfrastrukturTeknologiInformasiPages() {
         toast.error(response.result.msg, {
           position: toast.POSITION.TOP_RIGHT,
         });
-        fetchDataInfrasturktur(authApiKey, authToken, JSON.parse(authProfile)?.role)
+        fetchDataManagementInfrastruktur(authApiKey, authToken, JSON.parse(authProfile)?.role)
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -266,7 +266,7 @@ function LayananManagemenInfrastrukturTeknologiInformasiPages() {
         } else {
           return false;
         }
-      } else if (combinedObject?.submission_title === "Pelayanan Produksi Data dari Situs Web") {
+      } else if (combinedObject?.submission_title === "Pelayanan Produksi data dari situs Web") {
         if (isValidatorpermohonanLiputan(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
         } else {
@@ -279,7 +279,7 @@ function LayananManagemenInfrastrukturTeknologiInformasiPages() {
   }
   const handleImageUploadAndFetch = async (obj) => {
     if (obj.image_screenshoot) {
-      const result = await fetchUploadImages(authApiKey, authToken, obj.image_screenshoot, 'infrastruktur', dispatch);
+      const result = await fetchUploadImages(authApiKey, authToken, obj.image_screenshoot, 'managementinfrastrukturtik', dispatch);
       if (result !== null) {
         const fixObject = {
           ...obj,
@@ -357,10 +357,10 @@ function LayananManagemenInfrastrukturTeknologiInformasiPages() {
 
   return (
     <div className="flex flex-col gap-3 flex-1 p-4" >
-      <TitleHeader title={JSON.parse(authProfile)?.role === "perangkat_daerah" ? "Layanan Pengajuan" : "Layanan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi"}
+      <TitleHeader title={JSON.parse(authProfile)?.role === "perangkat_daerah" ? "Layanan Pengajuan" : "Pengajuan Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi"}
 
         link1={"dashboard"}
-        link2={'Bidang Infrastruktur Teknologi, Informasi dan Komunikasi'} />
+        link2={'Pengajuan Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi'} />
       <section className="flex xl:flex-row flex-col gap-3" >
         <div className="flex-1 flex flex-col gap-3">
           <div className="flex md:flex-row flex-col gap-3">
@@ -440,7 +440,7 @@ function LayananManagemenInfrastrukturTeknologiInformasiPages() {
                   if (JSON.parse(authProfile)?.role === "op_pmo") {
                     fetchSetProgress(authApiKey, authToken, data.id)
                   } else {
-                    navigate("/detail-infrastruktur", { state: { slug: data.id } });
+                    navigate("/detail-managementinfrastrukturtik", { state: { slug: data.id } });
                   }
                 }}
                 onClickRemove={(data) => {
@@ -451,14 +451,14 @@ function LayananManagemenInfrastrukturTeknologiInformasiPages() {
                   } else {
                     const isConfirmed = window.confirm("Apakah kamu yakin ingin menghapus pengajuan ini?");
                     if (isConfirmed) {
-                      fetchDataDelete(authApiKey, authToken, data.id, "infrastruktur")
+                      fetchDataDelete(authApiKey, authToken, data.id, "managementinfrastrukturtik")
                     } else {
                       alert("Pengajuan tidak dihapus.");
                     }
                   }
 
                 }}
-                data={listInfrasturktur}
+                data={listManagementInfrastruktur}
               />
             </div>
           </div>
@@ -521,7 +521,7 @@ function LayananManagemenInfrastrukturTeknologiInformasiPages() {
                   setisModalVerif({ data: {}, status: false })
                   setisModalCreate({ data: {}, status: false });
                   setisModalType({ data: {}, status: false })
-                  fetchDataInfrasturktur(authApiKey, authToken, JSON.parse(authProfile)?.role)
+                  fetchDataManagementInfrastruktur(authApiKey, authToken, JSON.parse(authProfile)?.role)
                 }}
               />
             </div>

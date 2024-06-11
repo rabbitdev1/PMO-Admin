@@ -12,7 +12,7 @@ export const formData = [
     ],
   },
   {
-    name: "Pengajuan Pelayanan Produksi Data dari Situs Web",
+    name: "Pengajuan Pelayanan Produksi data dari situs Web",
     type: "Pengajuan Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi",
     role: [
       "op_pmo",
