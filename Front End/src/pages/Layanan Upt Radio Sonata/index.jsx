@@ -64,8 +64,8 @@ function UptRadioPages() {
     },
   ]);
 
-  const [listSekretariat, setListSekretariat] = useState([]);
-  const [listSekretariatLoading, setListSekretariatLoading] =
+  const [listUptradio, setListUptradio] = useState([]);
+  const [listUptradioLoading, setListUptradioLoading] =
     useState(true);
 
   const [formData, setFormData] = useState(initialFormData);
@@ -85,7 +85,7 @@ function UptRadioPages() {
 
   useEffect(() => {
     if (authToken) {
-      fetchDataSekretariat(
+      fetchDataUptradio(
         authApiKey,
         authToken,
         JSON.parse(authProfile)?.role
@@ -93,27 +93,27 @@ function UptRadioPages() {
     }
   }, [dataState, authToken]);
 
-  const fetchDataSekretariat = async (api_key, token, role) => {
-    setListSekretariatLoading(true);
+  const fetchDataUptradio = async (api_key, token, role) => {
+    setListUptradioLoading(true);
     const params = new URLSearchParams();
     params.append("role", role);
     try {
       const response = await apiClient({
-        baseurl: "sekretariat",
+        baseurl: "uptradio",
         method: "POST",
         body: params,
         apiKey: api_key,
         token: token,
       });
-      setListSekretariatLoading(false);
+      setListUptradioLoading(false);
       if (response?.statusCode === 200) {
         if (JSON.parse(authProfile)?.role === "perangkat_daerah") {
           const filteredSubmissions = response.result.data.filter(
             (submission) => submission.submission_title === dataState
           );
-          setListSekretariat(filteredSubmissions);
+          setListUptradio(filteredSubmissions);
         } else {
-          setListSekretariat(response.result.data);
+          setListUptradio(response.result.data);
         }
 
         setStatusData([
@@ -132,7 +132,7 @@ function UptRadioPages() {
           },
         ]);
       } else {
-        setListSekretariat([]);
+        setListUptradio([]);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -144,7 +144,7 @@ function UptRadioPages() {
 
     try {
       const response = await apiClient({
-        baseurl: "sekretariat/create",
+        baseurl: "uptradio/create",
         method: "POST",
         customHeaders: { "Content-Type": "application/json" },
         body: raw,
@@ -180,7 +180,7 @@ function UptRadioPages() {
 
     try {
       const response = await apiClient({
-        baseurl: "sekretariat/delete",
+        baseurl: "uptradio/delete",
         method: "POST",
         body: params,
         apiKey: api_key,
@@ -212,14 +212,14 @@ function UptRadioPages() {
 
     try {
       const response = await apiClient({
-        baseurl: "sekretariat/set_process",
+        baseurl: "uptradio/set_process",
         method: "POST",
         body: params,
         apiKey: api_key,
         token: token,
       });
       if (response?.statusCode === 200) {
-        navigate("/detail-sekretariat", { state: { slug: id } });
+        navigate("/detail-uptradio", { state: { slug: id } });
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -285,7 +285,7 @@ function UptRadioPages() {
         authApiKey,
         authToken,
         obj.file_process_bisiness,
-        "sekretariat",
+        "uptradio",
         dispatch
       );
       if (result !== null) {
@@ -459,7 +459,7 @@ function UptRadioPages() {
                   if (JSON.parse(authProfile)?.role === "op_pmo") {
                     fetchSetProgress(authApiKey, authToken, data.id);
                   } else {
-                    navigate("/detail-sekretariat", { state: { slug: data.id } });
+                    navigate("/detail-uptradio", { state: { slug: data.id } });
                   }
                 }}
                 onClickRemove={(data) => {
@@ -483,14 +483,14 @@ function UptRadioPages() {
                         authApiKey,
                         authToken,
                         data.id,
-                        "sekretariat"
+                        "uptradio"
                       );
                     } else {
                       alert("Pengajuan tidak dihapus.");
                     }
                   }
                 }}
-                data={listSekretariat}
+                data={listUptradio}
               />
             </div>
           </div>
@@ -561,7 +561,7 @@ function UptRadioPages() {
                   setisModalVerif({ data: {}, status: false });
                   setisModalCreate({ data: {}, status: false });
                   setisModalType({ data: {}, status: false });
-                  fetchDataSekretariat(
+                  fetchDataUptradio(
                     authApiKey,
                     authToken,
                     JSON.parse(authProfile)?.role

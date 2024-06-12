@@ -176,6 +176,8 @@ function DetailManagementTIKPages() {
     if (type === "validation") {
       fetchEditmanagementtik(authApiKey, authToken, slug, type, data);
     } else if (type === "validation_technique") {
+      fetchEditmanagementtik(authApiKey, authToken, slug, type, data);
+    } else if (type === "process") {
       if (
         data.file_scema_integration ||
         data.upload_dokumen_laporan_modul_tte ||
@@ -225,6 +227,7 @@ function DetailManagementTIKPages() {
               })
             );
           }
+      
           await Promise.all(uploadPromises);
 
           let combineData = { ...data };
@@ -347,7 +350,7 @@ function DetailManagementTIKPages() {
       <TitleHeader
         title={`Detail Pengajuan ${detailData.submission_title} #${slug}`}
         link1={"dashboard"}
-        link2={"Layanan Pendampingan Pengolahan dan Analisis Data"}
+        link2={"Bidang Manajemen Infrastruktur Teknologi Informasi dan Komunikasi"}
       />
       <section className="flex flex-col gap-3">
         <SubmissionStatus status={submissionStatus} />

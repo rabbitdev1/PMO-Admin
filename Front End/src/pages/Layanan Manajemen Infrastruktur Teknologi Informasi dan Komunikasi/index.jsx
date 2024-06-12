@@ -456,7 +456,7 @@ function ManagementTIKPages() {
                   } else {
                     const isConfirmed = window.confirm("Apakah kamu yakin ingin menghapus pengajuan ini?");
                     if (isConfirmed) {
-                      fetchDataDelete(authApiKey, authToken, data.id, "teknologi-sistem-informasi", dispatch);
+                      fetchDataDelete(authApiKey, authToken, data.id, "managementinfrastrukturtik")
                     } else {
                       alert("Pengajuan tidak dihapus.");
                     }
