@@ -29,12 +29,12 @@ const ValidationStatusTechnique = ({
 
   const [inputLocal, setInputLocal] = useState({});
   const ZoomValidateTechnique = [
-    {
-      label: "Skema Integrasi",
-      value: inputLocal.file_scema_integration,
-      type: "file_upload",
-      name: "file_scema_integration",
-    },
+    // {
+    //   label: "Skema Integrasi",
+    //   value: inputLocal.file_scema_integration,
+    //   type: "file_upload",
+    //   name: "file_scema_integration",
+    // },
     {
       label: "Tanggapan Tim Teknis",
       value: inputLocal.team_response,
@@ -49,12 +49,12 @@ const ValidationStatusTechnique = ({
     },
   ];
   const PermohonanLiputanalidateTechnique = [
-    {
-      label: "Skema Integrasi",
-      value: inputLocal.file_scema_integration,
-      type: "file_upload",
-      name: "file_scema_integration",
-    },
+    // {
+    //   label: "Skema Integrasi",
+    //   value: inputLocal.file_scema_integration,
+    //   type: "file_upload",
+    //   name: "file_scema_integration",
+    // },
     {
       label: "Tanggapan Tim Teknis",
       value: inputLocal.team_response,
@@ -113,8 +113,8 @@ const ValidationStatusTechnique = ({
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Teknologi Sistem Informasi Berhasil Diupdate",
-            msg: "Selamat, Pengajuan teknologisi sudah diupdate",
+            title: "Teknologi dan Sistem Informasi Berhasil Diupdate",
+            msg: "Selamat, Pengajuan Sudah di-update",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
           },
@@ -192,12 +192,12 @@ const ValidationStatusTechnique = ({
                           })
                         );
                         let isValid = true;
-                        isValid =
-                          isValid &&
-                          validateFile(
-                            inputLocal.file_scema_integration,
-                            "Skema Integrasi"
-                          );
+                        // isValid =
+                        //   isValid &&
+                        //   validateFile(
+                        //     inputLocal.file_scema_integration,
+                        //     "Skema Integrasi"
+                        //   );
                         isValid =
                           isValid &&
                           validateText(

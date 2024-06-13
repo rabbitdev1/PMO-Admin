@@ -106,6 +106,8 @@ function TeknologiSIPages() {
         apiKey: api_key,
         token: token,
       });
+      // setListTeknologiSistemInformasiLoading(false);
+      dispatch(isPending(false));
       setListTeknologisiLoading(false);
       if (response?.statusCode === 200) {
         if (JSON.parse(authProfile)?.role === "perangkat_daerah") {
@@ -156,7 +158,7 @@ function TeknologiSIPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Pengajuan Teknologi SI Berhasil",
+            title: "Pengajuan Teknologi dan Sistem Informasi Berhasil",
             msg: "Selamat, Pengajuan anda sudah diterima",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
@@ -191,7 +193,7 @@ function TeknologiSIPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Pengajuan Teknologi SI Berhasil Dihapus",
+            title: "Pengajuan Teknologi dan Sistem Informasi Berhasil Dihapus",
             msg: response.result.msg,
             icon: PengajuanGagalIcon,
             color: "#FB4B4B",
@@ -469,6 +471,7 @@ function TeknologiSIPages() {
                     navigate("/detail-teknologi-dan-sistem-informasi", { state: { slug: data.id } });
                   }
                 }}
+                loading={listTeknologisiLoading}
                 onClickRemove={(data) => {
                   if (
                     data.submission_status === 2 ||

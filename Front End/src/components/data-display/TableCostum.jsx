@@ -15,6 +15,7 @@ const TableCostum = ({
   onClickShow,
   onClickRemove,
   showAction,
+  loading
 }) => {
   const { isDarkMode } = useTheme();
 
@@ -130,6 +131,7 @@ const TableCostum = ({
       filters={filters}
       rowsPerPageOptions={[10, 25, 50]}
       className="border-1 rounded-lg overflow-hidden border-[#dddddd] dark:border-[#ffffff20]"
+      loading={loading}
     >
       {dataHeader?.map((item, index) => {
         return item.field === "submission_status" || item.field === "status_account" ? (

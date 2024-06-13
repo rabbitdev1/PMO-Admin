@@ -52,6 +52,7 @@ const Sidebar = () => {
   const menuItems = [
     { title: "MENU", role: ['/'], icon: "" },
     { title: "Dashboard", role: ['op_pmo', 'perangkat_daerah', 'kabid_infra', 'teknis_infra', 'katim_infra', 'katim_aplikasi', 'kabid_aplikasi', 'teknis_aplikasi', 'kabid_perencanaan'], icon: AllBerandaIcon, href: ["/", "/"], },
+
     {
       title: "Data Alat", role: ['kabid_infra', 'teknis_infra', 'katim_infra'],
       icon: AllBerandaIcon, href: ["/data-alat-infrastruktur", "/detail-infrastruktur"],
@@ -60,6 +61,7 @@ const Sidebar = () => {
     { title: "LAYANAN", role: ['/'], icon: "" },
     {
       title: "Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan", role: ['op_pmo', 'perangkat_daerah', 'kabid_aplikasi', 'teknis_aplikasi', 'katim_aplikasi', 'kabid_perencanaan'],
+
       submenu: [
         { title: 'Permohonan Sistem Informasi', href: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", state: 'Permohonan Sistem Informasi' },
         { title: 'User Akun Sistem Informasi', href: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", state: 'User Akun Sistem Informasi' },
@@ -92,8 +94,8 @@ const Sidebar = () => {
     {
       title: "Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi", role: ['op_pmo', 'perangkat_daerah', 'teknis_aplikasi', 'katim_aplikasi'],
       submenu: [
-        { title: 'Pendampingan Pengolahan dan Analisis Data', href: '/layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi', state: 'Pendampingan Pengolahan dan Analisis Data' },
-        { title: 'Pelayanan Produksi Data dari Situs Web', href: '/layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi', state: 'Pelayanan Produksi Data dari Situs Web' },
+        { title: 'Pendampingan Pengolahan dan Analisis Data', href: '/layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi', state: 'Layanan Pendampingan Pengolahan dan Analisis Data' },
+        { title: 'Pelayanan Produksi Data dari Situs Web', href: '/layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi', state: 'Layanan Produksi Data dari Situs Web' },
       ],
       icon: AllBerandaIcon, href: ["/layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi", "/detail-layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi"],
     },

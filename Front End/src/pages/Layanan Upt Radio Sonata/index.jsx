@@ -106,6 +106,7 @@ function UptRadioPages() {
         token: token,
       });
       setListUptradioLoading(false);
+      dispatch(isPending(false));
       if (response?.statusCode === 200) {
         if (JSON.parse(authProfile)?.role === "perangkat_daerah") {
           const filteredSubmissions = response.result.data.filter(
@@ -455,6 +456,7 @@ function UptRadioPages() {
                       : false,
                   edit: true,
                 }}
+                loading={listUptradioLoading}
                 onClickShow={(data) => {
                   if (JSON.parse(authProfile)?.role === "op_pmo") {
                     fetchSetProgress(authApiKey, authToken, data.id);

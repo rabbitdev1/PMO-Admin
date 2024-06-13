@@ -7,7 +7,7 @@ import DynamicShow from "../../../components/common/DynamicShow";
 import DynamicDetails from "../../../components/ui/DynamicDetails";
 import { apiClient } from "../../../utils/api/apiClient";
 import { validateImage } from "../../../utils/helpers/validateForm";
-import { getPenambahanAlatFinish, getPenambahanAlatProcess, getPenambahanBandwidthFinish, getPenambahanBandwidthProcess, getRelokasiAlatFinish, getRelokasiAlatProcess } from "../data";
+import { getPenambahanAlatFinish, getPenambahanAlatProcess, getPenambahanBandwidthFinish, getPenambahanBandwidthProcess, getPenyusunanKebijakanFinish, getPenyusunanKebijakanProcess } from "../data";
 
 const ProcessStatus = ({
     submissionStatus,
@@ -24,11 +24,11 @@ const ProcessStatus = ({
 
     const [inputLocal, setInputLocal] = useState({});
 
-    const RelokasiAlatProcess = getRelokasiAlatProcess(inputLocal);
+    const PenyusunanKebijakanProcess = getPenyusunanKebijakanProcess(inputLocal);
     const PenambahanAlatProcess = getPenambahanAlatProcess(inputLocal);
     const PenambahanBandwidthProcess = getPenambahanBandwidthProcess(inputLocal);
 
-    const RelokasiAlatFinish = getRelokasiAlatFinish(finishData);
+    const PenyusunanKebijakanFinish = getPenyusunanKebijakanFinish(finishData);
     const PenambahanBandwidthFinish = getPenambahanBandwidthFinish(finishData);
     const PenambahanAlatFinish = getPenambahanAlatFinish(finishData);
 
@@ -48,8 +48,8 @@ const ProcessStatus = ({
             if (response?.statusCode === 200) {
                 setisModalVerif({
                     data: {
-                        title: 'infrastruktur Berhasil diupdate',
-                        msg: 'Selamat, Pengajuan infrastruktur sudah diupdate',
+                        title: 'Pengajuan Perencanaan TIK Berhasil di-update',
+                        msg: 'Selamat, Pengajuanr sudah diupdate',
                         icon: PengajuanBerahasilIcon,
                         color: '#13C39C'
                     },
@@ -105,9 +105,9 @@ const ProcessStatus = ({
         ));
     };
     return (
-        submissionStatus === 6 && (JSON.parse(authProfile)?.role === "teknis_infra" || JSON.parse(authProfile)?.role === "katim_infra" ?
+        submissionStatus === 6 && (JSON.parse(authProfile)?.role === "teknis_aplikasi" || JSON.parse(authProfile)?.role === "katim_aplikasi" ?
             <div className="flex flex-col gap-3">
-                {JSON.parse(authProfile)?.role === "teknis_infra" && (
+                {JSON.parse(authProfile)?.role === "teknis_aplikasi" && (
                     Object.entries(processData).length === 0 ?
                         <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                             <span className='text-lg font-bold'>Tahapan Proses</span>
@@ -120,8 +120,8 @@ const ProcessStatus = ({
                                     type={"working_schedule" ? "multidate" : 'text'}
                                 />
                             ))}
-                            {renderProcessInputs(detailData.submission_title === "Relokasi Alat" ?
-                                RelokasiAlatProcess :
+                            {renderProcessInputs(detailData.submission_title === "Penyusunan Kebijakan" ?
+                                PenyusunanKebijakanProcess :
                                 detailData.submission_title === "Penambahan Alat" ?
                                     PenambahanAlatProcess : detailData.submission_title === "Penambahan Bandwidth" ?
                                         PenambahanBandwidthProcess : detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan" ?
@@ -149,7 +149,7 @@ const ProcessStatus = ({
 
                                         let isValid = true;
 
-                                        if (detailData.submission_title === "Relokasi Alat") {
+                                        if (detailData.submission_title === "Penyusunan Kebijakan") {
                                             isValid = isValid && validateImage(inputLocal.upload_foto_alat_sebelum_di_relokasi, "Upload Foto Alat Sebelum di Relokasi");
                                             isValid = isValid && validateImage(inputLocal.upload_foto_alat_sesudah_di_relokasi, "Upload Foto Alat Sesudah di Relokasi");
                                         } else if (detailData.submission_title === "Penambahan Alat") {
@@ -206,7 +206,7 @@ const ProcessStatus = ({
                                                                 : key
                                         }
                                         value={value}
-                                        location={"infrastruktur"}
+                                        location={"prencanaantik"}
                                         type={
                                             key === "upload_foto_alat_sebelum_di_relokasi" || key === "upload_foto_alat_sesudah_di_relokasi" || key === "upload_foto_alat_sebelum_di_tambahkan" || key === "upload_foto_alat_sesudah_di_tambahkan" || key === "upload_foto_kegiatan"
                                                 ? "images"
@@ -217,7 +217,7 @@ const ProcessStatus = ({
                             </div>
                         </div>
                 )}
-                {JSON.parse(authProfile)?.role === "katim_infra" && (
+                {JSON.parse(authProfile)?.role === "katim_aplikasi" && (
                     Object.entries(processData).length !== 0 ?
                         <div className="flex flex-col gap-3">
                             <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
@@ -248,7 +248,7 @@ const ProcessStatus = ({
                                                                 : key
                                         }
                                         value={value}
-                                        location={"infrastruktur"}
+                                        location={"perencanaantik"}
                                         type={
                                             key === "upload_foto_alat_sebelum_di_relokasi" || key === "upload_foto_alat_sesudah_di_relokasi" || key === "upload_foto_alat_sebelum_di_tambahkan" || key === "upload_foto_alat_sesudah_di_tambahkan" || key === "upload_foto_kegiatan"
                                                 ? "images"
@@ -259,8 +259,8 @@ const ProcessStatus = ({
                             </div>
                             <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                                 <span className='text-lg font-bold'>Proses Selesai</span>
-                                {renderFinishInputs(detailData.submission_title === "Relokasi Alat" ?
-                                    RelokasiAlatFinish
+                                {renderFinishInputs(detailData.submission_title === "Penyusunan Kebijakan" ?
+                                    PenyusunanKebijakanFinish
                                     : detailData.submission_title === "Penambahan Alat" ?
                                         PenambahanAlatFinish : detailData.submission_title === "Penambahan Bandwidth" ?
                                             PenambahanBandwidthFinish : detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan" ?
@@ -343,7 +343,7 @@ const ProcessStatus = ({
                                                             : key
                                     }
                                     value={value}
-                                    location={"infrastruktur"}
+                                    location={"perencanaantik"}
                                     type={
                                         key === "upload_foto_alat_sebelum_di_relokasi" || key === "upload_foto_alat_sesudah_di_relokasi" || key === "upload_foto_alat_sebelum_di_tambahkan" || key === "upload_foto_alat_sesudah_di_tambahkan" || key === "upload_foto_kegiatan"
                                             ? "images"
@@ -354,7 +354,7 @@ const ProcessStatus = ({
                         </div>
                     }
                 </div>
-                <DynamicDetails location={"infrastruktur"} detailData={detailData} loading={loading} />
+                <DynamicDetails location={"perencanaantik"} detailData={detailData} loading={loading} />
             </div>
         )
     );
