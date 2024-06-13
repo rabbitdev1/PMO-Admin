@@ -7,7 +7,7 @@ import DynamicShow from "../../../components/common/DynamicShow";
 import DynamicDetails from "../../../components/ui/DynamicDetails";
 import { apiClient } from "../../../utils/api/apiClient";
 import { validateImage } from "../../../utils/helpers/validateForm";
-import { getPenambahanAlatFinish, getPenambahanAlatProcess, getPenambahanBandwidthFinish, getPenambahanBandwidthProcess, getRelokasiAlatFinish, getRelokasiAlatProcess } from "../data";
+import { getPenambahanAlatFinish, getPenambahanAlatProcess, getPenambahanBandwidthFinish, getPenambahanBandwidthProcess, getRelokasiAlatFinish, getRelokasiAlatProcess, getTroubleshotingFinish, getTroubleshotingProcess } from "../data";
 
 const ProcessStatus = ({
     submissionStatus,
@@ -27,10 +27,12 @@ const ProcessStatus = ({
     const RelokasiAlatProcess = getRelokasiAlatProcess(inputLocal);
     const PenambahanAlatProcess = getPenambahanAlatProcess(inputLocal);
     const PenambahanBandwidthProcess = getPenambahanBandwidthProcess(inputLocal);
+    const TroubleshotingProcess = getTroubleshotingProcess(inputLocal);
 
     const RelokasiAlatFinish = getRelokasiAlatFinish(finishData);
     const PenambahanBandwidthFinish = getPenambahanBandwidthFinish(finishData);
     const PenambahanAlatFinish = getPenambahanAlatFinish(finishData);
+    const TroubleshotingFinish = getTroubleshotingFinish(finishData);
 
     const fetchSetProgress = async (api_key, token, status) => {
         const params = new URLSearchParams();
@@ -125,7 +127,7 @@ const ProcessStatus = ({
                                 detailData.submission_title === "Penambahan Alat" ?
                                     PenambahanAlatProcess : detailData.submission_title === "Penambahan Bandwidth" ?
                                         PenambahanBandwidthProcess : detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan" ?
-                                            [] : detailData.submission_title === "Hosting" ?
+                                            TroubleshotingProcess : detailData.submission_title === "Hosting" ?
                                                 [] : detailData.submission_title === "Domain" ?
                                                     []
                                                     : []
@@ -264,7 +266,7 @@ const ProcessStatus = ({
                                     : detailData.submission_title === "Penambahan Alat" ?
                                         PenambahanAlatFinish : detailData.submission_title === "Penambahan Bandwidth" ?
                                             PenambahanBandwidthFinish : detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan" ?
-                                                [] : detailData.submission_title === "Hosting" ?
+                                                TroubleshotingFinish : detailData.submission_title === "Hosting" ?
                                                     [] : detailData.submission_title === "Domain" ?
                                                         []
                                                         : []
