@@ -25,12 +25,12 @@ const ValidationStatusTechnique = ({
 
   const [inputLocal, setInputLocal] = useState({});
   const MagangValidateTechnique = [
-    {
-      label: "Skema Integrasi",
-      value: inputLocal.file_scema_integration,
-      type: "file_upload",
-      name: 'file_scema_integration'
-    },
+    // {
+    //   label: "Skema Integrasi",
+    //   value: inputLocal.file_scema_integration,
+    //   type: "file_upload",
+    //   name: 'file_scema_integration'
+    // },
     {
       label: "Tanggapan Tim Teknis",
       value: inputLocal.team_response,
@@ -156,7 +156,7 @@ const ValidationStatusTechnique = ({
                         })
                       );
                       let isValid = true;
-                      isValid = isValid && validateFile(inputLocal.file_scema_integration, "Skema Integrasi")
+                      // isValid = isValid && validateFile(inputLocal.file_scema_integration, "Skema Integrasi")
                       isValid = isValid && validateText(inputLocal.team_response, "Tanggapan Tim Teknis")
                       isValid = isValid && validatePeriod(inputLocal.working_schedule, "Jadwal Pengerjaan")
 

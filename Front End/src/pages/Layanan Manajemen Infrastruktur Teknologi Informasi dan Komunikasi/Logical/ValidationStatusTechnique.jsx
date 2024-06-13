@@ -7,7 +7,7 @@ import DynamicInput from "../../../components/common/DynamicInput";
 import DynamicShow from "../../../components/common/DynamicShow";
 import DynamicDetails from "../../../components/ui/DynamicDetails";
 import { apiClient } from "../../../utils/api/apiClient";
-import { validatePeriod, validateText } from "../../../utils/helpers/validateForm";
+import { validateFile, validatePeriod, validateText } from "../../../utils/helpers/validateForm";
 
 const ValidationStatusTechnique = ({
   submissionStatus,
@@ -24,7 +24,13 @@ const ValidationStatusTechnique = ({
   const authToken = Cookies.get('authToken');
 
   const [inputLocal, setInputLocal] = useState({});
-  const RelokasiAlatValidateTechnique = [
+  const PendampinganPengolahanAnalisisDataValidateTechnique = [
+    // {
+    //   label: "Skema Integrasi",
+    //   value: inputLocal.file_scema_integration,
+    //   type: "file_upload",
+    //   name: 'file_scema_integration'
+    // },
     {
       label: "Tanggapan Tim Teknis",
       value: inputLocal.team_response,
@@ -36,9 +42,9 @@ const ValidationStatusTechnique = ({
       value: inputLocal.working_schedule,
       type: "date",
       name: 'working_schedule'
-    }
+    },
   ];
-  const PenambahanBandwidthValidateTechnique = [
+  const ProduksiDataSitusWebValidateTechnique = [
     {
       label: "Tanggapan Tim Teknis",
       value: inputLocal.team_response,
@@ -50,9 +56,9 @@ const ValidationStatusTechnique = ({
       value: inputLocal.working_schedule,
       type: "date",
       name: 'working_schedule'
-    }
+    },
   ];
-  const PenambahanAlatValidateTechnique = [
+  const UserAccountSIValidateTechnique = [
     {
       label: "Tanggapan Tim Teknis",
       value: inputLocal.team_response,
@@ -64,21 +70,7 @@ const ValidationStatusTechnique = ({
       value: inputLocal.working_schedule,
       type: "date",
       name: 'working_schedule'
-    }
-  ];
-  const TroubleshootingValidateTechnique = [
-    {
-      label: "Tanggapan Tim Teknis",
-      value: inputLocal.team_response,
-      type: "textarea",
-      name: 'team_response'
     },
-    {
-      label: "Jadwal Pengerjaan",
-      value: inputLocal.working_schedule,
-      type: "date",
-      name: 'working_schedule'
-    }
   ];
 
   const fetchSetProgress = async (api_key, token, status) => {
@@ -97,8 +89,8 @@ const ValidationStatusTechnique = ({
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: 'infrastruktur Berhasil diupdate',
-            msg: 'Selamat, Pengajuan infrastruktur sudah diupdate',
+            title: 'managementinfrastrukturtik Berhasil Diupdate',
+            msg: 'Selamat, Pengajuan managementinfrastrukturtik sudah diupdate',
             icon: PengajuanBerahasilIcon,
             color: '#13C39C'
           },
@@ -133,18 +125,16 @@ const ValidationStatusTechnique = ({
   };
   return (
     <>
-      {submissionStatus === 4 && (JSON.parse(authProfile)?.role === "teknis_infra" || JSON.parse(authProfile)?.role === "katim_infra" ?
+      {submissionStatus === 4 && (JSON.parse(authProfile)?.role === "teknis_aplikasi" || JSON.parse(authProfile)?.role === "katim_aplikasi" ?
         <div className="flex flex-col gap-3">
-          {JSON.parse(authProfile)?.role === "teknis_infra" && (
+          {JSON.parse(authProfile)?.role === "teknis_aplikasi" && (
             Object.entries(validationData).length === 0 ?
               <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                 <span className='text-lg font-bold'>Tahapan Validasi</span>
-                {renderProcessInputs(detailData.submission_title === "Relokasi Alat" ?
-                  RelokasiAlatValidateTechnique :
-                   detailData.submission_title === "Penambahan Alat" ?
-                   PenambahanAlatValidateTechnique : detailData.submission_title === "Penambahan Bandwidth" ?
-                          PenambahanBandwidthValidateTechnique : detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan" ?
-                          TroubleshootingValidateTechnique :
+                {renderProcessInputs(detailData.submission_title === "Layanan Pendampingan Pengolahan dan Analisis Data" ?
+                  PendampinganPengolahanAnalisisDataValidateTechnique :
+                  detailData.submission_title === "Layanan Produksi Data dari Situs Web" ? ProduksiDataSitusWebValidateTechnique :
+                  detailData.submission_title === "User Akun Sistem Informasi" ? UserAccountSIValidateTechnique :
                   []
                 )}
                 <div className='flex sm:flex-row flex-col gap-2'>
@@ -166,6 +156,7 @@ const ValidationStatusTechnique = ({
                         })
                       );
                       let isValid = true;
+                      // isValid = isValid && validateFile(inputLocal.file_scema_integration, "Skema Integrasi")
                       isValid = isValid && validateText(inputLocal.team_response, "Tanggapan Tim Teknis")
                       isValid = isValid && validatePeriod(inputLocal.working_schedule, "Jadwal Pengerjaan")
 
@@ -188,15 +179,15 @@ const ValidationStatusTechnique = ({
                   {Object.entries(validationData).map(([key, value]) => (
                     <DynamicShow
                       key={key}
-                      label={key === "team_response" ? "Tanggapan dari Tim Teknis" : key === "working_schedule" ? "Jadwal Kerja" : key}
+                      label={key === "file_scema_integration" ? "Skema Integrasi" : key === "team_response" ? "Tanggapan dari Tim Teknis" : key === "working_schedule" ? "Jadwal Kerja" : key}
                       value={value}
-                      type={key === "team_response" ? 'text' : key === "working_schedule" ? "multidate" : 'text'}
+                      type={key === "file_scema_integration" ? 'pdf' : key === "team_response" ? 'text' : key === "working_schedule" ? "multidate" : 'text'}
                     />
                   ))}
                 </div>
               </div>
           )}
-          {JSON.parse(authProfile)?.role === "katim_infra" && (
+          {JSON.parse(authProfile)?.role === "katim_aplikasi" && (
             Object.entries(validationData).length !== 0 ?
               <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                 <span className='text-lg font-bold'>Tahapan Validasi</span>
@@ -204,9 +195,10 @@ const ValidationStatusTechnique = ({
                   key === 'response_katim' ? null :
                     <DynamicShow
                       key={key}
-                      label={key === "team_response" ? "Tanggapan dari Tim Teknis" : key === "working_schedule" ? "Jadwal Kerja" : key}
+                      location={'managementinfrastrukturtik'}
+                      label={key === "file_scema_integration" ? "Skema Integrasi" : key === "team_response" ? "Tanggapan dari Tim Teknis" : key === "working_schedule" ? "Jadwal Kerja" : key}
                       value={value}
-                      type={key === "team_response" ? 'text' : key === "working_schedule" ? "multidate" : 'text'}
+                      type={key === "file_scema_integration" ? 'pdf' : key === "team_response" ? 'text' : key === "working_schedule" ? "multidate" : 'text'}
                     />
                 ))}
 
@@ -272,6 +264,7 @@ const ValidationStatusTechnique = ({
           )}
 
           <DynamicDetails
+            location={'managementinfrastrukturtik'}
             detailData={detailData}
             loading={loading}
           />
@@ -291,7 +284,7 @@ const ValidationStatusTechnique = ({
               </span>
             </div>
           </div>
-          <DynamicDetails location={"infrastruktur"}detailData={detailData} loading={loading} />
+          <DynamicDetails location={"managementinfrastrukturtik"} detailData={detailData} loading={loading} />
         </div>
       )}
       {submissionStatus === 5 && (
@@ -311,14 +304,15 @@ const ValidationStatusTechnique = ({
               {Object.entries(validationData).map(([key, value]) => (
                 <DynamicShow
                   key={key}
-                  label={key === "team_response" ? "Tanggapan dari Tim Teknis" : key === "working_schedule" ? "Jadwal Kerja" : key === "response_katim" ? "Tanggapan dari Ketua Tim" : key}
+                  location={'managementinfrastrukturtik'}
+                  label={key === "team_response" ? "Tanggapan dari Tim" : key === "working_schedule" ? "Jadwal Kerja" : key === "response_katim" ? "Tanggapan dari Ketua Tim" : key}
                   value={value}
                   type={key === "team_response" ? 'text' : key === "working_schedule" ? "multidate" : key === "response" ? "html" : 'text'}
                 />
               ))}
             </div>
           </div>
-          <DynamicDetails location={"infrastruktur"}detailData={detailData} loading={loading} />
+          <DynamicDetails location={"managementinfrastrukturtik"} detailData={detailData} loading={loading} />
         </div>
       )}
     </>

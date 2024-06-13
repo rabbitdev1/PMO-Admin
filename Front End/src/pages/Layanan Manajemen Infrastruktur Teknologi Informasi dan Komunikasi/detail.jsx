@@ -22,7 +22,7 @@ import ProcessStatus from "./Logical/ProcessStatus";
 import ValidationStatus from "./Logical/ValidationStatus";
 import ValidationStatusTechnique from "./Logical/ValidationStatusTechnique";
 
-function DetailLayananManagemenInfrastrukturTeknologiInformasiPages() {
+function DetailManagementTIKPages() {
   const { isDarkMode } = useTheme();
   const navigate = useNavigate();
   const authApiKey = Cookies.get("authApiKey");
@@ -31,7 +31,7 @@ function DetailLayananManagemenInfrastrukturTeknologiInformasiPages() {
   const location = useLocation();
   const slug = location?.state?.slug || "";
 
-  const [managementinfrastrukturLoading, setManagementInfrastrukturLoading] = useState(true);
+  const [managementtikLoading, setManagementTIKLoading] = useState(true);
   const [submissionStatus, setSubmissionStatus] = useState(0);
   const [validationData, setValidationData] = useState({});
   const [validationDataTechnique, setValidationDataTechnique] = useState({});
@@ -49,7 +49,7 @@ function DetailLayananManagemenInfrastrukturTeknologiInformasiPages() {
 
   useEffect(() => {
     if (authToken) {
-      fetchDataManagementInfrastruktur(
+      fetchDataManagementTIK(
         authApiKey,
         authToken,
         JSON.parse(authProfile)?.role
@@ -57,8 +57,8 @@ function DetailLayananManagemenInfrastrukturTeknologiInformasiPages() {
     }
   }, [dispatch]);
 
-  const fetchDataManagementInfrastruktur = async (api_key, token, role) => {
-    setManagementInfrastrukturLoading(true);
+  const fetchDataManagementTIK = async (api_key, token, role) => {
+    setManagementTIKLoading(true);
     const params = new URLSearchParams();
     params.append("id", slug);
     params.append("role", role);
@@ -70,7 +70,7 @@ function DetailLayananManagemenInfrastrukturTeknologiInformasiPages() {
         apiKey: api_key,
         token: token,
       });
-      setManagementInfrastrukturLoading(false);
+      setManagementTIKLoading(false);
       if (response?.statusCode === 200) {
         setDetailData(response.result.data.fields);
         setSubmissionStatus(response.result.data?.submission_status);
@@ -92,7 +92,7 @@ function DetailLayananManagemenInfrastrukturTeknologiInformasiPages() {
     }
   };
 
-  const fetchEditmanagementinfrastruktur = async (api_key, token, id, type, data) => {
+  const fetchEditmanagementtik = async (api_key, token, id, type, data) => {
     dispatch(isPending(true));
     let htmlConvert = "";
 
@@ -155,8 +155,8 @@ function DetailLayananManagemenInfrastrukturTeknologiInformasiPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "management infrastruktur Berhasil diupdate",
-            msg: "Selamat, Pengajuan management infrastruktur sudah diupdate",
+            title: "Pengajuan Management Infrastruktur Teknologi Informasi dan Komunikasi Berhasil Diupdate",
+            msg: "Selamat, Pengajuan Pengajuan Management Infrastruktur Teknologi Informasi dan Komunikasi sudah diupdate",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
           },
@@ -174,114 +174,150 @@ function DetailLayananManagemenInfrastrukturTeknologiInformasiPages() {
 
   const checkingFormData = async (type, data) => {
     if (type === "validation") {
-      fetchEditmanagementinfrastruktur(authApiKey, authToken, slug, type, data);
+      fetchEditmanagementtik(authApiKey, authToken, slug, type, data);
     } else if (type === "validation_technique") {
-      fetchEditmanagementinfrastruktur(authApiKey, authToken, slug, type, data);
+      fetchEditmanagementtik(authApiKey, authToken, slug, type, data);
     } else if (type === "process") {
       if (
-        data.upload_foto_alat_sebelum_di_relokasi ||
-        data.upload_foto_alat_sesudah_di_relokasi ||
-        data.upload_foto_alat_sebelum_di_tambahkan ||
-        data.upload_foto_alat_sesudah_di_tambahkan ||
-        data.upload_foto_kegiatan
+        data.file_scema_integration ||
+        data.upload_dokumen_laporan_modul_tte ||
+        data.upload_dokumen_laporan_pembuatan_akun
       ) {
         try {
           const uploadPromises = [];
           const resultMapping = {};
-      
-          if (data.upload_foto_alat_sebelum_di_relokasi) {
+          if (data.file_scema_integration) {
             uploadPromises.push(
-              fetchUploadImages(
+              fetchUploadFiles(
                 authApiKey,
                 authToken,
-                data.upload_foto_alat_sebelum_di_relokasi,
+                data.file_scema_integration,
                 "managementinfrastrukturtik",
                 dispatch
               ).then(result => {
-                resultMapping.upload_foto_alat_sebelum_di_relokasi = result;
+                resultMapping.file_scema_integration = result;
               })
             );
           }
-          if (data.upload_foto_alat_sesudah_di_relokasi) {
+
+          if (data.upload_dokumen_laporan_modul_tte) {
             uploadPromises.push(
-              fetchUploadImages(
+              fetchUploadFiles(
                 authApiKey,
                 authToken,
-                data.upload_foto_alat_sesudah_di_relokasi,
+                data.upload_dokumen_laporan_modul_tte,
                 "managementinfrastrukturtik",
                 dispatch
               ).then(result => {
-                resultMapping.upload_foto_alat_sesudah_di_relokasi = result;
+                resultMapping.upload_dokumen_laporan_modul_tte = result;
               })
             );
           }
-          if (data.upload_foto_alat_sebelum_di_tambahkan) {
+
+          if (data.upload_dokumen_laporan_pembuatan_akun) {
             uploadPromises.push(
-              fetchUploadImages(
+              fetchUploadFiles(
                 authApiKey,
                 authToken,
-                data.upload_foto_alat_sebelum_di_tambahkan,
+                data.upload_dokumen_laporan_pembuatan_akun,
                 "managementinfrastrukturtik",
                 dispatch
               ).then(result => {
-                resultMapping.upload_foto_alat_sebelum_di_tambahkan = result;
-              })
-            );
-          }
-          if (data.upload_foto_alat_sesudah_di_tambahkan) {
-            uploadPromises.push(
-              fetchUploadImages(
-                authApiKey,
-                authToken,
-                data.upload_foto_alat_sesudah_di_tambahkan,
-                "managementinfrastrukturtik",
-                dispatch
-              ).then(result => {
-                resultMapping.upload_foto_alat_sesudah_di_tambahkan = result;
-              })
-            );
-          }
-          if (data.upload_foto_kegiatan) {
-            uploadPromises.push(
-              fetchUploadImages(
-                authApiKey,
-                authToken,
-                data.upload_foto_kegiatan,
-                "managementinfrastrukturtik",
-                dispatch
-              ).then(result => {
-                resultMapping.upload_foto_kegiatan = result;
+                resultMapping.upload_dokumen_laporan_pembuatan_akun = result;
               })
             );
           }
       
           await Promise.all(uploadPromises);
-      
+
           let combineData = { ...data };
-          if (resultMapping.upload_foto_alat_sebelum_di_relokasi) {
-            combineData.upload_foto_alat_sebelum_di_relokasi = resultMapping.upload_foto_alat_sebelum_di_relokasi;
+          if (resultMapping.file_scema_integration) {
+            combineData.file_scema_integration = resultMapping.file_scema_integration;
           }
-          if (resultMapping.upload_foto_alat_sesudah_di_relokasi) {
-            combineData.upload_foto_alat_sesudah_di_relokasi = resultMapping.upload_foto_alat_sesudah_di_relokasi;
+          if (resultMapping.upload_dokumen_laporan_modul_tte) {
+            combineData.upload_dokumen_laporan_modul_tte = resultMapping.upload_dokumen_laporan_modul_tte;
           }
-          if (resultMapping.upload_foto_alat_sebelum_di_tambahkan) {
-            combineData.upload_foto_alat_sebelum_di_tambahkan = resultMapping.upload_foto_alat_sebelum_di_tambahkan;
+          if (resultMapping.upload_dokumen_laporan_pembuatan_akun) {
+            combineData.upload_dokumen_laporan_pembuatan_akun = resultMapping.upload_dokumen_laporan_pembuatan_akun;
           }
-          if (resultMapping.upload_foto_alat_sesudah_di_tambahkan) {
-            combineData.upload_foto_alat_sesudah_di_tambahkan = resultMapping.upload_foto_alat_sesudah_di_tambahkan;
-          }
-          if (resultMapping.upload_foto_kegiatan) {
-            combineData.upload_foto_kegiatan = resultMapping.upload_foto_kegiatan;
-          }
-      
-          fetchEditmanagementinfrastruktur(authApiKey, authToken, slug, type, combineData);
+          fetchEditmanagementtik(authApiKey, authToken, slug, type, combineData);
         } catch (error) {
           console.error("Error occurred during image upload:", error);
         }
       } else {
-        fetchEditmanagementinfrastruktur(authApiKey, authToken, slug, type, data);
+        fetchEditmanagementtik(authApiKey, authToken, slug, type, data);
       }
-      
+    } else if (type === "process") {
+      if (
+        data.upload_dokumen_hasil_integrasi ||
+        data.upload_dokumen_laporan_modul_tte ||
+        data.upload_dokumen_laporan_pembuatan_akun
+      ) {
+        try {
+          const uploadPromises = [];
+          const resultMapping = {};
+
+          if (data.upload_dokumen_hasil_integrasi) {
+            uploadPromises.push(
+              fetchUploadFiles(
+                authApiKey,
+                authToken,
+                data.upload_dokumen_hasil_integrasi,
+                "managementinfrastrukturtik",
+                dispatch
+              ).then(result => {
+                resultMapping.upload_dokumen_hasil_integrasi = result;
+              })
+            );
+          }
+          if (data.upload_dokumen_laporan_modul_tte) {
+            uploadPromises.push(
+              fetchUploadFiles(
+                authApiKey,
+                authToken,
+                data.upload_dokumen_laporan_modul_tte,
+                "managementinfrastrukturtik",
+                dispatch
+              ).then(result => {
+                resultMapping.upload_dokumen_laporan_modul_tte = result;
+              })
+            );
+          }
+          if (data.upload_dokumen_laporan_pembuatan_akun) {
+            uploadPromises.push(
+              fetchUploadImages(
+                authApiKey,
+                authToken,
+                data.upload_dokumen_laporan_pembuatan_akun,
+                "managementinfrastrukturtik",
+                dispatch
+              ).then(result => {
+                resultMapping.upload_dokumen_laporan_pembuatan_akun = result;
+              })
+            );
+          }
+
+          await Promise.all(uploadPromises);
+
+          let combineData = { ...data };
+          if (resultMapping.upload_dokumen_hasil_integrasi) {
+            combineData.upload_dokumen_hasil_integrasi = resultMapping.upload_dokumen_hasil_integrasi;
+          }
+          if (resultMapping.upload_dokumen_laporan_modul_tte) {
+            combineData.upload_dokumen_laporan_modul_tte = resultMapping.upload_dokumen_laporan_modul_tte;
+          }
+          if (resultMapping.upload_dokumen_laporan_pembuatan_akun) {
+            combineData.upload_dokumen_laporan_pembuatan_akun = resultMapping.upload_dokumen_laporan_pembuatan_akun;
+          }
+
+          fetchEditmanagementtik(authApiKey, authToken, slug, type, combineData);
+        } catch (error) {
+          console.error("Error occurred during image upload:", error);
+        }
+      } else {
+        fetchEditmanagementtik(authApiKey, authToken, slug, type, data);
+      }
+
     } else if (type === "finish") {
       if (data.file_submission) {
         const result = await fetchUploadFiles(
@@ -294,7 +330,7 @@ function DetailLayananManagemenInfrastrukturTeknologiInformasiPages() {
         if (result !== null) {
           let combineData = {};
           combineData = { ...data, file_upload: result };
-          fetchEditmanagementinfrastruktur(
+          fetchEditmanagementtik(
             authApiKey,
             authToken,
             slug,
@@ -305,7 +341,7 @@ function DetailLayananManagemenInfrastrukturTeknologiInformasiPages() {
           console.error("Error occurred during image upload.");
         }
       } else {
-        fetchEditmanagementinfrastruktur(authApiKey, authToken, slug, type, data);
+        fetchEditmanagementtik(authApiKey, authToken, slug, type, data);
       }
     }
   };
@@ -322,14 +358,14 @@ function DetailLayananManagemenInfrastrukturTeknologiInformasiPages() {
           <DalamAntrianView
             submissionStatus={submissionStatus}
             detailData={detailData}
-            loading={managementinfrastrukturLoading}
+            loading={managementtikLoading}
           />
           <ValidationStatus
             submissionStatus={submissionStatus}
             validationData={validationData}
             authProfile={authProfile}
             detailData={detailData}
-            loading={managementinfrastrukturLoading}
+            loading={managementtikLoading}
             setValidationData={setValidationData}
             checkingFormData={checkingFormData}
           />
@@ -340,7 +376,7 @@ function DetailLayananManagemenInfrastrukturTeknologiInformasiPages() {
             setValidationData={setValidationDataTechnique}
             authProfile={authProfile}
             detailData={detailData}
-            loading={managementinfrastrukturLoading}
+            loading={managementtikLoading}
             checkingFormData={checkingFormData}
             setisModalVerif={setisModalVerif}
           />
@@ -351,7 +387,7 @@ function DetailLayananManagemenInfrastrukturTeknologiInformasiPages() {
             processData={processData}
             authProfile={authProfile}
             detailData={detailData}
-            loading={managementinfrastrukturLoading}
+            loading={managementtikLoading}
             checkingFormData={checkingFormData}
             setisModalVerif={setisModalVerif}
             finishData={finishData}
@@ -360,7 +396,7 @@ function DetailLayananManagemenInfrastrukturTeknologiInformasiPages() {
 
           <FinishStatus
             detailData={detailData}
-            loading={managementinfrastrukturLoading}
+            loading={managementtikLoading}
             validationData={validationDataTechnique}
             processData={processData}
             submissionStatus={submissionStatus}
@@ -396,7 +432,7 @@ function DetailLayananManagemenInfrastrukturTeknologiInformasiPages() {
                 className={`inline-flex flex-1 bg-[${isModalVerif.data.color}] text-darkColor`}
                 onClick={() => {
                   setisModalVerif({ data: {}, status: false });
-                  fetchDataManagementInfrastruktur(
+                  fetchDataManagementTIK(
                     authApiKey,
                     authToken,
                     JSON.parse(authProfile)?.role
@@ -412,4 +448,4 @@ function DetailLayananManagemenInfrastrukturTeknologiInformasiPages() {
   );
 }
 
-export default DetailLayananManagemenInfrastrukturTeknologiInformasiPages;
+export default DetailManagementTIKPages;

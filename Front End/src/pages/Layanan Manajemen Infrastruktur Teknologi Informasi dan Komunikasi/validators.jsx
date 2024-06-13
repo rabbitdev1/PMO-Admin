@@ -1,17 +1,21 @@
-import { validateArray, validateFullname, validateHTML, validateImage, validateIPAddress, validatePeriod1, validateRadioBottom, validateTelp, validateText, validateTextArea } from "../../utils/helpers/validateForm";
+import { validateArray, validateFile, validateFullname, validateHTML, validatePeriod1, validateTelp } from "../../utils/helpers/validateForm";
 
-export const isValidatorLayananZoom = (obj) => {
+
+export const isValidatorPendampinganPengolahandanAnalisisData = (obj) => {
   let isValid = true;
   isValid = isValid && validateFullname(obj.name_pic, "Nama PIC");
   isValid = isValid && validateTelp(obj.telp_pic, "Nomor PIC");
-
+  isValid = isValid && validateHTML(obj.reason, "Alasan Pengajuan");
+  isValid = isValid && validatePeriod1(obj.period, "Periode Jangka Waktu");
+  
   return isValid;
 };
-
-export const isValidatorpermohonanLiputan = (obj) => {
+export const isValidatorProduksiDataSitusWeb = (obj) => {
   let isValid = true;
   isValid = isValid && validateFullname(obj.name_pic, "Nama PIC");
   isValid = isValid && validateTelp(obj.telp_pic, "Nomor PIC");
-
+  isValid = isValid && validateHTML(obj.reason, "Alasan Pengajuan");
+  isValid = isValid && validatePeriod1(obj.period, "Periode Jangka Waktu");
+  
   return isValid;
 };
