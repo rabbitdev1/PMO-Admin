@@ -14,6 +14,16 @@ import DataAlatInfraPage from "../pages/Layanan dan Pengelolaan Infrastruktur Te
 import SekretariatPages from "../pages/Layanan Sekretariat";
 import DetailSekretariatPages from "../pages/Layanan Sekretariat/detail";
 import CreateAplikasiPages from "../pages/Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan/create";
+import LayananPenyusunanPerencanaanSIPages from "../pages/Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi";
+import LayananPenyusunanPerencanaanTIKPages from "../pages/Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi";
+import DetailPerencanaanTIKPages from "../pages/Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi/detail";
+import UptRadioPages from "../pages/Layanan Upt Radio Sonata";
+import DetailUptRadioPages from "../pages/Layanan Upt Radio Sonata/detail";
+import TeknologiSIPages from "../pages/Layanan Teknologi dan Sistem Informasi";
+import DetailTeknologiSIPages from "../pages/Layanan Teknologi dan Sistem Informasi/detail";
+import ManagementTIKPages from "../pages/Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi";
+import DetailManagementTIKPages from "../pages/Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi/detail";
+
 
 
 const userRoutes = [
@@ -24,8 +34,25 @@ const userRoutes = [
   { path: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", component: <AplikasiPages /> },
   { path: "/detail-aplikasi", component: <DetailAplikasiPages /> },
 
+
+  { path: "/layanan-teknologi-dan-sistem-informasi", component: <TeknologiSIPages /> },
+  { path: "/detail-teknologi-dan-sistem-informasi", component: <DetailTeknologiSIPages /> },
+
+
+  { path: "/layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi", component: <ManagementTIKPages /> },
+  { path: "/detail-layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi", component: <DetailManagementTIKPages /> },
+
+  { path: "/layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi", component: <LayananPenyusunanPerencanaanTIKPages /> },
+  { path: "/detail-layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi", component: <DetailPerencanaanTIKPages /> },
+
+
+
+  { path: "/layanan-upt-radio-sonata", component: <UptRadioPages /> },
+  { path: "/detail-upt-radio-sonata", component: <DetailUptRadioPages /> },
+
   { path: "/layanan-sekretariat", component: <SekretariatPages /> },
   { path: "/detail-sekretariat", component: <DetailSekretariatPages /> },
+
   { path: "/permohonan-sistem-informasi", component: <CreateAplikasiPages /> },
 
 ];
