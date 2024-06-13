@@ -5,8 +5,8 @@ export const formData = [
     role: [
       "op_pmo",
       "perangkat_daerah",
-      "katim_aplikasi",
-      "teknis_aplikasi"
+      "teknis_aplikasi",
+      "katim_aplikasi"
     ],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },

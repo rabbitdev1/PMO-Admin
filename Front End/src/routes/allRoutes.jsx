@@ -14,16 +14,16 @@ import DataAlatInfraPage from "../pages/Layanan dan Pengelolaan Infrastruktur Te
 import SekretariatPages from "../pages/Layanan Sekretariat";
 import DetailSekretariatPages from "../pages/Layanan Sekretariat/detail";
 import CreateAplikasiPages from "../pages/Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan/create";
-import LayananTeknologiSIPages from "../pages/Layanan Teknologi dan Sistem Informasi";
-import LayananManagemenInfrastrukturTeknologiInformasiPages from "../pages/Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi";
 import LayananPenyusunanPerencanaanSIPages from "../pages/Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi";
-import DetailTeknologiSistemInformasiPages from "../pages/Layanan Teknologi dan Sistem Informasi/detail";
 import LayananPenyusunanPerencanaanTIKPages from "../pages/Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi";
 import DetailPerencanaanTIKPages from "../pages/Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi/detail";
 import UptRadioPages from "../pages/Layanan Upt Radio Sonata";
 import DetailUptRadioPages from "../pages/Layanan Upt Radio Sonata/detail";
 import TeknologiSIPages from "../pages/Layanan Teknologi dan Sistem Informasi";
 import DetailTeknologiSIPages from "../pages/Layanan Teknologi dan Sistem Informasi/detail";
+import ManagementTIKPages from "../pages/Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi";
+import DetailManagementTIKPages from "../pages/Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi/detail";
+
 
 
 const userRoutes = [
@@ -39,9 +39,8 @@ const userRoutes = [
   { path: "/detail-teknologi-dan-sistem-informasi", component: <DetailTeknologiSIPages /> },
 
 
-  { path: "/layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi", component: <LayananManagemenInfrastrukturTeknologiInformasiPages /> },
-  { path: "/detail-layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi", component: <DetailPerencanaanTIKPages /> },
-
+  { path: "/layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi", component: <ManagementTIKPages /> },
+  { path: "/detail-layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi", component: <DetailManagementTIKPages /> },
 
   { path: "/layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi", component: <LayananPenyusunanPerencanaanTIKPages /> },
   { path: "/detail-layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi", component: <DetailPerencanaanTIKPages /> },

@@ -108,6 +108,7 @@ const getKeyLabel = (key) => {
 const getFieldType = (key) => {
   switch (key) {
     case "reason":
+      return "html";
     case "app_desc":
       return "html";
     case "needed_data":
