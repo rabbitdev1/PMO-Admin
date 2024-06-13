@@ -113,6 +113,7 @@ function LayananPenyusunanPerencanaanTIKPages() {
         token: token,
       });
       setListPerencanaanTIKLoading(false);
+      dispatch(isPending(false));
       if (response?.statusCode === 200) {
         if (JSON.parse(authProfile)?.role === "perangkat_daerah") {
           const filteredSubmissions = response.result.data.filter(
@@ -508,14 +509,9 @@ function LayananPenyusunanPerencanaanTIKPages() {
                   { name: "Tanggal", field: "createdAt" },
                   { name: "Aksi", field: "action" },
                 ]}
-                showAction={{
-                  read: true,
-                  remove:
-                    JSON.parse(authProfile)?.role === "perangkat_daerah"
-                      ? true
-                      : false,
-                  edit: true,
-                }}
+                loading={listPerencanaanTIKLoading}
+                showAction={{ read: true, remove: JSON.parse(authProfile)?.role === "perangkat_daerah" ? true : false, edit: true }}
+
                 onClickShow={(data) => {
                   if (JSON.parse(authProfile)?.role === "op_pmo") {
                     fetchSetProgress(authApiKey, authToken, data.id);

@@ -76,6 +76,7 @@ function InfrastrukturPages() {
         apiKey: api_key,
         token: token,
       });
+      dispatch(isPending(false));
       setListInfrasturkturLoading(false);
       if (response?.statusCode === 200) {
         if (JSON.parse(authProfile)?.role === "perangkat_daerah") {
@@ -460,6 +461,7 @@ function InfrastrukturPages() {
                   { name: "Tanggal", field: "createdAt" },
                   { name: "Aksi", field: "action" },
                 ]}
+                loading={listInfrasturkturLoading}
                 showAction={{ read: true, remove: JSON.parse(authProfile)?.role === "perangkat_daerah" ? true : false, edit: true }}
                 onClickShow={(data) => {
                   if (JSON.parse(authProfile)?.role === "op_pmo") {

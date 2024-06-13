@@ -96,7 +96,7 @@ function AplikasiPages() {
   }, [dataState, authToken]);
 
   const fetchDataAplikasi = async (api_key, token, role) => {
-    setListAplikasiLoading(true);
+    setListAplikasiLoading(true); 
     const params = new URLSearchParams();
     params.append("role", role);
     try {
@@ -108,6 +108,7 @@ function AplikasiPages() {
         token: token,
       });
       setListAplikasiLoading(false);
+      dispatch(isPending(false));
       if (response?.statusCode === 200) {
         if (JSON.parse(authProfile)?.role === "perangkat_daerah") {
           const filteredSubmissions = response.result.data.filter(
@@ -480,6 +481,7 @@ function AplikasiPages() {
                       : false,
                   edit: true,
                 }}
+                loading={listAplikasiLoading}
                 onClickShow={(data) => {
                   if (JSON.parse(authProfile)?.role === "op_pmo") {
                     fetchSetProgress(authApiKey, authToken, data.id);

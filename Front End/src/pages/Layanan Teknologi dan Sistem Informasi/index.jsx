@@ -106,6 +106,8 @@ function TeknologiSIPages() {
         apiKey: api_key,
         token: token,
       });
+      setListTeknologiSistemInformasiLoading(false);
+      dispatch(isPending(false));
       setListTeknologisiLoading(false);
       if (response?.statusCode === 200) {
         if (JSON.parse(authProfile)?.role === "perangkat_daerah") {
@@ -469,6 +471,7 @@ function TeknologiSIPages() {
                     navigate("/detail-teknologi-dan-sistem-informasi", { state: { slug: data.id } });
                   }
                 }}
+                loading={listTeknologiSstemInformasiLoading}
                 onClickRemove={(data) => {
                   if (
                     data.submission_status === 2 ||

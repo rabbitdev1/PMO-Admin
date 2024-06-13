@@ -92,8 +92,8 @@ const Sidebar = () => {
     {
       title: "Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi", role: ['op_pmo', 'perangkat_daerah', 'teknis_aplikasi', 'katim_aplikasi'],
       submenu: [
-        { title: 'Pendampingan Pengolahan dan Analisis Data', href: '/layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi', state: 'Pendampingan Pengolahan dan Analisis Data' },
-        { title: 'Pelayanan Produksi Data dari Situs Web', href: '/layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi', state: 'Pelayanan Produksi Data dari Situs Web' },
+        { title: 'Pendampingan Pengolahan dan Analisis Data', href: '/layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi', state: 'Layanan Pendampingan Pengolahan dan Analisis Data' },
+        { title: 'Pelayanan Produksi Data dari Situs Web', href: '/layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi', state: 'Layanan Produksi Data dari Situs Web' },
       ],
       icon: AllBerandaIcon, href: ["/layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi", "/detail-layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi"],
     },
