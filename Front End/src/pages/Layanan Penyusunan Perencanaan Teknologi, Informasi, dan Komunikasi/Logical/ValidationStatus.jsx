@@ -106,7 +106,7 @@ const ValidationStatus = ({
               </span>
             </div>
           </div>
-          <DynamicDetails location={"infrastruktur"}detailData={detailData} loading={loading} />
+          <DynamicDetails location={"perencanaantik"}detailData={detailData} loading={loading} />
         </div>
       )}
       {submissionStatus === 3 && (
@@ -130,7 +130,7 @@ const ValidationStatus = ({
               />
             </div>
           </div>
-          <DynamicDetails location={"infrastruktur"}detailData={detailData} loading={loading} />
+          <DynamicDetails location={"perencanaantik"}detailData={detailData} loading={loading} />
         </div>
       )}
     </>

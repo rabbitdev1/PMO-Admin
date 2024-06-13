@@ -24,7 +24,7 @@ const ValidationStatusTechnique = ({
   const authToken = Cookies.get('authToken');
 
   const [inputLocal, setInputLocal] = useState({});
-  const RelokasiAlatValidateTechnique = [
+  const ZoomValidateTechnique = [
     {
       label: "Tanggapan Tim Teknis",
       value: inputLocal.team_response,
@@ -140,7 +140,7 @@ const ValidationStatusTechnique = ({
               <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                 <span className='text-lg font-bold'>Tahapan Validasi</span>
                 {renderProcessInputs(detailData.submission_title === "Relokasi Alat" ?
-                  RelokasiAlatValidateTechnique :
+                  ZoomValidateTechnique :
                    detailData.submission_title === "Penambahan Alat" ?
                    PenambahanAlatValidateTechnique : detailData.submission_title === "Penambahan Bandwidth" ?
                           PenambahanBandwidthValidateTechnique : detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan" ?

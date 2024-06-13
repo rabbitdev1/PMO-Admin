@@ -22,6 +22,8 @@ import LayananPenyusunanPerencanaanTIKPages from "../pages/Layanan Penyusunan Pe
 import DetailPerencanaanTIKPages from "../pages/Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi/detail";
 import UptRadioPages from "../pages/Layanan Upt Radio Sonata";
 import DetailUptRadioPages from "../pages/Layanan Upt Radio Sonata/detail";
+import TeknologiSIPages from "../pages/Layanan Teknologi dan Sistem Informasi";
+import DetailTeknologiSIPages from "../pages/Layanan Teknologi dan Sistem Informasi/detail";
 
 
 const userRoutes = [
@@ -33,8 +35,8 @@ const userRoutes = [
   { path: "/detail-aplikasi", component: <DetailAplikasiPages /> },
 
 
-  { path: "/layanan-teknologi-dan-sistem-informasi", component: <LayananTeknologiSIPages /> },
-  { path: "/detail-teknologi-dan-sistem-informasi", component: <DetailTeknologiSistemInformasiPages /> },
+  { path: "/layanan-teknologi-dan-sistem-informasi", component: <TeknologiSIPages /> },
+  { path: "/detail-teknologi-dan-sistem-informasi", component: <DetailTeknologiSIPages /> },
 
 
   { path: "/layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi", component: <LayananManagemenInfrastrukturTeknologiInformasiPages /> },
