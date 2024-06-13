@@ -22,7 +22,7 @@ import ProcessStatus from "./Logical/ProcessStatus";
 import ValidationStatus from "./Logical/ValidationStatus";
 import ValidationStatusTechnique from "./Logical/ValidationStatusTechnique";
 
-function DetailTeknologiSistemInformasiPages() {
+function DetailTeknologiSIPages() {
   const { isDarkMode } = useTheme();
   const navigate = useNavigate();
   const authApiKey = Cookies.get("authApiKey");
@@ -31,7 +31,7 @@ function DetailTeknologiSistemInformasiPages() {
   const location = useLocation();
   const slug = location?.state?.slug || "";
 
-  const [TeknologiSistemInformasiLoading, setTeknologiSistemInformasiLoading] = useState(true);
+  const [teknologisiLoading, setTeknologisiLoading] = useState(true);
   const [submissionStatus, setSubmissionStatus] = useState(0);
   const [validationData, setValidationData] = useState({});
   const [validationDataTechnique, setValidationDataTechnique] = useState({});
@@ -49,7 +49,7 @@ function DetailTeknologiSistemInformasiPages() {
 
   useEffect(() => {
     if (authToken) {
-      fetchDataTeknologiSistemInformasi(
+      fetchDataTeknologisi(
         authApiKey,
         authToken,
         JSON.parse(authProfile)?.role
@@ -57,8 +57,8 @@ function DetailTeknologiSistemInformasiPages() {
     }
   }, [dispatch]);
 
-  const fetchDataTeknologiSistemInformasi = async (api_key, token, role) => {
-    setTeknologiSistemInformasiLoading(true);
+  const fetchDataTeknologisi = async (api_key, token, role) => {
+    setTeknologisiLoading(true);
     const params = new URLSearchParams();
     params.append("id", slug);
     params.append("role", role);
@@ -70,7 +70,7 @@ function DetailTeknologiSistemInformasiPages() {
         apiKey: api_key,
         token: token,
       });
-      setTeknologiSistemInformasiLoading(false);
+      setTeknologisiLoading(false);
       if (response?.statusCode === 200) {
         setDetailData(response.result.data.fields);
         setSubmissionStatus(response.result.data?.submission_status);
@@ -92,7 +92,7 @@ function DetailTeknologiSistemInformasiPages() {
     }
   };
 
-  const fetchEditTeknologiSistemInformasi= async (api_key, token, id, type, data) => {
+  const fetchEditteknologisi = async (api_key, token, id, type, data) => {
     dispatch(isPending(true));
     let htmlConvert = "";
 
@@ -155,8 +155,8 @@ function DetailTeknologiSistemInformasiPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Layanan teknologi sistem informasi Berhasil diupdate",
-            msg: "Selamat, Pengajuan teknologi sistem informasi sudah diupdate",
+            title: "Teknologi Sistem Informasi Berhasil Diupdate",
+            msg: "Selamat, Pengajuan sekretariat sudah diupdate",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
           },
@@ -174,127 +174,160 @@ function DetailTeknologiSistemInformasiPages() {
 
   const checkingFormData = async (type, data) => {
     if (type === "validation") {
-      fetchEditTeknologiSistemInformasi(authApiKey, authToken, slug, type, data);
+      fetchEditteknologisi(authApiKey, authToken, slug, type, data);
     } else if (type === "validation_technique") {
-      fetchEditTeknologiSistemInformasi(authApiKey, authToken, slug, type, data);
-    } else if (type === "process") {
       if (
-        data.upload_foto_alat_sebelum_di_relokasi ||
-        data.upload_foto_alat_sesudah_di_relokasi ||
-        data.upload_foto_alat_sebelum_di_tambahkan ||
-        data.upload_foto_alat_sesudah_di_tambahkan ||
-        data.upload_foto_kegiatan
+        data.file_scema_integration ||
+        data.upload_dokumen_laporan_modul_tte ||
+        data.upload_dokumen_laporan_pembuatan_akun
       ) {
         try {
           const uploadPromises = [];
           const resultMapping = {};
-      
-          if (data.upload_foto_alat_sebelum_di_relokasi) {
+          if (data.file_scema_integration) {
             uploadPromises.push(
-              fetchUploadImages(
+              fetchUploadFiles(
                 authApiKey,
                 authToken,
-                data.upload_foto_alat_sebelum_di_relokasi,
-                "teknologi sistem informasi",
+                data.file_scema_integration,
+                "teknologisi",
                 dispatch
               ).then(result => {
-                resultMapping.upload_foto_alat_sebelum_di_relokasi = result;
+                resultMapping.file_scema_integration = result;
               })
             );
           }
-          if (data.upload_foto_alat_sesudah_di_relokasi) {
+
+          if (data.upload_dokumen_laporan_modul_tte) {
             uploadPromises.push(
-              fetchUploadImages(
+              fetchUploadFiles(
                 authApiKey,
                 authToken,
-                data.upload_foto_alat_sesudah_di_relokasi,
-                "teknologi sistem informasi",
+                data.upload_dokumen_laporan_modul_tte,
+                "teknologisi",
                 dispatch
               ).then(result => {
-                resultMapping.upload_foto_alat_sesudah_di_relokasi = result;
+                resultMapping.upload_dokumen_laporan_modul_tte = result;
               })
             );
           }
-          if (data.upload_foto_alat_sebelum_di_tambahkan) {
+
+          if (data.upload_dokumen_laporan_pembuatan_akun) {
             uploadPromises.push(
-              fetchUploadImages(
+              fetchUploadFiles(
                 authApiKey,
                 authToken,
-                data.upload_foto_alat_sebelum_di_tambahkan,
-                "teknologi sistem informasi",
+                data.upload_dokumen_laporan_pembuatan_akun,
+                "teknologisi",
                 dispatch
               ).then(result => {
-                resultMapping.upload_foto_alat_sebelum_di_tambahkan = result;
+                resultMapping.upload_dokumen_laporan_pembuatan_akun = result;
               })
             );
           }
-          if (data.upload_foto_alat_sesudah_di_tambahkan) {
-            uploadPromises.push(
-              fetchUploadImages(
-                authApiKey,
-                authToken,
-                data.upload_foto_alat_sesudah_di_tambahkan,
-                "teknologi sistem informasi",
-                dispatch
-              ).then(result => {
-                resultMapping.upload_foto_alat_sesudah_di_tambahkan = result;
-              })
-            );
-          }
-          if (data.upload_foto_kegiatan) {
-            uploadPromises.push(
-              fetchUploadImages(
-                authApiKey,
-                authToken,
-                data.upload_foto_kegiatan,
-                "teknologi sistem informasi",
-                dispatch
-              ).then(result => {
-                resultMapping.upload_foto_kegiatan = result;
-              })
-            );
-          }
-      
           await Promise.all(uploadPromises);
-      
+
           let combineData = { ...data };
-          if (resultMapping.upload_foto_alat_sebelum_di_relokasi) {
-            combineData.upload_foto_alat_sebelum_di_relokasi = resultMapping.upload_foto_alat_sebelum_di_relokasi;
+          if (resultMapping.file_scema_integration) {
+            combineData.file_scema_integration = resultMapping.file_scema_integration;
           }
-          if (resultMapping.upload_foto_alat_sesudah_di_relokasi) {
-            combineData.upload_foto_alat_sesudah_di_relokasi = resultMapping.upload_foto_alat_sesudah_di_relokasi;
+          if (resultMapping.upload_dokumen_laporan_modul_tte) {
+            combineData.upload_dokumen_laporan_modul_tte = resultMapping.upload_dokumen_laporan_modul_tte;
           }
-          if (resultMapping.upload_foto_alat_sebelum_di_tambahkan) {
-            combineData.upload_foto_alat_sebelum_di_tambahkan = resultMapping.upload_foto_alat_sebelum_di_tambahkan;
+          if (resultMapping.upload_dokumen_laporan_pembuatan_akun) {
+            combineData.upload_dokumen_laporan_pembuatan_akun = resultMapping.upload_dokumen_laporan_pembuatan_akun;
           }
-          if (resultMapping.upload_foto_alat_sesudah_di_tambahkan) {
-            combineData.upload_foto_alat_sesudah_di_tambahkan = resultMapping.upload_foto_alat_sesudah_di_tambahkan;
-          }
-          if (resultMapping.upload_foto_kegiatan) {
-            combineData.upload_foto_kegiatan = resultMapping.upload_foto_kegiatan;
-          }
-      
-          fetchEditTeknologiSistemInformasi(authApiKey, authToken, slug, type, combineData);
+          fetchEditteknologisi(authApiKey, authToken, slug, type, combineData);
         } catch (error) {
           console.error("Error occurred during image upload:", error);
         }
       } else {
-        fetchEditTeknologiSistemInformasi(authApiKey, authToken, slug, type, data);
+        fetchEditteknologisi(authApiKey, authToken, slug, type, data);
       }
-      
+    } else if (type === "process") {
+      if (
+        data.upload_dokumen_hasil_integrasi ||
+        data.upload_dokumen_laporan_modul_tte ||
+        data.upload_dokumen_laporan_pembuatan_akun
+      ) {
+        try {
+          const uploadPromises = [];
+          const resultMapping = {};
+
+          if (data.upload_dokumen_hasil_integrasi) {
+            uploadPromises.push(
+              fetchUploadFiles(
+                authApiKey,
+                authToken,
+                data.upload_dokumen_hasil_integrasi,
+                "teknologisi",
+                dispatch
+              ).then(result => {
+                resultMapping.upload_dokumen_hasil_integrasi = result;
+              })
+            );
+          }
+          if (data.upload_dokumen_laporan_modul_tte) {
+            uploadPromises.push(
+              fetchUploadFiles(
+                authApiKey,
+                authToken,
+                data.upload_dokumen_laporan_modul_tte,
+                "teknologisi",
+                dispatch
+              ).then(result => {
+                resultMapping.upload_dokumen_laporan_modul_tte = result;
+              })
+            );
+          }
+          if (data.upload_dokumen_laporan_pembuatan_akun) {
+            uploadPromises.push(
+              fetchUploadImages(
+                authApiKey,
+                authToken,
+                data.upload_dokumen_laporan_pembuatan_akun,
+                "teknologisi",
+                dispatch
+              ).then(result => {
+                resultMapping.upload_dokumen_laporan_pembuatan_akun = result;
+              })
+            );
+          }
+
+          await Promise.all(uploadPromises);
+
+          let combineData = { ...data };
+          if (resultMapping.upload_dokumen_hasil_integrasi) {
+            combineData.upload_dokumen_hasil_integrasi = resultMapping.upload_dokumen_hasil_integrasi;
+          }
+          if (resultMapping.upload_dokumen_laporan_modul_tte) {
+            combineData.upload_dokumen_laporan_modul_tte = resultMapping.upload_dokumen_laporan_modul_tte;
+          }
+          if (resultMapping.upload_dokumen_laporan_pembuatan_akun) {
+            combineData.upload_dokumen_laporan_pembuatan_akun = resultMapping.upload_dokumen_laporan_pembuatan_akun;
+          }
+
+          fetchEditteknologisi(authApiKey, authToken, slug, type, combineData);
+        } catch (error) {
+          console.error("Error occurred during image upload:", error);
+        }
+      } else {
+        fetchEditteknologisi(authApiKey, authToken, slug, type, data);
+      }
+
     } else if (type === "finish") {
       if (data.file_submission) {
         const result = await fetchUploadFiles(
           authApiKey,
           authToken,
           data.file_submission,
-          "teknologi sistem informasi",
+          "teknologisi",
           dispatch
         );
         if (result !== null) {
           let combineData = {};
           combineData = { ...data, file_upload: result };
-          fetchEditTeknologiSistemInformasi(
+          fetchEditteknologisi(
             authApiKey,
             authToken,
             slug,
@@ -305,7 +338,7 @@ function DetailTeknologiSistemInformasiPages() {
           console.error("Error occurred during image upload.");
         }
       } else {
-        fetchEditTeknologiSistemInformasi(authApiKey, authToken, slug, type, data);
+        fetchEditteknologisi(authApiKey, authToken, slug, type, data);
       }
     }
   };
@@ -322,14 +355,14 @@ function DetailTeknologiSistemInformasiPages() {
           <DalamAntrianView
             submissionStatus={submissionStatus}
             detailData={detailData}
-            loading={TeknologiSistemInformasiLoading}
+            loading={teknologisiLoading}
           />
           <ValidationStatus
             submissionStatus={submissionStatus}
             validationData={validationData}
             authProfile={authProfile}
             detailData={detailData}
-            loading={TeknologiSistemInformasiLoading}
+            loading={teknologisiLoading}
             setValidationData={setValidationData}
             checkingFormData={checkingFormData}
           />
@@ -340,7 +373,7 @@ function DetailTeknologiSistemInformasiPages() {
             setValidationData={setValidationDataTechnique}
             authProfile={authProfile}
             detailData={detailData}
-            loading={TeknologiSistemInformasiLoading}
+            loading={teknologisiLoading}
             checkingFormData={checkingFormData}
             setisModalVerif={setisModalVerif}
           />
@@ -351,7 +384,7 @@ function DetailTeknologiSistemInformasiPages() {
             processData={processData}
             authProfile={authProfile}
             detailData={detailData}
-            loading={TeknologiSistemInformasiLoading}
+            loading={teknologisiLoading}
             checkingFormData={checkingFormData}
             setisModalVerif={setisModalVerif}
             finishData={finishData}
@@ -360,7 +393,7 @@ function DetailTeknologiSistemInformasiPages() {
 
           <FinishStatus
             detailData={detailData}
-            loading={TeknologiSistemInformasiLoading}
+            loading={teknologisiLoading}
             validationData={validationDataTechnique}
             processData={processData}
             submissionStatus={submissionStatus}
@@ -396,7 +429,7 @@ function DetailTeknologiSistemInformasiPages() {
                 className={`inline-flex flex-1 bg-[${isModalVerif.data.color}] text-darkColor`}
                 onClick={() => {
                   setisModalVerif({ data: {}, status: false });
-                  fetchDataTeknologiSistemInformasi(
+                  fetchDataTeknologisi(
                     authApiKey,
                     authToken,
                     JSON.parse(authProfile)?.role
@@ -412,4 +445,4 @@ function DetailTeknologiSistemInformasiPages() {
   );
 }
 
-export default DetailTeknologiSistemInformasiPages;
+export default DetailTeknologiSIPages;

@@ -5,10 +5,23 @@ export const formData = [
     role: [
       "op_pmo",
       "perangkat_daerah",
+      "teknis_aplikasi",
+      "katim_aplikasi",
     ],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
+      { name: "app_name", label: "Nama Aplikasi", value: "", type: "selection",
+      options: [
+        { value: "15", label: "15 Mbps" },
+        { value: "20", label: "20 Mbps" },
+        { value: "25", label: "25 Mbps" },
+        { value: "30", label: "30 Mbps" },
+      ]
+       },
+      { name: "app_desc", label: "Deskripsi Aplikasi", value: "", type: "editor" },
+      { name: "needed_data", label: "Data yang dibutuhkan", value: "", type: "editor" },
+      { name: "integration", label: "Tujuan Integrasi", value: "", type: "editor" },
     ],
   },
 ];

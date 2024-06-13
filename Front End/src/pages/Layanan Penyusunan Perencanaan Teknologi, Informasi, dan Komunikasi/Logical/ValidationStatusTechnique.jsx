@@ -97,8 +97,8 @@ const ValidationStatusTechnique = ({
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: 'infrastruktur Berhasil diupdate',
-            msg: 'Selamat, Pengajuan infrastruktur sudah diupdate',
+            title: 'Perencanaan TIK Berhasil diupdate',
+            msg: 'Selamat, Pengajuan Penyusunan Kebijakan sudah diupdate',
             icon: PengajuanBerahasilIcon,
             color: '#13C39C'
           },
@@ -133,15 +133,15 @@ const ValidationStatusTechnique = ({
   };
   return (
     <>
-      {submissionStatus === 4 && (JSON.parse(authProfile)?.role === "teknis_infra" || JSON.parse(authProfile)?.role === "katim_infra" ?
+      {submissionStatus === 4 && (JSON.parse(authProfile)?.role === "teknis_aplikasi" || JSON.parse(authProfile)?.role === "katim_aplikasi" ?
         <div className="flex flex-col gap-3">
-          {JSON.parse(authProfile)?.role === "teknis_infra" && (
+          {JSON.parse(authProfile)?.role === "teknis_aplikasi" && (
             Object.entries(validationData).length === 0 ?
               <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                 <span className='text-lg font-bold'>Tahapan Validasi</span>
-                {renderProcessInputs(detailData.submission_title === "Relokasi Alat" ?
+                {renderProcessInputs(detailData.submission_title === "Penyusunan Detail" ?
                   RelokasiAlatValidateTechnique :
-                   detailData.submission_title === "Penambahan Alat" ?
+                   detailData.submission_title === "Penyusunan Detail" ?
                    PenambahanAlatValidateTechnique : detailData.submission_title === "Penambahan Bandwidth" ?
                           PenambahanBandwidthValidateTechnique : detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan" ?
                           TroubleshootingValidateTechnique :
@@ -196,7 +196,7 @@ const ValidationStatusTechnique = ({
                 </div>
               </div>
           )}
-          {JSON.parse(authProfile)?.role === "katim_infra" && (
+          {JSON.parse(authProfile)?.role === "katim_aplikasi" && (
             Object.entries(validationData).length !== 0 ?
               <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                 <span className='text-lg font-bold'>Tahapan Validasi</span>
@@ -291,7 +291,7 @@ const ValidationStatusTechnique = ({
               </span>
             </div>
           </div>
-          <DynamicDetails location={"infrastruktur"}detailData={detailData} loading={loading} />
+          <DynamicDetails location={"perencanaantik"}detailData={detailData} loading={loading} />
         </div>
       )}
       {submissionStatus === 5 && (
@@ -318,7 +318,7 @@ const ValidationStatusTechnique = ({
               ))}
             </div>
           </div>
-          <DynamicDetails location={"infrastruktur"}detailData={detailData} loading={loading} />
+          <DynamicDetails location={"perencanaantik"}detailData={detailData} loading={loading} />
         </div>
       )}
     </>

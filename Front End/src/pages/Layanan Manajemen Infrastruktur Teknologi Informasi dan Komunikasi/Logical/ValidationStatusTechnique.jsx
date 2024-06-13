@@ -24,6 +24,7 @@ const ValidationStatusTechnique = ({
   const authToken = Cookies.get('authToken');
 
   const [inputLocal, setInputLocal] = useState({});
+
   const PendampinganPengolahanAnalisisDataValidateTechnique = [
     // {
     //   label: "Skema Integrasi",
@@ -31,6 +32,7 @@ const ValidationStatusTechnique = ({
     //   type: "file_upload",
     //   name: 'file_scema_integration'
     // },
+
     {
       label: "Tanggapan Tim Teknis",
       value: inputLocal.team_response,
