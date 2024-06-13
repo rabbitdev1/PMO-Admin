@@ -77,6 +77,7 @@ function LayananTeknologiSIPages() {
         token: token,
       });
       setListTeknologiSistemInformasiLoading(false);
+      dispatch(isPending(false));
       if (response?.statusCode === 200) {
         if (JSON.parse(authProfile)?.role === "perangkat_daerah") {
           const filteredSubmissions = response.result.data.filter(submission => submission.submission_title === dataState);
@@ -443,6 +444,7 @@ function LayananTeknologiSIPages() {
                     navigate("/detail-teknologi-dan-sistem-informasi", { state: { slug: data.id } });
                   }
                 }}
+                loading={listTeknologiSstemInformasiLoading}
                 onClickRemove={(data) => {
                   if (data.submission_status === 2 || data.submission_status === 4 || data.submission_status === 6) {
                     toast.error('Pengajuan dalam proses validasi, tidak bisa di hapus', {

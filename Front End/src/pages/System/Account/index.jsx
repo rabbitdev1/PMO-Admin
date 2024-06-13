@@ -341,6 +341,7 @@ function AccountPages() {
                 onClickShow={(id) => {
                   navigate("/detail-account", { state: { slug: id } });
                 }}
+                loading={listAccountLoading}
                 onClickRemove={(a) => {
                   console.log(a.role);
                   if (a.role === "op_pmo") {

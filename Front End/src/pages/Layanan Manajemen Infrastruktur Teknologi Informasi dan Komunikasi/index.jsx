@@ -82,10 +82,12 @@ function ManagementTIKPages() {
         token: token,
       });
       setListManagementTIKLoading(false);
+      dispatch(isPending(false));
       if (response?.statusCode === 200) {
         if (JSON.parse(authProfile)?.role === "perangkat_daerah") {
           const filteredSubmissions = response.result.data.filter(submission => submission.submission_title === dataState);
           setListManagementTIK(filteredSubmissions);
+          console.log(dataState);
         } else {
           setListManagementTIK(response.result.data);
         }
@@ -440,6 +442,7 @@ function ManagementTIKPages() {
                   { name: "Tanggal", field: "createdAt" },
                   { name: "Aksi", field: "action" },
                 ]}
+                loading={listManagementTIKLoading}
                 showAction={{ read: true, remove: JSON.parse(authProfile)?.role === "perangkat_daerah" ? true : false, edit: true }}
                 onClickShow={(data) => {
                   if (JSON.parse(authProfile)?.role === "op_pmo") {
@@ -465,6 +468,7 @@ function ManagementTIKPages() {
                 }}
                 data={listManagementTIK}
               />
+              {JSON.stringify(listManagementTIK)}
             </div>
           </div>
         </div>
