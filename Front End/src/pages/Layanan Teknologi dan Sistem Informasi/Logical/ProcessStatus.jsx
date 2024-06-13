@@ -6,8 +6,8 @@ import DynamicInput from "../../../components/common/DynamicInput";
 import DynamicShow from "../../../components/common/DynamicShow";
 import DynamicDetails from "../../../components/ui/DynamicDetails";
 import { apiClient } from "../../../utils/api/apiClient";
-import { validateImage } from "../../../utils/helpers/validateForm";
-import { getPenambahanAlatFinish, getPenambahanAlatProcess, getPenambahanBandwidthFinish, getPenambahanBandwidthProcess, getRelokasiAlatFinish, getRelokasiAlatProcess } from "../data";
+import { validateFile, validateImage } from "../../../utils/helpers/validateForm";
+import {getModulTTEProcess, getModulTTEFinish, getUserAccountSIProcess, getUserAccountSIFinish, getZoomProcess, getZoomFinish } from "../data";
 
 const ProcessStatus = ({
     submissionStatus,
@@ -24,13 +24,17 @@ const ProcessStatus = ({
 
     const [inputLocal, setInputLocal] = useState({});
 
-    const RelokasiAlatProcess = getRelokasiAlatProcess(inputLocal);
-    const PenambahanAlatProcess = getPenambahanAlatProcess(inputLocal);
-    const PenambahanBandwidthProcess = getPenambahanBandwidthProcess(inputLocal);
+    const ZoomProcess = getZoomProcess(inputLocal);
 
-    const RelokasiAlatFinish = getRelokasiAlatFinish(finishData);
-    const PenambahanBandwidthFinish = getPenambahanBandwidthFinish(finishData);
-    const PenambahanAlatFinish = getPenambahanAlatFinish(finishData);
+    const ZoomFinish = getZoomFinish(finishData);
+
+    const ModulTTEProcess = getModulTTEProcess(inputLocal);
+
+    const ModulTTEFinish = getModulTTEFinish(finishData);
+
+    const UserAkunSIProcess = getUserAccountSIProcess (inputLocal);
+
+    const UserAkunSIFinish = getUserAccountSIFinish (finishData);
 
     const fetchSetProgress = async (api_key, token, status) => {
         const params = new URLSearchParams();
@@ -48,8 +52,8 @@ const ProcessStatus = ({
             if (response?.statusCode === 200) {
                 setisModalVerif({
                     data: {
-                        title: 'Teknologi Sistem Informasi Berhasil diupdate',
-                        msg: 'Selamat, Pengajuan Teknologi Sistem Informasi sudah diupdate',
+                        title: 'Pengajuan Teknologi dan Sistem Inforasi Berhasil diupdate',
+                        msg: 'Selamat, Pengajuan Sudah di-update',
                         icon: PengajuanBerahasilIcon,
                         color: '#13C39C'
                     },
@@ -105,9 +109,9 @@ const ProcessStatus = ({
         ));
     };
     return (
-        submissionStatus === 6 && (JSON.parse(authProfile)?.role === "teknis_teknologi" || JSON.parse(authProfile)?.role === "katim_teknologi" ?
+        submissionStatus === 6 && (JSON.parse(authProfile)?.role === "teknis_aplikasi" || JSON.parse(authProfile)?.role === "katim_aplikasi" ?
             <div className="flex flex-col gap-3">
-                {JSON.parse(authProfile)?.role === "teknis_teknologi" && (
+                {JSON.parse(authProfile)?.role === "teknis_aplikasi" && (
                     Object.entries(processData).length === 0 ?
                         <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                             <span className='text-lg font-bold'>Tahapan Proses</span>
@@ -120,15 +124,19 @@ const ProcessStatus = ({
                                     type={"working_schedule" ? "multidate" : 'text'}
                                 />
                             ))}
-                            {renderProcessInputs(detailData.submission_title === "Relokasi Alat" ?
-                                RelokasiAlatProcess :
-                                detailData.submission_title === "Penambahan Alat" ?
-                                    PenambahanAlatProcess : detailData.submission_title === "Penambahan Bandwidth" ?
-                                        PenambahanBandwidthProcess : detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan" ?
-                                            [] : detailData.submission_title === "Hosting" ?
-                                                [] : detailData.submission_title === "Domain" ?
-                                                    []
-                                                    : []
+                            {renderProcessInputs(detailData.submission_title === "Layanan ZOOM" ?
+                                ZoomProcess : 
+                                detailData.submission_title === "Penerapan Modul TTE" ? ModulTTEProcess : 
+                                detailData.submission_title === "User Akun Sistem Informasi" ? UserAkunSIProcess :
+                                []
+
+                            )}
+                            {renderProcessInputs(detailData.submission_title === "Permohonan Liputan" ?
+                                ZoomProcess : 
+                                detailData.submission_title === "Penerapan Modul TTE" ? ModulTTEProcess : 
+                                detailData.submission_title === "User Akun Sistem Informasi" ? UserAkunSIProcess :
+                                []
+
                             )}
                             <div className='flex sm:flex-row flex-col gap-2'>
                                 <DynamicButton
@@ -149,20 +157,17 @@ const ProcessStatus = ({
 
                                         let isValid = true;
 
-                                        if (detailData.submission_title === "Relokasi Alat") {
-                                            isValid = isValid && validateImage(inputLocal.upload_foto_alat_sebelum_di_relokasi, "Upload Foto Alat Sebelum di Relokasi");
-                                            isValid = isValid && validateImage(inputLocal.upload_foto_alat_sesudah_di_relokasi, "Upload Foto Alat Sesudah di Relokasi");
-                                        } else if (detailData.submission_title === "Penambahan Alat") {
-                                            isValid = isValid && validateImage(inputLocal.upload_foto_alat_sebelum_di_tambahkan, "Upload Foto Alat Sebelum di Tambahkan");
-                                            isValid = isValid && validateImage(inputLocal.upload_foto_alat_sesudah_di_tambahkan, "Upload Foto Alat Sesudah di Tambahkan");
-                                        } else if (detailData.submission_title === "Penambahan Bandwidth") {
-                                            isValid = isValid && validateImage(inputLocal.upload_foto_kegiatan, "Upload Foto Kegiatan");
-                                        } else if (detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan") {
-                                            // Tidak ada validasi tambahan untuk "Troubleshooting"
-                                        } else if (detailData.submission_title === "Hosting") {
-                                            // Tidak ada validasi tambahan untuk "Troubleshooting"
-                                        } else if (detailData.submission_title === "Domain") {
-                                            // Tidak ada validasi tambahan untuk "Troubleshooting"
+                                        if (detailData.submission_title === "Layanan ZOOM") {
+                                            isValid = isValid && validateFile(inputLocal.upload_dokumen_hasil_integrasi, "Upload Dokumen Laporan Hasil Integrasi");
+                                        }
+                                        if (detailData.submission_title === "Permohonan Liputan") {
+                                            isValid = isValid && validateFile(inputLocal.upload_dokumen_hasil_integrasi, "Upload Dokumen Laporan Hasil Integrasi");
+                                        }
+                                        if (detailData.submission_title === "Penerapan Modul TTE") {
+                                            isValid = isValid && validateFile(inputLocal.upload_dokumen_laporan_modul_tte, "Upload Surat Pengesahan");
+                                        }
+                                        if (detailData.submission_title === "User Akun Sistem Informasi") {
+                                            isValid = isValid && validateFile(inputLocal.upload_dokumen_laporan_pembuatan_akun, "Upload Dokumen Laporan Hasil Pembuatan Akun");
                                         }
                                         if (isValid) {
                                             checkingFormData('process', filteredDataResult);
@@ -175,7 +180,7 @@ const ProcessStatus = ({
                         <div className="flex flex-col gap-3">
                             <div className="flex flex-col bg-[#0185FF]/10 border-1 border-[#0185FF] text-[#0185FF] p-3 gap-3 items-center rounded-lg">
                                 <span className="text-base font-semibold text-center">
-                                    Laporan sudah dikirimn ke Ketua Tim Teknis
+                                    Laporan sudah dikirim ke Ketua Tim Teknis
                                 </span>
                             </div>
                             <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
@@ -193,23 +198,20 @@ const ProcessStatus = ({
                                     <DynamicShow
                                         key={key}
                                         label={
-                                            key === "upload_foto_alat_sebelum_di_relokasi"
-                                                ? "Foto Alat Sebelum Di Relokasikan"
-                                                : key === "upload_foto_alat_sesudah_di_relokasi"
-                                                    ? "Foto Alat Sesudah Di Relokasikan"
-                                                    : key === "upload_foto_alat_sebelum_di_tambahkan"
-                                                        ? "Foto Alat Sebelum Di Tambahkan"
-                                                        : key === "upload_foto_alat_sesudah_di_tambahkan"
-                                                            ? "Foto Alat Sesudah Di Tambahkan"
-                                                            : key === "upload_foto_kegiatan"
-                                                                ? "Foto Kegiatan"
-                                                                : key
+                                            key === "upload_dokumen_hasil_integrasi"
+                                                ? "Dokumen Laporan Hasil Integrasi"
+                                                : "upload_dokumen_laporan_modul_tte"
+                                                ? "Upload Surat Pengesahan"
+                                                : "upload_dokumen_laporan_pembuatan_akun"
+                                                ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
+                                                :
+                                                key
                                         }
                                         value={value}
-                                        location={"teknologi sistem informasi"}
+                                        location={"teknologisi"}
                                         type={
-                                            key === "upload_foto_alat_sebelum_di_relokasi" || key === "upload_foto_alat_sesudah_di_relokasi" || key === "upload_foto_alat_sebelum_di_tambahkan" || key === "upload_foto_alat_sesudah_di_tambahkan" || key === "upload_foto_kegiatan"
-                                                ? "images"
+                                            key === "upload_dokumen_hasil_integrasi" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun"
+                                                ? "pdf"
                                                 : "text"
                                         }
                                     />
@@ -217,7 +219,7 @@ const ProcessStatus = ({
                             </div>
                         </div>
                 )}
-                {JSON.parse(authProfile)?.role === "katim_teknologi" && (
+                {JSON.parse(authProfile)?.role === "katim_aplikasi" && (
                     Object.entries(processData).length !== 0 ?
                         <div className="flex flex-col gap-3">
                             <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
@@ -235,23 +237,20 @@ const ProcessStatus = ({
                                     <DynamicShow
                                         key={key}
                                         label={
-                                            key === "upload_foto_alat_sebelum_di_relokasi"
-                                                ? "Foto Alat Sebelum Di Relokasikan"
-                                                : key === "upload_foto_alat_sesudah_di_relokasi"
-                                                    ? "Foto Alat Sesudah Di Relokasikan"
-                                                    : key === "upload_foto_alat_sebelum_di_tambahkan"
-                                                        ? "Foto Alat Sebelum Di Tambahkan"
-                                                        : key === "upload_foto_alat_sesudah_di_tambahkan"
-                                                            ? "Foto Alat Sesudah Di Tambahkan"
-                                                            : key === "upload_foto_kegiatan"
-                                                                ? "Foto Kegiatan"
-                                                                : key
+                                            key === "upload_dokumen_hasil_integrasi"
+                                                ? "Dokumen Laporan Hasil Integrasi"
+                                                : "upload_dokumen_laporan_modul_tte"
+                                                ? "Surat Pengesahan"
+                                                : "upload_dokumen_laporan_pembuatan_akun"
+                                                ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
+                                                :
+                                                key
                                         }
                                         value={value}
-                                        location={"teknologi sistem informasi"}
+                                        location={"teknologisi"}   
                                         type={
-                                            key === "upload_foto_alat_sebelum_di_relokasi" || key === "upload_foto_alat_sesudah_di_relokasi" || key === "upload_foto_alat_sebelum_di_tambahkan" || key === "upload_foto_alat_sesudah_di_tambahkan" || key === "upload_foto_kegiatan"
-                                                ? "images"
+                                            key === "upload_dokumen_hasil_integrasi" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun"
+                                                ? "pdf"
                                                 : "text"
                                         }
                                     />
@@ -259,15 +258,17 @@ const ProcessStatus = ({
                             </div>
                             <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                                 <span className='text-lg font-bold'>Proses Selesai</span>
-                                {renderFinishInputs(detailData.submission_title === "Relokasi Alat" ?
-                                    RelokasiAlatFinish
-                                    : detailData.submission_title === "Penambahan Alat" ?
-                                        PenambahanAlatFinish : detailData.submission_title === "Penambahan Bandwidth" ?
-                                            PenambahanBandwidthFinish : detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan" ?
-                                                [] : detailData.submission_title === "Hosting" ?
-                                                    [] : detailData.submission_title === "Domain" ?
-                                                        []
-                                                        : []
+                                {renderFinishInputs(detailData.submission_title === "Layanan ZOOM" ?
+                                    ZoomFinish : 
+                                    detailData.submission_title === "Penerapan Modul TTE" ? ModulTTEFinish :
+                                    detailData.submission_title === "User Akun Sistem Informasi" ? UserAkunSIFinish :
+                                    []
+                                )}
+                                {renderFinishInputs(detailData.submission_title === "Permohonan Liputan" ?
+                                    ZoomFinish : 
+                                    detailData.submission_title === "Penerapan Modul TTE" ? ModulTTEFinish :
+                                    detailData.submission_title === "User Akun Sistem Informasi" ? UserAkunSIFinish :
+                                    []
                                 )}
                                 <DynamicButton
                                     initialValue={"Pengajuan Selesai"}
@@ -295,6 +296,8 @@ const ProcessStatus = ({
 
                 )}
                 <DynamicDetails
+
+                    location={'teknologisi'}
                     detailData={detailData}
                     loading={loading}
                 />
@@ -330,23 +333,20 @@ const ProcessStatus = ({
                                 <DynamicShow
                                     key={key}
                                     label={
-                                        key === "upload_foto_alat_sebelum_di_relokasi"
-                                            ? "Foto Alat Sebelum Di Relokasikan"
-                                            : key === "upload_foto_alat_sesudah_di_relokasi"
-                                                ? "Foto Alat Sesudah Di Relokasikan"
-                                                : key === "upload_foto_alat_sebelum_di_tambahkan"
-                                                    ? "Foto Alat Sebelum Di Tambahkan"
-                                                    : key === "upload_foto_alat_sesudah_di_tambahkan"
-                                                        ? "Foto Alat Sesudah Di Tambahkan"
-                                                        : key === "upload_foto_kegiatan"
-                                                            ? "Foto Kegiatan"
-                                                            : key
+                                        key === "upload_dokumen_hasil_integrasi"
+                                        ? "File Dokumen Hasil Integrasi"
+                                        : "upload_dokumen_laporan_modul_tte"
+                                        ? "Surat Pengesahan"
+                                        : "upload_dokumen_laporan_pembuatan_akun"
+                                        ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
+                                        :
+                                        key
                                     }
                                     value={value}
-                                    location={"teknologi sistem informasi"} 
+                                    location={"teknologisi"}
                                     type={
-                                        key === "upload_foto_alat_sebelum_di_relokasi" || key === "upload_foto_alat_sesudah_di_relokasi" || key === "upload_foto_alat_sebelum_di_tambahkan" || key === "upload_foto_alat_sesudah_di_tambahkan" || key === "upload_foto_kegiatan"
-                                            ? "images"
+                                        key === "upload_dokumen_hasil_integrasi" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun"
+                                            ? "pdf"
                                             : "text"
                                     }
                                 />
@@ -354,7 +354,7 @@ const ProcessStatus = ({
                         </div>
                     }
                 </div>
-                <DynamicDetails location={"teknologi sistem informasi"} detailData={detailData} loading={loading} />
+                <DynamicDetails location={"teknologisi"} detailData={detailData} loading={loading} />
             </div>
         )
     );

@@ -155,8 +155,8 @@ function DetailPerencanaanTIKPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "perencanaantik Berhasil diupdate",
-            msg: "Selamat, Pengajuan perencanaantik sudah diupdate",
+            title: "Pengajuan Perencanaan TIK Berhasil di-update",
+            msg: "Selamat, Pengajuan sudah di-update",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
           },

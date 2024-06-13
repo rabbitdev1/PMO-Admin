@@ -1,6 +1,6 @@
 export const formData = [
   {
-    name: "Pengajuan Layanan ZOOM",
+    name: "Layanan ZOOM",
     type: "Pengajuan Layanan Teknologi dan Sistem Informasi",
     role: [
       "op_pmo",
@@ -11,80 +11,37 @@ export const formData = [
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
-      {
-        name: "reason",
-        label: "Alasan Pengajuan",
-        value: "",
-        type: "textarea",
-      },
-      {
-        name: "period",
-        label: "Periode Jangka Waktu",
-        value: "",
-        type: "date",
-      },
+      {name: "reason", label: "Alasan Pengajuan", value: "", type: "editor"},
+      { name: "period", label: "Periode Jangka Waktu", value: "", type: "date" },
     ],
   },
   {
-    name: "Pengajuan Permohonan Liputan",
+    name: "Permohonan Liputan",
     type: "Pengajuan Layanan Teknologi dan Sistem Informasi",
     role: [
       "op_pmo",
       "perangkat_daerah",
+      "katim_aplikasi",
+      "teknis_aplikasi"
     ],
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
+      { name: "reason", label: "Alasan Pengajuan", value: "", type: "editor" },
+      { name: "period", label: "Periode Jangka Waktu", value: "", type: "date" },
     ],
   },
-];
+]
 
-
-
-// Function to get RelokasiAlatProcess
-const getRelokasiAlatProcess = (inputLocal) => [
+const getZoomProcess = (inputLocal) => [
   {
-    label: "Upload Foto Alat Sebelum di Relokasi",
-    value: inputLocal.upload_foto_alat_sebelum_di_relokasi,
-    type: "image_upload",
-    name: "upload_foto_alat_sebelum_di_relokasi",
-  },
-  {
-    label: "Upload Foto Alat Sesudah di Relokasi",
-    value: inputLocal.upload_foto_alat_sesudah_di_relokasi,
-    type: "image_upload",
-    name: "upload_foto_alat_sesudah_di_relokasi",
+    label: "Upload Dokumen Laporan Hasil Integrasi",
+    value: inputLocal.upload_dokumen_hasil_integrasi,
+    type: "file_upload",
+    name: 'upload_dokumen_hasil_integrasi'
   },
 ];
-
-// Function to get PenambahanAlatProcess
-const getPenambahanAlatProcess = (inputLocal) => [
-  {
-    label: "Upload Foto Alat Sebelum Penambahan Alat",
-    value: inputLocal.upload_foto_alat_sebelum_di_tambahkan,
-    type: "image_upload",
-    name: "upload_foto_alat_sebelum_di_tambahkan",
-  },
-  {
-    label: "Upload Foto Alat Sesudah Penambahan Alat",
-    value: inputLocal.upload_foto_alat_sesudah_di_tambahkan,
-    type: "image_upload",
-    name: "upload_foto_alat_sesudah_di_tambahkan",
-  },
-];
-
-// Function to get PenambahanBandwidthProcess
-const getPenambahanBandwidthProcess = (inputLocal) => [
-  {
-    label: "Upload Foto Kegiatan",
-    value: inputLocal.upload_foto_kegiatan,
-    type: "image_upload",
-    name: "upload_foto_kegiatan",
-  },
-];
-
-// Function to get RelokasiAlatFinish
-const getRelokasiAlatFinish = (finishData) => [
+const getZoomFinish = (finishData) => [
   {
     label: "Status Pengajuan",
     value: finishData.submission_status,
@@ -92,25 +49,34 @@ const getRelokasiAlatFinish = (finishData) => [
     type: "radio_button",
     options: [
       { value: "1", label: "Menyetujui" },
-      { value: "0", label: "Tidak Menyetujui" },
-    ],
+      { value: "0", label: "Tidak Menyetujui" }
+    ]
   },
   {
     label: "Upload Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
-    name: "file_submission",
-    type: "file_upload",
+    name: 'file_submission',
+    type: "file_upload"
   },
   {
     label: "Tanggapan",
     value: finishData.response || null,
     type: "textarea",
-    name: "response",
-  },
+    name: 'response'
+  }
 ];
 
-// Function to get PenambahanBandwidthFinish
-const getPenambahanBandwidthFinish = (finishData) => [
+
+//Permohonan Liputan
+const getPermohonanLiputanProcess = (inputLocal) => [
+  {
+    label: "Upload Dokumen Laporan Hasil Integrasi",
+    value: inputLocal.upload_dokumen_hasil_integrasi,
+    type: "file_upload",
+    name: 'upload_dokumen_hasil_integrasi'
+  },
+];
+const getPermohonanLiputanFinish = (finishData) => [
   {
     label: "Status Pengajuan",
     value: finishData.submission_status,
@@ -118,25 +84,34 @@ const getPenambahanBandwidthFinish = (finishData) => [
     type: "radio_button",
     options: [
       { value: "1", label: "Menyetujui" },
-      { value: "0", label: "Tidak Menyetujui" },
-    ],
+      { value: "0", label: "Tidak Menyetujui" }
+    ]
   },
   {
     label: "Upload Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
-    name: "file_submission",
-    type: "file_upload",
+    name: 'file_submission',
+    type: "file_upload"
   },
   {
     label: "Tanggapan",
     value: finishData.response || null,
     type: "textarea",
-    name: "response",
+    name: 'response'
+  }
+];
+
+// Penerapan Modul TTE
+const getModulTTEProcess = (inputLocal) => [
+  {
+    label: "Upload Surat Pengesahan",
+    value: inputLocal.upload_dokumen_laporan_modul_tte,
+    type: "file_upload",
+    name: 'upload_dokumen_laporan_modul_tte'
   },
 ];
 
-// Function to get PenambahanAlatFinish
-const getPenambahanAlatFinish = (finishData) => [
+const getModulTTEFinish = (finishData) => [
   {
     label: "Status Pengajuan",
     value: finishData.submission_status,
@@ -144,24 +119,59 @@ const getPenambahanAlatFinish = (finishData) => [
     type: "radio_button",
     options: [
       { value: "1", label: "Menyetujui" },
-      { value: "0", label: "Tidak Menyetujui" },
-    ],
+      { value: "0", label: "Tidak Menyetujui" }
+    ]
   },
   {
     label: "Upload Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
-    name: "file_submission",
-    type: "file_upload",
+    name: 'file_submission',
+    type: "file_upload"
   },
   {
     label: "Tanggapan",
     value: finishData.response || null,
     type: "textarea",
-    name: "response",
+    name: 'response'
+  }
+];
+
+// User Account SI
+const getUserAccountSIProcess = (inputLocal) => [
+  {
+    label: "Upload Dokumen Laporan Hasil Pembuatan Akun",
+    value: inputLocal.upload_dokumen_laporan_pembuatan_akun,
+    type: "file_upload",
+    name: 'upload_dokumen_laporan_pembuatan_akun'
   },
 ];
+
+const getUserAccountSIFinish = (finishData) => [
+  {
+    label: "Status Pengajuan",
+    value: finishData.submission_status,
+    name: "submission_status",
+    type: "radio_button",
+    options: [
+      { value: "1", label: "Menyetujui" },
+      { value: "0", label: "Tidak Menyetujui" }
+    ]
+  },
+  {
+    label: "Upload Surat Pemberitahuan untuk OPD",
+    value: finishData.file_submission,
+    name: 'file_submission',
+    type: "file_upload"
+  },
+  {
+    label: "Tanggapan",
+    value: finishData.response || null,
+    type: "textarea",
+    name: 'response'
+  }
+];
+
 
 export {
-  getPenambahanAlatFinish, getPenambahanAlatProcess, getPenambahanBandwidthFinish, getPenambahanBandwidthProcess,
-  getRelokasiAlatFinish, getRelokasiAlatProcess
+  getZoomProcess, getZoomFinish, getModulTTEProcess, getModulTTEFinish, getUserAccountSIProcess, getUserAccountSIFinish
 };

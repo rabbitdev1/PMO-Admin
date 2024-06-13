@@ -83,7 +83,7 @@ const Sidebar = () => {
     {
       title: "Layanan Teknologi dan Sistem Informasi", role: ['op_pmo', 'perangkat_daerah', 'teknis_aplikasi', 'katim_aplikasi'],
       submenu: [
-        { title: 'Zoom', href: '/layanan-teknologi-dan-sistem-informasi', state: 'Layanan ZOOM' },
+        { title: 'Layanan ZOOM', href: '/layanan-teknologi-dan-sistem-informasi', state: 'Layanan ZOOM' },
         { title: 'Permohonan Liputan', href: '/layanan-teknologi-dan-sistem-informasi', state: 'Permohonan Liputan' },
       ],
       icon: AllBerandaIcon, href: ["/layanan-teknologi-dan-sistem-informasi", "/detail-teknologi-dan-sistem-informasi"],
@@ -98,7 +98,7 @@ const Sidebar = () => {
       icon: AllBerandaIcon, href: ["/layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi", "/detail-layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi"],
     },
     {
-      title: "Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi", role: ['op_pmo', 'perangkat_daerah',],
+      title: "Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi", role: ['op_pmo', 'perangkat_daerah','teknis_aplikasi', 'katim_aplikasi' ],
       submenu: [
         { title: 'Penyusunan Kebijakan', href: '/layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi', state: 'Penyusunan Kebijakan' },
       ],
