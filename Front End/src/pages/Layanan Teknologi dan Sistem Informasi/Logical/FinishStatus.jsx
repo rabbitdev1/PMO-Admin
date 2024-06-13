@@ -70,7 +70,7 @@ const FinishStatus = ({
               <DynamicShow
                 label={"File Surat Pemberitahuan untuk OPD"}
                 value={finishData?.file_upload}
-                location={"sekretariat"}
+                location={"teknologisi"}
                 type={"pdf"}
               />
             )}

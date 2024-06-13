@@ -199,7 +199,7 @@ function LayananPenyusunanPerencanaanTIKPages() {
         setisModalVerif({
           data: {
             title:
-              "Pengajuan Perencanaan Teknologi, Informasi, dan Komunikasi Berhasil",
+              "Pengajuan Perencanaan TIK Berhasil",
             msg: "Selamat, Pengajuan anda sudah diterima",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",

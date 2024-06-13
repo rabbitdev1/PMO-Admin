@@ -155,8 +155,8 @@ function DetailTeknologiSIPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Teknologi Sistem Informasi Berhasil Diupdate",
-            msg: "Selamat, Pengajuan sekretariat sudah diupdate",
+            title: "Teknologi dan Sistem Informasi Berhasil di-update",
+            msg: "Selamat, Pengajuan sudah di-update",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
           },

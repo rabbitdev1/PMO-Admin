@@ -52,8 +52,8 @@ const ProcessStatus = ({
             if (response?.statusCode === 200) {
                 setisModalVerif({
                     data: {
-                        title: 'Pengajuan Teknologi Sistem Inforasi Berhasil diupdate',
-                        msg: 'Selamat, Pengajuan Teknologi Sistem Informasi sudah diupdate',
+                        title: 'Pengajuan Teknologi dan Sistem Inforasi Berhasil diupdate',
+                        msg: 'Selamat, Pengajuan Sudah di-update',
                         icon: PengajuanBerahasilIcon,
                         color: '#13C39C'
                     },
