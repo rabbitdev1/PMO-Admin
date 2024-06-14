@@ -156,7 +156,7 @@ const ValidationStatusTechnique = ({
                         })
                       );
                       let isValid = true;
-                      // isValid = isValid && validateFile(inputLocal.file_scema_integration, "Skema Integrasi")
+                      isValid = isValid && validateFile(inputLocal.file_scema_integration, "Skema Integrasi")
                       isValid = isValid && validateText(inputLocal.team_response, "Tanggapan Tim Teknis")
                       isValid = isValid && validatePeriod(inputLocal.working_schedule, "Jadwal Pengerjaan")
 
@@ -179,7 +179,7 @@ const ValidationStatusTechnique = ({
                   {Object.entries(validationData).map(([key, value]) => (
                     <DynamicShow
                       key={key}
-                      label={key === "team_response" ? "Tanggapan dari Tim Teknis" : key === "working_schedule" ? "Jadwal Kerja" : key}
+                      label={key === "team_response" ? "Tanggapan dari Tim Teknis" : key === "working_schedule" ? "Jadwal Kerja" : key === "file_scema_integration" ? "File Skema Integrasi" : key}
                       value={value}
                       type={key === "team_response" ? 'text' : key === "working_schedule" ? "multidate" : 'text'}
                     />
@@ -196,9 +196,9 @@ const ValidationStatusTechnique = ({
                     <DynamicShow
                       key={key}
                       location={'aplikasi'}
-                      label={key === "team_response" ? "Tanggapan dari Tim Teknis" : key === "working_schedule" ? "Jadwal Kerja" : key}
+                      label={key === "team_response" ? "Tanggapan dari Tim Teknis" : key === "working_schedule" ? "Jadwal Kerja" : key === "file_scema_integration" ? "File Skema Integrasi" : key}
                       value={value}
-                      type={key === "team_response" ? 'text' : key === "working_schedule" ? "multidate" : 'text'}
+                      type={key === "file_scema_integration" ? 'pdf' : key === "working_schedule" ? "multidate" : 'text'}
                     />
                 ))}
 

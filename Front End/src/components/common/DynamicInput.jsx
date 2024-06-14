@@ -91,7 +91,7 @@ function DynamicInput({
       </div>
       {type === "selection" ? (
         <Select
-          className="p-0.5"
+          className="p-0.5 z-10"
           placeholder={placeholder}
           styles={{
             control: (baseStyles, state) => ({

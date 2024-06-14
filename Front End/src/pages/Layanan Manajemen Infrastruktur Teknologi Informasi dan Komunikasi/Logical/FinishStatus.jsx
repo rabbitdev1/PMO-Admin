@@ -51,7 +51,7 @@ const FinishStatus = ({
                     : key
                 }
                 value={value}
-                location={"sekretariat"}
+                location={"managementinfrastrukturtik"}
                 type={
                   key === "upload_dokumen_hasil_integrasi" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun" ? "pdf"
                     : "text"
@@ -70,7 +70,7 @@ const FinishStatus = ({
               <DynamicShow
                 label={"File Surat Pemberitahuan untuk OPD"}
                 value={finishData?.file_upload}
-                location={"sekretariat"}
+                location={"managementinfrastrukturtik"}
                 type={"pdf"}
               />
             )}
@@ -78,7 +78,7 @@ const FinishStatus = ({
         </div>
         <DynamicDetails
 
-location={'sekretariat'}
+location={'managementinfrastrukturtik'}
           detailData={detailData}
           loading={loading}
         />

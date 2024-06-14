@@ -119,7 +119,7 @@ const ProcessStatus = ({
                                 key === "working_schedule" &&
                                 <DynamicShow
                                     key={key}
-                                    label={key === "working_schedule" ? "Jadwal Kerja" : key}
+                                    label={key === "working_schedule" ? "Jadwal Kerja" : key === "file_scema_integration" ? "File Skema Integrasi" : key}
                                     value={value}
                                     type={"working_schedule" ? "multidate" : 'text'}
                                 />
@@ -179,7 +179,7 @@ const ProcessStatus = ({
                                     key === "working_schedule" &&
                                     <DynamicShow
                                         key={key}
-                                        label={key === "working_schedule" ? "Jadwal Kerja" : key}
+                                        label={key === "working_schedule" ? "Jadwal Kerja" : key === "file_scema_integration" ? "File Skema Integrasi" : key}
                                         value={value}
                                         type={"working_schedule" ? "multidate" : 'text'}
                                     />
@@ -188,19 +188,19 @@ const ProcessStatus = ({
                                     <DynamicShow
                                         key={key}
                                         label={
-                                            key === "upload_dokumen_hasil_integrasi"
-                                                ? "File Dokumen Hasil Integrasikan"
+                                            key === "file_scema_integration"
+                                                ? "File Dokumen Hasil Integrasi"
                                                 : "upload_dokumen_laporan_modul_tte"
                                                 ? "Upload Surat Pengesahan"
                                                 : "upload_dokumen_laporan_pembuatan_akun"
                                                 ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
                                                 :
-                                                key
+                                                key === "file_scema_integration" ? "File Skema Integrasi" : key
                                         }
                                         value={value}
                                         location={"aplikasi"}
                                         type={
-                                            key === "upload_dokumen_hasil_integrasi" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun"
+                                            key === "file_scema_integration" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun"
                                                 ? "pdf"
                                                 : "text"
                                         }
@@ -218,7 +218,7 @@ const ProcessStatus = ({
                                     key === "working_schedule" &&
                                     <DynamicShow
                                         key={key}
-                                        label={key === "working_schedule" ? "Jadwal Kerja" : key}
+                                        label={key === "working_schedule" ? "Jadwal Kerja" : key === "file_scema_integration" ? "File Skema Integrasi" : key}
                                         value={value}
                                         type={"working_schedule" ? "multidate" : 'text'}
                                     />
@@ -228,18 +228,18 @@ const ProcessStatus = ({
                                         key={key}
                                         label={
                                             key === "upload_dokumen_hasil_integrasi"
-                                                ? "File Dokumen Hasil Integrasikan"
+                                                ? "File Dokumen Hasil Integrasi"
                                                 : "upload_dokumen_laporan_modul_tte"
                                                 ? "Surat Pengesahan"
                                                 : "upload_dokumen_laporan_pembuatan_akun"
                                                 ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
                                                 :
-                                                key
+                                                key  === "file_scema_integration" ? "File Skema Integrasi" : key
                                         }
                                         value={value}
                                         location={"aplikasi"}   
                                         type={
-                                            key === "upload_dokumen_hasil_integrasi" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun"
+                                            key === "file_scema_integration" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun"
                                                 ? "pdf"
                                                 : "text"
                                         }
@@ -308,7 +308,7 @@ const ProcessStatus = ({
                                 key === "working_schedule" &&
                                 <DynamicShow
                                     key={key}
-                                    label={key === "working_schedule" ? "Jadwal Kerja" : key}
+                                    label={key === "working_schedule" ? "Jadwal Kerja" : key === "file_scema_integration" ? "File Skema Integrasi" : key}
                                     value={value}
                                     type={"working_schedule" ? "multidate" : 'text'}
                                 />
@@ -318,13 +318,13 @@ const ProcessStatus = ({
                                     key={key}
                                     label={
                                         key === "upload_dokumen_hasil_integrasi"
-                                        ? "File Dokumen Hasil Integrasikan"
+                                        ? "File Dokumen Hasil Integrasi"
                                         : "upload_dokumen_laporan_modul_tte"
                                         ? "Surat Pengesahan"
                                         : "upload_dokumen_laporan_pembuatan_akun"
                                         ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
                                         :
-                                        key
+                                        key === "file_scema_integration" ? "File Skema Integrasi" : key
                                     }
                                     value={value}
                                     location={"aplikasi"}
