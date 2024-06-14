@@ -21,6 +21,7 @@ import FinishStatus from "./Logical/FinishStatus";
 import ProcessStatus from "./Logical/ProcessStatus";
 import ValidationStatus from "./Logical/ValidationStatus";
 import ValidationStatusTechnique from "./Logical/ValidationStatusTechnique";
+import ConditionalRender from "../../components/ui/ConditionalRender";
 
 function DetailAplikasiPages() {
   const { isDarkMode } = useTheme();
@@ -349,58 +350,65 @@ function DetailAplikasiPages() {
         link1={"dashboard"}
         link2={"Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan"}
       />
-      <section className="flex flex-col gap-3">
-        <SubmissionStatus status={submissionStatus} />
-        <div className={`flex  flex-col gap-3`}>
-          <DalamAntrianView
-            submissionStatus={submissionStatus}
-            detailData={detailData}
-            loading={aplikasiLoading}
-          />
-          <ValidationStatus
-            submissionStatus={submissionStatus}
-            validationData={validationData}
-            authProfile={authProfile}
-            detailData={detailData}
-            loading={aplikasiLoading}
-            setValidationData={setValidationData}
-            checkingFormData={checkingFormData}
-          />
-          <ValidationStatusTechnique
-            slug={slug}
-            submissionStatus={submissionStatus}
-            validationData={validationDataTechnique}
-            setValidationData={setValidationDataTechnique}
-            authProfile={authProfile}
-            detailData={detailData}
-            loading={aplikasiLoading}
-            checkingFormData={checkingFormData}
-            setisModalVerif={setisModalVerif}
-          />
-          <ProcessStatus
-            slug={slug}
-            validationData={validationDataTechnique}
-            submissionStatus={submissionStatus}
-            processData={processData}
-            authProfile={authProfile}
-            detailData={detailData}
-            loading={aplikasiLoading}
-            checkingFormData={checkingFormData}
-            setisModalVerif={setisModalVerif}
-            finishData={finishData}
-            setfinishData={setfinishData}
-          />
+      <ConditionalRender
+        data={detailData}
+        loading={aplikasiLoading}
+        className={"flex flex-col h-60"}
+        model={"emptyData"}
+      >
+        <section className="flex flex-col gap-3">
+          <SubmissionStatus status={submissionStatus} />
+          <div className={`flex  flex-col gap-3`}>
+            <DalamAntrianView
+              submissionStatus={submissionStatus}
+              detailData={detailData}
+              loading={aplikasiLoading}
+            />
+            <ValidationStatus
+              submissionStatus={submissionStatus}
+              validationData={validationData}
+              authProfile={authProfile}
+              detailData={detailData}
+              loading={aplikasiLoading}
+              setValidationData={setValidationData}
+              checkingFormData={checkingFormData}
+            />
+            <ValidationStatusTechnique
+              slug={slug}
+              submissionStatus={submissionStatus}
+              validationData={validationDataTechnique}
+              setValidationData={setValidationDataTechnique}
+              authProfile={authProfile}
+              detailData={detailData}
+              loading={aplikasiLoading}
+              checkingFormData={checkingFormData}
+              setisModalVerif={setisModalVerif}
+            />
+            <ProcessStatus
+              slug={slug}
+              validationData={validationDataTechnique}
+              submissionStatus={submissionStatus}
+              processData={processData}
+              authProfile={authProfile}
+              detailData={detailData}
+              loading={aplikasiLoading}
+              checkingFormData={checkingFormData}
+              setisModalVerif={setisModalVerif}
+              finishData={finishData}
+              setfinishData={setfinishData}
+            />
 
-          <FinishStatus
-            detailData={detailData}
-            loading={aplikasiLoading}
-            validationData={validationDataTechnique}
-            processData={processData}
-            submissionStatus={submissionStatus}
-            finishData={finishData}
-          />
-        </div>
-      </section>
+            <FinishStatus
+              detailData={detailData}
+              loading={aplikasiLoading}
+              validationData={validationDataTechnique}
+              processData={processData}
+              submissionStatus={submissionStatus}
+              finishData={finishData}
+            />
+          </div>
+        </section>
+      </ConditionalRender>
 
       <ModalContent
         className={"sm:max-w-xl"}
