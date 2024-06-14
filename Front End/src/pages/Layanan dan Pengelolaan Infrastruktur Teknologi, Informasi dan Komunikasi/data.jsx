@@ -404,7 +404,6 @@ const getPenambahanAlatFinish = (finishData) => [
   },
 ];
 
-
 const getTroubleshotingProcess = (inputLocal) => [
   {
     label: "Upload Foto Kegiatan",
@@ -439,7 +438,8 @@ const getTroubleshotingFinish = (finishData) => [
   },
 ];
 
+
 export {
   getPenambahanAlatFinish, getPenambahanAlatProcess, getPenambahanBandwidthFinish, getPenambahanBandwidthProcess,
-  getRelokasiAlatFinish, getRelokasiAlatProcess, getTroubleshotingFinish, getTroubleshotingProcess
+  getRelokasiAlatFinish, getRelokasiAlatProcess, getTroubleshotingProcess, getTroubleshotingFinish
 };

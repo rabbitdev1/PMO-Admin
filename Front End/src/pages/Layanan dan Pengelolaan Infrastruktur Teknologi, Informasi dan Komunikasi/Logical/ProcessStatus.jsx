@@ -7,7 +7,7 @@ import DynamicShow from "../../../components/common/DynamicShow";
 import DynamicDetails from "../../../components/ui/DynamicDetails";
 import { apiClient } from "../../../utils/api/apiClient";
 import { validateImage } from "../../../utils/helpers/validateForm";
-import { getPenambahanAlatFinish, getPenambahanAlatProcess, getPenambahanBandwidthFinish, getPenambahanBandwidthProcess, getRelokasiAlatFinish, getRelokasiAlatProcess, getTroubleshotingFinish, getTroubleshotingProcess } from "../data";
+import { getPenambahanAlatFinish, getPenambahanAlatProcess, getPenambahanBandwidthFinish, getPenambahanBandwidthProcess, getRelokasiAlatFinish, getRelokasiAlatProcess, getTroubleshotingProcess, getTroubleshotingFinish } from "../data";
 
 const ProcessStatus = ({
     submissionStatus,
@@ -127,7 +127,7 @@ const ProcessStatus = ({
                                 detailData.submission_title === "Penambahan Alat" ?
                                     PenambahanAlatProcess : detailData.submission_title === "Penambahan Bandwidth" ?
                                         PenambahanBandwidthProcess : detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan" ?
-                                            TroubleshotingProcess : detailData.submission_title === "Hosting" ?
+                                        TroubleshotingProcess : detailData.submission_title === "Hosting" ?
                                                 [] : detailData.submission_title === "Domain" ?
                                                     []
                                                     : []
@@ -266,7 +266,7 @@ const ProcessStatus = ({
                                     : detailData.submission_title === "Penambahan Alat" ?
                                         PenambahanAlatFinish : detailData.submission_title === "Penambahan Bandwidth" ?
                                             PenambahanBandwidthFinish : detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan" ?
-                                                TroubleshotingFinish : detailData.submission_title === "Hosting" ?
+                                            TroubleshotingFinish : detailData.submission_title === "Hosting" ?
                                                     [] : detailData.submission_title === "Domain" ?
                                                         []
                                                         : []
