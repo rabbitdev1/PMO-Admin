@@ -55,7 +55,7 @@ const FinishStatus = ({
                             : key
                 }
                 value={value}
-                location={"infrastruktur"}
+                location={"perencanaantik"}
                 type={
                   key === "upload_foto_alat_sebelum_di_relokasi" || key === "upload_foto_alat_sesudah_di_relokasi" || key === "upload_foto_alat_sebelum_di_tambahkan" || key === "upload_foto_alat_sesudah_di_tambahkan" || key === "upload_foto_kegiatan"
                     ? "images"
@@ -75,7 +75,7 @@ const FinishStatus = ({
               <DynamicShow
                 label={"File Surat Pemberitahuan untuk OPD"}
                 value={finishData?.file_upload}
-                location={"infrastruktur"}
+                location={"perencanaantik"}
                 type={"pdf"}
               />
             )}

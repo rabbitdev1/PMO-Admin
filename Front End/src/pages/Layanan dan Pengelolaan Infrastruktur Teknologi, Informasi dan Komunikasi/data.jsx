@@ -404,6 +404,14 @@ const getPenambahanAlatFinish = (finishData) => [
   },
 ];
 
+const getTroubleshotingProcess = (inputLocal) => [
+  {
+    label: "Upload Foto Kegiatan",
+    value: inputLocal.upload_foto_kegiatan,
+    type: "image_upload",
+    name: "upload_foto_kegiatan",
+  },
+];
 
 const getTroubleshotingFinish = (finishData) => [
   {
@@ -430,14 +438,6 @@ const getTroubleshotingFinish = (finishData) => [
   },
 ];
 
-const getTroubleshotingProcess = (inputLocal) => [
-  {
-    label: "Upload Foto Kegiatan",
-    value: inputLocal.upload_foto_kegiatan,
-    type: "image_upload",
-    name: "upload_foto_kegiatan",
-  },
-];
 
 export {
   getPenambahanAlatFinish, getPenambahanAlatProcess, getPenambahanBandwidthFinish, getPenambahanBandwidthProcess,
