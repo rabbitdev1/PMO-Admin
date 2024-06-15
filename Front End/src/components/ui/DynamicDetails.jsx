@@ -100,6 +100,8 @@ const getKeyLabel = (key) => {
       return "Tujuan Integrasi";
     case "file_scema_integration":
       return "Skema Integrasi";
+      case "submission_type_user_account":
+        return "Jenis Akun User";
 
 
 

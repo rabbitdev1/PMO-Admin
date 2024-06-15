@@ -6,7 +6,7 @@ import {
     isToManyRequestAction,
 } from "../../components/store/actions/todoActions";
 
-const apiClient = async({
+const apiClient = async ({
     baseurl = "",
     parameter = "",
     apiKey = "",
@@ -53,10 +53,10 @@ const apiClient = async({
             toast.error(result.msg, {
                 position: toast.POSITION.TOP_RIGHT,
             });
-            Cookies.remove("authApiKey");
-            Cookies.remove("authToken");
-            Cookies.remove("authData");
             setTimeout(() => {
+                Cookies.remove("authApiKey");
+                Cookies.remove("authToken");
+                Cookies.remove("authData");
                 window.location.reload("/");
             }, 500);
 

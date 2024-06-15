@@ -24,6 +24,7 @@ import { formData as initialFormData } from "./data";
 import {
   isValidatorPermohonanPodcast
 } from "./validators";
+import resetFormData from "../../components/common/ResetFormData";
 
 function UptRadioPages() {
   const { isDarkMode } = useTheme();
@@ -163,7 +164,7 @@ function UptRadioPages() {
           },
           status: true,
         });
-        resetFormData(isModalCreate.data);
+        resetFormData(isModalCreate.data,formData,setFormData);
       } else {
         toast.error(response.result.msg, {
           position: toast.POSITION.TOP_RIGHT,
@@ -321,48 +322,6 @@ function UptRadioPages() {
     setFormData(updatedData);
   };
 
-  function resetFormData(fieldName) {
-    const datafilter = formData.find((item) => item.name === fieldName);
-    if (datafilter) {
-      const resetFields = datafilter.fields.map((field) => {
-        if (field.type === "input_array") {
-          const resetFields1 = field.value.map((field1) => {
-            return { ...field1, value: "" };
-          });
-          return { ...field, value: resetFields1 };
-        } else if (field.type === "selection") {
-          return { ...field, value: [] };
-        } else if (field.type === "multi_selection") {
-          return { ...field, value: [] };
-        } else if (field.type === "date") {
-          return {
-            ...field,
-            value: {
-              startDate: null,
-              endDate: null,
-            },
-          };
-        } else {
-          return { ...field, value: "" };
-        }
-      });
-
-      const combinedData = {
-        ...datafilter,
-        fields: resetFields,
-      };
-      const updatedFormDataArray = formData.map((item) => {
-        if (item.name === combinedData.name) {
-          return combinedData;
-        } else {
-          return item;
-        }
-      });
-      setFormData(updatedFormDataArray);
-    } else {
-      console.log("Field not found in formData.");
-    }
-  }
 
   return (
     <div className="flex flex-col gap-3 flex-1 p-4">
@@ -590,7 +549,7 @@ function UptRadioPages() {
                 className="inline-flex p-2"
                 onClick={() => {
                   setisModalCreate({ data: {}, status: false });
-                  resetFormData(isModalCreate.data);
+                  resetFormData(isModalCreate.data,formData,setFormData);
                 }}
               />
             </div>
@@ -690,7 +649,7 @@ function UptRadioPages() {
                 className="inline-flex bg-cardLight dark:bg-cardDark text-cardDark dark:text-cardLight"
                 onClick={() => {
                   setisModalCreate({ data: {}, status: false });
-                  resetFormData(isModalCreate.data);
+                  resetFormData(isModalCreate.data,formData,setFormData);
                 }}
               />
               <DynamicButton

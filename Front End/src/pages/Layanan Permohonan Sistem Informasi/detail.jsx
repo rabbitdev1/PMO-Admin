@@ -23,7 +23,7 @@ import ValidationStatus from "./Logical/ValidationStatus";
 import ValidationStatusTechnique from "./Logical/ValidationStatusTechnique";
 import ConditionalRender from "../../components/ui/ConditionalRender";
 
-function DetailAplikasiPages() {
+function DetailPermohonanSIPages() {
   const { isDarkMode } = useTheme();
   const navigate = useNavigate();
   const authApiKey = Cookies.get("authApiKey");
@@ -453,4 +453,4 @@ function DetailAplikasiPages() {
   );
 }
 
-export default DetailAplikasiPages;
+export default DetailPermohonanSIPages;

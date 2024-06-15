@@ -6,8 +6,8 @@ import DynamicInput from "../../../components/common/DynamicInput";
 import DynamicShow from "../../../components/common/DynamicShow";
 import DynamicDetails from "../../../components/ui/DynamicDetails";
 import { apiClient } from "../../../utils/api/apiClient";
-import { validateFile, validateImage } from "../../../utils/helpers/validateForm";
-import {getModulTTEProcess, getModulTTEFinish, getUserAccountSIProcess, getUserAccountSIFinish, getMagangProcess, getMagangFinish } from "../data";
+import { validateFile } from "../../../utils/helpers/validateForm";
+import { getMagangFinish, getMagangProcess } from "../data";
 
 const ProcessStatus = ({
     submissionStatus,
@@ -25,16 +25,7 @@ const ProcessStatus = ({
     const [inputLocal, setInputLocal] = useState({});
 
     const MagangProcess = getMagangProcess(inputLocal);
-
     const MagangFinish = getMagangFinish(finishData);
-
-    const ModulTTEProcess = getModulTTEProcess(inputLocal);
-
-    const ModulTTEFinish = getModulTTEFinish(finishData);
-
-    const UserAkunSIProcess = getUserAccountSIProcess (inputLocal);
-
-    const UserAkunSIFinish = getUserAccountSIFinish (finishData);
 
     const fetchSetProgress = async (api_key, token, status) => {
         const params = new URLSearchParams();
@@ -125,10 +116,7 @@ const ProcessStatus = ({
                                 />
                             ))}
                             {renderProcessInputs(detailData.submission_title === "Pendaftaran Magang" ?
-                                MagangProcess : 
-                                detailData.submission_title === "Penerapan Modul TTE" ? ModulTTEProcess : 
-                                detailData.submission_title === "User Akun Sistem Informasi" ? UserAkunSIProcess :
-                                []
+                                MagangProcess : []
 
                             )}
                             <div className='flex sm:flex-row flex-col gap-2'>
@@ -152,12 +140,6 @@ const ProcessStatus = ({
 
                                         if (detailData.submission_title === "Pendaftaran Magang") {
                                             isValid = isValid && validateFile(inputLocal.upload_dokumen_hasil_integrasi, "Upload Dokumen Laporan Hasil Integrasi");
-                                        }
-                                        if (detailData.submission_title === "Penerapan Modul TTE") {
-                                            isValid = isValid && validateFile(inputLocal.upload_dokumen_laporan_modul_tte, "Upload Surat Pengesahan");
-                                        }
-                                        if (detailData.submission_title === "User Akun Sistem Informasi") {
-                                            isValid = isValid && validateFile(inputLocal.upload_dokumen_laporan_pembuatan_akun, "Upload Dokumen Laporan Hasil Pembuatan Akun");
                                         }
                                         if (isValid) {
                                             checkingFormData('process', filteredDataResult);
@@ -191,11 +173,11 @@ const ProcessStatus = ({
                                             key === "upload_dokumen_hasil_integrasi"
                                                 ? "Dokumen Laporan Hasil Integrasi"
                                                 : "upload_dokumen_laporan_modul_tte"
-                                                ? "Upload Surat Pengesahan"
-                                                : "upload_dokumen_laporan_pembuatan_akun"
-                                                ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
-                                                :
-                                                key
+                                                    ? "Upload Surat Pengesahan"
+                                                    : "upload_dokumen_laporan_pembuatan_akun"
+                                                        ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
+                                                        :
+                                                        key
                                         }
                                         value={value}
                                         location={"sekretariat"}
@@ -230,14 +212,14 @@ const ProcessStatus = ({
                                             key === "upload_dokumen_hasil_integrasi"
                                                 ? "Dokumen Laporan Hasil Integrasi"
                                                 : "upload_dokumen_laporan_modul_tte"
-                                                ? "Surat Pengesahan"
-                                                : "upload_dokumen_laporan_pembuatan_akun"
-                                                ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
-                                                :
-                                                key
+                                                    ? "Surat Pengesahan"
+                                                    : "upload_dokumen_laporan_pembuatan_akun"
+                                                        ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
+                                                        :
+                                                        key
                                         }
                                         value={value}
-                                        location={"sekretariat"}   
+                                        location={"sekretariat"}
                                         type={
                                             key === "upload_dokumen_hasil_integrasi" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun"
                                                 ? "pdf"
@@ -249,10 +231,7 @@ const ProcessStatus = ({
                             <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                                 <span className='text-lg font-bold'>Proses Selesai</span>
                                 {renderFinishInputs(detailData.submission_title === "Pendaftaran Magang" ?
-                                    MagangFinish : 
-                                    detailData.submission_title === "Penerapan Modul TTE" ? ModulTTEFinish :
-                                    detailData.submission_title === "User Akun Sistem Informasi" ? UserAkunSIFinish :
-                                    []
+                                    MagangFinish : []
                                 )}
                                 <DynamicButton
                                     initialValue={"Pengajuan Selesai"}
@@ -318,13 +297,13 @@ const ProcessStatus = ({
                                     key={key}
                                     label={
                                         key === "upload_dokumen_hasil_integrasi"
-                                        ? "File Dokumen Hasil Integrasi"
-                                        : "upload_dokumen_laporan_modul_tte"
-                                        ? "Surat Pengesahan"
-                                        : "upload_dokumen_laporan_pembuatan_akun"
-                                        ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
-                                        :
-                                        key
+                                            ? "File Dokumen Hasil Integrasi"
+                                            : "upload_dokumen_laporan_modul_tte"
+                                                ? "Surat Pengesahan"
+                                                : "upload_dokumen_laporan_pembuatan_akun"
+                                                    ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
+                                                    :
+                                                    key
                                     }
                                     value={value}
                                     location={"sekretariat"}

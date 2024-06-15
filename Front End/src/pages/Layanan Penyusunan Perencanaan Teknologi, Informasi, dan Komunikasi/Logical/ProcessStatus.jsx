@@ -7,7 +7,7 @@ import DynamicShow from "../../../components/common/DynamicShow";
 import DynamicDetails from "../../../components/ui/DynamicDetails";
 import { apiClient } from "../../../utils/api/apiClient";
 import { validateImage } from "../../../utils/helpers/validateForm";
-import { getPenambahanAlatFinish, getPenambahanAlatProcess, getPenambahanBandwidthFinish, getPenambahanBandwidthProcess, getPenyusunanKebijakanFinish, getPenyusunanKebijakanProcess } from "../data";
+import { getPenyusunanKebijakanFinish, getPenyusunanKebijakanProcess } from "../data";
 
 const ProcessStatus = ({
     submissionStatus,
@@ -25,12 +25,8 @@ const ProcessStatus = ({
     const [inputLocal, setInputLocal] = useState({});
 
     const PenyusunanKebijakanProcess = getPenyusunanKebijakanProcess(inputLocal);
-    const PenambahanAlatProcess = getPenambahanAlatProcess(inputLocal);
-    const PenambahanBandwidthProcess = getPenambahanBandwidthProcess(inputLocal);
 
     const PenyusunanKebijakanFinish = getPenyusunanKebijakanFinish(finishData);
-    const PenambahanBandwidthFinish = getPenambahanBandwidthFinish(finishData);
-    const PenambahanAlatFinish = getPenambahanAlatFinish(finishData);
 
     const fetchSetProgress = async (api_key, token, status) => {
         const params = new URLSearchParams();
@@ -121,14 +117,7 @@ const ProcessStatus = ({
                                 />
                             ))}
                             {renderProcessInputs(detailData.submission_title === "Penyusunan Kebijakan" ?
-                                PenyusunanKebijakanProcess :
-                                detailData.submission_title === "Penambahan Alat" ?
-                                    PenambahanAlatProcess : detailData.submission_title === "Penambahan Bandwidth" ?
-                                        PenambahanBandwidthProcess : detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan" ?
-                                            [] : detailData.submission_title === "Hosting" ?
-                                                [] : detailData.submission_title === "Domain" ?
-                                                    []
-                                                    : []
+                                PenyusunanKebijakanProcess : []
                             )}
                             <div className='flex sm:flex-row flex-col gap-2'>
                                 <DynamicButton
@@ -260,14 +249,7 @@ const ProcessStatus = ({
                             <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                                 <span className='text-lg font-bold'>Proses Selesai</span>
                                 {renderFinishInputs(detailData.submission_title === "Penyusunan Kebijakan" ?
-                                    PenyusunanKebijakanFinish
-                                    : detailData.submission_title === "Penambahan Alat" ?
-                                        PenambahanAlatFinish : detailData.submission_title === "Penambahan Bandwidth" ?
-                                            PenambahanBandwidthFinish : detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan" ?
-                                                [] : detailData.submission_title === "Hosting" ?
-                                                    [] : detailData.submission_title === "Domain" ?
-                                                        []
-                                                        : []
+                                    PenyusunanKebijakanFinish  : []
                                 )}
                                 <DynamicButton
                                     initialValue={"Pengajuan Selesai"}

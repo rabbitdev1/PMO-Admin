@@ -6,8 +6,8 @@ import DynamicInput from "../../../components/common/DynamicInput";
 import DynamicShow from "../../../components/common/DynamicShow";
 import DynamicDetails from "../../../components/ui/DynamicDetails";
 import { apiClient } from "../../../utils/api/apiClient";
-import { validateFile, validateImage } from "../../../utils/helpers/validateForm";
-import {getModulTTEProcess, getModulTTEFinish, getUserAccountSIProcess, getUserAccountSIFinish, getMagangProcess, getMagangFinish } from "../data";
+import { validateFile } from "../../../utils/helpers/validateForm";
+import { getMagangFinish, getMagangProcess } from "../data";
 
 const ProcessStatus = ({
     submissionStatus,
@@ -27,14 +27,6 @@ const ProcessStatus = ({
     const MagangProcess = getMagangProcess(inputLocal);
 
     const MagangFinish = getMagangFinish(finishData);
-
-    const ModulTTEProcess = getModulTTEProcess(inputLocal);
-
-    const ModulTTEFinish = getModulTTEFinish(finishData);
-
-    const UserAkunSIProcess = getUserAccountSIProcess (inputLocal);
-
-    const UserAkunSIFinish = getUserAccountSIFinish (finishData);
 
     const fetchSetProgress = async (api_key, token, status) => {
         const params = new URLSearchParams();
@@ -109,9 +101,9 @@ const ProcessStatus = ({
         ));
     };
     return (
-        submissionStatus === 6 && (JSON.parse(authProfile)?.role === "teknis_aplikasi" || JSON.parse(authProfile)?.role === "katim_aplikasi" ?
+        submissionStatus === 6 && (JSON.parse(authProfile)?.role === "teknis_sekre" || JSON.parse(authProfile)?.role === "katim_sekre" ?
             <div className="flex flex-col gap-3">
-                {JSON.parse(authProfile)?.role === "teknis_aplikasi" && (
+                {JSON.parse(authProfile)?.role === "teknis_sekre" && (
                     Object.entries(processData).length === 0 ?
                         <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                             <span className='text-lg font-bold'>Tahapan Proses</span>
@@ -125,10 +117,7 @@ const ProcessStatus = ({
                                 />
                             ))}
                             {renderProcessInputs(detailData.submission_title === "Pendaftaran Magang" ?
-                                MagangProcess : 
-                                detailData.submission_title === "Penerapan Modul TTE" ? ModulTTEProcess : 
-                                detailData.submission_title === "User Akun Sistem Informasi" ? UserAkunSIProcess :
-                                []
+                                MagangProcess :  []
 
                             )}
                             <div className='flex sm:flex-row flex-col gap-2'>
@@ -152,12 +141,6 @@ const ProcessStatus = ({
 
                                         if (detailData.submission_title === "Pendaftaran Magang") {
                                             isValid = isValid && validateFile(inputLocal.upload_dokumen_hasil_integrasi, "Upload Dokumen Laporan Hasil Integrasi");
-                                        }
-                                        if (detailData.submission_title === "Penerapan Modul TTE") {
-                                            isValid = isValid && validateFile(inputLocal.upload_dokumen_laporan_modul_tte, "Upload Surat Pengesahan");
-                                        }
-                                        if (detailData.submission_title === "User Akun Sistem Informasi") {
-                                            isValid = isValid && validateFile(inputLocal.upload_dokumen_laporan_pembuatan_akun, "Upload Dokumen Laporan Hasil Pembuatan Akun");
                                         }
                                         if (isValid) {
                                             checkingFormData('process', filteredDataResult);
@@ -209,7 +192,7 @@ const ProcessStatus = ({
                             </div>
                         </div>
                 )}
-                {JSON.parse(authProfile)?.role === "katim_aplikasi" && (
+                {JSON.parse(authProfile)?.role === "katim_sekre" && (
                     Object.entries(processData).length !== 0 ?
                         <div className="flex flex-col gap-3">
                             <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
@@ -249,10 +232,7 @@ const ProcessStatus = ({
                             <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                                 <span className='text-lg font-bold'>Proses Selesai</span>
                                 {renderFinishInputs(detailData.submission_title === "Pendaftaran Magang" ?
-                                    MagangFinish : 
-                                    detailData.submission_title === "Penerapan Modul TTE" ? ModulTTEFinish :
-                                    detailData.submission_title === "User Akun Sistem Informasi" ? UserAkunSIFinish :
-                                    []
+                                    MagangFinish :  []
                                 )}
                                 <DynamicButton
                                     initialValue={"Pengajuan Selesai"}
