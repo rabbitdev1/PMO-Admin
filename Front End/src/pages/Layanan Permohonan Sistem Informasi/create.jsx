@@ -3,20 +3,18 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
 import { toast } from "react-toastify";
-import { ReactComponent as PlusIcon } from "../../assets/icon/ic_plus.svg";
 import { ReactComponent as PengajuanBerahasilIcon } from "../../assets/icon/ic_pengajuan_berhasil.svg";
+import DynamicButton from "../../components/common/DynamicButton";
 import DynamicInput from "../../components/common/DynamicInput";
 import useTheme from "../../components/context/useTheme";
 import TitleHeader from "../../components/layout/TitleHeader";
-import DynamicButton from "../../components/common/DynamicButton";
-import { convertToNameValueObject } from "../../utils/helpers/convertToNameValueObject";
-import { isValidatorPembangunan, isValidatorPengembangan, isValidatorStepper1, isValidatorStepper2, isValidatorStepper3, isValidatorStepper4, isValidatorUserAccountSI } from "./validators";
-import fetchUploadFiles from "../../utils/api/uploadFiles";
-import ModalContent from "../../components/ui/Modal/ModalContent";
 import { isPending } from "../../components/store/actions/todoActions";
+import ModalContent from "../../components/ui/Modal/ModalContent";
 import { apiClient } from "../../utils/api/apiClient";
+import fetchUploadFiles from "../../utils/api/uploadFiles";
+import { isValidatorPembangunan, isValidatorPengembangan, isValidatorStepper2, isValidatorStepper3, isValidatorStepper4 } from "./validators";
 
-function CreateAplikasiPages() {
+function CreatePermohonanSIPages() {
   const { isDarkMode } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
@@ -36,11 +34,7 @@ function CreateAplikasiPages() {
 
   useEffect(() => {
     if (authToken) {
-
-      // Your effect logic here
-
-      // JSON.parse(authProfile).fullname,
-      // JSON.parse(authProfile).telp
+      handleInputChange('applicationType', dataState)
     }
   }, [dataState, authToken]);
 
@@ -48,10 +42,11 @@ function CreateAplikasiPages() {
     setInputData((prevState) => {
       if (field === 'applicationType') {
         const newState = { [field]: value };
-        if (value === 'Pembangunan Aplikasi') {
+        console.log(value);
+        if (value === 'Pembangunan Sistem Informasi') {
           newState.applicationDescription = prevState.applicationDescription || '';
           newState.applicationOwnership = prevState.applicationOwnership || '';
-        } else if (value === 'Pengembangan Aplikasi') {
+        } else if (value === 'Pengembangan Sistem Informasi') {
           newState.developmentAspect = prevState.developmentAspect || '';
           newState.developmentGoal = prevState.developmentGoal || '';
           newState.applicationOwnership = prevState.applicationOwnership || '';
@@ -69,7 +64,7 @@ function CreateAplikasiPages() {
 
   const checkingFormData = async (combinedObject) => {
     if (stepper === 1) {
-      if (combinedObject.applicationType?.label === "Pembangunan Aplikasi") {
+      if (combinedObject.applicationType === "Pembangunan Sistem Informasi") {
         if (isValidatorPembangunan(combinedObject)) {
           setStepper(2)
           setInputData({
@@ -156,7 +151,7 @@ function CreateAplikasiPages() {
               authApiKey,
               authToken,
               data.kakAttachment,
-              "aplikasi",
+              "permohonanSI",
               dispatch
             ).then(result => {
               resultMapping.kakAttachment = result;
@@ -170,7 +165,7 @@ function CreateAplikasiPages() {
               authApiKey,
               authToken,
               data.skpdRequestLetter,
-              "aplikasi",
+              "permohonanSI",
               dispatch
             ).then(result => {
               resultMapping.skpdRequestLetter = result;
@@ -200,8 +195,8 @@ function CreateAplikasiPages() {
 
     const updatedData = {
       ...data,
-      submission_title: 'Permohonan Sistem Informasi',
-      submission_type: 'Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan',
+      submission_title: dataState,
+      submission_type: 'Permohonan Sistem Informasi',
       role: [
         'op_pmo',
         'perangkat_daerah',
@@ -215,7 +210,7 @@ function CreateAplikasiPages() {
 
     try {
       const response = await apiClient({
-        baseurl: "aplikasi/create",
+        baseurl: "permohonan-sistem-informasi/create",
         method: "POST",
         customHeaders: { "Content-Type": "application/json" },
         body: raw,
@@ -226,7 +221,7 @@ function CreateAplikasiPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Pengajuan Aplikasi Berhasil",
+            title: "Pengajuan Permohonan Sistem Informasi Berhasil",
             msg: "Selamat, Pengajuan anda sudah diterima",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
@@ -245,9 +240,9 @@ function CreateAplikasiPages() {
   return (
     <div className="flex flex-col gap-3 flex-1 p-4">
       <TitleHeader
-        title={"Buat Pengajuan Permohonan Sistem Informasi"}
+        title={"Buat Pengajuan " +dataState}
         link1={"dashboard"}
-        link2={"Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan"}
+        link2={"Layanan Permohonan Sistem Informasi"}
       />
       <section className="flex flex-col gap-3">
         <div className="flex items-center p-3 space-x-2 text-sm font-medium text-center overflow-x-auto bg-lightColor dark:bg-cardDark rounded-lg dark:text-gray-400 text-gray-500 sm:text-base sm:p-4">
@@ -292,23 +287,11 @@ function CreateAplikasiPages() {
           <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
             {stepper === 1 &&
               <div className="flex flex-col gap-2">
-                <span className="flex text-lg font-semibold">Kebutuhan Perangkat Keras</span>
-                <DynamicInput
-                  label={"Jenis Pengajuan"}
-                  value={inputData.applicationType || ''}
-                  type={'selection'}
-                  options={[
-                    { label: 'Pembangunan Aplikasi', value: 'Pembangunan Aplikasi' },
-                    { label: 'Pengembangan Aplikasi', value: 'Pengembangan Aplikasi' }
-                  ]}
-                  onChange={(value) => handleInputChange('applicationType', value)}
-                  placeholder={"Masukan Pengembangan / Pembangunan"}
-                />
                 {inputData.applicationType !== undefined &&
                   <div className="flex flex-col gap-2">
-                    {inputData.applicationType?.label === 'Pembangunan Aplikasi' ?
+                    {inputData.applicationType === 'Pembangunan Sistem Informasi' ?
                       <div className="flex flex-col gap-2">
-                        <span className="flex text-lg font-semibold">Pembangunan Aplikasi</span>
+                        <span className="flex text-lg font-semibold">Pembangunan Sistem Informasi</span>
                         <DynamicInput
                           label={"Nama Aplikasi"}
                           value={inputData.applicationName || ''}
@@ -748,8 +731,7 @@ function CreateAplikasiPages() {
                 color={"#ffffff"}
                 className={`inline-flex flex-1 bg-[${isModalVerif.data.color}] text-darkColor`}
                 onClick={() => {
-                  // setisModalVerif({ data: {}, status: false });
-                  navigate("/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", { state: 'Permohonan Sistem Informasi' });
+                  navigate("/layanan-permohonan-sistem-informasi", { state: dataState });
                 }}
               />
             </div>
@@ -761,4 +743,4 @@ function CreateAplikasiPages() {
   );
 }
 
-export default CreateAplikasiPages;
+export default CreatePermohonanSIPages;

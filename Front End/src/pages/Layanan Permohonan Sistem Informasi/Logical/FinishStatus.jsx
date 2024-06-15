@@ -51,7 +51,7 @@ const FinishStatus = ({
                     : key
                 }
                 value={value}
-                location={"aplikasi"}
+                location={"permohonanSI"}
                 type={
                   key === "upload_dokumen_hasil_integrasi" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun" ? "pdf"
                     : "text"
@@ -70,7 +70,7 @@ const FinishStatus = ({
               <DynamicShow
                 label={"File Surat Pemberitahuan untuk OPD"}
                 value={finishData?.file_upload}
-                location={"aplikasi"}
+                location={"permohonanSI"}
                 type={"pdf"}
               />
             )}
@@ -78,7 +78,7 @@ const FinishStatus = ({
         </div>
         <DynamicDetails
 
-location={'aplikasi'}
+location={'permohonanSI'}
           detailData={detailData}
           loading={loading}
         />

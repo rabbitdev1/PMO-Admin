@@ -80,7 +80,7 @@ const ValidationStatusTechnique = ({
 
     try {
       const response = await apiClient({
-        baseurl: "aplikasi/set_process",
+        baseurl: "permohonan-sistem-informasi/set_process",
         method: "POST",
         body: params,
         apiKey: api_key,
@@ -89,8 +89,8 @@ const ValidationStatusTechnique = ({
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: 'Aplikasi Berhasil Diupdate',
-            msg: 'Selamat, Pengajuan aplikasi sudah diupdate',
+            title: 'Permohonan Sistem Informasi Berhasil Diupdate',
+            msg: 'Selamat, Pengajuan Permohonan Sistem Infomrasi sudah diupdate',
             icon: PengajuanBerahasilIcon,
             color: '#13C39C'
           },
@@ -134,8 +134,8 @@ const ValidationStatusTechnique = ({
                 {renderProcessInputs(detailData.submission_title === "Integrasi Sistem Informasi" ?
                   IntegrasiSIValidateTechnique :
                   detailData.submission_title === "Penerapan Modul TTE" ? ModulTTEValidateTechnique :
-                  detailData.submission_title === "User Akun Sistem Informasi" ? UserAccountSIValidateTechnique :
-                  []
+                    detailData.submission_title === "User Akun Sistem Informasi" ? UserAccountSIValidateTechnique :
+                      []
                 )}
                 <div className='flex sm:flex-row flex-col gap-2'>
                   <DynamicButton
@@ -195,7 +195,7 @@ const ValidationStatusTechnique = ({
                   key === 'response_katim' ? null :
                     <DynamicShow
                       key={key}
-                      location={'aplikasi'}
+                      location={'permohonanSI'}
                       label={key === "team_response" ? "Tanggapan dari Tim Teknis" : key === "working_schedule" ? "Jadwal Kerja" : key === "file_scema_integration" ? "File Skema Integrasi" : key}
                       value={value}
                       type={key === "file_scema_integration" ? 'pdf' : key === "working_schedule" ? "multidate" : 'text'}
@@ -264,7 +264,7 @@ const ValidationStatusTechnique = ({
           )}
 
           <DynamicDetails
-            location={'aplikasi'}
+            location={'permohonanSI'}
             detailData={detailData}
             loading={loading}
           />
@@ -284,7 +284,7 @@ const ValidationStatusTechnique = ({
               </span>
             </div>
           </div>
-          <DynamicDetails location={"aplikasi"} detailData={detailData} loading={loading} />
+          <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
         </div>
       )}
       {submissionStatus === 5 && (
@@ -304,7 +304,7 @@ const ValidationStatusTechnique = ({
               {Object.entries(validationData).map(([key, value]) => (
                 <DynamicShow
                   key={key}
-                  location={'aplikasi'}
+                  location={'permohonanSI'}
                   label={key === "team_response" ? "Tanggapan dari Tim" : key === "working_schedule" ? "Jadwal Kerja" : key === "response_katim" ? "Tanggapan dari Ketua Tim" : key}
                   value={value}
                   type={key === "team_response" ? 'text' : key === "working_schedule" ? "multidate" : key === "response" ? "html" : 'text'}
@@ -312,7 +312,7 @@ const ValidationStatusTechnique = ({
               ))}
             </div>
           </div>
-          <DynamicDetails location={"aplikasi"} detailData={detailData} loading={loading} />
+          <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
         </div>
       )}
     </>
