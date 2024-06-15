@@ -51,7 +51,7 @@ const Sidebar = () => {
 
   const menuItems = [
     { title: "MENU", role: ['/'], icon: "" },
-    { title: "Dashboard", role: ['op_pmo', 'perangkat_daerah', 'kabid_infra', 'teknis_infra', 'katim_infra', 'katim_aplikasi', 'kabid_aplikasi', 'teknis_aplikasi', 'kabid_perencanaan'], icon: AllBerandaIcon, href: ["/", "/"], },
+    { title: "Dashboard", role: ['op_pmo', 'perangkat_daerah',], icon: AllBerandaIcon, href: ["/", "/"], },
 
     {
       title: "Data Alat", role: ['kabid_infra', 'teknis_infra', 'katim_infra'],
@@ -60,14 +60,19 @@ const Sidebar = () => {
 
     { title: "LAYANAN", role: ['/'], icon: "" },
     {
-      title: "Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan", role: ['op_pmo', 'perangkat_daerah', 'kabid_aplikasi', 'teknis_aplikasi', 'katim_aplikasi', 'kabid_perencanaan'],
-
+      title: "Layanan Permohonan Sistem Informasi", role: ['op_pmo', 'perangkat_daerah',],
       submenu: [
-        { title: 'Permohonan Sistem Informasi', href: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", state: 'Permohonan Sistem Informasi' },
+        { title: 'Pembangunan Sistem Informasi', href: "/layanan-permohonan-sistem-informasi", state: 'Pembangunan Sistem Informasi' },
+        { title: 'Pengembangan Sistem Informasi', href: "/layanan-permohonan-sistem-informasi", state: 'Pengembangan Sistem Informasi' },
+      ], icon: AllBerandaIcon, href: ["/layanan-permohonan-sistem-informasi", "/detail-permohonan-sistem-informasi",],
+    },
+    {
+      title: "Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan", role: ['op_pmo', 'perangkat_daerah', 'kabid_aplikasi', 'teknis_aplikasi', 'katim_aplikasi',],
+      submenu: [
         { title: 'User Akun Sistem Informasi', href: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", state: 'User Akun Sistem Informasi' },
         { title: 'Intergrasi Sistem Informasi', href: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", state: 'Integrasi Sistem Informasi' },
         { title: 'Penerapan Modul TTE', href: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", state: 'Penerapan Modul TTE' },
-      ], icon: AllBerandaIcon, href: ["/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", "/detail-aplikasi", "/permohonan-sistem-informasi"],
+      ], icon: AllBerandaIcon, href: ["/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", "/detail-aplikasi"],
     },
     {
       title: "Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi", role: ['op_pmo', 'perangkat_daerah', 'kabid_infra', 'teknis_infra', 'katim_infra'],
@@ -100,7 +105,7 @@ const Sidebar = () => {
       icon: AllBerandaIcon, href: ["/layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi", "/detail-layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi"],
     },
     {
-      title: "Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi", role: ['op_pmo', 'perangkat_daerah','teknis_aplikasi', 'katim_aplikasi' ],
+      title: "Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi", role: ['op_pmo', 'perangkat_daerah', 'teknis_aplikasi', 'katim_aplikasi'],
       submenu: [
         { title: 'Penyusunan Kebijakan', href: '/layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi', state: 'Penyusunan Kebijakan' },
       ],
@@ -113,7 +118,7 @@ const Sidebar = () => {
       ], icon: AllBerandaIcon, href: ["/layanan-upt-radio-sonata", "/detail-1"],
     },
     {
-      title: "Layanan Sekretariat", role: ['op_pmo', 'perangkat_daerah', 'katim_aplikasi', 'teknis_aplikasi'],
+      title: "Layanan Sekretariat", role: ['op_pmo', 'perangkat_daerah', 'sekretariat', 'katim_sekre', 'teknis_sekre'],
       submenu: [
         { title: "Pendaftaran Magang", href: "/layanan-sekretariat", state: 'Pendaftaran Magang' },
       ]

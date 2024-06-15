@@ -6,8 +6,8 @@ import DynamicInput from "../../../components/common/DynamicInput";
 import DynamicShow from "../../../components/common/DynamicShow";
 import DynamicDetails from "../../../components/ui/DynamicDetails";
 import { apiClient } from "../../../utils/api/apiClient";
-import { validateImage } from "../../../utils/helpers/validateForm";
-import { getPenyusunanKebijakanFinish, getPenyusunanKebijakanProcess } from "../data";
+import { validateFile, validateImage } from "../../../utils/helpers/validateForm";
+import { getIntergasiSIFinish, getIntergasiSIProcess, getModulTTEProcess, getModulTTEFinish, getUserAccountSIProcess, getUserAccountSIFinish } from "../data";
 
 const ProcessStatus = ({
     submissionStatus,
@@ -24,9 +24,17 @@ const ProcessStatus = ({
 
     const [inputLocal, setInputLocal] = useState({});
 
-    const PenyusunanKebijakanProcess = getPenyusunanKebijakanProcess(inputLocal);
+    const IntergasiSIProcess = getIntergasiSIProcess(inputLocal);
 
-    const PenyusunanKebijakanFinish = getPenyusunanKebijakanFinish(finishData);
+    const IntergasiSIFinish = getIntergasiSIFinish(finishData);
+
+    const ModulTTEProcess = getModulTTEProcess(inputLocal);
+
+    const ModulTTEFinish = getModulTTEFinish(finishData);
+
+    const UserAkunSIProcess = getUserAccountSIProcess (inputLocal);
+
+    const UserAkunSIFinish = getUserAccountSIFinish (finishData);
 
     const fetchSetProgress = async (api_key, token, status) => {
         const params = new URLSearchParams();
@@ -35,7 +43,7 @@ const ProcessStatus = ({
 
         try {
             const response = await apiClient({
-                baseurl: "perencanaantik/set_process",
+                baseurl: "aplikasi/set_process",
                 method: "POST",
                 body: params,
                 apiKey: api_key,
@@ -44,8 +52,8 @@ const ProcessStatus = ({
             if (response?.statusCode === 200) {
                 setisModalVerif({
                     data: {
-                        title: 'Pengajuan Perencanaan TIK Berhasil di-update',
-                        msg: 'Selamat, Pengajuanr sudah diupdate',
+                        title: 'aplikasi Berhasil diupdate',
+                        msg: 'Selamat, Pengajuan aplikasi sudah diupdate',
                         icon: PengajuanBerahasilIcon,
                         color: '#13C39C'
                     },
@@ -111,13 +119,17 @@ const ProcessStatus = ({
                                 key === "working_schedule" &&
                                 <DynamicShow
                                     key={key}
-                                    label={key === "working_schedule" ? "Jadwal Kerja" : key}
+                                    label={key === "working_schedule" ? "Jadwal Kerja" : key === "file_scema_integration" ? "File Skema Integrasi" : key}
                                     value={value}
                                     type={"working_schedule" ? "multidate" : 'text'}
                                 />
                             ))}
-                            {renderProcessInputs(detailData.submission_title === "Penyusunan Kebijakan" ?
-                                PenyusunanKebijakanProcess : []
+                            {renderProcessInputs(detailData.submission_title === "Integrasi Sistem Informasi" ?
+                                IntergasiSIProcess : 
+                                detailData.submission_title === "Penerapan Modul TTE" ? ModulTTEProcess : 
+                                detailData.submission_title === "User Akun Sistem Informasi" ? UserAkunSIProcess :
+                                []
+
                             )}
                             <div className='flex sm:flex-row flex-col gap-2'>
                                 <DynamicButton
@@ -138,20 +150,14 @@ const ProcessStatus = ({
 
                                         let isValid = true;
 
-                                        if (detailData.submission_title === "Penyusunan Kebijakan") {
-                                            isValid = isValid && validateImage(inputLocal.upload_foto_alat_sebelum_di_relokasi, "Upload Foto Alat Sebelum di Relokasi");
-                                            isValid = isValid && validateImage(inputLocal.upload_foto_alat_sesudah_di_relokasi, "Upload Foto Alat Sesudah di Relokasi");
-                                        } else if (detailData.submission_title === "Penambahan Alat") {
-                                            isValid = isValid && validateImage(inputLocal.upload_foto_alat_sebelum_di_tambahkan, "Upload Foto Alat Sebelum di Tambahkan");
-                                            isValid = isValid && validateImage(inputLocal.upload_foto_alat_sesudah_di_tambahkan, "Upload Foto Alat Sesudah di Tambahkan");
-                                        } else if (detailData.submission_title === "Penambahan Bandwidth") {
-                                            isValid = isValid && validateImage(inputLocal.upload_foto_kegiatan, "Upload Foto Kegiatan");
-                                        } else if (detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan") {
-                                            // Tidak ada validasi tambahan untuk "Troubleshooting"
-                                        } else if (detailData.submission_title === "Hosting") {
-                                            // Tidak ada validasi tambahan untuk "Troubleshooting"
-                                        } else if (detailData.submission_title === "Domain") {
-                                            // Tidak ada validasi tambahan untuk "Troubleshooting"
+                                        if (detailData.submission_title === "Integrasi Sistem Informasi") {
+                                            isValid = isValid && validateFile(inputLocal.upload_dokumen_hasil_integrasi, "Upload File Dokumen Hasil Integrasi");
+                                        }
+                                        if (detailData.submission_title === "Penerapan Modul TTE") {
+                                            isValid = isValid && validateFile(inputLocal.upload_dokumen_laporan_modul_tte, "Upload Surat Pengesahan");
+                                        }
+                                        if (detailData.submission_title === "User Akun Sistem Informasi") {
+                                            isValid = isValid && validateFile(inputLocal.upload_dokumen_laporan_pembuatan_akun, "Upload Dokumen Laporan Hasil Pembuatan Akun");
                                         }
                                         if (isValid) {
                                             checkingFormData('process', filteredDataResult);
@@ -164,7 +170,7 @@ const ProcessStatus = ({
                         <div className="flex flex-col gap-3">
                             <div className="flex flex-col bg-[#0185FF]/10 border-1 border-[#0185FF] text-[#0185FF] p-3 gap-3 items-center rounded-lg">
                                 <span className="text-base font-semibold text-center">
-                                    Laporan sudah dikirimn ke Ketua Tim Teknis
+                                    Laporan sudah dikirim ke Ketua Tim Teknis
                                 </span>
                             </div>
                             <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
@@ -173,7 +179,7 @@ const ProcessStatus = ({
                                     key === "working_schedule" &&
                                     <DynamicShow
                                         key={key}
-                                        label={key === "working_schedule" ? "Jadwal Kerja" : key}
+                                        label={key === "working_schedule" ? "Jadwal Kerja" : key === "file_scema_integration" ? "File Skema Integrasi" : key}
                                         value={value}
                                         type={"working_schedule" ? "multidate" : 'text'}
                                     />
@@ -182,23 +188,20 @@ const ProcessStatus = ({
                                     <DynamicShow
                                         key={key}
                                         label={
-                                            key === "upload_foto_alat_sebelum_di_relokasi"
-                                                ? "Foto Alat Sebelum Di Relokasikan"
-                                                : key === "upload_foto_alat_sesudah_di_relokasi"
-                                                    ? "Foto Alat Sesudah Di Relokasikan"
-                                                    : key === "upload_foto_alat_sebelum_di_tambahkan"
-                                                        ? "Foto Alat Sebelum Di Tambahkan"
-                                                        : key === "upload_foto_alat_sesudah_di_tambahkan"
-                                                            ? "Foto Alat Sesudah Di Tambahkan"
-                                                            : key === "upload_foto_kegiatan"
-                                                                ? "Foto Kegiatan"
-                                                                : key
+                                            key === "file_scema_integration"
+                                                ? "File Dokumen Hasil Integrasi"
+                                                : "upload_dokumen_laporan_modul_tte"
+                                                ? "Upload Surat Pengesahan"
+                                                : "upload_dokumen_laporan_pembuatan_akun"
+                                                ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
+                                                :
+                                                key === "file_scema_integration" ? "File Skema Integrasi" : key
                                         }
                                         value={value}
-                                        location={"prencanaantik"}
+                                        location={"aplikasi"}
                                         type={
-                                            key === "upload_foto_alat_sebelum_di_relokasi" || key === "upload_foto_alat_sesudah_di_relokasi" || key === "upload_foto_alat_sebelum_di_tambahkan" || key === "upload_foto_alat_sesudah_di_tambahkan" || key === "upload_foto_kegiatan"
-                                                ? "images"
+                                            key === "file_scema_integration" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun"
+                                                ? "pdf"
                                                 : "text"
                                         }
                                     />
@@ -215,7 +218,7 @@ const ProcessStatus = ({
                                     key === "working_schedule" &&
                                     <DynamicShow
                                         key={key}
-                                        label={key === "working_schedule" ? "Jadwal Kerja" : key}
+                                        label={key === "working_schedule" ? "Jadwal Kerja" : key === "file_scema_integration" ? "File Skema Integrasi" : key}
                                         value={value}
                                         type={"working_schedule" ? "multidate" : 'text'}
                                     />
@@ -224,23 +227,20 @@ const ProcessStatus = ({
                                     <DynamicShow
                                         key={key}
                                         label={
-                                            key === "upload_foto_alat_sebelum_di_relokasi"
-                                                ? "Foto Alat Sebelum Di Relokasikan"
-                                                : key === "upload_foto_alat_sesudah_di_relokasi"
-                                                    ? "Foto Alat Sesudah Di Relokasikan"
-                                                    : key === "upload_foto_alat_sebelum_di_tambahkan"
-                                                        ? "Foto Alat Sebelum Di Tambahkan"
-                                                        : key === "upload_foto_alat_sesudah_di_tambahkan"
-                                                            ? "Foto Alat Sesudah Di Tambahkan"
-                                                            : key === "upload_foto_kegiatan"
-                                                                ? "Foto Kegiatan"
-                                                                : key
+                                            key === "upload_dokumen_hasil_integrasi"
+                                                ? "File Dokumen Hasil Integrasi"
+                                                : "upload_dokumen_laporan_modul_tte"
+                                                ? "Surat Pengesahan"
+                                                : "upload_dokumen_laporan_pembuatan_akun"
+                                                ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
+                                                :
+                                                key  === "file_scema_integration" ? "File Skema Integrasi" : key
                                         }
                                         value={value}
-                                        location={"perencanaantik"}
+                                        location={"aplikasi"}   
                                         type={
-                                            key === "upload_foto_alat_sebelum_di_relokasi" || key === "upload_foto_alat_sesudah_di_relokasi" || key === "upload_foto_alat_sebelum_di_tambahkan" || key === "upload_foto_alat_sesudah_di_tambahkan" || key === "upload_foto_kegiatan"
-                                                ? "images"
+                                            key === "file_scema_integration" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun"
+                                                ? "pdf"
                                                 : "text"
                                         }
                                     />
@@ -248,8 +248,11 @@ const ProcessStatus = ({
                             </div>
                             <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                                 <span className='text-lg font-bold'>Proses Selesai</span>
-                                {renderFinishInputs(detailData.submission_title === "Penyusunan Kebijakan" ?
-                                    PenyusunanKebijakanFinish  : []
+                                {renderFinishInputs(detailData.submission_title === "Integrasi Sistem Informasi" ?
+                                    IntergasiSIFinish : 
+                                    detailData.submission_title === "Penerapan Modul TTE" ? ModulTTEFinish :
+                                    detailData.submission_title === "User Akun Sistem Informasi" ? UserAkunSIFinish :
+                                    []
                                 )}
                                 <DynamicButton
                                     initialValue={"Pengajuan Selesai"}
@@ -277,6 +280,8 @@ const ProcessStatus = ({
 
                 )}
                 <DynamicDetails
+
+                    location={'aplikasi'}
                     detailData={detailData}
                     loading={loading}
                 />
@@ -303,7 +308,7 @@ const ProcessStatus = ({
                                 key === "working_schedule" &&
                                 <DynamicShow
                                     key={key}
-                                    label={key === "working_schedule" ? "Jadwal Kerja" : key}
+                                    label={key === "working_schedule" ? "Jadwal Kerja" : key === "file_scema_integration" ? "File Skema Integrasi" : key}
                                     value={value}
                                     type={"working_schedule" ? "multidate" : 'text'}
                                 />
@@ -312,23 +317,20 @@ const ProcessStatus = ({
                                 <DynamicShow
                                     key={key}
                                     label={
-                                        key === "upload_foto_alat_sebelum_di_relokasi"
-                                            ? "Foto Alat Sebelum Di Relokasikan"
-                                            : key === "upload_foto_alat_sesudah_di_relokasi"
-                                                ? "Foto Alat Sesudah Di Relokasikan"
-                                                : key === "upload_foto_alat_sebelum_di_tambahkan"
-                                                    ? "Foto Alat Sebelum Di Tambahkan"
-                                                    : key === "upload_foto_alat_sesudah_di_tambahkan"
-                                                        ? "Foto Alat Sesudah Di Tambahkan"
-                                                        : key === "upload_foto_kegiatan"
-                                                            ? "Foto Kegiatan"
-                                                            : key
+                                        key === "upload_dokumen_hasil_integrasi"
+                                        ? "File Dokumen Hasil Integrasi"
+                                        : "upload_dokumen_laporan_modul_tte"
+                                        ? "Surat Pengesahan"
+                                        : "upload_dokumen_laporan_pembuatan_akun"
+                                        ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
+                                        :
+                                        key === "file_scema_integration" ? "File Skema Integrasi" : key
                                     }
                                     value={value}
-                                    location={"perencanaantik"}
+                                    location={"aplikasi"}
                                     type={
-                                        key === "upload_foto_alat_sebelum_di_relokasi" || key === "upload_foto_alat_sesudah_di_relokasi" || key === "upload_foto_alat_sebelum_di_tambahkan" || key === "upload_foto_alat_sesudah_di_tambahkan" || key === "upload_foto_kegiatan"
-                                            ? "images"
+                                        key === "upload_dokumen_hasil_integrasi" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun"
+                                            ? "pdf"
                                             : "text"
                                     }
                                 />
@@ -336,7 +338,7 @@ const ProcessStatus = ({
                         </div>
                     }
                 </div>
-                <DynamicDetails location={"perencanaantik"} detailData={detailData} loading={loading} />
+                <DynamicDetails location={"aplikasi"} detailData={detailData} loading={loading} />
             </div>
         )
     );

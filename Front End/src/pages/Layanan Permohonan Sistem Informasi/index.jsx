@@ -22,12 +22,13 @@ import { convertToNameValueObject } from "../../utils/helpers/convertToNameValue
 import fetchUploadFiles from "../../utils/api/uploadFiles";
 import { formData as initialFormData } from "./data";
 import {
-  isValidatorPermohonanLiputan,
-  isValidatorZoom
+  isValidatorIntegrasi,
+  isValidatorPenerapanModulTTE,
+  isValidatorUserAccountSI
 } from "./validators";
 import resetFormData from "../../components/common/ResetFormData";
 
-function TeknologiSIPages() {
+function PermohonanSIPages() {
   const { isDarkMode } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
@@ -66,8 +67,8 @@ function TeknologiSIPages() {
     },
   ]);
 
-  const [listTeknologisi, setListTeknologisi] = useState([]);
-  const [listTeknologisiLoading, setListTeknologisiLoading] =
+  const [listAplikasi, setListAplikasi] = useState([]);
+  const [listAplikasiLoading, setListAplikasiLoading] =
     useState(true);
 
   const [formData, setFormData] = useState(initialFormData);
@@ -87,7 +88,7 @@ function TeknologiSIPages() {
 
   useEffect(() => {
     if (authToken) {
-      fetchDataTeknologisi(
+      fetchDataAplikasi(
         authApiKey,
         authToken,
         JSON.parse(authProfile)?.role
@@ -95,29 +96,28 @@ function TeknologiSIPages() {
     }
   }, [dataState, authToken]);
 
-  const fetchDataTeknologisi = async (api_key, token, role) => {
-    setListTeknologisiLoading(true);
+  const fetchDataAplikasi = async (api_key, token, role) => {
+    setListAplikasiLoading(true);
     const params = new URLSearchParams();
     params.append("role", role);
     try {
       const response = await apiClient({
-        baseurl: "teknologisi",
+        baseurl: "aplikasi",
         method: "POST",
         body: params,
         apiKey: api_key,
         token: token,
       });
-      // setListTeknologiSistemInformasiLoading(false);
+      setListAplikasiLoading(false);
       dispatch(isPending(false));
-      setListTeknologisiLoading(false);
       if (response?.statusCode === 200) {
         if (JSON.parse(authProfile)?.role === "perangkat_daerah") {
           const filteredSubmissions = response.result.data.filter(
             (submission) => submission.submission_title === dataState
           );
-          setListTeknologisi(filteredSubmissions);
+          setListAplikasi(filteredSubmissions);
         } else {
-          setListTeknologisi(response.result.data);
+          setListAplikasi(response.result.data);
         }
 
         setStatusData([
@@ -136,7 +136,7 @@ function TeknologiSIPages() {
           },
         ]);
       } else {
-        setListTeknologisi([]);
+        setListAplikasi([]);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -148,7 +148,7 @@ function TeknologiSIPages() {
 
     try {
       const response = await apiClient({
-        baseurl: "teknologisi/create",
+        baseurl: "aplikasi/create",
         method: "POST",
         customHeaders: { "Content-Type": "application/json" },
         body: raw,
@@ -159,14 +159,14 @@ function TeknologiSIPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Pengajuan Teknologi dan Sistem Informasi Berhasil",
+            title: "Pengajuan Aplikasi Berhasil",
             msg: "Selamat, Pengajuan anda sudah diterima",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
           },
           status: true,
         });
-        resetFormData(isModalCreate.data,formData,setFormData);
+        resetFormData(isModalCreate.data, formData, setFormData);
       } else {
         toast.error(response.result.msg, {
           position: toast.POSITION.TOP_RIGHT,
@@ -184,7 +184,7 @@ function TeknologiSIPages() {
 
     try {
       const response = await apiClient({
-        baseurl: "teknologisi/delete",
+        baseurl: "aplikasi/delete",
         method: "POST",
         body: params,
         apiKey: api_key,
@@ -194,7 +194,7 @@ function TeknologiSIPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Pengajuan Teknologi dan Sistem Informasi Berhasil Dihapus",
+            title: "Pengajuan Aplikasi Berhasil Dihapus",
             msg: response.result.msg,
             icon: PengajuanGagalIcon,
             color: "#FB4B4B",
@@ -210,20 +210,24 @@ function TeknologiSIPages() {
       console.error("Error fetching data:", error);
     }
   };
-  const fetchSetProgress = async (api_key, token, id) => {
+  const fetchSetProgress = async (api_key, token, data) => {
     const params = new URLSearchParams();
-    params.append("id", id);
+    params.append("id", data.id);
 
     try {
       const response = await apiClient({
-        baseurl: "teknologisi/set_process",
+        baseurl: "aplikasi/set_process",
         method: "POST",
         body: params,
         apiKey: api_key,
         token: token,
       });
       if (response?.statusCode === 200) {
-        navigate("/detail-teknologi-dan-sistem-informasi", { state: { slug: id } });
+        if (data.submission_title === "Permohonan Sistem Informasi") {
+          navigate("/detail-permohonan-sistem-informasi", { state: { slug: data.id } });
+        } else {
+          navigate("/detail-aplikasi", { state: { slug: data.id } });
+        }
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -236,23 +240,32 @@ function TeknologiSIPages() {
       (field) => field.name === fieldName
     );
 
-    // if (fieldName === 'status_BDO') {
-    //   // Check if the selected value is 'temporary'
-    //   const isTemporary = value === 'temporary';
-    //   // Update the visibility of the 'period' field based on the status
-    //   const periodFieldIndex = currentSection.fields.findIndex(field => field.name === 'period');
-    //   updatedFormData[sectionIndex].fields[periodFieldIndex].visible = isTemporary;
+    if (fieldName === 'submission_type_user_account') {
+      const isResetPassword = value.value === 'reset_password';
+      const isNewAccount = value.value === 'new_account';
 
-    //   if (!isTemporary) {
-    //     updatedFormData[sectionIndex].fields[periodFieldIndex].value = { startDate: null, endDate: null };
-    //   }
-    // }
+      // Set visibility for reset_password related fields
+      ['password', 'new_password', 'repeat_password'].forEach(name => {
+        const fieldIndex = currentSection.fields.findIndex(field => field.name === name);
+        if (fieldIndex !== -1) {
+          updatedFormData[sectionIndex].fields[fieldIndex].visible = isResetPassword;
+        }
+      });
+
+      // Set visibility for new_account related fields
+      const accountTypeFieldIndex = currentSection.fields.findIndex(field => field.name === 'account_type');
+      if (accountTypeFieldIndex !== -1) {
+        updatedFormData[sectionIndex].fields[accountTypeFieldIndex].visible = isNewAccount;
+      }
+    }
 
     // Update the value of the field
     updatedFormData[sectionIndex].fields[fieldToUpdateIndex].value = value;
 
     setFormData(updatedFormData);
   };
+
+
   const checkingFormData = async () => {
     const foundObject = formData.find((obj) => obj.name === isModalCreate.data);
     if (foundObject) {
@@ -272,19 +285,26 @@ function TeknologiSIPages() {
         ),
       };
       console.log(JSON.stringify(combinedObject));
-      if (combinedObject?.submission_title === "Layanan ZOOM") {
-        if (isValidatorZoom(combinedObject)) {
+      if (combinedObject?.submission_title === "User Akun Sistem Informasi") {
+        if (isValidatorUserAccountSI(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
-         } else {
-            return false;
-          }
-        } else if (combinedObject?.submission_title === "Permohonan Liputan") {
-          if (isValidatorPermohonanLiputan(combinedObject)) {
-            await handleImageUploadAndFetch(combinedObject);
-          }  else {
+        } else {
           return false;
         }
-      } 
+      } else if (combinedObject?.submission_title === "Penerapan Modul TTE") {
+        if (isValidatorPenerapanModulTTE(combinedObject)) {
+          await handleImageUploadAndFetch(combinedObject);
+        } else {
+          return false;
+        }
+
+      } else if (combinedObject?.submission_title === "Integrasi Sistem Informasi") {
+        if (isValidatorIntegrasi(combinedObject)) {
+          await handleImageUploadAndFetch(combinedObject);
+        } else {
+          return false;
+        }
+      }
     } else {
       console.log("Objek tidak ditemukan dalam formData");
     }
@@ -295,7 +315,7 @@ function TeknologiSIPages() {
         authApiKey,
         authToken,
         obj.file_process_bisiness,
-        "teknologisi",
+        "aplikasi",
         dispatch
       );
       if (result !== null) {
@@ -331,12 +351,13 @@ function TeknologiSIPages() {
   };
 
 
+
   return (
     <div className="flex flex-col gap-3 flex-1 p-4">
       <TitleHeader
-        title={JSON.parse(authProfile)?.role === "perangkat_daerah" ? "Layanan Pengajuan" : "Layanan Teknologi dan Sistem Informasi"}
+        title={JSON.parse(authProfile)?.role === "perangkat_daerah" ? "Layanan Pengajuan" : "Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan"}
         link1={"dashboard"}
-        link2={"Layanan Teknologi dan Sistem Informasi"}
+        link2={"Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan"}
       />
       <section className="flex xl:flex-row flex-col gap-3">
         <div className="flex-1 flex flex-col gap-3">
@@ -344,7 +365,8 @@ function TeknologiSIPages() {
             {JSON.parse(authProfile)?.role === "perangkat_daerah" && (
               <div className="flex flex-col gap-2 bg-[#0185FF] p-3 rounded-lg flex-1 md:max-w-xs shadow-sm">
                 <span className="sm:text-xl text-sm text-darkColor font-semibold">
-                  Selamat datang di Layanan Teknologi dan Sistem Informasi
+                  Selamat datang di Layanan Pengelolaan Sistem Informasi dan
+                  Keamanan Jaringan
                 </span>
                 <div className="flex flex-col flex-1 justify-end items-end">
                   <DynamicButton
@@ -397,7 +419,7 @@ function TeknologiSIPages() {
                     className="bg-[#0185FF] text-darkColor px-3"
                     onClick={() => {
                       setisModalType({
-                        data: "Pengajuan Layanan Teknologi dan Sistem Informasi",
+                        data: "Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan",
                         status: true,
                       });
                     }}
@@ -423,14 +445,20 @@ function TeknologiSIPages() {
                       : false,
                   edit: true,
                 }}
+                loading={listAplikasiLoading}
                 onClickShow={(data) => {
                   if (JSON.parse(authProfile)?.role === "op_pmo") {
-                    fetchSetProgress(authApiKey, authToken, data.id);
+                    fetchSetProgress(authApiKey, authToken, data);
+                    console.log(data.submission_title);
+
                   } else {
-                    navigate("/detail-teknologi-dan-sistem-informasi", { state: { slug: data.id } });
+                    if (data.submission_title === "Permohonan Sistem Informasi") {
+                      navigate("/detail-permohonan-sistem-informasi", { state: { slug: data.id } });
+                    } else {
+                      navigate("/detail-aplikasi", { state: { slug: data.id } });
+                    }
                   }
                 }}
-                loading={listTeknologisiLoading}
                 onClickRemove={(data) => {
                   if (
                     data.submission_status === 2 ||
@@ -452,14 +480,14 @@ function TeknologiSIPages() {
                         authApiKey,
                         authToken,
                         data.id,
-                        "teknologisi"
+                        "aplikasi"
                       );
                     } else {
                       alert("Pengajuan tidak dihapus.");
                     }
                   }
                 }}
-                data={listTeknologisi}
+                data={listAplikasi}
               />
             </div>
           </div>
@@ -481,11 +509,16 @@ function TeknologiSIPages() {
                       key={index}
                       className={`flex flex-row justify-start items-center gap-2 flex-1 ${index % 2 ? "" : "bg-[#f1f5f9] dark:bg-[#f1f5f907]"} py-2.5 p-3 hover:opacity-70`}
                       onClick={() => {
-                        setisModalCreate({ data: item.name, status: true });
-                        updatePic(
-                          JSON.parse(authProfile).fullname,
-                          JSON.parse(authProfile).telp
-                        );
+                        if (item.name === "Pengajuan Permohonan Sistem Informasi") {
+                          navigate("/permohonan-sistem-informasi", { state: 'Permohonan Sistem Informasi' });
+                          // navigate("/permohonan-sistem-informasi", { state: { slug: data.id } });
+                        } else {
+                          setisModalCreate({ data: item.name, status: true });
+                          updatePic(
+                            JSON.parse(authProfile).fullname,
+                            JSON.parse(authProfile).telp
+                          );
+                        }
                       }}
                     >
                       <span className=" text-base text-left line-clamp-2 font-gilroy">
@@ -530,7 +563,7 @@ function TeknologiSIPages() {
                   setisModalVerif({ data: {}, status: false });
                   setisModalCreate({ data: {}, status: false });
                   setisModalType({ data: {}, status: false });
-                  fetchDataTeknologisi(
+                  fetchDataAplikasi(
                     authApiKey,
                     authToken,
                     JSON.parse(authProfile)?.role
@@ -557,7 +590,7 @@ function TeknologiSIPages() {
                 className="inline-flex p-2"
                 onClick={() => {
                   setisModalCreate({ data: {}, status: false });
-                  resetFormData(isModalCreate.data,formData,setFormData);
+                  resetFormData(isModalCreate.data, formData, setFormData);
                 }}
               />
             </div>
@@ -619,7 +652,7 @@ function TeknologiSIPages() {
                                 </div>
                               </div>
                             )}
-                          {item?.field &&
+                          {/* {item?.field &&
                             item?.field?.map(
                               (itemField, indexField) =>
                                 item?.value?.value ===
@@ -641,7 +674,7 @@ function TeknologiSIPages() {
                                     placeholder={"Masukan " + itemField.label}
                                   />
                                 )
-                            )}
+                            )} */}
                         </div>
                       ))}
                     </div>
@@ -657,7 +690,7 @@ function TeknologiSIPages() {
                 className="inline-flex bg-cardLight dark:bg-cardDark text-cardDark dark:text-cardLight"
                 onClick={() => {
                   setisModalCreate({ data: {}, status: false });
-                  resetFormData(isModalCreate.data,formData,setFormData);
+                  resetFormData(isModalCreate.data, formData, setFormData);
                 }}
               />
               <DynamicButton
@@ -678,4 +711,4 @@ function TeknologiSIPages() {
   );
 }
 
-export default TeknologiSIPages;
+export default PermohonanSIPages;

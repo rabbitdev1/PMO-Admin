@@ -13,7 +13,6 @@ import DetailAplikasiPages from "../pages/Layanan Pengelolaan Sistem Informasi d
 import DataAlatInfraPage from "../pages/Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi/List Tools";
 import SekretariatPages from "../pages/Layanan Sekretariat";
 import DetailSekretariatPages from "../pages/Layanan Sekretariat/detail";
-import CreateAplikasiPages from "../pages/Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan/create";
 import LayananPenyusunanPerencanaanSIPages from "../pages/Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi";
 import LayananPenyusunanPerencanaanTIKPages from "../pages/Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi";
 import DetailPerencanaanTIKPages from "../pages/Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi/detail";
@@ -23,17 +22,23 @@ import TeknologiSIPages from "../pages/Layanan Teknologi dan Sistem Informasi";
 import DetailTeknologiSIPages from "../pages/Layanan Teknologi dan Sistem Informasi/detail";
 import ManagementTIKPages from "../pages/Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi";
 import DetailManagementTIKPages from "../pages/Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi/detail";
+import DetailPermohonanSistemInformasiPages from "../pages/Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan/detail Permohonan Sistem Informasi";
+import PermohonanSIPages from "../pages/Layanan Permohonan Sistem Informasi";
+import DetailPermohonanSIPages from "../pages/Layanan Permohonan Sistem Informasi/detail";
 
 
 
 const userRoutes = [
   { path: "/", component: <DashboardPages /> },
+
   { path: "/layanan-pengelolaan-infrastruktur-teknologi-informasi-komunikasi", component: <InfrastrukturPages /> },
   { path: "/detail-infrastruktur", component: <DetailInfrastrukturPages /> },
 
   { path: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", component: <AplikasiPages /> },
   { path: "/detail-aplikasi", component: <DetailAplikasiPages /> },
 
+  { path: "/layanan-permohonan-sistem-informasi", component: <PermohonanSIPages /> },
+  { path: "/detail-permohonan-sistem-informasi", component: <DetailPermohonanSIPages /> },
 
   { path: "/layanan-teknologi-dan-sistem-informasi", component: <TeknologiSIPages /> },
   { path: "/detail-teknologi-dan-sistem-informasi", component: <DetailTeknologiSIPages /> },
@@ -46,14 +51,13 @@ const userRoutes = [
   { path: "/detail-layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi", component: <DetailPerencanaanTIKPages /> },
 
 
-
   { path: "/layanan-upt-radio-sonata", component: <UptRadioPages /> },
   { path: "/detail-upt-radio-sonata", component: <DetailUptRadioPages /> },
 
   { path: "/layanan-sekretariat", component: <SekretariatPages /> },
   { path: "/detail-sekretariat", component: <DetailSekretariatPages /> },
 
-  { path: "/permohonan-sistem-informasi", component: <CreateAplikasiPages /> },
+  // { path: "/permohonan-sistem-informasi", component: <CreateAplikasiPages /> },
 
 ];
 const infraRoutes = [
