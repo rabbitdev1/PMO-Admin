@@ -28,7 +28,7 @@ export const deleteDataPermohonanSI = async (req, res) => {
         }
 
         const mergedDataProcess = {
-            ...JSON.parse(permohonanSIItem.validation_status),
+            ...JSON.parse(permohonanSIItem.on_validation),
             ...JSON.parse(permohonanSIItem.feasibility_analysis),
             ...JSON.parse(permohonanSIItem.feasibility_validation),
             ...JSON.parse(permohonanSIItem.technical_analysis),

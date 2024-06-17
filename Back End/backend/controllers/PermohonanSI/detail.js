@@ -60,8 +60,10 @@ export const getDetailDataPermohonanSI = async(req, res) => {
                 fileuploaded: permohonanSIDetail.fileuploaded,
                 fields: rearrangedData,
                 on_validation: permohonanSIDetail.on_validation,
-                on_validation_technique: permohonanSIDetail.on_validation_technique,
-                on_process: permohonanSIDetail.on_process,
+                feasibility_analysis: permohonanSIDetail.feasibility_analysis,
+                feasibility_validation: permohonanSIDetail.feasibility_validation,
+                technical_analysis: permohonanSIDetail.technical_analysis,
+                technical_validation: permohonanSIDetail.technical_validation,
                 on_finish: permohonanSIDetail.on_finish,
             },
         });

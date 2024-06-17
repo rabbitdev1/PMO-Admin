@@ -3,28 +3,18 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
 import { toast } from "react-toastify";
-import { ReactComponent as CloseIcon } from "../../assets/icon/ic_close.svg";
 import { ReactComponent as DocumentIcon } from "../../assets/icon/ic_document.svg";
-import { ReactComponent as PengajuanBerahasilIcon } from "../../assets/icon/ic_pengajuan_berhasil.svg";
 import { ReactComponent as PengajuanGagalIcon } from "../../assets/icon/ic_pengajuan_gagal.svg";
 import { ReactComponent as PlusIcon } from "../../assets/icon/ic_plus.svg";
 import DynamicButton from "../../components/common/DynamicButton";
-import DynamicInput from "../../components/common/DynamicInput";
 import useTheme from "../../components/context/useTheme";
 import TableCostum from "../../components/data-display/TableCostum";
 import TitleHeader from "../../components/layout/TitleHeader";
 import { isPending } from "../../components/store/actions/todoActions";
 import ModalContent from "../../components/ui/Modal/ModalContent";
 import { apiClient } from "../../utils/api/apiClient";
-import { convertToNameValueObject } from "../../utils/helpers/convertToNameValueObject";
 
 
-import fetchUploadFiles from "../../utils/api/uploadFiles";
-import {
-  isValidatorIntegrasi,
-  isValidatorPenerapanModulTTE,
-  isValidatorUserAccountSI
-} from "./validators";
 
 function PermohonanSIPages() {
   const { isDarkMode } = useTheme();

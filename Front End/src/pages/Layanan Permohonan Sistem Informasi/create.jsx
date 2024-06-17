@@ -200,9 +200,13 @@ function CreatePermohonanSIPages() {
       role: [
         'op_pmo',
         'perangkat_daerah',
-        'kabid_aplikasi',
-        'kabid_infra',
+        'katim_perencanaan',
         'kabid_perencanaan',
+        'teknis_aplikasi',
+        'kabid_aplikasi',
+        'teknis_infra',
+        'kabid_infra',
+        'kadis'
       ]
     };
 

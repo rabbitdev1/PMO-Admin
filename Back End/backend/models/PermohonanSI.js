@@ -34,7 +34,7 @@ const PermohonanSI = db.define(
             allowNull: false,
             defaultValue: 1,
         },
-        validation_status: {
+        on_validation: {
             type: DataTypes.TEXT,
             allowNull: false,
         },

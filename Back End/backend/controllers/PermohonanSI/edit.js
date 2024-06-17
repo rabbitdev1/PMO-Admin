@@ -1,6 +1,6 @@
 import PermohonanSI from "../../models/PermohonanSI.js";
 
-export const editDataPermohonanSI = async(req, res) => {
+export const editDataPermohonanSI = async (req, res) => {
     try {
         const { id, type, data } = req.body;
         const apiKey = req.headers["x-api-key"];
@@ -30,9 +30,25 @@ export const editDataPermohonanSI = async(req, res) => {
                 permohonanSIItem.submission_status = 3;
             }
             permohonanSIItem.on_validation = data;
-        } else if (type === "validation_technique") {
-            permohonanSIItem.on_validation_technique = data;
-        } else if (type === "process") {
+        } else if (type === "feasibility_analysis") {
+            if (convertData.status_validation === "Disetujui") {
+                permohonanSIItem.submission_status = 4;
+            } else if (convertData.status_validation === "Ditolak") {
+                permohonanSIItem.submission_status = 3;
+            }
+            permohonanSIItem.feasibility_analysis = data;
+        }else if (type === "feasibility_validation") {
+            if (convertData.status_validation === "Disetujui") {
+                permohonanSIItem.submission_status = 4;
+            } else if (convertData.status_validation === "Ditolak") {
+                permohonanSIItem.submission_status = 3;
+            }
+            permohonanSIItem.feasibility_validation = data;
+        }
+        
+        
+        
+         else if (type === "process") {
             permohonanSIItem.on_process = data;
         } else if (type === "finish") {
             if (

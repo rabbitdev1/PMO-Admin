@@ -28,7 +28,7 @@ export const setStatusDataPermohonanSI = async(req, res) => {
         rawData.apiKey = apiKey;
         rawData.fields = JSON.stringify(processedData);
         rawData.submission_status = 1;
-        rawData.validation_status = JSON.stringify({});
+        rawData.on_validation = JSON.stringify({});
         rawData.feasibility_analysis = JSON.stringify({});
         rawData.feasibility_validation = JSON.stringify({});
         rawData.technical_analysis = JSON.stringify({});
@@ -83,6 +83,17 @@ export const editProcessDataPermohonanSI = async(req, res) => {
                 permohonanSIItem.submission_status = 6;
             } else {
                 permohonanSIItem.submission_status = 4;
+            }
+            await permohonanSIItem.save();
+        }
+        else if (parseInt(permohonanSIItem.submission_status) === 6) {
+            console.log("jalan");
+            if (status === "Ditolak") {
+                permohonanSIItem.submission_status = 7;
+            } else if (status === "Lanjutkan") {
+                permohonanSIItem.submission_status = 8;
+            } else {
+                permohonanSIItem.submission_status = 6;
             }
             await permohonanSIItem.save();
         }

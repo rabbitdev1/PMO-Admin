@@ -20,8 +20,9 @@ import DalamAntrianView from "./Logical/DalamAntrianView";
 import FinishStatus from "./Logical/FinishStatus";
 import ProcessStatus from "./Logical/ProcessStatus";
 import ValidationStatus from "./Logical/ValidationStatus";
-import ValidationStatusTechnique from "./Logical/ValidationStatusTechnique";
 import ConditionalRender from "../../components/ui/ConditionalRender";
+import FeasibilityAnalysisStatus from "./Logical/FeasibilityAnalysisStatus";
+import ValidationAnalysisStatus from "./Logical/ValidationAnalysisStatus";
 
 function DetailPermohonanSIPages() {
   const { isDarkMode } = useTheme();
@@ -35,7 +36,8 @@ function DetailPermohonanSIPages() {
   const [permohonanSILoading, setPermohonanSILoading] = useState(true);
   const [submissionStatus, setSubmissionStatus] = useState(0);
   const [validationData, setValidationData] = useState({});
-  const [validationDataTechnique, setValidationDataTechnique] = useState({});
+  const [feasibilityDataAnalysis, setFeasibilityDataAnalysis] = useState({});
+  const [validationDataAnalysis, setValidationDataAnalysis] = useState({});
   const [processData, setProcessData] = useState({});
   const [finishData, setfinishData] = useState({});
 
@@ -76,9 +78,10 @@ function DetailPermohonanSIPages() {
         setDetailData(response.result.data.fields);
         setSubmissionStatus(response.result.data?.submission_status);
         setValidationData(JSON.parse(response.result.data?.on_validation));
-        setValidationDataTechnique(
-          JSON.parse(response.result.data?.on_validation_technique)
+        setFeasibilityDataAnalysis(
+          JSON.parse(response.result.data?.feasibility_analysis)
         );
+        setValidationDataAnalysis( JSON.parse(response.result.data?.feasibility_validation))
         setProcessData(JSON.parse(response.result.data?.on_process));
         setfinishData(JSON.parse(response.result.data?.on_finish));
       } else {
@@ -96,9 +99,8 @@ function DetailPermohonanSIPages() {
   const fetchEditpermohonanSI = async (api_key, token, id, type, data) => {
     dispatch(isPending(true));
     let htmlConvert = "";
-
     if (
-      ["validation", "validation_technique", "process"].includes(type) &&
+      ["validation", "feasibility_analysis", "feasibility_validation"].includes(type) &&
       data?.response
     ) {
       const contentState = convertToRaw(data.response.getCurrentContent());
@@ -118,7 +120,7 @@ function DetailPermohonanSIPages() {
           response: htmlConvert,
         })
       );
-    } else if (["validation_technique", "process"].includes(type)) {
+    } else if (["feasibility_analysis", "feasibility_validation"].includes(type)) {
       const filteredData = {
         ...data,
         response: htmlConvert,
@@ -174,67 +176,33 @@ function DetailPermohonanSIPages() {
   const checkingFormData = async (type, data) => {
     if (type === "validation") {
       fetchEditpermohonanSI(authApiKey, authToken, slug, type, data);
-    } else if (type === "validation_technique") {
+    }
+    else if (type === "feasibility_analysis") {
       if (
-        data.file_scema_integration ||
-        data.upload_dokumen_laporan_modul_tte ||
-        data.upload_dokumen_laporan_pembuatan_akun
+        data.file_catatan_kelayakan 
       ) {
         try {
           const uploadPromises = [];
           const resultMapping = {};
-          if (data.file_scema_integration) {
+          if (data.file_catatan_kelayakan) {
             uploadPromises.push(
               fetchUploadFiles(
                 authApiKey,
                 authToken,
-                data.file_scema_integration,
+                data.file_catatan_kelayakan,
                 "permohonanSI",
                 dispatch
               ).then(result => {
-                resultMapping.file_scema_integration = result;
+                resultMapping.file_catatan_kelayakan = result;
               })
             );
           }
-
-          if (data.upload_dokumen_laporan_modul_tte) {
-            uploadPromises.push(
-              fetchUploadFiles(
-                authApiKey,
-                authToken,
-                data.upload_dokumen_laporan_modul_tte,
-                "permohonanSI",
-                dispatch
-              ).then(result => {
-                resultMapping.upload_dokumen_laporan_modul_tte = result;
-              })
-            );
-          }
-
-          if (data.upload_dokumen_laporan_pembuatan_akun) {
-            uploadPromises.push(
-              fetchUploadFiles(
-                authApiKey,
-                authToken,
-                data.upload_dokumen_laporan_pembuatan_akun,
-                "permohonanSI",
-                dispatch
-              ).then(result => {
-                resultMapping.upload_dokumen_laporan_pembuatan_akun = result;
-              })
-            );
-          }
+          
           await Promise.all(uploadPromises);
 
           let combineData = { ...data };
-          if (resultMapping.file_scema_integration) {
-            combineData.file_scema_integration = resultMapping.file_scema_integration;
-          }
-          if (resultMapping.upload_dokumen_laporan_modul_tte) {
-            combineData.upload_dokumen_laporan_modul_tte = resultMapping.upload_dokumen_laporan_modul_tte;
-          }
-          if (resultMapping.upload_dokumen_laporan_pembuatan_akun) {
-            combineData.upload_dokumen_laporan_pembuatan_akun = resultMapping.upload_dokumen_laporan_pembuatan_akun;
+          if (resultMapping.file_catatan_kelayakan) {
+            combineData.file_catatan_kelayakan = resultMapping.file_catatan_kelayakan;
           }
           fetchEditpermohonanSI(authApiKey, authToken, slug, type, combineData);
         } catch (error) {
@@ -243,7 +211,46 @@ function DetailPermohonanSIPages() {
       } else {
         fetchEditpermohonanSI(authApiKey, authToken, slug, type, data);
       }
-    } else if (type === "process") {
+    } 
+    else if (type === "feasibility_validation") {
+      if (
+        data.file_catatan_kelayakan 
+      ) {
+        try {
+          const uploadPromises = [];
+          const resultMapping = {};
+          if (data.file_catatan_kelayakan) {
+            uploadPromises.push(
+              fetchUploadFiles(
+                authApiKey,
+                authToken,
+                data.file_catatan_kelayakan,
+                "permohonanSI",
+                dispatch
+              ).then(result => {
+                resultMapping.file_catatan_kelayakan = result;
+              })
+            );
+          }
+          
+          await Promise.all(uploadPromises);
+
+          let combineData = { ...data };
+          if (resultMapping.file_catatan_kelayakan) {
+            combineData.file_catatan_kelayakan = resultMapping.file_catatan_kelayakan;
+          }
+          fetchEditpermohonanSI(authApiKey, authToken, slug, type, combineData);
+        } catch (error) {
+          console.error("Error occurred during image upload:", error);
+        }
+      } else {
+        fetchEditpermohonanSI(authApiKey, authToken, slug, type, data);
+      }
+    } 
+    
+    
+    
+    else if (type === "process") {
       if (
         data.upload_dokumen_hasil_integrasi ||
         data.upload_dokumen_laporan_modul_tte ||
@@ -314,7 +321,8 @@ function DetailPermohonanSIPages() {
         fetchEditpermohonanSI(authApiKey, authToken, slug, type, data);
       }
 
-    } else if (type === "finish") {
+    } 
+    else if (type === "finish") {
       if (data.file_submission) {
         const result = await fetchUploadFiles(
           authApiKey,
@@ -440,39 +448,30 @@ function DetailPermohonanSIPages() {
               setValidationData={setValidationData}
               checkingFormData={checkingFormData}
             />
-            <ValidationStatusTechnique
+            <FeasibilityAnalysisStatus
               slug={slug}
               submissionStatus={submissionStatus}
-              validationData={validationDataTechnique}
-              setValidationData={setValidationDataTechnique}
+              feasibilityData={feasibilityDataAnalysis}
+              setValidationData={setFeasibilityDataAnalysis}
               authProfile={authProfile}
               detailData={detailData}
               loading={permohonanSILoading}
               checkingFormData={checkingFormData}
               setisModalVerif={setisModalVerif}
             />
-            <ProcessStatus
+            <ValidationAnalysisStatus
               slug={slug}
-              validationData={validationDataTechnique}
+              feasibilityDataAnalysis={feasibilityDataAnalysis}
               submissionStatus={submissionStatus}
-              processData={processData}
+              validationData={validationDataAnalysis}
+              setValidationData={setValidationDataAnalysis}
               authProfile={authProfile}
               detailData={detailData}
               loading={permohonanSILoading}
               checkingFormData={checkingFormData}
               setisModalVerif={setisModalVerif}
-              finishData={finishData}
-              setfinishData={setfinishData}
             />
-
-            <FinishStatus
-              detailData={detailData}
-              loading={permohonanSILoading}
-              validationData={validationDataTechnique}
-              processData={processData}
-              submissionStatus={submissionStatus}
-              finishData={finishData}
-            />
+           
           </div>
         </section>
       </ConditionalRender>
