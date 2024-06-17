@@ -1,20 +1,5 @@
 export const formData = [
   {
-    name: "Pengajuan Permohonan Sistem Informasi",
-    type: "Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan",
-    role: [
-      "op_pmo",
-      "perangkat_daerah",
-      "kabid_aplikasi",
-      "katim_aplikasi",
-      "teknis_aplikasi",
-    ],
-    fields: [
-      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
-      { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
-    ],
-  },
-  {
     name: "Pengajuan User Akun Sistem Informasi",
     type: "Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan",
     role: [

@@ -16,6 +16,7 @@ import ManagementInfrastrukturTIK from "./models/ManagementInfrastrukturTIKModel
 
 import UptRadio from "./models/UptRadioModel.js";
 import TeknologiSI from "./models/TeknologiSIModel.js";
+import PermohonanSI from "./models/PermohonanSI.js";
 
 
 dotenv.config();
@@ -48,6 +49,7 @@ const startServer = async () => {
         console.log("Firestorage initialized " + JSON.stringify(storage));
         
         await Aplikasi.sync();
+        await PermohonanSI.sync();
         await InfraModel.sync();
         await Users.sync();
         await Sekretariat.sync();
