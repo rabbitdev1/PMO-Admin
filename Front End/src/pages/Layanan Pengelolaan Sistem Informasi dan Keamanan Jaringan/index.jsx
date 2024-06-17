@@ -26,6 +26,7 @@ import {
   isValidatorPenerapanModulTTE,
   isValidatorUserAccountSI
 } from "./validators";
+import resetFormData from "../../components/common/ResetFormData";
 
 function AplikasiPages() {
   const { isDarkMode } = useTheme();
@@ -96,7 +97,7 @@ function AplikasiPages() {
   }, [dataState, authToken]);
 
   const fetchDataAplikasi = async (api_key, token, role) => {
-    setListAplikasiLoading(true); 
+    setListAplikasiLoading(true);
     const params = new URLSearchParams();
     params.append("role", role);
     try {
@@ -165,7 +166,7 @@ function AplikasiPages() {
           },
           status: true,
         });
-        resetFormData(isModalCreate.data);
+        resetFormData(isModalCreate.data, formData, setFormData);
       } else {
         toast.error(response.result.msg, {
           position: toast.POSITION.TOP_RIGHT,
@@ -209,9 +210,9 @@ function AplikasiPages() {
       console.error("Error fetching data:", error);
     }
   };
-  const fetchSetProgress = async (api_key, token, id) => {
+  const fetchSetProgress = async (api_key, token, data) => {
     const params = new URLSearchParams();
-    params.append("id", id);
+    params.append("id", data.id);
 
     try {
       const response = await apiClient({
@@ -222,7 +223,7 @@ function AplikasiPages() {
         token: token,
       });
       if (response?.statusCode === 200) {
-        navigate("/detail-aplikasi", { state: { slug: id } });
+        navigate("/detail-aplikasi", { state: { slug: data.id } });
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -345,48 +346,7 @@ function AplikasiPages() {
     setFormData(updatedData);
   };
 
-  function resetFormData(fieldName) {
-    const datafilter = formData.find((item) => item.name === fieldName);
-    if (datafilter) {
-      const resetFields = datafilter.fields.map((field) => {
-        if (field.type === "input_array") {
-          const resetFields1 = field.value.map((field1) => {
-            return { ...field1, value: "" };
-          });
-          return { ...field, value: resetFields1 };
-        } else if (field.type === "selection") {
-          return { ...field, value: [] };
-        } else if (field.type === "multi_selection") {
-          return { ...field, value: [] };
-        } else if (field.type === "date") {
-          return {
-            ...field,
-            value: {
-              startDate: null,
-              endDate: null,
-            },
-          };
-        } else {
-          return { ...field, value: "" };
-        }
-      });
 
-      const combinedData = {
-        ...datafilter,
-        fields: resetFields,
-      };
-      const updatedFormDataArray = formData.map((item) => {
-        if (item.name === combinedData.name) {
-          return combinedData;
-        } else {
-          return item;
-        }
-      });
-      setFormData(updatedFormDataArray);
-    } else {
-      console.log("Field not found in formData.");
-    }
-  }
 
   return (
     <div className="flex flex-col gap-3 flex-1 p-4">
@@ -484,7 +444,9 @@ function AplikasiPages() {
                 loading={listAplikasiLoading}
                 onClickShow={(data) => {
                   if (JSON.parse(authProfile)?.role === "op_pmo") {
-                    fetchSetProgress(authApiKey, authToken, data.id);
+                    fetchSetProgress(authApiKey, authToken, data);
+                    console.log(data.submission_title);
+
                   } else {
                     navigate("/detail-aplikasi", { state: { slug: data.id } });
                   }
@@ -539,16 +501,11 @@ function AplikasiPages() {
                       key={index}
                       className={`flex flex-row justify-start items-center gap-2 flex-1 ${index % 2 ? "" : "bg-[#f1f5f9] dark:bg-[#f1f5f907]"} py-2.5 p-3 hover:opacity-70`}
                       onClick={() => {
-                        if (item.name === "Pengajuan Permohonan Sistem Informasi") {
-                          navigate("/permohonan-sistem-informasi", { state: 'Permohonan Sistem Informasi' });
-                          // navigate("/permohonan-sistem-informasi", { state: { slug: data.id } });
-                        } else {
-                          setisModalCreate({ data: item.name, status: true });
-                          updatePic(
-                            JSON.parse(authProfile).fullname,
-                            JSON.parse(authProfile).telp
-                          );
-                        }
+                        setisModalCreate({ data: item.name, status: true });
+                        updatePic(
+                          JSON.parse(authProfile).fullname,
+                          JSON.parse(authProfile).telp
+                        );
                       }}
                     >
                       <span className=" text-base text-left line-clamp-2 font-gilroy">
@@ -620,7 +577,7 @@ function AplikasiPages() {
                 className="inline-flex p-2"
                 onClick={() => {
                   setisModalCreate({ data: {}, status: false });
-                  resetFormData(isModalCreate.data);
+                  resetFormData(isModalCreate.data, formData, setFormData);
                 }}
               />
             </div>
@@ -720,7 +677,7 @@ function AplikasiPages() {
                 className="inline-flex bg-cardLight dark:bg-cardDark text-cardDark dark:text-cardLight"
                 onClick={() => {
                   setisModalCreate({ data: {}, status: false });
-                  resetFormData(isModalCreate.data);
+                  resetFormData(isModalCreate.data, formData, setFormData);
                 }}
               />
               <DynamicButton

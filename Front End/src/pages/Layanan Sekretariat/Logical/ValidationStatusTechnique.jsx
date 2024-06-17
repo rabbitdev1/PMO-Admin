@@ -7,7 +7,7 @@ import DynamicInput from "../../../components/common/DynamicInput";
 import DynamicShow from "../../../components/common/DynamicShow";
 import DynamicDetails from "../../../components/ui/DynamicDetails";
 import { apiClient } from "../../../utils/api/apiClient";
-import { validateFile, validatePeriod, validateText } from "../../../utils/helpers/validateForm";
+import { validatePeriod, validateText } from "../../../utils/helpers/validateForm";
 
 const ValidationStatusTechnique = ({
   submissionStatus,
@@ -25,12 +25,6 @@ const ValidationStatusTechnique = ({
 
   const [inputLocal, setInputLocal] = useState({});
   const MagangValidateTechnique = [
-    // {
-    //   label: "Skema Integrasi",
-    //   value: inputLocal.file_scema_integration,
-    //   type: "file_upload",
-    //   name: 'file_scema_integration'
-    // },
     {
       label: "Tanggapan Tim Teknis",
       value: inputLocal.team_response,
@@ -125,9 +119,9 @@ const ValidationStatusTechnique = ({
   };
   return (
     <>
-      {submissionStatus === 4 && (JSON.parse(authProfile)?.role === "teknis_aplikasi" || JSON.parse(authProfile)?.role === "katim_aplikasi" ?
+      {submissionStatus === 4 && (JSON.parse(authProfile)?.role === "teknis_sekre" || JSON.parse(authProfile)?.role === "katim_sekre" ?
         <div className="flex flex-col gap-3">
-          {JSON.parse(authProfile)?.role === "teknis_aplikasi" && (
+          {JSON.parse(authProfile)?.role === "teknis_sekre" && (
             Object.entries(validationData).length === 0 ?
               <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                 <span className='text-lg font-bold'>Tahapan Validasi</span>
@@ -187,7 +181,7 @@ const ValidationStatusTechnique = ({
                 </div>
               </div>
           )}
-          {JSON.parse(authProfile)?.role === "katim_aplikasi" && (
+          {JSON.parse(authProfile)?.role === "katim_sekre" && (
             Object.entries(validationData).length !== 0 ?
               <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                 <span className='text-lg font-bold'>Tahapan Validasi</span>

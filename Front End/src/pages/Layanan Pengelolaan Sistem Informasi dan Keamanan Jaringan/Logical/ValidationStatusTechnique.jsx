@@ -134,8 +134,8 @@ const ValidationStatusTechnique = ({
                 {renderProcessInputs(detailData.submission_title === "Integrasi Sistem Informasi" ?
                   IntegrasiSIValidateTechnique :
                   detailData.submission_title === "Penerapan Modul TTE" ? ModulTTEValidateTechnique :
-                  detailData.submission_title === "User Akun Sistem Informasi" ? UserAccountSIValidateTechnique :
-                  []
+                    detailData.submission_title === "User Akun Sistem Informasi" ? UserAccountSIValidateTechnique :
+                      []
                 )}
                 <div className='flex sm:flex-row flex-col gap-2'>
                   <DynamicButton
@@ -156,9 +156,14 @@ const ValidationStatusTechnique = ({
                         })
                       );
                       let isValid = true;
-                      isValid = isValid && validateFile(inputLocal.file_scema_integration, "Skema Integrasi")
-                      isValid = isValid && validateText(inputLocal.team_response, "Tanggapan Tim Teknis")
-                      isValid = isValid && validatePeriod(inputLocal.working_schedule, "Jadwal Pengerjaan")
+                      if (detailData.submission_title === "Integrasi Sistem Informasi") {
+                        isValid = isValid && validateFile(inputLocal.file_scema_integration, "Skema Integrasi")
+                        isValid = isValid && validateText(inputLocal.team_response, "Tanggapan Tim Teknis")
+                        isValid = isValid && validatePeriod(inputLocal.working_schedule, "Jadwal Pengerjaan")
+                      } else {
+                        isValid = isValid && validateText(inputLocal.team_response, "Tanggapan Tim Teknis")
+                        isValid = isValid && validatePeriod(inputLocal.working_schedule, "Jadwal Pengerjaan")
+                      }
 
                       if (isValid) {
                         checkingFormData('validation_technique', filteredDataResult);
