@@ -25,7 +25,7 @@ const ValidationStatus = ({
           </div>
           <DynamicDetails
 
-            location={'aplikasi'}
+            location={'permohonanSI'}
             detailData={detailData}
             loading={loading}
           />
@@ -93,7 +93,7 @@ const ValidationStatus = ({
           </div>
         </div>
         :
-        <div className='flex flex-col lg:flex-row gap-3'>
+        <div className='flex flex-col gap-3'>
           <div className="flex flex-col flex-1">
             <div className="flex flex-col bg-lightColor dark:bg-cardDark p-5 gap-3 items-center rounded-lg">
               <img
@@ -108,11 +108,11 @@ const ValidationStatus = ({
               </span>
             </div>
           </div>
-          <DynamicDetails location={"aplikasi"} detailData={detailData} loading={loading} />
+          <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
         </div>
       )}
       {submissionStatus === 3 && (
-        <div className='flex flex-col lg:flex-row gap-3'>
+        <div className='flex flex-col gap-3'>
           <div className={`flex-1 flex flex-col gap-3`}>
             <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
               <div className="flex flex-row gap-2 items-center">
@@ -127,13 +127,13 @@ const ValidationStatus = ({
               </div>
               <DynamicShow
                 label={"Tanggapan"}
-                location={'aplikasi'}
+                location={'permohonanSI'}
                 value={validationData?.response}
                 type={"html"}
               />
             </div>
           </div>
-          <DynamicDetails location={"aplikasi"} detailData={detailData} loading={loading} />
+          <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
         </div>
       )}
     </>

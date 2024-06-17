@@ -164,6 +164,8 @@ const LoginPage = () => {
               if (captchaValue) {
                 fetchLogin(email, password, keepLogin);
               } else {
+                fetchLogin(email, password, keepLogin);
+
                 toast.error("Please complete the captcha", {
                   position: toast.POSITION.TOP_RIGHT,
                 });

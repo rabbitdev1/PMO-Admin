@@ -43,7 +43,7 @@ const ProcessStatus = ({
 
         try {
             const response = await apiClient({
-                baseurl: "aplikasi/set_process",
+                baseurl: "permohonan-sistem-informasi/set_process",
                 method: "POST",
                 body: params,
                 apiKey: api_key,
@@ -52,8 +52,8 @@ const ProcessStatus = ({
             if (response?.statusCode === 200) {
                 setisModalVerif({
                     data: {
-                        title: 'aplikasi Berhasil diupdate',
-                        msg: 'Selamat, Pengajuan aplikasi sudah diupdate',
+                        title: 'Permohonan Sistem Informasi Berhasil diupdate',
+                        msg: 'Selamat, Pengajuan Permohonan Sistem Informasi sudah diupdate',
                         icon: PengajuanBerahasilIcon,
                         color: '#13C39C'
                     },
@@ -198,7 +198,7 @@ const ProcessStatus = ({
                                                 key === "file_scema_integration" ? "File Skema Integrasi" : key
                                         }
                                         value={value}
-                                        location={"aplikasi"}
+                                        location={"permohonanSI"}
                                         type={
                                             key === "file_scema_integration" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun"
                                                 ? "pdf"
@@ -237,7 +237,7 @@ const ProcessStatus = ({
                                                 key  === "file_scema_integration" ? "File Skema Integrasi" : key
                                         }
                                         value={value}
-                                        location={"aplikasi"}   
+                                        location={"permohonanSI"}   
                                         type={
                                             key === "file_scema_integration" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun"
                                                 ? "pdf"
@@ -281,7 +281,7 @@ const ProcessStatus = ({
                 )}
                 <DynamicDetails
 
-                    location={'aplikasi'}
+                    location={'permohonanSI'}
                     detailData={detailData}
                     loading={loading}
                 />
@@ -327,7 +327,7 @@ const ProcessStatus = ({
                                         key === "file_scema_integration" ? "File Skema Integrasi" : key
                                     }
                                     value={value}
-                                    location={"aplikasi"}
+                                    location={"permohonanSI"}
                                     type={
                                         key === "upload_dokumen_hasil_integrasi" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun"
                                             ? "pdf"
@@ -338,7 +338,7 @@ const ProcessStatus = ({
                         </div>
                     }
                 </div>
-                <DynamicDetails location={"aplikasi"} detailData={detailData} loading={loading} />
+                <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
             </div>
         )
     );

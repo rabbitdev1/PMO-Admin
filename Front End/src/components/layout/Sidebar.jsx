@@ -60,11 +60,21 @@ const Sidebar = () => {
 
     { title: "LAYANAN", role: ['/'], icon: "" },
     {
-      title: "Layanan Permohonan Sistem Informasi", role: ['op_pmo', 'perangkat_daerah',],
+      title: "Layanan Permohonan Sistem Informasi", role: [
+        'op_pmo',
+        'perangkat_daerah',
+        'katim_perencanaan',
+        'kabid_perencanaan',
+        'teknis_aplikasi',
+        'kabid_aplikasi',
+        'teknis_infra',
+        'kabid_infra',
+        'kadis'
+      ],
       submenu: [
         { title: 'Pembangunan Sistem Informasi', href: "/layanan-permohonan-sistem-informasi", state: 'Pembangunan Sistem Informasi' },
         { title: 'Pengembangan Sistem Informasi', href: "/layanan-permohonan-sistem-informasi", state: 'Pengembangan Sistem Informasi' },
-      ], icon: AllBerandaIcon, href: ["/layanan-permohonan-sistem-informasi", "/detail-permohonan-sistem-informasi",],
+      ], icon: AllBerandaIcon, href: ["/layanan-permohonan-sistem-informasi", "/detail-permohonan-sistem-informasi", '/permohonan-sistem-informasi'],
     },
     {
       title: "Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan", role: ['op_pmo', 'perangkat_daerah', 'kabid_aplikasi', 'teknis_aplikasi', 'katim_aplikasi',],
