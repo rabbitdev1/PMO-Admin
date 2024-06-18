@@ -24,22 +24,75 @@ export const formData = [
       { name: "integration", label: "Tujuan Integrasi", value: "", type: "editor" },
     ],
   },
+  {
+    name: "Pengajuan Permohonan Perwal dan Kepwal TIK",
+    type: "Pengajuan Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi",
+    role: [
+      "op_pmo",
+      "perangkat_daerah",
+      "teknis_aplikasi",
+      "katim_aplikasi",
+    ],
+    fields: [
+      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
+      { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
+      { name: "bidang", label: "Bidang", value: "", type: "text" },
+      { name: "jenis_kebijakan", label: "Jenis Kebijakan", value: "", type: "selection",
+        options: [
+          { value: "perwal", label: "Perwal" },
+          { value: "kepwal", label: "Kepwal" },
+        ]
+      },
+      { name: "ruang_lingkup", label: "Ruang Lingkup", value: "", type: "editor" },
+      { name: "draft_perwal", label: "Draft Perwal", value: "", type: "file_upload" },
+      { name: "reason", label: "Alasan dibutuhkan", value: "", type: "editor" },
+    ],
+  },
+  {
+    name: "Pendataan Tenaga Ahli",
+    type: "Pengajuan Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi",
+    role: [
+      "op_pmo",
+      "perangkat_daerah",
+      "teknis_aplikasi",
+      "katim_aplikasi",
+    ],
+    fields: [
+      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
+      { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
+      { name: "nama_ahli", label: "Nama Ahli", value: "", type: "text" },
+      { name: "bidang_keahlian", label: "Bidang Keahlian", value: "", type: "selection",
+        options: [
+          { value: "ijazah", label: "Ijazah" },
+          { value: "sertifikat", label: "Sertifikat" },
+        ]
+      },
+      { name: "pengalaman", label: "Pengalaman", value: "", type: "editor"},
+      { name: "job_desk", label: "Job Desk", value: "", type: "editor" },
+      { name: "timeline_kontrak", label: "Timeline Kontrak", value: {
+        startDate: null,
+        endDate: null,
+      },
+      type: "date",
+      visible: true, },
+      { name: "terdaftar_lpse", label: "Terdaftar di LPSE", value: "", type: "radio_button",
+      options: [
+        { value: "ya", label: "Ya" },
+        { value: "tidak", label: "Tidak" },
+      ], },
+      { name: "nilai_kontrak", label: "Nilai Kontrak", value: "", type: "file_upload"},
+    ],
+  }
 ];
 
 
 
 const getPenyusunanKebijakanProcess = (inputLocal) => [
   {
-    label: "Upload Foto Alat Sebelum di Relokasi",
-    value: inputLocal.upload_foto_alat_sebelum_di_relokasi,
-    type: "image_upload",
-    name: "upload_foto_alat_sebelum_di_relokasi",
-  },
-  {
-    label: "Upload Foto Alat Sesudah di Relokasi",
-    value: inputLocal.upload_foto_alat_sesudah_di_relokasi,
-    type: "image_upload",
-    name: "upload_foto_alat_sesudah_di_relokasi",
+    label: "Upload Dokumen Kebijakan",
+    value: inputLocal.upload_dokumen_kebijakan,
+    type: "file_upload",
+    name: "upload_dokumen_kebijakan",
   },
 ];
 const getPenyusunanKebijakanFinish = (finishData) => [
@@ -67,6 +120,72 @@ const getPenyusunanKebijakanFinish = (finishData) => [
   },
 ];
 
+const getPerwalProcess = (inputLocal) => [
+  {
+    label: "Upload Dokumen Laporan Permohonan Perwal dan Kepwal",
+    value: inputLocal.upload_dokumen_laporan_perkep,
+    type: "file_upload",
+    name: "upload_dokumen_laporan_perkep",
+  },
+];
+const getPerwalFinish = (finishData) => [
+  {
+    label: "Status Pengajuan",
+    value: finishData.submission_status,
+    name: "submission_status",
+    type: "radio_button",
+    options: [
+      { value: "1", label: "Menyetujui" },
+      { value: "0", label: "Tidak Menyetujui" },
+    ],
+  },
+  {
+    label: "Upload Surat Pemberitahuan untuk OPD",
+    value: finishData.file_submission,
+    name: "file_submission",
+    type: "file_upload",
+  },
+  {
+    label: "Tanggapan",
+    value: finishData.response || null,
+    type: "textarea",
+    name: "response",
+  },
+];
+
+const getAhliProcess = (inputLocal) => [
+  {
+    label: "Upload Dokumen Pendataan Tenaga Ahli",
+    value: inputLocal.upload_dokumen_ahli,
+    type: "file_upload",
+    name: "upload_dokumen_ahli",
+  },
+];
+const getAhliFinish = (finishData) => [
+  {
+    label: "Status Pengajuan",
+    value: finishData.submission_status,
+    name: "submission_status",
+    type: "radio_button",
+    options: [
+      { value: "1", label: "Menyetujui" },
+      { value: "0", label: "Tidak Menyetujui" },
+    ],
+  },
+  {
+    label: "Upload Surat Pemberitahuan untuk OPD",
+    value: finishData.file_submission,
+    name: "file_submission",
+    type: "file_upload",
+  },
+  {
+    label: "Tanggapan",
+    value: finishData.response || null,
+    type: "textarea",
+    name: "response",
+  },
+];
+
 export {
-  getPenyusunanKebijakanProcess, getPenyusunanKebijakanFinish
+  getPenyusunanKebijakanProcess, getPenyusunanKebijakanFinish, getPerwalProcess, getPerwalFinish, getAhliProcess, getAhliFinish
 };

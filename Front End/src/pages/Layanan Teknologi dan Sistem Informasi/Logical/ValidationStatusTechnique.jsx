@@ -48,7 +48,7 @@ const ValidationStatusTechnique = ({
       name: "working_schedule",
     },
   ];
-  const PermohonanLiputanalidateTechnique = [
+  const PermohonanLiputanValidateTechnique = [
     // {
     //   label: "Skema Integrasi",
     //   value: inputLocal.file_scema_integration,
@@ -161,10 +161,7 @@ const ValidationStatusTechnique = ({
                     detailData.submission_title === "Layanan ZOOM"
                       ? ZoomValidateTechnique
                       : detailData.submission_title === "Permohonan Liputan"
-                        ? PermohonanLiputanalidateTechnique
-                        : detailData.submission_title ===
-                            "User Akun Sistem Informasi"
-                          ? UserAccountSIValidateTechnique
+                        ? PermohonanLiputanValidateTechnique
                           : []
                   )}
                   <div className="flex sm:flex-row flex-col gap-2">

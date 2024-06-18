@@ -24,13 +24,7 @@ const ValidationStatusTechnique = ({
   const authToken = Cookies.get('authToken');
 
   const [inputLocal, setInputLocal] = useState({});
-  const MagangValidateTechnique = [
-    {
-      label: "Skema Integrasi",
-      value: inputLocal.file_scema_integration,
-      type: "file_upload",
-      name: 'file_scema_integration'
-    },
+  const PodcastValidateTechnique = [
     {
       label: "Tanggapan Tim Teknis",
       value: inputLocal.team_response,
@@ -80,7 +74,7 @@ const ValidationStatusTechnique = ({
 
     try {
       const response = await apiClient({
-        baseurl: "sekretariat/set_process",
+        baseurl: "uptradio/set_process",
         method: "POST",
         body: params,
         apiKey: api_key,
@@ -89,8 +83,8 @@ const ValidationStatusTechnique = ({
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: 'Sekretariat Berhasil Diupdate',
-            msg: 'Selamat, Pengajuan sekretariat sudah diupdate',
+            title: 'Upt Radio Berhasil Diupdate',
+            msg: 'Selamat, Pengajuan upt radio sudah diupdate',
             icon: PengajuanBerahasilIcon,
             color: '#13C39C'
           },
@@ -131,8 +125,8 @@ const ValidationStatusTechnique = ({
             Object.entries(validationData).length === 0 ?
               <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                 <span className='text-lg font-bold'>Tahapan Validasi</span>
-                {renderProcessInputs(detailData.submission_title === "Pendaftaran Magang" ?
-                  MagangValidateTechnique :
+                {renderProcessInputs(detailData.submission_title === "Permohonan Podcast" ?
+                  PodcastValidateTechnique :
                   detailData.submission_title === "Penerapan Modul TTE" ? ModulTTEValidateTechnique :
                   detailData.submission_title === "User Akun Sistem Informasi" ? UserAccountSIValidateTechnique :
                   []
@@ -156,7 +150,7 @@ const ValidationStatusTechnique = ({
                         })
                       );
                       let isValid = true;
-                      isValid = isValid && validateFile(inputLocal.file_scema_integration, "Skema Integrasi")
+                      // isValid = isValid && validateFile(inputLocal.file_scema_integration, "Skema Integrasi")
                       isValid = isValid && validateText(inputLocal.team_response, "Tanggapan Tim Teknis")
                       isValid = isValid && validatePeriod(inputLocal.working_schedule, "Jadwal Pengerjaan")
 
@@ -179,9 +173,9 @@ const ValidationStatusTechnique = ({
                   {Object.entries(validationData).map(([key, value]) => (
                     <DynamicShow
                       key={key}
-                      label={key === "file_scema_integration" ? "Skema Integrasi" : key === "team_response" ? "Tanggapan dari Tim Teknis" : key === "working_schedule" ? "Jadwal Kerja" : key}
+                      label={key === "file_pengajuan_podcast" ? "Dokumen Hasil Podcast" : key === "team_response" ? "Tanggapan dari Tim Teknis" : key === "working_schedule" ? "Jadwal Kerja" : key}
                       value={value}
-                      type={key === "file_scema_integration" ? 'pdf' : key === "team_response" ? 'text' : key === "working_schedule" ? "multidate" : 'text'}
+                      type={key === "file_pengajuan_podcast" ? 'pdf' : key === "team_response" ? 'text' : key === "working_schedule" ? "multidate" : 'text'}
                     />
                   ))}
                 </div>
@@ -195,10 +189,10 @@ const ValidationStatusTechnique = ({
                   key === 'response_katim' ? null :
                     <DynamicShow
                       key={key}
-                      location={'sekretariat'}
-                      label={key === "file_scema_integration" ? "Skema Integrasi" : key === "team_response" ? "Tanggapan dari Tim Teknis" : key === "working_schedule" ? "Jadwal Kerja" : key}
+                      location={'uptradio'}
+                      label={key === "file_pengajuan_podcast" ? "Dokumen Hasil Podcast" : key === "team_response" ? "Tanggapan dari Tim Teknis" : key === "working_schedule" ? "Jadwal Kerja" : key}
                       value={value}
-                      type={key === "file_scema_integration" ? 'pdf' : key === "team_response" ? 'text' : key === "working_schedule" ? "multidate" : 'text'}
+                      type={key === "file_pengajuan_podcast" ? 'pdf' : key === "team_response" ? 'text' : key === "working_schedule" ? "multidate" : 'text'}
                     />
                 ))}
 
@@ -264,7 +258,7 @@ const ValidationStatusTechnique = ({
           )}
 
           <DynamicDetails
-            location={'sekretariat'}
+            location={'uptradio'}
             detailData={detailData}
             loading={loading}
           />
@@ -284,7 +278,7 @@ const ValidationStatusTechnique = ({
               </span>
             </div>
           </div>
-          <DynamicDetails location={"sekretariat"} detailData={detailData} loading={loading} />
+          <DynamicDetails location={"uptradio"} detailData={detailData} loading={loading} />
         </div>
       )}
       {submissionStatus === 5 && (
@@ -304,7 +298,7 @@ const ValidationStatusTechnique = ({
               {Object.entries(validationData).map(([key, value]) => (
                 <DynamicShow
                   key={key}
-                  location={'sekretariat'}
+                  location={'uptradio'}
                   label={key === "team_response" ? "Tanggapan dari Tim" : key === "working_schedule" ? "Jadwal Kerja" : key === "response_katim" ? "Tanggapan dari Ketua Tim" : key}
                   value={value}
                   type={key === "team_response" ? 'text' : key === "working_schedule" ? "multidate" : key === "response" ? "html" : 'text'}
@@ -312,7 +306,7 @@ const ValidationStatusTechnique = ({
               ))}
             </div>
           </div>
-          <DynamicDetails location={"sekretariat"} detailData={detailData} loading={loading} />
+          <DynamicDetails location={"uptradio"} detailData={detailData} loading={loading} />
         </div>
       )}
     </>

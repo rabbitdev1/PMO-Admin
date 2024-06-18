@@ -68,6 +68,10 @@ const getKeyLabel = (key) => {
       return "Total Alat";
     case "reason":
       return "Alasan Pengajuan";
+    case "needed_reason":
+      return "Alasan Dibutuhkan";
+    case "location_implementation":
+      return "Tempat Pelaksanaan";
     case "full_address":
       return "Alamat Lengkap";
     case "status":
@@ -100,8 +104,44 @@ const getKeyLabel = (key) => {
       return "Tujuan Integrasi";
     case "file_scema_integration":
       return "Skema Integrasi";
-      case "submission_type_user_account":
-        return "Jenis Akun User";
+    case "file_hasil_pengajuan_podcast":
+      return "Dokumen Hasil Podcast";
+    case "submission_type_user_account":
+      return "Jenis Akun User";
+    case "bidang" :
+      return "Bidang";
+    case "nip":
+      return "NIP";
+    case "peruntukan":
+      return "Peruntukan";
+    case "file_data":
+      return "File Data";
+    case "surat_permohonan":
+      return "Surat Permohonan";
+    case "alamat_website":
+      return "Alamat Website";
+    case "jenis_kebijakan":
+      return "Jenis Kebijakan";
+    case "ruang_lingkup":
+      return "Ruang Lingkup";
+    case "draft_perwal":
+      return "Draft Perwal";
+    case "nama_ahli":
+      return "Nama Ahli";
+    case "bidang_keahlian":
+      return "Bidang Keahlian";
+    case "pengalaman":
+      return "Pengalaman";
+    case "job_desk":
+      return "Job Desk";
+    case "timeline_kontrak":
+      return "Timeline Kontrak";
+    case "terdaftar_lpse":
+      return "Terdaftar di LPSE";
+    case "nilai_kontrak":
+      return "Nilai Kontrak";
+    
+
 
 
 
@@ -208,7 +248,12 @@ const getFieldType = (key) => {
     case "reason":
     case "app_desc":
     case "needed_data":
+    case "needed_reason":
     case "integration":
+    case "location_implementation":
+    case "ruang_lingkup":
+    case "pengalaman":
+    case "job_desk":
       return "html";
     case "full_address":
       return "text";
@@ -219,6 +264,10 @@ const getFieldType = (key) => {
     case "skpdRequestLetter":
     case "kakAttachment":
     case "file_scema_integration":
+    case "draft_perwal":
+    case "nilai_kontrak":
+    case "file_data":
+    case "surat_permohonan":
       return "pdf";
     case "type_tools":
       return "array";
@@ -226,6 +275,7 @@ const getFieldType = (key) => {
       return "date";
     case "period":
       return "multidate";
+      
     default:
       return "text";
   }

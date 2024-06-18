@@ -22,6 +22,7 @@ import { convertToNameValueObject } from "../../utils/helpers/convertToNameValue
 import fetchUploadFiles from "../../utils/api/uploadFiles";
 import { formData as initialFormData } from "./data";
 import {
+  isValidatorEmail,
   isValidatorIntegrasi,
   isValidatorPenerapanModulTTE,
   isValidatorUserAccountSI
@@ -300,6 +301,12 @@ function AplikasiPages() {
         } else {
           return false;
         }
+      } else if (combinedObject?.submission_title === "Permohonan Email") {
+        if (isValidatorEmail(combinedObject)) {
+          await handleImageUploadAndFetch(combinedObject);
+        } else {
+          return false;
+        }
       }
     } else {
       console.log("Objek tidak ditemukan dalam formData");
@@ -326,6 +333,7 @@ function AplikasiPages() {
     } else {
       fetchDataCreate(authApiKey, authToken, obj);
     }
+    
   };
   const updatePic = (name, number) => {
     const updatedData = formData.map((form) => {

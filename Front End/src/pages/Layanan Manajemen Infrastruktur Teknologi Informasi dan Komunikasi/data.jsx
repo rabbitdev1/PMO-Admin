@@ -11,18 +11,9 @@ export const formData = [
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
-      {
-        name: "reason",
-        label: "Alasan Pengajuan",
-        value: "",
-        type: "editor",
-      },
-      {
-        name: "period",
-        label: "Periode Jangka Waktu",
-        value: "",
-        type: "date",
-      },
+      { name: "file_data", label: "File Data", value: "", type: "file_upload" },
+      { name: "surat_permohonan", label: "Surat Permohonan", value: "", type: "file_upload" },
+      { name: "reason", label: "Alasan Pengajuan", value: "", type: "editor" },
     ],
   },
   {
@@ -37,28 +28,20 @@ export const formData = [
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
-      {
-        name: "reason",
-        label: "Alasan Pengajuan",
-        value: "",
-        type: "editor",
-      },
-      {
-        name: "period",
-        label: "Periode Jangka Waktu",
-        value: "",
-        type: "date",
-      },
+      { name: "surat_permohonan", label: "Surat Permohonan", value: "", type: "file_upload" },
+      { name: "alamat_website", label: "Alamat Website", value: "", type: "text" },
+      { name: "needed_data", label: "Data yang dibutuhkan", value: "", type: "editor" },
+      { name: "reason", label: "Alasan Pengajuan", value: "", type: "editor" },
     ],
   },
 ]
 
 const getPendampinganPengolahanAnalisisDataProcess = (inputLocal) => [
   {
-    label: "Upload Dokumen Laporan Hasil Integrasi",
-    value: inputLocal.upload_dokumen_hasil_integrasi,
+    label: "Upload Laporan Hasil Pengolahan dan Analisa Data",
+    value: inputLocal.upload_dokumen_hasil_analisa,
     type: "file_upload",
-    name: 'upload_dokumen_hasil_integrasi'
+    name: 'upload_dokumen_hasil_analisa'
   },
 ];
 const getPendampinganPengolahanAnalisisDataFinish = (finishData) => [
@@ -88,10 +71,18 @@ const getPendampinganPengolahanAnalisisDataFinish = (finishData) => [
 
 const getProduksiDataSitusWebProcess = (inputLocal) => [
   {
-    label: "Upload Surat Pengesahan",
-    value: inputLocal.upload_dokumen_laporan_modul_tte,
+    label: "Upload File Data Valid",
+    value: inputLocal.upload_file_data_valid,
     type: "file_upload",
-    name: 'upload_dokumen_laporan_modul_tte'
+    name: 'upload_file_data_valid'
+  },
+];
+const getProduksiDataSitusWebProcessKatim = (inputLocal) => [
+  {
+    label: "Upload Laporan Hasil Analisa Data",
+    value: inputLocal.upload_hasil_analisa,
+    type: "file_upload",
+    name: 'upload_hasil_analisa'
   },
 ];
 
@@ -157,5 +148,5 @@ const getUserAccountSIFinish = (finishData) => [
 
 
 export {
-  getPendampinganPengolahanAnalisisDataFinish, getPendampinganPengolahanAnalisisDataProcess, getProduksiDataSitusWebFinish, getProduksiDataSitusWebProcess, getUserAccountSIProcess, getUserAccountSIFinish
+  getPendampinganPengolahanAnalisisDataFinish, getPendampinganPengolahanAnalisisDataProcess, getProduksiDataSitusWebFinish, getProduksiDataSitusWebProcess, getProduksiDataSitusWebProcessKatim, getUserAccountSIProcess, getUserAccountSIFinish
 };

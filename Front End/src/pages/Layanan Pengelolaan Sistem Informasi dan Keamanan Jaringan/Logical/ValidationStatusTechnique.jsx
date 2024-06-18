@@ -72,6 +72,20 @@ const ValidationStatusTechnique = ({
       name: 'working_schedule'
     },
   ];
+  const EmailValidateTechnique = [
+    {
+      label: "Tanggapan Tim Teknis",
+      value: inputLocal.team_response,
+      type: "textarea",
+      name: 'team_response'
+    },
+    {
+      label: "Jadwal Pengerjaan",
+      value: inputLocal.working_schedule,
+      type: "date",
+      name: 'working_schedule'
+    },
+  ];
 
   const fetchSetProgress = async (api_key, token, status) => {
     const params = new URLSearchParams();
@@ -135,6 +149,7 @@ const ValidationStatusTechnique = ({
                   IntegrasiSIValidateTechnique :
                   detailData.submission_title === "Penerapan Modul TTE" ? ModulTTEValidateTechnique :
                     detailData.submission_title === "User Akun Sistem Informasi" ? UserAccountSIValidateTechnique :
+                      detailData.submission_title === "Permohonan Email" ? EmailValidateTechnique :
                       []
                 )}
                 <div className='flex sm:flex-row flex-col gap-2'>

@@ -7,7 +7,7 @@ import DynamicShow from "../../../components/common/DynamicShow";
 import DynamicDetails from "../../../components/ui/DynamicDetails";
 import { apiClient } from "../../../utils/api/apiClient";
 import { validateFile, validateImage } from "../../../utils/helpers/validateForm";
-import { getIntergasiSIFinish, getIntergasiSIProcess, getModulTTEProcess, getModulTTEFinish, getUserAccountSIProcess, getUserAccountSIFinish } from "../data";
+import { getIntergasiSIFinish, getIntergasiSIProcess, getModulTTEProcess, getModulTTEFinish, getUserAccountSIProcess, getUserAccountSIFinish, getEmailProcess, getEmailFinish } from "../data";
 
 const ProcessStatus = ({
     submissionStatus,
@@ -35,6 +35,10 @@ const ProcessStatus = ({
     const UserAkunSIProcess = getUserAccountSIProcess (inputLocal);
 
     const UserAkunSIFinish = getUserAccountSIFinish (finishData);
+
+    const EmailProcess = getEmailProcess (inputLocal);
+
+    const EmailFinish = getEmailFinish (finishData);
 
     const fetchSetProgress = async (api_key, token, status) => {
         const params = new URLSearchParams();
@@ -128,6 +132,7 @@ const ProcessStatus = ({
                                 IntergasiSIProcess : 
                                 detailData.submission_title === "Penerapan Modul TTE" ? ModulTTEProcess : 
                                 detailData.submission_title === "User Akun Sistem Informasi" ? UserAkunSIProcess :
+                                detailData.submission_title === "Permohonan Email" ? EmailProcess :
                                 []
 
                             )}
@@ -158,6 +163,9 @@ const ProcessStatus = ({
                                         }
                                         if (detailData.submission_title === "User Akun Sistem Informasi") {
                                             isValid = isValid && validateFile(inputLocal.upload_dokumen_laporan_pembuatan_akun, "Upload Dokumen Laporan Hasil Pembuatan Akun");
+                                        }
+                                        if (detailData.submission_title === "Permohonan Email") {
+                                            isValid = isValid && validateFile(inputLocal.upload_surat_pengesahan, "Upload Surat Pengesahan");
                                         }
                                         if (isValid) {
                                             checkingFormData('process', filteredDataResult);
@@ -191,16 +199,18 @@ const ProcessStatus = ({
                                             key === "file_scema_integration"
                                                 ? "File Dokumen Hasil Integrasi"
                                                 : "upload_dokumen_laporan_modul_tte"
-                                                ? "Upload Surat Pengesahan"
+                                                ? "Surat Pengesahan"
                                                 : "upload_dokumen_laporan_pembuatan_akun"
                                                 ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
+                                                : "upload_surat_pengesahan"
+                                                ? "Surat Pengesahan"
                                                 :
                                                 key === "file_scema_integration" ? "File Skema Integrasi" : key
                                         }
                                         value={value}
                                         location={"aplikasi"}
                                         type={
-                                            key === "file_scema_integration" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun"
+                                            key === "file_scema_integration" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun" || "upload_surat_pengesahan"
                                                 ? "pdf"
                                                 : "text"
                                         }
@@ -233,13 +243,15 @@ const ProcessStatus = ({
                                                 ? "Surat Pengesahan"
                                                 : "upload_dokumen_laporan_pembuatan_akun"
                                                 ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
+                                                : "upload_surat_pengesahan"
+                                                ? "Surat Pengesahan"
                                                 :
                                                 key  === "file_scema_integration" ? "File Skema Integrasi" : key
                                         }
                                         value={value}
                                         location={"aplikasi"}   
                                         type={
-                                            key === "file_scema_integration" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun"
+                                            key === "file_scema_integration" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun" || "upload_surat_pengesahan"
                                                 ? "pdf"
                                                 : "text"
                                         }
@@ -252,6 +264,7 @@ const ProcessStatus = ({
                                     IntergasiSIFinish : 
                                     detailData.submission_title === "Penerapan Modul TTE" ? ModulTTEFinish :
                                     detailData.submission_title === "User Akun Sistem Informasi" ? UserAkunSIFinish :
+                                    detailData.submission_title === "Permohonan Email" ? EmailFinish :
                                     []
                                 )}
                                 <DynamicButton
@@ -323,13 +336,15 @@ const ProcessStatus = ({
                                         ? "Surat Pengesahan"
                                         : "upload_dokumen_laporan_pembuatan_akun"
                                         ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
+                                        : "upload_surat_pengesahan"
+                                        ? "Surat Pengesahan"
                                         :
                                         key === "file_scema_integration" ? "File Skema Integrasi" : key
                                     }
                                     value={value}
                                     location={"aplikasi"}
                                     type={
-                                        key === "upload_dokumen_hasil_integrasi" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun"
+                                        key === "upload_dokumen_hasil_integrasi" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun" || "upload_surat_pengesahan"
                                             ? "pdf"
                                             : "text"
                                     }

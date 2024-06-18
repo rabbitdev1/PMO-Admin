@@ -82,6 +82,7 @@ const Sidebar = () => {
         { title: 'User Akun Sistem Informasi', href: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", state: 'User Akun Sistem Informasi' },
         { title: 'Intergrasi Sistem Informasi', href: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", state: 'Integrasi Sistem Informasi' },
         { title: 'Penerapan Modul TTE', href: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", state: 'Penerapan Modul TTE' },
+        { title: 'Permohonan Email', href: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", state: 'Permohonan Email' },
       ], icon: AllBerandaIcon, href: ["/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", "/detail-aplikasi"],
     },
     {
@@ -107,7 +108,7 @@ const Sidebar = () => {
 
     },
     {
-      title: "Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi", role: ['op_pmo', 'perangkat_daerah', 'teknis_aplikasi', 'katim_aplikasi'],
+      title: "Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi", role: ['op_pmo', 'perangkat_daerah', 'teknis_aplikasi', 'katim_aplikasi', 'kabid_aplikasi'],
       submenu: [
         { title: 'Pendampingan Pengolahan dan Analisis Data', href: '/layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi', state: 'Layanan Pendampingan Pengolahan dan Analisis Data' },
         { title: 'Pelayanan Produksi Data dari Situs Web', href: '/layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi', state: 'Layanan Produksi Data dari Situs Web' },
@@ -118,14 +119,16 @@ const Sidebar = () => {
       title: "Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi", role: ['op_pmo', 'perangkat_daerah', 'teknis_aplikasi', 'katim_aplikasi'],
       submenu: [
         { title: 'Penyusunan Kebijakan', href: '/layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi', state: 'Penyusunan Kebijakan' },
+        { title: 'Permohonan Perwal dan Kepwal TIK', href: '/layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi', state: 'Permohonan Perwal dan Kepwal TIK' },
+        { title: 'Pendataan Tenaga Ahli', href: '/layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi', state: 'Pendataan Tenaga Ahli' },
       ],
-      icon: AllBerandaIcon, href: ["/layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi", "/detail-1"],
+      icon: AllBerandaIcon, href: ["/layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi", "/detail-layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi"],
     },
     {
-      title: "Layanan UPT RADIO SONATA", role: ['op_pmo', 'perangkat_daerah',],
+      title: "Layanan UPT RADIO SONATA", role: ['op_pmo', 'perangkat_daerah', 'teknis_aplikasi', 'katim_aplikasi'],
       submenu: [
         { title: 'Permohonan Podcast', href: '/layanan-upt-radio-sonata', state: 'Permohonan Podcast' },
-      ], icon: AllBerandaIcon, href: ["/layanan-upt-radio-sonata", "/detail-1"],
+      ], icon: AllBerandaIcon, href: ["/layanan-upt-radio-sonata", "/detail-upt-radio-sonata"],
     },
     {
       title: "Layanan Sekretariat", role: ['op_pmo', 'perangkat_daerah', 'sekretariat', 'katim_sekre', 'teknis_sekre'],

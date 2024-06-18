@@ -144,10 +144,10 @@ const ProcessStatus = ({
                                         let isValid = true;
 
                                         if (detailData.submission_title === "Layanan ZOOM") {
-                                            isValid = isValid && validateFile(inputLocal.upload_dokumen_hasil_integrasi, "Upload Dokumen Laporan Hasil Integrasi");
+                                            isValid = isValid && validateFile(inputLocal.upload_dokumen_zoom, "Upload Dokumen Hasil Pengajuan Permohonan Zoom");
                                         }
                                         if (detailData.submission_title === "Permohonan Liputan") {
-                                            isValid = isValid && validateFile(inputLocal.upload_dokumen_hasil_integrasi, "Upload Dokumen Laporan Hasil Integrasi");
+                                            isValid = isValid && validateFile(inputLocal.upload_dokumen_liputan, "Upload Dokumen Hasil Pengajuan Permohonan Liputan");
                                         }
                                         if (isValid) {
                                             checkingFormData('process', filteredDataResult);
@@ -178,19 +178,17 @@ const ProcessStatus = ({
                                     <DynamicShow
                                         key={key}
                                         label={
-                                            key === "upload_dokumen_hasil_integrasi"
-                                                ? "Dokumen Laporan Hasil Integrasi"
-                                                : "upload_dokumen_laporan_modul_tte"
-                                                    ? "Upload Surat Pengesahan"
-                                                    : "upload_dokumen_laporan_pembuatan_akun"
-                                                        ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
+                                            key === "upload_dokumen_zoom"
+                                                ? "Dokumen Hasil Pengajuan Permohonan Zoom"
+                                                : "upload_dokumen_liputan"
+                                                    ? "Dokumen Hasil Pengajuan Permohonan Liputan"
                                                         :
                                                         key
                                         }
                                         value={value}
                                         location={"teknologisi"}
                                         type={
-                                            key === "upload_dokumen_hasil_integrasi" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun"
+                                            key === "upload_dokumen_zoom" || "upload_dokumen_liputan"
                                                 ? "pdf"
                                                 : "text"
                                         }
@@ -217,19 +215,17 @@ const ProcessStatus = ({
                                     <DynamicShow
                                         key={key}
                                         label={
-                                            key === "upload_dokumen_hasil_integrasi"
-                                                ? "Dokumen Laporan Hasil Integrasi"
-                                                : "upload_dokumen_laporan_modul_tte"
-                                                    ? "Surat Pengesahan"
-                                                    : "upload_dokumen_laporan_pembuatan_akun"
-                                                        ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
+                                            key === "upload_dokumen_zoom"
+                                                ? "Dokumen Hasil Pengajuan Permohonan Zoom"
+                                                : "upload_dokumen_liputan"
+                                                    ? "Dokumen Hasil Pengajuan Permohonan Liputan"
                                                         :
                                                         key
                                         }
                                         value={value}
                                         location={"teknologisi"}
                                         type={
-                                            key === "upload_dokumen_hasil_integrasi" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun"
+                                            key === "upload_dokumen_zoom" || "upload_dokumen_liputan"
                                                 ? "pdf"
                                                 : "text"
                                         }
@@ -305,19 +301,17 @@ const ProcessStatus = ({
                                 <DynamicShow
                                     key={key}
                                     label={
-                                        key === "upload_dokumen_hasil_integrasi"
-                                            ? "File Dokumen Hasil Integrasi"
-                                            : "upload_dokumen_laporan_modul_tte"
-                                                ? "Surat Pengesahan"
-                                                : "upload_dokumen_laporan_pembuatan_akun"
-                                                    ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
+                                        key === "upload_dokumen_zoom"
+                                            ? "Dokumen Hasil Pengajuan Permohonan Zoom"
+                                            : "upload_dokumen_liputan"
+                                                ? "Dokumen Hasil Pengajuan Permohonan Liputan"
                                                     :
                                                     key
                                     }
                                     value={value}
                                     location={"teknologisi"}
                                     type={
-                                        key === "upload_dokumen_hasil_integrasi" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun"
+                                        key === "upload_dokumen_zoom" || "upload_dokumen_liputan"
                                             ? "pdf"
                                             : "text"
                                     }
