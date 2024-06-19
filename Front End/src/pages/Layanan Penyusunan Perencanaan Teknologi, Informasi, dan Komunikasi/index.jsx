@@ -25,12 +25,15 @@ import {
   isValidatorLayananZoom,
   isValidatorPenambahanAlat,
   isValidatorPenambahanBandwith,
+  isValidatorPendataanAhli,
   isValidatorPenyusunaKebijakan,
   isValidatorpermohonanLiputan,
+  isValidatorPerwalKepwal,
   isValidatorRelokasiAlat,
   isValidatorTroubleShooting,
 } from "./validators";
 import resetFormData from "../../components/common/ResetFormData";
+import fetchUploadFiles from "../../utils/api/uploadFiles";
 
 function LayananPenyusunanPerencanaanTIKPages() {
   const { isDarkMode } = useTheme();
@@ -331,32 +334,66 @@ function LayananPenyusunanPerencanaanTIKPages() {
           return false;
         }
       }
+      if (combinedObject?.submission_title === "Permohonan Perwal dan Kepwal TIK") {
+        if (isValidatorPerwalKepwal(combinedObject)) {
+          await handleImageUploadAndFetch(combinedObject);
+        } else {
+          return false;
+        }
+      }
+      if (combinedObject?.submission_title === "Pendataan Tenaga Ahli") {
+        if (isValidatorPendataanAhli(combinedObject)) {
+          await handleImageUploadAndFetch(combinedObject);
+        } else {
+          return false;
+        }
+      }
     } else {
       console.log("Objek tidak ditemukan dalam formData");
     }
   };
-  const handleImageUploadAndFetch = async (obj) => {
-    if (obj.image_screenshoot) {
-      const result = await fetchUploadImages(
-        authApiKey,
-        authToken,
-        obj.image_screenshoot,
-        "perencanaantik",
-        dispatch
-      );
-      if (result !== null) {
-        const fixObject = {
-          ...obj,
-          image_screenshoot: result,
-        };
-        fetchDataCreate(authApiKey, authToken, fixObject);
-      } else {
-        console.error("Error occurred during image upload.");
+    const handleImageUploadAndFetch = async (obj) => {
+      let fixObject = { ...obj };
+    
+      if (obj.draft_perwal) {
+        const draftPerwalResult = await fetchUploadFiles(
+          authApiKey,
+          authToken,
+          obj.draft_perwal,
+          "perencanaantik",
+          dispatch
+        );
+        if (draftPerwalResult !== null) {
+          fixObject = {
+            ...fixObject,
+            draft_perwal: draftPerwalResult,
+          };
+        } else {
+          console.error("Error occurred during draft_perwal upload.");
+        }
       }
-    } else {
-      fetchDataCreate(authApiKey, authToken, obj);
-    }
-  };
+    
+      if (obj.nilai_kontrak) {
+        const nilaiKontrakResult = await fetchUploadFiles(
+          authApiKey,
+          authToken,
+          obj.nilai_kontrak,
+          "perencanaantik",
+          dispatch
+        );
+        if (nilaiKontrakResult !== null) {
+          fixObject = {
+            ...fixObject,
+            nilai_kontrak: nilaiKontrakResult,
+          };
+        } else {
+          console.error("Error occurred during nilai_kontrak upload.");
+        }
+      }
+    
+      fetchDataCreate(authApiKey, authToken, fixObject);
+    };
+    
   const updatePic = (name, number) => {
     const updatedData = formData.map((form) => {
       return {

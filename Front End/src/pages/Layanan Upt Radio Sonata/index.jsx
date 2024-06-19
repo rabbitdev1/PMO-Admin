@@ -221,7 +221,7 @@ function UptRadioPages() {
         token: token,
       });
       if (response?.statusCode === 200) {
-        navigate("/detail-uptradio", { state: { slug: id } });
+        navigate("/detail-upt-radio-sonata", { state: { slug: id } });
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -420,7 +420,7 @@ function UptRadioPages() {
                   if (JSON.parse(authProfile)?.role === "op_pmo") {
                     fetchSetProgress(authApiKey, authToken, data.id);
                   } else {
-                    navigate("/detail-uptradio", { state: { slug: data.id } });
+                    navigate("/detail-upt-radio-sonata", { state: { slug: data.id } });
                   }
                 }}
                 onClickRemove={(data) => {

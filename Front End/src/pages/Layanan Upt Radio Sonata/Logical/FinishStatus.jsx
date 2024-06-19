@@ -42,18 +42,15 @@ const FinishStatus = ({
               <DynamicShow
                 key={key}
                 label={
-                  key === "upload_dokumen_hasil_integrasi"
-                    ? "Dokumen Hasil Integrasi"
-                    : "upload_dokumen_laporan_modul_tte"
-                    ? "Surat Pengesahan"
-                    : "upload_dokumen_laporan_pembuatan_akun"
-                    ? "Dokumen Laporan Hasil Pembuatan Akun"
+                  key === "file_pengajuan_podcast"
+                    ? "Dokumen Hasil Permohonan Podcast"
                     : key
                 }
                 value={value}
-                location={"sekretariat"}
+                location={"uptradio"}
                 type={
-                  key === "upload_dokumen_hasil_integrasi" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun" ? "pdf"
+                  key === "file_pengajuan_podcast" 
+                    ? "pdf"
                     : "text"
                 }
               />
@@ -70,7 +67,7 @@ const FinishStatus = ({
               <DynamicShow
                 label={"File Surat Pemberitahuan untuk OPD"}
                 value={finishData?.file_upload}
-                location={"sekretariat"}
+                location={"uptradio"}
                 type={"pdf"}
               />
             )}
@@ -78,7 +75,7 @@ const FinishStatus = ({
         </div>
         <DynamicDetails
 
-location={'sekretariat'}
+location={'uptradio'}
           detailData={detailData}
           loading={loading}
         />

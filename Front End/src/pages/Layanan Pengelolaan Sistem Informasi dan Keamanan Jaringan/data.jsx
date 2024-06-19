@@ -70,7 +70,6 @@ export const formData = [
     ],
   },
   {
-
     name: "Pengajuan Integrasi Sistem Informasi",
     type: "Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan",
     role: [
@@ -165,11 +164,38 @@ export const formData = [
           startDate: null,
           endDate: null,
         },
-        type: "date",
+        type: "multi_date",
         visible: true,
       }
     ],
   },
+  { name: "Pengajuan Permohonan Email",
+    type: "Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan",
+    role: [
+      "op_pmo",
+      "perangkat_daerah",
+      "kabid_aplikasi",
+      "katim_aplikasi",
+      "teknis_aplikasi",
+    ],
+    fields: [
+      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
+      { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
+      { name: "jabatan", label: "Jabatan", value: "", type: "text" },
+      { name: "nip", label: "NIP", value: "", type: "text" },
+      {
+        name: "peruntukan",
+        label: "Peruntukan",
+        value: [],
+        type: "selection",
+        options: [
+          { value: "instansi", label: "Instansi" },
+          { value: "pribadi", label: "Pribadi" },
+        ]
+      },
+      { name: "reason", label: "Alasan", value: "", type: "editor" },
+    ]
+  }
 ]
 
 // Integrasi
@@ -276,7 +302,42 @@ const getUserAccountSIFinish = (finishData) => [
   }
 ];
 
+const getEmailProcess = (inputLocal) => [
+  {
+    label: "Upload Surat Pengesahan",
+    value: inputLocal.upload_surat_pengesahan,
+    type: "file_upload",
+    name: 'upload_surat_pengesahan'
+  },
+];
+
+const getEmailFinish = (finishData) => [
+  {
+    label: "Status Pengajuan",
+    value: finishData.submission_status,
+    name: "submission_status",
+    type: "radio_button",
+    options: [
+      { value: "1", label: "Menyetujui" },
+      { value: "0", label: "Tidak Menyetujui" }
+    ]
+  },
+  {
+    label: "Upload Surat Pemberitahuan untuk OPD",
+    value: finishData.file_submission,
+    name: 'file_submission',
+    type: "file_upload"
+  },
+  {
+    label: "Tanggapan",
+    value: finishData.response || null,
+    type: "textarea",
+    name: 'response'
+  }
+];
+
 
 export {
-  getIntergasiSIProcess, getIntergasiSIFinish, getModulTTEProcess, getModulTTEFinish, getUserAccountSIProcess, getUserAccountSIFinish
+  getIntergasiSIProcess, getIntergasiSIFinish, getModulTTEProcess, getModulTTEFinish, getUserAccountSIProcess, getUserAccountSIFinish,
+  getEmailProcess, getEmailFinish
 };

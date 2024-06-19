@@ -12,7 +12,7 @@ import { isPending } from "../../components/store/actions/todoActions";
 import ModalContent from "../../components/ui/Modal/ModalContent";
 import { apiClient } from "../../utils/api/apiClient";
 import fetchUploadFiles from "../../utils/api/uploadFiles";
-import { isValidatorPembangunan, isValidatorPengembangan, isValidatorStepper2, isValidatorStepper3, isValidatorStepper4 } from "./validators";
+import { isValidatorPembangunan, isValidatorPengembangan, isValidatorStepper2, isValidatorStepper3, isValidatorStepper4, isValidatorStepper5 } from "./validators";
 
 function CreatePermohonanSIPages() {
   const { isDarkMode } = useTheme();
@@ -103,6 +103,12 @@ function CreatePermohonanSIPages() {
       }
     } else if (stepper === 4) {
       if (isValidatorStepper4(combinedObject)) {
+        setStepper(5)
+      } else {
+        return false;
+      }
+    } else if (stepper === 5) {
+      if (isValidatorStepper5(combinedObject)) {
         const transformedData = transformData(combinedObject);
         await handleImageUploadAndFetch(transformedData);
         console.log(transformedData);
@@ -139,36 +145,36 @@ function CreatePermohonanSIPages() {
 
   const handleImageUploadAndFetch = async (data) => {
     if (
-      data.kakAttachment ||
-      data.skpdRequestLetter
+      data.technicalRecommendationLetter ||
+      data.anggaranAttachment
     ) {
       try {
         const uploadPromises = [];
         const resultMapping = {};
-        if (data.kakAttachment) {
+        if (data.technicalRecommendationLetter) {
           uploadPromises.push(
             fetchUploadFiles(
               authApiKey,
               authToken,
-              data.kakAttachment,
+              data.technicalRecommendationLetter,
               "permohonanSI",
               dispatch
             ).then(result => {
-              resultMapping.kakAttachment = result;
+              resultMapping.technicalRecommendationLetter = result;
             })
           );
         }
 
-        if (data.skpdRequestLetter) {
+        if (data.anggaranAttachment) {
           uploadPromises.push(
             fetchUploadFiles(
               authApiKey,
               authToken,
-              data.skpdRequestLetter,
+              data.anggaranAttachment,
               "permohonanSI",
               dispatch
             ).then(result => {
-              resultMapping.skpdRequestLetter = result;
+              resultMapping.anggaranAttachment = result;
             })
           );
         }
@@ -176,11 +182,11 @@ function CreatePermohonanSIPages() {
         await Promise.all(uploadPromises);
 
         let combineData = { ...data };
-        if (resultMapping.kakAttachment) {
-          combineData.kakAttachment = resultMapping.kakAttachment;
+        if (resultMapping.technicalRecommendationLetter) {
+          combineData.technicalRecommendationLetter = resultMapping.technicalRecommendationLetter;
         }
-        if (resultMapping.skpdRequestLetter) {
-          combineData.skpdRequestLetter = resultMapping.skpdRequestLetter;
+        if (resultMapping.anggaranAttachment) {
+          combineData.anggaranAttachment = resultMapping.anggaranAttachment;
         }
         fetchDataCreate(authApiKey, authToken, combineData);
       } catch (error) {
@@ -244,7 +250,7 @@ function CreatePermohonanSIPages() {
   return (
     <div className="flex flex-col gap-3 flex-1 p-4">
       <TitleHeader
-        title={"Buat Pengajuan " +dataState}
+        title={"Buat Pengajuan " + dataState}
         link1={"dashboard"}
         link2={"Layanan Permohonan Sistem Informasi"}
       />
@@ -254,7 +260,8 @@ function CreatePermohonanSIPages() {
             { id: 1, label: 'Umum' },
             { id: 2, label: 'Perangkat Daerah' },
             { id: 3, label: 'Perangkat Lunak' },
-            { id: 4, label: 'Lampiran' },
+            { id: 4, label: 'Integrasi' },
+            { id: 5, label: 'Lampiran' },
           ].map((step) => (
             <li
               key={step.id}
@@ -267,7 +274,7 @@ function CreatePermohonanSIPages() {
                 {step.id}
               </span>
               <span className="inline-flex">{step.label}</span>
-              {step.id !== 4 && (
+              {step.id !== 5 && (
                 <svg
                   className="w-3 h-3 ms-2 sm:ms-4 rtl:rotate-180"
                   aria-hidden="true"
@@ -481,6 +488,28 @@ function CreatePermohonanSIPages() {
                     onChange={(value) => handleInputChange('otherCluster', value)}
                     placeholder={"Masukan Klaster Lainnya"}
                   />
+                </div>
+                <span className="flex text-lg font-semibold">Sumber Data</span>
+                <DynamicInput
+                  label={"Sumber Data"}
+                  value={inputData.dataSource}
+                  type={'text'}
+                  onChange={(value) => handleInputChange('dataSource', value)}
+                  placeholder={"Masukan Sumber Data"}
+                />
+                <DynamicInput
+                  label={"Lokasi Cloud"}
+                  type={'text'}
+                  value={inputData.cloudLocation}
+                  onChange={(value) => handleInputChange('cloudLocation', value)}
+                  placeholder={"Masukan Lokasi Cloud"}
+                />
+              </div>
+            }
+            {stepper === 3 &&
+              <div className="flex flex-col gap-2">
+                <span className="flex text-lg font-semibold">Kebutuhan Perangkat Lunak</span>
+                <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
                   <DynamicInput
                     label={"Bahasa Pemrograman"}
                     value={inputData.programmingLanguage || ''}
@@ -502,149 +531,197 @@ function CreatePermohonanSIPages() {
                     onChange={(value) => handleInputChange('otherProgrammingLanguage', value)}
                     placeholder={"Masukan Bahasa Pemrograman Lainnya"}
                   />
+                  <DynamicInput
+                    label={"Database"}
+                    type={'text'}
+                    value={inputData.database}
+                    onChange={(value) => handleInputChange('database', value)}
+                    placeholder={"Masukan Database"}
+                  />
+                  <DynamicInput
+                    label={"Database Lainnya (opsional)"}
+                    type={'text'}
+                    value={inputData.Otherdatabase}
+                    onChange={(value) => handleInputChange('Otherdatabase', value)}
+                    placeholder={"Masukan Database Lainnya"}
+                  />
                 </div>
-
+                <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
+                  <DynamicInput
+                    label={"Jenis Platform"}
+                    value={inputData.type_platform}
+                    type={'selection'}
+                    options={[
+                      { label: 'Android', value: 'Android' },
+                      { label: 'Desktop', value: 'Desktop' },
+                      { label: 'Website', value: 'Website' },
+                    ]}
+                    onChange={(value) => handleInputChange('type_platform', value)}
+                    placeholder={"Masukan Jenis Platform"}
+                  />
+                  <DynamicInput
+                    label={"Media Penyimpanan"}
+                    value={inputData.storage}
+                    type={'text'}
+                    onChange={(value) => handleInputChange('storage', value)}
+                    placeholder={"Masukan Media Penyimpanan"}
+                  />
+                </div>
                 <DynamicInput
-                  label={"Database Lainnya (opsional)"}
+                  label={"Spesifikasi RAM"}
                   type={'text'}
-                  value={inputData.Otherdatabase}
-                  onChange={(value) => handleInputChange('Otherdatabase', value)}
-                  placeholder={"Masukan Database Lainnya"}
-                />
-              </div>
-            }
-            {stepper === 3 &&
-              <div className="flex flex-col gap-2">
-                <span className="flex text-lg font-semibold">Kebutuhan Perangkat Lunak</span>
-                <DynamicInput
-                  label={"Media Penyimpanan"}
-                  value={inputData.storageMedia || ''}
-                  type={'selection'}
-                  options={[
-                    { label: 'Server Milik', value: 'Owned Server' },
-                    { label: 'Server Diskominfo', value: 'Diskominfo Server' },
-                    { label: 'Sewa Server', value: 'Server Rental' },
-                    { label: 'Cloud', value: 'Cloud' },
-                    { label: 'PDN', value: 'PDN' }
-                  ]}
-                  onChange={(value) => handleInputChange('storageMedia', value)}
-                  placeholder={"Pilih Media Penyimpanan"}
-                />
-                <DynamicInput
-                  label={"Alasan Pemilihan Media Penyimpanan"}
-                  type={'textarea'}
-                  value={inputData.reasonForChoosingStorageMedia}
-                  onChange={(value) => handleInputChange('reasonForChoosingStorageMedia', value)}
-                  placeholder={"Masukan Alasan Pemilihan Media Penyimpanan"}
+                  value={inputData.ramSpecifications}
+                  onChange={(value) => handleInputChange('ramSpecifications', value)}
+                  placeholder={"Masukan Spesifikasi RAM"}
                 />
                 <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
                   <DynamicInput
-                    label={"Lokasi Sewa Server (opsional)"}
-                    value={inputData.serverRentalLocation}
-                    type={'text'}
-                    onChange={(value) => handleInputChange('serverRentalLocation', value)}
-                    placeholder={"Masukan Lokasi Sewa Server"}
-                  />
-                  <DynamicInput
-                    label={"Lokasi Cloud (opsional)"}
-                    type={'text'}
-                    value={inputData.cloudLocation}
-                    onChange={(value) => handleInputChange('cloudLocation', value)}
-                    placeholder={"Masukan Lokasi Cloud"}
-                  />
-                  <DynamicInput
-                    label={"Spesifikasi CPU (opsional)"}
+                    label={"Spesifikasi CPU"}
                     type={'text'}
                     value={inputData.cpuSpecifications}
                     onChange={(value) => handleInputChange('cpuSpecifications', value)}
                     placeholder={"Masukan Spesifikasi CPU"}
                   />
                   <DynamicInput
-                    label={"Spesifikasi RAM (opsional)"}
-                    type={'text'}
-                    value={inputData.ramSpecifications}
-                    onChange={(value) => handleInputChange('ramSpecifications', value)}
-                    placeholder={"Masukan Spesifikasi RAM"}
-                  />
-                  <DynamicInput
-                    label={"Spesifikasi Hardisk/Memory (opsional)"}
+                    label={"Spesifikasi Hardisk/Memory"}
                     value={inputData.hardDiskSpecifications}
                     type={'text'}
                     onChange={(value) => handleInputChange('hardDiskSpecifications', value)}
                     placeholder={"Masukan Spesifikasi Hardisk/Memory"}
                   />
                 </div>
-                <span className="flex text-lg font-semibold">Data</span>
                 <DynamicInput
-                  label={"Sumber Data"}
-                  value={inputData.dataSource}
-                  type={'text'}
-                  onChange={(value) => handleInputChange('dataSource', value)}
-                  placeholder={"Masukan Sumber Data"}
+                  label={"Alasan Pemilihan Media Penyimpanan"}
+                  type={'textarea'}
+                  value={inputData.reasonForChoosingStorage}
+                  onChange={(value) => handleInputChange('reasonForChoosingStorage', value)}
+                  placeholder={"Masukan Alasan Pemilihan Media Penyimpanan"}
                 />
+                <span className="flex text-lg font-semibold">Kebutuhan Perangkat Keras</span>
+                <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
+                  <DynamicInput
+                    label={"Media Penyimpanan"}
+                    value={inputData.storageMedia || ''}
+                    type={'radio_button'}
+                    position={'col'}
+                    options={[
+                      { label: 'Server Milik', value: 'Owned Server' },
+                      { label: 'Server Diskominfo', value: 'Diskominfo Server' },
+                      { label: 'Sewa Server', value: 'Server Rental' },
+                      { label: 'Cloud', value: 'Cloud' },
+                      { label: 'PDN', value: 'PDN' }
+                    ]}
+                    onChange={(value) => handleInputChange('storageMedia', value)}
+                    placeholder={"Pilih Media Penyimpanan"}
+                  />
+                  <div className="grid  grid-cols-1 gap-2">
+                    <DynamicInput
+                      label={"Lokasi Sewa Server"}
+                      value={inputData.serverRentalLocation}
+                      type={'text'}
+                      onChange={(value) => handleInputChange('serverRentalLocation', value)}
+                      placeholder={"Masukan Lokasi Sewa Server"}
+                    />
+                    <DynamicInput
+                      label={"Lokasi Cloud"}
+                      value={inputData.cloudLocation}
+                      type={'text'}
+                      onChange={(value) => handleInputChange('cloudLocation', value)}
+                      placeholder={"Masukan Cloud"}
+                    />
+                  </div>
+                </div>
+
+
+              </div>
+            }
+            {stepper === 4 &&
+              <div className="flex flex-col gap-2">
                 <span className="flex text-lg font-semibold">Integrasi</span>
                 <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
                   <DynamicInput
-                    label={"Integrasi Dengan Sistem (opsional)"}
+                    label={"Integrasi Dengan Sistem"}
                     type={'text'}
                     value={inputData.integrationWithSystem}
                     onChange={(value) => handleInputChange('integrationWithSystem', value)}
                     placeholder={"Masukan Integrasi Dengan Sistem"}
                   />
                   <DynamicInput
-                    label={"Alasan Integrasi (opsional)"}
-                    type={'text'}
-                    value={inputData.reasonForIntegration}
-                    onChange={(value) => handleInputChange('reasonForIntegration', value)}
-                    placeholder={"Masukan Alasan Integrasi"}
-                  />
-                  <DynamicInput
-                    label={"Domain yang Diusulkan (opsional)"}
-                    value={inputData.proposedDomain}
-                    type={'text'}
-                    onChange={(value) => handleInputChange('proposedDomain', value)}
-                    placeholder={"Masukan Domain yang Diusulkan"}
-                  />
-                  <DynamicInput
-                    label={"Format Penukaran (opsional)"}
+                    label={"Format Penukaran"}
                     value={inputData.exchangeFormat}
                     type={'text'}
                     onChange={(value) => handleInputChange('exchangeFormat', value)}
                     placeholder={"Masukan Format Penukaran"}
                   />
                 </div>
+                <DynamicInput
+                  label={"Alasan Integrasi"}
+                  type={'textarea'}
+                  value={inputData.reasonForIntegration}
+                  onChange={(value) => handleInputChange('reasonForIntegration', value)}
+                  placeholder={"Masukan Alasan Integrasi"}
+                />
+                <DynamicInput
+                  label={"Domain yang Diusulkan"}
+                  value={inputData.proposedDomain}
+                  type={'text'}
+                  onChange={(value) => handleInputChange('proposedDomain', value)}
+                  placeholder={"Masukan Domain yang Diusulkan"}
+                />
               </div>
             }
-            {stepper === 4 &&
+            {stepper === 5 &&
               <div className="flex flex-col gap-2">
-                <span className="flex text-lg font-semibold">Lampiran</span>
+                <span className="flex text-lg font-semibold">Form Inputan</span>
                 <DynamicInput
-                  label={"Nomor Surat"}
-                  value={inputData.letterNumber}
+                  label={"Judul"}
+                  value={inputData.title}
                   type={'text'}
-                  onChange={(value) => handleInputChange('letterNumber', value)}
-                  placeholder={"Masukan Nomor Surat"}
+                  onChange={(value) => handleInputChange('title', value)}
+                  placeholder={"Masukan judul"}
                 />
+                <DynamicInput
+                  label={"Nama PPK"}
+                  value={inputData.namePPK}
+                  type={'text'}
+                  onChange={(value) => handleInputChange('namePPK', value)}
+                  placeholder={"Masukan Nama PPK"}
+                />
+                <DynamicInput
+                  label={"Linkup Pekerjaan"}
+                  value={inputData.linkupJob}
+                  type={'text'}
+                  onChange={(value) => handleInputChange('linkupJob', value)}
+                  placeholder={"Masukan Linkup Pekerjaan"}
+                />
+                <DynamicInput
+                  label={"Jumlah Tenaga Yang Dibutuhkan"}
+                  value={inputData.numberOfPeopleRequired}
+                  type={'text'}
+                  onChange={(value) => handleInputChange('numberOfPeopleRequired', value)}
+                  placeholder={"Masukan Jumlah Tenaga Yang Dibutuhkan"}
+                />
+                <span className="flex text-lg font-semibold">Lampiran</span>
                 <DynamicInput
                   label={"Tanggal Surat"}
                   value={inputData.letterDate}
-                  type={'date'}
+                  type={"date"}
                   onChange={(value) => handleInputChange('letterDate', value)}
                   placeholder={"Masukan Tanggal Surat"}
                 />
                 <DynamicInput
-                  label={"Surat Permohonan SKPD"}
-                  value={inputData.skpdRequestLetter}
+                  label={"Surat Rekomendasi Teknis"}
+                  value={inputData.technicalRecommendationLetter}
                   type={'file_upload'}
-                  onChange={(value) => handleInputChange('skpdRequestLetter', value)}
-                  placeholder={"Upload Surat Permohonan SKPD"}
+                  onChange={(value) => handleInputChange('technicalRecommendationLetter', value)}
+                  placeholder={"Upload Surat Rekomendasi Teknis"}
                 />
                 <DynamicInput
-                  label={"Lampiran KAK"}
-                  value={inputData.kakAttachment}
+                  label={"Dokumen Pelaksanaan Anggaran"}
+                  value={inputData.anggaranAttachment}
                   type={'file_upload'}
-                  onChange={(value) => handleInputChange('kakAttachment', value)}
-                  placeholder={"Upload Lampiran KAK"}
+                  onChange={(value) => handleInputChange('anggaranAttachment', value)}
+                  placeholder={"Upload Dokumen Pelaksanaan Anggaran"}
                 />
                 <DynamicInput
                   label={"Apakah pembangunan aplikasi terdapat dalam PETA Rencana SPBE OPD?"}
@@ -671,7 +748,8 @@ function CreatePermohonanSIPages() {
                 <DynamicInput
                   label={"Pembangunan aplikasi termasuk dalam Reformasi Birokrasi (RB) Tematik?"}
                   value={inputData.reformasiBirokrasi || ''}
-                  type={'selection'}
+                  type={'radio_button'}
+                  position={'col'}
                   options={[
                     { label: 'Penanggulangan Kemiskinan', value: 'Poverty Alleviation' },
                     { label: 'Peningkatan Investasi', value: 'Investment Improvement' },
@@ -683,7 +761,6 @@ function CreatePermohonanSIPages() {
                 />
               </div>
             }
-
             <div className="flex flex-row gap-2 justify-end">
               {stepper > 1 &&
                 <DynamicButton

@@ -34,11 +34,11 @@ const ValidationStatusTechnique = ({
     {
       label: "Jadwal Pengerjaan",
       value: inputLocal.working_schedule,
-      type: "date",
+      type: "multi_date",
       name: 'working_schedule'
     }
   ];
-  const PenambahanBandwidthValidateTechnique = [
+  const PerwalValidateTechnique = [
     {
       label: "Tanggapan Tim Teknis",
       value: inputLocal.team_response,
@@ -48,11 +48,12 @@ const ValidationStatusTechnique = ({
     {
       label: "Jadwal Pengerjaan",
       value: inputLocal.working_schedule,
-      type: "date",
+      type: "multi_date",
       name: 'working_schedule'
     }
   ];
-  const PenambahanAlatValidateTechnique = [
+
+  const AhliValidateTechnique = [
     {
       label: "Tanggapan Tim Teknis",
       value: inputLocal.team_response,
@@ -62,24 +63,11 @@ const ValidationStatusTechnique = ({
     {
       label: "Jadwal Pengerjaan",
       value: inputLocal.working_schedule,
-      type: "date",
+      type: "multi_date",
       name: 'working_schedule'
     }
   ];
-  const TroubleshootingValidateTechnique = [
-    {
-      label: "Tanggapan Tim Teknis",
-      value: inputLocal.team_response,
-      type: "textarea",
-      name: 'team_response'
-    },
-    {
-      label: "Jadwal Pengerjaan",
-      value: inputLocal.working_schedule,
-      type: "date",
-      name: 'working_schedule'
-    }
-  ];
+ 
 
   const fetchSetProgress = async (api_key, token, status) => {
     const params = new URLSearchParams();
@@ -141,10 +129,9 @@ const ValidationStatusTechnique = ({
                 <span className='text-lg font-bold'>Tahapan Validasi</span>
                 {renderProcessInputs(detailData.submission_title === "Penyusunan Kebijakan" ?
                   PenyusunanKebijakanValidateTechnique :
-                   detailData.submission_title === "Penyusunan Detail" ?
-                   PenambahanAlatValidateTechnique : detailData.submission_title === "Penambahan Bandwidth" ?
-                          PenambahanBandwidthValidateTechnique : detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan" ?
-                          TroubleshootingValidateTechnique :
+                   detailData.submission_title === "Permohonan Perwal dan Kepwal TIK" ?
+                   PerwalValidateTechnique : detailData.submission_title === "Pendataan Tenaga Ahli" ?
+                   AhliValidateTechnique : 
                   []
                 )}
                 <div className='flex sm:flex-row flex-col gap-2'>
@@ -272,6 +259,7 @@ const ValidationStatusTechnique = ({
           )}
 
           <DynamicDetails
+            location={"perencanaantik"}
             detailData={detailData}
             loading={loading}
           />
@@ -291,7 +279,7 @@ const ValidationStatusTechnique = ({
               </span>
             </div>
           </div>
-          <DynamicDetails location={"perencanaantik"}detailData={detailData} loading={loading} />
+          <DynamicDetails location={"perencanaantik"} detailData={detailData} loading={loading} />
         </div>
       )}
       {submissionStatus === 5 && (

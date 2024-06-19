@@ -179,37 +179,37 @@ function DetailManagementTIKPages() {
       fetchEditmanagementtik(authApiKey, authToken, slug, type, data);
     } else if (type === "process") {
       if (
-        data.file_scema_integration ||
-        data.upload_dokumen_laporan_modul_tte ||
+        data.upload_dokumen_hasil_analisa ||
+        data.upload_file_data_valid ||
         data.upload_dokumen_laporan_pembuatan_akun
       ) {
         try {
           const uploadPromises = [];
           const resultMapping = {};
-          if (data.file_scema_integration) {
+          if (data.upload_dokumen_hasil_analisa) {
             uploadPromises.push(
               fetchUploadFiles(
                 authApiKey,
                 authToken,
-                data.file_scema_integration,
+                data.upload_dokumen_hasil_analisa,
                 "managementinfrastrukturtik",
                 dispatch
               ).then(result => {
-                resultMapping.file_scema_integration = result;
+                resultMapping.upload_dokumen_hasil_analisa = result;
               })
             );
           }
 
-          if (data.upload_dokumen_laporan_modul_tte) {
+          if (data.upload_file_data_valid) {
             uploadPromises.push(
               fetchUploadFiles(
                 authApiKey,
                 authToken,
-                data.upload_dokumen_laporan_modul_tte,
+                data.upload_file_data_valid,
                 "managementinfrastrukturtik",
                 dispatch
               ).then(result => {
-                resultMapping.upload_dokumen_laporan_modul_tte = result;
+                resultMapping.upload_file_data_valid = result;
               })
             );
           }
@@ -231,11 +231,11 @@ function DetailManagementTIKPages() {
           await Promise.all(uploadPromises);
 
           let combineData = { ...data };
-          if (resultMapping.file_scema_integration) {
-            combineData.file_scema_integration = resultMapping.file_scema_integration;
+          if (resultMapping.upload_dokumen_hasil_analisa) {
+            combineData.upload_dokumen_hasil_analisa = resultMapping.upload_dokumen_hasil_analisa;
           }
-          if (resultMapping.upload_dokumen_laporan_modul_tte) {
-            combineData.upload_dokumen_laporan_modul_tte = resultMapping.upload_dokumen_laporan_modul_tte;
+          if (resultMapping.upload_file_data_valid) {
+            combineData.upload_file_data_valid = resultMapping.upload_file_data_valid;
           }
           if (resultMapping.upload_dokumen_laporan_pembuatan_akun) {
             combineData.upload_dokumen_laporan_pembuatan_akun = resultMapping.upload_dokumen_laporan_pembuatan_akun;
@@ -249,37 +249,37 @@ function DetailManagementTIKPages() {
       }
     } else if (type === "process") {
       if (
-        data.upload_dokumen_hasil_integrasi ||
-        data.upload_dokumen_laporan_modul_tte ||
+        data.upload_dokumen_hasil_analisa ||
+        data.upload_file_data_valid ||
         data.upload_dokumen_laporan_pembuatan_akun
       ) {
         try {
           const uploadPromises = [];
           const resultMapping = {};
 
-          if (data.upload_dokumen_hasil_integrasi) {
+          if (data.upload_dokumen_hasil_analisa) {
             uploadPromises.push(
               fetchUploadFiles(
                 authApiKey,
                 authToken,
-                data.upload_dokumen_hasil_integrasi,
+                data.upload_dokumen_hasil_analisa,
                 "managementinfrastrukturtik",
                 dispatch
               ).then(result => {
-                resultMapping.upload_dokumen_hasil_integrasi = result;
+                resultMapping.upload_dokumen_hasil_analisa = result;
               })
             );
           }
-          if (data.upload_dokumen_laporan_modul_tte) {
+          if (data.upload_file_data_valid) {
             uploadPromises.push(
               fetchUploadFiles(
                 authApiKey,
                 authToken,
-                data.upload_dokumen_laporan_modul_tte,
+                data.upload_file_data_valid,
                 "managementinfrastrukturtik",
                 dispatch
               ).then(result => {
-                resultMapping.upload_dokumen_laporan_modul_tte = result;
+                resultMapping.upload_file_data_valid = result;
               })
             );
           }
@@ -300,11 +300,11 @@ function DetailManagementTIKPages() {
           await Promise.all(uploadPromises);
 
           let combineData = { ...data };
-          if (resultMapping.upload_dokumen_hasil_integrasi) {
-            combineData.upload_dokumen_hasil_integrasi = resultMapping.upload_dokumen_hasil_integrasi;
+          if (resultMapping.upload_dokumen_hasil_analisa) {
+            combineData.upload_dokumen_hasil_analisa = resultMapping.upload_dokumen_hasil_analisa;
           }
-          if (resultMapping.upload_dokumen_laporan_modul_tte) {
-            combineData.upload_dokumen_laporan_modul_tte = resultMapping.upload_dokumen_laporan_modul_tte;
+          if (resultMapping.upload_file_data_valid) {
+            combineData.upload_file_data_valid = resultMapping.upload_file_data_valid;
           }
           if (resultMapping.upload_dokumen_laporan_pembuatan_akun) {
             combineData.upload_dokumen_laporan_pembuatan_akun = resultMapping.upload_dokumen_laporan_pembuatan_akun;

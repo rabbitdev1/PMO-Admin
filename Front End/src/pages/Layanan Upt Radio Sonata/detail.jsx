@@ -177,23 +177,23 @@ function DetailUptRadioPages() {
       fetchEdituptradio(authApiKey, authToken, slug, type, data);
     } else if (type === "validation_technique") {
       if (
-        data.file_scema_integration ||
+        data.file_pengajuan_podcast ||
         data.upload_dokumen_laporan_modul_tte ||
         data.upload_dokumen_laporan_pembuatan_akun
       ) {
         try {
           const uploadPromises = [];
           const resultMapping = {};
-          if (data.file_scema_integration) {
+          if (data.file_pengajuan_podcast) {
             uploadPromises.push(
               fetchUploadFiles(
                 authApiKey,
                 authToken,
-                data.file_scema_integration,
+                data.file_pengajuan_podcast,
                 "uptradio",
                 dispatch
               ).then(result => {
-                resultMapping.file_scema_integration = result;
+                resultMapping.file_pengajuan_podcast = result;
               })
             );
           }
@@ -228,8 +228,8 @@ function DetailUptRadioPages() {
           await Promise.all(uploadPromises);
 
           let combineData = { ...data };
-          if (resultMapping.file_scema_integration) {
-            combineData.file_scema_integration = resultMapping.file_scema_integration;
+          if (resultMapping.file_pengajuan_podcast) {
+            combineData.file_pengajuan_podcast = resultMapping.file_pengajuan_podcast;
           }
           if (resultMapping.upload_dokumen_laporan_modul_tte) {
             combineData.upload_dokumen_laporan_modul_tte = resultMapping.upload_dokumen_laporan_modul_tte;
@@ -246,7 +246,7 @@ function DetailUptRadioPages() {
       }
     } else if (type === "process") {
       if (
-        data.upload_dokumen_hasil_integrasi ||
+        data.file_pengajuan_podcast ||
         data.upload_dokumen_laporan_modul_tte ||
         data.upload_dokumen_laporan_pembuatan_akun
       ) {
@@ -254,16 +254,16 @@ function DetailUptRadioPages() {
           const uploadPromises = [];
           const resultMapping = {};
 
-          if (data.upload_dokumen_hasil_integrasi) {
+          if (data.file_pengajuan_podcast) {
             uploadPromises.push(
               fetchUploadFiles(
                 authApiKey,
                 authToken,
-                data.upload_dokumen_hasil_integrasi,
+                data.file_pengajuan_podcast,
                 "uptradio",
                 dispatch
               ).then(result => {
-                resultMapping.upload_dokumen_hasil_integrasi = result;
+                resultMapping.file_pengajuan_podcast = result;
               })
             );
           }
@@ -297,8 +297,8 @@ function DetailUptRadioPages() {
           await Promise.all(uploadPromises);
 
           let combineData = { ...data };
-          if (resultMapping.upload_dokumen_hasil_integrasi) {
-            combineData.upload_dokumen_hasil_integrasi = resultMapping.upload_dokumen_hasil_integrasi;
+          if (resultMapping.file_pengajuan_podcast) {
+            combineData.file_pengajuan_podcast = resultMapping.file_pengajuan_podcast;
           }
           if (resultMapping.upload_dokumen_laporan_modul_tte) {
             combineData.upload_dokumen_laporan_modul_tte = resultMapping.upload_dokumen_laporan_modul_tte;

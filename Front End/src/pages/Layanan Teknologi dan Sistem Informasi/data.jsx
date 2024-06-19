@@ -11,8 +11,8 @@ export const formData = [
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
-      {name: "reason", label: "Alasan Pengajuan", value: "", type: "editor"},
-      { name: "period", label: "Periode Jangka Waktu", value: "", type: "date" },
+      {name: "reason", label: "Alasan Dibutuhkan", value: "", type: "editor"},
+      { name: "period", label: "Periode Jangka Waktu", value: "", type: "multi_date" },
     ],
   },
   {
@@ -28,17 +28,19 @@ export const formData = [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
       { name: "reason", label: "Alasan Pengajuan", value: "", type: "editor" },
-      { name: "period", label: "Periode Jangka Waktu", value: "", type: "date" },
+      { name: "location_implementation", label: "Tempat Pelaksanaan", value: "", type: "editor"},
+      { name: "period", label: "Periode Jangka Waktu", value: "", type: "multi_date" },
+
     ],
   },
 ]
 
 const getZoomProcess = (inputLocal) => [
   {
-    label: "Upload Dokumen Laporan Hasil Integrasi",
-    value: inputLocal.upload_dokumen_hasil_integrasi,
+    label: "Upload Dokumen Hasil Pengajuan Permohonan Zoom",
+    value: inputLocal.upload_dokumen_zoom,
     type: "file_upload",
-    name: 'upload_dokumen_hasil_integrasi'
+    name: 'upload_dokumen_zoom'
   },
 ];
 const getZoomFinish = (finishData) => [
@@ -70,10 +72,10 @@ const getZoomFinish = (finishData) => [
 //Permohonan Liputan
 const getPermohonanLiputanProcess = (inputLocal) => [
   {
-    label: "Upload Dokumen Laporan Hasil Integrasi",
-    value: inputLocal.upload_dokumen_hasil_integrasi,
+    label: "Upload Dokumen Hasil Pengajuan Permohonan Liputan",
+    value: inputLocal.upload_dokumen_liputan,
     type: "file_upload",
-    name: 'upload_dokumen_hasil_integrasi'
+    name: 'upload_dokumen_liputan'
   },
 ];
 const getPermohonanLiputanFinish = (finishData) => [

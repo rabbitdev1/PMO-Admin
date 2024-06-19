@@ -23,6 +23,7 @@ import ValidationStatus from "./Logical/ValidationStatus";
 import ConditionalRender from "../../components/ui/ConditionalRender";
 import FeasibilityAnalysisStatus from "./Logical/FeasibilityAnalysisStatus";
 import ValidationAnalysisStatus from "./Logical/ValidationAnalysisStatus";
+import TechnicalAnalysisStatus from "./Logical/TechnicalAnalysisStatus";
 
 function DetailPermohonanSIPages() {
   const { isDarkMode } = useTheme();
@@ -450,6 +451,7 @@ function DetailPermohonanSIPages() {
             />
             <FeasibilityAnalysisStatus
               slug={slug}
+              validationData={validationData}
               submissionStatus={submissionStatus}
               feasibilityData={feasibilityDataAnalysis}
               setValidationData={setFeasibilityDataAnalysis}
@@ -463,7 +465,7 @@ function DetailPermohonanSIPages() {
               slug={slug}
               feasibilityDataAnalysis={feasibilityDataAnalysis}
               submissionStatus={submissionStatus}
-              validationData={validationDataAnalysis}
+              validationDataAnalysis={validationDataAnalysis}
               setValidationData={setValidationDataAnalysis}
               authProfile={authProfile}
               detailData={detailData}
@@ -472,6 +474,19 @@ function DetailPermohonanSIPages() {
               setisModalVerif={setisModalVerif}
             />
            
+           <TechnicalAnalysisStatus
+              slug={slug}
+              validationData={validationData}
+              submissionStatus={submissionStatus}
+              feasibilityData={feasibilityDataAnalysis}
+              validationDataAnalysis={validationDataAnalysis}
+              setValidationData={setFeasibilityDataAnalysis}
+              authProfile={authProfile}
+              detailData={detailData}
+              loading={permohonanSILoading}
+              checkingFormData={checkingFormData}
+              setisModalVerif={setisModalVerif}
+            />
           </div>
         </section>
       </ConditionalRender>
