@@ -165,7 +165,7 @@ export const formData = [
           startDate: null,
           endDate: null,
         },
-        type: "date",
+        type: "multi_date",
         visible: true,
       }
     ],

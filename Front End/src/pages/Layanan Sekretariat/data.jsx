@@ -22,7 +22,7 @@ export const formData = [
         name: "period",
         label: "Periode Jangka Waktu",
         value: "",
-        type: "date",
+        type: "multi_date",
       },
     ],
   },

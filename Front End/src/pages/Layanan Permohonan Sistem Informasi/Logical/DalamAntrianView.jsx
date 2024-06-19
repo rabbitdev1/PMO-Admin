@@ -1,5 +1,5 @@
 import React from 'react';
-import DynamicDetails from '../../../components/ui/DynamicDetails';
+import DynamicDetailsPermohonanSI from '../DynamicDetailsPermohonanSI';
 
 const DalamAntrianView = ({ submissionStatus, detailData, loading }) => {
   return (
@@ -18,7 +18,7 @@ const DalamAntrianView = ({ submissionStatus, detailData, loading }) => {
           </span>
         </div>
       </div>
-      <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
+      <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
     </div>
   );
 };

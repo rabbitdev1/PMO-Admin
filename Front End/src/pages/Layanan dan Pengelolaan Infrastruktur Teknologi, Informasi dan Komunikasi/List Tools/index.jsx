@@ -2,7 +2,6 @@ import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
-import { ReactComponent as CloseIcon } from "../../../assets/icon/ic_close.svg";
 import { ReactComponent as DocumentIcon } from "../../../assets/icon/ic_document.svg";
 import { ReactComponent as PlusIcon } from "../../../assets/icon/ic_plus.svg";
 import DynamicButton from "../../../components/common/DynamicButton";
@@ -12,7 +11,6 @@ import TableCostum from "../../../components/data-display/TableCostum";
 import TitleHeader from "../../../components/layout/TitleHeader";
 import ModalContent from "../../../components/ui/Modal/ModalContent";
 import { apiClient } from "../../../utils/api/apiClient";
-import { formData as initialFormData } from '../data';
 
 function DataAlatInfraPage() {
   const { isDarkMode } = useTheme();
@@ -25,19 +23,16 @@ function DataAlatInfraPage() {
 
   const [statusData, setStatusData] = useState([
     { title: "Total Alat", value: "0", desc: "Data proses berjalan", icon: DocumentIcon, color: '#FFA500' },
+    { title: "Alat Kosong", value: "0", desc: "Data proses berjalan", icon: DocumentIcon, color: '#FF0000' },
   ]);
 
 
   const [listdataAlat, setlistdataAlat] = useState([]);
   const [listdataAlatLoading, setlistdataAlatLoading] = useState(true);
 
-  const [formData, setFormData] = useState(initialFormData);
+  const [formData, setFormData] = useState({});
 
   const [isModalType, setisModalType] = useState({ status: false, data: {} });
-  const [isModalCreate, setisModalCreate] = useState({
-    status: false,
-    data: {},
-  });
   const [isModalVerif, setisModalVerif] = useState({
     status: false,
     data: {},
@@ -77,6 +72,7 @@ function DataAlatInfraPage() {
 
         setStatusData([
           { ...statusData[0], value: response?.result?.totalItems, },
+          { ...statusData[1], value: response?.result?.totalItemsByStatus?.totalAlatKosong || 0, },
         ])
       } else {
         setlistdataAlat([]);
@@ -117,16 +113,16 @@ function DataAlatInfraPage() {
           </div>
           <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
             <div className="flex flex-row gap-3 justify-between items-center">
-              <span className="text-lg font-bold">Daftar Pengajuan</span>
+              <span className="text-lg font-bold">Daftar Alat</span>
               <div className="flex flex-col"  >
                 <DynamicButton
                   iconLeft={<PlusIcon className="w-4 h-4 " />}
-                  initialValue={'Ajukan Permohonan'}
+                  initialValue={'Tambah Alat'}
                   color={"#ffffff"}
                   type="transparent"
                   className="bg-[#0185FF] text-darkColor px-3"
                   onClick={() => {
-                    // setisModalType({ data: 'Pengajuan Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi', status: true });
+                    setisModalType({ data: 'Tambah Alat', status: true });
                   }}
                 />
 
@@ -142,6 +138,7 @@ function DataAlatInfraPage() {
                   { name: "Tanggal Pembuatan", field: "createdAt" },
                   { name: "Aksi", field: "action" },
                 ]}
+                loading={listdataAlatLoading}
                 showAction={{ read: true, remove: true, edit: true }}
                 onClickShow={(data) => {
                   navigate("/detail-infrastruktur", { state: { slug: data.id } });
@@ -168,29 +165,79 @@ function DataAlatInfraPage() {
             <span className="text-lg font-bold font-gilroy">
               {isModalType.data}
             </span>
-            <div className="flex flex-col overflow-hidden rounded-b-md pb-2">
-              {formData.map((item, index) => {
-                return (
-                  isModalType.data === item.type && (
-                    <button
-                      key={index}
-                      className={`flex flex-row justify-start items-center gap-2 flex-1 ${index % 2 ? "" : "bg-[#f1f5f9] dark:bg-[#f1f5f907]"} py-2.5 p-3 hover:opacity-70`}
-                      onClick={() => {
-                        setisModalCreate({ data: item.name, status: true });
-                      }}
-                    >
-                      <span className=" text-base text-left line-clamp-2 font-gilroy">
-                        {item.name}
-                      </span>
-                    </button>
-                  )
-                );
-              })}
-            </div>
+            {[
+              {
+                label: "Tambah Alat",
+                value: formData.name_tools,
+                type: "text",
+                name: "name_tools",
+              },
+              {
+                label: "Jenis Alat",
+                value: formData.type_tools,
+                type: "selection",
+                options: [
+                  { value: "1", label: "Disetujui" },
+                  { value: "0", label: "Ditolak" },
+                ],
+                name: "type_tools",
+              },
+              {
+                label: "Jumlah Alat",
+                value: formData.total_tools || 0,
+                type: "select_number",
+                name: "total_tools",
+              },
+              {
+                label: "Spesifikasi",
+                value: formData.spec_tools,
+                type: "textarea",
+                name: "spec_tools",
+              },
+            ].map((inputProps, index) => {
+              return (
+                <DynamicInput
+                  key={index}
+                  label={inputProps.label}
+                  value={inputProps.value}
+                  type={inputProps.type}
+                  options={inputProps.options}
+                  placeholder={'Masukan ' + inputProps.label}
+                  onChange={(value) => {
+                    setFormData((prevState) => ({
+                      ...prevState,
+                      [inputProps.name]: value,
+                    }));
+                  }}
+                />
+              );
+            })}
+            <DynamicButton
+              initialValue={"Lanjutkan"}
+              type="fill"
+              color={"#ffffff"}
+              className="inline-flex  bg-[#0185FF] text-darkColor"
+              onClick={() => {
+                console.log(formData);
+                // if (
+                //   validationData.status_validation === "0" &&
+                //   validationData?.response === undefined
+                // ) {
+                //   toast.error("Wajib masukan Tanggapan", {
+                //     position: toast.POSITION.TOP_RIGHT,
+                //   });
+                // } else {
+                //   checkingFormData("validation", validationData);
+                // }
+              }}
+            />
           </div>
         }
         active={isModalType.status}
-        onClose={() => setisModalType({ data: {}, status: false })}
+        onClose={() => {
+          setFormData({});
+          setisModalType({ data: {}, status: false })
+        }}
       />
       <ModalContent
         className={"sm:max-w-xl"}
@@ -214,7 +261,6 @@ function DataAlatInfraPage() {
                 className={`inline-flex flex-1 bg-[${isModalVerif.data.color}] text-darkColor`}
                 onClick={() => {
                   setisModalVerif({ data: {}, status: false })
-                  setisModalCreate({ data: {}, status: false });
                   setisModalType({ data: {}, status: false })
                   fetchDataAlat(authApiKey, authToken, JSON.parse(authProfile)?.role)
                 }}
@@ -223,120 +269,6 @@ function DataAlatInfraPage() {
           </div>
         }
         active={isModalVerif.status}
-      />
-      <ModalContent
-        className={"sm:max-w-5xl "}
-        children={
-          <div className="flex flex-col gap-3">
-            <div className="flex flex-row justify-between">
-              <span className="text-lg font-bold font-gilroy">
-                Buat {isModalCreate.data}
-              </span>
-              <DynamicButton
-                iconLeft={<CloseIcon className="w-4 h-4 " />}
-                color={isDarkMode ? "#ffffff" : "#212121"}
-                type="transparent"
-                className="inline-flex p-2"
-                onClick={() => {
-                  setisModalCreate({ data: {}, status: false });
-                }}
-              />
-            </div>
-            <div className="flex flex-col overflow-hidden rounded-b-md gap-3">
-              {formData.map(
-                (section, sectionIndex) =>
-                  section.name === isModalCreate.data && (
-                    <div key={sectionIndex} className="flex flex-col gap-3">
-                      {section.fields.map((item, index) => (
-                        <div key={index} className="flex flex-col gap-2">
-                          {item.visible !== false && (
-                            <DynamicInput
-                              name={item.name}
-                              label={item.label}
-                              noted={item.noted}
-                              value={item.value}
-                              options={item.options}
-                              onChange={(value) => {
-                                // handleInputChange(item.name, value, sectionIndex)
-
-                              }}
-                              type={item.type}
-                              placeholder={"Masukan " + item.label}
-                            />
-                          )}
-                          {section.name === "Pengajuan Penambahan Alat" && (
-                            item.label === "Jenis Alat yang dibutuhkan" && item.value?.length !== 0 && (
-                              <div className="flex flex-col gap-1">
-                                <span className="text-sm font-bold">Jumlah Usulan Alat Yang Dipilih :</span>
-                                <div className="grid grid-cols-1 md:grid-cols-3 sm:grid-cols-2 gap-3">
-                                  {item.value.map((selectedItem, selectedItemIndex) => (
-                                    <DynamicInput
-                                      key={selectedItemIndex}
-                                      name={selectedItem.value}
-                                      label={`Jumlah ${selectedItem.label}`}
-                                      value={selectedItem.quantity || ''}
-                                      onChange={(value) => {
-                                        const updatedFormData = [...formData];
-                                        const alatField = updatedFormData[sectionIndex].fields[index].value;
-                                        alatField[selectedItemIndex].quantity = value;
-                                        setFormData(updatedFormData);
-                                      }}
-                                      type={'select_number'}
-                                      placeholder={`Masukan Jumlah ${selectedItem.label}`}
-                                    />
-                                  ))}
-                                </div>
-                              </div>
-                            )
-                          )}
-                          {item?.field && item?.field?.map((itemField, indexField) => (
-                            item?.value?.value === itemField.type_select &&
-                            <DynamicInput
-                              key={indexField}
-                              name={itemField.name}
-                              label={itemField.label}
-                              value={itemField.value}
-                              options={itemField.options}
-                              onChange={(value) => {
-                                const updatedFormData = [...formData];
-                                updatedFormData[sectionIndex].fields[index].field[indexField].value = value;
-                                setFormData(updatedFormData);
-                              }}
-                              type={itemField.type}
-                              placeholder={"Masukan " + itemField.label}
-                            />
-                          ))}
-                        </div>
-                      ))}
-                    </div>
-                  )
-              )}
-            </div>
-
-            <div className="flex flex-row gap-2 justify-end">
-              <DynamicButton
-                initialValue={"Batal"}
-                type="fill"
-                color={"#ffffff"}
-                className="inline-flex bg-cardLight dark:bg-cardDark text-cardDark dark:text-cardLight"
-                onClick={() => {
-                  setisModalCreate({ data: {}, status: false });
-                }}
-              />
-              <DynamicButton
-                initialValue={"Ajukan Permohonan"}
-                type="fill"
-                color={"#ffffff"}
-                className="inline-flex  bg-[#0185FF] text-darkColor"
-                onClick={() => {
-
-                }}
-
-              />
-            </div>
-          </div>
-        }
-        active={isModalCreate.status}
       />
     </div>
   );
