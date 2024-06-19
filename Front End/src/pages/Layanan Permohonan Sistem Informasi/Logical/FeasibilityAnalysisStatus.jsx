@@ -5,9 +5,9 @@ import DynamicButton from "../../../components/common/DynamicButton";
 import { ReactComponent as PengajuanBerahasilIcon } from "../../../assets/icon/ic_pengajuan_berhasil.svg";
 import DynamicInput from "../../../components/common/DynamicInput";
 import DynamicShow from "../../../components/common/DynamicShow";
-import DynamicDetails from "../../../components/ui/DynamicDetails";
 import { apiClient } from "../../../utils/api/apiClient";
 import { validateFile, validatePeriod, validateText } from "../../../utils/helpers/validateForm";
+import DynamicDetailsPermohonanSI from "../DynamicDetailsPermohonanSI";
 
 const FeasibilityAnalysisStatus = ({
   submissionStatus,
@@ -140,7 +140,7 @@ const FeasibilityAnalysisStatus = ({
               />
             </div>
           </div>
-          <DynamicDetails
+          <DynamicDetailsPermohonanSI
             location={'permohonanSI'}
             detailData={detailData}
             loading={loading}
@@ -162,7 +162,7 @@ const FeasibilityAnalysisStatus = ({
               </span>
             </div>
           </div>
-          <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
+          <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
         </div>
       )}
       {submissionStatus === 5 && (
@@ -190,7 +190,7 @@ const FeasibilityAnalysisStatus = ({
               ))}
             </div>
           </div>
-          <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
+          <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
         </div>
       )}
     </>

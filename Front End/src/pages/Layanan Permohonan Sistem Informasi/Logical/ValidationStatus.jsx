@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import DynamicButton from "../../../components/common/DynamicButton";
 import DynamicInput from "../../../components/common/DynamicInput";
 import DynamicShow from "../../../components/common/DynamicShow";
-import DynamicDetails from "../../../components/ui/DynamicDetails";
+import DynamicDetailsPermohonanSI from "../DynamicDetailsPermohonanSI";
 
 const ValidationStatus = ({
   submissionStatus,
@@ -23,7 +23,7 @@ const ValidationStatus = ({
               Cek Kelengkapan Berkas
             </span>
           </div>
-          <DynamicDetails
+          <DynamicDetailsPermohonanSI
 
             location={'permohonanSI'}
             detailData={detailData}
@@ -108,7 +108,7 @@ const ValidationStatus = ({
               </span>
             </div>
           </div>
-          <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
+          <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
         </div>
       )}
       {submissionStatus === 3 && (
@@ -133,7 +133,7 @@ const ValidationStatus = ({
               />
             </div>
           </div>
-          <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
+          <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
         </div>
       )}
     </>

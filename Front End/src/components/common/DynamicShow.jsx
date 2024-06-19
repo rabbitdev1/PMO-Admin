@@ -62,7 +62,7 @@ function DynamicShow({ label, value, options, type, className, location }) {
         );
       })}
     </div>
-      ) : type === "date" ? (
+      ) : type === "multi_date" ? (
         <div
           className={`flex flex-row gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center p-3 ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}
         >

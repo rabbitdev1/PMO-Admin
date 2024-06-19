@@ -5,6 +5,8 @@ import Cookies from "js-cookie";
 import { useLocation, useNavigate } from "react-router-dom";
 import LoadingLink from "../common/LoadingLink";
 import useTheme from "../context/useTheme";
+import { isSideBar } from "../store/actions/todoActions";
+import { useDispatch } from "react-redux";
 
 const Sidebar = () => {
   const status = localStorage.getItem("isLogin");
@@ -17,6 +19,7 @@ const Sidebar = () => {
   const [expandedMenuIndex, setExpandedMenuIndex] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setValidateSideBar(JSON?.parse(authProfile || null))
@@ -34,10 +37,12 @@ const Sidebar = () => {
 
   const renderSubmenu = (submenu) => {
     return submenu.map((item, index) => (
-      <LoadingLink
+      <div
         key={index}
-        href={item.href}
-        state={item.state}
+        onClick={() => {
+          dispatch(isSideBar(false))
+          navigate(item.href, { state: item.state });
+        }}
       >
         <div className="flex flex-row gap-2 ml-4 items-center group cursor-pointer ">
           <div className={`h-10 w-1 ${item.state === state ? 'bg-[#0185FF]' : 'bg-[#dddddd] dark:bg-[#ffffff20]'}  group-hover:bg-[#0185FF]`} />
@@ -45,18 +50,18 @@ const Sidebar = () => {
             {item.title}
           </span>
         </div>
-      </LoadingLink>
+      </div>
     ));
   };
 
   const menuItems = [
     { title: "MENU", role: ['/'], icon: "" },
     { title: "Dashboard", role: ['op_pmo', 'perangkat_daerah',], icon: AllBerandaIcon, href: ["/", "/"], },
-
     {
       title: "Data Alat", role: ['kabid_infra', 'teknis_infra', 'katim_infra'],
       icon: AllBerandaIcon, href: ["/data-alat-infrastruktur", "/detail-infrastruktur"],
     },
+    { title: "Akun", role: ['op_pmo'], icon: AllBerandaIcon, href: ["/account", "/1"], },
 
     { title: "LAYANAN", role: ['/'], icon: "" },
     {
@@ -99,7 +104,7 @@ const Sidebar = () => {
     },
 
     {
-      title: "Layanan Teknologi dan Sistem Informasi", role: ['op_pmo', 'perangkat_daerah', 'teknis_aplikasi', 'katim_aplikasi'],
+      title: "Layanan Teknologi dan Sistem Informasi", role: ['op_pmo', 'perangkat_daerah',],
       submenu: [
         { title: 'Layanan ZOOM', href: '/layanan-teknologi-dan-sistem-informasi', state: 'Layanan ZOOM' },
         { title: 'Permohonan Liputan', href: '/layanan-teknologi-dan-sistem-informasi', state: 'Permohonan Liputan' },
@@ -108,7 +113,8 @@ const Sidebar = () => {
 
     },
     {
-      title: "Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi", role: ['op_pmo', 'perangkat_daerah', 'teknis_aplikasi', 'katim_aplikasi', 'kabid_aplikasi'],
+      title: "Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi", role: ['op_pmo', 'perangkat_daerah',],
+
       submenu: [
         { title: 'Pendampingan Pengolahan dan Analisis Data', href: '/layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi', state: 'Layanan Pendampingan Pengolahan dan Analisis Data' },
         { title: 'Pelayanan Produksi Data dari Situs Web', href: '/layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi', state: 'Layanan Produksi Data dari Situs Web' },
@@ -116,7 +122,7 @@ const Sidebar = () => {
       icon: AllBerandaIcon, href: ["/layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi", "/detail-layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi"],
     },
     {
-      title: "Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi", role: ['op_pmo', 'perangkat_daerah', 'teknis_aplikasi', 'katim_aplikasi'],
+      title: "Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi", role: ['op_pmo', 'perangkat_daerah', 'katim_perencanaan', 'kabid_perencanaan', 'teknis_perencanaan'],
       submenu: [
         { title: 'Penyusunan Kebijakan', href: '/layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi', state: 'Penyusunan Kebijakan' },
         { title: 'Permohonan Perwal dan Kepwal TIK', href: '/layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi', state: 'Permohonan Perwal dan Kepwal TIK' },
@@ -125,7 +131,8 @@ const Sidebar = () => {
       icon: AllBerandaIcon, href: ["/layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi", "/detail-layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi"],
     },
     {
-      title: "Layanan UPT RADIO SONATA", role: ['op_pmo', 'perangkat_daerah', 'teknis_aplikasi', 'katim_aplikasi'],
+      title: "Layanan UPT RADIO SONATA", role: ['op_pmo', 'perangkat_daerah', 'kabid_upt_radio', 'katim_upt_radio', 'teknis_upt_radio'],
+
       submenu: [
         { title: 'Permohonan Podcast', href: '/layanan-upt-radio-sonata', state: 'Permohonan Podcast' },
       ], icon: AllBerandaIcon, href: ["/layanan-upt-radio-sonata", "/detail-upt-radio-sonata"],
@@ -137,10 +144,6 @@ const Sidebar = () => {
       ]
       , icon: AllBerandaIcon, href: ["/layanan-sekretariat", "/detail-sekretariat"],
     },
-
-    { title: "PENGATURAN", role: ['op_pmo'], icon: "" },
-    { title: "Akun", role: ['op_pmo'], icon: AllBerandaIcon, href: ["/account", "/1"], },
-
   ];
 
   const renderMenuItems = (items) => {
@@ -168,8 +171,10 @@ const Sidebar = () => {
                       toggleSubmenu(index);
                     } else {
                       navigate(button.href[0], { state: button.state });
+                      dispatch(isSideBar(false))
                     }
                   } else {
+                    dispatch(isSideBar(false))
                     toggleSubmenu(index);
                     navigate(button.href[0], { state: button.state });
                   }

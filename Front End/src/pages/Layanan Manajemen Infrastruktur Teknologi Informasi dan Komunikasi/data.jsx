@@ -28,6 +28,7 @@ export const formData = [
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
+
       { name: "surat_permohonan", label: "Surat Permohonan", value: "", type: "file_upload" },
       { name: "alamat_website", label: "Alamat Website", value: "", type: "text" },
       { name: "needed_data", label: "Data yang dibutuhkan", value: "", type: "editor" },

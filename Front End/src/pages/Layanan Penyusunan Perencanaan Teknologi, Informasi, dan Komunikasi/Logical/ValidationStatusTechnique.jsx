@@ -34,7 +34,7 @@ const ValidationStatusTechnique = ({
     {
       label: "Jadwal Pengerjaan",
       value: inputLocal.working_schedule,
-      type: "date",
+      type: "multi_date",
       name: 'working_schedule'
     }
   ];
@@ -48,7 +48,7 @@ const ValidationStatusTechnique = ({
     {
       label: "Jadwal Pengerjaan",
       value: inputLocal.working_schedule,
-      type: "date",
+      type: "multi_date",
       name: 'working_schedule'
     }
   ];
@@ -63,7 +63,7 @@ const ValidationStatusTechnique = ({
     {
       label: "Jadwal Pengerjaan",
       value: inputLocal.working_schedule,
-      type: "date",
+      type: "multi_date",
       name: 'working_schedule'
     }
   ];

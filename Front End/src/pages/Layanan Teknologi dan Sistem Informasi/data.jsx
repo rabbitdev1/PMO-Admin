@@ -12,7 +12,7 @@ export const formData = [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
       {name: "reason", label: "Alasan Dibutuhkan", value: "", type: "editor"},
-      { name: "period", label: "Periode Jangka Waktu", value: "", type: "date" },
+      { name: "period", label: "Periode Jangka Waktu", value: "", type: "multi_date" },
     ],
   },
   {
@@ -27,9 +27,9 @@ export const formData = [
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
-      { name: "needed_reason", label: "Alasan Dibutuhkan", value: "", type: "editor"},
+      { name: "reason", label: "Alasan Pengajuan", value: "", type: "editor" },
       { name: "location_implementation", label: "Tempat Pelaksanaan", value: "", type: "editor"},
-      { name: "period", label: "Periode Jangka Waktu", value: "", type: "date"}
+      { name: "period", label: "Periode Jangka Waktu", value: "", type: "multi_date" },
 
     ],
   },

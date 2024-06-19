@@ -646,30 +646,7 @@ function AplikasiPages() {
                                   )}
                                 </div>
                               </div>
-                            )}
-                          {/* {item?.field &&
-                            item?.field?.map(
-                              (itemField, indexField) =>
-                                item?.value?.value ===
-                                itemField.type_select && (
-                                  <DynamicInput
-                                    key={indexField}
-                                    name={itemField.name}
-                                    label={itemField.label}
-                                    value={itemField.value}
-                                    options={itemField.options}
-                                    onChange={(value) => {
-                                      const updatedFormData = [...formData];
-                                      updatedFormData[sectionIndex].fields[
-                                        index
-                                      ].field[indexField].value = value;
-                                      setFormData(updatedFormData);
-                                    }}
-                                    type={itemField.type}
-                                    placeholder={"Masukan " + itemField.label}
-                                  />
-                                )
-                            )} */}
+                            )} 
                         </div>
                       ))}
                     </div>
