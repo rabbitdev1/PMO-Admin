@@ -42,25 +42,21 @@ const FinishStatus = ({
               <DynamicShow
                 key={key}
                 label={
-                  key === "upload_foto_alat_sebelum_di_relokasi"
-                    ? "Foto Alat Sebelum Di Relokasikan"
-                    : key === "upload_foto_alat_sesudah_di_relokasi"
-                      ? "Foto Alat Sesudah Di Relokasikan"
-                      : key === "upload_foto_alat_sebelum_di_tambahkan"
-                        ? "Foto Alat Sebelum Di Tambahkan"
-                        : key === "upload_foto_alat_sesudah_di_tambahkan"
-                          ? "Foto Alat Sesudah Di Tambahkan"
-                          : key === "upload_foto_kegiatan"
-                            ? "Foto Kegiatan"
-                            : key
+                  key === "upload_dokumen_hasil_analisa"
+                    ? "Dokumen Laporan Hasil Pengolahan dan Analisa Data"
+                    : "upload_dokumen_laporan_perkep"
+                      ? "Dokumen Laporan Permohonan Perwal dan Kepwal"
+                      : "upload_dokumen_ahli"
+                        ? "Dokumen Pendataan Tenaga Ahli"
+                        : key
                 }
                 value={value}
                 location={"perencanaantik"}
                 type={
-                  key === "upload_foto_alat_sebelum_di_relokasi" || key === "upload_foto_alat_sesudah_di_relokasi" || key === "upload_foto_alat_sebelum_di_tambahkan" || key === "upload_foto_alat_sesudah_di_tambahkan" || key === "upload_foto_kegiatan"
-                    ? "images"
-                    : "text"
-                }
+                  key === "upload_dokumen_hasil_analisa" || "upload_dokumen_laporan_perkep" || "upload_dokumen_ahli"
+                      ? "pdf"
+                      : "text"
+              }
               />
             ))}
 
@@ -81,10 +77,7 @@ const FinishStatus = ({
             )}
           </div>
         </div>
-        <DynamicDetails
-          detailData={detailData}
-          loading={loading}
-        />
+        <DynamicDetails location={'perencanaantik'} detailData={detailData} loading={loading} />
       </div>
     )
   );

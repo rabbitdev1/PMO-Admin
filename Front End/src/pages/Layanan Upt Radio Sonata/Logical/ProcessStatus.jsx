@@ -7,7 +7,7 @@ import DynamicShow from "../../../components/common/DynamicShow";
 import DynamicDetails from "../../../components/ui/DynamicDetails";
 import { apiClient } from "../../../utils/api/apiClient";
 import { validateFile } from "../../../utils/helpers/validateForm";
-import { getMagangFinish, getMagangProcess } from "../data";
+import { getPodcastFinish, getPodcastProcess } from "../data";
 
 const ProcessStatus = ({
     submissionStatus,
@@ -24,8 +24,8 @@ const ProcessStatus = ({
 
     const [inputLocal, setInputLocal] = useState({});
 
-    const MagangProcess = getMagangProcess(inputLocal);
-    const MagangFinish = getMagangFinish(finishData);
+    const PodcastProcess = getPodcastProcess(inputLocal);
+    const PodcastFinish = getPodcastFinish(finishData);
 
     const fetchSetProgress = async (api_key, token, status) => {
         const params = new URLSearchParams();
@@ -34,7 +34,7 @@ const ProcessStatus = ({
 
         try {
             const response = await apiClient({
-                baseurl: "sekretariat/set_process",
+                baseurl: "uptradio/set_process",
                 method: "POST",
                 body: params,
                 apiKey: api_key,
@@ -43,8 +43,8 @@ const ProcessStatus = ({
             if (response?.statusCode === 200) {
                 setisModalVerif({
                     data: {
-                        title: 'sekretariat Berhasil diupdate',
-                        msg: 'Selamat, Pengajuan sekretariat sudah diupdate',
+                        title: 'Upt Radio Berhasil diupdate',
+                        msg: 'Selamat, Pengajuan upt radio sudah diupdate',
                         icon: PengajuanBerahasilIcon,
                         color: '#13C39C'
                     },
@@ -110,13 +110,13 @@ const ProcessStatus = ({
                                 key === "working_schedule" &&
                                 <DynamicShow
                                     key={key}
-                                    label={key === "working_schedule" ? "Jadwal Kerja" : key}
+                                    label={key === "working_schedule" ? "Jadwal Kerja" : key === "file_pengajuan_podcast" ? "Upload Dokumen Pengajuan Permohonan Podcast" : key}
                                     value={value}
                                     type={"working_schedule" ? "multidate" : 'text'}
                                 />
                             ))}
-                            {renderProcessInputs(detailData.submission_title === "Pendaftaran Magang" ?
-                                MagangProcess : []
+                            {renderProcessInputs(detailData.submission_title === "Permohonan Podcast" ?
+                                PodcastProcess : []
 
                             )}
                             <div className='flex sm:flex-row flex-col gap-2'>
@@ -138,8 +138,8 @@ const ProcessStatus = ({
 
                                         let isValid = true;
 
-                                        if (detailData.submission_title === "Pendaftaran Magang") {
-                                            isValid = isValid && validateFile(inputLocal.upload_dokumen_hasil_integrasi, "Upload Dokumen Laporan Hasil Integrasi");
+                                        if (detailData.submission_title === "Permohonan Podcast") {
+                                            isValid = isValid && validateFile(inputLocal.file_pengajuan_podcast, "Upload Dokumen Pengajuan Permohonan Podcast");
                                         }
                                         if (isValid) {
                                             checkingFormData('process', filteredDataResult);
@@ -161,7 +161,7 @@ const ProcessStatus = ({
                                     key === "working_schedule" &&
                                     <DynamicShow
                                         key={key}
-                                        label={key === "working_schedule" ? "Jadwal Kerja" : key}
+                                        label={key === "working_schedule" ? "Jadwal Kerja" : key === "file_pengajuan_podcast" ? "Dokumen Pengajuan Permohonan Podcast" : key}
                                         value={value}
                                         type={"working_schedule" ? "multidate" : 'text'}
                                     />
@@ -170,19 +170,15 @@ const ProcessStatus = ({
                                     <DynamicShow
                                         key={key}
                                         label={
-                                            key === "upload_dokumen_hasil_integrasi"
-                                                ? "Dokumen Laporan Hasil Integrasi"
-                                                : "upload_dokumen_laporan_modul_tte"
-                                                    ? "Upload Surat Pengesahan"
-                                                    : "upload_dokumen_laporan_pembuatan_akun"
-                                                        ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
-                                                        :
-                                                        key
+                                            key === "file_pengajuan_podcast"
+                                                ? "Dokumen Pengajuan Permohonan Podcast"
+                                                :
+                                                key
                                         }
                                         value={value}
-                                        location={"sekretariat"}
+                                        location={"uptradio"}
                                         type={
-                                            key === "upload_dokumen_hasil_integrasi" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun"
+                                            key === "file_pengajuan_podcast"
                                                 ? "pdf"
                                                 : "text"
                                         }
@@ -200,7 +196,7 @@ const ProcessStatus = ({
                                     key === "working_schedule" &&
                                     <DynamicShow
                                         key={key}
-                                        label={key === "working_schedule" ? "Jadwal Kerja" : key}
+                                        label={key === "working_schedule" ? "Jadwal Kerja" : key === "file_pengajuan_podcast" ? "Dokumen Hasil Permohonan Podcast" : key}
                                         value={value}
                                         type={"working_schedule" ? "multidate" : 'text'}
                                     />
@@ -209,19 +205,15 @@ const ProcessStatus = ({
                                     <DynamicShow
                                         key={key}
                                         label={
-                                            key === "upload_dokumen_hasil_integrasi"
-                                                ? "Dokumen Laporan Hasil Integrasi"
-                                                : "upload_dokumen_laporan_modul_tte"
-                                                    ? "Surat Pengesahan"
-                                                    : "upload_dokumen_laporan_pembuatan_akun"
-                                                        ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
-                                                        :
-                                                        key
+                                            key === "file_pengajuan_podcast"
+                                                ? "Dokumen Hasil Permohonan Podcast"
+                                                :
+                                                key
                                         }
                                         value={value}
-                                        location={"sekretariat"}
+                                        location={"uptradio"}
                                         type={
-                                            key === "upload_dokumen_hasil_integrasi" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun"
+                                            key === "file_pengajuan_podcast"
                                                 ? "pdf"
                                                 : "text"
                                         }
@@ -230,8 +222,8 @@ const ProcessStatus = ({
                             </div>
                             <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                                 <span className='text-lg font-bold'>Proses Selesai</span>
-                                {renderFinishInputs(detailData.submission_title === "Pendaftaran Magang" ?
-                                    MagangFinish : []
+                                {renderFinishInputs(detailData.submission_title === "Permohonan Podcast" ?
+                                    PodcastFinish : []
                                 )}
                                 <DynamicButton
                                     initialValue={"Pengajuan Selesai"}
@@ -260,7 +252,7 @@ const ProcessStatus = ({
                 )}
                 <DynamicDetails
 
-                    location={'sekretariat'}
+                    location={'uptradio'}
                     detailData={detailData}
                     loading={loading}
                 />
@@ -296,8 +288,8 @@ const ProcessStatus = ({
                                 <DynamicShow
                                     key={key}
                                     label={
-                                        key === "upload_dokumen_hasil_integrasi"
-                                            ? "File Dokumen Hasil Integrasi"
+                                        key === "file_pengajuan_podcast"
+                                            ? "Upload Dokumen Pengajuan Permohonan Podcast"
                                             : "upload_dokumen_laporan_modul_tte"
                                                 ? "Surat Pengesahan"
                                                 : "upload_dokumen_laporan_pembuatan_akun"
@@ -306,9 +298,9 @@ const ProcessStatus = ({
                                                     key
                                     }
                                     value={value}
-                                    location={"sekretariat"}
+                                    location={"uptradio"}
                                     type={
-                                        key === "upload_dokumen_hasil_integrasi" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun"
+                                        key === "file_pengajuan_podcast" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun"
                                             ? "pdf"
                                             : "text"
                                     }
@@ -317,7 +309,7 @@ const ProcessStatus = ({
                         </div>
                     }
                 </div>
-                <DynamicDetails location={"sekretariat"} detailData={detailData} loading={loading} />
+                <DynamicDetails location={"uptradio"} detailData={detailData} loading={loading} />
             </div>
         )
     );

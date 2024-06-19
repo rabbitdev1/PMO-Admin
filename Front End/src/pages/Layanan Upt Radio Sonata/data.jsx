@@ -12,20 +12,23 @@ export const formData = [
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
-      
+      { name: "needed_reason", label: "Alasan Dibutuhkan", value: "", type: "editor"},
+      { name: "location_implementation", label: "Tempat Pelaksanaan", value: "", type: "editor"},
+      { name: "period", label: "Periode Jangka Waktu", value: "", type: "date"}
+
     ],
   },
 ]
 
-const getMagangProcess = (inputLocal) => [
+const getPodcastProcess = (inputLocal) => [
   {
-    label: "Upload Dokumen Laporan Hasil Integrasi",
-    value: inputLocal.upload_dokumen_hasil_integrasi,
+    label: "Upload Dokumen Pengajuan Permohonan Podcast",
+    value: inputLocal.file_pengajuan_podcast,
     type: "file_upload",
-    name: 'upload_dokumen_hasil_integrasi'
+    name: 'file_pengajuan_podcast'
   },
 ];
-const getMagangFinish = (finishData) => [
+const getPodcastFinish = (finishData) => [
   {
     label: "Status Pengajuan",
     value: finishData.submission_status,
@@ -51,5 +54,5 @@ const getMagangFinish = (finishData) => [
 ];
 
 export {
-  getMagangProcess, getMagangFinish,
+  getPodcastProcess, getPodcastFinish,
 };

@@ -180,7 +180,8 @@ function DetailAplikasiPages() {
       if (
         data.file_scema_integration ||
         data.upload_dokumen_laporan_modul_tte ||
-        data.upload_dokumen_laporan_pembuatan_akun
+        data.upload_dokumen_laporan_pembuatan_akun ||
+        data.upload_surat_pengesahan
       ) {
         try {
           const uploadPromises = [];
@@ -226,6 +227,19 @@ function DetailAplikasiPages() {
               })
             );
           }
+          if (data.upload_surat_pengesahan) {
+            uploadPromises.push(
+              fetchUploadFiles(
+                authApiKey,
+                authToken,
+                data.upload_surat_pengesahan,
+                "aplikasi",
+                dispatch
+              ).then(result => {
+                resultMapping.upload_surat_pengesahan = result;
+              })
+            );
+          }
           await Promise.all(uploadPromises);
 
           let combineData = { ...data };
@@ -238,6 +252,9 @@ function DetailAplikasiPages() {
           if (resultMapping.upload_dokumen_laporan_pembuatan_akun) {
             combineData.upload_dokumen_laporan_pembuatan_akun = resultMapping.upload_dokumen_laporan_pembuatan_akun;
           }
+          if (resultMapping.upload_surat_pengesahan) {
+            combineData.upload_surat_pengesahan = resultMapping.upload_surat_pengesahan;
+          }
           fetchEditaplikasi(authApiKey, authToken, slug, type, combineData);
         } catch (error) {
           console.error("Error occurred during image upload:", error);
@@ -249,7 +266,8 @@ function DetailAplikasiPages() {
       if (
         data.upload_dokumen_hasil_integrasi ||
         data.upload_dokumen_laporan_modul_tte ||
-        data.upload_dokumen_laporan_pembuatan_akun
+        data.upload_dokumen_laporan_pembuatan_akun ||
+        data.upload_surat_pengesahan
       ) {
         try {
           const uploadPromises = [];
@@ -294,6 +312,19 @@ function DetailAplikasiPages() {
               })
             );
           }
+          if (data.upload_surat_pengesahan) {
+            uploadPromises.push(
+              fetchUploadFiles(
+                authApiKey,
+                authToken,
+                data.upload_surat_pengesahan,
+                "aplikasi",
+                dispatch
+              ).then(result => {
+                resultMapping.upload_surat_pengesahan = result;
+              })
+            );
+          }
 
           await Promise.all(uploadPromises);
 
@@ -306,6 +337,9 @@ function DetailAplikasiPages() {
           }
           if (resultMapping.upload_dokumen_laporan_pembuatan_akun) {
             combineData.upload_dokumen_laporan_pembuatan_akun = resultMapping.upload_dokumen_laporan_pembuatan_akun;
+          }
+          if (resultMapping.upload_surat_pengesahan) {
+            combineData.upload_surat_pengesahan = resultMapping.upload_surat_pengesahan;
           }
 
           fetchEditaplikasi(authApiKey, authToken, slug, type, combineData);
