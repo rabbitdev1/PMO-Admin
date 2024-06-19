@@ -12,7 +12,7 @@ import DynamicDetailsPermohonanSI from "../DynamicDetailsPermohonanSI";
 const FeasibilityAnalysisStatus = ({
   submissionStatus,
   feasibilityData,
-  setValidationData,
+  validationData,
   authProfile,
   slug,
   setisModalVerif,
@@ -26,10 +26,10 @@ const FeasibilityAnalysisStatus = ({
   const [inputLocal, setInputLocal] = useState({});
   const FeasibilityAnalysis = [
     {
-      label: "Tanggapan Tim",
-      value: inputLocal.team_response,
+      label: "Catatan Analisis Kelayakan",
+      value: inputLocal.feasibility_analysis_notes,
       type: "textarea",
-      name: 'team_response'
+      name: 'feasibility_analysis_notes'
     },
   ];
 
@@ -85,6 +85,26 @@ const FeasibilityAnalysisStatus = ({
   };
   return (
     <>
+      <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+        <div className="flex flex-row gap-2 items-center">
+          <span className="text-base font-semibold">Status Kelengkapan Dokumen :</span>
+          <div
+            className={`flex flex-row gap-2 p-1 px-3 rounded-md text-darkColor ${validationData.status_validation === 'Disetujui' ? 'bg-[#0185FF]' : 'bg-[#FF0000]'}`}
+          >
+            <span className="text-base">
+              {validationData.status_validation}
+            </span>
+          </div>
+        </div>
+        {validationData?.response &&
+          <DynamicShow
+            label={"Tanggapan"}
+            location={'permohonanSI'}
+            value={validationData?.response}
+            type={"html"}
+          />
+        }
+      </div>
       {submissionStatus === 4 && (JSON.parse(authProfile)?.role === "katim_perencanaan" ?
         <div className="flex flex-col gap-3">
           <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
@@ -106,7 +126,7 @@ const FeasibilityAnalysisStatus = ({
                     })
                   );
                   let isValid = true;
-                  isValid = isValid && validateText(inputLocal.team_response, "Tanggapan Tim Teknis")
+                  isValid = isValid && validateText(inputLocal.feasibility_analysis_notes, "Catatan Analisis Kelayakan")
 
                   if (isValid) {
                     checkingFormData('feasibility_analysis', filteredDataResult);
@@ -121,7 +141,7 @@ const FeasibilityAnalysisStatus = ({
                 color={"#ffffff"}
                 className="inline-flex  bg-[#FF0000] text-darkColor"
                 onClick={() => {
-                 const result = {
+                  const result = {
                     ...inputLocal,
                   };
                   const filteredDataResult = Object.fromEntries(
@@ -130,7 +150,7 @@ const FeasibilityAnalysisStatus = ({
                     })
                   );
                   let isValid = true;
-                  isValid = isValid && validateText(inputLocal.team_response, "Tanggapan Tim Teknis")
+                  isValid = isValid && validateText(inputLocal.feasibility_analysis_notes, "Catatan Analisis Kelayakan")
 
                   if (isValid) {
                     checkingFormData('feasibility_analysis', filteredDataResult);
@@ -179,13 +199,14 @@ const FeasibilityAnalysisStatus = ({
                   </span>
                 </div>
               </div>
+              <span className='text-lg font-bold'>Analisis Kelayakan</span>
               {Object.entries(feasibilityData).map(([key, value]) => (
                 <DynamicShow
                   key={key}
                   location={'permohonanSI'}
-                  label={key === "team_response" ? "Tanggapan dari Tim" : key === "working_schedule" ? "Jadwal Kerja" : key === "response_katim" ? "Tanggapan dari Ketua Tim" : key}
+                  label={key === "feasibility_analysis_notes" ? "Catatan Analisis Kelayakan" : key}
                   value={value}
-                  type={key === "team_response" ? 'text' : key === "working_schedule" ? "multidate" : key === "response" ? "html" : 'text'}
+                  type={key === "feasibility_analysis_notes" ? 'text' : 'text'}
                 />
               ))}
             </div>
