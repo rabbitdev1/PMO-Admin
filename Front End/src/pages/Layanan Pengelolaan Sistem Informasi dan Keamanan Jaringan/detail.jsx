@@ -21,6 +21,7 @@ import FinishStatus from "./Logical/FinishStatus";
 import ProcessStatus from "./Logical/ProcessStatus";
 import ValidationStatus from "./Logical/ValidationStatus";
 import ValidationStatusTechnique from "./Logical/ValidationStatusTechnique";
+import ConditionalRender from "../../components/ui/ConditionalRender";
 
 function DetailAplikasiPages() {
   const { isDarkMode } = useTheme();
@@ -155,7 +156,7 @@ function DetailAplikasiPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "aplikasi Berhasil diupdate",
+            title: "Aplikasi Berhasil Diupdate",
             msg: "Selamat, Pengajuan aplikasi sudah diupdate",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
@@ -176,104 +177,84 @@ function DetailAplikasiPages() {
     if (type === "validation") {
       fetchEditaplikasi(authApiKey, authToken, slug, type, data);
     } else if (type === "validation_technique") {
-      fetchEditaplikasi(authApiKey, authToken, slug, type, data);
-    } else if (type === "process") {
       if (
-        data.upload_foto_alat_sebelum_di_relokasi ||
-        data.upload_foto_alat_sesudah_di_relokasi ||
-        data.upload_foto_alat_sebelum_di_tambahkan ||
-        data.upload_foto_alat_sesudah_di_tambahkan ||
-        data.upload_foto_kegiatan
+        data.file_scema_integration ||
+        data.upload_dokumen_laporan_modul_tte ||
+        data.upload_dokumen_laporan_pembuatan_akun ||
+        data.upload_surat_pengesahan
       ) {
         try {
           const uploadPromises = [];
           const resultMapping = {};
-      
-          if (data.upload_foto_alat_sebelum_di_relokasi) {
+          if (data.file_scema_integration) {
             uploadPromises.push(
-              fetchUploadImages(
+              fetchUploadFiles(
                 authApiKey,
                 authToken,
-                data.upload_foto_alat_sebelum_di_relokasi,
+                data.file_scema_integration,
                 "aplikasi",
                 dispatch
               ).then(result => {
-                resultMapping.upload_foto_alat_sebelum_di_relokasi = result;
+                resultMapping.file_scema_integration = result;
               })
             );
           }
-          if (data.upload_foto_alat_sesudah_di_relokasi) {
+
+          if (data.upload_dokumen_laporan_modul_tte) {
             uploadPromises.push(
-              fetchUploadImages(
+              fetchUploadFiles(
                 authApiKey,
                 authToken,
-                data.upload_foto_alat_sesudah_di_relokasi,
+                data.upload_dokumen_laporan_modul_tte,
                 "aplikasi",
                 dispatch
               ).then(result => {
-                resultMapping.upload_foto_alat_sesudah_di_relokasi = result;
+                resultMapping.upload_dokumen_laporan_modul_tte = result;
               })
             );
           }
-          if (data.upload_foto_alat_sebelum_di_tambahkan) {
+
+          if (data.upload_dokumen_laporan_pembuatan_akun) {
             uploadPromises.push(
-              fetchUploadImages(
+              fetchUploadFiles(
                 authApiKey,
                 authToken,
-                data.upload_foto_alat_sebelum_di_tambahkan,
+                data.upload_dokumen_laporan_pembuatan_akun,
                 "aplikasi",
                 dispatch
               ).then(result => {
-                resultMapping.upload_foto_alat_sebelum_di_tambahkan = result;
+                resultMapping.upload_dokumen_laporan_pembuatan_akun = result;
               })
             );
           }
-          if (data.upload_foto_alat_sesudah_di_tambahkan) {
+          if (data.upload_surat_pengesahan) {
             uploadPromises.push(
-              fetchUploadImages(
+              fetchUploadFiles(
                 authApiKey,
                 authToken,
-                data.upload_foto_alat_sesudah_di_tambahkan,
+                data.upload_surat_pengesahan,
                 "aplikasi",
                 dispatch
               ).then(result => {
-                resultMapping.upload_foto_alat_sesudah_di_tambahkan = result;
+                resultMapping.upload_surat_pengesahan = result;
               })
             );
           }
-          if (data.upload_foto_kegiatan) {
-            uploadPromises.push(
-              fetchUploadImages(
-                authApiKey,
-                authToken,
-                data.upload_foto_kegiatan,
-                "aplikasi",
-                dispatch
-              ).then(result => {
-                resultMapping.upload_foto_kegiatan = result;
-              })
-            );
-          }
-      
           await Promise.all(uploadPromises);
-      
+
           let combineData = { ...data };
-          if (resultMapping.upload_foto_alat_sebelum_di_relokasi) {
-            combineData.upload_foto_alat_sebelum_di_relokasi = resultMapping.upload_foto_alat_sebelum_di_relokasi;
+          if (resultMapping.file_scema_integration) {
+            combineData.file_scema_integration = resultMapping.file_scema_integration;
           }
-          if (resultMapping.upload_foto_alat_sesudah_di_relokasi) {
-            combineData.upload_foto_alat_sesudah_di_relokasi = resultMapping.upload_foto_alat_sesudah_di_relokasi;
+          if (resultMapping.upload_dokumen_laporan_modul_tte) {
+            combineData.upload_dokumen_laporan_modul_tte = resultMapping.upload_dokumen_laporan_modul_tte;
           }
-          if (resultMapping.upload_foto_alat_sebelum_di_tambahkan) {
-            combineData.upload_foto_alat_sebelum_di_tambahkan = resultMapping.upload_foto_alat_sebelum_di_tambahkan;
+          if (resultMapping.upload_dokumen_laporan_pembuatan_akun) {
+            combineData.upload_dokumen_laporan_pembuatan_akun = resultMapping.upload_dokumen_laporan_pembuatan_akun;
           }
-          if (resultMapping.upload_foto_alat_sesudah_di_tambahkan) {
-            combineData.upload_foto_alat_sesudah_di_tambahkan = resultMapping.upload_foto_alat_sesudah_di_tambahkan;
+          if (resultMapping.upload_surat_pengesahan) {
+            combineData.upload_surat_pengesahan = resultMapping.upload_surat_pengesahan;
           }
-          if (resultMapping.upload_foto_kegiatan) {
-            combineData.upload_foto_kegiatan = resultMapping.upload_foto_kegiatan;
-          }
-      
           fetchEditaplikasi(authApiKey, authToken, slug, type, combineData);
         } catch (error) {
           console.error("Error occurred during image upload:", error);
@@ -281,7 +262,94 @@ function DetailAplikasiPages() {
       } else {
         fetchEditaplikasi(authApiKey, authToken, slug, type, data);
       }
-      
+    } else if (type === "process") {
+      if (
+        data.upload_dokumen_hasil_integrasi ||
+        data.upload_dokumen_laporan_modul_tte ||
+        data.upload_dokumen_laporan_pembuatan_akun ||
+        data.upload_surat_pengesahan
+      ) {
+        try {
+          const uploadPromises = [];
+          const resultMapping = {};
+
+          if (data.upload_dokumen_hasil_integrasi) {
+            uploadPromises.push(
+              fetchUploadFiles(
+                authApiKey,
+                authToken,
+                data.upload_dokumen_hasil_integrasi,
+                "aplikasi",
+                dispatch
+              ).then(result => {
+                resultMapping.upload_dokumen_hasil_integrasi = result;
+              })
+            );
+          }
+          if (data.upload_dokumen_laporan_modul_tte) {
+            uploadPromises.push(
+              fetchUploadFiles(
+                authApiKey,
+                authToken,
+                data.upload_dokumen_laporan_modul_tte,
+                "aplikasi",
+                dispatch
+              ).then(result => {
+                resultMapping.upload_dokumen_laporan_modul_tte = result;
+              })
+            );
+          }
+          if (data.upload_dokumen_laporan_pembuatan_akun) {
+            uploadPromises.push(
+              fetchUploadFiles(
+                authApiKey,
+                authToken,
+                data.upload_dokumen_laporan_pembuatan_akun,
+                "aplikasi",
+                dispatch
+              ).then(result => {
+                resultMapping.upload_dokumen_laporan_pembuatan_akun = result;
+              })
+            );
+          }
+          if (data.upload_surat_pengesahan) {
+            uploadPromises.push(
+              fetchUploadFiles(
+                authApiKey,
+                authToken,
+                data.upload_surat_pengesahan,
+                "aplikasi",
+                dispatch
+              ).then(result => {
+                resultMapping.upload_surat_pengesahan = result;
+              })
+            );
+          }
+
+          await Promise.all(uploadPromises);
+
+          let combineData = { ...data };
+          if (resultMapping.upload_dokumen_hasil_integrasi) {
+            combineData.upload_dokumen_hasil_integrasi = resultMapping.upload_dokumen_hasil_integrasi;
+          }
+          if (resultMapping.upload_dokumen_laporan_modul_tte) {
+            combineData.upload_dokumen_laporan_modul_tte = resultMapping.upload_dokumen_laporan_modul_tte;
+          }
+          if (resultMapping.upload_dokumen_laporan_pembuatan_akun) {
+            combineData.upload_dokumen_laporan_pembuatan_akun = resultMapping.upload_dokumen_laporan_pembuatan_akun;
+          }
+          if (resultMapping.upload_surat_pengesahan) {
+            combineData.upload_surat_pengesahan = resultMapping.upload_surat_pengesahan;
+          }
+
+          fetchEditaplikasi(authApiKey, authToken, slug, type, combineData);
+        } catch (error) {
+          console.error("Error occurred during image upload:", error);
+        }
+      } else {
+        fetchEditaplikasi(authApiKey, authToken, slug, type, data);
+      }
+
     } else if (type === "finish") {
       if (data.file_submission) {
         const result = await fetchUploadFiles(
@@ -316,58 +384,65 @@ function DetailAplikasiPages() {
         link1={"dashboard"}
         link2={"Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan"}
       />
-      <section className="flex flex-col gap-3">
-        <SubmissionStatus status={submissionStatus} />
-        <div className={`flex  flex-col gap-3`}>
-          <DalamAntrianView
-            submissionStatus={submissionStatus}
-            detailData={detailData}
-            loading={aplikasiLoading}
-          />
-          <ValidationStatus
-            submissionStatus={submissionStatus}
-            validationData={validationData}
-            authProfile={authProfile}
-            detailData={detailData}
-            loading={aplikasiLoading}
-            setValidationData={setValidationData}
-            checkingFormData={checkingFormData}
-          />
-          <ValidationStatusTechnique
-            slug={slug}
-            submissionStatus={submissionStatus}
-            validationData={validationDataTechnique}
-            setValidationData={setValidationDataTechnique}
-            authProfile={authProfile}
-            detailData={detailData}
-            loading={aplikasiLoading}
-            checkingFormData={checkingFormData}
-            setisModalVerif={setisModalVerif}
-          />
-          <ProcessStatus
-            slug={slug}
-            validationData={validationDataTechnique}
-            submissionStatus={submissionStatus}
-            processData={processData}
-            authProfile={authProfile}
-            detailData={detailData}
-            aplikasiLoading={aplikasiLoading}
-            checkingFormData={checkingFormData}
-            setisModalVerif={setisModalVerif}
-            finishData={finishData}
-            setfinishData={setfinishData}
-          />
+      <ConditionalRender
+        data={detailData}
+        loading={aplikasiLoading}
+        className={"flex flex-col h-60"}
+        model={"emptyData"}
+      >
+        <section className="flex flex-col gap-3">
+          <SubmissionStatus status={submissionStatus} />
+          <div className={`flex  flex-col gap-3`}>
+            <DalamAntrianView
+              submissionStatus={submissionStatus}
+              detailData={detailData}
+              loading={aplikasiLoading}
+            />
+            <ValidationStatus
+              submissionStatus={submissionStatus}
+              validationData={validationData}
+              authProfile={authProfile}
+              detailData={detailData}
+              loading={aplikasiLoading}
+              setValidationData={setValidationData}
+              checkingFormData={checkingFormData}
+            />
+            <ValidationStatusTechnique
+              slug={slug}
+              submissionStatus={submissionStatus}
+              validationData={validationDataTechnique}
+              setValidationData={setValidationDataTechnique}
+              authProfile={authProfile}
+              detailData={detailData}
+              loading={aplikasiLoading}
+              checkingFormData={checkingFormData}
+              setisModalVerif={setisModalVerif}
+            />
+            <ProcessStatus
+              slug={slug}
+              validationData={validationDataTechnique}
+              submissionStatus={submissionStatus}
+              processData={processData}
+              authProfile={authProfile}
+              detailData={detailData}
+              loading={aplikasiLoading}
+              checkingFormData={checkingFormData}
+              setisModalVerif={setisModalVerif}
+              finishData={finishData}
+              setfinishData={setfinishData}
+            />
 
-          <FinishStatus
-            detailData={detailData}
-            aplikasiLoading={aplikasiLoading}
-            validationData={validationDataTechnique}
-            processData={processData}
-            submissionStatus={submissionStatus}
-            finishData={finishData}
-          />
-        </div>
-      </section>
+            <FinishStatus
+              detailData={detailData}
+              loading={aplikasiLoading}
+              validationData={validationDataTechnique}
+              processData={processData}
+              submissionStatus={submissionStatus}
+              finishData={finishData}
+            />
+          </div>
+        </section>
+      </ConditionalRender>
 
       <ModalContent
         className={"sm:max-w-xl"}

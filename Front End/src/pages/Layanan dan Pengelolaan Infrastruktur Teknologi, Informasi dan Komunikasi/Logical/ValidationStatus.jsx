@@ -61,6 +61,7 @@ const ValidationStatus = ({
                   value={inputProps.value}
                   type={inputProps.type}
                   options={inputProps.options}
+                  placeholder={'Masukan ' + inputProps.label}
                   onChange={(value) => {
                     setValidationData((prevState) => ({
                       ...prevState,
@@ -106,7 +107,7 @@ const ValidationStatus = ({
               </span>
             </div>
           </div>
-          <DynamicDetails location={"infrastruktur"}detailData={detailData} loading={loading} />
+          <DynamicDetails location={"infrastruktur"} detailData={detailData} loading={loading} />
         </div>
       )}
       {submissionStatus === 3 && (
@@ -130,7 +131,7 @@ const ValidationStatus = ({
               />
             </div>
           </div>
-          <DynamicDetails location={"infrastruktur"}detailData={detailData} loading={loading} />
+          <DynamicDetails location={"infrastruktur"} detailData={detailData} loading={loading} />
         </div>
       )}
     </>

@@ -1,14 +1,15 @@
 import { toast } from "react-toastify";
 
 export const validateFullname = (value, title) => {
-    if (!value || value.length < 4) {
-        toast.error(title + " minimal 4 Huruf", {
+    if (!value || value.length < 4 || value.length > 20) {
+        toast.error(title + " harus memiliki panjang antara 4 dan 20 karakter", {
             position: toast.POSITION.TOP_RIGHT,
         });
         return false;
     }
     return true;
 };
+
 
 export const validateEmail = (value, title) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -61,7 +62,7 @@ export const validateRole = (value, title) => {
 };
 
 export const validateTelp = (value, title) => {
-    if (value.startsWith("+62")) {
+    if (value?.startsWith("+62")) {
         value = "0" + value.slice(3);
     }
     const phoneRegex = /^[0-9]{10,15}$/;

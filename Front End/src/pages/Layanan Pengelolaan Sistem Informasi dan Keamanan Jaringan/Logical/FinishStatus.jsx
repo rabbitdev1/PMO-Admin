@@ -8,7 +8,7 @@ const FinishStatus = ({
   validationData,
   processData,
   detailData,
-  infrastrukturLoading,
+  loading,
 }) => {
   return (
     submissionStatus >= 7 && (
@@ -42,23 +42,18 @@ const FinishStatus = ({
               <DynamicShow
                 key={key}
                 label={
-                  key === "upload_foto_alat_sebelum_di_relokasi"
-                    ? "Foto Alat Sebelum Di Relokasikan"
-                    : key === "upload_foto_alat_sesudah_di_relokasi"
-                      ? "Foto Alat Sesudah Di Relokasikan"
-                      : key === "upload_foto_alat_sebelum_di_tambahkan"
-                        ? "Foto Alat Sebelum Di Tambahkan"
-                        : key === "upload_foto_alat_sesudah_di_tambahkan"
-                          ? "Foto Alat Sesudah Di Tambahkan"
-                          : key === "upload_foto_kegiatan"
-                            ? "Foto Kegiatan"
-                            : key
+                  key === "upload_dokumen_hasil_integrasi"
+                    ? "Dokumen Hasil Integrasi"
+                    : "upload_dokumen_laporan_modul_tte"
+                    ? "Surat Pengesahan"
+                    : "upload_dokumen_laporan_pembuatan_akun"
+                    ? "Dokumen Laporan Hasil Pembuatan Akun"
+                    : key
                 }
                 value={value}
                 location={"aplikasi"}
                 type={
-                  key === "upload_foto_alat_sebelum_di_relokasi" || key === "upload_foto_alat_sesudah_di_relokasi" || key === "upload_foto_alat_sebelum_di_tambahkan" || key === "upload_foto_alat_sesudah_di_tambahkan" || key === "upload_foto_kegiatan"
-                    ? "images"
+                  key === "upload_dokumen_hasil_integrasi" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun" ? "pdf"
                     : "text"
                 }
               />
@@ -82,8 +77,10 @@ const FinishStatus = ({
           </div>
         </div>
         <DynamicDetails
+
+location={'aplikasi'}
           detailData={detailData}
-          loading={infrastrukturLoading}
+          loading={loading}
         />
       </div>
     )

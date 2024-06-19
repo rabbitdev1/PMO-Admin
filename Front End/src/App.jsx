@@ -5,7 +5,7 @@ import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
 // Import Routes all
-import { authRoutes, nonUserRoutes, userRoutes } from "./routes/allRoutes";
+import { aplikasiRoutes, authRoutes, infraRoutes, nonUserRoutes, operatorRoutes, userRoutes } from "./routes/allRoutes";
 
 // Import all middleware
 import Authmiddleware from "./routes/middleware/Authmiddleware";
@@ -16,11 +16,13 @@ import { MaintenanceGuard } from "./components/layout/MaintenanceGuard";
 
 import NotFoundPage from "./components/layout/NotFoundPage";
 import NonAuthLayout from "./routes/NonAuthLayout";
+import { apiClient } from "./utils/api/apiClient";
 
 function App() {
   const isPending = useSelector((state) => state.todoReducer.isPending);
   const location = useLocation();
   const [authToken, setAuthToken] = useState(null);
+  const [role, setRole] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,9 +30,11 @@ function App() {
   }, [location]);
 
   useEffect(() => {
+    const authApiKey = Cookies.get('authApiKey');
     const authToken = Cookies.get('authToken');
-    if (authToken) {
+    if (authToken && authApiKey) {
       setAuthToken(authToken);
+      fetchDataProfile(authApiKey, authToken)
       if (location.pathname === '/login') {
         navigate('/');
       }
@@ -39,6 +43,24 @@ function App() {
       navigate('/login');
     }
   }, []);
+
+  const fetchDataProfile = async (api_key, token) => {
+    try {
+      const response = await apiClient({
+        baseurl: "me",
+        method: "POST",
+        apiKey: api_key,
+        token: token,
+      });
+      if (response?.statusCode === 200) {
+        setRole(response.result.data.role)
+        Cookies.set('authData', JSON.stringify(response.result.data), { expires: 1 });
+      } else {
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   return (
     <React.Fragment>
@@ -53,14 +75,44 @@ function App() {
               exact={true}
             />
           ))
-            : userRoutes.map((route, idx) => (
-              <Route
-                path={route.path}
-                element={<Authmiddleware>{route.component}</Authmiddleware>}
-                key={idx}
-                exact={true}
-              />
-            ))}
+            :
+            role === 'op_pmo' ?
+              [...userRoutes, ...operatorRoutes].map((route, idx) => (
+                <Route
+                  path={route.path}
+                  element={<Authmiddleware>{route.component}</Authmiddleware>}
+                  key={idx}
+                  exact={true}
+                />
+              )) :
+              (role === 'kabid_infra' || role === 'katim_infra' || role === 'teknis_infra') ?
+                [...userRoutes, ...infraRoutes].map((route, idx) => (
+                  <Route
+                    path={route.path}
+                    element={<Authmiddleware>{route.component}</Authmiddleware>}
+                    key={idx}
+                    exact={true}
+                  />
+                )) :
+                (role === 'kabid_aplikasi' || role === 'katim_aplikasi' || role === 'teknis_aplikasi') ?
+                  [...userRoutes, ...aplikasiRoutes].map((route, idx) => (
+                    <Route
+                      path={route.path}
+                      element={<Authmiddleware>{route.component}</Authmiddleware>}
+                      key={idx}
+                      exact={true}
+                    />
+                  )) :
+                  userRoutes.map((route, idx) => (
+                    <Route
+                      path={route.path}
+                      element={<Authmiddleware>{route.component}</Authmiddleware>}
+                      key={idx}
+                      exact={true}
+                    />
+                  ))
+          }
+
           {nonUserRoutes.map((route, idx) => (
             <Route
               path={route.path}

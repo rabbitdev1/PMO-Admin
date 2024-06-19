@@ -155,7 +155,7 @@ export const formData = [
           startDate: null,
           endDate: null,
         },
-        type: "date",
+        type: "multi_date",
         visible: true,
         // visible: false,
       },
@@ -404,7 +404,42 @@ const getPenambahanAlatFinish = (finishData) => [
   },
 ];
 
+const getTroubleshotingProcess = (inputLocal) => [
+  {
+    label: "Upload Foto Kegiatan",
+    value: inputLocal.upload_foto_kegiatan,
+    type: "image_upload",
+    name: "upload_foto_kegiatan",
+  },
+];
+
+const getTroubleshotingFinish = (finishData) => [
+  {
+    label: "Status Pengajuan",
+    value: finishData.submission_status,
+    name: "submission_status",
+    type: "radio_button",
+    options: [
+      { value: "1", label: "Menyetujui" },
+      { value: "0", label: "Tidak Menyetujui" },
+    ],
+  },
+  {
+    label: "Upload Surat Pemberitahuan untuk OPD",
+    value: finishData.file_submission,
+    name: "file_submission",
+    type: "file_upload",
+  },
+  {
+    label: "Tanggapan",
+    value: finishData.response || null,
+    type: "textarea",
+    name: "response",
+  },
+];
+
+
 export {
   getPenambahanAlatFinish, getPenambahanAlatProcess, getPenambahanBandwidthFinish, getPenambahanBandwidthProcess,
-  getRelokasiAlatFinish, getRelokasiAlatProcess
+  getRelokasiAlatFinish, getRelokasiAlatProcess, getTroubleshotingProcess, getTroubleshotingFinish
 };

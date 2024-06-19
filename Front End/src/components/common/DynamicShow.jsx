@@ -14,6 +14,7 @@ function DynamicShow({ label, value, options, type, className, location }) {
   } catch (error) {
     // Handle JSON parsing error here
   }
+
   return (
     <div className="flex flex-col gap-2 w-full">
       <div className="flex flex-row items-center gap-2 ">
@@ -43,19 +44,25 @@ function DynamicShow({ label, value, options, type, className, location }) {
           <PDFComponent imagePath={`files/${location}/${value}`} />
         </div>
       ) : type === "array" ? (
-        <div className={`flex flex-row gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center p-2 ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}>
-          {value.map((item, index) => {
-            const name = typeof item === 'object' ? item.name : item;
-            const displayValue = typeof item === 'object' && item.value ? ` : (${item.value})` : '';
+        <div
+      className={`${value.length < 3 ? 'flex flex-row' : 'grid'} gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center p-2 ${className} rounded-lg border border-[#dddddd] dark:border-[#ffffff20]`}
+      style={value.length < 3 ? {} : { gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))' }}
+    >
+      {value.map((item, index) => {
+        const name = typeof item === 'object' ? item.name : item;
+        const displayValue = typeof item === 'object' && item.value ? ` : (${item.value})` : '';
 
-            return (
-              <div key={index} className={`flex items-center p-1.5 px-3 text-lightColor bg-[#e6e6e6] dark:text-darkColor rounded-sm border-1 border-[#dddddd] dark:border-[#ffffff20]`}>
-                <span className="text-xs">{name}{displayValue}</span>
-              </div>
-            );
-          })}
-        </div>
-      ) : type === "date" ? (
+        return (
+          <div
+            key={index}
+            className="flex items-center p-1.5 px-3 text-lightColor bg-[#e6e6e6] dark:text-darkColor rounded-sm border border-[#dddddd] dark:border-[#ffffff20]"
+          >
+            <span className="text-xs">{name}{displayValue}</span>
+          </div>
+        );
+      })}
+    </div>
+      ) : type === "multi_date" ? (
         <div
           className={`flex flex-row gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center p-3 ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}
         >

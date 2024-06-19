@@ -1,13 +1,22 @@
-import { validateArray, validateFile, validateFullname, validateHTML, validatePeriod1, validateTelp } from "../../utils/helpers/validateForm";
+import { validateArray, validateFile, validateFullname, validateHTML, validatePassword, validatePeriod, validatePeriod1, validateRadioBottom, validateRepeatPassword, validateTelp, validateText, validateTextArea } from "../../utils/helpers/validateForm";
 
 
 export const isValidatorUserAccountSI = (obj) => {
-  console.log(obj);
   let isValid = true;
   isValid = isValid && validateFullname(obj.name_pic, "Nama PIC");
   isValid = isValid && validateTelp(obj.telp_pic, "Nomor PIC");
   isValid = isValid && validateHTML(obj.reason, "Alasan Pengajuan");
+  isValid = isValid && validateArray(obj.submission_type_user_account, "Jenis Pengajuan");
 
+
+  if (obj.submission_type_user_account === 'reset_password') {
+    isValid = isValid && validatePassword(obj.password, "Password Lama");
+    isValid = isValid && validatePassword(obj.new_password, "Password Lama");
+    isValid = isValid && validateRepeatPassword(obj.new_password, obj.repeat_password);
+  } else if (obj.submission_type_user_account === 'new_account') {
+    isValid = isValid && validateArray(obj.account_type, "Jenis Akun");
+
+  }
   return isValid;
 };
 export const isValidatorPenerapanModulTTE = (obj) => {
@@ -35,3 +44,14 @@ export const isValidatorIntegrasi = (obj) => {
   return isValid;
 };
 
+export const isValidatorEmail = (obj) => {
+  let isValid = true;
+  isValid = isValid && validateFullname(obj.name_pic, "Nama PIC");
+  isValid = isValid && validateTelp(obj.telp_pic, "Nomor PIC");
+  isValid = isValid && validateText(obj.jabatan, "Jabatan");
+  isValid = isValid && validateText(obj.nip, "NIP");
+  isValid = isValid && validateArray(obj.peruntukan, "Peruntukan");
+  isValid = isValid && validateHTML(obj.reason, "Alasan");
+
+  return isValid;
+};

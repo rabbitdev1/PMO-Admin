@@ -18,9 +18,28 @@ function DashboardPages() {
 
   return (
     <div className="flex flex-col gap-3 flex-1 p-3">
-    <TitleHeader  link1={"dashboard"}  />
+      <TitleHeader link1={"dashboard"} />
+      <div className="flex flex-1 gap-3 flex-row">
+        <div className="bg-lightColor dark:bg-cardDark p-3 rounded-lg flex-1">
+          Belum Tersedia
+        </div>
+        <div className="bg-lightColor dark:bg-cardDark p-3 rounded-lg flex-1">
+          Belum Tersedia
+        </div>
+      </div>
       <div className="bg-lightColor dark:bg-cardDark p-3 rounded-lg">
-        sdf
+        Belum Tersedia
+      </div>
+      <div className="flex flex-1 gap-3 flex-row">
+        <div className="bg-lightColor dark:bg-cardDark p-3 rounded-lg flex-1">
+          Belum Tersedia
+        </div>
+        <div className="bg-lightColor dark:bg-cardDark p-3 rounded-lg flex-1">
+          Belum Tersedia
+        </div>
+      </div>
+      <div className="bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+        Belum Tersedia
       </div>
     </div>
   );

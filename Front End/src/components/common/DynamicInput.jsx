@@ -26,6 +26,7 @@ function DynamicInput({
   placeholder,
   onChange,
   className,
+  position
 }) {
   const [isPassword, setIsPassword] = useState(false);
   const { isDarkMode } = useTheme();
@@ -91,7 +92,7 @@ function DynamicInput({
       </div>
       {type === "selection" ? (
         <Select
-          className="p-0.5"
+          className="p-0.5 "
           placeholder={placeholder}
           styles={{
             control: (baseStyles, state) => ({
@@ -116,12 +117,12 @@ function DynamicInput({
         />
       ) : type === "multi_selection" ? (
         <Select
-          className="p-0.5"
+          className="p-0.5 "
           placeholder={placeholder}
           styles={{
             control: (baseStyles, state) => ({
               ...baseStyles,
-              height: 50,
+              padding: 5,
               backgroundColor: isDarkMode ? '#10172a' : '#fefdfe',
               fontSize: 14,
               borderColor: state.isFocused ? 'grey' : isDarkMode ? '#ffffff20' : '#dddddd',
@@ -142,7 +143,7 @@ function DynamicInput({
           options={options}
         />
       ) : type === "radio_button" ? (
-        <div className="flex flex-row gap-2 items-center">
+        <div className={`flex ${position === 'col' ? 'flex-col' : 'flex-row items-center'} gap-2 `}>
           {options.map((item, index) => (
             <label key={index} className="flex flex-row gap-2">
               <input
@@ -227,7 +228,7 @@ function DynamicInput({
               }
             />
             <div className="flex flex-row gap-2">
-              {parseInt(value) > 0 && <button onClick={() => onChange(parseInt(value) - 1)} className="bg-[#0285ff] p-2 rounded-md">
+              {parseInt(value) > 1 && <button onClick={() => onChange(parseInt(value) - 1)} className="bg-[#0285ff] p-2 rounded-md">
                 <MinusIcon className="h-3 w-4" fill="#ffffff" />
               </button>}
               <button onClick={() => onChange(value === '' ? 1 : parseInt(value) + 1)} className="bg-[#0285ff] p-2 rounded-md">
@@ -237,6 +238,19 @@ function DynamicInput({
 
           </div>
         ) : type === "date" ? (
+          <div
+            className={`flex flex-row gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}
+          >
+            <Datepicker
+              value={value}
+              asSingle
+              onChange={(newValue) => {
+                onChange(newValue)
+              }}
+              showShortcuts={false}
+            />
+          </div>
+        ) : type === "multi_date" ? (
           <div
             className={`flex flex-row gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}
           >

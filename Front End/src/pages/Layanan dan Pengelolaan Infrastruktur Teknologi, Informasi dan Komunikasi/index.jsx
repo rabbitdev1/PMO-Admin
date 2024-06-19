@@ -20,6 +20,7 @@ import fetchUploadImages from "../../utils/api/uploadImages";
 import { convertToNameValueObject } from "../../utils/helpers/convertToNameValueObject";
 import { formData as initialFormData } from './data';
 import { isValidatorDomain, isValidatorHosting, isValidatorPenambahanAlat, isValidatorPenambahanBandwith, isValidatorRelokasiAlat, isValidatorTroubleShooting } from "./validators";
+import resetFormData from "../../components/common/ResetFormData";
 
 function InfrastrukturPages() {
   const { isDarkMode } = useTheme();
@@ -53,13 +54,13 @@ function InfrastrukturPages() {
     data: {},
   });
 
-
   const dispatch = useDispatch();
   const dataState = location.state;
 
   useEffect(() => {
     if (authToken) {
       fetchDataInfrasturktur(authApiKey, authToken, JSON.parse(authProfile)?.role)
+      fetchDataAlat(authApiKey, authToken)
     }
   }, [dataState, authToken]);
 
@@ -76,6 +77,7 @@ function InfrastrukturPages() {
         apiKey: api_key,
         token: token,
       });
+      dispatch(isPending(false));
       setListInfrasturkturLoading(false);
       if (response?.statusCode === 200) {
         if (JSON.parse(authProfile)?.role === "perangkat_daerah") {
@@ -93,6 +95,42 @@ function InfrastrukturPages() {
         ])
       } else {
         setListInfrasturktur([]);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  const fetchDataAlat = async (api_key, token) => {
+    const params = new URLSearchParams();
+    try {
+      const response = await apiClient({
+        baseurl: "infrastruktur/list_tools",
+        method: "POST",
+        body: params,
+        apiKey: api_key,
+        token: token,
+      });
+      if (response?.statusCode === 200) {
+        const formattedOptions = response.result.data.map(item => ({
+          value: item.name_tools,
+          label: item.name_tools
+        }));
+        setFormData(prevFormData =>
+          prevFormData.map(form =>
+            form.name === "Pengajuan Relokasi Alat" || form.name === "Pengajuan Penambahan Alat"
+              ? {
+                ...form,
+                fields: form.fields.map(field =>
+                  field.name === "type_tools"
+                    ? { ...field, options: formattedOptions }
+                    : field
+                )
+              }
+              : form
+          )
+        );
+      } else {
+
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -122,7 +160,7 @@ function InfrastrukturPages() {
           },
           status: true
         })
-        resetFormData(isModalCreate.data)
+        resetFormData(isModalCreate.data,formData,setFormData);
       } else {
         toast.error(response.result.msg, {
           position: toast.POSITION.TOP_RIGHT,
@@ -161,6 +199,7 @@ function InfrastrukturPages() {
         toast.error(response.result.msg, {
           position: toast.POSITION.TOP_RIGHT,
         });
+        fetchDataInfrasturktur(authApiKey, authToken, JSON.parse(authProfile)?.role)
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -299,53 +338,12 @@ function InfrastrukturPages() {
 
     setFormData(updatedData);
   };
-
-  function resetFormData(fieldName) {
-    const datafilter = formData.find(item => item.name === fieldName);
-    if (datafilter) {
-
-      const resetFields = datafilter.fields.map(field => {
-        if (field.type === 'input_array') {
-          const resetFields1 = field.value.map(field1 => {
-            return { ...field1, value: "" };
-          });
-          return { ...field, value: resetFields1 };
-        } else if (field.type === 'selection') {
-          return { ...field, value: [] };
-        } else if (field.type === 'multi_selection') {
-          return { ...field, value: [] };
-        } else if (field.type === 'date') {
-          return {
-            ...field, value: {
-              startDate: null,
-              endDate: null,
-            },
-          };
-        } else {
-          return { ...field, value: "" };
-        }
-      });
-
-      const combinedData = {
-        ...datafilter,
-        fields: resetFields
-      };
-      const updatedFormDataArray = formData.map(item => {
-        if (item.name === combinedData.name) {
-          return combinedData;
-        } else {
-          return item;
-        }
-      });
-      setFormData(updatedFormDataArray)
-    } else {
-      console.log("Field not found in formData.");
-    }
-  }
+ 
 
   return (
     <div className="flex flex-col gap-3 flex-1 p-4" >
-      <TitleHeader title={"Layanan Pengajuan"}
+      <TitleHeader title={JSON.parse(authProfile)?.role === "perangkat_daerah" ? "Layanan Pengajuan" : "Layanan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi"}
+
         link1={"dashboard"}
         link2={'Bidang Infrastruktur Teknologi, Informasi dan Komunikasi'} />
       <section className="flex xl:flex-row flex-col gap-3" >
@@ -422,6 +420,7 @@ function InfrastrukturPages() {
                   { name: "Tanggal", field: "createdAt" },
                   { name: "Aksi", field: "action" },
                 ]}
+                loading={listInfrasturkturLoading}
                 showAction={{ read: true, remove: JSON.parse(authProfile)?.role === "perangkat_daerah" ? true : false, edit: true }}
                 onClickShow={(data) => {
                   if (JSON.parse(authProfile)?.role === "op_pmo") {
@@ -531,7 +530,7 @@ function InfrastrukturPages() {
                 className="inline-flex p-2"
                 onClick={() => {
                   setisModalCreate({ data: {}, status: false });
-                  resetFormData(isModalCreate.data)
+                  resetFormData(isModalCreate.data,formData,setFormData);
                 }}
               />
             </div>
@@ -613,7 +612,7 @@ function InfrastrukturPages() {
                 className="inline-flex bg-cardLight dark:bg-cardDark text-cardDark dark:text-cardLight"
                 onClick={() => {
                   setisModalCreate({ data: {}, status: false });
-                  resetFormData(isModalCreate.data)
+                  resetFormData(isModalCreate.data,formData,setFormData);
                 }}
               />
               <DynamicButton
