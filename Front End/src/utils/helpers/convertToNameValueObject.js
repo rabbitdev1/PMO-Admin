@@ -55,7 +55,7 @@ export const convertToNameValueObject = (obj) => {
         value = draftToHtml(contentState);
       }
       result[field.name] = value;
-    } else if (field.type === "date") {
+    } else if (field.type === "multi_date") {
       const dateArray = Object.values(field.value);
       result[field.name] = dateArray;
     } else {

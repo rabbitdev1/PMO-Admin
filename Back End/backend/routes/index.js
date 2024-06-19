@@ -158,7 +158,6 @@ router.post("/uptradio/create", verifyToken, setStatusDataUptRadio);
 router.post("/uptradio/set_process", verifyToken, editProcessDataUptRadio);
 router.post("/uptradio/edit", verifyToken, editDataUptRadio);
 router.post("/uptradio/delete", verifyToken, deleteDataUptRadio);
-router.post("/uptradio/list_tools", verifyToken, getListDataTools);
 
 // Teknologi SI routes
 router.post("/teknologisi", verifyToken, getListDataTeknologiSI);
@@ -171,7 +170,6 @@ router.post(
 );
 router.post("/teknologisi/edit", verifyToken, editDataTeknologiSI);
 router.post("/teknologisi/delete", verifyToken, deleteDataTeknologiSI);
-router.post("/teknologisi/list_tools", verifyToken, getListDataTools);
 
 // Aplikasi routes
 router.post("/aplikasi", verifyToken, getListDataAplikasi);

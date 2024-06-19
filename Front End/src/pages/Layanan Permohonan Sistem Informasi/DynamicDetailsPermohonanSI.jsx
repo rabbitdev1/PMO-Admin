@@ -1,8 +1,8 @@
 import React from "react";
-import DynamicShow from "../common/DynamicShow";
-import ConditionalRender from "./ConditionalRender";
+import ConditionalRender from "../../components/ui/ConditionalRender";
+import DynamicShow from "../../components/common/DynamicShow";
 
-const DynamicDetails = ({ detailData, loading, location }) => {
+const DynamicDetailsPermohonanSI = ({ detailData, loading, location }) => {
   return (
     <div className="flex-1 flex flex-col gap-3">
       <div className="flex flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
@@ -14,29 +14,66 @@ const DynamicDetails = ({ detailData, loading, location }) => {
         >
           <div className="flex flex-col gap-3">
             <span className="text-lg font-bold">Rincian Pengajuan</span>
-            {Object.entries(detailData).map(([key, value]) =>
-              key === "device_specifications" ? (
-                <DynamicShow
+            <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
+              {Object.entries(detailData).map(([key, value]) =>
+                <div
+                  className={`${key === 'applicationDescription' ||
+                    key === 'developmentTechnique' ||
+                    key === 'dataSource' ||
+                    key === 'cloudLocation' ||
+                    key === 'reasonForChoosingStorage' ||
+                    key === 'reasonForIntegration' ||
+                    key === 'name_pic' ||
+                    key === 'programmingLanguage' ||
+                    key === 'storageMedia' ||
+                    key === 'integrationWithSystem' ||
+                    key === 'exchangeFormat' ||
+                    key === 'proposedDomain' ||
+                    key === 'namePPK' ||
+                    key === 'linkupJob' ||
+                    key === 'numberOfPeopleRequired' ||
+                    key === 'spbePlan' ||
+                    key === 'riskManagement' ||
+                    key === 'reformasiBirokrasi' ||
+                    key === 'technicalRecommendationLetter' ||
+                    key === 'anggaranAttachment' ||
+                    key === 'title' ||
+                    key === 'letterDate' ? 'col-span-2' : 'col-span-1'}`}
                   key={key}
-                  name={key}
-                  label={getKeyLabel(key)}
-                  value={JSON.stringify(value)}
-                  location={location}
-                  type={getFieldType(key)}
-                  disabled={true}
-                />
-              ) : (
-                <DynamicShow
-                  key={key}
-                  name={key}
-                  label={getKeyLabel(key)}
-                  value={value}
-                  location={location}
-                  type={getFieldType(key)}
-                  disabled={true}
-                />
-              )
-            )}
+                >
+                  {key === "name_pic" &&
+                    <div className="mt-3">
+                      <span className="text-lg font-bold ">Perangkat Daerah</span>
+                    </div>}
+                  {key === "dataSource" &&
+                    <div className="mt-3">
+                      <span className="text-lg font-bold">Sumber Data</span></div>}
+                  {key === "programmingLanguage" &&
+                    <div className="mt-3">
+                      <span className="text-lg font-bold">Kebutuhan Perangkat Lunak</span></div>}
+                  {key === "storageMedia" &&
+                    <div className="mt-3">
+                      <span className="text-lg font-bold">Kebutuhan Perangkat Keras</span></div>}
+                  {key === "integrationWithSystem" &&
+                    <div className="mt-3">
+                      <span className="text-lg font-bold">Integrasi</span></div>}
+                  {key === "title" &&
+                    <div className="mt-3">
+                      <span className="text-lg font-bold">Form Inputan</span></div>}
+                  {key === "letterDate" &&
+                    <div className="mt-3">
+                      <span className="text-lg font-bold">Lampiran</span></div>}
+                  <DynamicShow
+                    name={key}
+                    label={getKeyLabel(key)}
+                    value={value}
+                    location={location}
+                    type={getFieldType(key)}
+                    disabled={true}
+                  />
+                </div>
+              )}
+            </div>
           </div>
         </ConditionalRender>
       </div>
@@ -235,4 +272,4 @@ const getFieldType = (key) => {
 
 };
 
-export default DynamicDetails;
+export default DynamicDetailsPermohonanSI;

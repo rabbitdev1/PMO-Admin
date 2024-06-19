@@ -37,7 +37,6 @@ const Authmiddleware = (props) => {
   return (
     <React.Fragment>
       <div
-        onClick={() => dispatch(isSideBar(false))}
         className={`w-full h-screen z-20 ${setSideBar ? "translate-x-0 bg-[#021D3968] " : "-translate-x-full bg-[#021d3906] "} transition-transform duration-300 ease-in-out fixed `}
       >
         <div

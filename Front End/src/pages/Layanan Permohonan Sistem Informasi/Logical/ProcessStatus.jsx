@@ -4,10 +4,10 @@ import { ReactComponent as PengajuanBerahasilIcon } from "../../../assets/icon/i
 import DynamicButton from "../../../components/common/DynamicButton";
 import DynamicInput from "../../../components/common/DynamicInput";
 import DynamicShow from "../../../components/common/DynamicShow";
-import DynamicDetails from "../../../components/ui/DynamicDetails";
 import { apiClient } from "../../../utils/api/apiClient";
 import { validateFile, validateImage } from "../../../utils/helpers/validateForm";
 import { getIntergasiSIFinish, getIntergasiSIProcess, getModulTTEProcess, getModulTTEFinish, getUserAccountSIProcess, getUserAccountSIFinish } from "../data";
+import DynamicDetailsPermohonanSI from "../DynamicDetailsPermohonanSI";
 
 const ProcessStatus = ({
     submissionStatus,
@@ -279,7 +279,7 @@ const ProcessStatus = ({
                         </div>
 
                 )}
-                <DynamicDetails
+                <DynamicDetailsPermohonanSI
 
                     location={'permohonanSI'}
                     detailData={detailData}
@@ -338,7 +338,7 @@ const ProcessStatus = ({
                         </div>
                     }
                 </div>
-                <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
+                <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
             </div>
         )
     );

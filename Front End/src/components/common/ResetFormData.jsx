@@ -11,7 +11,7 @@ export default function resetFormData(fieldName,formData,setFormData) {
           return { ...field, value: [] };
         } else if (field.type === "multi_selection") {
           return { ...field, value: [] };
-        } else if (field.type === "date") {
+        } else if (field.type === "multi_date") {
           return {
             ...field,
             value: {
