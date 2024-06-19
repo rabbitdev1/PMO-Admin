@@ -102,15 +102,13 @@ const Sidebar = () => {
       ],
       icon: AllBerandaIcon, href: ["/layanan-pengelolaan-infrastruktur-teknologi-informasi-komunikasi", "/detail-infrastruktur"],
     },
-
     {
-      title: "Layanan Teknologi dan Sistem Informasi", role: ['op_pmo', 'perangkat_daerah',],
+      title: "Layanan Teknologi dan Sistem Informasi", role: ['op_pmo', 'perangkat_daerah', 'kabid_aplikasi', 'teknis_aplikasi', 'katim_aplikasi',],
       submenu: [
         { title: 'Layanan ZOOM', href: '/layanan-teknologi-dan-sistem-informasi', state: 'Layanan ZOOM' },
         { title: 'Permohonan Liputan', href: '/layanan-teknologi-dan-sistem-informasi', state: 'Permohonan Liputan' },
       ],
       icon: AllBerandaIcon, href: ["/layanan-teknologi-dan-sistem-informasi", "/detail-teknologi-dan-sistem-informasi"],
-
     },
     {
       title: "Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi", role: ['op_pmo', 'perangkat_daerah',],
