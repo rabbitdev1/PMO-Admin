@@ -6,8 +6,8 @@ import DynamicInput from "../../../components/common/DynamicInput";
 import DynamicShow from "../../../components/common/DynamicShow";
 import DynamicDetails from "../../../components/ui/DynamicDetails";
 import { apiClient } from "../../../utils/api/apiClient";
-import { validateImage } from "../../../utils/helpers/validateForm";
-import { getPenyusunanKebijakanFinish, getPenyusunanKebijakanProcess } from "../data";
+import { validateFile, validateImage } from "../../../utils/helpers/validateForm";
+import { getAhliFinish, getAhliProcess, getPenyusunanKebijakanFinish, getPenyusunanKebijakanProcess, getPerwalFinish, getPerwalProcess } from "../data";
 
 const ProcessStatus = ({
     submissionStatus,
@@ -28,6 +28,14 @@ const ProcessStatus = ({
 
     const PenyusunanKebijakanFinish = getPenyusunanKebijakanFinish(finishData);
 
+    const PerkepProcess = getPerwalProcess(inputLocal);
+
+    const PerkepFinish = getPerwalFinish(finishData);
+
+    const AhliProcess = getAhliProcess(inputLocal);
+
+    const AhliFinish = getAhliFinish(finishData);
+
     const fetchSetProgress = async (api_key, token, status) => {
         const params = new URLSearchParams();
         params.append("id", slug);
@@ -44,8 +52,8 @@ const ProcessStatus = ({
             if (response?.statusCode === 200) {
                 setisModalVerif({
                     data: {
-                        title: 'Pengajuan Perencanaan TIK Berhasil di-update',
-                        msg: 'Selamat, Pengajuanr sudah diupdate',
+                        title: 'perencanaantik Berhasil diupdate',
+                        msg: 'Selamat, Pengajuan perencanaantik sudah diupdate',
                         icon: PengajuanBerahasilIcon,
                         color: '#13C39C'
                     },
@@ -117,7 +125,11 @@ const ProcessStatus = ({
                                 />
                             ))}
                             {renderProcessInputs(detailData.submission_title === "Penyusunan Kebijakan" ?
-                                PenyusunanKebijakanProcess : []
+                                PenyusunanKebijakanProcess : 
+                                detailData.submission_title === "Permohonan Perwal dan Kepwal TIK" ? PerkepProcess : 
+                                detailData.submission_title === "Pendataan Tenaga Ahli" ? AhliProcess :
+                                []
+
                             )}
                             <div className='flex sm:flex-row flex-col gap-2'>
                                 <DynamicButton
@@ -139,19 +151,13 @@ const ProcessStatus = ({
                                         let isValid = true;
 
                                         if (detailData.submission_title === "Penyusunan Kebijakan") {
-                                            isValid = isValid && validateImage(inputLocal.upload_foto_alat_sebelum_di_relokasi, "Upload Foto Alat Sebelum di Relokasi");
-                                            isValid = isValid && validateImage(inputLocal.upload_foto_alat_sesudah_di_relokasi, "Upload Foto Alat Sesudah di Relokasi");
-                                        } else if (detailData.submission_title === "Penambahan Alat") {
-                                            isValid = isValid && validateImage(inputLocal.upload_foto_alat_sebelum_di_tambahkan, "Upload Foto Alat Sebelum di Tambahkan");
-                                            isValid = isValid && validateImage(inputLocal.upload_foto_alat_sesudah_di_tambahkan, "Upload Foto Alat Sesudah di Tambahkan");
-                                        } else if (detailData.submission_title === "Penambahan Bandwidth") {
-                                            isValid = isValid && validateImage(inputLocal.upload_foto_kegiatan, "Upload Foto Kegiatan");
-                                        } else if (detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan") {
-                                            // Tidak ada validasi tambahan untuk "Troubleshooting"
-                                        } else if (detailData.submission_title === "Hosting") {
-                                            // Tidak ada validasi tambahan untuk "Troubleshooting"
-                                        } else if (detailData.submission_title === "Domain") {
-                                            // Tidak ada validasi tambahan untuk "Troubleshooting"
+                                            isValid = isValid && validateFile(inputLocal.upload_dokumen_kebijakan, "Upload Dokumen Kebijakan");
+                                        }
+                                        if (detailData.submission_title === "Permohonan Perwal dan Kepwal TIK") {
+                                            isValid = isValid && validateFile(inputLocal.upload_dokumen_laporan_perkep, "Upload Dokumen Laporan Permohonan Perwal dan Kepwal");
+                                        }
+                                        if (detailData.submission_title === "Pendataan Tenaga Ahli") {
+                                            isValid = isValid && validateFile(inputLocal.upload_dokumen_ahli, "Upload Dokumen Pendataan Tenaga Ahli");
                                         }
                                         if (isValid) {
                                             checkingFormData('process', filteredDataResult);
@@ -164,7 +170,7 @@ const ProcessStatus = ({
                         <div className="flex flex-col gap-3">
                             <div className="flex flex-col bg-[#0185FF]/10 border-1 border-[#0185FF] text-[#0185FF] p-3 gap-3 items-center rounded-lg">
                                 <span className="text-base font-semibold text-center">
-                                    Laporan sudah dikirimn ke Ketua Tim Teknis
+                                    Laporan sudah dikirim ke Ketua Tim Teknis
                                 </span>
                             </div>
                             <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
@@ -173,7 +179,7 @@ const ProcessStatus = ({
                                     key === "working_schedule" &&
                                     <DynamicShow
                                         key={key}
-                                        label={key === "working_schedule" ? "Jadwal Kerja" : key}
+                                        label={key === "working_schedule" ? "Jadwal Kerja" : key }
                                         value={value}
                                         type={"working_schedule" ? "multidate" : 'text'}
                                     />
@@ -182,23 +188,20 @@ const ProcessStatus = ({
                                     <DynamicShow
                                         key={key}
                                         label={
-                                            key === "upload_foto_alat_sebelum_di_relokasi"
-                                                ? "Foto Alat Sebelum Di Relokasikan"
-                                                : key === "upload_foto_alat_sesudah_di_relokasi"
-                                                    ? "Foto Alat Sesudah Di Relokasikan"
-                                                    : key === "upload_foto_alat_sebelum_di_tambahkan"
-                                                        ? "Foto Alat Sebelum Di Tambahkan"
-                                                        : key === "upload_foto_alat_sesudah_di_tambahkan"
-                                                            ? "Foto Alat Sesudah Di Tambahkan"
-                                                            : key === "upload_foto_kegiatan"
-                                                                ? "Foto Kegiatan"
-                                                                : key
+                                            key === "upload_dokumen_hasil_analisa"
+                                                ? "Dokumen Laporan Hasil Pengolahan dan Analisa Data"
+                                                : "upload_dokumen_laporan_perkep"
+                                                ? "Dokumen Laporan Permohonan Perwal dan Kepwal"
+                                                : "upload_dokumen_ahli"
+                                                ? "Dokumen Pendataan Tenaga Ahli"
+                                                :
+                                                key
                                         }
                                         value={value}
-                                        location={"prencanaantik"}
+                                        location={"perencanaantik"}
                                         type={
-                                            key === "upload_foto_alat_sebelum_di_relokasi" || key === "upload_foto_alat_sesudah_di_relokasi" || key === "upload_foto_alat_sebelum_di_tambahkan" || key === "upload_foto_alat_sesudah_di_tambahkan" || key === "upload_foto_kegiatan"
-                                                ? "images"
+                                            key === "upload_dokumen_hasil_analisa" || "upload_dokumen_laporan_perkep" || "upload_dokumen_ahli"
+                                                ? "pdf"
                                                 : "text"
                                         }
                                     />
@@ -224,23 +227,20 @@ const ProcessStatus = ({
                                     <DynamicShow
                                         key={key}
                                         label={
-                                            key === "upload_foto_alat_sebelum_di_relokasi"
-                                                ? "Foto Alat Sebelum Di Relokasikan"
-                                                : key === "upload_foto_alat_sesudah_di_relokasi"
-                                                    ? "Foto Alat Sesudah Di Relokasikan"
-                                                    : key === "upload_foto_alat_sebelum_di_tambahkan"
-                                                        ? "Foto Alat Sebelum Di Tambahkan"
-                                                        : key === "upload_foto_alat_sesudah_di_tambahkan"
-                                                            ? "Foto Alat Sesudah Di Tambahkan"
-                                                            : key === "upload_foto_kegiatan"
-                                                                ? "Foto Kegiatan"
-                                                                : key
+                                            key === "upload_dokumen_hasil_analisa"
+                                                ? "Dokumen Laporan Hasil Pengolahan dan Analisa Data"
+                                                : "upload_dokumen_laporan_perkep"
+                                                ? "Dokumen Laporan Permohonan Perwal dan Kepwal"
+                                                : "upload_dokumen_ahli"
+                                                ? "Dokumen Pendataan Tenaga Ahli"
+                                                :
+                                                key
                                         }
                                         value={value}
-                                        location={"perencanaantik"}
+                                        location={"perencanaantik"}   
                                         type={
-                                            key === "upload_foto_alat_sebelum_di_relokasi" || key === "upload_foto_alat_sesudah_di_relokasi" || key === "upload_foto_alat_sebelum_di_tambahkan" || key === "upload_foto_alat_sesudah_di_tambahkan" || key === "upload_foto_kegiatan"
-                                                ? "images"
+                                            key === "upload_dokumen_hasil_analisa" || "upload_dokumen_laporan_perkep" || "upload_dokumen_ahli"
+                                                ? "pdf"
                                                 : "text"
                                         }
                                     />
@@ -249,7 +249,10 @@ const ProcessStatus = ({
                             <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                                 <span className='text-lg font-bold'>Proses Selesai</span>
                                 {renderFinishInputs(detailData.submission_title === "Penyusunan Kebijakan" ?
-                                    PenyusunanKebijakanFinish  : []
+                                PenyusunanKebijakanFinish : 
+                                detailData.submission_title === "Permohonan Perwal dan Kepwal TIK" ? PerkepFinish: 
+                                detailData.submission_title === "Pendataan Tenaga Ahli" ? AhliFinish :
+                                []
                                 )}
                                 <DynamicButton
                                     initialValue={"Pengajuan Selesai"}
@@ -277,6 +280,7 @@ const ProcessStatus = ({
 
                 )}
                 <DynamicDetails
+                    location={'perencanaantik'}
                     detailData={detailData}
                     loading={loading}
                 />
@@ -312,23 +316,20 @@ const ProcessStatus = ({
                                 <DynamicShow
                                     key={key}
                                     label={
-                                        key === "upload_foto_alat_sebelum_di_relokasi"
-                                            ? "Foto Alat Sebelum Di Relokasikan"
-                                            : key === "upload_foto_alat_sesudah_di_relokasi"
-                                                ? "Foto Alat Sesudah Di Relokasikan"
-                                                : key === "upload_foto_alat_sebelum_di_tambahkan"
-                                                    ? "Foto Alat Sebelum Di Tambahkan"
-                                                    : key === "upload_foto_alat_sesudah_di_tambahkan"
-                                                        ? "Foto Alat Sesudah Di Tambahkan"
-                                                        : key === "upload_foto_kegiatan"
-                                                            ? "Foto Kegiatan"
-                                                            : key
+                                        key === "upload_dokumen_hasil_analisa"
+                                        ? "File Dokumen Hasil Integrasi"
+                                        : "upload_dokumen_laporan_perkep"
+                                        ? "Dokumen Laporan Permohonan Perwal dan Kepwal"
+                                        : "upload_dokumen_ahli"
+                                        ? "Dokumen Pendataan Tenaga Ahli"
+                                        :
+                                        key
                                     }
                                     value={value}
                                     location={"perencanaantik"}
                                     type={
-                                        key === "upload_foto_alat_sebelum_di_relokasi" || key === "upload_foto_alat_sesudah_di_relokasi" || key === "upload_foto_alat_sebelum_di_tambahkan" || key === "upload_foto_alat_sesudah_di_tambahkan" || key === "upload_foto_kegiatan"
-                                            ? "images"
+                                        key === "upload_dokumen_hasil_analisa" || "upload_dokumen_laporan_perkep" || "upload_dokumen_ahli"
+                                            ? "pdf"
                                             : "text"
                                     }
                                 />

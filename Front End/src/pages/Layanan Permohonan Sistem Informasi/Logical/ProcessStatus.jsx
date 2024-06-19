@@ -320,7 +320,7 @@ const ProcessStatus = ({
                                         key === "upload_dokumen_hasil_integrasi"
                                         ? "File Dokumen Hasil Integrasi"
                                         : "upload_dokumen_laporan_modul_tte"
-                                        ? "Surat Pengesahan"
+                                        ? "Dokumen Laporan Hasil Pengajuan Permohonan Podcast"
                                         : "upload_dokumen_laporan_pembuatan_akun"
                                         ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
                                         :

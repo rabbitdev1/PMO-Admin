@@ -286,21 +286,47 @@ function ManagementTIKPages() {
     }
   }
   const handleImageUploadAndFetch = async (obj) => {
-    if (obj.image_screenshoot) {
-      const result = await fetchUploadImages(authApiKey, authToken, obj.image_screenshoot, 'Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi', dispatch);
-      if (result !== null) {
-        const fixObject = {
-          ...obj,
-          image_screenshoot: result,
+    let fixObject = { ...obj };
+  
+    if (obj.file_data) {
+      const draftPerwalResult = await fetchUploadFiles(
+        authApiKey,
+        authToken,
+        obj.file_data,
+        "managementinfrastrukturtik",
+        dispatch
+      );
+      if (draftPerwalResult !== null) {
+        fixObject = {
+          ...fixObject,
+          file_data: draftPerwalResult,
         };
-        fetchDataCreate(authApiKey, authToken, fixObject);
       } else {
-        console.error("Error occurred during image upload.");
+        console.error("Error occurred during file_data upload.");
       }
-    } else {
-      fetchDataCreate(authApiKey, authToken, obj);
     }
+  
+    if (obj.surat_permohonan) {
+      const nilaiKontrakResult = await fetchUploadFiles(
+        authApiKey,
+        authToken,
+        obj.surat_permohonan,
+        "managementinfrastrukturtik",
+        dispatch
+      );
+      if (nilaiKontrakResult !== null) {
+        fixObject = {
+          ...fixObject,
+          surat_permohonan: nilaiKontrakResult,
+        };
+      } else {
+        console.error("Error occurred during surat_permohonan upload.");
+      }
+    }
+  
+    fetchDataCreate(authApiKey, authToken, fixObject);
   };
+  
   const updatePic = (name, number) => {
     const updatedData = formData.map(form => {
       return {

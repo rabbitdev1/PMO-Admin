@@ -43,3 +43,15 @@ export const isValidatorIntegrasi = (obj) => {
 
   return isValid;
 };
+
+export const isValidatorEmail = (obj) => {
+  let isValid = true;
+  isValid = isValid && validateFullname(obj.name_pic, "Nama PIC");
+  isValid = isValid && validateTelp(obj.telp_pic, "Nomor PIC");
+  isValid = isValid && validateText(obj.jabatan, "Jabatan");
+  isValid = isValid && validateText(obj.nip, "NIP");
+  isValid = isValid && validateArray(obj.peruntukan, "Peruntukan");
+  isValid = isValid && validateHTML(obj.reason, "Alasan");
+
+  return isValid;
+};

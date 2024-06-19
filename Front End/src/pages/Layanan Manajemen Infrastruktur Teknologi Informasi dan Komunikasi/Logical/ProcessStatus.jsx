@@ -109,7 +109,7 @@ const ProcessStatus = ({
         ));
     };
     return (
-        submissionStatus === 6 && (JSON.parse(authProfile)?.role === "teknis_aplikasi" || JSON.parse(authProfile)?.role === "katim_aplikasi" ?
+        submissionStatus === 6 && (JSON.parse(authProfile)?.role === "teknis_aplikasi" || JSON.parse(authProfile)?.role === "katim_aplikasi" ||  "kabid_aplikasi" ?
             <div className="flex flex-col gap-3">
                 {JSON.parse(authProfile)?.role === "teknis_aplikasi" && (
                     Object.entries(processData).length === 0 ?
@@ -150,11 +150,11 @@ const ProcessStatus = ({
 
                                         let isValid = true;
 
-                                        if (detailData.submission_title === "Pendaftaran Magang") {
-                                            isValid = isValid && validateFile(inputLocal.upload_dokumen_hasil_integrasi, "Upload Dokumen Laporan Hasil Integrasi");
+                                        if (detailData.submission_title === "Layanan Pendampingan Pengolahan dan Analisis Data") {
+                                            isValid = isValid && validateFile(inputLocal.upload_dokumen_hasil_analisa, "Upload Laporan Hasil Pengolahan dan Analisa Data");
                                         }
-                                        if (detailData.submission_title === "Penerapan Modul TTE") {
-                                            isValid = isValid && validateFile(inputLocal.upload_dokumen_laporan_modul_tte, "Upload Surat Pengesahan");
+                                        if (detailData.submission_title === "Layanan Produksi Data dari Situs Web") {
+                                            isValid = isValid && validateFile(inputLocal.upload_file_data_valid, "Upload File Data Valid");
                                         }
                                         if (detailData.submission_title === "User Akun Sistem Informasi") {
                                             isValid = isValid && validateFile(inputLocal.upload_dokumen_laporan_pembuatan_akun, "Upload Dokumen Laporan Hasil Pembuatan Akun");
@@ -179,7 +179,7 @@ const ProcessStatus = ({
                                     key === "working_schedule" &&
                                     <DynamicShow
                                         key={key}
-                                        label={key === "working_schedule" ? "Jadwal Kerja" : key}
+                                        label={key === "working_schedule" ? "Jadwal Kerja" : key === "upload_file_data_valid" ? "Data Valid" : key === "upload_dokumen_hasil_analisa" ? "Dokumen Laporan Hasil Pengolahan dan Analisa Data" : key}
                                         value={value}
                                         type={"working_schedule" ? "multidate" : 'text'}
                                     />
@@ -188,10 +188,10 @@ const ProcessStatus = ({
                                     <DynamicShow
                                         key={key}
                                         label={
-                                            key === "upload_dokumen_hasil_integrasi"
-                                                ? "Dokumen Laporan Hasil Integrasi"
-                                                : "upload_dokumen_laporan_modul_tte"
-                                                ? "Upload Surat Pengesahan"
+                                            key === "upload_dokumen_hasil_analisa"
+                                                ? "Dokumen Laporan Hasil Pengolahan dan Analisa Data"
+                                                : "upload_file_data_valid"
+                                                ? "Data Valid"
                                                 : "upload_dokumen_laporan_pembuatan_akun"
                                                 ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
                                                 :
@@ -200,7 +200,7 @@ const ProcessStatus = ({
                                         value={value}
                                         location={"managementinfrastrukturtik"}
                                         type={
-                                            key === "upload_dokumen_hasil_integrasi" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun"
+                                            key === "upload_dokumen_hasil_analisa" || "upload_file_data_valid" || "upload_dokumen_laporan_pembuatan_akun"
                                                 ? "pdf"
                                                 : "text"
                                         }
@@ -227,10 +227,10 @@ const ProcessStatus = ({
                                     <DynamicShow
                                         key={key}
                                         label={
-                                            key === "upload_dokumen_hasil_integrasi"
-                                                ? "Dokumen Laporan Hasil Integrasi"
-                                                : "upload_dokumen_laporan_modul_tte"
-                                                ? "Surat Pengesahan"
+                                            key === "upload_dokumen_hasil_analisa"
+                                                ? "Dokumen Laporan Hasil Pengolahan dan Analisa Data"
+                                                : "upload_file_data_valid"
+                                                ? "File Data Valid"
                                                 : "upload_dokumen_laporan_pembuatan_akun"
                                                 ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
                                                 :
@@ -239,7 +239,7 @@ const ProcessStatus = ({
                                         value={value}
                                         location={"managementinfrastrukturtik"}   
                                         type={
-                                            key === "upload_dokumen_hasil_integrasi" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun"
+                                            key === "upload_dokumen_hasil_analisa" || "upload_file_data_valid" || "upload_dokumen_laporan_pembuatan_akun"
                                                 ? "pdf"
                                                 : "text"
                                         }
@@ -317,10 +317,10 @@ const ProcessStatus = ({
                                 <DynamicShow
                                     key={key}
                                     label={
-                                        key === "upload_dokumen_hasil_integrasi"
+                                        key === "upload_dokumen_hasil_analisa"
                                         ? "File Dokumen Hasil Integrasi"
-                                        : "upload_dokumen_laporan_modul_tte"
-                                        ? "Surat Pengesahan"
+                                        : "upload_file_data_valid"
+                                        ? "Upload File Data Valid"
                                         : "upload_dokumen_laporan_pembuatan_akun"
                                         ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
                                         :
@@ -329,7 +329,7 @@ const ProcessStatus = ({
                                     value={value}
                                     location={"managementinfrastrukturtik"}
                                     type={
-                                        key === "upload_dokumen_hasil_integrasi" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun"
+                                        key === "upload_dokumen_hasil_analisa" || "upload_file_data_valid" || "upload_dokumen_laporan_pembuatan_akun"
                                             ? "pdf"
                                             : "text"
                                     }

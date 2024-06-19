@@ -24,6 +24,7 @@ const ValidationStatus = ({
             </span>
           </div>
           <DynamicDetails
+          location={'perencanaantik'}
             detailData={detailData}
             loading={loading}
           />
