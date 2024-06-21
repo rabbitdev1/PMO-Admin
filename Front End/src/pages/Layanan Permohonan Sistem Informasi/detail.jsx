@@ -39,6 +39,7 @@ function DetailPermohonanSIPages() {
   const [validationData, setValidationData] = useState({});
   const [feasibilityDataAnalysis, setFeasibilityDataAnalysis] = useState({});
   const [validationDataAnalysis, setValidationDataAnalysis] = useState({});
+  const [technicalAnalysis, setTechnicalAnalysis] = useState({});
   const [processData, setProcessData] = useState({});
   const [finishData, setfinishData] = useState({});
 
@@ -83,6 +84,7 @@ function DetailPermohonanSIPages() {
           JSON.parse(response.result.data?.feasibility_analysis)
         );
         setValidationDataAnalysis( JSON.parse(response.result.data?.feasibility_validation))
+        setTechnicalAnalysis( JSON.parse(response.result.data?.technical_analysis))
         setProcessData(JSON.parse(response.result.data?.on_process));
         setfinishData(JSON.parse(response.result.data?.on_finish));
       } else {
@@ -101,7 +103,7 @@ function DetailPermohonanSIPages() {
     dispatch(isPending(true));
     let htmlConvert = "";
     if (
-      ["validation", "feasibility_analysis", "feasibility_validation"].includes(type) &&
+      ["validation", "feasibility_analysis", "feasibility_validation","technical_analysis"].includes(type) &&
       data?.response
     ) {
       const contentState = convertToRaw(data.response.getCurrentContent());
@@ -121,7 +123,7 @@ function DetailPermohonanSIPages() {
           response: htmlConvert,
         })
       );
-    } else if (["feasibility_analysis", "feasibility_validation"].includes(type)) {
+    } else if (["feasibility_analysis", "feasibility_validation",'technical_analysis'].includes(type)) {
       const filteredData = {
         ...data,
         response: htmlConvert,
@@ -214,6 +216,41 @@ function DetailPermohonanSIPages() {
       }
     } 
     else if (type === "feasibility_validation") {
+      if (
+        data.file_catatan_kelayakan 
+      ) {
+        try {
+          const uploadPromises = [];
+          const resultMapping = {};
+          if (data.file_catatan_kelayakan) {
+            uploadPromises.push(
+              fetchUploadFiles(
+                authApiKey,
+                authToken,
+                data.file_catatan_kelayakan,
+                "permohonanSI",
+                dispatch
+              ).then(result => {
+                resultMapping.file_catatan_kelayakan = result;
+              })
+            );
+          }
+          
+          await Promise.all(uploadPromises);
+
+          let combineData = { ...data };
+          if (resultMapping.file_catatan_kelayakan) {
+            combineData.file_catatan_kelayakan = resultMapping.file_catatan_kelayakan;
+          }
+          fetchEditpermohonanSI(authApiKey, authToken, slug, type, combineData);
+        } catch (error) {
+          console.error("Error occurred during image upload:", error);
+        }
+      } else {
+        fetchEditpermohonanSI(authApiKey, authToken, slug, type, data);
+      }
+    } 
+    else if (type === "technical_analysis") {
       if (
         data.file_catatan_kelayakan 
       ) {
@@ -473,14 +510,14 @@ function DetailPermohonanSIPages() {
               checkingFormData={checkingFormData}
               setisModalVerif={setisModalVerif}
             />
-           
            <TechnicalAnalysisStatus
               slug={slug}
               validationData={validationData}
               submissionStatus={submissionStatus}
               feasibilityData={feasibilityDataAnalysis}
               validationDataAnalysis={validationDataAnalysis}
-              setValidationData={setFeasibilityDataAnalysis}
+              technicalAnalysis={technicalAnalysis}
+              // setValidationData={setTechnicalAnalysis}
               authProfile={authProfile}
               detailData={detailData}
               loading={permohonanSILoading}

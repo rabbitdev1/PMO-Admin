@@ -44,6 +44,8 @@ export const editDataPermohonanSI = async (req, res) => {
                 permohonanSIItem.submission_status = 3;
             }
             permohonanSIItem.feasibility_validation = data;
+        }else if (type === "technical_analysis") {
+            permohonanSIItem.technical_analysis = data;
         }
         
         
