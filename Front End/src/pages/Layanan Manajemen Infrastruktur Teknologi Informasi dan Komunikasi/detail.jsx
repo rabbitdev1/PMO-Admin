@@ -155,8 +155,8 @@ function DetailManagementTIKPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Pengajuan Management Infrastruktur Teknologi Informasi dan Komunikasi Berhasil Diupdate",
-            msg: "Selamat, Pengajuan Pengajuan Management Infrastruktur Teknologi Informasi dan Komunikasi sudah diupdate",
+            title: "Pengajuan Data Berhasil di-update",
+            msg: "Selamat, Pengajuan sudah di-update",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
           },
@@ -350,7 +350,7 @@ function DetailManagementTIKPages() {
       <TitleHeader
         title={`Detail Pengajuan ${detailData.submission_title} #${slug}`}
         link1={"dashboard"}
-        link2={"Bidang Manajemen Infrastruktur Teknologi Informasi dan Komunikasi"}
+        link2={"Bidang Data"}
       />
       <section className="flex flex-col gap-3">
         <SubmissionStatus status={submissionStatus} />

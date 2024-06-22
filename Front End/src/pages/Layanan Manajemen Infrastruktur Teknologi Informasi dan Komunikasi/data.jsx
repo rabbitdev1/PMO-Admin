@@ -1,7 +1,7 @@
 export const formData = [
   {
-    name: "Pengajuan Layanan Pendampingan Pengolahan dan Analisis Data",
-    type: "Pengajuan Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi",
+    name: "Layanan Pendampingan Pengolahan dan Analisis Data",
+    type: "Layanan Data",
     role: [
       "op_pmo",
       "perangkat_daerah",
@@ -17,8 +17,8 @@ export const formData = [
     ],
   },
   {
-    name: "Pengajuan Layanan Produksi Data dari Situs Web",
-    type: "Pengajuan Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi",
+    name: "Layanan Produksi Data dari Situs Web",
+    type: "Layanan Data",
     role: [
       "op_pmo",
       "perangkat_daerah",

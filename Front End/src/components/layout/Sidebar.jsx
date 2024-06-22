@@ -108,21 +108,21 @@ const Sidebar = () => {
     {
       title: "Layanan Siaran dan Sistem Virtual", role: ['op_pmo', 'perangkat_daerah', 'teknis_aplikasi', 'katim_aplikasi'],
       submenu: [
-        { title: 'Layanan ZOOM', href: '/layanan-teknologi-dan-sistem-informasi', state: 'Layanan ZOOM' },
-        { title: 'Permohonan Liputan', href: '/layanan-teknologi-dan-sistem-informasi', state: 'Permohonan Liputan' },
-        { title: 'Permohonan Podcast', href: '/layanan-teknologi-dan-sistem-informasi', state: 'Permohonan Podcast' },
+        { title: 'Layanan ZOOM', href: '/layanan-siaran-dan-sistem-virtual', state: 'Layanan ZOOM' },
+        { title: 'Permohonan Liputan', href: '/layanan-siaran-dan-sistem-virtual', state: 'Permohonan Liputan' },
+        { title: 'Permohonan Podcast', href: '/layanan-siaran-dan-sistem-virtual', state: 'Permohonan Podcast' },
       ],
-      icon: AllBerandaIcon, href: ["/layanan-teknologi-dan-sistem-informasi", "/detail-teknologi-dan-sistem-informasi"],
+      icon: AllBerandaIcon, href: ["/layanan-siaran-dan-sistem-virtual", "/detail-siaran-dan-sistem-virtual"],
 
     },
     {
-      title: "Layanan Data", role: ['op_pmo', 'perangkat_daerah',],
+      title: "Layanan Data", role: ['op_pmo', 'perangkat_daerah', 'teknis_aplikasi', 'katim_aplikasi'],
 
       submenu: [
-        { title: 'Pendampingan Pengolahan dan Analisis Data', href: '/layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi', state: 'Layanan Pendampingan Pengolahan dan Analisis Data' },
-        { title: 'Pelayanan Produksi Data dari Situs Web', href: '/layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi', state: 'Layanan Produksi Data dari Situs Web' },
+        { title: 'Pendampingan Pengolahan dan Analisis Data', href: '/layanan-data', state: 'Layanan Pendampingan Pengolahan dan Analisis Data' },
+        { title: 'Pelayanan Produksi Data dari Situs Web', href: '/layanan-data', state: 'Layanan Produksi Data dari Situs Web' },
       ],
-      icon: AllBerandaIcon, href: ["/layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi", "/detail-layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi"],
+      icon: AllBerandaIcon, href: ["/layanan-data", "/detail-data"],
     },
     {
       title: "Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi", role: ['op_pmo', 'perangkat_daerah', 'katim_perencanaan', 'kabid_perencanaan', 'teknis_perencanaan'],

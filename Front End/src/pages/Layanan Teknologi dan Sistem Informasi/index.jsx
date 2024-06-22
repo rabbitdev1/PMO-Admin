@@ -218,7 +218,7 @@ function TeknologiSIPages() {
         token: token,
       });
       if (response?.statusCode === 200) {
-        navigate("/detail-teknologi-dan-sistem-informasi", {
+        navigate("/detail-siaran-dan-sistem-virtual", {
           state: { slug: id },
         });
       }
@@ -433,7 +433,7 @@ function TeknologiSIPages() {
                   if (JSON.parse(authProfile)?.role === "op_pmo") {
                     fetchSetProgress(authApiKey, authToken, data.id);
                   } else {
-                    navigate("/detail-teknologi-dan-sistem-informasi", {
+                    navigate("/detail-siaran-dan-sistem-virtual", {
                       state: { slug: data.id },
                     });
                   }
