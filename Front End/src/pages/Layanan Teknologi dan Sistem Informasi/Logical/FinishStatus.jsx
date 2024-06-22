@@ -1,6 +1,6 @@
 import React from "react";
 import DynamicShow from "../../../components/common/DynamicShow";
-import DynamicDetails from '../../../components/ui/DynamicDetails';
+import DynamicDetails from "../../../components/ui/DynamicDetails";
 
 const FinishStatus = ({
   submissionStatus,
@@ -44,14 +44,18 @@ const FinishStatus = ({
                 label={
                   key === "upload_dokumen_zoom"
                     ? "Dokumen Hasil Pengajuan Permohonan Zoom"
-                    : "upload_dokumen_liputan"
-                    ? "Dokumen Hasil Pengajuan Permohonan Liputan"
-                    : key
+                    : key === "upload_dokumen_liputan"
+                      ? "Dokumen Hasil Pengajuan Permohonan Liputan"
+                      : key === "file_pengajuan_podcast"
+                        ? "Dokumen Hasil Pengajuan Permohonan Podcast"
+                        : key
                 }
                 value={value}
                 location={"teknologisi"}
                 type={
-                  key === "upload_dokumen_zoom" || "upload_dokumen_liputan"
+                  key === "upload_dokumen_zoom" ||
+                  "upload_dokumen_liputan" ||
+                  "file_pengajuan_podcast"
                     ? "pdf"
                     : "text"
                 }
@@ -76,8 +80,7 @@ const FinishStatus = ({
           </div>
         </div>
         <DynamicDetails
-
-location={'teknologisi'}
+          location={"teknologisi"}
           detailData={detailData}
           loading={loading}
         />
