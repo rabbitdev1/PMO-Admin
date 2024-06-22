@@ -70,13 +70,14 @@ const Sidebar = () => {
         'perangkat_daerah',
         'katim_perencanaan',
         'kabid_perencanaan',
-        'teknis_aplikasi',
+        'katim_aplikasi',
         'kabid_aplikasi',
-        'teknis_infra',
+        'katim_infra',
         'kabid_infra',
         'kadis'
       ],
       submenu: [
+        { title: 'Permohonan Sistem Informasi', href: "/layanan-permohonan-sistem-informasi", state: 'Permohonan Sistem Informasi' },
         { title: 'Pembangunan Sistem Informasi', href: "/layanan-permohonan-sistem-informasi", state: 'Pembangunan Sistem Informasi' },
         { title: 'Pengembangan Sistem Informasi', href: "/layanan-permohonan-sistem-informasi", state: 'Pengembangan Sistem Informasi' },
       ], icon: AllBerandaIcon, href: ["/layanan-permohonan-sistem-informasi", "/detail-permohonan-sistem-informasi", '/permohonan-sistem-informasi'],

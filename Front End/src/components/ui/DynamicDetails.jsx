@@ -141,6 +141,8 @@ const getKeyLabel = (key) => {
       return "Terdaftar di LPSE";
     case "nilai_kontrak":
       return "Nilai Kontrak";
+      case "skpd_request_letter":
+        return "Surat Permohonan SKPD"
 
     // case "applicationType":
     //   return "Jenis Aplikasi";
@@ -265,6 +267,7 @@ const getFieldType = (key) => {
     case "nilai_kontrak":
     case "file_data":
     case "surat_permohonan":
+      case "skpd_request_letter":
       return "pdf";
     case "type_tools":
       return "array";

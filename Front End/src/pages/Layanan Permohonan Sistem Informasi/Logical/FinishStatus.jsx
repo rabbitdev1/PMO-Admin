@@ -1,6 +1,7 @@
 import React from "react";
 import DynamicShow from "../../../components/common/DynamicShow";
 import DynamicDetailsPermohonanSI from "../DynamicDetailsPermohonanSI";
+import DynamicDetails from "../../../components/ui/DynamicDetails";
 
 const FinishStatus = ({
   submissionStatus,
@@ -76,12 +77,11 @@ const FinishStatus = ({
             )}
           </div>
         </div>
-        <DynamicDetailsPermohonanSI
-
-location={'permohonanSI'}
-          detailData={detailData}
-          loading={loading}
-        />
+        {detailData.submission_title === "Permohonan Sistem Informasi" ?
+        <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
+        :
+        <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
+      }
       </div>
     )
   );

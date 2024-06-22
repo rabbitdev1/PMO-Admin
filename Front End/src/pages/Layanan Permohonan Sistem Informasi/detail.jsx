@@ -40,6 +40,7 @@ function DetailPermohonanSIPages() {
   const [feasibilityDataAnalysis, setFeasibilityDataAnalysis] = useState({});
   const [validationDataAnalysis, setValidationDataAnalysis] = useState({});
   const [technicalAnalysis, setTechnicalAnalysis] = useState({});
+  const [technicalValidation, setTechnicalValidation] = useState({});
   const [processData, setProcessData] = useState({});
   const [finishData, setfinishData] = useState({});
 
@@ -85,6 +86,7 @@ function DetailPermohonanSIPages() {
         );
         setValidationDataAnalysis( JSON.parse(response.result.data?.feasibility_validation))
         setTechnicalAnalysis( JSON.parse(response.result.data?.technical_analysis))
+        setTechnicalValidation( JSON.parse(response.result.data?.technical_validation))
         setProcessData(JSON.parse(response.result.data?.on_process));
         setfinishData(JSON.parse(response.result.data?.on_finish));
       } else {
@@ -123,7 +125,7 @@ function DetailPermohonanSIPages() {
           response: htmlConvert,
         })
       );
-    } else if (["feasibility_analysis", "feasibility_validation",'technical_analysis'].includes(type)) {
+    } else if (["feasibility_analysis", "feasibility_validation",'technical_analysis','technical_validation'].includes(type)) {
       const filteredData = {
         ...data,
         response: htmlConvert,
@@ -285,8 +287,41 @@ function DetailPermohonanSIPages() {
         fetchEditpermohonanSI(authApiKey, authToken, slug, type, data);
       }
     } 
-    
-    
+    else if (type === "technical_validation") {
+      if (
+        data.file_catatan_kelayakan 
+      ) {
+        try {
+          const uploadPromises = [];
+          const resultMapping = {};
+          if (data.file_catatan_kelayakan) {
+            uploadPromises.push(
+              fetchUploadFiles(
+                authApiKey,
+                authToken,
+                data.file_catatan_kelayakan,
+                "permohonanSI",
+                dispatch
+              ).then(result => {
+                resultMapping.file_catatan_kelayakan = result;
+              })
+            );
+          }
+          
+          await Promise.all(uploadPromises);
+
+          let combineData = { ...data };
+          if (resultMapping.file_catatan_kelayakan) {
+            combineData.file_catatan_kelayakan = resultMapping.file_catatan_kelayakan;
+          }
+          fetchEditpermohonanSI(authApiKey, authToken, slug, type, combineData);
+        } catch (error) {
+          console.error("Error occurred during image upload:", error);
+        }
+      } else {
+        fetchEditpermohonanSI(authApiKey, authToken, slug, type, data);
+      }
+    } 
     
     else if (type === "process") {
       if (
@@ -440,18 +475,27 @@ function DetailPermohonanSIPages() {
                   text: submissionStatus === 8 ? "text-[#F5CF08]" : submissionStatus === 9 ? "text-[#FF0000]" : "text-[#F5CF08]",
                 },
                 {
-                  title: 'Analisis Teknis',
+                  title: 'Validasi Teknis',
                   status: 10,
                   color: submissionStatus === 10 ? "bg-[#F5CF08]" : submissionStatus === 11 ? "bg-[#FF0000]" : "bg-[#F5CF08]",
                   border: submissionStatus === 10 ? "border-[#F5CF08]" : submissionStatus === 11 ? "border-[#FF0000]" : "border-[#F5CF08]",
                   text: submissionStatus === 10 ? "text-[#F5CF08]" : submissionStatus === 11 ? "text-[#FF0000]" : "text-[#F5CF08]",
                 },
                 {
-                  title: "Pengajuan Selesai",
+                  title: "Proses Surat Rekomendasi",
                   status: 12,
                   color: submissionStatus === 12 ? "bg-[#13C39C]" : submissionStatus === 13 ? "bg-[#FF0000]" : "bg-[#13C39C]",
                   border: submissionStatus === 12 ? "border-[#13C39C]" : submissionStatus === 13 ? "border-[#FF0000]" : "border-[#13C39C]",
                   text: submissionStatus === 12 ? "text-[#13C39C]" : submissionStatus === 13 ? "text-[#FF0000]" : "text-[#13C39C]",
+                },
+
+
+                {
+                  title: "Pengajuan Selesai",
+                  status: 14,
+                  color: submissionStatus === 14 ? "bg-[#13C39C]" : submissionStatus === 15 ? "bg-[#FF0000]" : "bg-[#13C39C]",
+                  border: submissionStatus === 14 ? "border-[#13C39C]" : submissionStatus === 15 ? "border-[#FF0000]" : "border-[#13C39C]",
+                  text: submissionStatus === 14 ? "text-[#13C39C]" : submissionStatus === 15 ? "text-[#FF0000]" : "text-[#13C39C]",
                 },
               ].map((item, index) => (
                 <div key={index} className="flex flex-col flex-1 ">
@@ -515,6 +559,7 @@ function DetailPermohonanSIPages() {
               validationData={validationData}
               submissionStatus={submissionStatus}
               feasibilityData={feasibilityDataAnalysis}
+              technicalValidation={technicalValidation}
               validationDataAnalysis={validationDataAnalysis}
               technicalAnalysis={technicalAnalysis}
               // setValidationData={setTechnicalAnalysis}

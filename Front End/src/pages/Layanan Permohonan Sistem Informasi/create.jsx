@@ -208,9 +208,9 @@ function CreatePermohonanSIPages() {
         'perangkat_daerah',
         'katim_perencanaan',
         'kabid_perencanaan',
-        'teknis_aplikasi',
+        'katim_aplikasi',
         'kabid_aplikasi',
-        'teknis_infra',
+        'katim_infra',
         'kabid_infra',
         'kadis'
       ]

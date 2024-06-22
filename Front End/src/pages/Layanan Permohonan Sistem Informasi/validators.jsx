@@ -1,5 +1,18 @@
 import { validateArray, validateFile, validateFullname, validatePeriod, validateRadioBottom, validateTelp, validateText, validateTextArea } from "../../utils/helpers/validateForm";
 
+export const isValidatorPermohonanSI = (obj) => {
+  let isValid = true;
+  isValid = isValid && validateText(obj.title_kak, "Judul KAK");
+  isValid = isValid && validateText(obj.name_PPK, "Nama PPK");
+  isValid = isValid && validateText(obj.besaran_anggaran, "Besaran Anggaran");
+  isValid = isValid && validateText(obj.anggaran_attachment, "Sumber Anggaran");
+  isValid = isValid && validateText(obj.lingkup_job, "Lingkup Pekerjaan");
+  isValid = isValid && validateText(obj.number_of_people_required, "Jumlah Tenaga yang dibutuhkan");
+  isValid = isValid && validateText(obj.skpd_request_letter, "SKPD");
+
+  return isValid;
+};
+
 export const isValidatorPembangunan = (obj) => {
   let isValid = true;
   isValid = isValid && validateText(obj.applicationType, "Jenis Pengajuan");

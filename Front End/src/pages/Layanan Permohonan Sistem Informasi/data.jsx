@@ -1,3 +1,29 @@
+export const formData =[
+  {
+    name: "Permohonan Sistem Informasi",
+    type: "Pengajuan Layanan Permohonan Sistem Informasi",
+    role: [
+      'op_pmo',
+      'perangkat_daerah',
+      'katim_perencanaan',
+      'kabid_perencanaan',
+      'katim_aplikasi',
+      'kabid_aplikasi',
+      'kadis'
+    ],
+    fields: [
+      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
+      { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
+      { name: "title_kak", label: "Judul KAK", value: "", type: "text" },
+      { name: "name_PPK", label: "Nama PPK", value: "", type: "text" },
+      { name: "besaran_anggaran", label: "Besaran Anggaran", value: "", type: "text" },
+      { name: "anggaran_attachment", label: "Sumber Anggaran", value: "", type: "text" },
+      { name: "lingkup_job", label: "Lingkup Pekerjaan", value: "", type: "text" },
+      { name: "number_of_people_required", label: "Jumlah Tenaga yang di butuhkan", value: "", type: "text" },
+      { name: "skpd_request_letter", label: "Surat Permohonan SKPD", value: "", type: "file_upload" },
+    ],
+  },
+]
 
 // Integrasi
 const getIntergasiSIProcess = (inputLocal) => [

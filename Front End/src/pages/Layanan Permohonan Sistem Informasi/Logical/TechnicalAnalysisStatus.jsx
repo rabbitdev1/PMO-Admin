@@ -8,11 +8,13 @@ import DynamicShow from "../../../components/common/DynamicShow";
 import { apiClient } from "../../../utils/api/apiClient";
 import { validateFile, validatePeriod, validateText } from "../../../utils/helpers/validateForm";
 import DynamicDetailsPermohonanSI from "../DynamicDetailsPermohonanSI";
+import DynamicDetails from "../../../components/ui/DynamicDetails";
 
 const TechnicalAnalysisStatus = ({
   submissionStatus,
   feasibilityData,
   technicalAnalysis,
+  technicalValidation,
   validationDataAnalysis,
   authProfile,
   slug,
@@ -65,6 +67,14 @@ const TechnicalAnalysisStatus = ({
     },
   ];
 
+  const TechnicalValidation = [
+    {
+      label: "Catatan Validasi Teknis",
+      value: inputLocal.technical_validation_notes,
+      type: "textarea",
+      name: 'technical_validation_notes'
+    },
+  ];
   const fetchSetProgress = async (api_key, token, status) => {
     const params = new URLSearchParams();
     params.append("id", slug);
@@ -117,7 +127,7 @@ const TechnicalAnalysisStatus = ({
   };
   return (
     <>
-      <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+      {submissionStatus >= 8 && <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
         <div className="flex flex-row gap-2 items-center">
           <span className='text-lg font-bold'>Validasi Kelayakan</span>
         </div>
@@ -130,7 +140,7 @@ const TechnicalAnalysisStatus = ({
             type={key === "eligibility_validation_notes" ? 'text' : 'text'}
           />
         ))}
-      </div>
+      </div>}
       {Object.entries(technicalAnalysis).length === 0 ? null :
         <div className="flex flex-col gap-3">
           <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
@@ -148,16 +158,17 @@ const TechnicalAnalysisStatus = ({
             ))}
           </div>
         </div>}
-      {submissionStatus === 8 && (JSON.parse(authProfile)?.role === "kabid_aplikasi" || JSON.parse(authProfile)?.role === "perangkat_daerah" ?
+      {submissionStatus === 8 && (JSON.parse(authProfile)?.role === "katim_aplikasi" || JSON.parse(authProfile)?.role === "kabid_aplikasi" ?
         <div className="flex flex-col gap-3">
-          {JSON.parse(authProfile)?.role === "kabid_aplikasi" && (
+          {JSON.parse(authProfile)?.role === "katim_aplikasi" && (
             Object.entries(technicalAnalysis).length === 0 ?
               <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                 <span className='text-lg font-bold'>Tahapan Analisis Teknis</span>
                 {renderProcessInputs(TechnicalAnalysis)}
                 <div className='flex sm:flex-row flex-col gap-2'>
                   <DynamicButton
-                    initialValue={"Update Analisis Teknis ke Perangkat Daerah"}
+                    // initialValue={"Update Analisis Teknis ke Perangkat Daerah"}
+                    initialValue={"Update Analisis Teknis ke Kepala Bidang Aplikasi"}
                     type="fill"
                     color={"#ffffff"}
                     className="inline-flex  bg-[#0185FF] text-darkColor"
@@ -183,124 +194,181 @@ const TechnicalAnalysisStatus = ({
               <div className="flex flex-col gap-3">
                 <div className="flex flex-col bg-[#0185FF]/10 border-1 border-[#0185FF] text-[#0185FF] p-3 gap-3 items-center rounded-lg">
                   <span className="text-base font-semibold text-center">
-                    Proses sudah dikirim ke Perangkat Daerah
+                    Proses sudah dikirim ke Kepala Bidang Aplikasi
                   </span>
                 </div>
               </div>)}
-          {JSON.parse(authProfile)?.role === "perangkat_daerah" && (
+          {JSON.parse(authProfile)?.role === "kabid_aplikasi" && (
             Object.entries(technicalAnalysis).length !== 0 ?
+              // <div className="flex flex-col gap-3">
+              //   {selected === 1 &&
+              //     <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+              //       <div className="flex flex-row gap-2 items-center">
+              //         <span className='text-lg font-bold'>Dokumen Spesifikasi Kebutuhan</span>
+              //       </div>
+              //       {renderProcessInputs(TechnicalAnalysisforOPD)}
+              //       <div className='flex sm:flex-row flex-col gap-2'>
+              //         <DynamicButton
+              //           initialValue={"Lanjut"}
+              //           type="fill"
+              //           color={"#ffffff"}
+              //           className="inline-flex  bg-[#0185FF] text-darkColor"
+              //           onClick={() => {
+              //             const result = {
+              //               ...inputLocal,
+              //             };
+              //             const filteredDataResult = Object.fromEntries(
+              //               Object.entries(result).filter(([_, value]) => {
+              //                 return value !== undefined && value !== null && value !== '' && !(Array.isArray(value) && value.length === 0);
+              //               })
+              //             );
+              //             let isValid = true;
+              //             isValid = isValid && validateFile(inputLocal.requirements_specification_document, "Upload File Dokumen Spesifikasi Kebutuhan");
+
+              //             if (isValid) {
+              //               setSelected(2)
+              //             }
+              //           }}
+              //         />
+              //       </div>
+              //     </div>
+              //   }
+              //   {selected === 2 &&
+              //     <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+              //       <div className="flex flex-row gap-2 items-center">
+              //         <span className='text-lg font-bold'>Dokumen Pembangunan</span>
+              //       </div>
+              //       {renderProcessInputs(TechnicalAnalysisforOPD2)}
+              //       <div className='flex sm:flex-row flex-col gap-2'>
+              //         <DynamicButton
+              //           initialValue={"Lanjut"}
+              //           type="fill"
+              //           color={"#ffffff"}
+              //           className="inline-flex  bg-[#0185FF] text-darkColor"
+              //           onClick={() => {
+              //             const result = {
+              //               ...inputLocal,
+              //             };
+              //             const filteredDataResult = Object.fromEntries(
+              //               Object.entries(result).filter(([_, value]) => {
+              //                 return value !== undefined && value !== null && value !== '' && !(Array.isArray(value) && value.length === 0);
+              //               })
+              //             );
+              //             let isValid = true;
+              //             isValid = isValid && validateFile(inputLocal.development_documents, "Upload File Dokumen Pembangunan");
+
+              //             if (isValid) {
+              //               setSelected(3)
+              //             }
+              //           }}
+              //         />
+              //       </div>
+              //     </div>
+              //   }
+              //   {selected === 3 &&
+              //     <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+              //       <div className="flex flex-row gap-2 items-center">
+              //         <span className='text-lg font-bold'>Dokumen Hasil Uji</span>
+              //       </div>
+              //       {renderProcessInputs(TechnicalAnalysisforOPD3)}
+              //       <div className='flex sm:flex-row flex-col gap-2'>
+              //         <DynamicButton
+              //           initialValue={"Lanjut"}
+              //           type="fill"
+              //           color={"#ffffff"}
+              //           className="inline-flex  bg-[#0185FF] text-darkColor"
+              //           onClick={() => {
+              //             const result = {
+              //               ...inputLocal,
+              //             };
+              //             const filteredDataResult = Object.fromEntries(
+              //               Object.entries(result).filter(([_, value]) => {
+              //                 return value !== undefined && value !== null && value !== '' && !(Array.isArray(value) && value.length === 0);
+              //               })
+              //             );
+              //             let isValid = true;
+              //             isValid = isValid && validateFile(inputLocal.requirements_specification_document, "Upload File Dokumen Spesifikasi Kebutuhan");
+
+              //             if (isValid) {
+              //               // checkingFormData('technical_analysis', filteredDataResult);
+              //               console.log('asdfad');
+              //             }
+              //           }}
+              //         />
+              //       </div>
+              //     </div>
+              //   }
+              // </div>
               <div className="flex flex-col gap-3">
-                {selected === 1 &&
-                  <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
-                    <div className="flex flex-row gap-2 items-center">
-                      <span className='text-lg font-bold'>Dokumen Spesifikasi Kebutuhan</span>
-                    </div>
-                    {renderProcessInputs(TechnicalAnalysisforOPD)}
-                    <div className='flex sm:flex-row flex-col gap-2'>
-                      <DynamicButton
-                        initialValue={"Lanjut"}
-                        type="fill"
-                        color={"#ffffff"}
-                        className="inline-flex  bg-[#0185FF] text-darkColor"
-                        onClick={() => {
-                          const result = {
-                            ...inputLocal,
-                          };
-                          const filteredDataResult = Object.fromEntries(
-                            Object.entries(result).filter(([_, value]) => {
-                              return value !== undefined && value !== null && value !== '' && !(Array.isArray(value) && value.length === 0);
-                            })
-                          );
-                          let isValid = true;
-                          isValid = isValid && validateFile(inputLocal.requirements_specification_document, "Upload File Dokumen Spesifikasi Kebutuhan");
 
-                          if (isValid) {
-                            setSelected(2)
-                          }
-                        }}
-                      />
-                    </div>
-                  </div>
-                }
-                {selected === 2 &&
-                  <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
-                    <div className="flex flex-row gap-2 items-center">
-                      <span className='text-lg font-bold'>Dokumen Pembangunan</span>
-                    </div>
-                    {renderProcessInputs(TechnicalAnalysisforOPD2)}
-                    <div className='flex sm:flex-row flex-col gap-2'>
-                      <DynamicButton
-                        initialValue={"Lanjut"}
-                        type="fill"
-                        color={"#ffffff"}
-                        className="inline-flex  bg-[#0185FF] text-darkColor"
-                        onClick={() => {
-                          const result = {
-                            ...inputLocal,
-                          };
-                          const filteredDataResult = Object.fromEntries(
-                            Object.entries(result).filter(([_, value]) => {
-                              return value !== undefined && value !== null && value !== '' && !(Array.isArray(value) && value.length === 0);
-                            })
-                          );
-                          let isValid = true;
-                          isValid = isValid && validateFile(inputLocal.development_documents, "Upload File Dokumen Pembangunan");
+                <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
 
-                          if (isValid) {
-                            setSelected(3)
-                          }
-                        }}
-                      />
-                    </div>
-                  </div>
-                }
-                {selected === 3 &&
-                  <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
-                    <div className="flex flex-row gap-2 items-center">
-                      <span className='text-lg font-bold'>Dokumen Hasil Uji</span>
-                    </div>
-                    {renderProcessInputs(TechnicalAnalysisforOPD3)}
-                    <div className='flex sm:flex-row flex-col gap-2'>
-                      <DynamicButton
-                        initialValue={"Lanjut"}
-                        type="fill"
-                        color={"#ffffff"}
-                        className="inline-flex  bg-[#0185FF] text-darkColor"
-                        onClick={() => {
-                          const result = {
-                            ...inputLocal,
-                          };
-                          const filteredDataResult = Object.fromEntries(
-                            Object.entries(result).filter(([_, value]) => {
-                              return value !== undefined && value !== null && value !== '' && !(Array.isArray(value) && value.length === 0);
-                            })
-                          );
-                          let isValid = true;
-                          isValid = isValid && validateFile(inputLocal.requirements_specification_document, "Upload File Dokumen Spesifikasi Kebutuhan");
+                  <span className='text-lg font-bold'>Tahapan Validasi Kelayakan</span>
+                  {renderProcessInputs(TechnicalValidation)}
+                  <div className='flex sm:flex-row flex-col gap-2'>
+                    <DynamicButton
+                      initialValue={"Setujui dan laporkan kekepala dinas"}
+                      type="fill"
+                      color={"#ffffff"}
+                      className="inline-flex  bg-[#0185FF] text-darkColor"
+                      onClick={() => {
+                        const result = {
+                          ...inputLocal,
+                        };
+                        const filteredDataResult = Object.fromEntries(
+                          Object.entries(result).filter(([_, value]) => {
+                            return value !== undefined && value !== null && value !== '' && !(Array.isArray(value) && value.length === 0);
+                          })
+                        );
+                        let isValid = true;
+                        isValid = isValid && validateText(inputLocal.technical_validation_notes, "Catatan Validasi Teknis")
 
-                          if (isValid) {
-                            // checkingFormData('technical_analysis', filteredDataResult);
-                            console.log('asdfad');
-                          }
-                        }}
-                      />
-                    </div>
+                        if (isValid) {
+                          checkingFormData('technical_validation', filteredDataResult);
+                          fetchSetProgress(authApiKey, authToken, 'Lanjutkan')
+                        }
+
+                      }}
+                    />
+                    <DynamicButton
+                      initialValue={"Tolak proses dan selesai"}
+                      type="fill"
+                      color={"#ffffff"}
+                      className="inline-flex  bg-[#FF0000] text-darkColor"
+                      onClick={() => {
+                        const result = {
+                          ...inputLocal,
+                        };
+                        const filteredDataResult = Object.fromEntries(
+                          Object.entries(result).filter(([_, value]) => {
+                            return value !== undefined && value !== null && value !== '' && !(Array.isArray(value) && value.length === 0);
+                          })
+                        );
+                        let isValid = true;
+                        isValid = isValid && validateText(inputLocal.technical_validation_notes, "Catatan Validasi Teknis")
+
+                        if (isValid) {
+                          checkingFormData('technical_validation', filteredDataResult);
+                          fetchSetProgress(authApiKey, authToken, 'Ditolak')
+                        }
+                      }}
+                    />
                   </div>
-                }
+                </div>
               </div>
               :
               <div className="flex flex-col bg-[#0185FF]/10 border-1 border-[#0185FF] text-[#0185FF] p-3 gap-3 items-center rounded-lg">
                 <span className="text-base font-semibold text-center">
-                  Menunggu Laporan dari Anggota Tim Teknis
+                  Menunggu Laporan dari Ketua Tim Aplikasi
                 </span>
               </div>
 
           )}
-          <DynamicDetailsPermohonanSI
-            location={'permohonanSI'}
-            detailData={detailData}
-            loading={loading}
-          />
+          {detailData.submission_title === "Permohonan Sistem Informasi" ?
+            <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
+            :
+            <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
+          }
         </div>
         :
         <div className='flex flex-col gap-3'>
@@ -318,7 +386,44 @@ const TechnicalAnalysisStatus = ({
               </span>
             </div>
           </div>
-          <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
+          {detailData.submission_title === "Permohonan Sistem Informasi" ?
+            <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
+            :
+            <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
+          }
+        </div>
+      )}
+      {submissionStatus === 9 && (
+        <div className='flex flex-col  gap-3'>
+          <div className={`flex-1 flex flex-col gap-3`}>
+            <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+              <span className='text-lg font-bold'>Validasi Teknis</span>
+              <div className="flex flex-row gap-2 items-center">
+                <span className="text-base font-semibold">Status Validasi Teknis :</span>
+                <div
+                  className={`flex flex-row gap-2 p-1 px-3 rounded-md text-darkColor bg-[#FF0000]`}
+                >
+                  <span className="text-base">
+                    Ditolak
+                  </span>
+                </div>
+              </div>
+              {Object.entries(technicalValidation).map(([key, value]) => (
+                <DynamicShow
+                  key={key}
+                  location={'permohonanSI'}
+                  label={key === "technical_validation_notes" ? "Catatan Validasi Teknis" : key}
+                  value={value}
+                  type={key === "technical_validation_notes" ? 'text' : 'text'}
+                />
+              ))}
+            </div>
+          </div>
+          {detailData.submission_title === "Permohonan Sistem Informasi" ?
+            <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
+            :
+            <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
+          }
         </div>
       )}
     </>
