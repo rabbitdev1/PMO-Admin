@@ -12,11 +12,12 @@ import Aplikasi from "./models/Aplikasi.js";
 import Sekretariat from "./models/SekretariatModel.js";
 
 import PerencanaanTIK from "./models/PerencanaanTIKModel.js";
-import ManagementInfrastrukturTIK from "./models/ManagementInfrastrukturTIKModel.js";
+import SistemVirtual from "./models/LayananSistemVirtualModel.js";
 
 import UptRadio from "./models/UptRadioModel.js";
 import TeknologiSI from "./models/TeknologiSIModel.js";
 import PermohonanSI from "./models/PermohonanSI.js";
+import LayananData from "./models/LayananDataModel.js";
 
 
 dotenv.config();
@@ -55,10 +56,12 @@ const startServer = async () => {
         await Sekretariat.sync();
 
         await PerencanaanTIK.sync();
-        await ManagementInfrastrukturTIK.sync();
+        await LayananData.sync();
         
         await UptRadio.sync();
         await TeknologiSI.sync();
+
+        await SistemVirtual.sync();
 
     } catch (error) {
         console.error("Unable to connect to the database:", error);
