@@ -37,18 +37,26 @@ export const editDataPermohonanSI = async (req, res) => {
                 permohonanSIItem.submission_status = 3;
             }
             permohonanSIItem.feasibility_analysis = data;
-        }else if (type === "feasibility_validation") {
+        } else if (type === "feasibility_validation") {
             if (convertData.status_validation === "Disetujui") {
                 permohonanSIItem.submission_status = 4;
             } else if (convertData.status_validation === "Ditolak") {
                 permohonanSIItem.submission_status = 3;
             }
             permohonanSIItem.feasibility_validation = data;
+        } else if (type === "technical_analysis") {
+            permohonanSIItem.technical_analysis = data;
         }
-        
-        
-        
-         else if (type === "process") {
+        else if (type === "technical_validation") {
+            permohonanSIItem.technical_validation = data;
+            if (convertData.status_validation === "Disetujui") {
+                permohonanSIItem.submission_status = 10;
+            } else if (convertData.status_validation === "Ditolak") {
+                permohonanSIItem.submission_status = 9;
+            }
+        }
+
+        else if (type === "process") {
             permohonanSIItem.on_process = data;
         } else if (type === "finish") {
             if (

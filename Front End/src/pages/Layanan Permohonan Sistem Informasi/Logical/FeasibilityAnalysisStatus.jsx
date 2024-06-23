@@ -8,6 +8,7 @@ import DynamicShow from "../../../components/common/DynamicShow";
 import { apiClient } from "../../../utils/api/apiClient";
 import { validateFile, validatePeriod, validateText } from "../../../utils/helpers/validateForm";
 import DynamicDetailsPermohonanSI from "../DynamicDetailsPermohonanSI";
+import DynamicDetails from "../../../components/ui/DynamicDetails";
 
 const FeasibilityAnalysisStatus = ({
   submissionStatus,
@@ -85,7 +86,7 @@ const FeasibilityAnalysisStatus = ({
   };
   return (
     <>
-      <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+   {submissionStatus >= 3 &&   <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
         <div className="flex flex-row gap-2 items-center">
           <span className="text-base font-semibold">Status Kelengkapan Dokumen :</span>
           <div
@@ -104,7 +105,7 @@ const FeasibilityAnalysisStatus = ({
             type={"html"}
           />
         }
-      </div>
+      </div>}
       {submissionStatus === 4 && (JSON.parse(authProfile)?.role === "katim_perencanaan" ?
         <div className="flex flex-col gap-3">
           <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
@@ -160,11 +161,11 @@ const FeasibilityAnalysisStatus = ({
               />
             </div>
           </div>
-          <DynamicDetailsPermohonanSI
-            location={'permohonanSI'}
-            detailData={detailData}
-            loading={loading}
-          />
+          {detailData.submission_title === "Permohonan Sistem Informasi" ?
+        <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
+        :
+        <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
+      }
         </div>
         :
         <div className='flex flex-col gap-3'>
@@ -182,15 +183,20 @@ const FeasibilityAnalysisStatus = ({
               </span>
             </div>
           </div>
-          <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
+          {detailData.submission_title === "Permohonan Sistem Informasi" ?
+        <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
+        :
+        <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
+      }
         </div>
       )}
       {submissionStatus === 5 && (
         <div className='flex flex-col  gap-3'>
           <div className={`flex-1 flex flex-col gap-3`}>
             <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
-              <div className="flex flex-row gap-2 items-center">
-                <span className="text-base font-semibold">Status Analisis Teknis :</span>
+            <span className='text-lg font-bold'>Analisis Kelayakan</span>
+            <div className="flex flex-row gap-2 items-center">
+                <span className="text-base font-semibold">Status Analisis Kelayakan :</span>
                 <div
                   className={`flex flex-row gap-2 p-1 px-3 rounded-md text-darkColor bg-[#FF0000]`}
                 >
@@ -199,7 +205,6 @@ const FeasibilityAnalysisStatus = ({
                   </span>
                 </div>
               </div>
-              <span className='text-lg font-bold'>Analisis Kelayakan</span>
               {Object.entries(feasibilityData).map(([key, value]) => (
                 <DynamicShow
                   key={key}
@@ -211,7 +216,11 @@ const FeasibilityAnalysisStatus = ({
               ))}
             </div>
           </div>
-          <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
+          {detailData.submission_title === "Permohonan Sistem Informasi" ?
+        <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
+        :
+        <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
+      }
         </div>
       )}
     </>

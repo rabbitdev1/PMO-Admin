@@ -70,14 +70,14 @@ const Sidebar = () => {
         'perangkat_daerah',
         'katim_perencanaan',
         'kabid_perencanaan',
-        'teknis_aplikasi',
+        'katim_aplikasi',
         'kabid_aplikasi',
-        'teknis_infra',
+        'katim_infra',
         'kabid_infra',
         'kadis'
       ],
       submenu: [
-        { title: 'Rekomendasi Sistem Informasi', href: "/layanan-permohonan-sistem-informasi", state: 'Permohonan Sistem Informasi' },
+        { title: 'Rekomendasi Sistem Informasi', href: "/layanan-permohonan-sistem-informasi", state: 'Rekomendasi Sistem Informasi' },
         { title: 'Pembangunan Sistem Informasi', href: "/layanan-permohonan-sistem-informasi", state: 'Pembangunan Sistem Informasi' },
         { title: 'Pengembangan Sistem Informasi', href: "/layanan-permohonan-sistem-informasi", state: 'Pengembangan Sistem Informasi' },
       ], icon: AllBerandaIcon, href: ["/layanan-permohonan-sistem-informasi", "/detail-permohonan-sistem-informasi", '/permohonan-sistem-informasi'],
@@ -104,7 +104,6 @@ const Sidebar = () => {
       ],
       icon: AllBerandaIcon, href: ["/layanan-pengelolaan-infrastruktur-teknologi-informasi-komunikasi", "/detail-infrastruktur"],
     },
-
     {
       title: "Layanan Siaran dan Sistem Virtual", role: ['op_pmo', 'perangkat_daerah', 'teknis_aplikasi', 'katim_aplikasi'],
       submenu: [
@@ -113,7 +112,6 @@ const Sidebar = () => {
         { title: 'Permohonan Podcast', href: '/layanan-siaran-dan-sistem-virtual', state: 'Permohonan Podcast' },
       ],
       icon: AllBerandaIcon, href: ["/layanan-siaran-dan-sistem-virtual", "/detail-siaran-dan-sistem-virtual"],
-
     },
     {
       title: "Layanan Data", role: ['op_pmo', 'perangkat_daerah', 'teknis_aplikasi', 'katim_aplikasi'],
