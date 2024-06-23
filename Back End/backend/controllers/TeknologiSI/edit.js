@@ -1,6 +1,6 @@
 import TeknologiSI from "../../models/TeknologiSIModel.js";
 
-export const editDataTeknologiSI = async(req, res) => {
+export const editDataTeknologiSI = async (req, res) => {
     try {
         const { id, type, data } = req.body;
         const apiKey = req.headers["x-api-key"];
@@ -30,11 +30,11 @@ export const editDataTeknologiSI = async(req, res) => {
                 teknologisiItem.submission_status = 3;
             }
             teknologisiItem.on_validation = data;
-        } else if (type === "validation_technique") {
-            teknologisiItem.on_validation_technique = data;
-        } else if (type === "process") {
-            teknologisiItem.on_process = data;
-        } else if (type === "finish") {
+            } else if (type === "validation_technique") {
+                teknologisiItem.on_validation_technique = data;
+            } else if (type === "process") {
+                teknologisiItem.on_process = data;
+            } else if (type === "finish") {
             if (
                 convertData.submission_status === "Menyetujui" ||
                 convertData.submission_status === "Disetujui"

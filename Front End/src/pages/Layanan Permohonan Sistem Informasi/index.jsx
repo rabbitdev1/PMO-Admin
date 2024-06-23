@@ -235,7 +235,7 @@ function PermohonanSIPages() {
         ),
       };
       console.log(JSON.stringify(combinedObject));
-      if (combinedObject?.submission_title === "Permohonan Sistem Informasi") {
+      if (combinedObject?.submission_title === "Rekomendasi Sistem Informasi") {
         if (isValidatorPermohonanSI(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
         } else {
@@ -467,7 +467,7 @@ function PermohonanSIPages() {
             </span>
             <div className="flex flex-col overflow-hidden rounded-b-md pb-2">
               {[{
-                name: 'Permohonan Sistem Informasi'
+                name: 'Rekomendasi Sistem Informasi'
               }, {
                 name: 'Pembangunan Sistem Informasi'
               }, {
@@ -478,7 +478,7 @@ function PermohonanSIPages() {
                     key={index}
                     className={`flex flex-row justify-start items-center gap-2 flex-1 ${index % 2 ? "" : "bg-[#f1f5f9] dark:bg-[#f1f5f907]"} py-2.5 p-3 hover:opacity-70`}
                     onClick={() => {
-                      if (item.name === 'Permohonan Sistem Informasi') {
+                      if (item.name === 'Rekomendasi Sistem Informasi') {
                         setisModalCreate({ data: item.name, status: true });
                         updatePic(
                           JSON.parse(authProfile).fullname,
@@ -549,7 +549,7 @@ function PermohonanSIPages() {
           <div className="flex flex-col gap-3">
             <div className="flex flex-row justify-between">
               <span className="text-lg font-bold font-gilroy">
-                Buat Permohonan Sistem Informasi
+                Buat Rekomendasi Sistem Informasi
               </span>
               <DynamicButton
                 iconLeft={<CloseIcon className="w-4 h-4 " />}
@@ -558,14 +558,14 @@ function PermohonanSIPages() {
                 className="inline-flex p-2"
                 onClick={() => {
                   setisModalCreate({ data: {}, status: false });
-                  resetFormData("Permohonan Sistem Informasi", formData, setFormData);
+                  resetFormData("Rekomendasi Sistem Informasi", formData, setFormData);
                 }}
               />
             </div>
             <div className="flex flex-col overflow-hidden rounded-b-md gap-3">
               {formData.map(
                 (section, sectionIndex) =>
-                  section.name === "Permohonan Sistem Informasi" && (
+                  section.name === "Rekomendasi Sistem Informasi" && (
                     <div key={sectionIndex} className="flex flex-col gap-3">
                       {section.fields.map((item, index) => (
                         <div key={index} className="flex flex-col gap-2">
@@ -658,7 +658,7 @@ function PermohonanSIPages() {
                 className="inline-flex bg-cardLight dark:bg-cardDark text-cardDark dark:text-cardLight"
                 onClick={() => {
                   setisModalCreate({ data: {}, status: false });
-                  resetFormData("Permohonan Sistem Informasi", formData, setFormData);
+                  resetFormData("Rekomendasi Sistem Informasi", formData, setFormData);
                 }}
               />
               <DynamicButton

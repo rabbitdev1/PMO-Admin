@@ -18,12 +18,12 @@ import fetchUploadFiles from "../../utils/api/uploadFiles";
 import fetchUploadImages from "../../utils/api/uploadImages";
 import DalamAntrianView from "./Logical/DalamAntrianView";
 import FinishStatus from "./Logical/FinishStatus";
-import ProcessStatus from "./Logical/ProcessStatus";
 import ValidationStatus from "./Logical/ValidationStatus";
 import ConditionalRender from "../../components/ui/ConditionalRender";
 import FeasibilityAnalysisStatus from "./Logical/FeasibilityAnalysisStatus";
 import ValidationAnalysisStatus from "./Logical/ValidationAnalysisStatus";
 import TechnicalAnalysisStatus from "./Logical/TechnicalAnalysisStatus";
+import RecommendationLetterProcessStatus from "./Logical/RecommendationLetterProcessStatus";
 
 function DetailPermohonanSIPages() {
   const { isDarkMode } = useTheme();
@@ -41,6 +41,7 @@ function DetailPermohonanSIPages() {
   const [validationDataAnalysis, setValidationDataAnalysis] = useState({});
   const [technicalAnalysis, setTechnicalAnalysis] = useState({});
   const [technicalValidation, setTechnicalValidation] = useState({});
+  const [recommendationLetterTechnical, setRecommendationLetterTechnical] = useState({});
   const [processData, setProcessData] = useState({});
   const [finishData, setfinishData] = useState({});
 
@@ -84,10 +85,12 @@ function DetailPermohonanSIPages() {
         setFeasibilityDataAnalysis(
           JSON.parse(response.result.data?.feasibility_analysis)
         );
-        setValidationDataAnalysis( JSON.parse(response.result.data?.feasibility_validation))
-        setTechnicalAnalysis( JSON.parse(response.result.data?.technical_analysis))
-        setTechnicalValidation( JSON.parse(response.result.data?.technical_validation))
-        setProcessData(JSON.parse(response.result.data?.on_process));
+        setValidationDataAnalysis(JSON.parse(response.result.data?.feasibility_validation))
+        setTechnicalAnalysis(JSON.parse(response.result.data?.technical_analysis))
+        setTechnicalValidation(JSON.parse(response.result.data?.technical_validation))
+        setRecommendationLetterTechnical(JSON.parse(response.result.data?.recommendation_letter_technical))
+
+
         setfinishData(JSON.parse(response.result.data?.on_finish));
       } else {
         setDetailData([]);
@@ -105,7 +108,7 @@ function DetailPermohonanSIPages() {
     dispatch(isPending(true));
     let htmlConvert = "";
     if (
-      ["validation", "feasibility_analysis", "feasibility_validation","technical_analysis"].includes(type) &&
+      ["validation", "feasibility_analysis", "feasibility_validation", "technical_analysis","recommendation_letter_technical"].includes(type) &&
       data?.response
     ) {
       const contentState = convertToRaw(data.response.getCurrentContent());
@@ -125,7 +128,7 @@ function DetailPermohonanSIPages() {
           response: htmlConvert,
         })
       );
-    } else if (["feasibility_analysis", "feasibility_validation",'technical_analysis','technical_validation'].includes(type)) {
+    } else if (["feasibility_analysis", "feasibility_validation", 'technical_analysis', 'technical_validation','recommendation_letter_technical'].includes(type)) {
       const filteredData = {
         ...data,
         response: htmlConvert,
@@ -183,136 +186,43 @@ function DetailPermohonanSIPages() {
       fetchEditpermohonanSI(authApiKey, authToken, slug, type, data);
     }
     else if (type === "feasibility_analysis") {
-      if (
-        data.file_catatan_kelayakan 
-      ) {
-        try {
-          const uploadPromises = [];
-          const resultMapping = {};
-          if (data.file_catatan_kelayakan) {
-            uploadPromises.push(
-              fetchUploadFiles(
-                authApiKey,
-                authToken,
-                data.file_catatan_kelayakan,
-                "permohonanSI",
-                dispatch
-              ).then(result => {
-                resultMapping.file_catatan_kelayakan = result;
-              })
-            );
-          }
-          
-          await Promise.all(uploadPromises);
-
-          let combineData = { ...data };
-          if (resultMapping.file_catatan_kelayakan) {
-            combineData.file_catatan_kelayakan = resultMapping.file_catatan_kelayakan;
-          }
-          fetchEditpermohonanSI(authApiKey, authToken, slug, type, combineData);
-        } catch (error) {
-          console.error("Error occurred during image upload:", error);
-        }
-      } else {
-        fetchEditpermohonanSI(authApiKey, authToken, slug, type, data);
-      }
-    } 
+      fetchEditpermohonanSI(authApiKey, authToken, slug, type, data);
+    }
     else if (type === "feasibility_validation") {
-      if (
-        data.file_catatan_kelayakan 
-      ) {
-        try {
-          const uploadPromises = [];
-          const resultMapping = {};
-          if (data.file_catatan_kelayakan) {
-            uploadPromises.push(
-              fetchUploadFiles(
-                authApiKey,
-                authToken,
-                data.file_catatan_kelayakan,
-                "permohonanSI",
-                dispatch
-              ).then(result => {
-                resultMapping.file_catatan_kelayakan = result;
-              })
-            );
-          }
-          
-          await Promise.all(uploadPromises);
-
-          let combineData = { ...data };
-          if (resultMapping.file_catatan_kelayakan) {
-            combineData.file_catatan_kelayakan = resultMapping.file_catatan_kelayakan;
-          }
-          fetchEditpermohonanSI(authApiKey, authToken, slug, type, combineData);
-        } catch (error) {
-          console.error("Error occurred during image upload:", error);
-        }
-      } else {
-        fetchEditpermohonanSI(authApiKey, authToken, slug, type, data);
-      }
-    } 
+      fetchEditpermohonanSI(authApiKey, authToken, slug, type, data);
+    }
     else if (type === "technical_analysis") {
-      if (
-        data.file_catatan_kelayakan 
-      ) {
-        try {
-          const uploadPromises = [];
-          const resultMapping = {};
-          if (data.file_catatan_kelayakan) {
-            uploadPromises.push(
-              fetchUploadFiles(
-                authApiKey,
-                authToken,
-                data.file_catatan_kelayakan,
-                "permohonanSI",
-                dispatch
-              ).then(result => {
-                resultMapping.file_catatan_kelayakan = result;
-              })
-            );
-          }
-          
-          await Promise.all(uploadPromises);
-
-          let combineData = { ...data };
-          if (resultMapping.file_catatan_kelayakan) {
-            combineData.file_catatan_kelayakan = resultMapping.file_catatan_kelayakan;
-          }
-          fetchEditpermohonanSI(authApiKey, authToken, slug, type, combineData);
-        } catch (error) {
-          console.error("Error occurred during image upload:", error);
-        }
-      } else {
-        fetchEditpermohonanSI(authApiKey, authToken, slug, type, data);
-      }
-    } 
+      fetchEditpermohonanSI(authApiKey, authToken, slug, type, data);
+    }
     else if (type === "technical_validation") {
+      fetchEditpermohonanSI(authApiKey, authToken, slug, type, data);
+    }
+    else if (type === "recommendation_letter_technical") {
       if (
-        data.file_catatan_kelayakan 
+        data.recommendation_letter_technical
       ) {
         try {
           const uploadPromises = [];
           const resultMapping = {};
-          if (data.file_catatan_kelayakan) {
+          if (data.recommendation_letter_technical) {
             uploadPromises.push(
               fetchUploadFiles(
                 authApiKey,
                 authToken,
-                data.file_catatan_kelayakan,
+                data.recommendation_letter_technical,
                 "permohonanSI",
                 dispatch
               ).then(result => {
-                resultMapping.file_catatan_kelayakan = result;
+                resultMapping.recommendation_letter_technical = result;
               })
             );
           }
-          
+
           await Promise.all(uploadPromises);
 
           let combineData = { ...data };
-          if (resultMapping.file_catatan_kelayakan) {
-            combineData.file_catatan_kelayakan = resultMapping.file_catatan_kelayakan;
+          if (resultMapping.recommendation_letter_technical) {
+            combineData.recommendation_letter_technical = resultMapping.recommendation_letter_technical;
           }
           fetchEditpermohonanSI(authApiKey, authToken, slug, type, combineData);
         } catch (error) {
@@ -321,8 +231,8 @@ function DetailPermohonanSIPages() {
       } else {
         fetchEditpermohonanSI(authApiKey, authToken, slug, type, data);
       }
-    } 
-    
+    }
+
     else if (type === "process") {
       if (
         data.upload_dokumen_hasil_integrasi ||
@@ -394,7 +304,7 @@ function DetailPermohonanSIPages() {
         fetchEditpermohonanSI(authApiKey, authToken, slug, type, data);
       }
 
-    } 
+    }
     else if (type === "finish") {
       if (data.file_submission) {
         const result = await fetchUploadFiles(
@@ -470,32 +380,32 @@ function DetailPermohonanSIPages() {
                 {
                   title: 'Analisis Teknis',
                   status: 8,
-                  color: submissionStatus === 8 ? "bg-[#F5CF08]" : submissionStatus === 9 ? "bg-[#FF0000]" : "bg-[#F5CF08]",
-                  border: submissionStatus === 8 ? "border-[#F5CF08]" : submissionStatus === 9 ? "border-[#FF0000]" : "border-[#F5CF08]",
-                  text: submissionStatus === 8 ? "text-[#F5CF08]" : submissionStatus === 9 ? "text-[#FF0000]" : "text-[#F5CF08]",
+                  color: "bg-[#F5CF08]",
+                  border: "border-[#F5CF08]",
+                  text: "text-[#F5CF08]",
                 },
                 {
                   title: 'Validasi Teknis',
-                  status: 10,
-                  color: submissionStatus === 10 ? "bg-[#F5CF08]" : submissionStatus === 11 ? "bg-[#FF0000]" : "bg-[#F5CF08]",
-                  border: submissionStatus === 10 ? "border-[#F5CF08]" : submissionStatus === 11 ? "border-[#FF0000]" : "border-[#F5CF08]",
-                  text: submissionStatus === 10 ? "text-[#F5CF08]" : submissionStatus === 11 ? "text-[#FF0000]" : "text-[#F5CF08]",
+                  status: 9,
+                  color: submissionStatus === 9 ? "bg-[#F5CF08]" : submissionStatus === 10 ? "bg-[#FF0000]" : "bg-[#F5CF08]",
+                  border: submissionStatus === 9 ? "border-[#F5CF08]" : submissionStatus === 10 ? "border-[#FF0000]" : "border-[#F5CF08]",
+                  text: submissionStatus === 9 ? "text-[#F5CF08]" : submissionStatus === 10 ? "text-[#FF0000]" : "text-[#F5CF08]",
                 },
                 {
                   title: "Proses Surat Rekomendasi",
-                  status: 12,
-                  color: submissionStatus === 12 ? "bg-[#13C39C]" : submissionStatus === 13 ? "bg-[#FF0000]" : "bg-[#13C39C]",
-                  border: submissionStatus === 12 ? "border-[#13C39C]" : submissionStatus === 13 ? "border-[#FF0000]" : "border-[#13C39C]",
-                  text: submissionStatus === 12 ? "text-[#13C39C]" : submissionStatus === 13 ? "text-[#FF0000]" : "text-[#13C39C]",
+                  status: 11,
+                  color: "bg-[#13C39C]" ,
+                  border:  "border-[#13C39C]" ,
+                  text: "text-[#13C39C]",
                 },
 
 
                 {
                   title: "Pengajuan Selesai",
-                  status: 14,
-                  color: submissionStatus === 14 ? "bg-[#13C39C]" : submissionStatus === 15 ? "bg-[#FF0000]" : "bg-[#13C39C]",
-                  border: submissionStatus === 14 ? "border-[#13C39C]" : submissionStatus === 15 ? "border-[#FF0000]" : "border-[#13C39C]",
-                  text: submissionStatus === 14 ? "text-[#13C39C]" : submissionStatus === 15 ? "text-[#FF0000]" : "text-[#13C39C]",
+                  status: 12,
+                  color: submissionStatus === 12 ? "bg-[#13C39C]" : submissionStatus === 15 ? "bg-[#FF0000]" : "bg-[#13C39C]",
+                  border: submissionStatus === 12 ? "border-[#13C39C]" : submissionStatus === 15 ? "border-[#FF0000]" : "border-[#13C39C]",
+                  text: submissionStatus === 12 ? "text-[#13C39C]" : submissionStatus === 15 ? "text-[#FF0000]" : "text-[#13C39C]",
                 },
               ].map((item, index) => (
                 <div key={index} className="flex flex-col flex-1 ">
@@ -554,7 +464,7 @@ function DetailPermohonanSIPages() {
               checkingFormData={checkingFormData}
               setisModalVerif={setisModalVerif}
             />
-           <TechnicalAnalysisStatus
+            <TechnicalAnalysisStatus
               slug={slug}
               validationData={validationData}
               submissionStatus={submissionStatus}
@@ -562,13 +472,40 @@ function DetailPermohonanSIPages() {
               technicalValidation={technicalValidation}
               validationDataAnalysis={validationDataAnalysis}
               technicalAnalysis={technicalAnalysis}
-              // setValidationData={setTechnicalAnalysis}
               authProfile={authProfile}
               detailData={detailData}
               loading={permohonanSILoading}
               checkingFormData={checkingFormData}
               setisModalVerif={setisModalVerif}
             />
+            <RecommendationLetterProcessStatus
+              slug={slug}
+              validationData={validationData}
+              technicalValidation={technicalValidation}
+              recommendationLetterTechnical={recommendationLetterTechnical}
+              submissionStatus={submissionStatus}
+              feasibilityData={feasibilityDataAnalysis}
+              setValidationData={setFeasibilityDataAnalysis}
+              authProfile={authProfile}
+              detailData={detailData}
+              loading={permohonanSILoading}
+              checkingFormData={checkingFormData}
+              setisModalVerif={setisModalVerif}
+            />
+            <FinishStatus
+              slug={slug}
+              validationData={validationData}
+              technicalValidation={technicalValidation}
+              recommendationLetterTechnical={recommendationLetterTechnical}
+              submissionStatus={submissionStatus}
+              feasibilityData={feasibilityDataAnalysis}
+              setValidationData={setFeasibilityDataAnalysis}
+              authProfile={authProfile}
+              detailData={detailData}
+              loading={permohonanSILoading}
+              checkingFormData={checkingFormData}
+              setisModalVerif={setisModalVerif}/>
+
           </div>
         </section>
       </ConditionalRender>
