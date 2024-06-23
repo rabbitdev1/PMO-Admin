@@ -17,10 +17,10 @@ import LayananPenyusunanPerencanaanTIKPages from "../pages/Layanan Penyusunan Pe
 import DetailPerencanaanTIKPages from "../pages/Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi/detail";
 import UptRadioPages from "../pages/Layanan Upt Radio Sonata";
 import DetailUptRadioPages from "../pages/Layanan Upt Radio Sonata/detail";
-import TeknologiSIPages from "../pages/Layanan Teknologi dan Sistem Informasi";
-import DetailTeknologiSIPages from "../pages/Layanan Teknologi dan Sistem Informasi/detail";
-import ManagementTIKPages from "../pages/Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi";
-import DetailManagementTIKPages from "../pages/Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi/detail";
+import TeknologiSIPages from "../pages/Layanan Siaran dan Sistem Virtual";
+import DetailTeknologiSIPages from "../pages/Layanan Siaran dan Sistem Virtual/detail";
+import LayananDataPages from "../pages/Layanan Data";
+import DetailLayananDataPages from "../pages/Layanan Data/detail";
 import PermohonanSIPages from "../pages/Layanan Permohonan Sistem Informasi";
 import DetailPermohonanSIPages from "../pages/Layanan Permohonan Sistem Informasi/detail";
 import CreatePermohonanSIPages from "../pages/Layanan Permohonan Sistem Informasi/create";
@@ -44,8 +44,8 @@ const userRoutes = [
   { path: "/detail-siaran-dan-sistem-virtual", component: <DetailTeknologiSIPages /> },
 
 
-  { path: "/layanan-data", component: <ManagementTIKPages /> },
-  { path: "/detail-data", component: <DetailManagementTIKPages /> },
+  { path: "/layanan-data", component: <LayananDataPages /> },
+  { path: "/detail-data", component: <DetailLayananDataPages /> },
 
   { path: "/layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi", component: <LayananPenyusunanPerencanaanTIKPages /> },
   { path: "/detail-layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi", component: <DetailPerencanaanTIKPages /> },

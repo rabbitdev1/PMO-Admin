@@ -25,7 +25,7 @@ const ValidationStatus = ({
           </div>
           <DynamicDetails
 
-            location={'managementinfrastrukturtik'}
+            location={'layanan-data'}
             detailData={detailData}
             loading={loading}
           />
@@ -108,7 +108,7 @@ const ValidationStatus = ({
               </span>
             </div>
           </div>
-          <DynamicDetails location={"managementinfrastrukturtik"} detailData={detailData} loading={loading} />
+          <DynamicDetails location={"layanan-data"} detailData={detailData} loading={loading} />
         </div>
       )}
       {submissionStatus === 3 && (
@@ -127,13 +127,13 @@ const ValidationStatus = ({
               </div>
               <DynamicShow
                 label={"Tanggapan"}
-                location={'managementinfrastrukturtik'}
+                location={'layanan-data'}
                 value={validationData?.response}
                 type={"html"}
               />
             </div>
           </div>
-          <DynamicDetails location={"managementinfrastrukturtik"} detailData={detailData} loading={loading} />
+          <DynamicDetails location={"layanan-data"} detailData={detailData} loading={loading} />
         </div>
       )}
     </>

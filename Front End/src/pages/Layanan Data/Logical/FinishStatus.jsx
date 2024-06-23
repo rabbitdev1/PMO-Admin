@@ -1,6 +1,6 @@
 import React from "react";
 import DynamicShow from "../../../components/common/DynamicShow";
-import DynamicDetails from "../../../components/ui/DynamicDetails";
+import DynamicDetails from '../../../components/ui/DynamicDetails';
 
 const FinishStatus = ({
   submissionStatus,
@@ -40,25 +40,24 @@ const FinishStatus = ({
             )}
             {Object.entries(processData).map(([key, value]) => (
               <DynamicShow
-                key={key}
-                label={
-                  key === "upload_dokumen_zoom"
-                    ? "Dokumen Hasil Pengajuan Permohonan Zoom"
-                    : key === "upload_dokumen_liputan"
-                      ? "Dokumen Hasil Pengajuan Permohonan Liputan"
-                      : key === "file_pengajuan_podcast"
-                        ? "Dokumen Hasil Pengajuan Permohonan Podcast"
-                        : key
-                }
-                value={value}
-                location={"teknologisi"}
-                type={
-                  key === "upload_dokumen_zoom" ||
-                  "upload_dokumen_liputan" ||
-                  "file_pengajuan_podcast"
-                    ? "pdf"
-                    : "text"
-                }
+              key={key}
+              label={
+                  key === "upload_dokumen_hasil_analisa"
+                  ? "Dokumen Laporan Hasil Pengolahan dan Analisa Data"
+                  : "upload_file_data_valid"
+                  ? "File Data Valid"
+                  : "upload_dokumen_laporan_pembuatan_akun"
+                  ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
+                  :
+                  key
+              }
+              value={value}
+              location={"layanan-data"}
+              type={
+                  key === "upload_dokumen_hasil_analisa" || "upload_file_data_valid" || "upload_dokumen_laporan_pembuatan_akun"
+                      ? "pdf"
+                      : "text"
+              }
               />
             ))}
 
@@ -73,14 +72,14 @@ const FinishStatus = ({
               <DynamicShow
                 label={"File Surat Pemberitahuan untuk OPD"}
                 value={finishData?.file_upload}
-                location={"teknologisi"}
+                location={"layanan-data"}
                 type={"pdf"}
               />
             )}
           </div>
         </div>
         <DynamicDetails
-          location={"teknologisi"}
+          location={'layanan-data'}
           detailData={detailData}
           loading={loading}
         />

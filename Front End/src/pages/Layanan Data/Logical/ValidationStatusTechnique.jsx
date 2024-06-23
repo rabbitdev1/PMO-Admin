@@ -82,7 +82,7 @@ const ValidationStatusTechnique = ({
 
     try {
       const response = await apiClient({
-        baseurl: "managementinfrastrukturtik/set_process",
+        baseurl: "layanan-data/set_process",
         method: "POST",
         body: params,
         apiKey: api_key,
@@ -197,7 +197,7 @@ const ValidationStatusTechnique = ({
                   key === 'response_katim' ? null :
                     <DynamicShow
                       key={key}
-                      location={'managementinfrastrukturtik'}
+                      location={'layanan-data'}
                       label={key === "file_scema_integration" ? "Skema Integrasi" : key === "team_response" ? "Tanggapan dari Tim Teknis" : key === "working_schedule" ? "Jadwal Kerja" : key}
                       value={value}
                       type={key === "file_scema_integration" ? 'pdf' : key === "team_response" ? 'text' : key === "working_schedule" ? "multidate" : 'text'}
@@ -266,7 +266,7 @@ const ValidationStatusTechnique = ({
           )}
 
           <DynamicDetails
-            location={'managementinfrastrukturtik'}
+            location={'layanan-data'}
             detailData={detailData}
             loading={loading}
           />
@@ -286,7 +286,7 @@ const ValidationStatusTechnique = ({
               </span>
             </div>
           </div>
-          <DynamicDetails location={"managementinfrastrukturtik"} detailData={detailData} loading={loading} />
+          <DynamicDetails location={"layanan-data"} detailData={detailData} loading={loading} />
         </div>
       )}
       {submissionStatus === 5 && (
@@ -306,7 +306,7 @@ const ValidationStatusTechnique = ({
               {Object.entries(validationData).map(([key, value]) => (
                 <DynamicShow
                   key={key}
-                  location={'managementinfrastrukturtik'}
+                  location={'layanan-data'}
                   label={key === "team_response" ? "Tanggapan dari Tim" : key === "working_schedule" ? "Jadwal Kerja" : key === "response_katim" ? "Tanggapan dari Ketua Tim" : key}
                   value={value}
                   type={key === "team_response" ? 'text' : key === "working_schedule" ? "multidate" : key === "response" ? "html" : 'text'}
@@ -314,7 +314,7 @@ const ValidationStatusTechnique = ({
               ))}
             </div>
           </div>
-          <DynamicDetails location={"managementinfrastrukturtik"} detailData={detailData} loading={loading} />
+          <DynamicDetails location={"layanan-data"} detailData={detailData} loading={loading} />
         </div>
       )}
     </>

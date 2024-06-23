@@ -1,6 +1,6 @@
-import ManagementInfrastrukturTIK from "../../models/ManagementInfrastrukturTIKModel.js";
+import LayananDataModel from "../../models/LayananDataModel.js";
 
-export const getListDataManagementInfrastrukturTIK = async(req, res) => {
+export const getListDataLayananData = async(req, res) => {
     try {
         const { role } = req.body;
         const apiKey = req.headers["x-api-key"];
@@ -10,21 +10,21 @@ export const getListDataManagementInfrastrukturTIK = async(req, res) => {
                 msg: "API Key is required",
             });
         } else {
-            const managementinfrastrukturTIK = await ManagementInfrastrukturTIK.findAll();
-            managementinfrastrukturTIK.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            const LayananData = await LayananDataModel.findAll();
+            LayananData.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
-            const filteredmanagementinfrastrukturTIK = managementinfrastrukturTIK.filter((item) => {
+            const filteredLayananData = LayananData.filter((item) => {
                 if (!item.role) return false;
                 const itemRoles = JSON.parse(item.role);
                 return itemRoles.includes(role);
             });
 
             if (role === "perangkat_daerah") {
-                const validmanagementinfrastrukturTIK = filteredmanagementinfrastrukturTIK.filter(
+                const validLayananData = filteredLayananData.filter(
                     (item) => item.apiKey === apiKey
                 );
 
-                if (validmanagementinfrastrukturTIK.length === 0) {
+                if (validLayananData.length === 0) {
                     return res.status(400).json({
                         status: "error",
                         msg: "Item not found",
@@ -32,23 +32,23 @@ export const getListDataManagementInfrastrukturTIK = async(req, res) => {
                 }
 
                 const totalItemsByStatus = {
-                    divalidasi: filteredmanagementinfrastrukturTIK.filter(
+                    divalidasi: filteredLayananData.filter(
                         (user) => user.submission_status === 2 || user.submission_status === 4
                     ).length,
-                    diproses: filteredmanagementinfrastrukturTIK.filter(
+                    diproses: filteredLayananData.filter(
                         (user) => user.submission_status === 6
                     ).length,
-                    ditolak: filteredmanagementinfrastrukturTIK.filter(
+                    ditolak: filteredLayananData.filter(
                         (user) => user.submission_status === 3 || user.submission_status === 5 || user.submission_status === 8
                     ).length,
-                    disetujui: filteredmanagementinfrastrukturTIK.filter(
+                    disetujui: filteredLayananData.filter(
                         (user) => user.submission_status === 7
                     ).length,
                 };
                 res.json({
                     status: "ok",
-                    msg: "Data Management Infrastruktur TIK retrieved successfully",
-                    data: validmanagementinfrastrukturTIK.map((item) => {
+                    msg: "Data Layanan Data retrieved successfully",
+                    data: validLayananData.map((item) => {
                         const fields = JSON.parse(item.fields);
                         return {
                             id: item.id,
@@ -58,29 +58,29 @@ export const getListDataManagementInfrastrukturTIK = async(req, res) => {
                             createdAt: item.createdAt,
                         };
                     }),
-                    totalItems: validmanagementinfrastrukturTIK.length,
+                    totalItems: validLayananData.length,
                     totalItemsByStatus: totalItemsByStatus,
                 });
             } else {
                 // Jika bukan peran perangkat_daerah, kembalikan data tanpa validasi API key
                 const totalItemsByStatus = {
-                    divalidasi: filteredmanagementinfrastrukturTIK.filter(
+                    divalidasi: filteredLayananData.filter(
                         (user) => user.submission_status === 2 || user.submission_status === 4
                     ).length,
-                    diproses: filteredmanagementinfrastrukturTIK.filter(
+                    diproses: filteredLayananData.filter(
                         (user) => user.submission_status === 6
                     ).length,
-                    ditolak: filteredmanagementinfrastrukturTIK.filter(
+                    ditolak: filteredLayananData.filter(
                         (user) => user.submission_status === 3 || user.submission_status === 5 || user.submission_status === 8
                     ).length,
-                    disetujui: filteredmanagementinfrastrukturTIK.filter(
+                    disetujui: filteredLayananData.filter(
                         (user) => user.submission_status === 7
                     ).length,
                 };
                 res.json({
                     status: "ok",
-                    msg: "Data Management Infrastruktur TIK retrieved successfully",
-                    data: filteredmanagementinfrastrukturTIK.map((item) => {
+                    msg: "Data Layanan Data retrieved successfully",
+                    data: filteredLayananData.map((item) => {
                         const fields = JSON.parse(item.fields);
                         return {
                             id: item.id,
@@ -90,7 +90,7 @@ export const getListDataManagementInfrastrukturTIK = async(req, res) => {
                             createdAt: item.createdAt,
                         };
                     }),
-                    totalItems: filteredmanagementinfrastrukturTIK.length,
+                    totalItems: filteredLayananData.length,
                     totalItemsByStatus: totalItemsByStatus,
                 });
             }

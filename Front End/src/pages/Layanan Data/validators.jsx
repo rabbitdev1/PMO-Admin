@@ -1,4 +1,4 @@
-import { validateArray, validateFile, validateFullname, validateHTML, validatePeriod1, validateTelp, validateText, validateTextArea } from "../../utils/helpers/validateForm";
+import { validateFile, validateFullname, validateHTML, validateTelp, validateText } from "../../utils/helpers/validateForm";
 
 
 export const isValidatorPendampinganPengolahandanAnalisisData = (obj) => {

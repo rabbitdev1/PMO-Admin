@@ -1,7 +1,6 @@
-import ManagementInfrastrukturTIK from "../../models/ManagementInfrastrukturTIKModel.js";
-import SekretariatModel from "../../models/SekretariatModel.js";
+import LayananDataModel from "../../models/LayananDataModel.js";
 
-export const getDetailDataManagementInfrastrukturTIK = async(req, res) => {
+export const getDetailDataLayananData = async(req, res) => {
     try {
         const { id, role } = req.body;
         const apiKey = req.headers["x-api-key"];
@@ -13,8 +12,8 @@ export const getDetailDataManagementInfrastrukturTIK = async(req, res) => {
             });
         }
 
-        const managementinfrastrukturtikDetail = await ManagementInfrastrukturTIK.findByPk(id);
-        if (!managementinfrastrukturtikDetail) {
+        const LayananDataDetail = await LayananDataModel.findByPk(id);
+        if (!LayananDataDetail) {
             return res.status(404).json({
                 status: "error",
                 msg: "Item not found",
@@ -22,7 +21,7 @@ export const getDetailDataManagementInfrastrukturTIK = async(req, res) => {
         }
 
         const userHasPermission =
-        managementinfrastrukturtikDetail.dataValues.role.includes(role);
+        LayananDataDetail.dataValues.role.includes(role);
         if (!userHasPermission) {
             return res.status(403).json({
                 status: "error",
@@ -30,7 +29,7 @@ export const getDetailDataManagementInfrastrukturTIK = async(req, res) => {
             });
         }
 
-        const fields = JSON.parse(managementinfrastrukturtikDetail.fields);
+        const fields = JSON.parse(LayananDataDetail.fields);
         // Move specific properties to the top of the object
         const propertiesToMoveUp = [
             "createdAt",
@@ -49,21 +48,21 @@ export const getDetailDataManagementInfrastrukturTIK = async(req, res) => {
         };
 
         // Add createdAt to fields before rearranging
-        fields.createdAt = managementinfrastrukturtikDetail.createdAt;
+        fields.createdAt = LayananDataDetail.createdAt;
         const rearrangedData = rearrangeObject(fields, propertiesToMoveUp);
         res.json({
             status: "ok",
             msg: "Data retrieved successfully",
             data: {
-                id: managementinfrastrukturtikDetail.id,
-                submission_status: managementinfrastrukturtikDetail.submission_status,
-                comment: managementinfrastrukturtikDetail.comment,
-                fileuploaded: managementinfrastrukturtikDetail.fileuploaded,
+                id: LayananDataDetail.id,
+                submission_status: LayananDataDetail.submission_status,
+                comment: LayananDataDetail.comment,
+                fileuploaded: LayananDataDetail.fileuploaded,
                 fields: rearrangedData,
-                on_validation: managementinfrastrukturtikDetail.on_validation,
-                on_validation_technique: managementinfrastrukturtikDetail.on_validation_technique,
-                on_process: managementinfrastrukturtikDetail.on_process,
-                on_finish: managementinfrastrukturtikDetail.on_finish,
+                on_validation: LayananDataDetail.on_validation,
+                on_validation_technique: LayananDataDetail.on_validation_technique,
+                on_process: LayananDataDetail.on_process,
+                on_finish: LayananDataDetail.on_finish,
             },
         });
     } catch (error) {

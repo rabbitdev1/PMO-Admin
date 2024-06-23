@@ -50,7 +50,7 @@ const ProcessStatus = ({
 
     try {
       const response = await apiClient({
-        baseurl: "teknologisi/set_process",
+        baseurl: "sistem-virtual/set_process",
         method: "POST",
         body: params,
         apiKey: api_key,
@@ -234,7 +234,7 @@ const ProcessStatus = ({
                             : key
                     }
                     value={value}
-                    location={"teknologisi"}
+                    location={"sistem-virtual"}
                     type={
                       key === "upload_dokumen_zoom" ||
                       "upload_dokumen_liputan" ||
@@ -278,7 +278,7 @@ const ProcessStatus = ({
                             : key
                     }
                     value={value}
-                    location={"teknologisi"}
+                    location={"sistem-virtual"}
                     type={
                       key === "upload_dokumen_zoom" ||
                       "upload_dokumen_liputan" ||
@@ -325,7 +325,7 @@ const ProcessStatus = ({
             </div>
           ))}
         <DynamicDetails
-          location={"teknologisi"}
+          location={"sistem-virtual"}
           detailData={detailData}
           loading={loading}
         />
@@ -372,7 +372,7 @@ const ProcessStatus = ({
                           : key
                   }
                   value={value}
-                  location={"teknologisi"}
+                  location={"sistem-virtual"}
                   type={
                     key === "upload_dokumen_zoom" ||
                     "upload_dokumen_liputan" ||
@@ -386,7 +386,7 @@ const ProcessStatus = ({
           )}
         </div>
         <DynamicDetails
-          location={"teknologisi"}
+          location={"sistem-virtual"}
           detailData={detailData}
           loading={loading}
         />

@@ -22,7 +22,7 @@ import ProcessStatus from "./Logical/ProcessStatus";
 import ValidationStatus from "./Logical/ValidationStatus";
 import ValidationStatusTechnique from "./Logical/ValidationStatusTechnique";
 
-function DetailTeknologiSIPages() {
+function DetailSistemVirtualPages() {
   const { isDarkMode } = useTheme();
   const navigate = useNavigate();
   const authApiKey = Cookies.get("authApiKey");
@@ -31,7 +31,7 @@ function DetailTeknologiSIPages() {
   const location = useLocation();
   const slug = location?.state?.slug || "";
 
-  const [teknologisiLoading, setTeknologisiLoading] = useState(true);
+  const [SistemVirtualLoading, setSistemVirtualLoading] = useState(true);
   const [submissionStatus, setSubmissionStatus] = useState(0);
   const [validationData, setValidationData] = useState({});
   const [validationDataTechnique, setValidationDataTechnique] = useState({});
@@ -49,7 +49,7 @@ function DetailTeknologiSIPages() {
 
   useEffect(() => {
     if (authToken) {
-      fetchDataTeknologisi(
+      fetchDataSistemVirtual(
         authApiKey,
         authToken,
         JSON.parse(authProfile)?.role
@@ -57,20 +57,20 @@ function DetailTeknologiSIPages() {
     }
   }, [dispatch]);
 
-  const fetchDataTeknologisi = async (api_key, token, role) => {
-    setTeknologisiLoading(true);
+  const fetchDataSistemVirtual = async (api_key, token, role) => {
+    setSistemVirtualLoading(true);
     const params = new URLSearchParams();
     params.append("id", slug);
     params.append("role", role);
     try {
       const response = await apiClient({
-        baseurl: "teknologisi/detail",
+        baseurl: "sistem-virtual/detail",
         method: "POST",
         body: params,
         apiKey: api_key,
         token: token,
       });
-      setTeknologisiLoading(false);
+      setSistemVirtualLoading(false);
       if (response?.statusCode === 200) {
         setDetailData(response.result.data.fields);
         setSubmissionStatus(response.result.data?.submission_status);
@@ -92,7 +92,7 @@ function DetailTeknologiSIPages() {
     }
   };
 
-  const fetchEditteknologisi = async (api_key, token, id, type, data) => {
+  const fetchEditSistemVirtual = async (api_key, token, id, type, data) => {
     dispatch(isPending(true));
     let htmlConvert = "";
 
@@ -145,7 +145,7 @@ function DetailTeknologiSIPages() {
 
     try {
       const response = await apiClient({
-        baseurl: "teknologisi/edit",
+        baseurl: "sistem-virtual/edit",
         method: "POST",
         body: params,
         apiKey: api_key,
@@ -155,7 +155,7 @@ function DetailTeknologiSIPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Siaran dan Layanan Virtual Berhasil di-update",
+            title: "Pengajuan Layanan Siaran dan Virtual Berhasil di-update",
             msg: "Selamat, Pengajuan sudah di-update",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
@@ -174,7 +174,7 @@ function DetailTeknologiSIPages() {
 
   const checkingFormData = async (type, data) => {
     if (type === "validation") {
-      fetchEditteknologisi(authApiKey, authToken, slug, type, data);
+      fetchEditSistemVirtual(authApiKey, authToken, slug, type, data);
     } else if (type === "validation_technique") {
       if (
         data.upload_dokumen_zoom ||
@@ -190,7 +190,7 @@ function DetailTeknologiSIPages() {
                 authApiKey,
                 authToken,
                 data.upload_dokumen_zoom,
-                "teknologisi",
+                "sistem-virtual",
                 dispatch
               ).then(result => {
                 resultMapping.upload_dokumen_zoom = result;
@@ -204,7 +204,7 @@ function DetailTeknologiSIPages() {
                 authApiKey,
                 authToken,
                 data.upload_dokumen_liputan,
-                "teknologisi",
+                "sistem-virtual",
                 dispatch
               ).then(result => {
                 resultMapping.upload_dokumen_liputan = result;
@@ -218,7 +218,7 @@ function DetailTeknologiSIPages() {
                 authApiKey,
                 authToken,
                 data.file_pengajuan_podcast,
-                "teknologisi",
+                "sistem-virtual",
                 dispatch
               ).then(result => {
                 resultMapping.file_pengajuan_podcast = result;
@@ -237,12 +237,12 @@ function DetailTeknologiSIPages() {
           if (resultMapping.file_pengajuan_podcast) {
             combineData.file_pengajuan_podcast = resultMapping.file_pengajuan_podcast;
           }
-          fetchEditteknologisi(authApiKey, authToken, slug, type, combineData);
+          fetchEditSistemVirtual(authApiKey, authToken, slug, type, combineData);
         } catch (error) {
           console.error("Error occurred during image upload:", error);
         }
       } else {
-        fetchEditteknologisi(authApiKey, authToken, slug, type, data);
+        fetchEditSistemVirtual(authApiKey, authToken, slug, type, data);
       }
     } else if (type === "process") {
       if (
@@ -260,7 +260,7 @@ function DetailTeknologiSIPages() {
                 authApiKey,
                 authToken,
                 data.upload_dokumen_zoom,
-                "teknologisi",
+                "sistem-virtual",
                 dispatch
               ).then(result => {
                 resultMapping.upload_dokumen_zoom = result;
@@ -273,7 +273,7 @@ function DetailTeknologiSIPages() {
                 authApiKey,
                 authToken,
                 data.upload_dokumen_liputan,
-                "teknologisi",
+                "sistem-virtual",
                 dispatch
               ).then(result => {
                 resultMapping.upload_dokumen_liputan = result;
@@ -286,7 +286,7 @@ function DetailTeknologiSIPages() {
                 authApiKey,
                 authToken,
                 data.file_pengajuan_podcast,
-                "teknologisi",
+                "sistem-virtual",
                 dispatch
               ).then(result => {
                 resultMapping.file_pengajuan_podcast = result;
@@ -307,12 +307,12 @@ function DetailTeknologiSIPages() {
             combineData.file_pengajuan_podcast = resultMapping.file_pengajuan_podcast;
           }
 
-          fetchEditteknologisi(authApiKey, authToken, slug, type, combineData);
+          fetchEditSistemVirtual(authApiKey, authToken, slug, type, combineData);
         } catch (error) {
           console.error("Error occurred during image upload:", error);
         }
       } else {
-        fetchEditteknologisi(authApiKey, authToken, slug, type, data);
+        fetchEditSistemVirtual(authApiKey, authToken, slug, type, data);
       }
 
     } else if (type === "finish") {
@@ -321,13 +321,13 @@ function DetailTeknologiSIPages() {
           authApiKey,
           authToken,
           data.file_submission,
-          "teknologisi",
+          "sistem-virtual",
           dispatch
         );
         if (result !== null) {
           let combineData = {};
           combineData = { ...data, file_upload: result };
-          fetchEditteknologisi(
+          fetchEditSistemVirtual(
             authApiKey,
             authToken,
             slug,
@@ -338,7 +338,7 @@ function DetailTeknologiSIPages() {
           console.error("Error occurred during image upload.");
         }
       } else {
-        fetchEditteknologisi(authApiKey, authToken, slug, type, data);
+        fetchEditSistemVirtual(authApiKey, authToken, slug, type, data);
       }
     }
   };
@@ -355,14 +355,14 @@ function DetailTeknologiSIPages() {
           <DalamAntrianView
             submissionStatus={submissionStatus}
             detailData={detailData}
-            loading={teknologisiLoading}
+            loading={SistemVirtualLoading}
           />
           <ValidationStatus
             submissionStatus={submissionStatus}
             validationData={validationData}
             authProfile={authProfile}
             detailData={detailData}
-            loading={teknologisiLoading}
+            loading={SistemVirtualLoading}
             setValidationData={setValidationData}
             checkingFormData={checkingFormData}
           />
@@ -373,7 +373,7 @@ function DetailTeknologiSIPages() {
             setValidationData={setValidationDataTechnique}
             authProfile={authProfile}
             detailData={detailData}
-            loading={teknologisiLoading}
+            loading={SistemVirtualLoading}
             checkingFormData={checkingFormData}
             setisModalVerif={setisModalVerif}
           />
@@ -384,7 +384,7 @@ function DetailTeknologiSIPages() {
             processData={processData}
             authProfile={authProfile}
             detailData={detailData}
-            loading={teknologisiLoading}
+            loading={SistemVirtualLoading}
             checkingFormData={checkingFormData}
             setisModalVerif={setisModalVerif}
             finishData={finishData}
@@ -393,7 +393,7 @@ function DetailTeknologiSIPages() {
 
           <FinishStatus
             detailData={detailData}
-            loading={teknologisiLoading}
+            loading={SistemVirtualLoading}
             validationData={validationDataTechnique}
             processData={processData}
             submissionStatus={submissionStatus}
@@ -429,7 +429,7 @@ function DetailTeknologiSIPages() {
                 className={`inline-flex flex-1 bg-[${isModalVerif.data.color}] text-darkColor`}
                 onClick={() => {
                   setisModalVerif({ data: {}, status: false });
-                  fetchDataTeknologisi(
+                  fetchDataSistemVirtual(
                     authApiKey,
                     authToken,
                     JSON.parse(authProfile)?.role
@@ -445,4 +445,4 @@ function DetailTeknologiSIPages() {
   );
 }
 
-export default DetailTeknologiSIPages;
+export default DetailSistemVirtualPages;

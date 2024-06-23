@@ -90,7 +90,7 @@ const ValidationStatusTechnique = ({
 
     try {
       const response = await apiClient({
-        baseurl: "teknologisi/set_process",
+        baseurl: "sistem-virtual/set_process",
         method: "POST",
         body: params,
         apiKey: api_key,
@@ -99,7 +99,7 @@ const ValidationStatusTechnique = ({
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Siaran dan Sistem Virtual Berhasil Diupdate",
+            title: "Pengajuan Layanan Siaran dan Virtual Berhasil di-update",
             msg: "Selamat, Pengajuan Sudah di-update",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
@@ -250,7 +250,7 @@ const ValidationStatusTechnique = ({
                     key === "response_katim" ? null : (
                       <DynamicShow
                         key={key}
-                        location={"teknologisi"}
+                        location={"sistem-virtual"}
                         label={
                           key === "file_scema_integration"
                             ? "Skema Integrasi"
@@ -341,7 +341,7 @@ const ValidationStatusTechnique = ({
               ))}
 
             <DynamicDetails
-              location={"teknologisi"}
+              location={"sistem-virtual"}
               detailData={detailData}
               loading={loading}
             />
@@ -363,7 +363,7 @@ const ValidationStatusTechnique = ({
               </div>
             </div>
             <DynamicDetails
-              location={"teknologisi"}
+              location={"sistem-virtual"}
               detailData={detailData}
               loading={loading}
             />
@@ -386,7 +386,7 @@ const ValidationStatusTechnique = ({
               {Object.entries(validationData).map(([key, value]) => (
                 <DynamicShow
                   key={key}
-                  location={"teknologisi"}
+                  location={"sistem-virtual"}
                   label={
                     key === "team_response"
                       ? "Tanggapan dari Tim"
@@ -411,7 +411,7 @@ const ValidationStatusTechnique = ({
             </div>
           </div>
           <DynamicDetails
-            location={"teknologisi"}
+            location={"sistem-virtual"}
             detailData={detailData}
             loading={loading}
           />

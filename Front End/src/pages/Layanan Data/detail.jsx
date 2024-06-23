@@ -22,7 +22,7 @@ import ProcessStatus from "./Logical/ProcessStatus";
 import ValidationStatus from "./Logical/ValidationStatus";
 import ValidationStatusTechnique from "./Logical/ValidationStatusTechnique";
 
-function DetailManagementTIKPages() {
+function DetaiLayananDataPages() {
   const { isDarkMode } = useTheme();
   const navigate = useNavigate();
   const authApiKey = Cookies.get("authApiKey");
@@ -31,7 +31,7 @@ function DetailManagementTIKPages() {
   const location = useLocation();
   const slug = location?.state?.slug || "";
 
-  const [managementtikLoading, setManagementTIKLoading] = useState(true);
+  const [LayananDataLoading, setLayananDataLoading] = useState(true);
   const [submissionStatus, setSubmissionStatus] = useState(0);
   const [validationData, setValidationData] = useState({});
   const [validationDataTechnique, setValidationDataTechnique] = useState({});
@@ -49,7 +49,7 @@ function DetailManagementTIKPages() {
 
   useEffect(() => {
     if (authToken) {
-      fetchDataManagementTIK(
+      fetchDataLayananData(
         authApiKey,
         authToken,
         JSON.parse(authProfile)?.role
@@ -57,20 +57,20 @@ function DetailManagementTIKPages() {
     }
   }, [dispatch]);
 
-  const fetchDataManagementTIK = async (api_key, token, role) => {
-    setManagementTIKLoading(true);
+  const fetchDataLayananData = async (api_key, token, role) => {
+    setLayananDataLoading(true);
     const params = new URLSearchParams();
     params.append("id", slug);
     params.append("role", role);
     try {
       const response = await apiClient({
-        baseurl: "managementinfrastrukturtik/detail",
+        baseurl: "layanan-data/detail",
         method: "POST",
         body: params,
         apiKey: api_key,
         token: token,
       });
-      setManagementTIKLoading(false);
+      setLayananDataLoading(false);
       if (response?.statusCode === 200) {
         setDetailData(response.result.data.fields);
         setSubmissionStatus(response.result.data?.submission_status);
@@ -92,7 +92,7 @@ function DetailManagementTIKPages() {
     }
   };
 
-  const fetchEditmanagementtik = async (api_key, token, id, type, data) => {
+  const fetchEditLayananData = async (api_key, token, id, type, data) => {
     dispatch(isPending(true));
     let htmlConvert = "";
 
@@ -145,7 +145,7 @@ function DetailManagementTIKPages() {
 
     try {
       const response = await apiClient({
-        baseurl: "managementinfrastrukturtik/edit",
+        baseurl: "layanan-data/edit",
         method: "POST",
         body: params,
         apiKey: api_key,
@@ -174,9 +174,9 @@ function DetailManagementTIKPages() {
 
   const checkingFormData = async (type, data) => {
     if (type === "validation") {
-      fetchEditmanagementtik(authApiKey, authToken, slug, type, data);
+      fetchEditLayananData(authApiKey, authToken, slug, type, data);
     } else if (type === "validation_technique") {
-      fetchEditmanagementtik(authApiKey, authToken, slug, type, data);
+      fetchEditLayananData(authApiKey, authToken, slug, type, data);
     } else if (type === "process") {
       if (
         data.upload_dokumen_hasil_analisa ||
@@ -192,7 +192,7 @@ function DetailManagementTIKPages() {
                 authApiKey,
                 authToken,
                 data.upload_dokumen_hasil_analisa,
-                "managementinfrastrukturtik",
+                "layanan-data",
                 dispatch
               ).then(result => {
                 resultMapping.upload_dokumen_hasil_analisa = result;
@@ -206,7 +206,7 @@ function DetailManagementTIKPages() {
                 authApiKey,
                 authToken,
                 data.upload_file_data_valid,
-                "managementinfrastrukturtik",
+                "layanan-data",
                 dispatch
               ).then(result => {
                 resultMapping.upload_file_data_valid = result;
@@ -220,7 +220,7 @@ function DetailManagementTIKPages() {
                 authApiKey,
                 authToken,
                 data.upload_dokumen_laporan_pembuatan_akun,
-                "managementinfrastrukturtik",
+                "layanan-data",
                 dispatch
               ).then(result => {
                 resultMapping.upload_dokumen_laporan_pembuatan_akun = result;
@@ -240,12 +240,12 @@ function DetailManagementTIKPages() {
           if (resultMapping.upload_dokumen_laporan_pembuatan_akun) {
             combineData.upload_dokumen_laporan_pembuatan_akun = resultMapping.upload_dokumen_laporan_pembuatan_akun;
           }
-          fetchEditmanagementtik(authApiKey, authToken, slug, type, combineData);
+          fetchEditLayananData(authApiKey, authToken, slug, type, combineData);
         } catch (error) {
           console.error("Error occurred during image upload:", error);
         }
       } else {
-        fetchEditmanagementtik(authApiKey, authToken, slug, type, data);
+        fetchEditLayananData(authApiKey, authToken, slug, type, data);
       }
     } else if (type === "process") {
       if (
@@ -263,7 +263,7 @@ function DetailManagementTIKPages() {
                 authApiKey,
                 authToken,
                 data.upload_dokumen_hasil_analisa,
-                "managementinfrastrukturtik",
+                "layanan-data",
                 dispatch
               ).then(result => {
                 resultMapping.upload_dokumen_hasil_analisa = result;
@@ -276,7 +276,7 @@ function DetailManagementTIKPages() {
                 authApiKey,
                 authToken,
                 data.upload_file_data_valid,
-                "managementinfrastrukturtik",
+                "layanan-data",
                 dispatch
               ).then(result => {
                 resultMapping.upload_file_data_valid = result;
@@ -289,7 +289,7 @@ function DetailManagementTIKPages() {
                 authApiKey,
                 authToken,
                 data.upload_dokumen_laporan_pembuatan_akun,
-                "managementinfrastrukturtik",
+                "layanan-data",
                 dispatch
               ).then(result => {
                 resultMapping.upload_dokumen_laporan_pembuatan_akun = result;
@@ -310,12 +310,12 @@ function DetailManagementTIKPages() {
             combineData.upload_dokumen_laporan_pembuatan_akun = resultMapping.upload_dokumen_laporan_pembuatan_akun;
           }
 
-          fetchEditmanagementtik(authApiKey, authToken, slug, type, combineData);
+          fetchEditLayananData(authApiKey, authToken, slug, type, combineData);
         } catch (error) {
           console.error("Error occurred during image upload:", error);
         }
       } else {
-        fetchEditmanagementtik(authApiKey, authToken, slug, type, data);
+        fetchEditLayananData(authApiKey, authToken, slug, type, data);
       }
 
     } else if (type === "finish") {
@@ -324,13 +324,13 @@ function DetailManagementTIKPages() {
           authApiKey,
           authToken,
           data.file_submission,
-          "managementinfrastrukturtik",
+          "layanan-data",
           dispatch
         );
         if (result !== null) {
           let combineData = {};
           combineData = { ...data, file_upload: result };
-          fetchEditmanagementtik(
+          fetchEditLayananData(
             authApiKey,
             authToken,
             slug,
@@ -341,7 +341,7 @@ function DetailManagementTIKPages() {
           console.error("Error occurred during image upload.");
         }
       } else {
-        fetchEditmanagementtik(authApiKey, authToken, slug, type, data);
+        fetchEditLayananData(authApiKey, authToken, slug, type, data);
       }
     }
   };
@@ -358,14 +358,14 @@ function DetailManagementTIKPages() {
           <DalamAntrianView
             submissionStatus={submissionStatus}
             detailData={detailData}
-            loading={managementtikLoading}
+            loading={LayananDataLoading}
           />
           <ValidationStatus
             submissionStatus={submissionStatus}
             validationData={validationData}
             authProfile={authProfile}
             detailData={detailData}
-            loading={managementtikLoading}
+            loading={LayananDataLoading}
             setValidationData={setValidationData}
             checkingFormData={checkingFormData}
           />
@@ -376,7 +376,7 @@ function DetailManagementTIKPages() {
             setValidationData={setValidationDataTechnique}
             authProfile={authProfile}
             detailData={detailData}
-            loading={managementtikLoading}
+            loading={LayananDataLoading}
             checkingFormData={checkingFormData}
             setisModalVerif={setisModalVerif}
           />
@@ -387,7 +387,7 @@ function DetailManagementTIKPages() {
             processData={processData}
             authProfile={authProfile}
             detailData={detailData}
-            loading={managementtikLoading}
+            loading={LayananDataLoading}
             checkingFormData={checkingFormData}
             setisModalVerif={setisModalVerif}
             finishData={finishData}
@@ -396,7 +396,7 @@ function DetailManagementTIKPages() {
 
           <FinishStatus
             detailData={detailData}
-            loading={managementtikLoading}
+            loading={LayananDataLoading}
             validationData={validationDataTechnique}
             processData={processData}
             submissionStatus={submissionStatus}
@@ -432,7 +432,7 @@ function DetailManagementTIKPages() {
                 className={`inline-flex flex-1 bg-[${isModalVerif.data.color}] text-darkColor`}
                 onClick={() => {
                   setisModalVerif({ data: {}, status: false });
-                  fetchDataManagementTIK(
+                  fetchDataLayananData(
                     authApiKey,
                     authToken,
                     JSON.parse(authProfile)?.role
@@ -448,4 +448,4 @@ function DetailManagementTIKPages() {
   );
 }
 
-export default DetailManagementTIKPages;
+export default DetaiLayananDataPages;

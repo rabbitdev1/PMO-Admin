@@ -43,7 +43,7 @@ const ProcessStatus = ({
 
         try {
             const response = await apiClient({
-                baseurl: "managementinfrastrukturtik/set_process",
+                baseurl: "layanan-data/set_process",
                 method: "POST",
                 body: params,
                 apiKey: api_key,
@@ -179,7 +179,7 @@ const ProcessStatus = ({
                                     key === "working_schedule" &&
                                     <DynamicShow
                                         key={key}
-                                        label={key === "working_schedule" ? "Jadwal Kerja" : key === "upload_file_data_valid" ? "Data Valid" : key === "upload_dokumen_hasil_analisa" ? "Dokumen Laporan Hasil Pengolahan dan Analisa Data" : key}
+                                        label={key === "working_schedule" ? "Jadwal Kerja" : key }
                                         value={value}
                                         type={"working_schedule" ? "multidate" : 'text'}
                                     />
@@ -191,14 +191,14 @@ const ProcessStatus = ({
                                             key === "upload_dokumen_hasil_analisa"
                                                 ? "Dokumen Laporan Hasil Pengolahan dan Analisa Data"
                                                 : "upload_file_data_valid"
-                                                ? "Data Valid"
+                                                ? "File Data Valid"
                                                 : "upload_dokumen_laporan_pembuatan_akun"
                                                 ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
                                                 :
                                                 key
                                         }
                                         value={value}
-                                        location={"managementinfrastrukturtik"}
+                                        location={"layanan-data"}
                                         type={
                                             key === "upload_dokumen_hasil_analisa" || "upload_file_data_valid" || "upload_dokumen_laporan_pembuatan_akun"
                                                 ? "pdf"
@@ -237,7 +237,7 @@ const ProcessStatus = ({
                                                 key
                                         }
                                         value={value}
-                                        location={"managementinfrastrukturtik"}   
+                                        location={"layanan-data"}   
                                         type={
                                             key === "upload_dokumen_hasil_analisa" || "upload_file_data_valid" || "upload_dokumen_laporan_pembuatan_akun"
                                                 ? "pdf"
@@ -281,7 +281,7 @@ const ProcessStatus = ({
                 )}
                 <DynamicDetails
 
-                    location={'managementinfrastrukturtik'}
+                    location={'layanan-data'}
                     detailData={detailData}
                     loading={loading}
                 />
@@ -327,7 +327,7 @@ const ProcessStatus = ({
                                         key
                                     }
                                     value={value}
-                                    location={"managementinfrastrukturtik"}
+                                    location={"layanan-data"}
                                     type={
                                         key === "upload_dokumen_hasil_analisa" || "upload_file_data_valid" || "upload_dokumen_laporan_pembuatan_akun"
                                             ? "pdf"
@@ -338,7 +338,7 @@ const ProcessStatus = ({
                         </div>
                     }
                 </div>
-                <DynamicDetails location={"managementinfrastrukturtik"} detailData={detailData} loading={loading} />
+                <DynamicDetails location={"layanan-data"} detailData={detailData} loading={loading} />
             </div>
         )
     );

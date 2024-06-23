@@ -1,6 +1,6 @@
 import React from "react";
 import DynamicShow from "../../../components/common/DynamicShow";
-import DynamicDetails from '../../../components/ui/DynamicDetails';
+import DynamicDetails from "../../../components/ui/DynamicDetails";
 
 const FinishStatus = ({
   submissionStatus,
@@ -42,18 +42,21 @@ const FinishStatus = ({
               <DynamicShow
                 key={key}
                 label={
-                  key === "upload_dokumen_hasil_integrasi"
-                    ? "Dokumen Hasil Integrasi"
-                    : "upload_dokumen_laporan_modul_tte"
-                    ? "Surat Pengesahan"
-                    : "upload_dokumen_laporan_pembuatan_akun"
-                    ? "Dokumen Laporan Hasil Pembuatan Akun"
-                    : key
+                  key === "upload_dokumen_zoom"
+                    ? "Dokumen Hasil Pengajuan Permohonan Zoom"
+                    : key === "upload_dokumen_liputan"
+                      ? "Dokumen Hasil Pengajuan Permohonan Liputan"
+                      : key === "file_pengajuan_podcast"
+                        ? "Dokumen Hasil Pengajuan Permohonan Podcast"
+                        : key
                 }
                 value={value}
-                location={"managementinfrastrukturtik"}
+                location={"sistem-virtual"}
                 type={
-                  key === "upload_dokumen_hasil_integrasi" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun" ? "pdf"
+                  key === "upload_dokumen_zoom" ||
+                  "upload_dokumen_liputan" ||
+                  "file_pengajuan_podcast"
+                    ? "pdf"
                     : "text"
                 }
               />
@@ -70,15 +73,14 @@ const FinishStatus = ({
               <DynamicShow
                 label={"File Surat Pemberitahuan untuk OPD"}
                 value={finishData?.file_upload}
-                location={"managementinfrastrukturtik"}
+                location={"sistem-virtual"}
                 type={"pdf"}
               />
             )}
           </div>
         </div>
         <DynamicDetails
-
-location={'managementinfrastrukturtik'}
+          location={"sistem-virtual"}
           detailData={detailData}
           loading={loading}
         />

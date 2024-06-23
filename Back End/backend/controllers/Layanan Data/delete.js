@@ -1,8 +1,8 @@
 import { deleteFiles } from "../../components/UploadFile.js";
 import { deleteImage } from "../../components/UploadImage.js";
-import ManagementInfrastrukturTIK from "../../models/ManagementInfrastrukturTIKModel.js";
+import LayananDataModel from "../../models/LayananDataModel.js";
 
-export const deleteDataManagementInfrastrukturTIK = async (req, res) => {
+export const deleteDataLayananData = async (req, res) => {
     try {
         const { id, layanan } = req.body;
         const apiKey = req.headers["x-api-key"];
@@ -14,13 +14,13 @@ export const deleteDataManagementInfrastrukturTIK = async (req, res) => {
             });
         }
 
-        const managementinfrastrukturtikItem = await ManagementInfrastrukturTIK.findOne({
+        const LayananDataItem = await LayananDataModel.findOne({
             where: {
                 id: id,
             },
         });
 
-        if (!managementinfrastrukturtikItem) {
+        if (!LayananDataItem) {
             return res.status(404).json({
                 status: "error",
                 msg: "Item not found",
@@ -28,10 +28,10 @@ export const deleteDataManagementInfrastrukturTIK = async (req, res) => {
         }
 
         const mergedDataProcess = {
-            ...JSON.parse(managementinfrastrukturtikItem.on_validation),
-            ...JSON.parse(managementinfrastrukturtikItem.on_process),
-            ...JSON.parse(managementinfrastrukturtikItem.on_finish),
-            ...JSON.parse(managementinfrastrukturtikItem.fields),
+            ...JSON.parse(LayananDataItem.on_validation),
+            ...JSON.parse(LayananDataItem.on_process),
+            ...JSON.parse(LayananDataItem.on_finish),
+            ...JSON.parse(LayananDataItem.fields),
         };
         console.log("Merged Data:", mergedDataProcess);
 
@@ -61,7 +61,7 @@ export const deleteDataManagementInfrastrukturTIK = async (req, res) => {
             console.log("Data tidak ditemukan");
         }
 
-        const deletedItem = await ManagementInfrastrukturTIK.destroy({
+        const deletedItem = await LayananDataModel.destroy({
             where: {
                 id: id,
             },
@@ -79,7 +79,7 @@ export const deleteDataManagementInfrastrukturTIK = async (req, res) => {
             });
         }
     } catch (error) {
-        console.error("Error deleting management infrastructure TIK data:", error);
+        console.error("Error deleting Layanan Data:", error);
         return res.status(500).json({
             status: "error",
             msg: "Internal Server Error",
