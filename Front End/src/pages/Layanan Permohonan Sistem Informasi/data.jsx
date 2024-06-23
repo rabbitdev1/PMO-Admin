@@ -44,9 +44,6 @@ export const formData =[
     ],
   },
 ]
-    ],
-  },
-]
 // Integrasi
 const getIntergasiSIProcess = (inputLocal) => [
   {
