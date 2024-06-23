@@ -97,6 +97,17 @@ export const editProcessDataPermohonanSI = async(req, res) => {
             }
             await permohonanSIItem.save();
         }
+        else if (parseInt(permohonanSIItem.submission_status) === 8) {
+            console.log("jalan");
+            if (status === "Ditolak") {
+                permohonanSIItem.submission_status = 9;
+            } else if (status === "Lanjutkan") {
+                permohonanSIItem.submission_status = 10;
+            } else {
+                permohonanSIItem.submission_status = 8;
+            }
+            await permohonanSIItem.save();
+        }
         return res.status(200).json({
             status: "ok",
             msg: "Item updated successfully",

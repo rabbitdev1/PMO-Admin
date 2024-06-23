@@ -8,6 +8,7 @@ import { apiClient } from "../../../utils/api/apiClient";
 import { validateFile, validateImage } from "../../../utils/helpers/validateForm";
 import { getIntergasiSIFinish, getIntergasiSIProcess, getModulTTEProcess, getModulTTEFinish, getUserAccountSIProcess, getUserAccountSIFinish } from "../data";
 import DynamicDetailsPermohonanSI from "../DynamicDetailsPermohonanSI";
+import DynamicDetails from "../../../components/ui/DynamicDetails";
 
 const ProcessStatus = ({
     submissionStatus,
@@ -279,12 +280,11 @@ const ProcessStatus = ({
                         </div>
 
                 )}
-                <DynamicDetailsPermohonanSI
-
-                    location={'permohonanSI'}
-                    detailData={detailData}
-                    loading={loading}
-                />
+              {detailData.submission_title === "Permohonan Sistem Informasi" ?
+        <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
+        :
+        <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
+      }
             </div>
             :
             <div className='flex flex-col lg:flex-row gap-3'>
@@ -338,7 +338,11 @@ const ProcessStatus = ({
                         </div>
                     }
                 </div>
-                <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
+                {detailData.submission_title === "Permohonan Sistem Informasi" ?
+        <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
+        :
+        <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
+      }
             </div>
         )
     );

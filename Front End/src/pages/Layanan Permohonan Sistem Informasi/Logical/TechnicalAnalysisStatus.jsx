@@ -8,10 +8,13 @@ import DynamicShow from "../../../components/common/DynamicShow";
 import { apiClient } from "../../../utils/api/apiClient";
 import { validateFile, validatePeriod, validateText } from "../../../utils/helpers/validateForm";
 import DynamicDetailsPermohonanSI from "../DynamicDetailsPermohonanSI";
+import DynamicDetails from "../../../components/ui/DynamicDetails";
 
 const TechnicalAnalysisStatus = ({
   submissionStatus,
   feasibilityData,
+  technicalAnalysis,
+  technicalValidation,
   validationDataAnalysis,
   authProfile,
   slug,
@@ -24,15 +27,54 @@ const TechnicalAnalysisStatus = ({
   const authToken = Cookies.get('authToken');
 
   const [inputLocal, setInputLocal] = useState({});
-  const FeasibilityAnalysis = [
+  const [selected, setSelected] = useState(1);
+  const TechnicalAnalysis = [
     {
       label: "Catatan Analisis Kelayakan",
-      value: inputLocal.feasibility_analysis_notes,
+      value: inputLocal.technical_analysis_notes,
       type: "textarea",
-      name: 'feasibility_analysis_notes'
+      name: 'technical_analysis_notes'
+    },
+  ];
+  const TechnicalAnalysisforOPD = [
+    {
+      label: "Dokumen Spesifikasi Kebutuhan",
+      value: inputLocal.requirements_specification_document,
+      type: "file_upload",
+      name: 'requirements_specification_document'
+    },
+  ];
+  const TechnicalAnalysisforOPD2 = [
+    {
+      label: "Dokumen Pembangunan",
+      value: inputLocal.development_documents,
+      type: "file_upload",
+      name: 'development_documents'
+    },
+  ];
+  const TechnicalAnalysisforOPD3 = [
+    {
+      label: "Dokumen Hasil Uji Keberterimaan Pemakai",
+      value: inputLocal.user_acceptance_test_results_document,
+      type: "file_upload",
+      name: 'user_acceptance_test_results_document'
+    },
+    {
+      label: "Dokumen Hasil Uji Stressing Test",
+      value: inputLocal.stressing_test_results_document,
+      type: "file_upload",
+      name: 'stressing_test_results_document'
     },
   ];
 
+  const TechnicalValidation = [
+    {
+      label: "Catatan Validasi Teknis",
+      value: inputLocal.technical_validation_notes,
+      type: "textarea",
+      name: 'technical_validation_notes'
+    },
+  ];
   const fetchSetProgress = async (api_key, token, status) => {
     const params = new URLSearchParams();
     params.append("id", slug);
@@ -85,7 +127,7 @@ const TechnicalAnalysisStatus = ({
   };
   return (
     <>
-      <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+      {submissionStatus >= 8 && <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
         <div className="flex flex-row gap-2 items-center">
           <span className='text-lg font-bold'>Validasi Kelayakan</span>
         </div>
@@ -93,72 +135,240 @@ const TechnicalAnalysisStatus = ({
           <DynamicShow
             key={key}
             location={'permohonanSI'}
-            label={key === "feasibility_analysis_notes" ? "Catatan Analisis Kelayakan" : key}
+            label={key === "eligibility_validation_notes" ? "Catatan Validasi Kelayakan" : key}
             value={value}
-            type={key === "feasibility_analysis_notes" ? 'text' : 'text'}
+            type={key === "eligibility_validation_notes" ? 'text' : 'text'}
           />
         ))}
-      </div>
-      {submissionStatus === 8 && (JSON.parse(authProfile)?.role === "katim_perencanaan" ?
+      </div>}
+      {Object.entries(technicalAnalysis).length === 0 ? null :
         <div className="flex flex-col gap-3">
-          <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
-            <span className='text-lg font-bold'>Tahapan Analisis Kelayakan</span>
-            {renderProcessInputs(FeasibilityAnalysis)}
-            <div className='flex sm:flex-row flex-col gap-2'>
-              <DynamicButton
-                initialValue={"Setujui dan lanjut ke Validasi Kelayakan"}
-                type="fill"
-                color={"#ffffff"}
-                className="inline-flex  bg-[#0185FF] text-darkColor"
-                onClick={() => {
-                  const result = {
-                    ...inputLocal,
-                  };
-                  const filteredDataResult = Object.fromEntries(
-                    Object.entries(result).filter(([_, value]) => {
-                      return value !== undefined && value !== null && value !== '' && !(Array.isArray(value) && value.length === 0);
-                    })
-                  );
-                  let isValid = true;
-                  isValid = isValid && validateText(inputLocal.feasibility_analysis_notes, "Catatan Analisis Kelayakan")
-
-                  if (isValid) {
-                    checkingFormData('feasibility_analysis', filteredDataResult);
-                    fetchSetProgress(authApiKey, authToken, 'Lanjutkan')
-                  }
-
-                }}
-              />
-              <DynamicButton
-                initialValue={"Tolak proses dan selesai"}
-                type="fill"
-                color={"#ffffff"}
-                className="inline-flex  bg-[#FF0000] text-darkColor"
-                onClick={() => {
-                  const result = {
-                    ...inputLocal,
-                  };
-                  const filteredDataResult = Object.fromEntries(
-                    Object.entries(result).filter(([_, value]) => {
-                      return value !== undefined && value !== null && value !== '' && !(Array.isArray(value) && value.length === 0);
-                    })
-                  );
-                  let isValid = true;
-                  isValid = isValid && validateText(inputLocal.feasibility_analysis_notes, "Catatan Analisis Kelayakan")
-
-                  if (isValid) {
-                    checkingFormData('feasibility_analysis', filteredDataResult);
-                    fetchSetProgress(authApiKey, authToken, 'Ditolak')
-                  }
-                }}
-              />
+          <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+            <div className="flex flex-row gap-2 items-center">
+              <span className='text-lg font-bold'>Analisis Teknis</span>
             </div>
+            {Object.entries(technicalAnalysis).map(([key, value]) => (
+              <DynamicShow
+                key={key}
+                location={'permohonanSI'}
+                label={key === "technical_analysis_notes" ? "Catatan Analisis Teknis" : key}
+                value={value}
+                type={key === "technical_analysis_notes" ? 'text' : 'text'}
+              />
+            ))}
           </div>
-          <DynamicDetailsPermohonanSI
-            location={'permohonanSI'}
-            detailData={detailData}
-            loading={loading}
-          />
+        </div>}
+      {submissionStatus === 8 && (JSON.parse(authProfile)?.role === "katim_aplikasi" || JSON.parse(authProfile)?.role === "kabid_aplikasi" ?
+        <div className="flex flex-col gap-3">
+          {JSON.parse(authProfile)?.role === "katim_aplikasi" && (
+            Object.entries(technicalAnalysis).length === 0 ?
+              <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+                <span className='text-lg font-bold'>Tahapan Analisis Teknis</span>
+                {renderProcessInputs(TechnicalAnalysis)}
+                <div className='flex sm:flex-row flex-col gap-2'>
+                  <DynamicButton
+                    // initialValue={"Update Analisis Teknis ke Perangkat Daerah"}
+                    initialValue={"Update Analisis Teknis ke Kepala Bidang Aplikasi"}
+                    type="fill"
+                    color={"#ffffff"}
+                    className="inline-flex  bg-[#0185FF] text-darkColor"
+                    onClick={() => {
+                      const result = {
+                        ...inputLocal,
+                      };
+                      const filteredDataResult = Object.fromEntries(
+                        Object.entries(result).filter(([_, value]) => {
+                          return value !== undefined && value !== null && value !== '' && !(Array.isArray(value) && value.length === 0);
+                        })
+                      );
+                      let isValid = true;
+                      isValid = isValid && validateText(inputLocal.technical_analysis_notes, "Catatan Analisis Teknis")
+
+                      if (isValid) {
+                        checkingFormData('technical_analysis', filteredDataResult);
+                      }
+                    }}
+                  />
+                </div>
+              </div> :
+              <div className="flex flex-col gap-3">
+                <div className="flex flex-col bg-[#0185FF]/10 border-1 border-[#0185FF] text-[#0185FF] p-3 gap-3 items-center rounded-lg">
+                  <span className="text-base font-semibold text-center">
+                    Proses sudah dikirim ke Kepala Bidang Aplikasi
+                  </span>
+                </div>
+              </div>)}
+          {JSON.parse(authProfile)?.role === "kabid_aplikasi" && (
+            Object.entries(technicalAnalysis).length !== 0 ?
+              // <div className="flex flex-col gap-3">
+              //   {selected === 1 &&
+              //     <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+              //       <div className="flex flex-row gap-2 items-center">
+              //         <span className='text-lg font-bold'>Dokumen Spesifikasi Kebutuhan</span>
+              //       </div>
+              //       {renderProcessInputs(TechnicalAnalysisforOPD)}
+              //       <div className='flex sm:flex-row flex-col gap-2'>
+              //         <DynamicButton
+              //           initialValue={"Lanjut"}
+              //           type="fill"
+              //           color={"#ffffff"}
+              //           className="inline-flex  bg-[#0185FF] text-darkColor"
+              //           onClick={() => {
+              //             const result = {
+              //               ...inputLocal,
+              //             };
+              //             const filteredDataResult = Object.fromEntries(
+              //               Object.entries(result).filter(([_, value]) => {
+              //                 return value !== undefined && value !== null && value !== '' && !(Array.isArray(value) && value.length === 0);
+              //               })
+              //             );
+              //             let isValid = true;
+              //             isValid = isValid && validateFile(inputLocal.requirements_specification_document, "Upload File Dokumen Spesifikasi Kebutuhan");
+
+              //             if (isValid) {
+              //               setSelected(2)
+              //             }
+              //           }}
+              //         />
+              //       </div>
+              //     </div>
+              //   }
+              //   {selected === 2 &&
+              //     <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+              //       <div className="flex flex-row gap-2 items-center">
+              //         <span className='text-lg font-bold'>Dokumen Pembangunan</span>
+              //       </div>
+              //       {renderProcessInputs(TechnicalAnalysisforOPD2)}
+              //       <div className='flex sm:flex-row flex-col gap-2'>
+              //         <DynamicButton
+              //           initialValue={"Lanjut"}
+              //           type="fill"
+              //           color={"#ffffff"}
+              //           className="inline-flex  bg-[#0185FF] text-darkColor"
+              //           onClick={() => {
+              //             const result = {
+              //               ...inputLocal,
+              //             };
+              //             const filteredDataResult = Object.fromEntries(
+              //               Object.entries(result).filter(([_, value]) => {
+              //                 return value !== undefined && value !== null && value !== '' && !(Array.isArray(value) && value.length === 0);
+              //               })
+              //             );
+              //             let isValid = true;
+              //             isValid = isValid && validateFile(inputLocal.development_documents, "Upload File Dokumen Pembangunan");
+
+              //             if (isValid) {
+              //               setSelected(3)
+              //             }
+              //           }}
+              //         />
+              //       </div>
+              //     </div>
+              //   }
+              //   {selected === 3 &&
+              //     <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+              //       <div className="flex flex-row gap-2 items-center">
+              //         <span className='text-lg font-bold'>Dokumen Hasil Uji</span>
+              //       </div>
+              //       {renderProcessInputs(TechnicalAnalysisforOPD3)}
+              //       <div className='flex sm:flex-row flex-col gap-2'>
+              //         <DynamicButton
+              //           initialValue={"Lanjut"}
+              //           type="fill"
+              //           color={"#ffffff"}
+              //           className="inline-flex  bg-[#0185FF] text-darkColor"
+              //           onClick={() => {
+              //             const result = {
+              //               ...inputLocal,
+              //             };
+              //             const filteredDataResult = Object.fromEntries(
+              //               Object.entries(result).filter(([_, value]) => {
+              //                 return value !== undefined && value !== null && value !== '' && !(Array.isArray(value) && value.length === 0);
+              //               })
+              //             );
+              //             let isValid = true;
+              //             isValid = isValid && validateFile(inputLocal.requirements_specification_document, "Upload File Dokumen Spesifikasi Kebutuhan");
+
+              //             if (isValid) {
+              //               // checkingFormData('technical_analysis', filteredDataResult);
+              //               console.log('asdfad');
+              //             }
+              //           }}
+              //         />
+              //       </div>
+              //     </div>
+              //   }
+              // </div>
+              <div className="flex flex-col gap-3">
+
+                <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+
+                  <span className='text-lg font-bold'>Tahapan Validasi Kelayakan</span>
+                  {renderProcessInputs(TechnicalValidation)}
+                  <div className='flex sm:flex-row flex-col gap-2'>
+                    <DynamicButton
+                      initialValue={"Setujui dan laporkan kekepala dinas"}
+                      type="fill"
+                      color={"#ffffff"}
+                      className="inline-flex  bg-[#0185FF] text-darkColor"
+                      onClick={() => {
+                        const result = {
+                          ...inputLocal,
+                        };
+                        const filteredDataResult = Object.fromEntries(
+                          Object.entries(result).filter(([_, value]) => {
+                            return value !== undefined && value !== null && value !== '' && !(Array.isArray(value) && value.length === 0);
+                          })
+                        );
+                        let isValid = true;
+                        isValid = isValid && validateText(inputLocal.technical_validation_notes, "Catatan Validasi Teknis")
+
+                        if (isValid) {
+                          checkingFormData('technical_validation', filteredDataResult);
+                          fetchSetProgress(authApiKey, authToken, 'Lanjutkan')
+                        }
+
+                      }}
+                    />
+                    <DynamicButton
+                      initialValue={"Tolak proses dan selesai"}
+                      type="fill"
+                      color={"#ffffff"}
+                      className="inline-flex  bg-[#FF0000] text-darkColor"
+                      onClick={() => {
+                        const result = {
+                          ...inputLocal,
+                        };
+                        const filteredDataResult = Object.fromEntries(
+                          Object.entries(result).filter(([_, value]) => {
+                            return value !== undefined && value !== null && value !== '' && !(Array.isArray(value) && value.length === 0);
+                          })
+                        );
+                        let isValid = true;
+                        isValid = isValid && validateText(inputLocal.technical_validation_notes, "Catatan Validasi Teknis")
+
+                        if (isValid) {
+                          checkingFormData('technical_validation', filteredDataResult);
+                          fetchSetProgress(authApiKey, authToken, 'Ditolak')
+                        }
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+              :
+              <div className="flex flex-col bg-[#0185FF]/10 border-1 border-[#0185FF] text-[#0185FF] p-3 gap-3 items-center rounded-lg">
+                <span className="text-base font-semibold text-center">
+                  Menunggu Laporan dari Ketua Tim Aplikasi
+                </span>
+              </div>
+
+          )}
+          {detailData.submission_title === "Permohonan Sistem Informasi" ?
+            <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
+            :
+            <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
+          }
         </div>
         :
         <div className='flex flex-col gap-3'>
@@ -171,20 +381,25 @@ const TechnicalAnalysisStatus = ({
                 effect="blur"
               />
               <span className="text-base text-center">
-                Pengajuan Sedang Proses <b>Aanlisis Kelayakan</b> Oleh pihak DISKOMINFO Kota
+                Pengajuan Sedang Proses <b>Analisis Tenkis</b> Oleh pihak DISKOMINFO Kota
                 Bandung
               </span>
             </div>
           </div>
-          <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
+          {detailData.submission_title === "Permohonan Sistem Informasi" ?
+            <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
+            :
+            <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
+          }
         </div>
       )}
       {submissionStatus === 9 && (
         <div className='flex flex-col  gap-3'>
           <div className={`flex-1 flex flex-col gap-3`}>
             <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+              <span className='text-lg font-bold'>Validasi Teknis</span>
               <div className="flex flex-row gap-2 items-center">
-                <span className="text-base font-semibold">Status Analisis Teknis :</span>
+                <span className="text-base font-semibold">Status Validasi Teknis :</span>
                 <div
                   className={`flex flex-row gap-2 p-1 px-3 rounded-md text-darkColor bg-[#FF0000]`}
                 >
@@ -193,19 +408,22 @@ const TechnicalAnalysisStatus = ({
                   </span>
                 </div>
               </div>
-              <span className='text-lg font-bold'>Analisis Kelayakan</span>
-              {Object.entries(feasibilityData).map(([key, value]) => (
+              {Object.entries(technicalValidation).map(([key, value]) => (
                 <DynamicShow
                   key={key}
                   location={'permohonanSI'}
-                  label={key === "feasibility_analysis_notes" ? "Catatan Analisis Kelayakan" : key}
+                  label={key === "technical_validation_notes" ? "Catatan Validasi Teknis" : key}
                   value={value}
-                  type={key === "feasibility_analysis_notes" ? 'text' : 'text'}
+                  type={key === "technical_validation_notes" ? 'text' : 'text'}
                 />
               ))}
             </div>
           </div>
-          <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
+          {detailData.submission_title === "Permohonan Sistem Informasi" ?
+            <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
+            :
+            <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
+          }
         </div>
       )}
     </>
