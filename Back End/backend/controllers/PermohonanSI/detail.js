@@ -64,6 +64,7 @@ export const getDetailDataPermohonanSI = async(req, res) => {
                 feasibility_validation: permohonanSIDetail.feasibility_validation,
                 technical_analysis: permohonanSIDetail.technical_analysis,
                 technical_validation: permohonanSIDetail.technical_validation,
+                recommendation_letter_technical: permohonanSIDetail.recommendation_letter_technical,
                 on_finish: permohonanSIDetail.on_finish,
             },
         });

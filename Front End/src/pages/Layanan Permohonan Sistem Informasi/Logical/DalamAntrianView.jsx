@@ -19,7 +19,7 @@ const DalamAntrianView = ({ submissionStatus, detailData, loading }) => {
           </span>
         </div>
       </div>
-      {detailData.submission_title === "Permohonan Sistem Informasi" ?
+      {detailData.submission_title === "Rekomendasi Sistem Informasi" ?
         <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
         :
         <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />

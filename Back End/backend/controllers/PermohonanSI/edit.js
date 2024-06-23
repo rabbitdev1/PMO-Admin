@@ -31,47 +31,39 @@ export const editDataPermohonanSI = async (req, res) => {
             }
             permohonanSIItem.on_validation = data;
         } else if (type === "feasibility_analysis") {
-            if (convertData.status_validation === "Disetujui") {
-                permohonanSIItem.submission_status = 4;
-            } else if (convertData.status_validation === "Ditolak") {
-                permohonanSIItem.submission_status = 3;
-            }
             permohonanSIItem.feasibility_analysis = data;
         } else if (type === "feasibility_validation") {
-            if (convertData.status_validation === "Disetujui") {
-                permohonanSIItem.submission_status = 4;
-            } else if (convertData.status_validation === "Ditolak") {
-                permohonanSIItem.submission_status = 3;
-            }
             permohonanSIItem.feasibility_validation = data;
         } else if (type === "technical_analysis") {
             permohonanSIItem.technical_analysis = data;
         }
         else if (type === "technical_validation") {
             permohonanSIItem.technical_validation = data;
-            if (convertData.status_validation === "Disetujui") {
-                permohonanSIItem.submission_status = 10;
-            } else if (convertData.status_validation === "Ditolak") {
-                permohonanSIItem.submission_status = 9;
-            }
+        }
+        else if (type === "recommendation_letter_technical") {
+            permohonanSIItem.recommendation_letter_technical = data;
         }
 
-        else if (type === "process") {
-            permohonanSIItem.on_process = data;
-        } else if (type === "finish") {
-            if (
-                convertData.submission_status === "Menyetujui" ||
-                convertData.submission_status === "Disetujui"
-            ) {
-                permohonanSIItem.submission_status = 7;
-            } else if (
-                convertData.submission_status === "Tidak Menyetujui" ||
-                convertData.submission_status === "Ditolak"
-            ) {
-                permohonanSIItem.submission_status = 8;
-            }
-            permohonanSIItem.on_finish = data;
-        }
+
+
+        // else if (type === "process") {
+        //     permohonanSIItem.on_process = data;
+        // }
+
+        // else if (type === "finish") {
+        //     if (
+        //         convertData.submission_status === "Menyetujui" ||
+        //         convertData.submission_status === "Disetujui"
+        //     ) {
+        //         permohonanSIItem.submission_status = 7;
+        //     } else if (
+        //         convertData.submission_status === "Tidak Menyetujui" ||
+        //         convertData.submission_status === "Ditolak"
+        //     ) {
+        //         permohonanSIItem.submission_status = 8;
+        //     }
+        //     permohonanSIItem.on_finish = data;
+        // }
         await permohonanSIItem.save();
         return res.status(200).json({
             status: "ok",

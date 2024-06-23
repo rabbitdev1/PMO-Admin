@@ -153,17 +153,9 @@ const getKeyLabel = (key) => {
     case "applicationType":
       return "Jenis Aplikasi";
     case "applicationName":
-      return "Nama Aplikasi";
-    // case "developmentAspect":
-    //   return "Hal yang dikembangkan";
-    // case "developmentGoal":
-    //   return "Tujuan Pengembangan";
+      return "Nama Aplikasi"; 
     case "applicationOwnership":
-      return "Kepemilikan Aplikasi";
-    // case "developerName1":
-    //   return "Developer 1";
-    // case "developerName2":
-    //   return "Developer 2";
+      return "Kepemilikan Aplikasi"; 
     case "developmentDuration":
       return "Durasi Pengembangan";
     case "fundingSource":
@@ -179,9 +171,7 @@ const getKeyLabel = (key) => {
     case "Otherdatabase":
       return "Database Lainnya";
     case "database":
-      return "Database";
-    // case "otherProgrammingLanguage":
-    //   return "Bahasa Pemrograman Lainnya";
+      return "Database"; 
     case "developmentTechnique":
       return "Teknik Pengembangan";
     case "storageMedia":
@@ -191,42 +181,17 @@ const getKeyLabel = (key) => {
     case "type_platform":
       return "Type Platform";
     case "reasonForChoosingStorage":
-      return "Alasan Pemilihan Penyimpanan";
-    // case "reasonForChoosingStorageMedia":
-    //   return "Alasan Pemilihan Media Penyimpanan";
+      return "Alasan Pemilihan Penyimpanan"; 
     case "serverRentalLocation":
-      return "Lokasi Penyewaan Server";
-    // case "serverRentalPeriod":
-    //   return "Periode Penyewaan Server";
-    // case "serverRentalCost":
-    //   return "Harga Penyewaan Server";
-    // case "kakAttachment":
-    //   return "Lampiran KAK";
+      return "Lokasi Penyewaan Server"; 
     case "cloudLocation":
-      return "Lokasi Cloud";
-    // case "cloudStoragePeriod":
-    //   return "Periode Penyimpanan Cloud";
-    // case "cloudStorageCost":
-    //   return "Harga Penyimpanan Cloud";
-    // case "skpdRequestLetter":
-    //   return "Surat Permohonan SKPD";
-    // case "reformasiBirokrasi":
-    //   return "Reformasi Birokrasi (RB) Tematik";
-    // case "reformasiBirokrasi2":
-    //   return "Reformasi Birokrasi (RB) Tematik Lainnya";
-    // case "reformasiBirokrasi3":
-    //   return "Reformasi Birokrasi (RB) Tematik Lainnya";
-    // case "reformasiBirokrasi4":
+      return "Lokasi Cloud"; 
     case 'ramSpecifications':
       return "Spesifikasi RAM";
     case 'cpuSpecifications':
       return "Spesifikasi CPU";
     case 'storageSpecifications':
-      return "Spesifikasi Storage";
-    // case 'gpuSpecifications':
-    //   return "Spesifikasi GPU";
-    // case 'otherSpecifications':
-    //   return "Spesifikasi Lainnya";
+      return "Spesifikasi Storage"; 
     case 'hardDiskSpecifications':
       return "Spesifikasi Hard Disk";
     case 'integrationWithSystem':
@@ -238,19 +203,9 @@ const getKeyLabel = (key) => {
     case 'exchangeFormat':
       return "Format Penyimpanan";
     case 'proposedDomain':
-      return "Domain Yang Diusulkan";
-    // case 'letterNumber':
-    //   return "Nomor Surat";
+      return "Domain Yang Diusulkan"; 
     case 'letterDate':
-      return "Tanggal Surat";
-    // case 'otherRequirements':
-    //   return "Requirement Lainnya";
-    // case 'spbePlan':
-    //   return "PETA Rencana SPBE OPD";
-    // case 'riskManagement':
-    //   return "manajemen risiko SPBE";
-
-
+      return "Tanggal Surat"; 
     case 'anggaranAttachment':
       return "Sumber Anggaran";
     case 'technicalRecommendationLetter':
@@ -267,7 +222,7 @@ const getKeyLabel = (key) => {
       return "Lingkup Pekerjaan";
     case 'jumlah_tenaga':
       return "Jumlah Tenaga yang dibutuhkan";
-    case 'skpd':
+    case 'skpd_request_letter':
       return "SKPD";
     default:
       return key;
@@ -290,6 +245,7 @@ const getFieldType = (key) => {
     case "anggaranAttachment":
     case "technicalRecommendationLetter":
     case "file_scema_integration":
+    case "skpd_request_letter":
       return "pdf";
     case "type_tools":
       return "array";

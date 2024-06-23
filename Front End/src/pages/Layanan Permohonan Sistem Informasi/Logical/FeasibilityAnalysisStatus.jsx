@@ -48,15 +48,7 @@ const FeasibilityAnalysisStatus = ({
         token: token,
       });
       if (response?.statusCode === 200) {
-        setisModalVerif({
-          data: {
-            title: 'Permohonan Sistem Informasi Berhasil Diupdate',
-            msg: 'Selamat, Pengajuan Permohonan Sistem Infomrasi sudah diupdate',
-            icon: PengajuanBerahasilIcon,
-            color: '#13C39C'
-          },
-          status: true
-        })
+       
       } else {
         toast.error(response.result.msg, {
           position: toast.POSITION.TOP_RIGHT,
@@ -161,7 +153,7 @@ const FeasibilityAnalysisStatus = ({
               />
             </div>
           </div>
-          {detailData.submission_title === "Permohonan Sistem Informasi" ?
+          {detailData.submission_title === "Rekomendasi Sistem Informasi" ?
         <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
         :
         <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
@@ -183,7 +175,7 @@ const FeasibilityAnalysisStatus = ({
               </span>
             </div>
           </div>
-          {detailData.submission_title === "Permohonan Sistem Informasi" ?
+          {detailData.submission_title === "Rekomendasi Sistem Informasi" ?
         <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
         :
         <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
@@ -216,7 +208,7 @@ const FeasibilityAnalysisStatus = ({
               ))}
             </div>
           </div>
-          {detailData.submission_title === "Permohonan Sistem Informasi" ?
+          {detailData.submission_title === "Rekomendasi Sistem Informasi" ?
         <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
         :
         <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />

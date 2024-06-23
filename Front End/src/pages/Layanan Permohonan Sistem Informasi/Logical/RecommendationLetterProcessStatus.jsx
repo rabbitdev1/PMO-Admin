@@ -10,10 +10,10 @@ import { validateFile, validatePeriod, validateText } from "../../../utils/helpe
 import DynamicDetailsPermohonanSI from "../DynamicDetailsPermohonanSI";
 import DynamicDetails from "../../../components/ui/DynamicDetails";
 
-const ValidationAnalysisStatus = ({
+const RecommendationLetterProcessStatus = ({
   submissionStatus,
-  validationDataAnalysis,
-  feasibilityDataAnalysis,
+  feasibilityData,
+  technicalValidation,
   authProfile,
   slug,
   setisModalVerif,
@@ -25,12 +25,18 @@ const ValidationAnalysisStatus = ({
   const authToken = Cookies.get('authToken');
 
   const [inputLocal, setInputLocal] = useState({});
-  const FeasibilityValidation = [
+  const RecommendationLetterProcess = [
     {
-      label: "Catatan Validasi Kelayakan",
-      value: inputLocal.eligibility_validation_notes,
+      label: "Surat Rekomendasi Teknis",
+      value: inputLocal.recommendation_letter_technical,
+      type: "file_upload",
+      name: 'recommendation_letter_technical'
+    },
+    {
+      label: "Catatan Kepala Dinas",
+      value: inputLocal.kepala_dinas_note,
       type: "textarea",
-      name: 'eligibility_validation_notes'
+      name: 'kepala_dinas_note'
     },
   ];
 
@@ -48,7 +54,7 @@ const ValidationAnalysisStatus = ({
         token: token,
       });
       if (response?.statusCode === 200) {
-       
+
       } else {
         toast.error(response.result.msg, {
           position: toast.POSITION.TOP_RIGHT,
@@ -78,29 +84,26 @@ const ValidationAnalysisStatus = ({
   };
   return (
     <>
-    {submissionStatus >= 6 &&   <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
-        <div className="flex flex-row gap-2 items-center">
-          <span className='text-lg font-bold'>Analisis Kelayakan</span>
-        </div>
-        {Object.entries(feasibilityDataAnalysis).map(([key, value]) => (
+      {submissionStatus >= 11 && <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+        <span className='text-lg font-bold'>Validasi Teknis</span>
+        {Object.entries(technicalValidation).map(([key, value]) => (
           <DynamicShow
             key={key}
             location={'permohonanSI'}
-            label={key === "feasibility_analysis_notes" ? "Catatan Analisis Kelayakan" : key}
+            label={key === "technical_validation_notes" ? "Catatan Validasi Teknis" : key}
             value={value}
-            type={key === "feasibility_analysis_notes" ? 'text' : 'text'}
+            type={key === "technical_validation_notes" ? 'text' : 'text'}
           />
         ))}
       </div>}
-      {submissionStatus === 6 && (JSON.parse(authProfile)?.role === "kabid_perencanaan" ?
+      {submissionStatus === 11 && (JSON.parse(authProfile)?.role === "kadis" ?
         <div className="flex flex-col gap-3">
           <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
-
-            <span className='text-lg font-bold'>Tahapan Validasi Kelayakan</span>
-            {renderProcessInputs(FeasibilityValidation)}
+            <span className='text-lg font-bold'>Proses Pembuatan Surat Rekomendasi</span>
+            {renderProcessInputs(RecommendationLetterProcess)}
             <div className='flex sm:flex-row flex-col gap-2'>
               <DynamicButton
-                initialValue={"Setujui dan lanjut ke Validasi Kelayakan"}
+                initialValue={"Setujui Permohonan Sistem Informasi Dan Selesai"}
                 type="fill"
                 color={"#ffffff"}
                 className="inline-flex  bg-[#0185FF] text-darkColor"
@@ -114,45 +117,22 @@ const ValidationAnalysisStatus = ({
                     })
                   );
                   let isValid = true;
-                  isValid = isValid && validateText(inputLocal.eligibility_validation_notes, "Catatan Validasi Kelayakan")
+                  isValid = isValid && validateFile(inputLocal.recommendation_letter_technical, "Pembuatan Surat Rekomendasi")
+                  isValid = isValid && validateText(inputLocal.kepala_dinas_note, "Catatan Kepala Dinas")
 
                   if (isValid) {
-                    checkingFormData('feasibility_validation', filteredDataResult);
+                    checkingFormData('recommendation_letter_technical', filteredDataResult);
                     fetchSetProgress(authApiKey, authToken, 'Lanjutkan')
-                  }
-
-                }}
-              />
-              <DynamicButton
-                initialValue={"Tolak proses dan selesai"}
-                type="fill"
-                color={"#ffffff"}
-                className="inline-flex  bg-[#FF0000] text-darkColor"
-                onClick={() => {
-                  const result = {
-                    ...inputLocal,
-                  };
-                  const filteredDataResult = Object.fromEntries(
-                    Object.entries(result).filter(([_, value]) => {
-                      return value !== undefined && value !== null && value !== '' && !(Array.isArray(value) && value.length === 0);
-                    })
-                  );
-                  let isValid = true;
-                  isValid = isValid && validateText(inputLocal.eligibility_validation_notes, "Catatan Validasi Kelayakan")
-
-                  if (isValid) {
-                    checkingFormData('feasibility_validation', filteredDataResult);
-                    fetchSetProgress(authApiKey, authToken, 'Ditolak')
                   }
                 }}
               />
             </div>
           </div>
           {detailData.submission_title === "Rekomendasi Sistem Informasi" ?
-        <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
-        :
-        <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
-      }
+            <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
+            :
+            <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
+          }
         </div>
         :
         <div className='flex flex-col gap-3'>
@@ -165,24 +145,25 @@ const ValidationAnalysisStatus = ({
                 effect="blur"
               />
               <span className="text-base text-center">
-                Pengajuan Sedang Proses <b>Validasi Kelayakan</b> Oleh pihak DISKOMINFO Kota
+                Pengajuan Sedang Proses <b>Surat Rekomendasi</b> Oleh pihak Kepala Dinas DISKOMINFO Kota
                 Bandung
               </span>
             </div>
           </div>
           {detailData.submission_title === "Rekomendasi Sistem Informasi" ?
-        <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
-        :
-        <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
-      }
+            <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
+            :
+            <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
+          }
         </div>
       )}
-      {submissionStatus === 7 && (
+      {submissionStatus === 11 && (
         <div className='flex flex-col  gap-3'>
           <div className={`flex-1 flex flex-col gap-3`}>
             <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+              <span className='text-lg font-bold'>Analisis Kelayakan</span>
               <div className="flex flex-row gap-2 items-center">
-                <span className="text-base font-semibold">Status Validasi Teknis :</span>
+                <span className="text-base font-semibold">Status Analisis Kelayakan :</span>
                 <div
                   className={`flex flex-row gap-2 p-1 px-3 rounded-md text-darkColor bg-[#FF0000]`}
                 >
@@ -191,27 +172,26 @@ const ValidationAnalysisStatus = ({
                   </span>
                 </div>
               </div>
-              <span className='text-lg font-bold'>Validasi Kelayakan</span>
-              {Object.entries(validationDataAnalysis).map(([key, value]) => (
+              {Object.entries(feasibilityData).map(([key, value]) => (
                 <DynamicShow
                   key={key}
                   location={'permohonanSI'}
-                  label={key === "eligibility_validation_notes" ? "Catatan Validasi Kelayakan" : key}
+                  label={key === "recommendation_letter_technical" ? "Pembuatan Surat Rekomendasi" : key}
                   value={value}
-                  type={key === "eligibility_validation_notes" ? 'text' : 'text'}
+                  type={key === "recommendation_letter_technical" ? 'pdf' : 'text'}
                 />
               ))}
             </div>
           </div>
           {detailData.submission_title === "Rekomendasi Sistem Informasi" ?
-        <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
-        :
-        <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
-      }
+            <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
+            :
+            <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
+          }
         </div>
       )}
     </>
   );
 };
 
-export default ValidationAnalysisStatus;
+export default RecommendationLetterProcessStatus;

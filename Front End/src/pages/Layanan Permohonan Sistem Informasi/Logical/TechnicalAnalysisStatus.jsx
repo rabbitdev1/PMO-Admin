@@ -89,15 +89,7 @@ const TechnicalAnalysisStatus = ({
         token: token,
       });
       if (response?.statusCode === 200) {
-        setisModalVerif({
-          data: {
-            title: 'Permohonan Sistem Informasi Berhasil Diupdate',
-            msg: 'Selamat, Pengajuan Permohonan Sistem Infomrasi sudah diupdate',
-            icon: PengajuanBerahasilIcon,
-            color: '#13C39C'
-          },
-          status: true
-        })
+      
       } else {
         toast.error(response.result.msg, {
           position: toast.POSITION.TOP_RIGHT,
@@ -158,7 +150,7 @@ const TechnicalAnalysisStatus = ({
             ))}
           </div>
         </div>}
-      {submissionStatus === 8 && (JSON.parse(authProfile)?.role === "katim_aplikasi" || JSON.parse(authProfile)?.role === "kabid_aplikasi" ?
+      {(submissionStatus === 8 || submissionStatus === 9) && (JSON.parse(authProfile)?.role === "katim_aplikasi" || JSON.parse(authProfile)?.role === "kabid_aplikasi" ?
         <div className="flex flex-col gap-3">
           {JSON.parse(authProfile)?.role === "katim_aplikasi" && (
             Object.entries(technicalAnalysis).length === 0 ?
@@ -186,6 +178,7 @@ const TechnicalAnalysisStatus = ({
 
                       if (isValid) {
                         checkingFormData('technical_analysis', filteredDataResult);
+                        fetchSetProgress(authApiKey, authToken, 'Lanjutkan')
                       }
                     }}
                   />
@@ -300,10 +293,8 @@ const TechnicalAnalysisStatus = ({
               //   }
               // </div>
               <div className="flex flex-col gap-3">
-
                 <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
-
-                  <span className='text-lg font-bold'>Tahapan Validasi Kelayakan</span>
+                  <span className='text-lg font-bold'>Tahapan Validasi Teknis</span>
                   {renderProcessInputs(TechnicalValidation)}
                   <div className='flex sm:flex-row flex-col gap-2'>
                     <DynamicButton
@@ -364,7 +355,7 @@ const TechnicalAnalysisStatus = ({
               </div>
 
           )}
-          {detailData.submission_title === "Permohonan Sistem Informasi" ?
+          {detailData.submission_title === "Rekomendasi Sistem Informasi" ?
             <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
             :
             <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
@@ -386,14 +377,14 @@ const TechnicalAnalysisStatus = ({
               </span>
             </div>
           </div>
-          {detailData.submission_title === "Permohonan Sistem Informasi" ?
+          {detailData.submission_title === "Rekomendasi Sistem Informasi" ?
             <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
             :
             <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
           }
         </div>
       )}
-      {submissionStatus === 9 && (
+      {submissionStatus === 10 && (
         <div className='flex flex-col  gap-3'>
           <div className={`flex-1 flex flex-col gap-3`}>
             <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
@@ -419,7 +410,7 @@ const TechnicalAnalysisStatus = ({
               ))}
             </div>
           </div>
-          {detailData.submission_title === "Permohonan Sistem Informasi" ?
+          {detailData.submission_title === "Rekomendasi Sistem Informasi" ?
             <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
             :
             <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
