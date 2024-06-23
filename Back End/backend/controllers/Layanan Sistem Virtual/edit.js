@@ -1,6 +1,6 @@
-import TeknologiSI from "../../models/TeknologiSIModel.js";
+import SistemVirtualModel from "../../models/LayananSistemVirtualModel.js";
 
-export const editDataTeknologiSI = async (req, res) => {
+export const editDataSistemVirtual = async(req, res) => {
     try {
         const { id, type, data } = req.body;
         const apiKey = req.headers["x-api-key"];
@@ -10,12 +10,12 @@ export const editDataTeknologiSI = async (req, res) => {
                 msg: "API Key is required",
             });
         }
-        const teknologisiItem = await TeknologiSI.findOne({
+        const SistemVirtualItem = await SistemVirtualModel.findOne({
             where: {
                 id: id,
             },
         });
-        if (!teknologisiItem) {
+        if (!SistemVirtualItem) {
             return res.status(404).json({
                 status: "error",
                 msg: "Item not found",
@@ -25,30 +25,30 @@ export const editDataTeknologiSI = async (req, res) => {
         console.log(convertData);
         if (type === "validation") {
             if (convertData.status_validation === "Disetujui") {
-                teknologisiItem.submission_status = 4;
+                SistemVirtualItem.submission_status = 4;
             } else if (convertData.status_validation === "Ditolak") {
-                teknologisiItem.submission_status = 3;
+                SistemVirtualItem.submission_status = 3;
             }
-            teknologisiItem.on_validation = data;
-            } else if (type === "validation_technique") {
-                teknologisiItem.on_validation_technique = data;
-            } else if (type === "process") {
-                teknologisiItem.on_process = data;
-            } else if (type === "finish") {
+            SistemVirtualItem.on_validation = data;
+        } else if (type === "validation_technique") {
+            SistemVirtualItem.on_validation_technique = data;
+        } else if (type === "process") {
+            SistemVirtualItem.on_process = data;
+        } else if (type === "finish") {
             if (
                 convertData.submission_status === "Menyetujui" ||
                 convertData.submission_status === "Disetujui"
             ) {
-                teknologisiItem.submission_status = 7;
+                SistemVirtualItem.submission_status = 7;
             } else if (
                 convertData.submission_status === "Tidak Menyetujui" ||
                 convertData.submission_status === "Ditolak"
             ) {
-                teknologisiItem.submission_status = 8;
+                SistemVirtualItem.submission_status = 8;
             }
-            teknologisiItem.on_finish = data;
+            SistemVirtualItem.on_finish = data;
         }
-        await teknologisiItem.save();
+        await SistemVirtualItem.save();
         return res.status(200).json({
             status: "ok",
             msg: "Item updated successfully",

@@ -1,8 +1,8 @@
 import { deleteFiles } from "../../components/UploadFile.js";
 import { deleteImage } from "../../components/UploadImage.js";
-import TeknologiSI from "../../models/TeknologiSIModel.js";
+import SistemVirtualModel from "../../models/LayananSistemVirtualModel.js";
 
-export const deleteDataTeknologiSI = async (req, res) => {
+export const deleteDataSistemVirtual = async (req, res) => {
     try {
         const { id, layanan } = req.body;
         const apiKey = req.headers["x-api-key"];
@@ -14,13 +14,13 @@ export const deleteDataTeknologiSI = async (req, res) => {
             });
         }
 
-        const teknologisiItem = await TeknologiSI.findOne({
+        const SistemVirtualItem = await SistemVirtualModel.findOne({
             where: {
                 id: id,
             },
         });
 
-        if (!teknologisiItem) {
+        if (!SistemVirtualItem) {
             return res.status(404).json({
                 status: "error",
                 msg: "Item not found",
@@ -28,10 +28,10 @@ export const deleteDataTeknologiSI = async (req, res) => {
         }
 
         const mergedDataProcess = {
-            ...JSON.parse(teknologisiItem.on_validation),
-            ...JSON.parse(teknologisiItem.on_process),
-            ...JSON.parse(teknologisiItem.on_finish),
-            ...JSON.parse(teknologisiItem.fields),
+            ...JSON.parse(SistemVirtualItem.on_validation),
+            ...JSON.parse(SistemVirtualItem.on_process),
+            ...JSON.parse(SistemVirtualItem.on_finish),
+            ...JSON.parse(SistemVirtualItem.fields),
         };
         console.log("Merged Data:", mergedDataProcess);
 
@@ -57,7 +57,7 @@ export const deleteDataTeknologiSI = async (req, res) => {
             console.log("Data tidak ditemukan");
         }
 
-        const deletedItem = await TeknologiSI.destroy({
+        const deletedItem = await SistemVirtualModel.destroy({
             where: {
                 id: id,
             },

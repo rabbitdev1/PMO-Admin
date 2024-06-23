@@ -1,6 +1,6 @@
-import TeknologiSI from "../../models/TeknologiSIModel.js";
+import SistemVirtualModel from "../../models/LayananSistemVirtualModel.js";
 
-export const setStatusDataTeknologiSI = async(req, res) => {
+export const setStatusDataSistemVirtual = async(req, res) => {
     try {
         let rawData = req.body;
         const apiKey = req.headers["x-api-key"];
@@ -33,7 +33,7 @@ export const setStatusDataTeknologiSI = async(req, res) => {
         rawData.on_validation_technique = JSON.stringify({});
         rawData.on_finish = JSON.stringify({ submission_status: "0" });
 
-        await TeknologiSI.create(rawData);
+        await SistemVirtualModel.create(rawData);
         res.status(200).json({
             status: "ok",
             msg: "Item created successfully",
@@ -47,7 +47,7 @@ export const setStatusDataTeknologiSI = async(req, res) => {
     }
 };
 
-export const editProcessDataTeknologiSI = async(req, res) => {
+export const editProcessDataSistemVirtual = async(req, res) => {
     try {
         const { id, status } = req.body;
         const apiKey = req.headers["x-api-key"];
@@ -58,31 +58,31 @@ export const editProcessDataTeknologiSI = async(req, res) => {
                 msg: "API Key is required",
             });
         }
-        const teknologisiItem = await TeknologiSI.findOne({
+        const SistemVirtualItem = await SistemVirtualModel.findOne({
             where: {
                 id: id,
             },
         });
-        if (!teknologisiItem) {
+        if (!SistemVirtualItem) {
             return res.status(404).json({
                 status: "error",
                 msg: "Item not found",
             });
         }
-        if (parseInt(teknologisiItem.submission_status) === 1) {
+        if (parseInt(SistemVirtualItem.submission_status) === 1) {
             console.log("jalan");
-            teknologisiItem.submission_status = 2;
-            await teknologisiItem.save();
-        } else if (parseInt(teknologisiItem.submission_status) === 4) {
+            SistemVirtualItem.submission_status = 2;
+            await SistemVirtualItem.save();
+        } else if (parseInt(SistemVirtualItem.submission_status) === 4) {
             console.log("jalan");
             if (status === "Ditolak") {
-                teknologisiItem.submission_status = 5;
+                SistemVirtualItem.submission_status = 5;
             } else if (status === "Lanjutkan") {
-                teknologisiItem.submission_status = 6;
+                SistemVirtualItem.submission_status = 6;
             } else {
-                teknologisiItem.submission_status = 4;
+                SistemVirtualItem.submission_status = 4;
             }
-            await teknologisiItem.save();
+            await SistemVirtualItem.save();
         }
         return res.status(200).json({
             status: "ok",

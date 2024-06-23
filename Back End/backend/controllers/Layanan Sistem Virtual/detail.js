@@ -1,6 +1,6 @@
-import TeknologiSI from "../../models/TeknologiSIModel.js";
+import SistemVirtualModel from "../../models/LayananSistemVirtualModel.js";
 
-export const getDetailDataTeknologiSI = async(req, res) => {
+export const getDetailDataSistemVirtual = async(req, res) => {
     try {
         const { id, role } = req.body;
         const apiKey = req.headers["x-api-key"];
@@ -12,8 +12,8 @@ export const getDetailDataTeknologiSI = async(req, res) => {
             });
         }
 
-        const teknologisiDetail = await TeknologiSI.findByPk(id);
-        if (!teknologisiDetail) {
+        const SistemVirtualDetail = await SistemVirtualModel.findByPk(id);
+        if (!SistemVirtualDetail) {
             return res.status(404).json({
                 status: "error",
                 msg: "Item not found",
@@ -21,7 +21,7 @@ export const getDetailDataTeknologiSI = async(req, res) => {
         }
 
         const userHasPermission =
-        teknologisiDetail.dataValues.role.includes(role);
+        SistemVirtualDetail.dataValues.role.includes(role);
         if (!userHasPermission) {
             return res.status(403).json({
                 status: "error",
@@ -29,7 +29,7 @@ export const getDetailDataTeknologiSI = async(req, res) => {
             });
         }
 
-        const fields = JSON.parse(teknologisiDetail.fields);
+        const fields = JSON.parse(SistemVirtualDetail.fields);
         // Move specific properties to the top of the object
         const propertiesToMoveUp = [
             "createdAt",
@@ -48,21 +48,21 @@ export const getDetailDataTeknologiSI = async(req, res) => {
         };
 
         // Add createdAt to fields before rearranging
-        fields.createdAt = teknologisiDetail.createdAt;
+        fields.createdAt = SistemVirtualDetail.createdAt;
         const rearrangedData = rearrangeObject(fields, propertiesToMoveUp);
         res.json({
             status: "ok",
             msg: "Data retrieved successfully",
             data: {
-                id: teknologisiDetail.id,
-                submission_status: teknologisiDetail.submission_status,
-                comment: teknologisiDetail.comment,
-                fileuploaded: teknologisiDetail.fileuploaded,
+                id: SistemVirtualDetail.id,
+                submission_status: SistemVirtualDetail.submission_status,
+                comment: SistemVirtualDetail.comment,
+                fileuploaded: SistemVirtualDetail.fileuploaded,
                 fields: rearrangedData,
-                on_validation: teknologisiDetail.on_validation,
-                on_validation_technique: teknologisiDetail.on_validation_technique,
-                on_process: teknologisiDetail.on_process,
-                on_finish: teknologisiDetail.on_finish,
+                on_validation: SistemVirtualDetail.on_validation,
+                on_validation_technique: SistemVirtualDetail.on_validation_technique,
+                on_process: SistemVirtualDetail.on_process,
+                on_finish: SistemVirtualDetail.on_finish,
             },
         });
     } catch (error) {
