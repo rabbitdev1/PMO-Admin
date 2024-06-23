@@ -52,8 +52,8 @@ const ProcessStatus = ({
             if (response?.statusCode === 200) {
                 setisModalVerif({
                     data: {
-                        title: 'managementinfrastrukturtik Berhasil diupdate',
-                        msg: 'Selamat, Pengajuan managementinfrastrukturtik sudah diupdate',
+                        title: 'Pengajuan Data Berhasil di-update',
+                        msg: 'Selamat, Pengajuan sudah di-update',
                         icon: PengajuanBerahasilIcon,
                         color: '#13C39C'
                     },

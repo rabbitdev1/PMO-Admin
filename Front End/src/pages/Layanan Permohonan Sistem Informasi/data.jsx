@@ -1,3 +1,4 @@
+
 export const formData =[
   {
     name: "Permohonan Sistem Informasi",
@@ -14,6 +15,25 @@ export const formData =[
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
+      {name: "reason", label: "Alasan Dibutuhkan", value: "", type: "editor"},
+      { name: "period", label: "Periode Jangka Waktu", value: "", type: "multi_date" },
+    ],
+  },
+  {
+    name: "Permohonan Liputan",
+    type: "Pengajuan Layanan Teknologi dan Sistem Informasi",
+    role: [
+      "op_pmo",
+      "perangkat_daerah",
+      "katim_aplikasi",
+      "teknis_aplikasi"
+    ],
+    fields: [
+      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
+      { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
+      { name: "reason", label: "Alasan Pengajuan", value: "", type: "editor" },
+      { name: "location_implementation", label: "Tempat Pelaksanaan", value: "", type: "editor"},
+      { name: "period", label: "Periode Jangka Waktu", value: "", type: "multi_date" },
       { name: "title_kak", label: "Judul KAK", value: "", type: "text" },
       { name: "name_PPK", label: "Nama PPK", value: "", type: "text" },
       { name: "besaran_anggaran", label: "Besaran Anggaran", value: "", type: "text" },
@@ -24,7 +44,9 @@ export const formData =[
     ],
   },
 ]
-
+    ],
+  },
+]
 // Integrasi
 const getIntergasiSIProcess = (inputLocal) => [
   {

@@ -68,8 +68,8 @@ const getKeyLabel = (key) => {
       return "Total Alat";
     case "reason":
       return "Alasan Pengajuan";
-    case "needed_reason":
-      return "Alasan Dibutuhkan";
+    // case "needed_reason":
+    //   return "Alasan Dibutuhkan";
     case "location_implementation":
       return "Tempat Pelaksanaan";
     case "full_address":

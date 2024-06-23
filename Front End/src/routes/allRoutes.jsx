@@ -40,12 +40,12 @@ const userRoutes = [
   { path: "/permohonan-sistem-informasi", component: <CreatePermohonanSIPages /> },
   { path: "/detail-permohonan-sistem-informasi", component: <DetailPermohonanSIPages /> },
 
-  { path: "/layanan-teknologi-dan-sistem-informasi", component: <TeknologiSIPages /> },
-  { path: "/detail-teknologi-dan-sistem-informasi", component: <DetailTeknologiSIPages /> },
+  { path: "/layanan-siaran-dan-sistem-virtual", component: <TeknologiSIPages /> },
+  { path: "/detail-siaran-dan-sistem-virtual", component: <DetailTeknologiSIPages /> },
 
 
-  { path: "/layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi", component: <ManagementTIKPages /> },
-  { path: "/detail-layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi", component: <DetailManagementTIKPages /> },
+  { path: "/layanan-data", component: <ManagementTIKPages /> },
+  { path: "/detail-data", component: <DetailManagementTIKPages /> },
 
   { path: "/layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi", component: <LayananPenyusunanPerencanaanTIKPages /> },
   { path: "/detail-layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi", component: <DetailPerencanaanTIKPages /> },

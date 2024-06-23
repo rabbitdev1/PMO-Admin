@@ -18,13 +18,9 @@ import ModalContent from "../../components/ui/Modal/ModalContent";
 import { apiClient } from "../../utils/api/apiClient";
 import { convertToNameValueObject } from "../../utils/helpers/convertToNameValueObject";
 
-
 import fetchUploadFiles from "../../utils/api/uploadFiles";
 import { formData as initialFormData } from "./data";
-import {
-  isValidatorPermohonanLiputan,
-  isValidatorZoom
-} from "./validators";
+import { isValidatorPermohonanLiputan, isValidatorPermohonanPodcast, isValidatorZoom } from "./validators";
 import resetFormData from "../../components/common/ResetFormData";
 
 function TeknologiSIPages() {
@@ -67,8 +63,7 @@ function TeknologiSIPages() {
   ]);
 
   const [listTeknologisi, setListTeknologisi] = useState([]);
-  const [listTeknologisiLoading, setListTeknologisiLoading] =
-    useState(true);
+  const [listTeknologisiLoading, setListTeknologisiLoading] = useState(true);
 
   const [formData, setFormData] = useState(initialFormData);
 
@@ -159,14 +154,14 @@ function TeknologiSIPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Pengajuan Teknologi dan Sistem Informasi Berhasil",
+            title: "Pengajuan Layanan Siaran dan Sistem Virtual Berhasil",
             msg: "Selamat, Pengajuan anda sudah diterima",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
           },
           status: true,
         });
-        resetFormData(isModalCreate.data,formData,setFormData);
+        resetFormData(isModalCreate.data, formData, setFormData);
       } else {
         toast.error(response.result.msg, {
           position: toast.POSITION.TOP_RIGHT,
@@ -194,7 +189,7 @@ function TeknologiSIPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Pengajuan Teknologi dan Sistem Informasi Berhasil Dihapus",
+            title: "Pengajuan Layanan Siaran dan Sistem Virtual Berhasil Dihapus",
             msg: response.result.msg,
             icon: PengajuanGagalIcon,
             color: "#FB4B4B",
@@ -223,7 +218,9 @@ function TeknologiSIPages() {
         token: token,
       });
       if (response?.statusCode === 200) {
-        navigate("/detail-teknologi-dan-sistem-informasi", { state: { slug: id } });
+        navigate("/detail-siaran-dan-sistem-virtual", {
+          state: { slug: id },
+        });
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -275,16 +272,22 @@ function TeknologiSIPages() {
       if (combinedObject?.submission_title === "Layanan ZOOM") {
         if (isValidatorZoom(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
-         } else {
-            return false;
-          }
-        } else if (combinedObject?.submission_title === "Permohonan Liputan") {
-          if (isValidatorPermohonanLiputan(combinedObject)) {
-            await handleImageUploadAndFetch(combinedObject);
-          }  else {
+        } else {
           return false;
         }
-      } 
+      } else if (combinedObject?.submission_title === "Permohonan Liputan") {
+        if (isValidatorPermohonanLiputan(combinedObject)) {
+          await handleImageUploadAndFetch(combinedObject);
+        } else {
+          return false;
+        }
+      } else if (combinedObject?.submission_title === "Permohonan Podcast") {
+        if (isValidatorPermohonanPodcast(combinedObject)) {
+          await handleImageUploadAndFetch(combinedObject);
+        } else {
+          return false;
+        }
+      }
     } else {
       console.log("Objek tidak ditemukan dalam formData");
     }
@@ -330,13 +333,16 @@ function TeknologiSIPages() {
     setFormData(updatedData);
   };
 
-
   return (
     <div className="flex flex-col gap-3 flex-1 p-4">
       <TitleHeader
-        title={JSON.parse(authProfile)?.role === "perangkat_daerah" ? "Layanan Pengajuan" : "Layanan Teknologi dan Sistem Informasi"}
+        title={
+          JSON.parse(authProfile)?.role === "perangkat_daerah"
+            ? "Layanan Pengajuan"
+            : "Layanan Siaran dan Sistem Virtual"
+        }
         link1={"dashboard"}
-        link2={"Layanan Teknologi dan Sistem Informasi"}
+        link2={"Layanan Siaran dan Sistem Virtual"}
       />
       <section className="flex xl:flex-row flex-col gap-3">
         <div className="flex-1 flex flex-col gap-3">
@@ -344,7 +350,7 @@ function TeknologiSIPages() {
             {JSON.parse(authProfile)?.role === "perangkat_daerah" && (
               <div className="flex flex-col gap-2 bg-[#0185FF] p-3 rounded-lg flex-1 md:max-w-xs shadow-sm">
                 <span className="sm:text-xl text-sm text-darkColor font-semibold">
-                  Selamat datang di Layanan Teknologi dan Sistem Informasi
+                  Selamat datang di Layanan Siaran dan Sistem Virtual
                 </span>
                 <div className="flex flex-col flex-1 justify-end items-end">
                   <DynamicButton
@@ -397,7 +403,7 @@ function TeknologiSIPages() {
                     className="bg-[#0185FF] text-darkColor px-3"
                     onClick={() => {
                       setisModalType({
-                        data: "Pengajuan Layanan Teknologi dan Sistem Informasi",
+                        data: "Layanan Siaran dan Sistem Virtual",
                         status: true,
                       });
                     }}
@@ -427,7 +433,9 @@ function TeknologiSIPages() {
                   if (JSON.parse(authProfile)?.role === "op_pmo") {
                     fetchSetProgress(authApiKey, authToken, data.id);
                   } else {
-                    navigate("/detail-teknologi-dan-sistem-informasi", { state: { slug: data.id } });
+                    navigate("/detail-siaran-dan-sistem-virtual", {
+                      state: { slug: data.id },
+                    });
                   }
                 }}
                 loading={listTeknologisiLoading}
@@ -557,7 +565,7 @@ function TeknologiSIPages() {
                 className="inline-flex p-2"
                 onClick={() => {
                   setisModalCreate({ data: {}, status: false });
-                  resetFormData(isModalCreate.data,formData,setFormData);
+                  resetFormData(isModalCreate.data, formData, setFormData);
                 }}
               />
             </div>
@@ -623,7 +631,7 @@ function TeknologiSIPages() {
                             item?.field?.map(
                               (itemField, indexField) =>
                                 item?.value?.value ===
-                                itemField.type_select && (
+                                  itemField.type_select && (
                                   <DynamicInput
                                     key={indexField}
                                     name={itemField.name}
@@ -657,7 +665,7 @@ function TeknologiSIPages() {
                 className="inline-flex bg-cardLight dark:bg-cardDark text-cardDark dark:text-cardLight"
                 onClick={() => {
                   setisModalCreate({ data: {}, status: false });
-                  resetFormData(isModalCreate.data,formData,setFormData);
+                  resetFormData(isModalCreate.data, formData, setFormData);
                 }}
               />
               <DynamicButton

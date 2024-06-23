@@ -68,32 +68,18 @@ const ValidationStatusTechnique = ({
       name: "working_schedule",
     },
   ];
-  const ModulTTEValidateTechnique = [
+  const PodcastValidateTechnique = [
     {
       label: "Tanggapan Tim Teknis",
       value: inputLocal.team_response,
       type: "textarea",
-      name: "team_response",
+      name: 'team_response'
     },
     {
       label: "Jadwal Pengerjaan",
       value: inputLocal.working_schedule,
       type: "multi_date",
-      name: "working_schedule",
-    },
-  ];
-  const UserAccountSIValidateTechnique = [
-    {
-      label: "Tanggapan Tim Teknis",
-      value: inputLocal.team_response,
-      type: "textarea",
-      name: "team_response",
-    },
-    {
-      label: "Jadwal Pengerjaan",
-      value: inputLocal.working_schedule,
-      type: "multi_date",
-      name: "working_schedule",
+      name: 'working_schedule'
     },
   ];
 
@@ -113,7 +99,7 @@ const ValidationStatusTechnique = ({
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Teknologi dan Sistem Informasi Berhasil Diupdate",
+            title: "Siaran dan Sistem Virtual Berhasil Diupdate",
             msg: "Selamat, Pengajuan Sudah di-update",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
@@ -162,7 +148,9 @@ const ValidationStatusTechnique = ({
                       ? ZoomValidateTechnique
                       : detailData.submission_title === "Permohonan Liputan"
                         ? PermohonanLiputanValidateTechnique
-                          : []
+                          : detailData.submission_title === "Permohonan Podcast"
+                            ? PodcastValidateTechnique
+                            : []
                   )}
                   <div className="flex sm:flex-row flex-col gap-2">
                     <DynamicButton

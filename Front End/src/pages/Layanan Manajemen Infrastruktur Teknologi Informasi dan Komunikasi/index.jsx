@@ -159,7 +159,7 @@ function ManagementTIKPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: 'Pengajuan managementinfrastrukturtik Berhasil',
+            title: 'Pengajuan Data Berhasil',
             msg: 'Selamat, Pengajuan anda sudah diterima',
             icon: PengajuanBerahasilIcon,
             color: '#13C39C'
@@ -194,7 +194,7 @@ function ManagementTIKPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: 'Pengajuan managementinfrastrukturtik Berhasil Dihapus',
+            title: 'Pengajuan Data Berhasil Dihapus',
             msg: response.result.msg,
             icon: PengajuanGagalIcon,
             color: '#FB4B4B'
@@ -224,7 +224,7 @@ function ManagementTIKPages() {
         token: token,
       });
       if (response?.statusCode === 200) {
-        navigate("/detail-layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi", { state: { slug: id } });
+        navigate("/detail-data", { state: { slug: id } });
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -350,17 +350,17 @@ function ManagementTIKPages() {
 
   return (
     <div className="flex flex-col gap-3 flex-1 p-4" >
-      <TitleHeader title={JSON.parse(authProfile)?.role === "perangkat_daerah" ? "Layanan Pengajuan" : "Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi"}
+      <TitleHeader title={JSON.parse(authProfile)?.role === "perangkat_daerah" ? "Layanan Pengajuan" : "Layanan Data"}
 
         link1={"dashboard"}
-        link2={'Bidang Manajemen Infrastruktur Teknologi Informasi dan Komunikasi'} />
+        link2={'Bidang Data'} />
       <section className="flex xl:flex-row flex-col gap-3" >
         <div className="flex-1 flex flex-col gap-3">
           <div className="flex md:flex-row flex-col gap-3">
             {(JSON.parse(authProfile)?.role === "perangkat_daerah") &&
               <div className="flex flex-col gap-2 bg-[#0185FF] p-3 rounded-lg flex-1 md:max-w-xs shadow-sm"
               >
-                <span className="sm:text-xl text-sm text-darkColor font-semibold">Selamat datang di Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi</span>
+                <span className="sm:text-xl text-sm text-darkColor font-semibold">Selamat datang di Layanan Data</span>
                 <div className="flex flex-col flex-1 justify-end items-end">
                   <DynamicButton
                     initialValue={'Tutorial Pengajuan'}
@@ -411,7 +411,7 @@ function ManagementTIKPages() {
                     type="transparent"
                     className="bg-[#0185FF] text-darkColor px-3"
                     onClick={() => {
-                      setisModalType({ data: "Pengajuan Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi", status: true });
+                      setisModalType({ data: "Layanan Data", status: true });
                     }}
                   />
 
@@ -434,7 +434,7 @@ function ManagementTIKPages() {
                   if (JSON.parse(authProfile)?.role === "op_pmo") {
                     fetchSetProgress(authApiKey, authToken, data.id)
                   } else {
-                    navigate("/detail-layanan-manajemen-infrastruktur-teknologi-informasi-dan-komunikasi", { state: { slug: data.id } });
+                    navigate("/detail-data", { state: { slug: data.id } });
                   }
                 }}
                 onClickRemove={(data) => {

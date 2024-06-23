@@ -155,7 +155,7 @@ function DetailTeknologiSIPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Teknologi dan Sistem Informasi Berhasil di-update",
+            title: "Siaran dan Layanan Virtual Berhasil di-update",
             msg: "Selamat, Pengajuan sudah di-update",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
@@ -179,7 +179,7 @@ function DetailTeknologiSIPages() {
       if (
         data.upload_dokumen_zoom ||
         data.upload_dokumen_liputan ||
-        data.upload_dokumen_laporan_pembuatan_akun
+        data.file_pengajuan_podcast
       ) {
         try {
           const uploadPromises = [];
@@ -212,16 +212,16 @@ function DetailTeknologiSIPages() {
             );
           }
 
-          if (data.upload_dokumen_laporan_pembuatan_akun) {
+          if (data.file_pengajuan_podcast) {
             uploadPromises.push(
               fetchUploadFiles(
                 authApiKey,
                 authToken,
-                data.upload_dokumen_laporan_pembuatan_akun,
+                data.file_pengajuan_podcast,
                 "teknologisi",
                 dispatch
               ).then(result => {
-                resultMapping.upload_dokumen_laporan_pembuatan_akun = result;
+                resultMapping.file_pengajuan_podcast = result;
               })
             );
           }
@@ -234,8 +234,8 @@ function DetailTeknologiSIPages() {
           if (resultMapping.upload_dokumen_liputan) {
             combineData.upload_dokumen_liputan = resultMapping.upload_dokumen_liputan;
           }
-          if (resultMapping.upload_dokumen_laporan_pembuatan_akun) {
-            combineData.upload_dokumen_laporan_pembuatan_akun = resultMapping.upload_dokumen_laporan_pembuatan_akun;
+          if (resultMapping.file_pengajuan_podcast) {
+            combineData.file_pengajuan_podcast = resultMapping.file_pengajuan_podcast;
           }
           fetchEditteknologisi(authApiKey, authToken, slug, type, combineData);
         } catch (error) {
@@ -248,7 +248,7 @@ function DetailTeknologiSIPages() {
       if (
         data.upload_dokumen_zoom ||
         data.upload_dokumen_liputan ||
-        data.upload_dokumen_laporan_pembuatan_akun
+        data.file_pengajuan_podcast
       ) {
         try {
           const uploadPromises = [];
@@ -280,16 +280,16 @@ function DetailTeknologiSIPages() {
               })
             );
           }
-          if (data.upload_dokumen_laporan_pembuatan_akun) {
+          if (data.file_pengajuan_podcast) {
             uploadPromises.push(
-              fetchUploadImages(
+              fetchUploadFiles(
                 authApiKey,
                 authToken,
-                data.upload_dokumen_laporan_pembuatan_akun,
+                data.file_pengajuan_podcast,
                 "teknologisi",
                 dispatch
               ).then(result => {
-                resultMapping.upload_dokumen_laporan_pembuatan_akun = result;
+                resultMapping.file_pengajuan_podcast = result;
               })
             );
           }
@@ -303,8 +303,8 @@ function DetailTeknologiSIPages() {
           if (resultMapping.upload_dokumen_liputan) {
             combineData.upload_dokumen_liputan = resultMapping.upload_dokumen_liputan;
           }
-          if (resultMapping.upload_dokumen_laporan_pembuatan_akun) {
-            combineData.upload_dokumen_laporan_pembuatan_akun = resultMapping.upload_dokumen_laporan_pembuatan_akun;
+          if (resultMapping.file_pengajuan_podcast) {
+            combineData.file_pengajuan_podcast = resultMapping.file_pengajuan_podcast;
           }
 
           fetchEditteknologisi(authApiKey, authToken, slug, type, combineData);
@@ -347,7 +347,7 @@ function DetailTeknologiSIPages() {
       <TitleHeader
         title={`Detail Pengajuan ${detailData.submission_title} #${slug}`}
         link1={"dashboard"}
-        link2={"Layanan Teknologi dan Sistem Informasi"}
+        link2={"Layanan Siaran dan Sistem Virtual"}
       />
       <section className="flex flex-col gap-3">
         <SubmissionStatus status={submissionStatus} />
