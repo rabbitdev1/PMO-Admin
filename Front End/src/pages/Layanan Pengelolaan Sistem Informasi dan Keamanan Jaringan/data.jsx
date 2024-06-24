@@ -40,15 +40,14 @@ export const formData = [
         visible: false,
       },
       {
-<<<<<<< Updated upstream
         name: "password",
         label: "Kata Sandi Lama",
         value: "",
         type: "password",
         visible: false,
-=======
+      },
+      {
         name: "name", label: "Nama PPK", value: "", type: "text", visible: false
->>>>>>> Stashed changes
       },
       {
         name: "telp", label: "Nomor Handphone", value: "", type: "tel", visible: false

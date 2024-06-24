@@ -37,6 +37,16 @@ const DynamicDetails = ({ detailData, loading, location }) => {
                     disabled={true}
                   />
                 )
+
+              ) : ( value &&
+                <DynamicShow
+                  key={key}
+                  name={key}
+                  label={getKeyLabel(key)}
+                  value={value}
+                  location={location}
+                  type={getFieldType(key)}
+                  disabled={true}
               )
             )}
           </div>
@@ -119,9 +129,8 @@ const getKeyLabel = (key) => {
 
     case "incident":
       return "Waktu Kejadian";
-
     case "app_version":
-      return "Versi Aplikasi";
+      return "Versi Aplikasi"
     case "app_ownership":
       return "Kepemilikan Aplikasi";
     case "username":
@@ -130,7 +139,6 @@ const getKeyLabel = (key) => {
       return "Password";
     case "domain_url":
       return "URL Domain";
-
     case "file_hasil_pengajuan_podcast":
       return "Dokumen Hasil Podcast";
     case "submission_type_user_account":
@@ -167,7 +175,6 @@ const getKeyLabel = (key) => {
       return "Terdaftar di LPSE";
     case "nilai_kontrak":
       return "Nilai Kontrak";
-<<<<<<< Updated upstream
 
     // case "applicationType":
     //   return "Jenis Aplikasi";
@@ -360,10 +367,8 @@ const getKeyLabel = (key) => {
       return "PETA Rencana SPBE OPD";
     case "riskManagement":
       return "manajemen risiko SPBE";
-=======
     case "skpd_request_letter":
       return "Surat Permohonan SKPD";
->>>>>>> Stashed changes
     default:
       return key;
   }

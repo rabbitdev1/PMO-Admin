@@ -114,11 +114,9 @@ const Sidebar = () => {
       icon: AllBerandaIcon, href: ["/layanan-siaran-dan-sistem-virtual", "/detail-siaran-dan-sistem-virtual"],
     },
     {
-<<<<<<< Updated upstream
-      title: "Layanan Data", role: ['op_pmo', 'perangkat_daerah',],
-=======
+
       title: "Layanan Data", role: ['op_pmo', 'perangkat_daerah', 'teknis_aplikasi', 'katim_aplikasi'],
->>>>>>> Stashed changes
+
 
       submenu: [
         { title: 'Pendampingan Pengolahan dan Analisis Data', href: '/layanan-data', state: 'Layanan Pendampingan Pengolahan dan Analisis Data' },

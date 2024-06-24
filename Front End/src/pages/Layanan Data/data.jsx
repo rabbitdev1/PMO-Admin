@@ -1,10 +1,6 @@
 export const formData = [
   {
-<<<<<<< Updated upstream:Front End/src/pages/Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi/data.jsx
     name: "Pengajuan Layanan Pendampingan Pengolahan dan Analisis Data",
-=======
-    name: "Layanan Pendampingan Pengolahan dan Analisis Data",
->>>>>>> Stashed changes:Front End/src/pages/Layanan Data/data.jsx
     type: "Layanan Data",
     role: [
       "op_pmo",
@@ -28,11 +24,7 @@ export const formData = [
     ],
   },
   {
-<<<<<<< Updated upstream:Front End/src/pages/Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi/data.jsx
-    name: "Pengajuan Layanan Produksi Data dari Situs Web",
-=======
-    name: "Layanan Produksi Data dari Situs Web",
->>>>>>> Stashed changes:Front End/src/pages/Layanan Data/data.jsx
+    name: "Pengajuan Layanan Produksi Data dari Situs Web"
     type: "Layanan Data",
     role: [
       "op_pmo",
@@ -43,7 +35,6 @@ export const formData = [
     fields: [
       { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
-
       { name: "surat_permohonan", label: "Surat Permohonan", value: "", type: "file_upload" },
       { name: "alamat_website", label: "Alamat Website", value: "", type: "text" },
       { name: "needed_data", label: "Data yang dibutuhkan", value: "", type: "editor" },
