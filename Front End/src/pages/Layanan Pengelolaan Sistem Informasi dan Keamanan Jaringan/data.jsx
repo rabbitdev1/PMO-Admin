@@ -208,7 +208,9 @@ export const formData = [
     fields: [
       { name: "name_pic", label: "Name PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
-      { name: "app", label: "Nama Aplikasi", value: "", type: "text" },
+      { name: "app", label: "Nama Aplikasi", value: "", type: "selection", options: [
+        { value: "aplikasi 1", label: "Aplikasi1" },
+      ] },
       { name: "app_desc", label: "Deskripsi Aplikasi", value: "", type: "editor"},
       { name: "app_version", label: "Versi Aplikasi", value: "", type: "text"},
       { name: "app_ownership", label: "Kepemilikan Aplikasi", value: "", type: "selection",

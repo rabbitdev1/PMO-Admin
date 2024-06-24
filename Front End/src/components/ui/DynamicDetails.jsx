@@ -26,6 +26,7 @@ const DynamicDetails = ({ detailData, loading, location }) => {
                   disabled={true}
                 />
               ) : (
+                value  &&
                 <DynamicShow
                   key={key}
                   name={key}
