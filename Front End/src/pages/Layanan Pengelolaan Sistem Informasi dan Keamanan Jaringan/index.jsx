@@ -25,6 +25,7 @@ import {
   isValidatorEmail,
   isValidatorIntegrasi,
   isValidatorPenerapanModulTTE,
+  isValidatorPengujianCelahKeamanan,
   isValidatorUserAccountSI
 } from "./validators";
 import resetFormData from "../../components/common/ResetFormData";
@@ -303,6 +304,12 @@ function AplikasiPages() {
         }
       } else if (combinedObject?.submission_title === "Permohonan Email") {
         if (isValidatorEmail(combinedObject)) {
+          await handleImageUploadAndFetch(combinedObject);
+        } else {
+          return false;
+        }
+      } else if (combinedObject?.submission_title === "Permohonan Pengujian Celah Keamanan") {
+        if (isValidatorPengujianCelahKeamanan(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
         } else {
           return false;
