@@ -7,7 +7,7 @@ import DynamicInput from "../../../components/common/DynamicInput";
 import DynamicShow from "../../../components/common/DynamicShow";
 import DynamicDetails from "../../../components/ui/DynamicDetails";
 import { apiClient } from "../../../utils/api/apiClient";
-import { validateFile, validatePeriod, validateText } from "../../../utils/helpers/validateForm";
+import { validateFile, validatePeriod, validatePeriod1, validateText } from "../../../utils/helpers/validateForm";
 
 const ValidationStatusTechnique = ({
   submissionStatus,
@@ -86,6 +86,32 @@ const ValidationStatusTechnique = ({
       name: 'working_schedule'
     },
   ];
+  const PengujianCelahKeamananValidateTechnique = [
+    {
+      label: "Upload Dokumen Pembangunan",
+      value: inputLocal.dokumen_pembangunan,
+      type: "file_upload",
+      name: 'dokumen_pembangunan'
+    },
+    {
+      label: "Upload Dokumen NDA",
+      value: inputLocal.dokumen_nda,
+      type: "file_upload",
+      name: 'dokumen_nda'
+    },
+    {
+      label: "Tanggapan Tim Teknis",
+      value: inputLocal.team_response,
+      type: "textarea",
+      name: 'team_response'
+    },
+    {
+      label: "Jadwal Pengerjaan",
+      value: inputLocal.working_schedule,
+      type: "multi_date",
+      name: 'working_schedule'
+    },
+  ];
 
   const fetchSetProgress = async (api_key, token, status) => {
     const params = new URLSearchParams();
@@ -150,6 +176,7 @@ const ValidationStatusTechnique = ({
                   detailData.submission_title === "Penerapan Modul TTE" ? ModulTTEValidateTechnique :
                     detailData.submission_title === "User Akun Sistem Informasi" ? UserAccountSIValidateTechnique :
                       detailData.submission_title === "Permohonan Email" ? EmailValidateTechnique :
+                      detailData.submission_title === "Permohonan Pengujian Celah Keamanan" ? PengujianCelahKeamananValidateTechnique :
                       []
                 )}
                 <div className='flex sm:flex-row flex-col gap-2'>
@@ -175,7 +202,14 @@ const ValidationStatusTechnique = ({
                         isValid = isValid && validateFile(inputLocal.file_scema_integration, "Skema Integrasi")
                         isValid = isValid && validateText(inputLocal.team_response, "Tanggapan Tim Teknis")
                         isValid = isValid && validatePeriod(inputLocal.working_schedule, "Jadwal Pengerjaan")
-                      } else {
+                      }
+                      if (detailData.submission_title === "Permohonan Pengujian Celah Keamanan") {
+                        isValid = isValid && validateFile(inputLocal.dokumen_pembangunan, "Upload Dokumen Pembangunan")
+                        isValid = isValid && validateFile(inputLocal.dokumen_nda, "Upload Dokumen NDA")
+                        isValid = isValid && validateText(inputLocal.team_response, "Tanggapan Tim Teknis")
+                        isValid = isValid && validatePeriod(inputLocal.working_schedule, "Jadwal Pengerjaan")
+                      }
+                      else {
                         isValid = isValid && validateText(inputLocal.team_response, "Tanggapan Tim Teknis")
                         isValid = isValid && validatePeriod(inputLocal.working_schedule, "Jadwal Pengerjaan")
                       }
@@ -199,9 +233,16 @@ const ValidationStatusTechnique = ({
                   {Object.entries(validationData).map(([key, value]) => (
                     <DynamicShow
                       key={key}
-                      label={key === "team_response" ? "Tanggapan dari Tim Teknis" : key === "working_schedule" ? "Jadwal Kerja" : key === "file_scema_integration" ? "File Skema Integrasi" : key}
+                      label={key === "team_response" ? "Tanggapan dari Tim Teknis" : 
+                      key === "working_schedule" ? "Jadwal Kerja" : 
+                      key === "file_scema_integration" ? "File Skema Integrasi" : 
+                      key === "dokumen_pembangunan" ? "File Dokumen Pembangunan" :
+                      key === "dokumen_nda" ? "File Dokumen NDA" : 
+                      key}
                       value={value}
-                      type={key === "team_response" ? 'text' : key === "working_schedule" ? "multidate" : 'text'}
+                      type={
+                        key === "team_response" ? 'text' :
+                       key === "working_schedule" ? "multidate" : 'text'}
                     />
                   ))}
                 </div>
@@ -216,9 +257,15 @@ const ValidationStatusTechnique = ({
                     <DynamicShow
                       key={key}
                       location={'aplikasi'}
-                      label={key === "team_response" ? "Tanggapan dari Tim Teknis" : key === "working_schedule" ? "Jadwal Kerja" : key === "file_scema_integration" ? "File Skema Integrasi" : key}
+                      label={key === "team_response" ? "Tanggapan dari Tim Teknis" : 
+                      key === "working_schedule" ? "Jadwal Kerja" : 
+                      key === "file_scema_integration" ? "File Skema Integrasi" : 
+                      key === "dokumen_pembangunan" ? "File Dokumen Pembangunan" :
+                      key === "dokumen_nda" ? "File Dokumen NDA" :
+                      key}
                       value={value}
-                      type={key === "file_scema_integration" ? 'pdf' : key === "working_schedule" ? "multidate" : 'text'}
+                      type={key === "file_scema_integration" ? 'pdf' : 
+                      key === "working_schedule" ? "multidate" : 'text'}
                     />
                 ))}
 

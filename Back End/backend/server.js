@@ -50,7 +50,6 @@ const startServer = async () => {
         console.log("Firestorage initialized " + JSON.stringify(storage));
         
         await Aplikasi.sync();
-        await PermohonanSI.sync();
         await InfraModel.sync();
         await Users.sync();
         await Sekretariat.sync();
@@ -62,6 +61,7 @@ const startServer = async () => {
         await TeknologiSI.sync();
 
         await SistemVirtual.sync();
+        await PermohonanSI.sync();
 
     } catch (error) {
         console.error("Unable to connect to the database:", error);

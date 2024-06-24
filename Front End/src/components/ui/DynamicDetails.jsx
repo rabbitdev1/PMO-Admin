@@ -103,6 +103,18 @@ const getKeyLabel = (key) => {
     case "file_scema_integration":
       return "Skema Integrasi";
 
+    case "app_version":
+      return "Versi Aplikasi"
+    case "app_ownership":
+      return "Kepemilikan Aplikasi";
+    case "username":
+      return "Username";
+    case "password":
+      return "Password";
+    case "domain_url":
+      return "URL Domain";
+    
+
     case "file_hasil_pengajuan_podcast":
       return "Dokumen Hasil Podcast";
     case "submission_type_user_account":
@@ -171,7 +183,7 @@ const getFieldType = (key) => {
     case "nilai_kontrak":
     case "file_data":
     case "surat_permohonan":
-      case "skpd_request_letter":
+    case "skpd_request_letter":
       return "pdf";
     case "type_tools":
       return "array";
