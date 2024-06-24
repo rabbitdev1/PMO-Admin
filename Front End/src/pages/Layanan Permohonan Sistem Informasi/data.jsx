@@ -13,7 +13,7 @@ export const formData =[
       'kadis'
     ],
     fields: [
-      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
+      { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
       { name: "title_kak", label: "Judul KAK", value: "", type: "text" },
       { name: "name_PPK", label: "Nama PPK", value: "", type: "text" },
@@ -28,7 +28,7 @@ export const formData =[
 // Integrasi
 const getIntergasiSIProcess = (inputLocal) => [
   {
-    label: "Upload File Hasil Integrasi",
+    label: "Unggah File Hasil Integrasi",
     value: inputLocal.upload_dokumen_hasil_integrasi,
     type: "file_upload",
     name: 'upload_dokumen_hasil_integrasi'
@@ -46,7 +46,7 @@ const getIntergasiSIFinish = (finishData) => [
     ]
   },
   {
-    label: "Upload Surat Pemberitahuan untuk OPD",
+    label: "Unggah Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
     name: 'file_submission',
     type: "file_upload"
@@ -62,7 +62,7 @@ const getIntergasiSIFinish = (finishData) => [
 // Penerapan Modul TTE
 const getModulTTEProcess = (inputLocal) => [
   {
-    label: "Upload Surat Pengesahan",
+    label: "Unggah Surat Pengesahan",
     value: inputLocal.upload_dokumen_laporan_modul_tte,
     type: "file_upload",
     name: 'upload_dokumen_laporan_modul_tte'
@@ -81,7 +81,7 @@ const getModulTTEFinish = (finishData) => [
     ]
   },
   {
-    label: "Upload Surat Pemberitahuan untuk OPD",
+    label: "Unggah Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
     name: 'file_submission',
     type: "file_upload"
@@ -97,7 +97,7 @@ const getModulTTEFinish = (finishData) => [
 // User Account SI
 const getUserAccountSIProcess = (inputLocal) => [
   {
-    label: "Upload Dokumen Laporan Hasil Pembuatan Akun",
+    label: "Unggah Dokumen Laporan Hasil Pembuatan Akun",
     value: inputLocal.upload_dokumen_laporan_pembuatan_akun,
     type: "file_upload",
     name: 'upload_dokumen_laporan_pembuatan_akun'
@@ -116,7 +116,7 @@ const getUserAccountSIFinish = (finishData) => [
     ]
   },
   {
-    label: "Upload Surat Pemberitahuan untuk OPD",
+    label: "Unggah Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
     name: 'file_submission',
     type: "file_upload"

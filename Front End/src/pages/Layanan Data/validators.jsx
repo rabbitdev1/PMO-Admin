@@ -7,6 +7,7 @@ export const isValidatorPendampinganPengolahandanAnalisisData = (obj) => {
   isValid = isValid && validateTelp(obj.telp_pic, "Nomor PIC");
   isValid = isValid && validateFile(obj.file_data, "File Data");
   isValid = isValid && validateFile(obj.surat_permohonan, "Surat Permohonan");
+  isValid = isValid && validateFile(obj.file_permohonan, "File Permohonan");
   isValid = isValid && validateHTML(obj.reason, "Alasan Pengajuan");
   
   return isValid;
