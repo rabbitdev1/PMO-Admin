@@ -1,6 +1,6 @@
 export const formData = [
   {
-    name: "Layanan Pendampingan Pengolahan dan Analisis Data",
+    name: "Pengajuan Layanan Pendampingan Pengolahan dan Analisis Data",
     type: "Layanan Data",
     role: [
       "op_pmo",
@@ -9,15 +9,22 @@ export const formData = [
       "teknis_aplikasi"
     ],
     fields: [
-      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
+      { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
       { name: "file_data", label: "File Data", value: "", type: "file_upload" },
       { name: "surat_permohonan", label: "Surat Permohonan", value: "", type: "file_upload" },
       { name: "reason", label: "Alasan Pengajuan", value: "", type: "editor" },
+      { name: "file_permohonan", label: "File Permohonan", value: "", type: "file_upload" },
+      {
+        name: "reason",
+        label: "Alasan Pengajuan",
+        value: "",
+        type: "editor",
+      },
     ],
   },
   {
-    name: "Layanan Produksi Data dari Situs Web",
+    name: "Pengajuan Layanan Produksi Data dari Situs Web"
     type: "Layanan Data",
     role: [
       "op_pmo",
@@ -26,9 +33,8 @@ export const formData = [
       "teknis_aplikasi"
     ],
     fields: [
-      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
+      { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
-
       { name: "surat_permohonan", label: "Surat Permohonan", value: "", type: "file_upload" },
       { name: "alamat_website", label: "Alamat Website", value: "", type: "text" },
       { name: "needed_data", label: "Data yang dibutuhkan", value: "", type: "editor" },
@@ -39,7 +45,7 @@ export const formData = [
 
 const getPendampinganPengolahanAnalisisDataProcess = (inputLocal) => [
   {
-    label: "Upload Laporan Hasil Pengolahan dan Analisa Data",
+    label: "Unggah Laporan Hasil Pengolahan dan Analisa Data",
     value: inputLocal.upload_dokumen_hasil_analisa,
     type: "file_upload",
     name: 'upload_dokumen_hasil_analisa'
@@ -57,7 +63,7 @@ const getPendampinganPengolahanAnalisisDataFinish = (finishData) => [
     ]
   },
   {
-    label: "Upload Surat Pemberitahuan untuk OPD",
+    label: "Unggah Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
     name: 'file_submission',
     type: "file_upload"
@@ -72,7 +78,7 @@ const getPendampinganPengolahanAnalisisDataFinish = (finishData) => [
 
 const getProduksiDataSitusWebProcess = (inputLocal) => [
   {
-    label: "Upload File Data Valid",
+    label: "Unggah File Data Valid",
     value: inputLocal.upload_file_data_valid,
     type: "file_upload",
     name: 'upload_file_data_valid'
@@ -80,7 +86,7 @@ const getProduksiDataSitusWebProcess = (inputLocal) => [
 ];
 const getProduksiDataSitusWebProcessKatim = (inputLocal) => [
   {
-    label: "Upload Laporan Hasil Analisa Data",
+    label: "Unggah Laporan Hasil Analisa Data",
     value: inputLocal.upload_hasil_analisa,
     type: "file_upload",
     name: 'upload_hasil_analisa'
@@ -99,7 +105,7 @@ const getProduksiDataSitusWebFinish = (finishData) => [
     ]
   },
   {
-    label: "Upload Surat Pemberitahuan untuk OPD",
+    label: "Unggah Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
     name: 'file_submission',
     type: "file_upload"
@@ -115,7 +121,7 @@ const getProduksiDataSitusWebFinish = (finishData) => [
 // User Account SI
 const getUserAccountSIProcess = (inputLocal) => [
   {
-    label: "Upload Dokumen Laporan Hasil Pembuatan Akun",
+    label: "Unggah Dokumen Laporan Hasil Pembuatan Akun",
     value: inputLocal.upload_dokumen_laporan_pembuatan_akun,
     type: "file_upload",
     name: 'upload_dokumen_laporan_pembuatan_akun'
@@ -134,7 +140,7 @@ const getUserAccountSIFinish = (finishData) => [
     ]
   },
   {
-    label: "Upload Surat Pemberitahuan untuk OPD",
+    label: "Unggah Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
     name: 'file_submission',
     type: "file_upload"

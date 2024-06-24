@@ -8,7 +8,7 @@ export const formData = [
       'katim_perencanaan', 'kabid_perencanaan', 'teknis_perencanaan'
     ],
     fields: [
-      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
+      { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
       {
         name: "app_name", label: "Nama Aplikasi", value: "", type: "selection",
@@ -34,7 +34,7 @@ export const formData = [
       "katim_aplikasi",
     ],
     fields: [
-      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
+      { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
       { name: "bidang", label: "Bidang", value: "", type: "text" },
       { name: "jenis_kebijakan", label: "Jenis Kebijakan", value: "", type: "selection",
@@ -58,7 +58,7 @@ export const formData = [
       "katim_aplikasi",
     ],
     fields: [
-      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
+      { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
       { name: "nama_ahli", label: "Nama Ahli", value: "", type: "text" },
       { name: "bidang_keahlian", label: "Bidang Keahlian", value: "", type: "selection",
@@ -89,7 +89,7 @@ export const formData = [
 
 const getPenyusunanKebijakanProcess = (inputLocal) => [
   {
-    label: "Upload Dokumen Kebijakan",
+    label: "Unggah Dokumen Kebijakan",
     value: inputLocal.upload_dokumen_kebijakan,
     type: "file_upload",
     name: "upload_dokumen_kebijakan",
@@ -107,7 +107,7 @@ const getPenyusunanKebijakanFinish = (finishData) => [
     ],
   },
   {
-    label: "Upload Surat Pemberitahuan untuk OPD",
+    label: "Unggah Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
     name: "file_submission",
     type: "file_upload",
@@ -122,7 +122,7 @@ const getPenyusunanKebijakanFinish = (finishData) => [
 
 const getPerwalProcess = (inputLocal) => [
   {
-    label: "Upload Dokumen Laporan Permohonan Perwal dan Kepwal",
+    label: "Unggah Dokumen Laporan Permohonan Perwal dan Kepwal",
     value: inputLocal.upload_dokumen_laporan_perkep,
     type: "file_upload",
     name: "upload_dokumen_laporan_perkep",
@@ -140,7 +140,7 @@ const getPerwalFinish = (finishData) => [
     ],
   },
   {
-    label: "Upload Surat Pemberitahuan untuk OPD",
+    label: "Unggah Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
     name: "file_submission",
     type: "file_upload",
@@ -155,7 +155,7 @@ const getPerwalFinish = (finishData) => [
 
 const getAhliProcess = (inputLocal) => [
   {
-    label: "Upload Dokumen Pendataan Tenaga Ahli",
+    label: "Unggah Dokumen Pendataan Tenaga Ahli",
     value: inputLocal.upload_dokumen_ahli,
     type: "file_upload",
     name: "upload_dokumen_ahli",
@@ -173,7 +173,7 @@ const getAhliFinish = (finishData) => [
     ],
   },
   {
-    label: "Upload Surat Pemberitahuan untuk OPD",
+    label: "Unggah Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
     name: "file_submission",
     type: "file_upload",

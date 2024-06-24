@@ -18,12 +18,9 @@ import ModalContent from "../../components/ui/Modal/ModalContent";
 import { apiClient } from "../../utils/api/apiClient";
 import { convertToNameValueObject } from "../../utils/helpers/convertToNameValueObject";
 
-
 import fetchUploadFiles from "../../utils/api/uploadFiles";
 import { formData as initialFormData } from "./data";
-import {
-  isValidatorPendaftaranMagang
-} from "./validators";
+import { isValidatorPendaftaranMagang } from "./validators";
 import resetFormData from "../../components/common/ResetFormData";
 
 function SekretariatPages() {
@@ -66,8 +63,7 @@ function SekretariatPages() {
   ]);
 
   const [listSekretariat, setListSekretariat] = useState([]);
-  const [listSekretariatLoading, setListSekretariatLoading] =
-    useState(true);
+  const [listSekretariatLoading, setListSekretariatLoading] = useState(true);
 
   const [formData, setFormData] = useState(initialFormData);
 
@@ -164,7 +160,7 @@ function SekretariatPages() {
           },
           status: true,
         });
-        resetFormData(isModalCreate.data,formData,setFormData);
+        resetFormData(isModalCreate.data, formData, setFormData);
       } else {
         toast.error(response.result.msg, {
           position: toast.POSITION.TOP_RIGHT,
@@ -276,7 +272,7 @@ function SekretariatPages() {
         } else {
           return false;
         }
-      } 
+      }
     } else {
       console.log("Objek tidak ditemukan dalam formData");
     }
@@ -322,11 +318,14 @@ function SekretariatPages() {
     setFormData(updatedData);
   };
 
-
   return (
     <div className="flex flex-col gap-3 flex-1 p-4">
       <TitleHeader
-        title={JSON.parse(authProfile)?.role === "perangkat_daerah" ? "Layanan Pengajuan" : "Layanan Sekretariat"}
+        title={
+          JSON.parse(authProfile)?.role === "perangkat_daerah"
+            ? "Layanan Pengajuan"
+            : "Layanan Sekretariat"
+        }
         link1={"dashboard"}
         link2={"Layanan Sekretariat"}
       />
@@ -340,7 +339,7 @@ function SekretariatPages() {
                 </span>
                 <div className="flex flex-col flex-1 justify-end items-end">
                   <DynamicButton
-                    initialValue={"Tutorial Pengajuan"}
+                    initialValue={"Panduan Pengajuan"}
                     color={"#ffffff"}
                     type="transparent"
                     className="bg-[#ffffff] text-[#0185FF] px-3"
@@ -420,7 +419,9 @@ function SekretariatPages() {
                   if (JSON.parse(authProfile)?.role === "op_pmo") {
                     fetchSetProgress(authApiKey, authToken, data.id);
                   } else {
-                    navigate("/detail-sekretariat", { state: { slug: data.id } });
+                    navigate("/detail-sekretariat", {
+                      state: { slug: data.id },
+                    });
                   }
                 }}
                 onClickRemove={(data) => {
@@ -549,7 +550,7 @@ function SekretariatPages() {
                 className="inline-flex p-2"
                 onClick={() => {
                   setisModalCreate({ data: {}, status: false });
-                  resetFormData(isModalCreate.data,formData,setFormData);
+                  resetFormData(isModalCreate.data, formData, setFormData);
                 }}
               />
             </div>
@@ -615,7 +616,7 @@ function SekretariatPages() {
                             item?.field?.map(
                               (itemField, indexField) =>
                                 item?.value?.value ===
-                                itemField.type_select && (
+                                  itemField.type_select && (
                                   <DynamicInput
                                     key={indexField}
                                     name={itemField.name}
@@ -649,7 +650,7 @@ function SekretariatPages() {
                 className="inline-flex bg-cardLight dark:bg-cardDark text-cardDark dark:text-cardLight"
                 onClick={() => {
                   setisModalCreate({ data: {}, status: false });
-                  resetFormData(isModalCreate.data,formData,setFormData);
+                  resetFormData(isModalCreate.data, formData, setFormData);
                 }}
               />
               <DynamicButton

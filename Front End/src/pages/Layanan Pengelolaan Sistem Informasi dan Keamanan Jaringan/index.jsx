@@ -386,7 +386,7 @@ function AplikasiPages() {
                 </span>
                 <div className="flex flex-col flex-1 justify-end items-end">
                   <DynamicButton
-                    initialValue={"Tutorial Pengajuan"}
+                    initialValue={"Panduan Pengajuan"}
                     color={"#ffffff"}
                     type="transparent"
                     className="bg-[#ffffff] text-[#0185FF] px-3"
