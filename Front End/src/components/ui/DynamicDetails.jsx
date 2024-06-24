@@ -26,19 +26,7 @@ const DynamicDetails = ({ detailData, loading, location }) => {
                   disabled={true}
                 />
               ) : (
-                value && (
-                  <DynamicShow
-                    key={key}
-                    name={key}
-                    label={getKeyLabel(key)}
-                    value={value}
-                    location={location}
-                    type={getFieldType(key)}
-                    disabled={true}
-                  />
-                )
-
-              ) : ( value &&
+                value  &&
                 <DynamicShow
                   key={key}
                   name={key}
