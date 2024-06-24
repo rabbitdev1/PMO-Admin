@@ -25,7 +25,7 @@ const DynamicDetails = ({ detailData, loading, location }) => {
                   type={getFieldType(key)}
                   disabled={true}
                 />
-              ) : (
+              ) : ( value &&
                 <DynamicShow
                   key={key}
                   name={key}
@@ -50,6 +50,18 @@ const getKeyLabel = (key) => {
       return "Jenis Pengajuan";
     case "name_pic":
       return "Nama PIC";
+    case "name":
+      return "Nama";
+    case "telp":
+      return "Nomor Telpon";
+    case "email":
+      return "Email";
+    case "origin_agency":
+      return "Asal Instansi";
+    case "new_password":
+      return "Password Baru";
+    case "repeat_password":
+      return "Ulangi Password"
     case "telp_pic":
       return "Nomor PIC";
     case "type_tools":

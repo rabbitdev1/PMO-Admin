@@ -40,12 +40,24 @@ export const formData = [
         visible: false,
       },
       {
-        name: "password",
-        label: "Password Lama",
-        value: "",
-        type: "password",
-        visible: false,
+        name: "name", label: "Nama PPK", value: "", type: "text", visible: false
       },
+      {
+        name: "telp", label: "Nomor Handphone", value: "", type: "tel", visible: false
+      },
+      {
+        name: "email", label: "Email", value: "", type: "email", visible: false
+      },
+      {
+        name: "origin_agency", label: "Asal Instansi", value: "", type: "text", visible: false
+      },
+      // {
+      //   name: "password",
+      //   label: "Password Lama",
+      //   value: "",
+      //   type: "password",
+      //   visible: false,
+      // },
       {
         name: "new_password",
         label: "Password Baru",
