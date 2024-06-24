@@ -20,7 +20,7 @@ export const formData = [
         options: [
           {
             value: "reset_password",
-            label: "Reset Password",
+            label: "Ganti Kata Sandi",
           },
           {
             value: "new_account",
@@ -41,21 +41,21 @@ export const formData = [
       },
       {
         name: "password",
-        label: "Password Lama",
+        label: "Kata Sandi Lama",
         value: "",
         type: "password",
         visible: false,
       },
       {
         name: "new_password",
-        label: "Password Baru",
+        label: "Kata Sandi Baru",
         value: "",
         type: "password",
         visible: false,
       },
       {
         name: "repeat_password",
-        label: "Ulangi Password",
+        label: "Ulangi Kata Sandi",
         value: "",
         type: "password",
         visible: false,
@@ -201,7 +201,7 @@ export const formData = [
 // Integrasi
 const getIntergasiSIProcess = (inputLocal) => [
   {
-    label: "Upload File Hasil Integrasi",
+    label: "Unggah File Hasil Integrasi",
     value: inputLocal.upload_dokumen_hasil_integrasi,
     type: "file_upload",
     name: 'upload_dokumen_hasil_integrasi'

@@ -1,7 +1,7 @@
 export const formData = [
   {
     name: "Pengajuan Layanan Pendampingan Pengolahan dan Analisis Data",
-    type: "Pengajuan Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi",
+    type: "Layanan Data",
     role: [
       "op_pmo",
       "perangkat_daerah",
@@ -14,11 +14,18 @@ export const formData = [
       { name: "file_data", label: "File Data", value: "", type: "file_upload" },
       { name: "surat_permohonan", label: "Surat Permohonan", value: "", type: "file_upload" },
       { name: "reason", label: "Alasan Pengajuan", value: "", type: "editor" },
+      { name: "file_permohonan", label: "File Permohonan", value: "", type: "file_upload" },
+      {
+        name: "reason",
+        label: "Alasan Pengajuan",
+        value: "",
+        type: "editor",
+      },
     ],
   },
   {
     name: "Pengajuan Layanan Produksi Data dari Situs Web",
-    type: "Pengajuan Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi",
+    type: "Layanan Data",
     role: [
       "op_pmo",
       "perangkat_daerah",

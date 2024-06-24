@@ -411,7 +411,7 @@ function ManagementTIKPages() {
                     type="transparent"
                     className="bg-[#0185FF] text-darkColor px-3"
                     onClick={() => {
-                      setisModalType({ data: "Pengajuan Layanan Manajemen Infrastruktur Teknologi Informasi dan Komunikasi", status: true });
+                      setisModalType({ data: "Layanan Data", status: true });
                     }}
                   />
 
