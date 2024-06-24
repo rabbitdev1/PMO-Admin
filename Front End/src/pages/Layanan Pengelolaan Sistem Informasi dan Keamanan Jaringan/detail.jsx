@@ -156,8 +156,8 @@ function DetailAplikasiPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Aplikasi Berhasil Diupdate",
-            msg: "Selamat, Pengajuan aplikasi sudah diupdate",
+            title: "Pengajuan Aplikasi Berhasil di-update",
+            msg: "Selamat, Pengajuan sudah di-update",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
           },
@@ -181,7 +181,9 @@ function DetailAplikasiPages() {
         data.file_scema_integration ||
         data.upload_dokumen_laporan_modul_tte ||
         data.upload_dokumen_laporan_pembuatan_akun ||
-        data.upload_surat_pengesahan
+        data.upload_surat_pengesahan ||
+        data.dokumen_pembangunan ||
+        data.dokumen_nda
       ) {
         try {
           const uploadPromises = [];
@@ -240,6 +242,32 @@ function DetailAplikasiPages() {
               })
             );
           }
+          if (data.dokumen_pembangunan) {
+            uploadPromises.push(
+              fetchUploadFiles(
+                authApiKey,
+                authToken,
+                data.dokumen_pembangunan,
+                "aplikasi",
+                dispatch
+              ).then(result => {
+                resultMapping.dokumen_pembangunan = result;
+              })
+            );
+          }
+          if (data.dokumen_nda) {
+            uploadPromises.push(
+              fetchUploadFiles(
+                authApiKey,
+                authToken,
+                data.dokumen_nda,
+                "aplikasi",
+                dispatch
+              ).then(result => {
+                resultMapping.dokumen_nda = result;
+              })
+            );
+          }
           await Promise.all(uploadPromises);
 
           let combineData = { ...data };
@@ -255,6 +283,12 @@ function DetailAplikasiPages() {
           if (resultMapping.upload_surat_pengesahan) {
             combineData.upload_surat_pengesahan = resultMapping.upload_surat_pengesahan;
           }
+          if (resultMapping.dokumen_pembangunan) {
+            combineData.dokumen_pembangunan = resultMapping.dokumen_pembangunan;
+          }
+          if (resultMapping.dokumen_nda) {
+            combineData.dokumen_nda = resultMapping.dokumen_nda;
+          }
           fetchEditaplikasi(authApiKey, authToken, slug, type, combineData);
         } catch (error) {
           console.error("Error occurred during image upload:", error);
@@ -267,7 +301,9 @@ function DetailAplikasiPages() {
         data.upload_dokumen_hasil_integrasi ||
         data.upload_dokumen_laporan_modul_tte ||
         data.upload_dokumen_laporan_pembuatan_akun ||
-        data.upload_surat_pengesahan
+        data.upload_surat_pengesahan ||
+        data.dokumen_pembangunan ||
+        data.dokumen_nda
       ) {
         try {
           const uploadPromises = [];
@@ -325,6 +361,32 @@ function DetailAplikasiPages() {
               })
             );
           }
+          if (data.dokumen_pembangunan) {
+            uploadPromises.push(
+              fetchUploadFiles(
+                authApiKey,
+                authToken,
+                data.dokumen_pembangunan,
+                "aplikasi",
+                dispatch
+              ).then(result => {
+                resultMapping.dokumen_pembangunan = result;
+              })
+            );
+          }
+          if (data.dokumen_nda) {
+            uploadPromises.push(
+              fetchUploadFiles(
+                authApiKey,
+                authToken,
+                data.dokumen_nda,
+                "aplikasi",
+                dispatch
+              ).then(result => {
+                resultMapping.dokumen_nda = result;
+              })
+            );
+          }
 
           await Promise.all(uploadPromises);
 
@@ -340,6 +402,12 @@ function DetailAplikasiPages() {
           }
           if (resultMapping.upload_surat_pengesahan) {
             combineData.upload_surat_pengesahan = resultMapping.upload_surat_pengesahan;
+          }
+          if (resultMapping.dokumen_pembangunan) {
+            combineData.dokumen_pembangunan = resultMapping.dokumen_pembangunan;
+          }
+          if (resultMapping.dokumen_nda) {
+            combineData.dokumen_nda = resultMapping.dokumen_nda;
           }
 
           fetchEditaplikasi(authApiKey, authToken, slug, type, combineData);

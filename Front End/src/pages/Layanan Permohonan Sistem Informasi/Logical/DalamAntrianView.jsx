@@ -1,5 +1,6 @@
 import React from 'react';
 import DynamicDetailsPermohonanSI from '../DynamicDetailsPermohonanSI';
+import DynamicDetails from '../../../components/ui/DynamicDetails';
 
 const DalamAntrianView = ({ submissionStatus, detailData, loading }) => {
   return (
@@ -18,7 +19,11 @@ const DalamAntrianView = ({ submissionStatus, detailData, loading }) => {
           </span>
         </div>
       </div>
-      <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
+      {detailData.submission_title === "Rekomendasi Sistem Informasi" ?
+        <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
+        :
+        <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
+      }
     </div>
   );
 };

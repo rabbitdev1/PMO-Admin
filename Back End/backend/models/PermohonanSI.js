@@ -54,6 +54,10 @@ const PermohonanSI = db.define(
             type: DataTypes.TEXT,
             allowNull: false,
         },
+        recommendation_letter_technical:{
+            type: DataTypes.TEXT,
+            allowNull: false,
+        },
         role: {
             type: DataTypes.STRING,
             allowNull: false,

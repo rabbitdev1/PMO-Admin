@@ -8,6 +8,7 @@ import DynamicShow from "../../../components/common/DynamicShow";
 import { apiClient } from "../../../utils/api/apiClient";
 import { validateFile, validatePeriod, validateText } from "../../../utils/helpers/validateForm";
 import DynamicDetailsPermohonanSI from "../DynamicDetailsPermohonanSI";
+import DynamicDetails from "../../../components/ui/DynamicDetails";
 
 const ValidationAnalysisStatus = ({
   submissionStatus,
@@ -47,15 +48,7 @@ const ValidationAnalysisStatus = ({
         token: token,
       });
       if (response?.statusCode === 200) {
-        setisModalVerif({
-          data: {
-            title: 'Permohonan Sistem Informasi Berhasil Diupdate',
-            msg: 'Selamat, Pengajuan Permohonan Sistem Infomrasi sudah diupdate',
-            icon: PengajuanBerahasilIcon,
-            color: '#13C39C'
-          },
-          status: true
-        })
+       
       } else {
         toast.error(response.result.msg, {
           position: toast.POSITION.TOP_RIGHT,
@@ -85,7 +78,7 @@ const ValidationAnalysisStatus = ({
   };
   return (
     <>
-      <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+    {submissionStatus >= 6 &&   <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
         <div className="flex flex-row gap-2 items-center">
           <span className='text-lg font-bold'>Analisis Kelayakan</span>
         </div>
@@ -98,7 +91,7 @@ const ValidationAnalysisStatus = ({
             type={key === "feasibility_analysis_notes" ? 'text' : 'text'}
           />
         ))}
-      </div>
+      </div>}
       {submissionStatus === 6 && (JSON.parse(authProfile)?.role === "kabid_perencanaan" ?
         <div className="flex flex-col gap-3">
           <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
@@ -155,11 +148,11 @@ const ValidationAnalysisStatus = ({
               />
             </div>
           </div>
-          <DynamicDetailsPermohonanSI
-            location={'permohonanSI'}
-            detailData={detailData}
-            loading={loading}
-          />
+          {detailData.submission_title === "Rekomendasi Sistem Informasi" ?
+        <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
+        :
+        <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
+      }
         </div>
         :
         <div className='flex flex-col gap-3'>
@@ -177,7 +170,11 @@ const ValidationAnalysisStatus = ({
               </span>
             </div>
           </div>
-          <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
+          {detailData.submission_title === "Rekomendasi Sistem Informasi" ?
+        <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
+        :
+        <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
+      }
         </div>
       )}
       {submissionStatus === 7 && (
@@ -206,7 +203,11 @@ const ValidationAnalysisStatus = ({
               ))}
             </div>
           </div>
-          <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
+          {detailData.submission_title === "Rekomendasi Sistem Informasi" ?
+        <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
+        :
+        <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
+      }
         </div>
       )}
     </>

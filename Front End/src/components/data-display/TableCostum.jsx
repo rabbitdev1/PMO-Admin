@@ -110,7 +110,11 @@ const TableCostum = ({
         value={globalFilterValue}
         onChange={onGlobalFilterChange}
         className="bg-cardLight border-1 border-[#dddddd] dark:border-[#ffffff20] rounded p-2 px-3 text-lightColor text-sm font-normal"
+<<<<<<< Updated upstream
         placeholder="pencarian"
+=======
+        placeholder="Cari Data"
+>>>>>>> Stashed changes
       />
     </div>
   );

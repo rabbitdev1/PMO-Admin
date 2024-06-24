@@ -4,6 +4,7 @@ import DynamicButton from "../../../components/common/DynamicButton";
 import DynamicInput from "../../../components/common/DynamicInput";
 import DynamicShow from "../../../components/common/DynamicShow";
 import DynamicDetailsPermohonanSI from "../DynamicDetailsPermohonanSI";
+import DynamicDetails from "../../../components/ui/DynamicDetails";
 
 const ValidationStatus = ({
   submissionStatus,
@@ -23,12 +24,11 @@ const ValidationStatus = ({
               Cek Kelengkapan Berkas
             </span>
           </div>
-          <DynamicDetailsPermohonanSI
-
-            location={'permohonanSI'}
-            detailData={detailData}
-            loading={loading}
-          />
+          {detailData.submission_title === "Rekomendasi Sistem Informasi" ?
+            <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
+            :
+            <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
+          }
           <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
             <span className="text-lg font-bold">Status Kelengkapan Dokumen</span>
             {[
@@ -108,7 +108,11 @@ const ValidationStatus = ({
               </span>
             </div>
           </div>
-          <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
+          {detailData.submission_title === "Rekomendasi Sistem Informasi" ?
+            <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
+            :
+            <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
+          }
         </div>
       )}
       {submissionStatus === 3 && (
@@ -133,7 +137,11 @@ const ValidationStatus = ({
               />
             </div>
           </div>
-          <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
+          {detailData.submission_title === "Rekomendasi Sistem Informasi" ?
+            <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
+            :
+            <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
+          }
         </div>
       )}
     </>

@@ -26,15 +26,17 @@ const DynamicDetails = ({ detailData, loading, location }) => {
                   disabled={true}
                 />
               ) : (
-                <DynamicShow
-                  key={key}
-                  name={key}
-                  label={getKeyLabel(key)}
-                  value={value}
-                  location={location}
-                  type={getFieldType(key)}
-                  disabled={true}
-                />
+                value && (
+                  <DynamicShow
+                    key={key}
+                    name={key}
+                    label={getKeyLabel(key)}
+                    value={value}
+                    location={location}
+                    type={getFieldType(key)}
+                    disabled={true}
+                  />
+                )
               )
             )}
           </div>
@@ -50,6 +52,18 @@ const getKeyLabel = (key) => {
       return "Jenis Pengajuan";
     case "name_pic":
       return "Nama PIC";
+    case "name":
+      return "Nama";
+    case "telp":
+      return "Nomor Telpon";
+    case "email":
+      return "Email";
+    case "origin_agency":
+      return "Asal Instansi";
+    case "new_password":
+      return "Password Baru";
+    case "repeat_password":
+      return "Ulangi Password";
     case "telp_pic":
       return "Nomor PIC";
     case "type_tools":
@@ -68,8 +82,6 @@ const getKeyLabel = (key) => {
       return "Total Alat";
     case "reason":
       return "Alasan Pengajuan";
-    case "needed_reason":
-      return "Alasan Dibutuhkan";
     case "location_implementation":
       return "Tempat Pelaksanaan";
     case "full_address":
@@ -81,7 +93,7 @@ const getKeyLabel = (key) => {
     case "createdAt":
       return "Tanggal Pembuatan";
     case "other_requirements":
-      return "Requirement Lainnya";
+      return "Kebutuhan Lainnya";
     case "app":
       return "Nama Aplikasi";
     case "distance_estimation":
@@ -105,11 +117,25 @@ const getKeyLabel = (key) => {
     case "file_scema_integration":
       return "Skema Integrasi";
 
+    case "incident":
+      return "Waktu Kejadian";
+
+    case "app_version":
+      return "Versi Aplikasi";
+    case "app_ownership":
+      return "Kepemilikan Aplikasi";
+    case "username":
+      return "Username";
+    case "password":
+      return "Password";
+    case "domain_url":
+      return "URL Domain";
+
     case "file_hasil_pengajuan_podcast":
       return "Dokumen Hasil Podcast";
     case "submission_type_user_account":
       return "Jenis Akun User";
-    case "bidang" :
+    case "bidang":
       return "Bidang";
     case "nip":
       return "NIP";
@@ -141,6 +167,7 @@ const getKeyLabel = (key) => {
       return "Terdaftar di LPSE";
     case "nilai_kontrak":
       return "Nilai Kontrak";
+<<<<<<< Updated upstream
 
     // case "applicationType":
     //   return "Jenis Aplikasi";
@@ -333,6 +360,10 @@ const getKeyLabel = (key) => {
       return "PETA Rencana SPBE OPD";
     case "riskManagement":
       return "manajemen risiko SPBE";
+=======
+    case "skpd_request_letter":
+      return "Surat Permohonan SKPD";
+>>>>>>> Stashed changes
     default:
       return key;
   }
@@ -363,6 +394,7 @@ const getFieldType = (key) => {
     case "nilai_kontrak":
     case "file_data":
     case "surat_permohonan":
+    case "skpd_request_letter":
       return "pdf";
     case "type_tools":
       return "array";
@@ -371,7 +403,7 @@ const getFieldType = (key) => {
     case "period":
     case "letterDate":
       return "multidate";
-      
+
     default:
       return "text";
   }

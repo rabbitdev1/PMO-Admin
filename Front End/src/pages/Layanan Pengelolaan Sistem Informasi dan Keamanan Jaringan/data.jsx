@@ -10,7 +10,7 @@ export const formData = [
       "teknis_aplikasi",
     ],
     fields: [
-      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
+      { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
       {
         name: "submission_type_user_account",
@@ -40,12 +40,32 @@ export const formData = [
         visible: false,
       },
       {
+<<<<<<< Updated upstream
         name: "password",
         label: "Kata Sandi Lama",
         value: "",
         type: "password",
         visible: false,
+=======
+        name: "name", label: "Nama PPK", value: "", type: "text", visible: false
+>>>>>>> Stashed changes
       },
+      {
+        name: "telp", label: "Nomor Handphone", value: "", type: "tel", visible: false
+      },
+      {
+        name: "email", label: "Email", value: "", type: "email", visible: false
+      },
+      {
+        name: "origin_agency", label: "Asal Instansi", value: "", type: "text", visible: false
+      },
+      // {
+      //   name: "password",
+      //   label: "Password Lama",
+      //   value: "",
+      //   type: "password",
+      //   visible: false,
+      // },
       {
         name: "new_password",
         label: "Kata Sandi Baru",
@@ -80,7 +100,7 @@ export const formData = [
       "teknis_aplikasi",
     ],
     fields: [
-      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
+      { name: "name_pic", label: "Namq PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
       {
         name: "app_name",
@@ -125,7 +145,7 @@ export const formData = [
       "teknis_aplikasi",
     ],
     fields: [
-      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
+      { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
       {
         name: "app_name",
@@ -179,7 +199,7 @@ export const formData = [
       "teknis_aplikasi",
     ],
     fields: [
-      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
+      { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
       { name: "jabatan", label: "Jabatan", value: "", type: "text" },
       { name: "nip", label: "NIP", value: "", type: "text" },
@@ -194,6 +214,33 @@ export const formData = [
         ]
       },
       { name: "reason", label: "Alasan", value: "", type: "editor" },
+    ]
+  },
+  { name: "Pengajuan Permohonan Pengujian Celah Keamanan",
+    type: "Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan",
+    role: [
+      "op_pmo",
+      "perangkat_daerah",
+      "kabid_aplikasi",
+      "katim_aplikasi",
+      "teknis_aplikasi",
+    ],
+    fields: [
+      { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
+      { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
+      { name: "app", label: "Nama Aplikasi", value: "", type: "text" },
+      { name: "app_desc", label: "Deskripsi Aplikasi", value: "", type: "editor"},
+      { name: "app_version", label: "Versi Aplikasi", value: "", type: "text"},
+      { name: "app_ownership", label: "Kepemilikan Aplikasi", value: "", type: "selection",
+        options: [
+          { value: "instansi", label: "Instansi" },
+          { value: "pribadi", label: "Pribadi" },
+        ]
+      },
+      { name: "username", label: "Nama Akun", value: "", type: "text"},
+      { name: "password", label: "Kata Sandi", value: "", type: "password"},
+      { name: "domain_url", label: "Domain URL", value: "", type: "text"},
+      { name: "file_process_bisiness", label: "Dokumen Proses Bisnis", value: "", type: "file_upload"}
     ]
   }
 ]
@@ -219,7 +266,7 @@ const getIntergasiSIFinish = (finishData) => [
     ]
   },
   {
-    label: "Upload Surat Pemberitahuan untuk OPD",
+    label: "Unggah Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
     name: 'file_submission',
     type: "file_upload"
@@ -235,7 +282,7 @@ const getIntergasiSIFinish = (finishData) => [
 // Penerapan Modul TTE
 const getModulTTEProcess = (inputLocal) => [
   {
-    label: "Upload Surat Pengesahan",
+    label: "Unggah Surat Pengesahan",
     value: inputLocal.upload_dokumen_laporan_modul_tte,
     type: "file_upload",
     name: 'upload_dokumen_laporan_modul_tte'
@@ -254,7 +301,7 @@ const getModulTTEFinish = (finishData) => [
     ]
   },
   {
-    label: "Upload Surat Pemberitahuan untuk OPD",
+    label: "Unggah Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
     name: 'file_submission',
     type: "file_upload"
@@ -270,7 +317,7 @@ const getModulTTEFinish = (finishData) => [
 // User Account SI
 const getUserAccountSIProcess = (inputLocal) => [
   {
-    label: "Upload Dokumen Laporan Hasil Pembuatan Akun",
+    label: "Unggah Dokumen Laporan Hasil Pembuatan Akun",
     value: inputLocal.upload_dokumen_laporan_pembuatan_akun,
     type: "file_upload",
     name: 'upload_dokumen_laporan_pembuatan_akun'
@@ -289,7 +336,7 @@ const getUserAccountSIFinish = (finishData) => [
     ]
   },
   {
-    label: "Upload Surat Pemberitahuan untuk OPD",
+    label: "Unggah Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
     name: 'file_submission',
     type: "file_upload"
@@ -304,7 +351,7 @@ const getUserAccountSIFinish = (finishData) => [
 
 const getEmailProcess = (inputLocal) => [
   {
-    label: "Upload Surat Pengesahan",
+    label: "Unggah Surat Pengesahan",
     value: inputLocal.upload_surat_pengesahan,
     type: "file_upload",
     name: 'upload_surat_pengesahan'
@@ -323,7 +370,7 @@ const getEmailFinish = (finishData) => [
     ]
   },
   {
-    label: "Upload Surat Pemberitahuan untuk OPD",
+    label: "Unggah Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
     name: 'file_submission',
     type: "file_upload"
