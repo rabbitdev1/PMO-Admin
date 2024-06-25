@@ -35,6 +35,7 @@ const DynamicDetails = ({ detailData, loading, location }) => {
                   location={location}
                   type={getFieldType(key)}
                   disabled={true}
+                />
               )
             )}
           </div>

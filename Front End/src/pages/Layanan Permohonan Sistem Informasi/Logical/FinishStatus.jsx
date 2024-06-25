@@ -77,56 +77,15 @@ const FinishStatus = ({
     <>
       {submissionStatus === 12 &&
         <div className="flex flex-col gap-3">
-          {/* <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
-            <span className='text-lg font-bold'>Proses Pembuatan Surat Rekomendasi</span>
-            {renderProcessInputs(RecommendationLetterProcess)}
-            <div className='flex sm:flex-row flex-col gap-2'>
-              <DynamicButton
-                initialValue={"Setujui Permohonan Sistem Informasi Dan Selesai"}
-                type="fill"
-                color={"#ffffff"}
-                className="inline-flex  bg-[#0185FF] text-darkColor"
-                onClick={() => {
-                  const result = {
-                    ...inputLocal,
-                  };
-                  const filteredDataResult = Object.fromEntries(
-                    Object.entries(result).filter(([_, value]) => {
-                      return value !== undefined && value !== null && value !== '' && !(Array.isArray(value) && value.length === 0);
-                    })
-                  );
-                  let isValid = true;
-                  isValid = isValid && validateFile(inputLocal.recommendation_letter_technical, "Pembuatan Surat Rekomendasi")
-                  isValid = isValid && validateText(inputLocal.kepala_dinas_note, "Catatan Kepala Dinas")
-
-                  if (isValid) {
-                    checkingFormData('recommendation_letter_technical', filteredDataResult);
-                    fetchSetProgress(authApiKey, authToken, 'Lanjutkan')
-                  }
-                }}
-              />
-            </div>
-          </div> */}
-
           <div className='flex flex-col  gap-3'>
             <div className={`flex-1 flex flex-col gap-3`}>
               <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
-                <span className='text-lg font-bold'>Proses Pembuatan Surat Rekomendasi</span>
-                <div className="flex flex-row gap-2 items-center">
-                  <span className="text-base font-semibold">Status Analisis Kelayakan :</span>
-                  <div
-                    className={`flex flex-row gap-2 p-1 px-3 rounded-md text-darkColor bg-[#0185FF]`}
-                  >
-                    <span className="text-base">
-                      Disetujui
-                    </span>
-                  </div>
-                </div>
+                <span className='text-lg font-bold'>Surat Rekomendasi</span>
                 {Object.entries(recommendationLetterTechnical).map(([key, value]) => (
                   <DynamicShow
                     key={key}
                     location={'permohonanSI'}
-                    label={key === "recommendation_letter_technical" ? "Pembuatan Surat Rekomendasi" : key}
+                    label={key === "recommendation_letter_technical" ? "Surat Rekomendasi" : key}
                     value={value}
                     type={key === "recommendation_letter_technical" ? 'pdf' : 'text'}
                   />
