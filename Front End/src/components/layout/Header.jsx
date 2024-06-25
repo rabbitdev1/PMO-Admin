@@ -58,13 +58,16 @@ const Header = () => {
         token,
       });
       if (response?.statusCode === 200) {
-        setShowOverlay(true); 
+        setShowOverlay(true);
+        dispatch(isPending(true));
         setTimeout(() => {
-      dispatch(isPending(false));
-          window.location.reload("/");
           Cookies.remove("authData");
           Cookies.remove("authApiKey");
           Cookies.remove("authToken");
+        }, 500);
+        setTimeout(() => {
+          dispatch(isPending(false));
+          window.location.replace("/login");
         }, 500);
       } else {
 

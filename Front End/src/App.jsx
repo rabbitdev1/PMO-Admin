@@ -36,11 +36,13 @@ function App() {
       setAuthToken(authToken);
       fetchDataProfile(authApiKey, authToken)
       if (location.pathname === '/login') {
-        navigate('/');
+        navigate('/dashboard');
       }
     } else {
       setAuthToken(null);
-      navigate('/login');
+      // navigate('/');
+
+      // navigate('/login');
     }
   }, []);
 

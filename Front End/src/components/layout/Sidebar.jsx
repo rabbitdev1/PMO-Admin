@@ -56,7 +56,7 @@ const Sidebar = () => {
 
   const menuItems = [
     { title: "MENU", role: ['/'], icon: "" },
-    { title: "Dashboard", role: ['op_pmo', 'perangkat_daerah',], icon: AllBerandaIcon, href: ["/", "/"], },
+    { title: "Dashboard", role: ['op_pmo', 'perangkat_daerah',], icon: AllBerandaIcon, href: ["/dashboard"], },
     {
       title: "Data Alat", role: ['kabid_infra', 'teknis_infra', 'katim_infra'],
       icon: AllBerandaIcon, href: ["/data-alat-infrastruktur", "/detail-infrastruktur"],
