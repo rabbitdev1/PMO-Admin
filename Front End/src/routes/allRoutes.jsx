@@ -28,7 +28,7 @@ import CreatePermohonanSIPages from "../pages/Layanan Permohonan Sistem Informas
 
 
 const userRoutes = [
-  { path: "/", component: <DashboardPages /> },
+  { path: "/dashboard", component: <DashboardPages /> },
 
   { path: "/layanan-pengelolaan-infrastruktur-teknologi-informasi-komunikasi", component: <InfrastrukturPages /> },
   { path: "/detail-infrastruktur", component: <DetailInfrastrukturPages /> },
@@ -70,6 +70,7 @@ const operatorRoutes = [
   { path: "/detail-account", component: <DetailsAccountPages /> },
 ]
 const nonUserRoutes = [
+  { path: "/", component:<p>sdfsdf</p>},
 
 ];
 
