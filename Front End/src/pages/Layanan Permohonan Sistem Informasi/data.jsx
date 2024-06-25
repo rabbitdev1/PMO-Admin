@@ -1,5 +1,5 @@
 
-export const formData =[
+export const formData = [
   {
     name: "Rekomendasi Sistem Informasi",
     type: "Pengajuan Layanan Permohonan Sistem Informasi",
@@ -17,10 +17,16 @@ export const formData =[
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
       { name: "title_kak", label: "Judul KAK", value: "", type: "text" },
       { name: "name_PPK", label: "Nama PPK", value: "", type: "text" },
-      { name: "besaran_anggaran", label: "Besaran Anggaran", value: "", type: "text" },
-      { name: "anggaran_attachment", label: "Sumber Anggaran", value: "", type: "text" },
+      { name: "besaran_anggaran", label: "Besaran Anggaran", value: "", type: "currency" },
+      {
+        name: "anggaran_attachment", label: "Sumber Anggaran", type: 'selection',
+        options: [
+          { label: 'APBN', value: 'APBN' },
+          { label: 'APBD', value: 'APBD' }
+        ]
+      },
       { name: "lingkup_job", label: "Lingkup Pekerjaan", value: "", type: "text" },
-      { name: "number_of_people_required", label: "Jumlah Tenaga yang di butuhkan", value: "", type: "text" },
+      { name: "number_of_people_required", label: "Jumlah Tenaga yang di butuhkan", value: "", type: "select_number" },
       { name: "skpd_request_letter", label: "Surat Permohonan SKPD", value: "", type: "file_upload" },
     ],
   },

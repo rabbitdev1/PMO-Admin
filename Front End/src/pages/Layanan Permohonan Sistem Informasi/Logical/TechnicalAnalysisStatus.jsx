@@ -30,7 +30,7 @@ const TechnicalAnalysisStatus = ({
   const [selected, setSelected] = useState(1);
   const TechnicalAnalysis = [
     {
-      label: "Catatan Analisis Kelayakan",
+      label: "Catatan Analisis Teknis",
       value: inputLocal.technical_analysis_notes,
       type: "textarea",
       name: 'technical_analysis_notes'

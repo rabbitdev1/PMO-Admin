@@ -167,7 +167,7 @@ const ValidationStatusTechnique = ({
     <>
       {submissionStatus === 4 && (JSON.parse(authProfile)?.role === "teknis_aplikasi" || JSON.parse(authProfile)?.role === "katim_aplikasi" ?
         <div className="flex flex-col gap-3">
-          {JSON.parse(authProfile)?.role === "teknis_aplikasi" && (
+          {(detailData.submission_title ==="Permohonan Pengujian Celah Keamanan" ? JSON.parse(authProfile)?.role === "katim_aplikasi" : JSON.parse(authProfile)?.role === "teknis_aplikasi") && (
             Object.entries(validationData).length === 0 ?
               <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                 <span className='text-lg font-bold'>Tahapan Validasi</span>
@@ -225,7 +225,7 @@ const ValidationStatusTechnique = ({
               <div className="flex flex-col gap-3">
                 <div className="flex flex-col bg-[#0185FF]/10 border-1 border-[#0185FF] text-[#0185FF] p-3 gap-3 items-center rounded-lg">
                   <span className="text-base font-semibold text-center">
-                    Laporan sudah dikirimn ke Ketua Tim Teknis
+                    Laporan sudah dikirimn ke  {detailData.submission_title ==="Permohonan Pengujian Celah Keamanan" ? "Anggota Tim Teknis" : "Ketua Tim Pokja"} 
                   </span>
                 </div>
                 <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
@@ -248,7 +248,7 @@ const ValidationStatusTechnique = ({
                 </div>
               </div>
           )}
-          {JSON.parse(authProfile)?.role === "katim_aplikasi" && (
+          {(detailData.submission_title ==="Permohonan Pengujian Celah Keamanan" ? JSON.parse(authProfile)?.role === "teknis_aplikasi" : JSON.parse(authProfile)?.role === "katim_aplikasi") &&(
             Object.entries(validationData).length !== 0 ?
               <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                 <span className='text-lg font-bold'>Tahapan Validasi</span>
@@ -325,7 +325,7 @@ const ValidationStatusTechnique = ({
               </div> :
               <div className="flex flex-col bg-[#0185FF]/10 border-1 border-[#0185FF] text-[#0185FF] p-3 gap-3 items-center rounded-lg">
                 <span className="text-base font-semibold text-center">
-                  Menunggu Laporan dari Anggota Tim Teknis
+                  Menunggu Laporan dari  {detailData.submission_title ==="Permohonan Pengujian Celah Keamanan" ? "Ketua Tim Pokja" : "Anggota Tim Teknis"}
                 </span>
               </div>
           )}

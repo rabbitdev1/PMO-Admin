@@ -24,7 +24,7 @@ export const formData = [
     ],
   },
   {
-    name: "Pengajuan Layanan Produksi Data dari Situs Web"
+    name: "Pengajuan Layanan Produksi Data dari Situs Web",
     type: "Layanan Data",
     role: [
       "op_pmo",
