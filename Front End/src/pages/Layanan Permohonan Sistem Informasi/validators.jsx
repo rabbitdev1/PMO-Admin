@@ -2,8 +2,10 @@ import { validateArray, validateFile, validateFullname, validatePeriod, validate
 
 export const isValidatorPermohonanSI = (obj) => {
   let isValid = true;
+  isValid = isValid && validateFullname(obj.name_pic, "Nama PIC");
+  isValid = isValid && validateTelp(obj.telp_pic, "Nomor PIC");
   isValid = isValid && validateText(obj.title_kak, "Judul KAK");
-  isValid = isValid && validateText(obj.name_PPK, "Nama PPK");
+  isValid = isValid && validateFullname(obj.name_PPK, "Nama PPK");
   isValid = isValid && validateText(obj.besaran_anggaran, "Besaran Anggaran");
   isValid = isValid && validateText(obj.anggaran_attachment, "Sumber Anggaran");
   isValid = isValid && validateText(obj.lingkup_job, "Lingkup Pekerjaan");
