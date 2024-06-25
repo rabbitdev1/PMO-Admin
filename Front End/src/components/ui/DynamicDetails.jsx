@@ -26,6 +26,7 @@ const DynamicDetails = ({ detailData, loading, location }) => {
                   disabled={true}
                 />
               ) : (
+                value  &&
                 <DynamicShow
                   key={key}
                   name={key}
@@ -50,6 +51,18 @@ const getKeyLabel = (key) => {
       return "Jenis Pengajuan";
     case "name_pic":
       return "Nama PIC";
+    case "name":
+      return "Nama";
+    case "telp":
+      return "Nomor Telpon";
+    case "email":
+      return "Email";
+    case "origin_agency":
+      return "Asal Instansi";
+    case "new_password":
+      return "Password Baru";
+    case "repeat_password":
+      return "Ulangi Password";
     case "telp_pic":
       return "Nomor PIC";
     case "type_tools":
@@ -68,8 +81,6 @@ const getKeyLabel = (key) => {
       return "Total Alat";
     case "reason":
       return "Alasan Pengajuan";
-    case "needed_reason":
-      return "Alasan Dibutuhkan";
     case "location_implementation":
       return "Tempat Pelaksanaan";
     case "full_address":
@@ -81,7 +92,7 @@ const getKeyLabel = (key) => {
     case "createdAt":
       return "Tanggal Pembuatan";
     case "other_requirements":
-      return "Requirement Lainnya";
+      return "Kebutuhan Lainnya";
     case "app":
       return "Nama Aplikasi";
     case "distance_estimation":
@@ -105,11 +116,23 @@ const getKeyLabel = (key) => {
     case "file_scema_integration":
       return "Skema Integrasi";
 
+    case "incident":
+      return "Waktu Kejadian";
+    case "app_version":
+      return "Versi Aplikasi"
+    case "app_ownership":
+      return "Kepemilikan Aplikasi";
+    case "username":
+      return "Username";
+    case "password":
+      return "Password";
+    case "domain_url":
+      return "URL Domain";
     case "file_hasil_pengajuan_podcast":
       return "Dokumen Hasil Podcast";
     case "submission_type_user_account":
       return "Jenis Akun User";
-    case "bidang" :
+    case "bidang":
       return "Bidang";
     case "nip":
       return "NIP";
@@ -235,6 +258,106 @@ const getKeyLabel = (key) => {
     //   return "PETA Rencana SPBE OPD";
     // case 'riskManagement':
     //   return "manajemen risiko SPBE";
+    case "submission_type_user_account":
+      return "Jenis Akun User";
+    case "file_data":
+      return "File Data";
+    case "file_permohonan":
+      return "File Permohonan";
+
+    case "applicationType":
+      return "Jenis Aplikasi";
+    case "applicationName":
+      return "Nama Aplikasi";
+    case "developmentAspect":
+      return "Hal yang dikembangkan";
+    case "developmentGoal":
+      return "Tujuan Pengembangan";
+    case "applicationOwnership":
+      return "Kepemilikan Aplikasi";
+    case "developerName1":
+      return "Developer 1";
+    case "developerName2":
+      return "Developer 2";
+    case "developmentDuration":
+      return "Durasi Pengembangan";
+    case "fundingSource":
+      return "Sumber Anggaran";
+    case "budgetAmount":
+      return "Besar Anggaran";
+    case "clusterCategory":
+      return "Kategori Klaster";
+    case "programmingLanguage":
+      return "Bahasa Pemrograman";
+    case "applicationDescription":
+      return "Deskripsi Aplikasi";
+    case "Otherdatabase":
+      return "Database Lainnya";
+    case "otherProgrammingLanguage":
+      return "Bahasa Pemrograman Lainnya";
+    case "developmentTechnique":
+      return "Teknik Pengembangan";
+    case "storageMedia":
+      return "Media Penyimpanan";
+    case "dataSource":
+      return "Sumber Data";
+    case "reasonForChoosingStorageMedia":
+      return "Alasan Pemilihan Media Penyimpanan";
+    case "serverRentalLocation":
+      return "Lokasi Penyewaan Server";
+    case "serverRentalPeriod":
+      return "Periode Penyewaan Server";
+    case "serverRentalCost":
+      return "Harga Penyewaan Server";
+    case "kakAttachment":
+      return "Lampiran KAK";
+    case "cloudLocation":
+      return "Lokasi Cloud";
+    case "cloudStoragePeriod":
+      return "Periode Penyimpanan Cloud";
+    case "cloudStorageCost":
+      return "Harga Penyimpanan Cloud";
+    case "skpdRequestLetter":
+      return "Surat Permohonan SKPD";
+    case "reformasiBirokrasi":
+      return "Reformasi Birokrasi (RB) Tematik";
+    case "reformasiBirokrasi2":
+      return "Reformasi Birokrasi (RB) Tematik Lainnya";
+    case "reformasiBirokrasi3":
+      return "Reformasi Birokrasi (RB) Tematik Lainnya";
+    case "reformasiBirokrasi4":
+    case "ramSpecifications":
+      return "Spesifikasi RAM";
+    case "cpuSpecifications":
+      return "Spesifikasi CPU";
+    case "storageSpecifications":
+      return "Spesifikasi Storage";
+    case "gpuSpecifications":
+      return "Spesifikasi GPU";
+    case "otherSpecifications":
+      return "Spesifikasi Lainnya";
+    case "hardDiskSpecifications":
+      return "Spesifikasi Hard Disk";
+    case "integrationWithSystem":
+      return "Integrasi dengan Sistem";
+    case "reasonForIntegration":
+      return "Alasan Integrasi";
+    case "exchangeFormat":
+      return "Format Penyimpanan";
+    case "proposedDomain":
+      return "Domain Yang Diusulkan";
+    case "letterNumber":
+      return "Nomor Surat";
+    case "letterDate":
+      return "Tanggal Surat";
+    case "otherRequirements":
+      return "Requirement Lainnya";
+    case "spbePlan":
+      return "PETA Rencana SPBE OPD";
+    case "riskManagement":
+      return "manajemen risiko SPBE";
+    case "skpd_request_letter":
+      return "Surat Permohonan SKPD";
     default:
       return key;
   }
@@ -265,6 +388,7 @@ const getFieldType = (key) => {
     case "nilai_kontrak":
     case "file_data":
     case "surat_permohonan":
+    case "skpd_request_letter":
       return "pdf";
     case "type_tools":
       return "array";
@@ -273,11 +397,10 @@ const getFieldType = (key) => {
     case "period":
     case "letterDate":
       return "multidate";
-      
+
     default:
       return "text";
   }
-
 };
 
 export default DynamicDetails;

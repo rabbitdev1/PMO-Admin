@@ -1,8 +1,40 @@
 
+export const formData = [
+  {
+    name: "Rekomendasi Sistem Informasi",
+    type: "Pengajuan Layanan Permohonan Sistem Informasi",
+    role: [
+      'op_pmo',
+      'perangkat_daerah',
+      'katim_perencanaan',
+      'kabid_perencanaan',
+      'katim_aplikasi',
+      'kabid_aplikasi',
+      'kadis'
+    ],
+    fields: [
+      { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
+      { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
+      { name: "title_kak", label: "Judul KAK", value: "", type: "text" },
+      { name: "name_PPK", label: "Nama PPK", value: "", type: "text" },
+      { name: "besaran_anggaran", label: "Besaran Anggaran", value: "", type: "currency" },
+      {
+        name: "anggaran_attachment", label: "Sumber Anggaran", type: 'selection',
+        options: [
+          { label: 'APBN', value: 'APBN' },
+          { label: 'APBD', value: 'APBD' }
+        ]
+      },
+      { name: "lingkup_job", label: "Lingkup Pekerjaan", value: "", type: "text" },
+      { name: "number_of_people_required", label: "Jumlah Tenaga yang di butuhkan", value: "", type: "select_number" },
+      { name: "skpd_request_letter", label: "Surat Permohonan SKPD", value: "", type: "file_upload" },
+    ],
+  },
+]
 // Integrasi
 const getIntergasiSIProcess = (inputLocal) => [
   {
-    label: "Upload File Hasil Integrasi",
+    label: "Unggah File Hasil Integrasi",
     value: inputLocal.upload_dokumen_hasil_integrasi,
     type: "file_upload",
     name: 'upload_dokumen_hasil_integrasi'
@@ -20,7 +52,7 @@ const getIntergasiSIFinish = (finishData) => [
     ]
   },
   {
-    label: "Upload Surat Pemberitahuan untuk OPD",
+    label: "Unggah Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
     name: 'file_submission',
     type: "file_upload"
@@ -36,7 +68,7 @@ const getIntergasiSIFinish = (finishData) => [
 // Penerapan Modul TTE
 const getModulTTEProcess = (inputLocal) => [
   {
-    label: "Upload Surat Pengesahan",
+    label: "Unggah Surat Pengesahan",
     value: inputLocal.upload_dokumen_laporan_modul_tte,
     type: "file_upload",
     name: 'upload_dokumen_laporan_modul_tte'
@@ -55,7 +87,7 @@ const getModulTTEFinish = (finishData) => [
     ]
   },
   {
-    label: "Upload Surat Pemberitahuan untuk OPD",
+    label: "Unggah Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
     name: 'file_submission',
     type: "file_upload"
@@ -71,7 +103,7 @@ const getModulTTEFinish = (finishData) => [
 // User Account SI
 const getUserAccountSIProcess = (inputLocal) => [
   {
-    label: "Upload Dokumen Laporan Hasil Pembuatan Akun",
+    label: "Unggah Dokumen Laporan Hasil Pembuatan Akun",
     value: inputLocal.upload_dokumen_laporan_pembuatan_akun,
     type: "file_upload",
     name: 'upload_dokumen_laporan_pembuatan_akun'
@@ -90,7 +122,7 @@ const getUserAccountSIFinish = (finishData) => [
     ]
   },
   {
-    label: "Upload Surat Pemberitahuan untuk OPD",
+    label: "Unggah Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
     name: 'file_submission',
     type: "file_upload"

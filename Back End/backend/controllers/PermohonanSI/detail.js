@@ -1,6 +1,6 @@
 import PermohonanSI from "../../models/PermohonanSI.js";
 
-export const getDetailDataPermohonanSI = async(req, res) => {
+export const getDetailDataPermohonanSI = async (req, res) => {
     try {
         const { id, role } = req.body;
         const apiKey = req.headers["x-api-key"];
@@ -21,7 +21,7 @@ export const getDetailDataPermohonanSI = async(req, res) => {
         }
 
         const userHasPermission =
-        permohonanSIDetail.dataValues.role.includes(role);
+            permohonanSIDetail.dataValues.role.includes(role);
         if (!userHasPermission) {
             return res.status(403).json({
                 status: "error",
@@ -44,7 +44,7 @@ export const getDetailDataPermohonanSI = async(req, res) => {
                     delete obj[prop];
                 }
             });
-            return {...rearrangedObj, ...obj };
+            return { ...rearrangedObj, ...obj };
         };
 
         // Add createdAt to fields before rearranging
@@ -64,6 +64,7 @@ export const getDetailDataPermohonanSI = async(req, res) => {
                 feasibility_validation: permohonanSIDetail.feasibility_validation,
                 technical_analysis: permohonanSIDetail.technical_analysis,
                 technical_validation: permohonanSIDetail.technical_validation,
+                recommendation_letter_technical: permohonanSIDetail.recommendation_letter_technical,
                 on_finish: permohonanSIDetail.on_finish,
             },
         });

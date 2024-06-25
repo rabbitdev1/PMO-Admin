@@ -7,7 +7,7 @@ import DynamicInput from "../../../components/common/DynamicInput";
 import DynamicShow from "../../../components/common/DynamicShow";
 import DynamicDetails from "../../../components/ui/DynamicDetails";
 import { apiClient } from "../../../utils/api/apiClient";
-import { validateFile, validatePeriod, validateText } from "../../../utils/helpers/validateForm";
+import { validateFile, validatePeriod, validatePeriod1, validateText } from "../../../utils/helpers/validateForm";
 
 const ValidationStatusTechnique = ({
   submissionStatus,
@@ -86,6 +86,32 @@ const ValidationStatusTechnique = ({
       name: 'working_schedule'
     },
   ];
+  const PengujianCelahKeamananValidateTechnique = [
+    {
+      label: "Upload Dokumen Pembangunan",
+      value: inputLocal.dokumen_pembangunan,
+      type: "file_upload",
+      name: 'dokumen_pembangunan'
+    },
+    {
+      label: "Upload Dokumen NDA",
+      value: inputLocal.dokumen_nda,
+      type: "file_upload",
+      name: 'dokumen_nda'
+    },
+    {
+      label: "Tanggapan Tim Teknis",
+      value: inputLocal.team_response,
+      type: "textarea",
+      name: 'team_response'
+    },
+    {
+      label: "Jadwal Pengerjaan",
+      value: inputLocal.working_schedule,
+      type: "multi_date",
+      name: 'working_schedule'
+    },
+  ];
 
   const fetchSetProgress = async (api_key, token, status) => {
     const params = new URLSearchParams();
@@ -141,7 +167,7 @@ const ValidationStatusTechnique = ({
     <>
       {submissionStatus === 4 && (JSON.parse(authProfile)?.role === "teknis_aplikasi" || JSON.parse(authProfile)?.role === "katim_aplikasi" ?
         <div className="flex flex-col gap-3">
-          {JSON.parse(authProfile)?.role === "teknis_aplikasi" && (
+          {(detailData.submission_title ==="Permohonan Pengujian Celah Keamanan" ? JSON.parse(authProfile)?.role === "katim_aplikasi" : JSON.parse(authProfile)?.role === "teknis_aplikasi") && (
             Object.entries(validationData).length === 0 ?
               <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                 <span className='text-lg font-bold'>Tahapan Validasi</span>
@@ -150,6 +176,7 @@ const ValidationStatusTechnique = ({
                   detailData.submission_title === "Penerapan Modul TTE" ? ModulTTEValidateTechnique :
                     detailData.submission_title === "User Akun Sistem Informasi" ? UserAccountSIValidateTechnique :
                       detailData.submission_title === "Permohonan Email" ? EmailValidateTechnique :
+                      detailData.submission_title === "Permohonan Pengujian Celah Keamanan" ? PengujianCelahKeamananValidateTechnique :
                       []
                 )}
                 <div className='flex sm:flex-row flex-col gap-2'>
@@ -175,7 +202,14 @@ const ValidationStatusTechnique = ({
                         isValid = isValid && validateFile(inputLocal.file_scema_integration, "Skema Integrasi")
                         isValid = isValid && validateText(inputLocal.team_response, "Tanggapan Tim Teknis")
                         isValid = isValid && validatePeriod(inputLocal.working_schedule, "Jadwal Pengerjaan")
-                      } else {
+                      }
+                      if (detailData.submission_title === "Permohonan Pengujian Celah Keamanan") {
+                        isValid = isValid && validateFile(inputLocal.dokumen_pembangunan, "Upload Dokumen Pembangunan")
+                        isValid = isValid && validateFile(inputLocal.dokumen_nda, "Upload Dokumen NDA")
+                        isValid = isValid && validateText(inputLocal.team_response, "Tanggapan Tim Teknis")
+                        isValid = isValid && validatePeriod(inputLocal.working_schedule, "Jadwal Pengerjaan")
+                      }
+                      else {
                         isValid = isValid && validateText(inputLocal.team_response, "Tanggapan Tim Teknis")
                         isValid = isValid && validatePeriod(inputLocal.working_schedule, "Jadwal Pengerjaan")
                       }
@@ -191,7 +225,7 @@ const ValidationStatusTechnique = ({
               <div className="flex flex-col gap-3">
                 <div className="flex flex-col bg-[#0185FF]/10 border-1 border-[#0185FF] text-[#0185FF] p-3 gap-3 items-center rounded-lg">
                   <span className="text-base font-semibold text-center">
-                    Laporan sudah dikirimn ke Ketua Tim Teknis
+                    Laporan sudah dikirimn ke  {detailData.submission_title ==="Permohonan Pengujian Celah Keamanan" ? "Anggota Tim Teknis" : "Ketua Tim Pokja"} 
                   </span>
                 </div>
                 <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
@@ -199,15 +233,22 @@ const ValidationStatusTechnique = ({
                   {Object.entries(validationData).map(([key, value]) => (
                     <DynamicShow
                       key={key}
-                      label={key === "team_response" ? "Tanggapan dari Tim Teknis" : key === "working_schedule" ? "Jadwal Kerja" : key === "file_scema_integration" ? "File Skema Integrasi" : key}
+                      label={key === "team_response" ? "Tanggapan dari Tim Teknis" : 
+                      key === "working_schedule" ? "Jadwal Kerja" : 
+                      key === "file_scema_integration" ? "File Skema Integrasi" : 
+                      key === "dokumen_pembangunan" ? "File Dokumen Pembangunan" :
+                      key === "dokumen_nda" ? "File Dokumen NDA" : 
+                      key}
                       value={value}
-                      type={key === "team_response" ? 'text' : key === "working_schedule" ? "multidate" : 'text'}
+                      type={
+                        key === "team_response" ? 'text' :
+                       key === "working_schedule" ? "multidate" : 'text'}
                     />
                   ))}
                 </div>
               </div>
           )}
-          {JSON.parse(authProfile)?.role === "katim_aplikasi" && (
+          {(detailData.submission_title ==="Permohonan Pengujian Celah Keamanan" ? JSON.parse(authProfile)?.role === "teknis_aplikasi" : JSON.parse(authProfile)?.role === "katim_aplikasi") &&(
             Object.entries(validationData).length !== 0 ?
               <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                 <span className='text-lg font-bold'>Tahapan Validasi</span>
@@ -216,9 +257,15 @@ const ValidationStatusTechnique = ({
                     <DynamicShow
                       key={key}
                       location={'aplikasi'}
-                      label={key === "team_response" ? "Tanggapan dari Tim Teknis" : key === "working_schedule" ? "Jadwal Kerja" : key === "file_scema_integration" ? "File Skema Integrasi" : key}
+                      label={key === "team_response" ? "Tanggapan dari Tim Teknis" : 
+                      key === "working_schedule" ? "Jadwal Kerja" : 
+                      key === "file_scema_integration" ? "File Skema Integrasi" : 
+                      key === "dokumen_pembangunan" ? "File Dokumen Pembangunan" :
+                      key === "dokumen_nda" ? "File Dokumen NDA" :
+                      key}
                       value={value}
-                      type={key === "file_scema_integration" ? 'pdf' : key === "working_schedule" ? "multidate" : 'text'}
+                      type={key === "file_scema_integration" ? 'pdf' : 
+                      key === "working_schedule" ? "multidate" : 'text'}
                     />
                 ))}
 
@@ -278,7 +325,7 @@ const ValidationStatusTechnique = ({
               </div> :
               <div className="flex flex-col bg-[#0185FF]/10 border-1 border-[#0185FF] text-[#0185FF] p-3 gap-3 items-center rounded-lg">
                 <span className="text-base font-semibold text-center">
-                  Menunggu Laporan dari Anggota Tim Teknis
+                  Menunggu Laporan dari  {detailData.submission_title ==="Permohonan Pengujian Celah Keamanan" ? "Ketua Tim Pokja" : "Anggota Tim Teknis"}
                 </span>
               </div>
           )}

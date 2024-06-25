@@ -346,6 +346,33 @@ function DynamicInput({
               />}
             </InputMask>
           </div>
+        ) : type === "currency" ? (
+          <div
+            className={`flex flex-row gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center p-2.5 ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}
+          >
+            {icon &&
+              React.cloneElement(icon, { className: "h-5 w-6", fill: color })}
+            <span className="text-sm">Rp. </span>
+            <input
+              type={'number'}
+              className="h-7 flex-1 w-full text-sm  bg-transparent"
+              name={name}
+              placeholder={placeholder}
+              value={value}
+              disabled={disabled}
+              style={{ outline: "none" }}
+              onChange={(event) => onChange(event.target.value)}
+              onFocus={(e) =>
+                e.target.addEventListener(
+                  "wheel",
+                  function (e) {
+                    e.preventDefault();
+                  },
+                  { passive: false }
+                )
+              }
+            />
+          </div>
         ) : (
           <div
             className={`flex flex-row gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center p-2.5 ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}

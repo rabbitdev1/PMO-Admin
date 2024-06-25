@@ -25,6 +25,7 @@ import {
   isValidatorEmail,
   isValidatorIntegrasi,
   isValidatorPenerapanModulTTE,
+  isValidatorPengujianCelahKeamanan,
   isValidatorUserAccountSI
 } from "./validators";
 import resetFormData from "../../components/common/ResetFormData";
@@ -236,31 +237,36 @@ function AplikasiPages() {
     const fieldToUpdateIndex = currentSection.fields.findIndex(
       (field) => field.name === fieldName
     );
-
+  
     if (fieldName === 'submission_type_user_account') {
       const isResetPassword = value.value === 'reset_password';
       const isNewAccount = value.value === 'new_account';
-
+  
       // Set visibility for reset_password related fields
-      ['password', 'new_password', 'repeat_password'].forEach(name => {
+      ['new_password', 'repeat_password'].forEach(name => {
         const fieldIndex = currentSection.fields.findIndex(field => field.name === name);
         if (fieldIndex !== -1) {
-          updatedFormData[sectionIndex].fields[fieldIndex].visible = isResetPassword;
+          currentSection.fields[fieldIndex].visible = isResetPassword;
         }
       });
-
+  
       // Set visibility for new_account related fields
-      const accountTypeFieldIndex = currentSection.fields.findIndex(field => field.name === 'account_type');
-      if (accountTypeFieldIndex !== -1) {
-        updatedFormData[sectionIndex].fields[accountTypeFieldIndex].visible = isNewAccount;
-      }
+      ['account_type', 'name', 'telp', 'email', 'origin_agency'].forEach(name => {
+        const fieldIndex = currentSection.fields.findIndex(field => field.name === name);
+        if (fieldIndex !== -1) {
+          currentSection.fields[fieldIndex].visible = isNewAccount;
+        }
+      });
     }
-
+  
     // Update the value of the field
-    updatedFormData[sectionIndex].fields[fieldToUpdateIndex].value = value;
-
+    if (fieldToUpdateIndex !== -1) {
+      currentSection.fields[fieldToUpdateIndex].value = value;
+    }
+  
     setFormData(updatedFormData);
   };
+  
 
 
   const checkingFormData = async () => {
@@ -303,6 +309,12 @@ function AplikasiPages() {
         }
       } else if (combinedObject?.submission_title === "Permohonan Email") {
         if (isValidatorEmail(combinedObject)) {
+          await handleImageUploadAndFetch(combinedObject);
+        } else {
+          return false;
+        }
+      } else if (combinedObject?.submission_title === "Permohonan Pengujian Celah Keamanan") {
+        if (isValidatorPengujianCelahKeamanan(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
         } else {
           return false;
@@ -374,7 +386,7 @@ function AplikasiPages() {
                 </span>
                 <div className="flex flex-col flex-1 justify-end items-end">
                   <DynamicButton
-                    initialValue={"Tutorial Pengajuan"}
+                    initialValue={"Panduan Pengajuan"}
                     color={"#ffffff"}
                     type="transparent"
                     className="bg-[#ffffff] text-[#0185FF] px-3"

@@ -10,7 +10,7 @@ export const formData = [
       "teknis_infra",
     ],
     fields: [
-      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
+      { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
       {
         name: "type_tools",
@@ -59,7 +59,7 @@ export const formData = [
       "teknis_infra",
     ],
     fields: [
-      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
+      { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
       {
         name: "type_tools",
@@ -99,7 +99,7 @@ export const formData = [
       "teknis_infra",
     ],
     fields: [
-      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
+      { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
       {
         name: "initial_bandwith",
@@ -172,7 +172,7 @@ export const formData = [
       "teknis_infra",
     ],
     fields: [
-      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
+      { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
       { name: "incident", label: "Waktu Kejadian", value: "", type: "text" },
       {
@@ -183,7 +183,7 @@ export const formData = [
       },
       {
         name: "image_screenshoot",
-        label: "Screenshot",
+        label: "Tangkapan Layar",
         value: "",
         type: "image_upload",
       },
@@ -200,7 +200,7 @@ export const formData = [
       "teknis_infra",
     ],
     fields: [
-      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
+      { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
       {
         name: "app",
@@ -215,7 +215,7 @@ export const formData = [
       },
       {
         name: "other_requirements",
-        label: "Requirement Lainnya",
+        label: "Kebutuhan Lainnya",
         value: "",
         type: "textarea",
       },
@@ -249,7 +249,7 @@ export const formData = [
       "teknis_infra",
     ],
     fields: [
-      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
+      { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
       {
         name: "app",
@@ -270,7 +270,7 @@ export const formData = [
       },
       {
         name: "ip_address",
-        label: "Usulan IP Address",
+        label: "Usulan Alamat IP ",
         value: "",
         type: "ipaddress",
       },
@@ -287,13 +287,13 @@ export const formData = [
 // Function to get RelokasiAlatProcess
 const getRelokasiAlatProcess = (inputLocal) => [
   {
-    label: "Upload Foto Alat Sebelum di Relokasi",
+    label: "Unggah Foto Alat Sebelum di Relokasi",
     value: inputLocal.upload_foto_alat_sebelum_di_relokasi,
     type: "image_upload",
     name: "upload_foto_alat_sebelum_di_relokasi",
   },
   {
-    label: "Upload Foto Alat Sesudah di Relokasi",
+    label: "Unggah Foto Alat Sesudah di Relokasi",
     value: inputLocal.upload_foto_alat_sesudah_di_relokasi,
     type: "image_upload",
     name: "upload_foto_alat_sesudah_di_relokasi",
@@ -303,13 +303,13 @@ const getRelokasiAlatProcess = (inputLocal) => [
 // Function to get PenambahanAlatProcess
 const getPenambahanAlatProcess = (inputLocal) => [
   {
-    label: "Upload Foto Alat Sebelum Penambahan Alat",
+    label: "Unggah Foto Alat Sebelum Penambahan Alat",
     value: inputLocal.upload_foto_alat_sebelum_di_tambahkan,
     type: "image_upload",
     name: "upload_foto_alat_sebelum_di_tambahkan",
   },
   {
-    label: "Upload Foto Alat Sesudah Penambahan Alat",
+    label: "Unggah Foto Alat Sesudah Penambahan Alat",
     value: inputLocal.upload_foto_alat_sesudah_di_tambahkan,
     type: "image_upload",
     name: "upload_foto_alat_sesudah_di_tambahkan",
@@ -319,7 +319,7 @@ const getPenambahanAlatProcess = (inputLocal) => [
 // Function to get PenambahanBandwidthProcess
 const getPenambahanBandwidthProcess = (inputLocal) => [
   {
-    label: "Upload Foto Kegiatan",
+    label: "Unggah Foto Kegiatan",
     value: inputLocal.upload_foto_kegiatan,
     type: "image_upload",
     name: "upload_foto_kegiatan",
@@ -339,7 +339,7 @@ const getRelokasiAlatFinish = (finishData) => [
     ],
   },
   {
-    label: "Upload Surat Pemberitahuan untuk OPD",
+    label: "Unggah Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
     name: "file_submission",
     type: "file_upload",
@@ -365,7 +365,7 @@ const getPenambahanBandwidthFinish = (finishData) => [
     ],
   },
   {
-    label: "Upload Surat Pemberitahuan untuk OPD",
+    label: "Unggah Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
     name: "file_submission",
     type: "file_upload",
@@ -391,7 +391,7 @@ const getPenambahanAlatFinish = (finishData) => [
     ],
   },
   {
-    label: "Upload Surat Pemberitahuan untuk OPD",
+    label: "Unggah Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
     name: "file_submission",
     type: "file_upload",
@@ -406,7 +406,7 @@ const getPenambahanAlatFinish = (finishData) => [
 
 const getTroubleshotingProcess = (inputLocal) => [
   {
-    label: "Upload Foto Kegiatan",
+    label: "Unggah Foto Kegiatan",
     value: inputLocal.upload_foto_kegiatan,
     type: "image_upload",
     name: "upload_foto_kegiatan",
@@ -425,7 +425,7 @@ const getTroubleshotingFinish = (finishData) => [
     ],
   },
   {
-    label: "Upload Surat Pemberitahuan untuk OPD",
+    label: "Unggah Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
     name: "file_submission",
     type: "file_upload",
