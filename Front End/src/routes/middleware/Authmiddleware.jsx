@@ -32,7 +32,7 @@ const Authmiddleware = (props) => {
   }, []);
   return (
     location.pathname === "/" ?
-    <div className="grow ">{props.children}</div> :
+      <div className="flex flex-col ">{props.children}</div> :
       <React.Fragment>
         <div
           className={`w-full h-screen z-20 ${setSideBar ? "translate-x-0 bg-[#021D3968] " : "-translate-x-full bg-[#021d3906] "} transition-transform duration-300 ease-in-out fixed `}
