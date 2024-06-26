@@ -24,6 +24,7 @@ import DetailLayananDataPages from "../pages/Layanan Data/detail";
 import PermohonanSIPages from "../pages/Layanan Permohonan Sistem Informasi";
 import DetailPermohonanSIPages from "../pages/Layanan Permohonan Sistem Informasi/detail";
 import CreatePermohonanSIPages from "../pages/Layanan Permohonan Sistem Informasi/create";
+import LandingPages from "../pages/LandingPages";
 
 
 
@@ -70,7 +71,7 @@ const operatorRoutes = [
   { path: "/detail-account", component: <DetailsAccountPages /> },
 ]
 const nonUserRoutes = [
-  { path: "/", component:<p>sdfsdf</p>},
+  { path: "/", component:<LandingPages/>},
 
 ];
 

@@ -1,30 +1,24 @@
 import React, { useEffect, useState } from "react";
 
+import {
+  Button,
+  Popover,
+  PopoverContent,
+  PopoverHandler
+} from "@material-tailwind/react";
 import Cookies from "js-cookie";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as Ic_dark_mode } from "../../assets/icon/ic_dark-mode.svg";
 import { ReactComponent as Ic_light_mode } from "../../assets/icon/ic_light-mode.svg";
 import { ReactComponent as LogoutIcon } from "../../assets/icon/ic_logout.svg";
 import { ReactComponent as Ic_menu } from "../../assets/icon/ic_menus.svg";
-import DynamicButton from "../common/DynamicButton";
-import LoadingLink from "../common/LoadingLink";
-import useTheme from "../context/useTheme";
-import { isPending, isSideBar } from "../store/actions/todoActions";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import {
-  Popover,
-  PopoverHandler,
-  PopoverContent,
-  Button,
-  Typography,
-  ListItem,
-  ListItemPrefix,
-  List,
-  Avatar,
-} from "@material-tailwind/react";
 import { storage } from "../../config/Firebase";
 import { apiClient } from "../../utils/api/apiClient";
+import DynamicButton from "../common/DynamicButton";
+import useTheme from "../context/useTheme";
+import { isPending, isSideBar } from "../store/actions/todoActions";
 
 const Header = () => {
   const { isDarkMode, toggleTheme } = useTheme();
