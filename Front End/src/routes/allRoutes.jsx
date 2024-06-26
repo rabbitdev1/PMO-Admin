@@ -24,11 +24,12 @@ import DetailLayananDataPages from "../pages/Layanan Data/detail";
 import PermohonanSIPages from "../pages/Layanan Permohonan Sistem Informasi";
 import DetailPermohonanSIPages from "../pages/Layanan Permohonan Sistem Informasi/detail";
 import CreatePermohonanSIPages from "../pages/Layanan Permohonan Sistem Informasi/create";
+import LandingPages from "../pages/LandingPages";
 
 
 
 const userRoutes = [
-  { path: "/", component: <DashboardPages /> },
+  { path: "/dashboard", component: <DashboardPages /> },
 
   { path: "/layanan-pengelolaan-infrastruktur-teknologi-informasi-komunikasi", component: <InfrastrukturPages /> },
   { path: "/detail-infrastruktur", component: <DetailInfrastrukturPages /> },
@@ -70,6 +71,7 @@ const operatorRoutes = [
   { path: "/detail-account", component: <DetailsAccountPages /> },
 ]
 const nonUserRoutes = [
+  { path: "/", component:<LandingPages/>},
 
 ];
 

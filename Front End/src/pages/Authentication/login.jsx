@@ -69,7 +69,7 @@ const LoginPage = () => {
         Cookies.set('authData', JSON.stringify(response.result.data), { expires: keepLogin ? 1 : 1 });
 
         setTimeout(() => {
-          window.location.reload("/");
+          window.location.reload("/dashboard");
         }, 500);
       } else {
       }
