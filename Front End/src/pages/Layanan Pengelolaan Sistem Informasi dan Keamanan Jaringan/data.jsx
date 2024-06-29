@@ -188,7 +188,8 @@ export const formData = [
       }
     ],
   },
-  { name: "Pengajuan Permohonan Email",
+  {
+    name: "Pengajuan Permohonan Email",
     type: "Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan",
     role: [
       "op_pmo",
@@ -215,7 +216,8 @@ export const formData = [
       { name: "reason", label: "Alasan", value: "", type: "editor" },
     ]
   },
-  { name: "Pengajuan Permohonan Pengujian Celah Keamanan",
+  {
+    name: "Pengajuan Permohonan Pengujian Celah Keamanan",
     type: "Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan",
     role: [
       "op_pmo",
@@ -227,21 +229,24 @@ export const formData = [
     fields: [
       { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
-      { name: "app", label: "Nama Aplikasi", value: "", type: "selection", options: [
-        { value: "aplikasi 1", label: "Aplikasi1" },
-      ] },
-      { name: "app_desc", label: "Deskripsi Aplikasi", value: "", type: "editor"},
-      { name: "app_version", label: "Versi Aplikasi", value: "", type: "text"},
-      { name: "app_ownership", label: "Kepemilikan Aplikasi", value: "", type: "selection",
+      {
+        name: "app", label: "Nama Aplikasi", value: "", type: "selection", options: [
+          { value: "aplikasi 1", label: "Aplikasi1" },
+        ]
+      },
+      { name: "app_desc", label: "Deskripsi Aplikasi", value: "", type: "editor" },
+      { name: "app_version", label: "Versi Aplikasi", value: "", type: "text" },
+      {
+        name: "app_ownership", label: "Kepemilikan Aplikasi", value: "", type: "selection",
         options: [
           { value: "instansi", label: "Instansi" },
           { value: "pribadi", label: "Pribadi" },
         ]
       },
-      { name: "username", label: "Nama Akun", value: "", type: "text"},
-      { name: "password", label: "Kata Sandi", value: "", type: "password"},
-      { name: "domain_url", label: "Domain URL", value: "", type: "text"},
-      { name: "file_process_bisiness", label: "Dokumen Proses Bisnis", value: "", type: "file_upload"}
+      { name: "username", label: "Nama Akun", value: "", type: "text" },
+      { name: "password", label: "Kata Sandi", value: "", type: "password" },
+      { name: "domain_url", label: "Domain URL", value: "", type: "text" },
+      { name: "file_process_bisiness", label: "Dokumen Proses Bisnis", value: "", type: "file_upload" }
     ]
   }
 ]
@@ -350,6 +355,40 @@ const getUserAccountSIFinish = (finishData) => [
   }
 ];
 
+const getPengujianCelahKeamananProcess = (inputLocal) => [
+  {
+    label: "Unggah Dokumen Pengujian Celah Keamanan",
+    value: inputLocal.upload_dokumen_pengujian_celah_keamanan,
+    type: "file_upload",
+    name: 'upload_dokumen_pengujian_celah_keamanan'
+  },
+];
+
+const getPengujianCelahKeamananFinish = (finishData) => [
+  {
+    label: "Status Pengajuan",
+    value: finishData.submission_status,
+    name: "submission_status",
+    type: "radio_button",
+    options: [
+      { value: "1", label: "Menyetujui" },
+      { value: "0", label: "Tidak Menyetujui" }
+    ]
+  },
+  {
+    label: "Unggah Surat Pemberitahuan untuk OPD",
+    value: finishData.file_submission,
+    name: 'file_submission',
+    type: "file_upload"
+  },
+  {
+    label: "Tanggapan",
+    value: finishData.response || null,
+    type: "textarea",
+    name: 'response'
+  }
+];
+
 const getEmailProcess = (inputLocal) => [
   {
     label: "Unggah Surat Pengesahan",
@@ -387,5 +426,5 @@ const getEmailFinish = (finishData) => [
 
 export {
   getIntergasiSIProcess, getIntergasiSIFinish, getModulTTEProcess, getModulTTEFinish, getUserAccountSIProcess, getUserAccountSIFinish,
-  getEmailProcess, getEmailFinish
+  getEmailProcess, getEmailFinish, getPengujianCelahKeamananProcess,getPengujianCelahKeamananFinish
 };

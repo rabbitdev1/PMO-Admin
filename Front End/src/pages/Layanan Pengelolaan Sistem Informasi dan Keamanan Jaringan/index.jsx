@@ -605,7 +605,7 @@ function AplikasiPages() {
               {formData.map(
                 (section, sectionIndex) =>
                   section.name === isModalCreate.data && (
-                    <div key={sectionIndex} className="flex flex-col gap-3">
+                    <div key={sectionIndex} className="flex flex-col ">
                       {section.fields.map((item, index) => (
                         <div key={index} className="flex flex-col gap-2">
                           {item.visible !== false && (
@@ -614,6 +614,7 @@ function AplikasiPages() {
                               label={item.label}
                               noted={item.noted}
                               value={item.value}
+                              className={'mb-2'}
                               options={item.options}
                               onChange={(value) =>
                                 handleInputChange(

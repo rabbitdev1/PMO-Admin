@@ -303,6 +303,7 @@ function DetailAplikasiPages() {
         data.upload_dokumen_laporan_pembuatan_akun ||
         data.upload_surat_pengesahan ||
         data.dokumen_pembangunan ||
+        data.upload_dokumen_pengujian_celah_keamanan||
         data.dokumen_nda
       ) {
         try {
@@ -387,6 +388,19 @@ function DetailAplikasiPages() {
               })
             );
           }
+          if (data.upload_dokumen_pengujian_celah_keamanan) {
+            uploadPromises.push(
+              fetchUploadFiles(
+                authApiKey,
+                authToken,
+                data.upload_dokumen_pengujian_celah_keamanan,
+                "aplikasi",
+                dispatch
+              ).then(result => {
+                resultMapping.upload_dokumen_pengujian_celah_keamanan = result;
+              })
+            );
+          }
 
           await Promise.all(uploadPromises);
 
@@ -408,6 +422,9 @@ function DetailAplikasiPages() {
           }
           if (resultMapping.dokumen_nda) {
             combineData.dokumen_nda = resultMapping.dokumen_nda;
+          }
+          if (resultMapping.upload_dokumen_pengujian_celah_keamanan) {
+            combineData.upload_dokumen_pengujian_celah_keamanan = resultMapping.upload_dokumen_pengujian_celah_keamanan;
           }
 
           fetchEditaplikasi(authApiKey, authToken, slug, type, combineData);
