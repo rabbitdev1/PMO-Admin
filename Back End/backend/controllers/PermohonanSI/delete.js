@@ -33,6 +33,7 @@ export const deleteDataPermohonanSI = async (req, res) => {
             ...JSON.parse(permohonanSIItem.feasibility_validation),
             ...JSON.parse(permohonanSIItem.technical_analysis),
             ...JSON.parse(permohonanSIItem.technical_validation),
+            ...JSON.parse(permohonanSIItem.recommendation_letter_technical),
             ...JSON.parse(permohonanSIItem.fields),
         };
 
