@@ -143,6 +143,7 @@ function DynamicInput({
           options={options}
         />
       ) : type === "radio_button" ? (
+        <div className="flex flex-col gap-2">
         <div className={`flex ${position === 'col' ? 'flex-col' : 'flex-row items-center'} gap-2 `}>
           {options.map((item, index) => (
             <label key={index} className="flex flex-row gap-2">
@@ -156,9 +157,17 @@ function DynamicInput({
               {item.label}
             </label>
           ))}
+          
+        </div>
+        {noted &&
+              <div className="flex flex-row gap-2">
+                <span className="text-sm ">{noted}</span>
+              </div>
+            }
         </div>
       ) :
         type === "tel" ? (
+          <div className="flex flex-col gap-2">
           <div className={`flex flex-row gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center p-2.5 ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}>
             <PhoneInput
               placeholder={placeholder}
@@ -169,8 +178,16 @@ function DynamicInput({
               countries={["ID"]}
               onChange={handlePhoneInputChange}
             />
+            
+          </div>
+          {noted &&
+              <div className="flex flex-row gap-2">
+                <span className="text-sm ">{noted}</span>
+              </div>
+            }
           </div>
         ) : type === "editor" ? (
+          <div className="flex flex-col gap-2">
           <div className={`flex flex-row min-h-[300px] overflow-hidden bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}>
             <Editor
               editorState={value}
@@ -180,7 +197,14 @@ function DynamicInput({
               onEditorStateChange={(event) => onChange(event)}
             />
           </div>
+            {noted &&
+              <div className="flex flex-row gap-2">
+                <span className="text-sm ">{noted}</span>
+              </div>
+            }
+          </div>
         ) : type === "textarea" ? (
+          <div className="flex flex-col gap-2">
           <div className="flex flex-col gap-2">
             <div
               className={`flex flex-row gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center p-2.5 ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}
@@ -196,6 +220,7 @@ function DynamicInput({
                 rows="5"
               />
             </div>
+          </div>
             {noted &&
               <div className="flex flex-row gap-2">
                 <span className="text-sm ">{noted}</span>
@@ -203,6 +228,7 @@ function DynamicInput({
             }
           </div>
         ) : type === "select_number" ? (
+          <div className="flex flex-col gap-2">
           <div
             className={`flex flex-row gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center p-2.5 ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}
           >
@@ -235,9 +261,15 @@ function DynamicInput({
                 <PlusIcon className="h-3 w-4" fill="#ffffff" />
               </button>
             </div>
-
+            {noted &&
+              <div className="flex flex-row gap-2">
+                <span className="text-sm ">{noted}</span>
+              </div>
+            }
+          </div>
           </div>
         ) : type === "date" ? (
+          <div className="flex flex-col gap-2">
           <div
             className={`flex flex-row gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}
           >
@@ -249,8 +281,15 @@ function DynamicInput({
               }}
               showShortcuts={false}
             />
+             {noted &&
+              <div className="flex flex-row gap-2">
+                <span className="text-sm ">{noted}</span>
+              </div>
+            }
+          </div>
           </div>
         ) : type === "multi_date" ? (
+          <div className="flex flex-col gap-2">
           <div
             className={`flex flex-row gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}
           >
@@ -261,8 +300,11 @@ function DynamicInput({
               }}
               showShortcuts={false}
             />
+            
+          </div>
           </div>
         ) : type === "image_upload" ? (
+          <div className="flex flex-col gap-2">
           <div className="flex flex-col gap-2">
             <div
               className={`flex flex-row gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center  p-2.5 ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}
@@ -278,8 +320,11 @@ function DynamicInput({
                 <img src={image} alt="Preview" className="w-full max-h-56 object-contain" />
               </div>
             )}
+            
+          </div>
           </div>
         ) : type === "file_upload" ? (
+          <div className="flex flex-col gap-2">
           <div className="flex flex-col gap-2">
             <div
               className={`flex flex-row gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center  p-2.5 ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}
@@ -295,8 +340,16 @@ function DynamicInput({
                 <embed src={image} type="application/pdf" className="w-full h-96" />
               </div>
             )}
+             
+          </div>
+          {noted &&
+              <div className="flex flex-row gap-2">
+                <span className="text-sm ">{noted}</span>
+              </div>
+            }
           </div>
         ) : type === "input_array" ? (
+          <div className="flex flex-col gap-2">
           <div className="flex flex-col gap-2">
             {value?.map((item, index) => (
               <div key={index} className=" flex flex-row gap-3 items-center">
@@ -328,8 +381,11 @@ function DynamicInput({
                 </div>
               </div>
             ))}
+            
+          </div>
           </div>
         ) : type === "ipaddress" ? (
+          <div className="flex flex-col gap-2">
           <div
             className={`flex flex-row gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center p-2.5 ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}
           >
@@ -345,8 +401,11 @@ function DynamicInput({
                 style={{ outline: 'none' }}
               />}
             </InputMask>
+            
+          </div>
           </div>
         ) : type === "currency" ? (
+          <div className="flex flex-col gap-2">
           <div
             className={`flex flex-row gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center p-2.5 ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}
           >
@@ -372,8 +431,11 @@ function DynamicInput({
                 )
               }
             />
+            
+          </div>
           </div>
         ) : (
+           <div className="flex flex-col gap-2">
           <div
             className={`flex flex-row gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center p-2.5 ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}
           >
@@ -408,8 +470,17 @@ function DynamicInput({
               </button>
             )}
           </div>
-        )}
-
+          {noted &&
+          <div className="flex flex-row gap-2">
+            <span className="text-sm ">{noted}</span>
+          </div>
+        }
+          </div>
+        )
+        
+     
+        }
+        
     </div>
   )
 }

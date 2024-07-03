@@ -273,6 +273,13 @@ function SekretariatPages() {
           return false;
         }
       }
+      if (combinedObject?.submission_title === "Pendataan Tenaga Ahli") {
+        if (isValidatorPendaftaranMagang(combinedObject)) {
+          await handleImageUploadAndFetch(combinedObject);
+        } else {
+          return false;
+        }
+      }
     } else {
       console.log("Objek tidak ditemukan dalam formData");
     }
