@@ -86,7 +86,8 @@ function LandingPages() {
 
       <main className="flex-grow flex flex-col ">
         <div className="flex flex-col bg-lightColor dark:bg-darkColor ">
-          <div className="lg:container lg:mx-auto xl:max-w-screen-xl p-3 gap-3 mt-28">
+          <div className="h-28 w-full " />
+          <div className="lg:container lg:mx-auto xl:max-w-screen-xl p-3 gap-3 ">
             <div className="flex flex-col h-full w-full ">
               <ConditionalRender
                 data={articleUpdate}
@@ -149,8 +150,8 @@ function LandingPages() {
           <div className="flex md:flex-row flex-col justify-between lg:container lg:mx-auto xl:max-w-screen-xl p-3 gap-3 my-5">
             <div className="flex flex-col gap-2 flex-1 justify-between">
               <div className="flex flex-1 flex-col">
-              <h2 className="font-bold">Layanan Pengaduan Dan <br /> Informasi</h2>
-              <span>Kirim pesan teks , tanya jawab, atau pengaduan langsung.</span>
+                <h2 className="font-bold">Layanan Pengaduan Dan <br /> Informasi</h2>
+                <span>Kirim pesan teks , tanya jawab, atau pengaduan langsung.</span>
               </div>
               <DynamicButton
                 initialValue={'Pusat Pengaduan'}

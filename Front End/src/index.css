@@ -467,3 +467,11 @@ input[type="number"] {
     @apply brightness-0 invert;
   }
 }
+
+.header {
+  @apply fixed top-0 w-full z-50 transition-all duration-300;
+}
+
+.header-hidden {
+  top: -65px; /* Adjust this value based on your header height */
+}

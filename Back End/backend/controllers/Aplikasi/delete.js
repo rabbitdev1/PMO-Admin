@@ -42,13 +42,15 @@ export const deleteDataAplikasi = async (req, res) => {
         const file_submissionValue = findValueByTitle(mergedDataProcess, 'file_submission');
         const upload_dokumen_laporan_modul_tteValue = findValueByTitle(mergedDataProcess, 'upload_dokumen_laporan_modul_tte');
         const file_uploadValue = findValueByTitle(mergedDataProcess, 'file_upload');
+        const upload_dokumen_laporan_pembuatan_akunValue = findValueByTitle(mergedDataProcess, 'upload_dokumen_laporan_pembuatan_akun');
 
         const foundValues = [
             file_process_bisinessValue,
             upload_dokumen_hasil_integrasiValue,
             file_submissionValue,
             upload_dokumen_laporan_modul_tteValue,
-            file_uploadValue
+            file_uploadValue,
+            upload_dokumen_laporan_pembuatan_akunValue
         ].filter(Boolean);
 
         if (foundValues.length > 0) {
