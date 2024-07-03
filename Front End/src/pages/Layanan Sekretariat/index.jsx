@@ -394,10 +394,8 @@ function SekretariatPages() {
                     type="transparent"
                     className="bg-[#0185FF] text-darkColor px-3"
                     onClick={() => {
-                      setisModalType({
-                        data: "Pengajuan Layanan Sekretariat",
-                        status: true,
-                      });
+                      setisModalCreate({ data: "Pengajuan "+dataState, status: true });
+                      updatePic(JSON.parse(authProfile).fullname, JSON.parse(authProfile).telp);
                     }}
                   />
                 </div>
