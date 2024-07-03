@@ -459,7 +459,7 @@ function CreatePermohonanSIPages() {
                   <DynamicInput
                     label={"Besar Anggaran (Rp)"}
                     value={inputData.budgetAmount}
-                    type={'text'}
+                    type={'currency'}
                     onChange={(value) => handleInputChange('budgetAmount', value)}
                     placeholder={"Masukan Besar Anggaran"}
                   />
@@ -688,11 +688,11 @@ function CreatePermohonanSIPages() {
                   placeholder={"Masukan Nama PPK"}
                 />
                 <DynamicInput
-                  label={"Linkup Pekerjaan"}
-                  value={inputData.linkupJob}
+                  label={"Lingkup Pekerjaan"}
+                  value={inputData.lingkupJob}
                   type={'text'}
-                  onChange={(value) => handleInputChange('linkupJob', value)}
-                  placeholder={"Masukan Linkup Pekerjaan"}
+                  onChange={(value) => handleInputChange('lingkupJob', value)}
+                  placeholder={"Masukan Lingkup Pekerjaan"}
                 />
                 <DynamicInput
                   label={"Jumlah Tenaga Yang Dibutuhkan"}

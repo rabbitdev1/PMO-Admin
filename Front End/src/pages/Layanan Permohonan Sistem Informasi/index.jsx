@@ -323,9 +323,9 @@ function PermohonanSIPages() {
   return (
     <div className="flex flex-col gap-3 flex-1 p-4">
       <TitleHeader
-        title={JSON.parse(authProfile)?.role === "perangkat_daerah" ? "Layanan Pengajuan" : "Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan"}
+        title={JSON.parse(authProfile)?.role === "perangkat_daerah" ? "Layanan Pengajuan" : "Layanan Permohonan Sistem Informasi"}
         link1={"dashboard"}
-        link2={"Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan"}
+        link2={"Layanan Permohonan Sistem Informasi"}
       />
       <section className="flex xl:flex-row flex-col gap-3">
         <div className="flex-1 flex flex-col gap-3">
@@ -333,8 +333,7 @@ function PermohonanSIPages() {
             {JSON.parse(authProfile)?.role === "perangkat_daerah" && (
               <div className="flex flex-col gap-2 bg-[#0185FF] p-3 rounded-lg flex-1 md:max-w-xs shadow-sm">
                 <span className="sm:text-xl text-sm text-darkColor font-semibold">
-                  Selamat datang di Layanan Pengelolaan Sistem Informasi dan
-                  Keamanan Jaringan
+                  Selamat datang di Layanan Permohonan Sistem Informasi
                 </span>
                 <div className="flex flex-col flex-1 justify-end items-end">
                   <DynamicButton
