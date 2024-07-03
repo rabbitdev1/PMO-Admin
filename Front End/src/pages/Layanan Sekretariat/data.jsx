@@ -12,17 +12,22 @@ export const formData = [
     fields: [
       { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
+      { name: "surat_permohonan", label: "Surat Permohonan", value: "", type: "file_upload", noted:
+      "File berekstensi: pdf, xlsx, docs"},
+      {
+        name: "period",
+        label: "Waktu",
+        value: "",
+        type: "multi_date",
+      },
+      { name: "surat_ket_mahasiswa", label: "Surat Keterangan Mahasiswa Aktif", value: "", type: "file_upload", noted:
+      "File berekstensi: pdf, xlsx, docs"},
+      { name: "pict_ktp", label: "Foto KTP", value: "", type: "image_upload"},
       {
         name: "reason",
         label: "Alasan Pengajuan",
         value: "",
         type: "editor",
-      },
-      {
-        name: "period",
-        label: "Periode Jangka Waktu",
-        value: "",
-        type: "multi_date",
       },
     ],
   },
@@ -74,6 +79,37 @@ export const formData = [
       },
     ],
   },
+    type: "Pengajuan Layanan Sekretariat",
+    role: [
+      "op_pmo",
+      "perangkat_daerah",
+      "teknis_aplikasi",
+      "katim_aplikasi",
+    ],
+    fields: [
+      { name: "nama_ahli", label: "Nama Ahli", value: "", type: "text" },
+      { name: "bidang_keahlian", label: "Bidang Keahlian", value: "", type: "selection",
+        options: [
+          { value: "ijazah", label: "Ijazah" },
+          { value: "sertifikat", label: "Sertifikat" },
+        ]
+      },
+      { name: "pengalaman", label: "Pengalaman", value: "", type: "editor"},
+      { name: "job_desk", label: "Job Desk", value: "", type: "editor" },
+      { name: "timeline_kontrak", label: "Timeline Kontrak", value: {
+        startDate: null,
+        endDate: null,
+      },
+      type: "date",
+      visible: true, },
+      { name: "terdaftar_lpse", label: "Terdaftar di LPSE", value: "", type: "radio_button",
+      options: [
+        { value: "ya", label: "Ya" },
+        { value: "tidak", label: "Tidak" },
+      ], },
+      { name: "nilai_kontrak", label: "Nilai Kontrak", value: "", type: "file_upload"},
+    ],
+  }
 ];
 
 const getMagangProcess = (inputLocal) => [

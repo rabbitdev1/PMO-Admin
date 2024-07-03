@@ -140,7 +140,26 @@ const getKeyLabel = (key) => {
     case "submission_type_user_account":
       return "Jenis Akun User";
 
-
+      case "developerName1":
+        return "Nama Pengebang 1";
+      case "developerName2":
+        return "Nama Pengebang 2";
+    case "otherFundingSource":
+      return "Sumber Dana Lainnya";
+    case "otherCluster":
+      return "Klaster Lainnya";
+    case "otherProgrammingLanguage":
+      return "Bahasa Pemrograman Lainnya";
+    case "riskManagement":
+      return "manajemen risiko SPBE";
+    case "spbePlan":
+      return "PETA Rencana SPBE OPD";
+    case "reformasiBirokrasi":
+      return "Reformasi Birokrasi (RB) Tematik";
+    case "developmentAspect":
+      return "Hal yang dikembangkan";
+    case "developmentGoal":
+      return "Tujuan Pengembangan";
 
     case 'numberOfPeopleRequired':
       return "Jumlah Orang yang dibutuhkan"
