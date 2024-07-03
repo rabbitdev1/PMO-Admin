@@ -386,10 +386,15 @@ function PermohonanSIPages() {
                     type="transparent"
                     className="bg-[#0185FF] text-darkColor px-3"
                     onClick={() => {
-                      setisModalType({
-                        data: "Pengajuan Layanan Permohonan Sistem Informasi",
-                        status: true,
-                      });
+                      if (dataState === 'Rekomendasi Sistem Informasi') {
+                        setisModalCreate({ data: dataState, status: true });
+                        updatePic(
+                          JSON.parse(authProfile).fullname,
+                          JSON.parse(authProfile).telp
+                        );
+                      } else {
+                        navigate("/permohonan-sistem-informasi", { state:dataState});
+                      }
                     }}
                   />
                 </div>
@@ -486,7 +491,6 @@ function PermohonanSIPages() {
                         );
                       } else {
                         navigate("/permohonan-sistem-informasi", { state: item.name });
-
                       }
                     }}
                   >
