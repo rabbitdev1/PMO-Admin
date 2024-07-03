@@ -116,6 +116,9 @@ const getKeyLabel = (key) => {
     case "file_scema_integration":
       return "Skema Integrasi";
 
+    case "file_decison":
+      return "Surat Keputusan";
+
     case "incident":
       return "Waktu Kejadian";
     case "app_version":

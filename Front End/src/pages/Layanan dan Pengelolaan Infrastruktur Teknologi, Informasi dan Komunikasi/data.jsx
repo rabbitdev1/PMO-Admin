@@ -24,13 +24,6 @@ export const formData = [
         ],
       },
       {
-        name: "distance_estimation",
-        label: "Estimasi Jarak",
-        value: "",
-        type: "textarea",
-        noted: "Contoh: Ruang A ke Ruang B sekitar 30 Meter",
-      },
-      {
         name: "reason",
         label: "Alasan Pengajuan",
         value: "",
@@ -78,14 +71,14 @@ export const formData = [
         value: "",
         type: "editor",
       },
-      {
-        name: "distance_estimation",
-        label: "Estimasi Jarak",
-        value: "",
-        type: "textarea",
-        noted:
-          "Contoh: Perangkat utama (router) ke lokasi perangkat yang akan ditambahkan (router) sekitar 30 Meter",
-      },
+      // {
+      //   name: "distance_estimation",
+      //   label: "Estimasi Jarak",
+      //   value: "",
+      //   type: "textarea",
+      //   noted:
+      //     "Contoh: Perangkat utama (router) ke lokasi perangkat yang akan ditambahkan (router) sekitar 30 Meter",
+      // },
     ],
   },
   {
@@ -148,17 +141,17 @@ export const formData = [
       //     { value: "temporary", label: "Sementara" },
       //   ],
       // },
-      {
-        name: "period",
-        label: "Periode Jangka Waktu",
-        value: {
-          startDate: null,
-          endDate: null,
-        },
-        type: "multi_date",
-        visible: true,
-        // visible: false,
-      },
+      // {
+      //   name: "period",
+      //   label: "Periode Jangka Waktu",
+      //   value: {
+      //     startDate: null,
+      //     endDate: null,
+      //   },
+      //   type: "multi_date",
+      //   visible: true,
+      //   // visible: false,
+      // },
     ],
   },
   {
@@ -206,12 +199,7 @@ export const formData = [
         name: "app",
         label: "Nama Aplikasi",
         value: [],
-        type: "selection",
-        options: [
-          { value: "aplikasi_1", label: "Aplikasi 1" },
-          { value: "aplikasi_2", label: "Aplikasi 2" },
-          { value: "aplikasi_3", label: "Aplikasi 3" },
-        ],
+        type: "text",
       },
       {
         name: "other_requirements",
@@ -223,8 +211,26 @@ export const formData = [
         name: "device_specifications",
         label: "Spesifikasi Perangkat",
         value: [
-          { label: "RAM", name: "ram", value: "" },
-          { label: "Processor", name: "processor", value: "" },
+          {
+            label: "RAM",
+            name: "ram",
+            value: [],
+            type: "selection",
+            options: [
+              { value: "alat_1", label: "2 GB" },
+              { value: "alat_2", label: "4 GB" },
+              { value: "alat_3", label: "8 GB" },
+              { value: "alat_4", label: "16 GB" },
+              { value: "alat_5", label: "32 GB" },
+              { value: "alat_6", label: "64 GB" },
+            ],
+          },
+          {
+            label: "Processor",
+            name: "processor",
+            value: "",
+            noted: "Contoh: ",
+          },
           { label: "Storage", name: "storage", value: "" },
           { label: "System Operation", name: "system_operation", value: "" },
         ],
@@ -438,8 +444,13 @@ const getTroubleshotingFinish = (finishData) => [
   },
 ];
 
-
 export {
-  getPenambahanAlatFinish, getPenambahanAlatProcess, getPenambahanBandwidthFinish, getPenambahanBandwidthProcess,
-  getRelokasiAlatFinish, getRelokasiAlatProcess, getTroubleshotingProcess, getTroubleshotingFinish
+  getPenambahanAlatFinish,
+  getPenambahanAlatProcess,
+  getPenambahanBandwidthFinish,
+  getPenambahanBandwidthProcess,
+  getRelokasiAlatFinish,
+  getRelokasiAlatProcess,
+  getTroubleshotingProcess,
+  getTroubleshotingFinish,
 };
