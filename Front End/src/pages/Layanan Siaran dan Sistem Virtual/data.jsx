@@ -1,6 +1,6 @@
 export const formData = [
   {
-    name: "Layanan ZOOM",
+    name: "Pengajuan Layanan ZOOM",
     type: "Layanan Siaran dan Sistem Virtual",
     role: [
       "op_pmo",
@@ -19,7 +19,7 @@ export const formData = [
     ],
   },
   {
-    name: "Permohonan Liputan",
+    name: "Pengajuan Permohonan Liputan",
     type: "Layanan Siaran dan Sistem Virtual",
     role: [
       "op_pmo",
@@ -39,7 +39,7 @@ export const formData = [
     ],
   },
   {
-    name: "Permohonan Podcast",
+    name: "Pengajuan Permohonan Podcast",
     type: "Layanan Siaran dan Sistem Virtual",
     role: [
       "op_pmo",
