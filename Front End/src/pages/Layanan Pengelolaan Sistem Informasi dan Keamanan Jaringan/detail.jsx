@@ -337,14 +337,10 @@ function DetailAplikasiPages() {
         data.upload_dokumen_laporan_pembuatan_akun ||
         data.upload_surat_pengesahan ||
         data.dokumen_pembangunan ||
-<<<<<<< Updated upstream
-        data.upload_dokumen_pengujian_celah_keamanan||
-        data.dokumen_nda
-=======
+
         data.dokumen_nda ||
         data.upload_hasil_pengujian ||
         data.upload_hasil_penetrasi
->>>>>>> Stashed changes
       ) {
         try {
           const uploadPromises = [];
@@ -428,22 +424,12 @@ function DetailAplikasiPages() {
               })
             );
           }
-<<<<<<< Updated upstream
-          if (data.upload_dokumen_pengujian_celah_keamanan) {
-=======
+
           if (data.upload_hasil_pengujian) {
->>>>>>> Stashed changes
             uploadPromises.push(
               fetchUploadFiles(
                 authApiKey,
                 authToken,
-<<<<<<< Updated upstream
-                data.upload_dokumen_pengujian_celah_keamanan,
-                "aplikasi",
-                dispatch
-              ).then(result => {
-                resultMapping.upload_dokumen_pengujian_celah_keamanan = result;
-=======
                 data.upload_hasil_pengujian,
                 "aplikasi",
                 dispatch
@@ -462,7 +448,6 @@ function DetailAplikasiPages() {
                 dispatch
               ).then(result => {
                 resultMapping.upload_hasil_penetrasi = result;
->>>>>>> Stashed changes
               })
             );
           }
@@ -488,16 +473,12 @@ function DetailAplikasiPages() {
           if (resultMapping.dokumen_nda) {
             combineData.dokumen_nda = resultMapping.dokumen_nda;
           }
-<<<<<<< Updated upstream
-          if (resultMapping.upload_dokumen_pengujian_celah_keamanan) {
-            combineData.upload_dokumen_pengujian_celah_keamanan = resultMapping.upload_dokumen_pengujian_celah_keamanan;
-=======
+
           if (resultMapping.upload_hasil_pengujian) {
             combineData.upload_hasil_pengujian = resultMapping.upload_hasil_pengujian;
           }
           if (resultMapping.upload_hasil_penetrasi) {
             combineData.upload_hasil_penetrasi = resultMapping.upload_hasil_penetrasi;
->>>>>>> Stashed changes
           }
 
           fetchEditaplikasi(authApiKey, authToken, slug, type, combineData);

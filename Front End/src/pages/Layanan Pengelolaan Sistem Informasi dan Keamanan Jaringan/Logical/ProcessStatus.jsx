@@ -7,11 +7,7 @@ import DynamicShow from "../../../components/common/DynamicShow";
 import DynamicDetails from "../../../components/ui/DynamicDetails";
 import { apiClient } from "../../../utils/api/apiClient";
 import { validateFile, validateImage } from "../../../utils/helpers/validateForm";
-<<<<<<< Updated upstream
-import { getIntergasiSIFinish, getIntergasiSIProcess, getModulTTEProcess, getModulTTEFinish, getUserAccountSIProcess, getUserAccountSIFinish, getEmailProcess, getEmailFinish, getPengujianCelahKeamananProcess, getPengujianCelahKeamananFinish } from "../data";
-=======
 import { getIntergasiSIFinish, getIntergasiSIProcess, getModulTTEProcess, getModulTTEFinish, getUserAccountSIProcess, getUserAccountSIFinish, getEmailProcess, getEmailFinish, getCelahKeamananProcess, getCelahKeamananFinish } from "../data";
->>>>>>> Stashed changes
 
 const ProcessStatus = ({
     submissionStatus,
@@ -41,11 +37,8 @@ const ProcessStatus = ({
     const UserAkunSIFinish = getUserAccountSIFinish(finishData);
 
     const EmailProcess = getEmailProcess(inputLocal);
-    const PengujianCelahKeamananProcess = getPengujianCelahKeamananProcess(inputLocal);
-
 
     const EmailFinish = getEmailFinish(finishData);
-    const PEngujianCelahKeamananFinish = getPengujianCelahKeamananFinish(finishData);
 
     const CelahKeamananProcess = getCelahKeamananProcess (inputLocal);
 
@@ -140,21 +133,12 @@ const ProcessStatus = ({
                                 />
                             ))}
                             {renderProcessInputs(detailData.submission_title === "Integrasi Sistem Informasi" ?
-<<<<<<< Updated upstream
-                                IntergasiSIProcess :
-                                detailData.submission_title === "Penerapan Modul TTE" ? ModulTTEProcess :
-                                    detailData.submission_title === "User Akun Sistem Informasi" ? UserAkunSIProcess :
-                                        detailData.submission_title === "Permohonan Email" ? EmailProcess :
-                                            detailData.submission_title === "Permohonan Pengujian Celah Keamanan" ? PengujianCelahKeamananProcess :
-                                                []
-=======
                                 IntergasiSIProcess : 
                                 detailData.submission_title === "Penerapan Modul TTE" ? ModulTTEProcess : 
                                 detailData.submission_title === "User Akun Sistem Informasi" ? UserAkunSIProcess :
                                 detailData.submission_title === "Permohonan Email" ? EmailProcess :
                                 detailData.submission_title === "Permohonan Pengujian Celah Keamanan" ?  CelahKeamananProcess :
                                 []
->>>>>>> Stashed changes
 
                             )}
                             <div className='flex sm:flex-row flex-col gap-2'>
@@ -223,18 +207,6 @@ const ProcessStatus = ({
                                     <DynamicShow
                                         key={key}
                                         label={
-<<<<<<< Updated upstream
-                                            key === "file_scema_integration"
-                                                ? "File Dokumen Hasil Integrasi"
-                                                : "upload_dokumen_laporan_modul_tte"
-                                                    ? "Surat Pengesahan"
-                                                    : "upload_dokumen_laporan_pembuatan_akun"
-                                                        ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
-                                                        : "upload_surat_pengesahan"
-                                                            ? "Surat Pengesahan"
-                                                            :
-                                                            key === "file_scema_integration" ? "File Skema Integrasi" : key
-=======
                                             key === "file_scema_integration" ? "File Dokumen Hasil Integrasi" :
                                             key === "upload_dokumen_laporan_modul_tte" ? "Surat Pengesahan" :
                                             key === "upload_dokumen_laporan_pembuatan_akun" ? "Upload Dokumen Laporan Hasil Pembuatan Akun" :
@@ -243,7 +215,6 @@ const ProcessStatus = ({
                                             key === "upload_hasil_penetrasi" ? "Dokumen Hasil Uji Penetrasi" :
                                             key === "file_scema_integration" ? "File Skema Integrasi" : 
                                             key
->>>>>>> Stashed changes
                                         }
                                         value={value}
                                         location={"aplikasi"}
@@ -275,29 +246,6 @@ const ProcessStatus = ({
                                 ))}
                                 {Object.entries(processData).map(([key, value]) => (
                                     <DynamicShow
-<<<<<<< Updated upstream
-                                        key={key}
-                                        label={
-                                            key === "upload_dokumen_hasil_integrasi"
-                                                ? "File Dokumen Hasil Integrasi"
-                                                : "upload_dokumen_laporan_modul_tte"
-                                                    ? "Surat Pengesahan"
-                                                    : "upload_dokumen_laporan_pembuatan_akun"
-                                                        ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
-                                                        : "upload_surat_pengesahan"
-                                                            ? "Surat Pengesahan"
-                                                            :
-                                                            key === "file_scema_integration" ? "File Skema Integrasi" : key
-                                        }
-                                        value={value}
-                                        location={"aplikasi"}
-                                        type={
-                                            key === "file_scema_integration" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun" || "upload_surat_pengesahan"
-                                                ? "pdf"
-                                                : "text"
-                                        }
-                                    />
-=======
                                     key={key}
                                     label={
                                         key === "file_scema_integration" ? "File Dokumen Hasil Integrasi" :
@@ -319,7 +267,6 @@ const ProcessStatus = ({
                                             : "text"
                                     }
                                 />
->>>>>>> Stashed changes
                                 ))}
                             </div>
                             <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
@@ -327,19 +274,10 @@ const ProcessStatus = ({
                                 {renderFinishInputs(detailData.submission_title === "Integrasi Sistem Informasi" ?
                                     IntergasiSIFinish :
                                     detailData.submission_title === "Penerapan Modul TTE" ? ModulTTEFinish :
-<<<<<<< Updated upstream
-                                        detailData.submission_title === "User Akun Sistem Informasi" ? UserAkunSIFinish :
-                                            detailData.submission_title === "Permohonan Email" ? EmailFinish :
-                                                detailData.submission_title === "Permohonan Pengujian Celah Keamanan" ? PEngujianCelahKeamananFinish :
-                                                    []
-
-
-=======
                                     detailData.submission_title === "User Akun Sistem Informasi" ? UserAkunSIFinish :
                                     detailData.submission_title === "Permohonan Email" ? EmailFinish :
                                     detailData.submission_title === "Permohonan Pengujian Celah Keamanan" ? CelahKeamananFinish :
                                     []
->>>>>>> Stashed changes
                                 )}
                                 <DynamicButton
                                     initialValue={"Pengajuan Selesai"}
@@ -405,17 +343,6 @@ const ProcessStatus = ({
                                     key={key}
                                     label={
                                         key === "upload_dokumen_hasil_integrasi"
-<<<<<<< Updated upstream
-                                            ? "File Dokumen Hasil Integrasi"
-                                            : "upload_dokumen_laporan_modul_tte"
-                                                ? "Surat Pengesahan"
-                                                : "upload_dokumen_laporan_pembuatan_akun"
-                                                    ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
-                                                    : "upload_surat_pengesahan"
-                                                        ? "Surat Pengesahan"
-                                                        :
-                                                        key === "file_scema_integration" ? "File Skema Integrasi" : key
-=======
                                         ? "File Dokumen Hasil Integrasi"
                                         : "upload_dokumen_laporan_modul_tte"
                                         ? "Surat Pengesahan"
@@ -429,7 +356,6 @@ const ProcessStatus = ({
                                         ? "Dokumen Hasil Uji Penetrasi"
                                         :
                                         key === "file_scema_integration" ? "File Skema Integrasi" : key
->>>>>>> Stashed changes
                                     }
                                     value={value}
                                     location={"aplikasi"}
