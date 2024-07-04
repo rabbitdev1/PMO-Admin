@@ -1,7 +1,7 @@
 export const formData = [
   {
     name: "Pengajuan Pendaftaran Magang",
-    type: "Pengajuan Layanan Sekretariat",
+    type: "Layanan Sekretariat",
     role: [
       "op_pmo",
       "perangkat_daerah",
@@ -10,8 +10,7 @@ export const formData = [
       "teknis_sekre",
     ],
     fields: [
-      { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
-      { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
+      { name: "name_pemohon", label: "Nama Pemohon", value: "", type: "text" },
       {
         name: "surat_permohonan", label: "Surat Permohonan", value: "", type: "file_upload", noted:
           "File berekstensi: pdf, xlsx, docs"
@@ -37,8 +36,12 @@ export const formData = [
   },
   {
     name: "Pendataan Tenaga Ahli",
-    type: "Pengajuan Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi",
-    role: ["op_pmo", "perangkat_daerah", "teknis_aplikasi", "katim_aplikasi"],
+    type: "Layanan Sekretariat",
+    role: ["op_pmo",
+    "perangkat_daerah",
+    "sekretariat",
+    "katim_sekre",
+    "teknis_sekre",],
     fields: [
       { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
@@ -83,44 +86,7 @@ export const formData = [
       },
     ],
   },
-  {
-    name: "Pendataan Tenaga Ahali",
-    type: "Pengajuan Layanan Sekretariat",
-    role: [
-      "op_pmo",
-      "perangkat_daerah",
-      "teknis_aplikasi",
-      "katim_aplikasi",
-    ],
-    fields: [
-      { name: "nama_ahli", label: "Nama Ahli", value: "", type: "text" },
-      {
-        name: "bidang_keahlian", label: "Bidang Keahlian", value: "", type: "selection",
-        options: [
-          { value: "ijazah", label: "Ijazah" },
-          { value: "sertifikat", label: "Sertifikat" },
-        ]
-      },
-      { name: "pengalaman", label: "Pengalaman", value: "", type: "editor" },
-      { name: "job_desk", label: "Job Desk", value: "", type: "editor" },
-      {
-        name: "timeline_kontrak", label: "Timeline Kontrak", value: {
-          startDate: null,
-          endDate: null,
-        },
-        type: "date",
-        visible: true,
-      },
-      {
-        name: "terdaftar_lpse", label: "Terdaftar di LPSE", value: "", type: "radio_button",
-        options: [
-          { value: "ya", label: "Ya" },
-          { value: "tidak", label: "Tidak" },
-        ],
-      },
-      { name: "nilai_kontrak", label: "Nilai Kontrak", value: "", type: "file_upload" },
-    ],
-  }
+  
 ];
 
 const getMagangProcess = (inputLocal) => [

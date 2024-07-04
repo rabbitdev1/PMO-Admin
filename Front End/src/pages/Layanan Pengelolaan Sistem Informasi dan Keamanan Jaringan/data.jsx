@@ -16,13 +16,7 @@ export const formData = [
         name: "app_name",
         label: "Nama Aplikasi",
         value: [],
-        type: "selection",
-        options: [
-          { value: "15", label: "15 Mbps" },
-          { value: "20", label: "20 Mbps" },
-          { value: "25", label: "25 Mbps" },
-          { value: "30", label: "30 Mbps" },
-        ]
+        type: "text",
       },
       {
         name: "app_desc",
@@ -141,9 +135,7 @@ export const formData = [
       { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
       {
-        name: "app", label: "Nama Aplikasi", value: "", type: "selection", options: [
-          { value: "aplikasi 1", label: "Aplikasi1" },
-        ]
+        name: "app", label: "Nama Aplikasi", value: [], type: "text"
       },
       { name: "app_desc", label: "Deskripsi Aplikasi", value: "", type: "editor" },
       { name: "app_version", label: "Versi Aplikasi", value: "", type: "text" },
@@ -155,9 +147,9 @@ export const formData = [
         ]
       },
       { name: "username", label: "Nama Akun", value: "", type: "text" },
-      { name: "password", label: "Kata Sandi", value: "", type: "password" },
-      { name: "domain_url", label: "Domain URL", value: "", type: "text" },
-      { name: "file_process_bisiness", label: "Dokumen Proses Bisnis", value: "", type: "file_upload" }
+      { name: "password", label: "Kata Sandi", value: "", type: "password", noted: "Contoh: Example!123"},
+      { name: "domain_url", label: "Domain URL", value: "", type: "text", noted: "Contoh: www.example.go.id" },
+      { name: "file_process_bisiness", label: "Dokumen Proses Bisnis", value: "", type: "file_upload", noted: "File berekstensi: pdf,xlsx,docs"}
     ]
   }
 ]

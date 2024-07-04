@@ -1,6 +1,6 @@
 import { validateArray, validateFile, validateFullname, validateHTML, validateImage, validateIPAddress, validatePeriod1, validateRadioBottom, validateTelp, validateText, validateTextArea } from "../../utils/helpers/validateForm";
 
-export const isValidatorPenyusunaKebijakan = (obj) => {
+export const isValidatorSuratKeputusan = (obj) => {
   let isValid = true;
   isValid = isValid && validateFullname(obj.name_pic, "Nama PIC");
   isValid = isValid && validateTelp(obj.telp_pic, "Nomor PIC");

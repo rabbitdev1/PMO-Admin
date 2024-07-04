@@ -1,6 +1,6 @@
 export const formData = [
   {
-    name: "Pengajuan Penyusunan Kebijakan",
+    name: "Pengajuan Surat Keputusan",
     type: "Pengajuan Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi",
     role: [
       "op_pmo",
@@ -23,7 +23,6 @@ export const formData = [
       { name: "app_desc", label: "Deskripsi Aplikasi", value: "", type: "editor" },
       { name: "needed_data", label: "Data yang dibutuhkan", value: "", type: "editor" },
       { name: "integration", label: "Tujuan Integrasi", value: "", type: "editor" },
-      { name: "file_decison", label: "file Keputusan", value: "file_submission", type: "file_upload" },
     ],
   },
   {

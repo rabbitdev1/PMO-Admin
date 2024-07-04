@@ -15,8 +15,6 @@ export const formData = [
       "File berekstensi: pdf, xlsx, docs"},
       { name: "surat_permohonan", label: "Surat Permohonan", value: "", type: "file_upload", noted:
       "File berekstensi: pdf, xlsx, docs"},
-      { name: "file_permohonan", label: "File Permohonan", value: "", type: "file_upload", noted:
-      "File berekstensi: pdf, xlsx, docs"},
       {
         name: "reason",
         label: "Alasan Pengajuan",

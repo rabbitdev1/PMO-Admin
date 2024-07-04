@@ -274,7 +274,7 @@ function SekretariatPages() {
         }
       }
       if (combinedObject?.submission_title === "Pendataan Tenaga Ahli") {
-        if (isValidatorPendaftaranMagang(combinedObject)) {
+        if (isValidatorPendataanAhli(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
         } else {
           return false;
