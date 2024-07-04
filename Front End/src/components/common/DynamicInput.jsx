@@ -12,6 +12,7 @@ import useTheme from "../context/useTheme";
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import Datepicker from "react-tailwindcss-datepicker";
+import TimePicker from 'react-time-picker'; 
 
 function DynamicInput({
   label,
@@ -267,6 +268,25 @@ function DynamicInput({
               </div>
             }
           </div>
+          </div>
+        ) : type === "time" ? (
+          <div className="flex flex-col gap-2">
+            <div className="flex flex-row gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center p-2.5 rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]">
+              <TimePicker
+                className="text-sm bg-lightColor dark:bg-darkColor w-full h-6"
+                onChange={onChange}
+                placeholder={placeholder}
+                format="h:m"
+                clearIcon={true}
+                value={value}
+                disableClock={true}
+              />
+            </div>
+            {noted && (
+              <div className="flex flex-row gap-2">
+                <span className="text-sm">{noted}</span>
+              </div>
+            )}
           </div>
         ) : type === "date" ? (
           <div className="flex flex-col gap-2">
