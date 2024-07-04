@@ -26,7 +26,7 @@ import {
   isValidatorPenambahanAlat,
   isValidatorPenambahanBandwith,
   isValidatorPendataanAhli,
-  isValidatorPenyusunaKebijakan,
+  isValidatorSuratKeputusan,
   isValidatorpermohonanLiputan,
   isValidatorPerwalKepwal,
   isValidatorRelokasiAlat,
@@ -327,7 +327,7 @@ function LayananPenyusunanPerencanaanTIKPages() {
       };
       console.log(JSON.stringify(combinedObject));
 
-      if (combinedObject?.submission_title === "Penyusunan Kebijakan") {
+      if (combinedObject?.submission_title === "Surat Keputusan") {
         if (isValidatorPenyusunaKebijakan(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
         } else {

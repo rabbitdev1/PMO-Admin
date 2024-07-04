@@ -126,7 +126,7 @@ const Sidebar = () => {
     {
       title: "Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi", role: ['op_pmo', 'perangkat_daerah', 'katim_perencanaan', 'kabid_perencanaan', 'teknis_perencanaan'],
       submenu: [
-        { title: 'Penyusunan Kebijakan', href: '/layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi', state: 'Penyusunan Kebijakan' },
+        { title: 'Surat Keputusan', href: '/layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi', state: 'Surat Keputusan' },
         // { title: 'Permohonan Perwal dan Kepwal TIK', href: '/layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi', state: 'Permohonan Perwal dan Kepwal TIK' },
         // { title: 'Pendataan Tenaga Ahli', href: '/layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi', state: 'Pendataan Tenaga Ahli' },
       ],
@@ -135,8 +135,8 @@ const Sidebar = () => {
     {
       title: "Layanan Sekretariat", role: ['op_pmo', 'perangkat_daerah', 'sekretariat', 'katim_sekre', 'teknis_sekre'],
       submenu: [
-        { title: "Pendaftaran Magang", href: "/layanan-sekretariat", state: 'Pendaftaran Magang' },
-        { title: "Pendataan Tenaga Ahli", href: "/layanan-sekretariat", state: 'Pendataan Tenaga Ahli' },
+        { title: 'Pendaftaran Magang', href: "/layanan-sekretariat", state: 'Layanan Pendaftaran Magang' },
+        { title: 'Pendataan Tenaga Ahli', href: "/layanan-sekretariat", state: 'Layanan Pendataan Tenaga Ahli' },
       ]
       , icon: AllBerandaIcon, href: ["/layanan-sekretariat", "/detail-sekretariat"],
     },

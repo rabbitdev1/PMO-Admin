@@ -276,7 +276,6 @@ function DynamicInput({
                 className="text-sm bg-lightColor dark:bg-darkColor w-full h-6"
                 onChange={onChange}
                 placeholder={placeholder}
-                format="h:m"
                 clearIcon={true}
                 value={value}
                 disableClock={true}

@@ -21,6 +21,7 @@ import { convertToNameValueObject } from "../../utils/helpers/convertToNameValue
 import fetchUploadFiles from "../../utils/api/uploadFiles";
 import { formData as initialFormData } from "./data";
 import { isValidatorPendaftaranMagang } from "./validators";
+import { isValidatorPendataanAhli } from "./validators";
 import resetFormData from "../../components/common/ResetFormData";
 
 function SekretariatPages() {
@@ -250,31 +251,27 @@ function SekretariatPages() {
   const checkingFormData = async () => {
     const foundObject = formData.find((obj) => obj.name === isModalCreate.data);
     if (foundObject) {
-      const { result: nameValueObject, newObject: newObjectFromConversion } =
-        convertToNameValueObject(foundObject);
+      const { result: nameValueObject, newObject: newObjectFromConversion } = convertToNameValueObject(foundObject);
       const nameValueObject2 = {
         submission_type: "Layanan Sekretariat",
         role: foundObject.role,
-        submission_title: isModalCreate.data.replace("Pengajuan ", ""),
+        submission_title: isModalCreate.data.replace('Pengajuan ', '')
       };
       const combinedObject = {
         ...nameValueObject,
         ...nameValueObject2,
-        ...newObjectFromConversion.reduce(
-          (acc, cur) => ({ ...acc, [cur.name]: cur.value }),
-          {}
-        ),
+        ...newObjectFromConversion.reduce((acc, cur) => ({ ...acc, [cur.name]: cur.value }), {})
       };
       console.log(JSON.stringify(combinedObject));
-      if (combinedObject?.submission_title === "Pendaftaran Magang") {
+
+      if (combinedObject?.submission_title === "Layanan Pendaftaran Magang") {
         if (isValidatorPendaftaranMagang(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
         } else {
           return false;
         }
-      }
-      if (combinedObject?.submission_title === "Pendataan Tenaga Ahli") {
-        if (isValidatorPendaftaranMagang(combinedObject)) {
+      } else if (combinedObject?.submission_title === "Layanan Pendataan Tenaga Ahli") {
+        if (isValidatorPendataanAhli(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
         } else {
           return false;
@@ -283,7 +280,7 @@ function SekretariatPages() {
     } else {
       console.log("Objek tidak ditemukan dalam formData");
     }
-  };
+  }
   const handleImageUploadAndFetch = async (obj) => {
     if (obj.file_process_bisiness) {
       const result = await fetchUploadFiles(

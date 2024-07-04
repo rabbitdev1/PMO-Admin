@@ -29,7 +29,6 @@ export const isValidatorPenambahanBandwith = (obj) => {
   isValid = isValid && validateArray(obj.initial_bandwith, "Bandtwith Awal");
   isValid = isValid && validateArray(obj.proposed_bandwidth, "Bandtwith Usulan");
   isValid = isValid && validateHTML(obj.reason, "Alasan Pengajuan");
-  isValid = isValid && validatePeriod1(obj.period, "Periode Jangka Waktu");
 
   // if (obj.status_BDO === 'temporary') {
   //   isValid = isValid && validatePeriod(obj.period, "Periode Jangka Waktu");
@@ -54,7 +53,11 @@ export const isValidatorHosting = (obj) => {
   isValid = isValid && validateFullname(obj.name_pic, "Nama PIC");
   isValid = isValid && validateTelp(obj.telp_pic, "Nomor PIC");
   isValid = isValid && validateArray(obj.app, "Nama Aplikasi");
-  isValid = isValid && validateTextArea(obj.other_requirements, "Requirement Lainnya");
+  isValid = isValid && validateTextArea(obj.other_requirements, "Kebutuhan Lainnya");
+  isValid = isValid && validateArray(obj.ram, "RAM");
+  isValid = isValid && validateArray(obj.processor, "Processor");
+  isValid = isValid && validateArray(obj.storage, "Storage");
+  isValid = isValid && validateArray(obj.system_operation, "System Operation");
   isValid = isValid && validateHTML(obj.reason, "Alasan Pengajuan");
 
   return isValid;

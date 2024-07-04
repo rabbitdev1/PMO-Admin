@@ -115,6 +115,10 @@ const getKeyLabel = (key) => {
       return "Skema Integrasi";
 
 
+    case "ram":
+      return "RAM";
+
+
       case "name_PPK":
       return "Nama PPK";
     case "title_kak":
@@ -285,8 +289,8 @@ const getKeyLabel = (key) => {
       return "Jenis Akun User";
     case "file_data":
       return "File Data";
-    case "file_permohonan":
-      return "File Permohonan";
+    case "file_decison":
+      return "File Keputusan";
 
     case "applicationType":
       return "Jenis Aplikasi";
@@ -381,6 +385,10 @@ const getKeyLabel = (key) => {
       return "manajemen risiko SPBE";
     case "skpd_request_letter":
       return "Surat Permohonan SKPD";
+    case "unit_price":
+      return "Harga Satuan";
+    case "total_price":
+      return "Jumlah";
     default:
       return key;
   }
@@ -412,15 +420,16 @@ const getFieldType = (key) => {
     case "file_data":
     case "surat_permohonan":
     case "skpd_request_letter":
+    case "file_decison":
       return "pdf";
     case "type_tools":
       return "array";
     case "createdAt":
       return "multi_date";
     case "period":
+      case "date1":
     case "letterDate":
       return "multidate";
-
     default:
       return "text";
   }
