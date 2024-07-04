@@ -183,7 +183,9 @@ function DetailAplikasiPages() {
         data.upload_dokumen_laporan_pembuatan_akun ||
         data.upload_surat_pengesahan ||
         data.dokumen_pembangunan ||
-        data.dokumen_nda
+        data.dokumen_nda ||
+        data.upload_hasil_pengujian ||
+        data.upload_hasil_penetrasi
       ) {
         try {
           const uploadPromises = [];
@@ -268,6 +270,32 @@ function DetailAplikasiPages() {
               })
             );
           }
+          if (data.upload_hasil_pengujian) {
+            uploadPromises.push(
+              fetchUploadFiles(
+                authApiKey,
+                authToken,
+                data.upload_hasil_pengujian,
+                "aplikasi",
+                dispatch
+              ).then(result => {
+                resultMapping.upload_hasil_pengujian = result;
+              })
+            );
+          }
+          if (data.upload_hasil_penetrasi) {
+            uploadPromises.push(
+              fetchUploadFiles(
+                authApiKey,
+                authToken,
+                data.upload_hasil_penetrasi,
+                "aplikasi",
+                dispatch
+              ).then(result => {
+                resultMapping.upload_hasil_penetrasi = result;
+              })
+            );
+          }
           await Promise.all(uploadPromises);
 
           let combineData = { ...data };
@@ -289,6 +317,12 @@ function DetailAplikasiPages() {
           if (resultMapping.dokumen_nda) {
             combineData.dokumen_nda = resultMapping.dokumen_nda;
           }
+          if (resultMapping.upload_hasil_pengujian) {
+            combineData.upload_hasil_pengujian = resultMapping.upload_hasil_pengujian;
+          }
+          if (resultMapping.upload_hasil_penetrasi) {
+            combineData.upload_hasil_penetrasi = resultMapping.upload_hasil_penetrasi;
+          }
           fetchEditaplikasi(authApiKey, authToken, slug, type, combineData);
         } catch (error) {
           console.error("Error occurred during image upload:", error);
@@ -303,8 +337,10 @@ function DetailAplikasiPages() {
         data.upload_dokumen_laporan_pembuatan_akun ||
         data.upload_surat_pengesahan ||
         data.dokumen_pembangunan ||
-        data.upload_dokumen_pengujian_celah_keamanan||
-        data.dokumen_nda
+
+        data.dokumen_nda ||
+        data.upload_hasil_pengujian ||
+        data.upload_hasil_penetrasi
       ) {
         try {
           const uploadPromises = [];
@@ -388,16 +424,30 @@ function DetailAplikasiPages() {
               })
             );
           }
-          if (data.upload_dokumen_pengujian_celah_keamanan) {
+
+          if (data.upload_hasil_pengujian) {
             uploadPromises.push(
               fetchUploadFiles(
                 authApiKey,
                 authToken,
-                data.upload_dokumen_pengujian_celah_keamanan,
+                data.upload_hasil_pengujian,
                 "aplikasi",
                 dispatch
               ).then(result => {
-                resultMapping.upload_dokumen_pengujian_celah_keamanan = result;
+                resultMapping.upload_hasil_pengujian = result;
+              })
+            );
+          }
+          if (data.upload_hasil_penetrasi) {
+            uploadPromises.push(
+              fetchUploadFiles(
+                authApiKey,
+                authToken,
+                data.upload_hasil_penetrasi,
+                "aplikasi",
+                dispatch
+              ).then(result => {
+                resultMapping.upload_hasil_penetrasi = result;
               })
             );
           }
@@ -423,8 +473,12 @@ function DetailAplikasiPages() {
           if (resultMapping.dokumen_nda) {
             combineData.dokumen_nda = resultMapping.dokumen_nda;
           }
-          if (resultMapping.upload_dokumen_pengujian_celah_keamanan) {
-            combineData.upload_dokumen_pengujian_celah_keamanan = resultMapping.upload_dokumen_pengujian_celah_keamanan;
+
+          if (resultMapping.upload_hasil_pengujian) {
+            combineData.upload_hasil_pengujian = resultMapping.upload_hasil_pengujian;
+          }
+          if (resultMapping.upload_hasil_penetrasi) {
+            combineData.upload_hasil_penetrasi = resultMapping.upload_hasil_penetrasi;
           }
 
           fetchEditaplikasi(authApiKey, authToken, slug, type, combineData);

@@ -5,7 +5,7 @@ import { ReactComponent as Ic_dark_mode } from "../../assets/icon/ic_dark-mode.s
 import { ReactComponent as Ic_light_mode } from "../../assets/icon/ic_light-mode.svg";
 import DynamicButton from '../../components/common/DynamicButton';
 
-const Header = ({ isDarkMode, toggleTheme, navigate, authToken, authApiKey }) => {
+const Header = ({ isDarkMode, toggleTheme, navigate, authToken, authApiKey,setisModalCreate }) => {
   const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
@@ -67,8 +67,9 @@ const Header = ({ isDarkMode, toggleTheme, navigate, authToken, authApiKey }) =>
         <div className="flex flex-row lg:container lg:mx-auto xl:max-w-screen-xl gap-2 py-2">
           {[
             { label: 'BERANDA' },
-            { label: 'PUSAT PENGADUAN' },
-            { label: 'BANTUAN' },
+            { label: 'PUSAT PENGADUAN / LAYANAN' },
+            { label: 'USER ACCOUNT' },
+            { label: 'KATALOG WEB SERVICE' },
           ].map((button, index) => (
             <Popover
               key={index}
@@ -85,12 +86,15 @@ const Header = ({ isDarkMode, toggleTheme, navigate, authToken, authApiKey }) =>
                     color={isDarkMode ? "#ffffff" : "#0185FF"}
                     type="transparent"
                     className="bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor rounded-none px-3"
+                    onClick={() =>{
+                      setisModalCreate({ data: "Pengajuan User Account", status: true });
+                    }}
                   />
                 </Button>
               </PopoverHandler>
-              <PopoverContent className="flex flex-col w-72 font-gilroy p-3 shadow-none bg-lightColor text-lightColor dark:text-darkColor dark:bg-cardDark border border-gray-300 dark:border-gray-700 z-10">
+              {/* <PopoverContent className="flex flex-col w-72 font-gilroy p-3 shadow-none bg-lightColor text-lightColor dark:text-darkColor dark:bg-cardDark border border-gray-300 dark:border-gray-700 z-10">
                 {button.label}
-              </PopoverContent>
+              </PopoverContent> */}
             </Popover>
           ))}
         </div>

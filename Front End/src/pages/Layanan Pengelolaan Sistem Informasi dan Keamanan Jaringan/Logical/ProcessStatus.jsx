@@ -7,7 +7,7 @@ import DynamicShow from "../../../components/common/DynamicShow";
 import DynamicDetails from "../../../components/ui/DynamicDetails";
 import { apiClient } from "../../../utils/api/apiClient";
 import { validateFile, validateImage } from "../../../utils/helpers/validateForm";
-import { getIntergasiSIFinish, getIntergasiSIProcess, getModulTTEProcess, getModulTTEFinish, getUserAccountSIProcess, getUserAccountSIFinish, getEmailProcess, getEmailFinish, getPengujianCelahKeamananProcess, getPengujianCelahKeamananFinish } from "../data";
+import { getIntergasiSIFinish, getIntergasiSIProcess, getModulTTEProcess, getModulTTEFinish, getUserAccountSIProcess, getUserAccountSIFinish, getEmailProcess, getEmailFinish, getCelahKeamananProcess, getCelahKeamananFinish } from "../data";
 
 const ProcessStatus = ({
     submissionStatus,
@@ -37,11 +37,12 @@ const ProcessStatus = ({
     const UserAkunSIFinish = getUserAccountSIFinish(finishData);
 
     const EmailProcess = getEmailProcess(inputLocal);
-    const PengujianCelahKeamananProcess = getPengujianCelahKeamananProcess(inputLocal);
-
 
     const EmailFinish = getEmailFinish(finishData);
-    const PEngujianCelahKeamananFinish = getPengujianCelahKeamananFinish(finishData);
+
+    const CelahKeamananProcess = getCelahKeamananProcess (inputLocal);
+
+    const CelahKeamananFinish = getCelahKeamananFinish (finishData);
 
     const fetchSetProgress = async (api_key, token, status) => {
         const params = new URLSearchParams();
@@ -132,12 +133,12 @@ const ProcessStatus = ({
                                 />
                             ))}
                             {renderProcessInputs(detailData.submission_title === "Integrasi Sistem Informasi" ?
-                                IntergasiSIProcess :
-                                detailData.submission_title === "Penerapan Modul TTE" ? ModulTTEProcess :
-                                    detailData.submission_title === "User Akun Sistem Informasi" ? UserAkunSIProcess :
-                                        detailData.submission_title === "Permohonan Email" ? EmailProcess :
-                                            detailData.submission_title === "Permohonan Pengujian Celah Keamanan" ? PengujianCelahKeamananProcess :
-                                                []
+                                IntergasiSIProcess : 
+                                detailData.submission_title === "Penerapan Modul TTE" ? ModulTTEProcess : 
+                                detailData.submission_title === "User Akun Sistem Informasi" ? UserAkunSIProcess :
+                                detailData.submission_title === "Permohonan Email" ? EmailProcess :
+                                detailData.submission_title === "Permohonan Pengujian Celah Keamanan" ?  CelahKeamananProcess :
+                                []
 
                             )}
                             <div className='flex sm:flex-row flex-col gap-2'>
@@ -173,6 +174,10 @@ const ProcessStatus = ({
                                         } if (detailData.submission_title === "Permohonan Pengujian Celah Keamanan") {
                                             isValid = isValid && validateFile(inputLocal.upload_dokumen_pengujian_celah_keamanan, "Upload Surat Pengesahan");
                                         }
+                                        if (detailData.submission_title === "Permohonan Pengujian Celah Keamanan") {
+                                            isValid = isValid && validateFile(inputLocal.upload_hasil_pengujian, "Unggah Dokumen Laporan Hasil Pengujian");
+                                            isValid = isValid && validateFile(inputLocal.upload_hasil_penetrasi, "Unggah Dokumen Hasil Uji Penetrasi");
+                                        }
                                         if (isValid) {
                                             checkingFormData('process', filteredDataResult);
                                         }
@@ -202,21 +207,21 @@ const ProcessStatus = ({
                                     <DynamicShow
                                         key={key}
                                         label={
-                                            key === "file_scema_integration"
-                                                ? "File Dokumen Hasil Integrasi"
-                                                : "upload_dokumen_laporan_modul_tte"
-                                                    ? "Surat Pengesahan"
-                                                    : "upload_dokumen_laporan_pembuatan_akun"
-                                                        ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
-                                                        : "upload_surat_pengesahan"
-                                                            ? "Surat Pengesahan"
-                                                            :
-                                                            key === "file_scema_integration" ? "File Skema Integrasi" : key
+                                            key === "file_scema_integration" ? "File Dokumen Hasil Integrasi" :
+                                            key === "upload_dokumen_laporan_modul_tte" ? "Surat Pengesahan" :
+                                            key === "upload_dokumen_laporan_pembuatan_akun" ? "Upload Dokumen Laporan Hasil Pembuatan Akun" :
+                                            key === "upload_surat_pengesahan" ? "Surat Pengesahan" :
+                                            key === "upload_hasil_pengujian" ? "Dokumen Laporan Hasil Pengujian" :
+                                            key === "upload_hasil_penetrasi" ? "Dokumen Hasil Uji Penetrasi" :
+                                            key === "file_scema_integration" ? "File Skema Integrasi" : 
+                                            key
                                         }
                                         value={value}
                                         location={"aplikasi"}
                                         type={
-                                            key === "file_scema_integration" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun" || "upload_surat_pengesahan"
+                                            key === "file_scema_integration" || "upload_dokumen_laporan_modul_tte" || 
+                                            "upload_dokumen_laporan_pembuatan_akun" || "upload_surat_pengesahan" ||
+                                            "upload_hasil_pengujian" || "upload_hasil_penetrasi"
                                                 ? "pdf"
                                                 : "text"
                                         }
@@ -241,27 +246,27 @@ const ProcessStatus = ({
                                 ))}
                                 {Object.entries(processData).map(([key, value]) => (
                                     <DynamicShow
-                                        key={key}
-                                        label={
-                                            key === "upload_dokumen_hasil_integrasi"
-                                                ? "File Dokumen Hasil Integrasi"
-                                                : "upload_dokumen_laporan_modul_tte"
-                                                    ? "Surat Pengesahan"
-                                                    : "upload_dokumen_laporan_pembuatan_akun"
-                                                        ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
-                                                        : "upload_surat_pengesahan"
-                                                            ? "Surat Pengesahan"
-                                                            :
-                                                            key === "file_scema_integration" ? "File Skema Integrasi" : key
-                                        }
-                                        value={value}
-                                        location={"aplikasi"}
-                                        type={
-                                            key === "file_scema_integration" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun" || "upload_surat_pengesahan"
-                                                ? "pdf"
-                                                : "text"
-                                        }
-                                    />
+                                    key={key}
+                                    label={
+                                        key === "file_scema_integration" ? "File Dokumen Hasil Integrasi" :
+                                        key === "upload_dokumen_laporan_modul_tte" ? "Surat Pengesahan" :
+                                        key === "upload_dokumen_laporan_pembuatan_akun" ? "Upload Dokumen Laporan Hasil Pembuatan Akun" :
+                                        key === "upload_surat_pengesahan" ? "Surat Pengesahan" :
+                                        key === "upload_hasil_pengujian" ? "Dokumen Laporan Hasil Pengujian" :
+                                        key === "upload_hasil_penetrasi" ? "Dokumen Hasil Uji Penetrasi" :
+                                        key === "file_scema_integration" ? "File Skema Integrasi" : 
+                                        key
+                                    }
+                                    value={value}
+                                    location={"aplikasi"}
+                                    type={
+                                        key === "file_scema_integration" || "upload_dokumen_laporan_modul_tte" || 
+                                        "upload_dokumen_laporan_pembuatan_akun" || "upload_surat_pengesahan" ||
+                                        "upload_hasil_pengujian" || "upload_hasil_penetrasi"
+                                            ? "pdf"
+                                            : "text"
+                                    }
+                                />
                                 ))}
                             </div>
                             <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
@@ -269,12 +274,10 @@ const ProcessStatus = ({
                                 {renderFinishInputs(detailData.submission_title === "Integrasi Sistem Informasi" ?
                                     IntergasiSIFinish :
                                     detailData.submission_title === "Penerapan Modul TTE" ? ModulTTEFinish :
-                                        detailData.submission_title === "User Akun Sistem Informasi" ? UserAkunSIFinish :
-                                            detailData.submission_title === "Permohonan Email" ? EmailFinish :
-                                                detailData.submission_title === "Permohonan Pengujian Celah Keamanan" ? PEngujianCelahKeamananFinish :
-                                                    []
-
-
+                                    detailData.submission_title === "User Akun Sistem Informasi" ? UserAkunSIFinish :
+                                    detailData.submission_title === "Permohonan Email" ? EmailFinish :
+                                    detailData.submission_title === "Permohonan Pengujian Celah Keamanan" ? CelahKeamananFinish :
+                                    []
                                 )}
                                 <DynamicButton
                                     initialValue={"Pengajuan Selesai"}
@@ -340,20 +343,26 @@ const ProcessStatus = ({
                                     key={key}
                                     label={
                                         key === "upload_dokumen_hasil_integrasi"
-                                            ? "File Dokumen Hasil Integrasi"
-                                            : "upload_dokumen_laporan_modul_tte"
-                                                ? "Surat Pengesahan"
-                                                : "upload_dokumen_laporan_pembuatan_akun"
-                                                    ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
-                                                    : "upload_surat_pengesahan"
-                                                        ? "Surat Pengesahan"
-                                                        :
-                                                        key === "file_scema_integration" ? "File Skema Integrasi" : key
+                                        ? "File Dokumen Hasil Integrasi"
+                                        : "upload_dokumen_laporan_modul_tte"
+                                        ? "Surat Pengesahan"
+                                        : "upload_dokumen_laporan_pembuatan_akun"
+                                        ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
+                                        : "upload_surat_pengesahan"
+                                        ? "Surat Pengesahan"
+                                        : "upload_hasil_pengujian"
+                                        ? "Dokumen Laporan Hasil Pengujian"
+                                        : "upload_hasil_penetrasi"
+                                        ? "Dokumen Hasil Uji Penetrasi"
+                                        :
+                                        key === "file_scema_integration" ? "File Skema Integrasi" : key
                                     }
                                     value={value}
                                     location={"aplikasi"}
                                     type={
-                                        key === "upload_dokumen_hasil_integrasi" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun" || "upload_surat_pengesahan"
+                                        key === "upload_dokumen_hasil_integrasi" || "upload_dokumen_laporan_modul_tte" || 
+                                        "upload_dokumen_laporan_pembuatan_akun" || "upload_surat_pengesahan" ||
+                                        "upload_hasil_pengujian" || "upload_hasil_penetrasi"
                                             ? "pdf"
                                             : "text"
                                     }

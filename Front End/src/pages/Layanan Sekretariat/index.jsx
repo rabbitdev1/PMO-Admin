@@ -253,7 +253,7 @@ function SekretariatPages() {
       const { result: nameValueObject, newObject: newObjectFromConversion } =
         convertToNameValueObject(foundObject);
       const nameValueObject2 = {
-        submission_type: isModalType.data,
+        submission_type: "Layanan Sekretariat",
         role: foundObject.role,
         submission_title: isModalCreate.data.replace("Pengajuan ", ""),
       };
@@ -267,6 +267,13 @@ function SekretariatPages() {
       };
       console.log(JSON.stringify(combinedObject));
       if (combinedObject?.submission_title === "Pendaftaran Magang") {
+        if (isValidatorPendaftaranMagang(combinedObject)) {
+          await handleImageUploadAndFetch(combinedObject);
+        } else {
+          return false;
+        }
+      }
+      if (combinedObject?.submission_title === "Pendataan Tenaga Ahli") {
         if (isValidatorPendaftaranMagang(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
         } else {
@@ -387,10 +394,8 @@ function SekretariatPages() {
                     type="transparent"
                     className="bg-[#0185FF] text-darkColor px-3"
                     onClick={() => {
-                      setisModalType({
-                        data: "Pengajuan Layanan Sekretariat",
-                        status: true,
-                      });
+                      setisModalCreate({ data: "Pengajuan "+dataState, status: true });
+                      updatePic(JSON.parse(authProfile).fullname, JSON.parse(authProfile).telp);
                     }}
                   />
                 </div>

@@ -54,15 +54,15 @@ const getKeyLabel = (key) => {
     case "name":
       return "Nama";
     case "telp":
-      return "Nomor Telpon";
+      return "Nomor Telepon";
     case "email":
       return "Email";
     case "origin_agency":
       return "Asal Instansi";
     case "new_password":
-      return "Password Baru";
+      return "Kata Sandi Baru";
     case "repeat_password":
-      return "Ulangi Password";
+      return "Ulangi Kata Sandi";
     case "telp_pic":
       return "Nomor PIC";
     case "type_tools":
@@ -116,8 +116,30 @@ const getKeyLabel = (key) => {
     case "file_scema_integration":
       return "Skema Integrasi";
 
-    case "file_decison":
-      return "Surat Keputusan";
+
+      case "name_PPK":
+      return "Nama PPK";
+    case "title_kak":
+      return "Judul KAK";
+    case "besaran_anggaran":
+      return "Besar Anggaran";
+    case "anggaran_attachment":
+      return "Sumber Anggaran";
+    case "lingkup_job":
+      return "Lingkup Pekerjaan";
+    case "number_of_people_required":
+      return "Jumlah Tenaga Kerja yang Dibutuhkan";
+
+    case "needed_tools":
+      return "Kebutuhan Alat";
+    case "topic":
+      return "Tema/Topik";
+    case "type_activity":
+      return "Jenis Kegiatan";
+    case "speaker":
+      return "Narasumber/Pembicara";
+    case "user_qty":
+      return "Jumlah User";
 
     case "incident":
       return "Waktu Kejadian";
@@ -126,15 +148,15 @@ const getKeyLabel = (key) => {
     case "app_ownership":
       return "Kepemilikan Aplikasi";
     case "username":
-      return "Username";
+      return "Nama Pengguna";
     case "password":
-      return "Password";
+      return "Kata Sandi";
     case "domain_url":
       return "URL Domain";
     case "file_hasil_pengajuan_podcast":
       return "Dokumen Hasil Podcast";
     case "submission_type_user_account":
-      return "Jenis Akun User";
+      return "Jenis Akun Pengguna";
     case "bidang":
       return "Bidang";
     case "nip":
@@ -279,9 +301,9 @@ const getKeyLabel = (key) => {
     case "applicationOwnership":
       return "Kepemilikan Aplikasi";
     case "developerName1":
-      return "Developer 1";
+      return "Nama Pengebang 1";
     case "developerName2":
-      return "Developer 2";
+      return "Nama Pengebang 2";
     case "developmentDuration":
       return "Durasi Pengembangan";
     case "fundingSource":

@@ -40,23 +40,27 @@ const FinishStatus = ({
             )}
             {Object.entries(processData).map(([key, value]) => (
               <DynamicShow
-                key={key}
-                label={
-                  key === "upload_dokumen_hasil_integrasi"
-                    ? "Dokumen Hasil Integrasi"
-                    : "upload_dokumen_laporan_modul_tte"
-                    ? "Surat Pengesahan"
-                    : "upload_dokumen_laporan_pembuatan_akun"
-                    ? "Dokumen Laporan Hasil Pembuatan Akun"
-                    : key
-                }
-                value={value}
-                location={"aplikasi"}
-                type={
-                  key === "upload_dokumen_hasil_integrasi" || "upload_dokumen_laporan_modul_tte" || "upload_dokumen_laporan_pembuatan_akun" ? "pdf"
-                    : "text"
-                }
-              />
+              key={key}
+              label={
+                  key === "file_scema_integration" ? "File Dokumen Hasil Integrasi" :
+                  key === "upload_dokumen_laporan_modul_tte" ? "Surat Pengesahan" :
+                  key === "upload_dokumen_laporan_pembuatan_akun" ? "Upload Dokumen Laporan Hasil Pembuatan Akun" :
+                  key === "upload_surat_pengesahan" ? "Surat Pengesahan" :
+                  key === "upload_hasil_pengujian" ? "Dokumen Laporan Hasil Pengujian" :
+                  key === "upload_hasil_penetrasi" ? "Dokumen Hasil Uji Penetrasi" :
+                  key === "file_scema_integration" ? "File Skema Integrasi" : 
+                  key
+              }
+              value={value}
+              location={"aplikasi"}
+              type={
+                  key === "file_scema_integration" || "upload_dokumen_laporan_modul_tte" || 
+                  "upload_dokumen_laporan_pembuatan_akun" || "upload_surat_pengesahan" ||
+                  "upload_hasil_pengujian" || "upload_hasil_penetrasi"
+                      ? "pdf"
+                      : "text"
+              }
+          />
             ))}
 
             {finishData?.response && (
@@ -77,8 +81,7 @@ const FinishStatus = ({
           </div>
         </div>
         <DynamicDetails
-
-location={'aplikasi'}
+          location={'aplikasi'}
           detailData={detailData}
           loading={loading}
         />

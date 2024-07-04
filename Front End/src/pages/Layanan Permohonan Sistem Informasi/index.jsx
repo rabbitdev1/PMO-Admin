@@ -222,7 +222,7 @@ function PermohonanSIPages() {
       const { result: nameValueObject, newObject: newObjectFromConversion } =
         convertToNameValueObject(foundObject);
       const nameValueObject2 = {
-        submission_type: isModalType.data,
+        submission_type: "Layanan Permohonan Sistem Informasi",
         role: foundObject.role,
         submission_title: isModalCreate.data.replace("Pengajuan ", ""),
       };
@@ -323,9 +323,9 @@ function PermohonanSIPages() {
   return (
     <div className="flex flex-col gap-3 flex-1 p-4">
       <TitleHeader
-        title={JSON.parse(authProfile)?.role === "perangkat_daerah" ? "Layanan Pengajuan" : "Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan"}
+        title={JSON.parse(authProfile)?.role === "perangkat_daerah" ? "Layanan Pengajuan" : "Layanan Permohonan Sistem Informasi"}
         link1={"dashboard"}
-        link2={"Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan"}
+        link2={"Layanan Permohonan Sistem Informasi"}
       />
       <section className="flex xl:flex-row flex-col gap-3">
         <div className="flex-1 flex flex-col gap-3">
@@ -333,8 +333,7 @@ function PermohonanSIPages() {
             {JSON.parse(authProfile)?.role === "perangkat_daerah" && (
               <div className="flex flex-col gap-2 bg-[#0185FF] p-3 rounded-lg flex-1 md:max-w-xs shadow-sm">
                 <span className="sm:text-xl text-sm text-darkColor font-semibold">
-                  Selamat datang di Layanan Pengelolaan Sistem Informasi dan
-                  Keamanan Jaringan
+                  Selamat datang di Layanan Permohonan Sistem Informasi
                 </span>
                 <div className="flex flex-col flex-1 justify-end items-end">
                   <DynamicButton
@@ -386,10 +385,15 @@ function PermohonanSIPages() {
                     type="transparent"
                     className="bg-[#0185FF] text-darkColor px-3"
                     onClick={() => {
-                      setisModalType({
-                        data: "Pengajuan Layanan Permohonan Sistem Informasi",
-                        status: true,
-                      });
+                      if (dataState === 'Rekomendasi Sistem Informasi') {
+                        setisModalCreate({ data: dataState, status: true });
+                        updatePic(
+                          JSON.parse(authProfile).fullname,
+                          JSON.parse(authProfile).telp
+                        );
+                      } else {
+                        navigate("/permohonan-sistem-informasi", { state:dataState});
+                      }
                     }}
                   />
                 </div>
@@ -486,7 +490,6 @@ function PermohonanSIPages() {
                         );
                       } else {
                         navigate("/permohonan-sistem-informasi", { state: item.name });
-
                       }
                     }}
                   >

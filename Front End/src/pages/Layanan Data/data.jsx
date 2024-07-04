@@ -10,11 +10,13 @@ export const formData = [
     ],
     fields: [
       { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
-      { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
-      { name: "file_data", label: "File Data", value: "", type: "file_upload" },
-      { name: "surat_permohonan", label: "Surat Permohonan", value: "", type: "file_upload" },
-      { name: "reason", label: "Alasan Pengajuan", value: "", type: "editor" },
-      { name: "file_permohonan", label: "File Permohonan", value: "", type: "file_upload" },
+      { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel",  },
+      { name: "file_data", label: "File Data", value: "", type: "file_upload", noted:
+      "File berekstensi: pdf, xlsx, docs"},
+      { name: "surat_permohonan", label: "Surat Permohonan", value: "", type: "file_upload", noted:
+      "File berekstensi: pdf, xlsx, docs"},
+      { name: "file_permohonan", label: "File Permohonan", value: "", type: "file_upload", noted:
+      "File berekstensi: pdf, xlsx, docs"},
       {
         name: "reason",
         label: "Alasan Pengajuan",
@@ -35,8 +37,10 @@ export const formData = [
     fields: [
       { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
-      { name: "surat_permohonan", label: "Surat Permohonan", value: "", type: "file_upload" },
-      { name: "alamat_website", label: "Alamat Website", value: "", type: "text" },
+      { name: "surat_permohonan", label: "Surat Permohonan", value: "", type: "file_upload", noted:
+      "File berekstensi: pdf, xlsx, docs"},
+      { name: "alamat_website", label: "Alamat Website", value: "", type: "text", noted:
+      "Contoh: www.example.go.id"},
       { name: "needed_data", label: "Data yang dibutuhkan", value: "", type: "editor" },
       { name: "reason", label: "Alasan Pengajuan", value: "", type: "editor" },
     ],

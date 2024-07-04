@@ -1,6 +1,6 @@
 export const formData = [
   {
-    name: "Layanan ZOOM",
+    name: "Pengajuan Layanan ZOOM",
     type: "Layanan Siaran dan Sistem Virtual",
     role: [
       "op_pmo",
@@ -10,14 +10,16 @@ export const formData = [
       "teknis_aplikasi"
     ],
     fields: [
-      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
+      { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
+      { name: "period", label: "Waktu", value: "", type: "date" },
+      { name: "user_qty", label: "Jumlah User", value: "", type: "text" },
+      { name: "period", label: "Jam", value: "", type: "multi_date" },
       { name: "reason", label: "Alasan Dibutuhkan", value: "", type: "editor" },
-      { name: "period", label: "Periode Jangka Waktu", value: "", type: "multi_date" },
     ],
   },
   {
-    name: "Permohonan Liputan",
+    name: "Pengajuan Permohonan Liputan",
     type: "Layanan Siaran dan Sistem Virtual",
     role: [
       "op_pmo",
@@ -27,15 +29,17 @@ export const formData = [
       "teknis_aplikasi"
     ],
     fields: [
-      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
+      { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
-      { name: "reason", label: "Alasan Pengajuan", value: "", type: "textarea" },
-      { name: "location_implementation", label: "Tempat Pelaksanaan", value: "", type: "textarea" },
-      { name: "period", label: "Periode Jangka Waktu", value: "", type: "multi_date" },
+      { name: "type_activity", label: "Jenis Kegiatan", value: "", type: "text" },
+      { name: "location_implementation", label: "Tempat Pelaksanaan", value: "", type: "editor" },
+      { name: "period", label: "Waktu", value: "", type: "multi_date" },
+      { name: "needed_tools", label: "Kebutuhan Alat", value: "", type: "editor" },
+      { name: "reason", label: "Alasan Pengajuan", value: "", type: "editor" },
     ],
   },
   {
-    name: "Permohonan Podcast",
+    name: "Pengajuan Permohonan Podcast",
     type: "Layanan Siaran dan Sistem Virtual",
     role: [
       "op_pmo",
@@ -44,12 +48,15 @@ export const formData = [
       "teknis_aplikasi"
     ],
     fields: [
-      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
+      { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
+      { name: "type_activity", label: "Jenis Kegiatan", value: "", type: "text" },
+      { name: "location_implementation", label: "Tempat Pelaksanaan", value: "", type: "editor" },
+      { name: "period", label: "Waktu", value: "", type: "multi_date" },
+      { name: "needed_tools", label: "Kebutuhan Alat", value: "", type: "editor" },
+      { name: "speaker", label: "Narasumber/Pembicara", value: "", type: "text" },
+      { name: "topic", label: "Tema/Topik", value: "", type: "text" },
       { name: "reason", label: "Alasan Pengajuan", value: "", type: "editor"},
-      { name: "location_implementation", label: "Tempat Pelaksanaan", value: "", type: "editor"},
-      { name: "period", label: "Periode Jangka Waktu", value: "", type: "multi_date"}
-
     ],
   },
 ]

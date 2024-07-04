@@ -83,7 +83,7 @@ export const isValidatorStepper5 = (obj) => {
   let isValid = true;
   isValid = isValid && validateText(obj.title, "Judul");
   isValid = isValid && validateText(obj.namePPK, "Nama PPK");
-  isValid = isValid && validateText(obj.linkupJob, "Linkup Pekerjaan");
+  isValid = isValid && validateText(obj.lingkupJob, "Linkup Pekerjaan");
   isValid = isValid && validateText(obj.numberOfPeopleRequired, "Jumlah Tenaga Yang Dibutuhkan");
 
   isValid = isValid && validatePeriod(obj.letterDate, "Tanggal Surat");

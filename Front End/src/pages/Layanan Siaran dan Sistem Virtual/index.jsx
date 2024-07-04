@@ -256,7 +256,7 @@ function SistemVirtualPages() {
       const { result: nameValueObject, newObject: newObjectFromConversion } =
         convertToNameValueObject(foundObject);
       const nameValueObject2 = {
-        submission_type: isModalType.data,
+        submission_type: "Layanan Siaran dan Sistem Virtual",
         role: foundObject.role,
         submission_title: isModalCreate.data.replace("Pengajuan ", ""),
       };
@@ -402,10 +402,8 @@ function SistemVirtualPages() {
                     type="transparent"
                     className="bg-[#0185FF] text-darkColor px-3"
                     onClick={() => {
-                      setisModalType({
-                        data: "Layanan Siaran dan Sistem Virtual",
-                        status: true,
-                      });
+                      setisModalCreate({ data: "Pengajuan "+dataState, status: true });
+                      updatePic(JSON.parse(authProfile).fullname, JSON.parse(authProfile).telp);
                     }}
                   />
                 </div>

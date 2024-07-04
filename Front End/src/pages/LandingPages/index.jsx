@@ -6,6 +6,7 @@ import { useNavigate } from "react-router";
 import { Autoplay, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
+import { ReactComponent as CloseIcon } from "../../assets/icon/ic_close.svg";
 import { ReactComponent as LeftArrowIcon } from "../../assets/icon/ic_left_arrow.svg";
 import { ReactComponent as InstagramIcon } from "../../assets/socialmedia/Instagram.svg";
 import { ReactComponent as TiktokIcon } from "../../assets/socialmedia/TikTok.svg";
@@ -18,8 +19,12 @@ import DynamicButton from "../../components/common/DynamicButton";
 import LoadingLink from "../../components/common/LoadingLink";
 import useTheme from "../../components/context/useTheme";
 import ConditionalRender from "../../components/ui/ConditionalRender";
+import resetFormData from "../../components/common/ResetFormData";
 
 import Header from "./Header";
+import ModalContent from "../../components/ui/Modal/ModalContent";
+import { convertToNameValueObject } from "../../utils/helpers/convertToNameValueObject";
+import DynamicInput from "../../components/common/DynamicInput";
 
 function LandingPages() {
   const dispatch = useDispatch();
@@ -28,6 +33,101 @@ function LandingPages() {
   const authApiKey = Cookies.get('authApiKey');
   const authToken = Cookies.get('authToken');
 
+  const [isModalCreate, setisModalCreate] = useState({
+    status: false,
+    data: {},
+  });
+  const [formData, setFormData] = useState([
+  {
+    name: "Pengajuan User Account",
+    type: "Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan",
+    role: [
+      "op_pmo",
+      "perangkat_daerah",
+      "kabid_aplikasi",
+      "katim_aplikasi",
+      "teknis_aplikasi",
+    ],
+    fields: [
+      { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
+      { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
+      {
+        name: "submission_type_user_account",
+        label: "Jenis Pengajuan",
+        value: [],
+        type: "selection",
+        options: [
+          {
+            value: "reset_password",
+            label: "Ganti Kata Sandi",
+          },
+          {
+            value: "new_account",
+            label: "Pembuatan Akun Baru",
+          },
+        ],
+      },
+      {
+        name: "account_type",
+        label: "Jenis Akun",
+        value: [],
+        type: "selection",
+        options: [
+          { value: "account_1", label: "Akun 1" },
+          { value: "account_2", label: "Akun 2" },
+        ],
+        visible: false,
+      },
+      {
+        name: "password",
+        label: "Kata Sandi Lama",
+        value: "",
+        type: "password",
+        visible: false,
+      },
+      {
+        name: "name", label: "Nama PPK", value: "", type: "text", visible: false
+      },
+      {
+        name: "telp", label: "Nomor Handphone", value: "", type: "tel", visible: false
+      },
+      {
+        name: "email", label: "Email", value: "", type: "email", visible: false
+      },
+      {
+        name: "origin_agency", label: "Asal Instansi", value: "", type: "text", visible: false
+      },
+      // {
+      //   name: "password",
+      //   label: "Password Lama",
+      //   value: "",
+      //   type: "password",
+      //   visible: false,
+      // },
+      {
+        name: "new_password",
+        label: "Kata Sandi Baru",
+        value: "",
+        type: "password",
+        visible: false,
+      },
+      {
+        name: "repeat_password",
+        label: "Ulangi Kata Sandi",
+        value: "",
+        type: "password",
+        visible: false,
+      },
+
+      {
+        name: "reason",
+        label: "Alasan Pengajuan",
+        value: "",
+        type: "editor",
+      },
+    ],
+  },
+  ]);
 
   const [activeSlide, setActiveSlide] = useState(0);
   const swiperRef = useRef(null);
@@ -73,7 +173,60 @@ function LandingPages() {
   useEffect(() => {
     // You can dispatch actions here if needed
   }, [dispatch]);
+  const checkingFormData = async () => {
+    const foundObject = formData.find((obj) => obj.name === isModalCreate.data);
+    if (foundObject) {
+      const { result: nameValueObject, newObject: newObjectFromConversion } =
+        convertToNameValueObject(foundObject);
+      const nameValueObject2 = {
+        submission_type: "",
+        role: foundObject.role,
+        submission_title: isModalCreate.data.replace("Pengajuan ", ""),
+      };
+      const combinedObject = {
+        ...nameValueObject,
+        ...nameValueObject2,
+        ...newObjectFromConversion.reduce(
+          (acc, cur) => ({ ...acc, [cur.name]: cur.value }),
+          {}
+        ),
+      };
+      console.log(JSON.stringify(combinedObject));
+      if (combinedObject?.submission_title === "Pendaftaran Magang") {
+        if (isValidatorPendaftaranMagang(combinedObject)) {
+          await handleImageUploadAndFetch(combinedObject);
+        } else {
+          return false;
+        }
+      }
+    } else {
+      console.log("Objek tidak ditemukan dalam formData");
+    }
+  };
+  const handleInputChange = (fieldName, value, sectionIndex) => {
+    const updatedFormData = [...formData];
+    const currentSection = updatedFormData[sectionIndex];
+    const fieldToUpdateIndex = currentSection.fields.findIndex(
+      (field) => field.name === fieldName
+    );
 
+    // if (fieldName === 'status_BDO') {
+    //   // Check if the selected value is 'temporary'
+    //   const isTemporary = value === 'temporary';
+    //   // Update the visibility of the 'period' field based on the status
+    //   const periodFieldIndex = currentSection.fields.findIndex(field => field.name === 'period');
+    //   updatedFormData[sectionIndex].fields[periodFieldIndex].visible = isTemporary;
+
+    //   if (!isTemporary) {
+    //     updatedFormData[sectionIndex].fields[periodFieldIndex].value = { startDate: null, endDate: null };
+    //   }
+    // }
+
+    // Update the value of the field
+    updatedFormData[sectionIndex].fields[fieldToUpdateIndex].value = value;
+
+    setFormData(updatedFormData);
+  };
   return (
     <div className="flex flex-col min-h-screen bg-cardLight dark:bg-cardDark text-lightColor dark:text-darkColor font-gilroy">
       <Header
@@ -82,6 +235,7 @@ function LandingPages() {
         navigate={navigate}
         authToken={authToken}
         authApiKey={authApiKey}
+        setisModalCreate={setisModalCreate}
       />
 
       <main className="flex-grow flex flex-col ">
@@ -377,6 +531,143 @@ function LandingPages() {
         </div>
       </footer>
 
+      <ModalContent
+        className={"sm:max-w-2xl "}
+        children={
+          <div className="flex flex-col gap-3">
+            <div className="flex flex-row justify-between">
+              <span className="text-lg font-bold font-gilroy">
+                Buat {isModalCreate.data}
+                {JSON.stringify(isModalCreate)}
+              </span>
+              <DynamicButton
+                iconLeft={<CloseIcon className="w-4 h-4 " />}
+                color={isDarkMode ? "#ffffff" : "#212121"}
+                type="transparent"
+                className="inline-flex p-2"
+                onClick={() => {
+                  setisModalCreate({ data: {}, status: false });
+                  resetFormData(isModalCreate.data, formData, setFormData);
+                }}
+              />
+            </div>
+            <div className="flex flex-col overflow-hidden rounded-b-md gap-3">
+              {formData.map(
+                (section, sectionIndex) =>
+                  section.name === isModalCreate.data && (
+                    <div key={sectionIndex} className="flex flex-col gap-3">
+                      {section.fields.map((item, index) => (
+                        <div key={index} className="flex flex-col gap-2">
+                          {item.visible !== false && (
+                            <DynamicInput
+                              name={item.name}
+                              label={item.label}
+                              noted={item.noted}
+                              value={item.value}
+                              options={item.options}
+                              onChange={(value) =>
+                                handleInputChange(
+                                  item.name,
+                                  value,
+                                  sectionIndex
+                                )
+                              }
+                              type={item.type}
+                              placeholder={"Masukan " + item.label}
+                            />
+                          )}
+                          {section.name === "Pengajuan Penambahan Alat" &&
+                            item.label === "Jenis Alat yang dibutuhkan" &&
+                            item.value?.length !== 0 && (
+                              <div className="flex flex-col gap-1">
+                                <span className="text-sm font-bold">
+                                  Jumlah Usulan Alat Yang Dipilih :
+                                </span>
+                                <div className="grid grid-cols-1 md:grid-cols-3 sm:grid-cols-2 gap-3">
+                                  {item.value.map(
+                                    (selectedItem, selectedItemIndex) => (
+                                      <DynamicInput
+                                        key={selectedItemIndex}
+                                        name={selectedItem.value}
+                                        label={`Jumlah ${selectedItem.label}`}
+                                        value={selectedItem.quantity || ""}
+                                        onChange={(value) => {
+                                          const updatedFormData = [...formData];
+                                          const alatField =
+                                            updatedFormData[sectionIndex]
+                                              .fields[index].value;
+                                          alatField[
+                                            selectedItemIndex
+                                          ].quantity = value;
+                                          setFormData(updatedFormData);
+                                        }}
+                                        type={"select_number"}
+                                        placeholder={`Masukan Jumlah ${selectedItem.label}`}
+                                      />
+                                    )
+                                  )}
+                                </div>
+                              </div>
+                            )}
+                          {item?.field &&
+                            item?.field?.map(
+                              (itemField, indexField) =>
+                                item?.value?.value ===
+                                  itemField.type_select && (
+                                  <DynamicInput
+                                    key={indexField}
+                                    name={itemField.name}
+                                    label={itemField.label}
+                                    value={itemField.value}
+                                    options={itemField.options}
+                                    onChange={(value) => {
+                                      const updatedFormData = [...formData];
+                                      updatedFormData[sectionIndex].fields[
+                                        index
+                                      ].field[indexField].value = value;
+                                      setFormData(updatedFormData);
+                                    }}
+                                    type={itemField.type}
+                                    placeholder={"Masukan " + itemField.label}
+                                  />
+                                )
+                            )}
+                        </div>
+                      ))}
+                    </div>
+                  )
+              )}
+            </div>
+            <div className="flex flex-row gap-2 justify-end">
+              <DynamicButton
+                initialValue={"Batal"}
+                type="fill"
+                color={"#ffffff"}
+                className="inline-flex bg-cardLight dark:bg-cardDark text-cardDark dark:text-cardLight"
+                onClick={() => {
+                  setisModalCreate({ data: {}, status: false });
+                  resetFormData(isModalCreate.data, formData, setFormData);
+                }}
+              />
+              <DynamicButton
+                initialValue={"Ajukan Permohonan"}
+                type="fill"
+                color={"#ffffff"}
+                className="inline-flex  bg-[#0185FF] text-darkColor"
+                onClick={() => {
+                  checkingFormData();
+                }}
+              />
+            </div> 
+          </div>
+        }
+        onClose={()=>{
+          setisModalCreate({ data: {}, status: false });
+          resetFormData(isModalCreate.data, formData, setFormData);
+        }}
+        active={isModalCreate.status}
+      />
+       <div id="modal-root" className="z-50"></div>
     </div>
   );
 }
