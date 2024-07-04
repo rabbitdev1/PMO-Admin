@@ -361,6 +361,10 @@ const getKeyLabel = (key) => {
       return "manajemen risiko SPBE";
     case "skpd_request_letter":
       return "Surat Permohonan SKPD";
+    case "unit_price":
+      return "Harga Satuan";
+    case "total_price":
+      return "Jumlah";
     default:
       return key;
   }

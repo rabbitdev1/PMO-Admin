@@ -18,7 +18,6 @@ export const isValidatorPenambahanAlat = (obj) => {
   isValid = isValid && validateTelp(obj.telp_pic, "Nomor PIC");
   isValid = isValid && validateArray(obj.type_tools, "Jenis Alat yang dibutuhkan");
   isValid = isValid && validateHTML(obj.reason, "Alasan Pengajuan");
-  isValid = isValid && validateText(obj.distance_estimation, "Estimati Jarak");
 
   return isValid;
 };
@@ -30,7 +29,6 @@ export const isValidatorPenambahanBandwith = (obj) => {
   isValid = isValid && validateArray(obj.initial_bandwith, "Bandtwith Awal");
   isValid = isValid && validateArray(obj.proposed_bandwidth, "Bandtwith Usulan");
   isValid = isValid && validateHTML(obj.reason, "Alasan Pengajuan");
-  isValid = isValid && validatePeriod1(obj.period, "Periode Jangka Waktu");
 
   // if (obj.status_BDO === 'temporary') {
   //   isValid = isValid && validatePeriod(obj.period, "Periode Jangka Waktu");
