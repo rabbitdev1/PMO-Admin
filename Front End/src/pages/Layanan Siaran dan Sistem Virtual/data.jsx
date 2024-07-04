@@ -12,9 +12,9 @@ export const formData = [
     fields: [
       { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
-      { name: "period", label: "Waktu", value: "", type: "date" },
+      { name: "date", label: "Tanggal", value: "", type: "date" },
       { name: "user_qty", label: "Jumlah User", value: "", type: "text" },
-      { name: "period", label: "Jam", value: "", type: "multi_date" },
+      { name: "time", label: "Jam", value: "", type: "time" },
       { name: "reason", label: "Alasan Dibutuhkan", value: "", type: "editor" },
     ],
   },

@@ -246,38 +246,24 @@ export const validateTextArea = (value, title) => {
 //   return true;
 // };
 
+export const validateTime = (value, title) => {
+    if (!value) {
+        toast.error("Jam Tidak Boleh Kosong", {
+            position: toast.POSITION.TOP_RIGHT,
+        });
+        return false;
+    }
+    return true;
+};
+
 export const validatePeriod = (value, title) => {
-    if (!value || !value.startDate || !value.endDate) {
+    if (!value) {
         console.log('Validation failed: Both dates are required.');
         toast.error("Mohon isi tanggal untuk " + title, {
             position: toast.POSITION.TOP_RIGHT,
         });
         return false;
     }
-
-    const startDate = new Date(value.startDate);
-    const endDate = new Date(value.endDate);
-
-    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-        console.log('Validation failed: Invalid date format.');
-        toast.error("Format tanggal tidak valid untuk " + title, {
-            position: toast.POSITION.TOP_RIGHT,
-        });
-        return false;
-    }
-
-    if (startDate > endDate) {
-        console.log('Validation failed: Start date is greater than end date.');
-        toast.error(
-            "Tanggal mulai tidak boleh lebih besar dari tanggal selesai untuk " +
-            title, {
-                position: toast.POSITION.TOP_RIGHT,
-            }
-        );
-        return false;
-    }
-
-    console.log('Validation succeeded: ', value);
     return true;
 };
 
