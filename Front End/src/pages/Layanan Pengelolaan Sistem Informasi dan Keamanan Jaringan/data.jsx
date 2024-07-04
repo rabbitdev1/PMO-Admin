@@ -266,40 +266,6 @@ const getUserAccountSIFinish = (finishData) => [
   }
 ];
 
-const getPengujianCelahKeamananProcess = (inputLocal) => [
-  {
-    label: "Unggah Dokumen Pengujian Celah Keamanan",
-    value: inputLocal.upload_dokumen_pengujian_celah_keamanan,
-    type: "file_upload",
-    name: 'upload_dokumen_pengujian_celah_keamanan'
-  },
-];
-
-const getPengujianCelahKeamananFinish = (finishData) => [
-  {
-    label: "Status Pengajuan",
-    value: finishData.submission_status,
-    name: "submission_status",
-    type: "radio_button",
-    options: [
-      { value: "1", label: "Menyetujui" },
-      { value: "0", label: "Tidak Menyetujui" }
-    ]
-  },
-  {
-    label: "Unggah Surat Pemberitahuan untuk OPD",
-    value: finishData.file_submission,
-    name: 'file_submission',
-    type: "file_upload"
-  },
-  {
-    label: "Tanggapan",
-    value: finishData.response || null,
-    type: "textarea",
-    name: 'response'
-  }
-];
-
 const getEmailProcess = (inputLocal) => [
   {
     label: "Unggah Surat Pengesahan",
@@ -378,9 +344,5 @@ const getCelahKeamananFinish = (finishData) => [
 
 export {
   getIntergasiSIProcess, getIntergasiSIFinish, getModulTTEProcess, getModulTTEFinish, getUserAccountSIProcess, getUserAccountSIFinish,
-<<<<<<< Updated upstream
-  getEmailProcess, getEmailFinish, getPengujianCelahKeamananProcess,getPengujianCelahKeamananFinish
-=======
   getEmailProcess, getEmailFinish, getCelahKeamananProcess, getCelahKeamananFinish
->>>>>>> Stashed changes
 };

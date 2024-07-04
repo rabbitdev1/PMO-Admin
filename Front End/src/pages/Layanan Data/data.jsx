@@ -21,7 +21,7 @@ export const formData = [
         name: "reason",
         label: "Alasan Pengajuan",
         value: "",
-        type: "textarea",
+        type: "editor",
       },
     ],
   },

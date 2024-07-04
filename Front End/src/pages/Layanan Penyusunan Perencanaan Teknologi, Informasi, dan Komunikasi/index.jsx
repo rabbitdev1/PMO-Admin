@@ -313,7 +313,7 @@ function LayananPenyusunanPerencanaanTIKPages() {
       const { result: nameValueObject, newObject: newObjectFromConversion } =
         convertToNameValueObject(foundObject);
       const nameValueObject2 = {
-        submission_type: isModalType.data,
+        submission_type: "Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi",
         role: foundObject.role,
         submission_title: isModalCreate.data.replace("Pengajuan ", ""),
       };
