@@ -115,6 +115,10 @@ const getKeyLabel = (key) => {
       return "Skema Integrasi";
 
 
+    case "ram":
+      return "RAM";
+
+
       case "name_PPK":
       return "Nama PPK";
     case "title_kak":
@@ -418,9 +422,9 @@ const getFieldType = (key) => {
     case "createdAt":
       return "multi_date";
     case "period":
+      case "date1":
     case "letterDate":
       return "multidate";
-
     default:
       return "text";
   }

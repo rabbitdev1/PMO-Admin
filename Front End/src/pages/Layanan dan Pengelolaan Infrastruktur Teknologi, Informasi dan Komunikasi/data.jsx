@@ -24,6 +24,14 @@ export const formData = [
         ],
       },
       {
+        name: "distance_estimation",
+        label: "Estimasi Jarak",
+        value: "",
+        type: "textarea",
+        noted:
+          "Contoh: Perangkat utama (router) ke lokasi perangkat yang akan ditambahkan (router) sekitar 30 Meter",
+      },
+      {
         name: "reason",
         label: "Alasan Pengajuan",
         value: "",
@@ -217,12 +225,12 @@ export const formData = [
             value: [],
             type: "selection",
             options: [
-              { value: "alat_1", label: "2 GB" },
-              { value: "alat_2", label: "4 GB" },
-              { value: "alat_3", label: "8 GB" },
-              { value: "alat_4", label: "16 GB" },
-              { value: "alat_5", label: "32 GB" },
-              { value: "alat_6", label: "64 GB" },
+              { value: "2gb", label: "2 GB" },
+              { value: "4gb", label: "4 GB" },
+              { value: "8gb", label: "8 GB" },
+              { value: "16gb", label: "16 GB" },
+              { value: "32gb", label: "32 GB" },
+              { value: "64gb", label: "64 GB" },
             ],
           },
           {
@@ -260,19 +268,15 @@ export const formData = [
       {
         name: "app",
         label: "Nama Aplikasi",
-        value: [],
-        type: "selection",
-        options: [
-          { value: "alat_1", label: "Alat 1" },
-          { value: "alat_2", label: "Alat 2" },
-          { value: "alat_3", label: "Alat 3" },
-        ],
+        value: "",
+        type: "text",
       },
       {
         name: "domain_name",
         label: "Usulan Nama Domain",
         value: "",
         type: "text",
+        noted: "Contoh: www.example.go.id"
       },
       {
         name: "ip_address",

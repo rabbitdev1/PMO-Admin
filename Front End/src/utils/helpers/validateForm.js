@@ -248,7 +248,7 @@ export const validateTextArea = (value, title) => {
 
 export const validateTime = (value, title) => {
     if (!value) {
-        toast.error("Jam Tidak Boleh Kosong", {
+        toast.error("Jam Tidak Boleh Kosong untuk" + title, {
             position: toast.POSITION.TOP_RIGHT,
         });
         return false;

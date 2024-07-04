@@ -70,7 +70,7 @@ export const isValidatorPengujianCelahKeamanan = (obj) => {
   isValid = isValid && validateHTML(obj.app_desc, "Deskripsi Aplikasi");
   isValid = isValid && validateText(obj.app_version, "Versi Aplikasi");
   isValid = isValid && validateArray(obj.app_ownership, "Kepemilikan Aplikasi");
-  isValid = isValid && validateText(obj.username, "Username");
+  isValid = isValid && validateText(obj.username, "Nama Akun");
   isValid = isValid && validatePassword(obj.password, "Password");
   isValid = isValid && validateText(obj.domain_url, "Domain URL");
   isValid = isValid && validateFile(obj.file_process_bisiness, "Dokumen Proses Bisnis");

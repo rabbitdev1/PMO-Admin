@@ -5,8 +5,8 @@ export const isValidatorZoom = (obj) => {
   let isValid = true;
   isValid = isValid && validateFullname(obj.name_pic, "Nama PIC");
   isValid = isValid && validateTelp(obj.telp_pic, "Nomor PIC");
-  isValid = isValid && validatePeriod(obj.date, "Tanggal");
-  isValid = isValid && validateText(obj.user_qty, "Jumlah User");
+  isValid = isValid && validatePeriod(obj.date1, "Tanggal");
+  isValid = isValid && validateText(obj.user_qty, "Jumlah Pengguna");
   isValid = isValid && validateTime(obj.time, "Jam");
   isValid = isValid && validateHTML(obj.reason, "Alasan Pengajuan");
 
