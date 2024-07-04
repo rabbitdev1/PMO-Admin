@@ -289,8 +289,8 @@ const getKeyLabel = (key) => {
       return "Jenis Akun User";
     case "file_data":
       return "File Data";
-    case "file_permohonan":
-      return "File Permohonan";
+    case "file_decison":
+      return "File Keputusan";
 
     case "applicationType":
       return "Jenis Aplikasi";
@@ -416,6 +416,7 @@ const getFieldType = (key) => {
     case "file_data":
     case "surat_permohonan":
     case "skpd_request_letter":
+    case "file_decison":
       return "pdf";
     case "type_tools":
       return "array";
