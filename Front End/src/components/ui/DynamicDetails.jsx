@@ -71,8 +71,6 @@ const getKeyLabel = (key) => {
       return "Screenshot";
     case "period":
       return "Periode Jangka Waktu";
-    case "submission_type":
-      return "Jenis Pengajuan";
     case "device_specifications":
       return "Spesifikasi Alat";
     case "proposed_bandwidth":

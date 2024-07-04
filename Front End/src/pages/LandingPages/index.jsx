@@ -38,95 +38,95 @@ function LandingPages() {
     data: {},
   });
   const [formData, setFormData] = useState([
-  {
-    name: "Pengajuan User Account",
-    type: "Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan",
-    role: [
-      "op_pmo",
-      "perangkat_daerah",
-      "kabid_aplikasi",
-      "katim_aplikasi",
-      "teknis_aplikasi",
-    ],
-    fields: [
-      { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
-      { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
-      {
-        name: "submission_type_user_account",
-        label: "Jenis Pengajuan",
-        value: [],
-        type: "selection",
-        options: [
-          {
-            value: "reset_password",
-            label: "Ganti Kata Sandi",
-          },
-          {
-            value: "new_account",
-            label: "Pembuatan Akun Baru",
-          },
-        ],
-      },
-      {
-        name: "account_type",
-        label: "Jenis Akun",
-        value: [],
-        type: "selection",
-        options: [
-          { value: "account_1", label: "Akun 1" },
-          { value: "account_2", label: "Akun 2" },
-        ],
-        visible: false,
-      },
-      {
-        name: "password",
-        label: "Kata Sandi Lama",
-        value: "",
-        type: "password",
-        visible: false,
-      },
-      {
-        name: "name", label: "Nama PPK", value: "", type: "text", visible: false
-      },
-      {
-        name: "telp", label: "Nomor Handphone", value: "", type: "tel", visible: false
-      },
-      {
-        name: "email", label: "Email", value: "", type: "email", visible: false
-      },
-      {
-        name: "origin_agency", label: "Asal Instansi", value: "", type: "text", visible: false
-      },
-      // {
-      //   name: "password",
-      //   label: "Password Lama",
-      //   value: "",
-      //   type: "password",
-      //   visible: false,
-      // },
-      {
-        name: "new_password",
-        label: "Kata Sandi Baru",
-        value: "",
-        type: "password",
-        visible: false,
-      },
-      {
-        name: "repeat_password",
-        label: "Ulangi Kata Sandi",
-        value: "",
-        type: "password",
-        visible: false,
-      },
+    {
+      name: "Pengajuan User Account",
+      type: "Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan",
+      role: [
+        "op_pmo",
+        "perangkat_daerah",
+        "kabid_aplikasi",
+        "katim_aplikasi",
+        "teknis_aplikasi",
+      ],
+      fields: [
+        { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
+        { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
+        {
+          name: "submission_type_user_account",
+          label: "Jenis Pengajuan",
+          value: [],
+          type: "selection",
+          options: [
+            {
+              value: "reset_password",
+              label: "Ganti Kata Sandi",
+            },
+            {
+              value: "new_account",
+              label: "Pembuatan Akun Baru",
+            },
+          ],
+        },
+        {
+          name: "account_type",
+          label: "Jenis Akun",
+          value: [],
+          type: "selection",
+          options: [
+            { value: "account_1", label: "Akun 1" },
+            { value: "account_2", label: "Akun 2" },
+          ],
+          visible: false,
+        },
+        {
+          name: "password",
+          label: "Kata Sandi Lama",
+          value: "",
+          type: "password",
+          visible: false,
+        },
+        {
+          name: "name", label: "Nama PPK", value: "", type: "text", visible: false
+        },
+        {
+          name: "telp", label: "Nomor Handphone", value: "", type: "tel", visible: false
+        },
+        {
+          name: "email", label: "Email", value: "", type: "email", visible: false
+        },
+        {
+          name: "origin_agency", label: "Asal Instansi", value: "", type: "text", visible: false
+        },
+        // {
+        //   name: "password",
+        //   label: "Password Lama",
+        //   value: "",
+        //   type: "password",
+        //   visible: false,
+        // },
+        {
+          name: "new_password",
+          label: "Kata Sandi Baru",
+          value: "",
+          type: "password",
+          visible: false,
+        },
+        {
+          name: "repeat_password",
+          label: "Ulangi Kata Sandi",
+          value: "",
+          type: "password",
+          visible: false,
+        },
 
-      {
-        name: "reason",
-        label: "Alasan Pengajuan",
-        value: "",
-        type: "editor",
-      },
-    ],
-  },
+        {
+          name: "reason",
+          label: "Alasan Pengajuan",
+          value: "",
+          type: "editor",
+        },
+      ],
+    },
   ]);
 
   const [activeSlide, setActiveSlide] = useState(0);
@@ -149,22 +149,22 @@ function LandingPages() {
   const [articleUpdate, setArticleUpdate] = useState([
     {
       "id": "394",
-      "image_url": "https://web.kominfo.go.id/sites/default/files/kominfo-sekjen-mira-tayyiba-AYH-1.jpeg",
+      "image_url": "https://static.vecteezy.com/system/resources/previews/005/337/799/large_2x/icon-image-not-found-free-vector.jpg",
       "title": "Nilai Kinerja Anggaran Sangat Baik, Kominfo Raih Penghargaan Kemenkeu",
     },
     {
       "id": "325",
-      "image_url": "https://web.kominfo.go.id/sites/default/files/kominfo-cekhoaks-hoaks-disinformasi-misinformasi-pengungsi-rohingya-sengaja-dikirim-ke-indonesia-alihkan-isu-palestina.jpeg",
+      "image_url": "https://static.vecteezy.com/system/resources/previews/005/337/799/large_2x/icon-image-not-found-free-vector.jpg",
       "title": "Awas Hoaks! Pengungsi Rohingya Sengaja Dikirim ke Indonesia",
     },
     {
       "id": "340",
-      "image_url": "https://web.kominfo.go.id/sites/default/files/kominfo-menteri-budi-arie-setiadi_0.jpg",
+      "image_url": "https://static.vecteezy.com/system/resources/previews/005/337/799/large_2x/icon-image-not-found-free-vector.jpg",
       "title": "Putus Akses Lebih dari 800 Ribu Konten, Gerak Cepat Menteri Budi Arie Berantas Judi Online",
     },
     {
       "id": "325",
-      "image_url": "https://web.kominfo.go.id/sites/default/files/kominfo-cekhoaks-hoaks-disinformasi-misinformasi-pengungsi-rohingya-sengaja-dikirim-ke-indonesia-alihkan-isu-palestina.jpeg",
+      "image_url": "https://static.vecteezy.com/system/resources/previews/005/337/799/large_2x/icon-image-not-found-free-vector.jpg",
       "title": "Awas Hoaks! Pengungsi Rohingya Sengaja Dikirim ke Indonesia",
     },]);
 
@@ -210,20 +210,31 @@ function LandingPages() {
       (field) => field.name === fieldName
     );
 
-    // if (fieldName === 'status_BDO') {
-    //   // Check if the selected value is 'temporary'
-    //   const isTemporary = value === 'temporary';
-    //   // Update the visibility of the 'period' field based on the status
-    //   const periodFieldIndex = currentSection.fields.findIndex(field => field.name === 'period');
-    //   updatedFormData[sectionIndex].fields[periodFieldIndex].visible = isTemporary;
+    if (fieldName === 'submission_type_user_account') {
+      const isResetPassword = value.value === 'reset_password';
+      const isNewAccount = value.value === 'new_account';
 
-    //   if (!isTemporary) {
-    //     updatedFormData[sectionIndex].fields[periodFieldIndex].value = { startDate: null, endDate: null };
-    //   }
-    // }
+      // Set visibility for reset_password related fields
+      ['new_password', 'repeat_password'].forEach(name => {
+        const fieldIndex = currentSection.fields.findIndex(field => field.name === name);
+        if (fieldIndex !== -1) {
+          currentSection.fields[fieldIndex].visible = isResetPassword;
+        }
+      });
+
+      // Set visibility for new_account related fields
+      ['account_type', 'name', 'telp', 'email', 'origin_agency'].forEach(name => {
+        const fieldIndex = currentSection.fields.findIndex(field => field.name === name);
+        if (fieldIndex !== -1) {
+          currentSection.fields[fieldIndex].visible = isNewAccount;
+        }
+      });
+    }
 
     // Update the value of the field
-    updatedFormData[sectionIndex].fields[fieldToUpdateIndex].value = value;
+    if (fieldToUpdateIndex !== -1) {
+      currentSection.fields[fieldToUpdateIndex].value = value;
+    }
 
     setFormData(updatedFormData);
   };
@@ -287,7 +298,7 @@ function LandingPages() {
                             <img
                               src={item.image_url}
                               alt={item.image_url}
-                              className=" object-cover flex flex-col flex-1 w-full aspect-[3/1] bg-green-400"
+                              className=" object-cover flex flex-col flex-1 w-full aspect-[2/1] bg-green-400"
                               effect="blur"
                             />
                           </button>
@@ -538,7 +549,6 @@ function LandingPages() {
             <div className="flex flex-row justify-between">
               <span className="text-lg font-bold font-gilroy">
                 Buat {isModalCreate.data}
-                {JSON.stringify(isModalCreate)}
               </span>
               <DynamicButton
                 iconLeft={<CloseIcon className="w-4 h-4 " />}
@@ -557,81 +567,23 @@ function LandingPages() {
                   section.name === isModalCreate.data && (
                     <div key={sectionIndex} className="flex flex-col gap-3">
                       {section.fields.map((item, index) => (
-                        <div key={index} className="flex flex-col gap-2">
-                          {item.visible !== false && (
-                            <DynamicInput
-                              name={item.name}
-                              label={item.label}
-                              noted={item.noted}
-                              value={item.value}
-                              options={item.options}
-                              onChange={(value) =>
-                                handleInputChange(
-                                  item.name,
-                                  value,
-                                  sectionIndex
-                                )
-                              }
-                              type={item.type}
-                              placeholder={"Masukan " + item.label}
-                            />
-                          )}
-                          {section.name === "Pengajuan Penambahan Alat" &&
-                            item.label === "Jenis Alat yang dibutuhkan" &&
-                            item.value?.length !== 0 && (
-                              <div className="flex flex-col gap-1">
-                                <span className="text-sm font-bold">
-                                  Jumlah Usulan Alat Yang Dipilih :
-                                </span>
-                                <div className="grid grid-cols-1 md:grid-cols-3 sm:grid-cols-2 gap-3">
-                                  {item.value.map(
-                                    (selectedItem, selectedItemIndex) => (
-                                      <DynamicInput
-                                        key={selectedItemIndex}
-                                        name={selectedItem.value}
-                                        label={`Jumlah ${selectedItem.label}`}
-                                        value={selectedItem.quantity || ""}
-                                        onChange={(value) => {
-                                          const updatedFormData = [...formData];
-                                          const alatField =
-                                            updatedFormData[sectionIndex]
-                                              .fields[index].value;
-                                          alatField[
-                                            selectedItemIndex
-                                          ].quantity = value;
-                                          setFormData(updatedFormData);
-                                        }}
-                                        type={"select_number"}
-                                        placeholder={`Masukan Jumlah ${selectedItem.label}`}
-                                      />
-                                    )
-                                  )}
-                                </div>
-                              </div>
-                            )}
-                          {item?.field &&
-                            item?.field?.map(
-                              (itemField, indexField) =>
-                                item?.value?.value ===
-                                  itemField.type_select && (
-                                  <DynamicInput
-                                    key={indexField}
-                                    name={itemField.name}
-                                    label={itemField.label}
-                                    value={itemField.value}
-                                    options={itemField.options}
-                                    onChange={(value) => {
-                                      const updatedFormData = [...formData];
-                                      updatedFormData[sectionIndex].fields[
-                                        index
-                                      ].field[indexField].value = value;
-                                      setFormData(updatedFormData);
-                                    }}
-                                    type={itemField.type}
-                                    placeholder={"Masukan " + itemField.label}
-                                  />
-                                )
-                            )}
+                        item.visible !== false && <div key={index} className="flex flex-col gap-2">
+                          <DynamicInput
+                            name={item.name}
+                            label={item.label}
+                            noted={item.noted}
+                            value={item.value}
+                            options={item.options}
+                            onChange={(value) =>
+                              handleInputChange(
+                                item.name,
+                                value,
+                                sectionIndex
+                              )
+                            }
+                            type={item.type}
+                            placeholder={"Masukan " + item.label}
+                          />
                         </div>
                       ))}
                     </div>
@@ -658,16 +610,16 @@ function LandingPages() {
                   checkingFormData();
                 }}
               />
-            </div> 
+            </div>
           </div>
         }
-        onClose={()=>{
+        onClose={() => {
           setisModalCreate({ data: {}, status: false });
           resetFormData(isModalCreate.data, formData, setFormData);
         }}
         active={isModalCreate.status}
       />
-       <div id="modal-root" className="z-50"></div>
+      <div id="modal-root" className="z-50"></div>
     </div>
   );
 }
