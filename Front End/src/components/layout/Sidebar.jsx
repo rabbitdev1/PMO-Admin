@@ -85,7 +85,6 @@ const Sidebar = () => {
     {
       title: "Layanan Pengelolaan Sistem Informasi dan Keamanan Sistem Informasi", role: ['op_pmo', 'perangkat_daerah', 'kabid_aplikasi', 'teknis_aplikasi', 'katim_aplikasi',],
       submenu: [
-        { title: 'User Akun Sistem Informasi', href: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", state: 'User Akun Sistem Informasi' },
         { title: 'Intergrasi Sistem Informasi', href: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", state: 'Integrasi Sistem Informasi' },
         { title: 'Penerapan Modul TTE', href: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", state: 'Penerapan Modul TTE' },
         { title: 'Permohonan Email', href: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", state: 'Permohonan Email' },

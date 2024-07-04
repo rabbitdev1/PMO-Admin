@@ -16,13 +16,7 @@ export const formData = [
         name: "app_name",
         label: "Nama Aplikasi",
         value: [],
-        type: "selection",
-        options: [
-          { value: "15", label: "15 Mbps" },
-          { value: "20", label: "20 Mbps" },
-          { value: "25", label: "25 Mbps" },
-          { value: "30", label: "30 Mbps" },
-        ]
+        type: "text",
       },
       {
         name: "app_desc",
