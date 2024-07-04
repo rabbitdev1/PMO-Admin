@@ -249,7 +249,7 @@ export const validateTextArea = (value, title) => {
 export const validatePeriod = (value, title) => {
     if (!value || !value.startDate || !value.endDate) {
         console.log('Validation failed: Both dates are required.');
-        toast.error("Mohon isi kedua tanggal untuk " + title, {
+        toast.error("Mohon isi tanggal untuk " + title, {
             position: toast.POSITION.TOP_RIGHT,
         });
         return false;

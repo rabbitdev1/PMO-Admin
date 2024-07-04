@@ -18,7 +18,6 @@ export const isValidatorPenambahanAlat = (obj) => {
   isValid = isValid && validateTelp(obj.telp_pic, "Nomor PIC");
   isValid = isValid && validateArray(obj.type_tools, "Jenis Alat yang dibutuhkan");
   isValid = isValid && validateHTML(obj.reason, "Alasan Pengajuan");
-  isValid = isValid && validateText(obj.distance_estimation, "Estimati Jarak");
 
   return isValid;
 };
