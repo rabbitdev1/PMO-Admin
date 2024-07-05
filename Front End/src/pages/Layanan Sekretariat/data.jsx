@@ -1,6 +1,6 @@
 export const formData = [
   {
-    name: "Pengajuan Pendaftaran Magang",
+    name: "Pengajuan Layanan Pendaftaran Magang",
     type: "Layanan Sekretariat",
     role: [
       "op_pmo",
@@ -35,7 +35,7 @@ export const formData = [
     ],
   },
   {
-    name: "Pendataan Tenaga Ahli",
+    name: "Pengajuan Layanan Pendataan Tenaga Ahli",
     type: "Layanan Sekretariat",
     role: ["op_pmo",
     "perangkat_daerah",
@@ -65,7 +65,7 @@ export const formData = [
           startDate: null,
           endDate: null,
         },
-        type: "date",
+        type: "multi_date",
         visible: true,
       },
       {

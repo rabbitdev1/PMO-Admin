@@ -135,8 +135,8 @@ const Sidebar = () => {
     {
       title: "Layanan Sekretariat", role: ['op_pmo', 'perangkat_daerah', 'sekretariat', 'katim_sekre', 'teknis_sekre'],
       submenu: [
-        { title: 'Pendaftaran Magang', href: "/layanan-sekretariat", state: 'Pendaftaran Magang' },
-        { title: 'Pendataan Tenaga Ahli', href: "/layanan-sekretariat", state: 'Pendataan Tenaga Ahli' },
+        { title: 'Pendaftaran Magang', href: "/layanan-sekretariat", state: 'Layanan Pendaftaran Magang' },
+        { title: 'Pendataan Tenaga Ahli', href: "/layanan-sekretariat", state: 'Layanan Pendataan Tenaga Ahli' },
       ]
       , icon: AllBerandaIcon, href: ["/layanan-sekretariat", "/detail-sekretariat"],
     },
