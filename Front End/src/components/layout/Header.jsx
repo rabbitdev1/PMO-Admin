@@ -88,7 +88,7 @@ const Header = () => {
 
   return (
     <header className=" flex flex-row flex-1 bg-lightColor transition duration-300 ease-in-out dark:bg-cardDark border-b-[1px] border-[#dddddd] dark:border-[#ffffff20] h-16">
-      <div className={`lg:flex flex-col hidden w-full max-w-[280px] flex-1 p-3 py-2 border-r-[1px] border-[#dddddd] dark:border-[#ffffff20]`}>
+      <div className={`lg:flex flex-col hidden w-full max-w-[300px] flex-1 p-3 py-2 border-r-[1px] border-[#dddddd] dark:border-[#ffffff20]`}>
         <div
           onClick={() => {
             setShowOverlay(false);

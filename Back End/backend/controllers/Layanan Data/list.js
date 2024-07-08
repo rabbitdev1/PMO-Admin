@@ -25,7 +25,7 @@ export const getListDataLayananData = async(req, res) => {
                 );
 
                 if (validLayananData.length === 0) {
-                    return res.status(400).json({
+                    return res.status(200).json({
                         status: "error",
                         msg: "Item not found",
                     });

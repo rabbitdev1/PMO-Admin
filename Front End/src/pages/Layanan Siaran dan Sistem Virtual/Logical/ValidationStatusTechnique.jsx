@@ -9,7 +9,7 @@ import DynamicDetails from "../../../components/ui/DynamicDetails";
 import { apiClient } from "../../../utils/api/apiClient";
 import {
   validateFile,
-  validatePeriod,
+  validateDate,
   validateText,
 } from "../../../utils/helpers/validateForm";
 
@@ -191,7 +191,7 @@ const ValidationStatusTechnique = ({
                           );
                         isValid =
                           isValid &&
-                          validatePeriod(
+                          validateDate(
                             inputLocal.working_schedule,
                             "Jadwal Pengerjaan"
                           );
@@ -234,7 +234,7 @@ const ValidationStatusTechnique = ({
                             : key === "team_response"
                               ? "text"
                               : key === "working_schedule"
-                                ? "multidate"
+                                ? "multi_date"
                                 : "text"
                         }
                       />
@@ -267,7 +267,7 @@ const ValidationStatusTechnique = ({
                             : key === "team_response"
                               ? "text"
                               : key === "working_schedule"
-                                ? "multidate"
+                                ? "multi_date"
                                 : "text"
                         }
                       />
@@ -401,7 +401,7 @@ const ValidationStatusTechnique = ({
                     key === "team_response"
                       ? "text"
                       : key === "working_schedule"
-                        ? "multidate"
+                        ? "multi_date"
                         : key === "response"
                           ? "html"
                           : "text"

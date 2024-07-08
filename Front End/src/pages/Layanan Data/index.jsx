@@ -85,7 +85,7 @@ function LayananDataPages() {
       dispatch(isPending(false));
       if (response?.statusCode === 200) {
         if (JSON.parse(authProfile)?.role === "perangkat_daerah") {
-          const filteredSubmissions = response.result.data.filter(submission => submission.submission_title === dataState);
+          const filteredSubmissions = response.result.data?.filter(submission => submission.submission_title === dataState);
           setListLayananData(filteredSubmissions);
           console.log(dataState);
         } else {
@@ -349,7 +349,7 @@ function LayananDataPages() {
 
   return (
     <div className="flex flex-col gap-3 flex-1 p-4" >
-      <TitleHeader title={JSON.parse(authProfile)?.role === "perangkat_daerah" ? "Layanan Pengajuan" : "Layanan Data"}
+      <TitleHeader title={JSON.parse(authProfile)?.role === "perangkat_daerah" ? "Layanan Pengajuan " + dataState : "Layanan Data"}
 
         link1={"dashboard"}
         link2={'Bidang Data'} />
@@ -423,7 +423,7 @@ function LayananDataPages() {
                 dataHeader={[
                   { name: "ID", field: "id" },
                   { name: "Nama PIC", field: "name_pic" },
-                  { name: "Jenis Pengajuan", field: "submission_title" },
+                  { name: "Jenis Layanan", field: "submission_title" },
                   { name: "Status", field: "submission_status" },
                   { name: "Tanggal", field: "createdAt" },
                   { name: "Aksi", field: "action" },

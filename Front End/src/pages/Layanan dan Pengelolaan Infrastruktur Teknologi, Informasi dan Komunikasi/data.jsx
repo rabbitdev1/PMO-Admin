@@ -17,11 +17,7 @@ export const formData = [
         label: "Jenis Alat yang direlokasikan",
         value: [],
         type: "multi_selection",
-        options: [
-          { value: "alat_1", label: "Alat 1" },
-          { value: "alat_2", label: "Alat 2" },
-          { value: "alat_3", label: "Alat 3" },
-        ],
+        options: [],
       },
       {
         name: "distance_estimation",
@@ -67,20 +63,7 @@ export const formData = [
         label: "Jenis Alat yang dibutuhkan",
         value: [],
         type: "multi_selection",
-        options: [
-          { value: "Kabel Utp cat 6 (roll)", label: "Kabel Utp cat 6 (roll)" },
-          { value: "Access Point Unifi", label: "Access Point Unifi" },
-          { value: "Access Point Tp Link", label: "Access Point Tp Link" },
-          { value: "Switch 8 port", label: "Switch 8 port" },
-          { value: "Konektor Rj45", label: "Konektor Rj45" },
-          { value: "Tang crimping", label: "Tang crimping" },
-          { value: "Kabel ties (ripet)", label: "Kabel ties (ripet)" },
-          { value: "Lan tester", label: "Lan tester" },
-          { value: "Label", label: "Label" },
-          { value: "Klem Kabel ukuran 10", label: "Klem Kabel ukuran 10" },
-          { value: "Usb Hub TP Link", label: "Usb Hub TP Link" },
-          { value: "Usb Hub TP Link Gigabite", label: "Usb Hub TP Link Gigabite" },
-        ],
+        options: [],
       },
       {
         name: "reason",
@@ -88,14 +71,6 @@ export const formData = [
         value: "",
         type: "editor",
       },
-      // {
-      //   name: "distance_estimation",
-      //   label: "Estimasi Jarak",
-      //   value: "",
-      //   type: "textarea",
-      //   noted:
-      //     "Contoh: Perangkat utama (router) ke lokasi perangkat yang akan ditambahkan (router) sekitar 30 Meter",
-      // },
     ],
   },
   {
@@ -148,27 +123,6 @@ export const formData = [
         value: "",
         type: "editor",
       },
-      // {
-      //   name: "status_BDO",
-      //   label: "Status BDO",
-      //   value: "",
-      //   type: "radio_button",
-      //   options: [
-      //     { value: "permanent", label: "Permanen" },
-      //     { value: "temporary", label: "Sementara" },
-      //   ],
-      // },
-      // {
-      //   name: "period",
-      //   label: "Periode Jangka Waktu",
-      //   value: {
-      //     startDate: null,
-      //     endDate: null,
-      //   },
-      //   type: "multi_date",
-      //   visible: true,
-      //   // visible: false,
-      // },
     ],
   },
   {
@@ -234,22 +188,52 @@ export const formData = [
             value: [],
             type: "selection",
             options: [
-              { value: "2gb", label: "2 GB" },
-              { value: "4gb", label: "4 GB" },
-              { value: "8gb", label: "8 GB" },
-              { value: "16gb", label: "16 GB" },
-              { value: "32gb", label: "32 GB" },
-              { value: "64gb", label: "64 GB" },
+              { value: "2gb", label: "2 GB", labelItem: 'RAM' },
+              { value: "4gb", label: "4 GB", labelItem: 'RAM' },
+              { value: "8gb", label: "8 GB", labelItem: 'RAM' },
+              { value: "16gb", label: "16 GB", labelItem: 'RAM' },
+              { value: "32gb", label: "32 GB", labelItem: 'RAM' },
+              { value: "64gb", label: "64 GB", labelItem: 'RAM' },
             ],
           },
           {
             label: "Processor",
             name: "processor",
-            value: "",
-            noted: "Contoh: ",
+            value: [],
+            type: "selection",
+            options: [
+              { value: "i3", label: "Intel Core i3", labelItem: 'Processor' },
+              { value: "i5", label: "Intel Core i5" , labelItem: 'Processor'},
+              { value: "i7", label: "Intel Core i7", labelItem: 'Processor' },
+              { value: "i9", label: "Intel Core i9", labelItem: 'Processor' },
+              { value: "r5", label: "AMD Ryzen 5", labelItem: 'Processor' },
+              { value: "r7", label: "AMD Ryzen 7", labelItem: 'Processor' },
+            ],
           },
-          { label: "Storage", name: "storage", value: "" },
-          { label: "System Operation", name: "system_operation", value: "" },
+          {
+            label: "Storage",
+            name: "storage",
+            value: [],
+            type: "selection",
+            options: [
+              { value: "256gb", label: "256 GB" , labelItem: 'Storage'},
+              { value: "512gb", label: "512 GB", labelItem: 'Storage' },
+              { value: "1tb", label: "1 TB", labelItem: 'Storage' },
+              { value: "2tb", label: "2 TB", labelItem: 'Storage'},
+            ],
+          },
+          {
+            label: "System Operation",
+            name: "system_operation",
+            value: [],
+            type: "selection",
+            options: [
+              { value: "windows", label: "Windows" , labelItem: 'System Operation'},
+              { value: "macos", label: "macOS", labelItem: 'System Operation' },
+              { value: "linux", label: "Linux", labelItem: 'System Operation' },
+              { value: "other", label: "Other", labelItem: 'System Operation' },
+            ],
+          },
         ],
         type: "input_array",
       },
@@ -303,7 +287,92 @@ export const formData = [
   },
 ];
 
-// Function to get RelokasiAlatProcess
+
+const getRelokasiAlatValidation = (inputLocal) => [
+  {
+    label: "Tanggapan Tim Teknis",
+    value: inputLocal.team_response,
+    type: "textarea",
+    name: 'team_response'
+  },
+  {
+    label: "Jadwal Pengerjaan",
+    value: inputLocal.working_schedule,
+    type: "multi_date",
+    name: 'working_schedule'
+  }
+];
+const getPenambahanBandwidthValidation = (inputLocal) => [
+  {
+    label: "Tanggapan Tim Teknis",
+    value: inputLocal.team_response,
+    type: "textarea",
+    name: 'team_response'
+  },
+  {
+    label: "Jadwal Pengerjaan",
+    value: inputLocal.working_schedule,
+    type: "multi_date",
+    name: 'working_schedule'
+  }
+];
+const getPenambahanAlatValidation = (inputLocal) => [
+  {
+    label: "Tanggapan Tim Teknis",
+    value: inputLocal.team_response,
+    type: "textarea",
+    name: 'team_response'
+  },
+  {
+    label: "Jadwal Pengerjaan",
+    value: inputLocal.working_schedule,
+    type: "multi_date",
+    name: 'working_schedule'
+  }
+];
+const getTroubleshootingValidation = (inputLocal) => [
+  {
+    label: "Tanggapan Tim Teknis",
+    value: inputLocal.team_response,
+    type: "textarea",
+    name: 'team_response'
+  },
+  {
+    label: "Jadwal Pengerjaan",
+    value: inputLocal.working_schedule,
+    type: "multi_date",
+    name: 'working_schedule'
+  }
+];
+const getDomainValidation = (inputLocal) => [
+  {
+    label: "Tanggapan Tim Teknis",
+    value: inputLocal.team_response,
+    type: "textarea",
+    name: 'team_response'
+  },
+  {
+    label: "Jadwal Pengerjaan",
+    value: inputLocal.working_schedule,
+    type: "multi_date",
+    name: 'working_schedule'
+  }
+];
+const getHostingValidation = (inputLocal) => [
+  {
+    label: "Tanggapan Tim Teknis",
+    value: inputLocal.team_response,
+    type: "textarea",
+    name: 'team_response'
+  },
+  {
+    label: "Jadwal Pengerjaan",
+    value: inputLocal.working_schedule,
+    type: "multi_date",
+    name: 'working_schedule'
+  }
+];
+
 const getRelokasiAlatProcess = (inputLocal) => [
   {
     label: "Unggah Foto Alat Sebelum di Relokasi",
@@ -318,8 +387,6 @@ const getRelokasiAlatProcess = (inputLocal) => [
     name: "upload_foto_alat_sesudah_di_relokasi",
   },
 ];
-
-// Function to get PenambahanAlatProcess
 const getPenambahanAlatProcess = (inputLocal) => [
   {
     label: "Unggah Foto Alat Sebelum Penambahan Alat",
@@ -334,8 +401,6 @@ const getPenambahanAlatProcess = (inputLocal) => [
     name: "upload_foto_alat_sesudah_di_tambahkan",
   },
 ];
-
-// Function to get PenambahanBandwidthProcess
 const getPenambahanBandwidthProcess = (inputLocal) => [
   {
     label: "Unggah Foto Kegiatan",
@@ -344,8 +409,31 @@ const getPenambahanBandwidthProcess = (inputLocal) => [
     name: "upload_foto_kegiatan",
   },
 ];
+const getTroubleshotingProcess = (inputLocal) => [
+  {
+    label: "Unggah Foto Kegiatan",
+    value: inputLocal.upload_foto_kegiatan,
+    type: "image_upload",
+    name: "upload_foto_kegiatan",
+  },
+];
+const getDomainProcess = (inputLocal) => [
+  {
+    label: "Unggah Foto Kegiatan",
+    value: inputLocal.upload_foto_kegiatan,
+    type: "image_upload",
+    name: "upload_foto_kegiatan",
+  },
+];
+const getHostingProcess = (inputLocal) => [
+  {
+    label: "Unggah Foto Kegiatan",
+    value: inputLocal.upload_foto_kegiatan,
+    type: "image_upload",
+    name: "upload_foto_kegiatan",
+  },
+];
 
-// Function to get RelokasiAlatFinish
 const getRelokasiAlatFinish = (finishData) => [
   {
     label: "Status Pengajuan",
@@ -370,8 +458,6 @@ const getRelokasiAlatFinish = (finishData) => [
     name: "response",
   },
 ];
-
-// Function to get PenambahanBandwidthFinish
 const getPenambahanBandwidthFinish = (finishData) => [
   {
     label: "Status Pengajuan",
@@ -396,8 +482,6 @@ const getPenambahanBandwidthFinish = (finishData) => [
     name: "response",
   },
 ];
-
-// Function to get PenambahanAlatFinish
 const getPenambahanAlatFinish = (finishData) => [
   {
     label: "Status Pengajuan",
@@ -422,17 +506,55 @@ const getPenambahanAlatFinish = (finishData) => [
     name: "response",
   },
 ];
-
-const getTroubleshotingProcess = (inputLocal) => [
+const getTroubleshotingFinish = (finishData) => [
   {
-    label: "Unggah Foto Kegiatan",
-    value: inputLocal.upload_foto_kegiatan,
-    type: "image_upload",
-    name: "upload_foto_kegiatan",
+    label: "Status Pengajuan",
+    value: finishData.submission_status,
+    name: "submission_status",
+    type: "radio_button",
+    options: [
+      { value: "1", label: "Menyetujui" },
+      { value: "0", label: "Tidak Menyetujui" },
+    ],
+  },
+  {
+    label: "Unggah Surat Pemberitahuan untuk OPD",
+    value: finishData.file_submission,
+    name: "file_submission",
+    type: "file_upload",
+  },
+  {
+    label: "Tanggapan",
+    value: finishData.response || null,
+    type: "textarea",
+    name: "response",
   },
 ];
-
-const getTroubleshotingFinish = (finishData) => [
+const getDomainFinish = (finishData) => [
+  {
+    label: "Status Pengajuan",
+    value: finishData.submission_status,
+    name: "submission_status",
+    type: "radio_button",
+    options: [
+      { value: "1", label: "Menyetujui" },
+      { value: "0", label: "Tidak Menyetujui" },
+    ],
+  },
+  {
+    label: "Unggah Surat Pemberitahuan untuk OPD",
+    value: finishData.file_submission,
+    name: "file_submission",
+    type: "file_upload",
+  },
+  {
+    label: "Tanggapan",
+    value: finishData.response || null,
+    type: "textarea",
+    name: "response",
+  },
+];
+const getHostingFinish = (finishData) => [
   {
     label: "Status Pengajuan",
     value: finishData.submission_status,
@@ -458,6 +580,10 @@ const getTroubleshotingFinish = (finishData) => [
 ];
 
 export {
+  getRelokasiAlatValidation,
+  getPenambahanAlatValidation,
+  getPenambahanBandwidthValidation,
+  getTroubleshootingValidation,
   getPenambahanAlatFinish,
   getPenambahanAlatProcess,
   getPenambahanBandwidthFinish,
@@ -466,4 +592,10 @@ export {
   getRelokasiAlatProcess,
   getTroubleshotingProcess,
   getTroubleshotingFinish,
+  getDomainValidation,
+  getHostingValidation,
+  getDomainProcess,
+  getHostingProcess,
+  getDomainFinish,
+  getHostingFinish,
 };

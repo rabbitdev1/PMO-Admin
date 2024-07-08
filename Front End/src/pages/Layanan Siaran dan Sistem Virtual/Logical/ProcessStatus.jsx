@@ -131,7 +131,7 @@ const ProcessStatus = ({
                       key={key}
                       label={key === "working_schedule" ? "Jadwal Kerja" : key}
                       value={value}
-                      type={"working_schedule" ? "multidate" : "text"}
+                      type={"working_schedule" ? "multi_date" : "text"}
                     />
                   )
               )}
@@ -217,7 +217,7 @@ const ProcessStatus = ({
                           key === "working_schedule" ? "Jadwal Kerja" : key
                         }
                         value={value}
-                        type={"working_schedule" ? "multidate" : "text"}
+                        type={"working_schedule" ? "multi_date" : "text"}
                       />
                     )
                 )}
@@ -261,7 +261,7 @@ const ProcessStatus = ({
                           key === "working_schedule" ? "Jadwal Kerja" : key
                         }
                         value={value}
-                        type={"working_schedule" ? "multidate" : "text"}
+                        type={"working_schedule" ? "multi_date" : "text"}
                       />
                     )
                 )}
@@ -355,7 +355,7 @@ const ProcessStatus = ({
                       key={key}
                       label={key === "working_schedule" ? "Jadwal Kerja" : key}
                       value={value}
-                      type={"working_schedule" ? "multidate" : "text"}
+                      type={"working_schedule" ? "multi_date" : "text"}
                     />
                   )
               )}

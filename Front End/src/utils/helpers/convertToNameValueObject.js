@@ -39,7 +39,7 @@ export const convertToNameValueObject = (obj) => {
       const resultArray = field.value.map((item) => {
         return item.quantity
           ? { name: item.value, value: item.quantity }
-          : { name: item.value };
+          : item.value;
       });
       result[field.name] = resultArray;
     } else if (field.type === "input_array") {

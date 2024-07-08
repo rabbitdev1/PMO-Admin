@@ -1,11 +1,11 @@
+
 import React from 'react';
-import DynamicDetailsPermohonanSI from '../DynamicDetailsPermohonanSI';
-import DynamicDetails from '../../../components/ui/DynamicDetails';
+import DynamicDetails from '../DynamicDetails';
 
 const DalamAntrianView = ({ submissionStatus, detailData, loading }) => {
   return (
     submissionStatus === 1 &&
-    <div className={`flex flex-col  lg:flex-col gap-3`}>
+    <div className={`flex flex-col lg:flex-row gap-3`}>
       <div className="flex flex-col flex-1">
         <div className="flex flex-col bg-lightColor dark:bg-cardDark p-5 gap-3 items-center rounded-lg">
           <img
@@ -19,11 +19,7 @@ const DalamAntrianView = ({ submissionStatus, detailData, loading }) => {
           </span>
         </div>
       </div>
-      {detailData.submission_title === "Rekomendasi Sistem Informasi" ?
-        <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
-        :
-        <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
-      }
+      <DynamicDetails location={"infrastruktur"} detailData={detailData} loading={loading} />
     </div>
   );
 };

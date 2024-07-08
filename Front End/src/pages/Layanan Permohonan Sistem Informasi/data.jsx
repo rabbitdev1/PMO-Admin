@@ -21,121 +21,66 @@ export const formData = [
       {
         name: "anggaran_attachment", label: "Sumber Anggaran", type: 'selection',
         options: [
+          { label: 'Tidak Ada', value: 'Tidak Ada' },
           { label: 'APBN', value: 'APBN' },
           { label: 'APBD', value: 'APBD' }
         ]
       },
       { name: "lingkup_job", label: "Lingkup Pekerjaan", value: "", type: "text" },
       { name: "number_of_people_required", label: "Jumlah Tenaga yang di butuhkan", value: "", type: "select_number" },
-      { name: "skpd_request_letter", label: "Surat Permohonan SKPD", value: "", type: "file_upload" },
+      { name: "skpdRequestLetter", label: "Surat Permohonan SKPD", value: "", type: "file_upload" },
+      { name: "kakAttachment", label: "File KAK", value: "", type: "file_upload" },
     ],
   },
 ]
-// Integrasi
-const getIntergasiSIProcess = (inputLocal) => [
+
+const getFeasibilityAnalysis = (inputLocal) => [
   {
-    label: "Unggah File Hasil Integrasi",
-    value: inputLocal.upload_dokumen_hasil_integrasi,
-    type: "file_upload",
-    name: 'upload_dokumen_hasil_integrasi'
-  },
-];
-const getIntergasiSIFinish = (finishData) => [
-  {
-    label: "Status Pengajuan",
-    value: finishData.submission_status,
-    name: "submission_status",
-    type: "radio_button",
-    options: [
-      { value: "1", label: "Menyetujui" },
-      { value: "0", label: "Tidak Menyetujui" }
-    ]
-  },
-  {
-    label: "Unggah Surat Pemberitahuan untuk OPD",
-    value: finishData.file_submission,
-    name: 'file_submission',
-    type: "file_upload"
-  },
-  {
-    label: "Tanggapan",
-    value: finishData.response || null,
+    label: "Catatan Analisis Kelayakan",
+    value: inputLocal.feasibility_analysis_notes,
     type: "textarea",
-    name: 'response'
-  }
-];
-
-// Penerapan Modul TTE
-const getModulTTEProcess = (inputLocal) => [
-  {
-    label: "Unggah Surat Pengesahan",
-    value: inputLocal.upload_dokumen_laporan_modul_tte,
-    type: "file_upload",
-    name: 'upload_dokumen_laporan_modul_tte'
+    name: 'feasibility_analysis_notes'
   },
 ];
 
-const getModulTTEFinish = (finishData) => [
+const getFeasibilityValidation = (inputLocal) => [
   {
-    label: "Status Pengajuan",
-    value: finishData.submission_status,
-    name: "submission_status",
-    type: "radio_button",
-    options: [
-      { value: "1", label: "Menyetujui" },
-      { value: "0", label: "Tidak Menyetujui" }
-    ]
-  },
-  {
-    label: "Unggah Surat Pemberitahuan untuk OPD",
-    value: finishData.file_submission,
-    name: 'file_submission',
-    type: "file_upload"
-  },
-  {
-    label: "Tanggapan",
-    value: finishData.response || null,
+    label: "Catatan Validasi Kelayakan",
+    value: inputLocal.eligibility_validation_notes,
     type: "textarea",
-    name: 'response'
-  }
-];
-
-// User Account SI
-const getUserAccountSIProcess = (inputLocal) => [
-  {
-    label: "Unggah Dokumen Laporan Hasil Pembuatan Akun",
-    value: inputLocal.upload_dokumen_laporan_pembuatan_akun,
-    type: "file_upload",
-    name: 'upload_dokumen_laporan_pembuatan_akun'
+    name: 'eligibility_validation_notes'
   },
 ];
 
-const getUserAccountSIFinish = (finishData) => [
+const getTechnicalAnalysis = (inputLocal) => [
   {
-    label: "Status Pengajuan",
-    value: finishData.submission_status,
-    name: "submission_status",
-    type: "radio_button",
-    options: [
-      { value: "1", label: "Menyetujui" },
-      { value: "0", label: "Tidak Menyetujui" }
-    ]
-  },
-  {
-    label: "Unggah Surat Pemberitahuan untuk OPD",
-    value: finishData.file_submission,
-    name: 'file_submission',
-    type: "file_upload"
-  },
-  {
-    label: "Tanggapan",
-    value: finishData.response || null,
+    label: "Catatan Analisis Teknis",
+    value: inputLocal.technical_analysis_notes,
     type: "textarea",
-    name: 'response'
-  }
+    name: 'technical_analysis_notes'
+  },
+];
+const getTechnicalValidation = (inputLocal) => [
+  {
+    label: "Catatan Validasi Teknis",
+    value: inputLocal.technical_validation_notes,
+    type: "textarea",
+    name: 'technical_validation_notes'
+  },
+];
+const getRecommendationLetterProcess = (inputLocal) => [
+  {
+    label: "Surat Rekomendasi Teknis",
+    value: inputLocal.recommendation_letter_technical,
+    type: "file_upload",
+    name: 'recommendation_letter_technical'
+  },
+  {
+    label: "Catatan Kepala Dinas",
+    value: inputLocal.kepala_dinas_note,
+    type: "textarea",
+    name: 'kepala_dinas_note'
+  },
 ];
 
-
-export {
-  getIntergasiSIProcess, getIntergasiSIFinish, getModulTTEProcess, getModulTTEFinish, getUserAccountSIProcess, getUserAccountSIFinish
-};
+export { getFeasibilityAnalysis,getFeasibilityValidation,getTechnicalAnalysis,getTechnicalValidation,getRecommendationLetterProcess};

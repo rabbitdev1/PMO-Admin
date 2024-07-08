@@ -107,7 +107,7 @@ function SekretariatPages() {
       dispatch(isPending(false));
       if (response?.statusCode === 200) {
         if (JSON.parse(authProfile)?.role === "perangkat_daerah") {
-          const filteredSubmissions = response.result.data.filter(
+          const filteredSubmissions = response.result.data?.filter(
             (submission) => submission.submission_title === dataState
           );
           setListSekretariat(filteredSubmissions);
@@ -327,7 +327,7 @@ function SekretariatPages() {
       <TitleHeader
         title={
           JSON.parse(authProfile)?.role === "perangkat_daerah"
-            ? "Layanan Pengajuan"
+            ? "Layanan Pengajuan " + dataState
             : "Layanan Sekretariat"
         }
         link1={"dashboard"}
@@ -403,7 +403,7 @@ function SekretariatPages() {
                 dataHeader={[
                   { name: "ID", field: "id" },
                   { name: "Nama PIC", field: "name_pic" },
-                  { name: "Jenis Pengajuan", field: "submission_title" },
+                  { name: "Jenis Layanan", field: "submission_title" },
                   { name: "Status", field: "submission_status" },
                   { name: "Tanggal", field: "createdAt" },
                   { name: "Aksi", field: "action" },

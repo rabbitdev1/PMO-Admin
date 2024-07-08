@@ -25,7 +25,7 @@ export const getListDataPermohonanSI = async(req, res) => {
                 );
 
                 if (validpermohonanSI.length === 0) {
-                    return res.status(400).json({
+                    return res.status(200).json({
                         status: "error",
                         msg: "Item not found",
                     });
@@ -62,7 +62,6 @@ export const getListDataPermohonanSI = async(req, res) => {
                     totalItemsByStatus: totalItemsByStatus,
                 });
             } else {
-                // Jika bukan peran perangkat_daerah, kembalikan data tanpa validasi API key
                 const totalItemsByStatus = {
                     divalidasi: filteredpermohonanSI.filter(
                         (user) => user.submission_status === 2 || user.submission_status === 4

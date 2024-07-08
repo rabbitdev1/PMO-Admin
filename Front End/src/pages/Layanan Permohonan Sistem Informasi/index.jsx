@@ -21,6 +21,7 @@ import fetchUploadFiles from "../../utils/api/uploadFiles";
 import { convertToNameValueObject } from "../../utils/helpers/convertToNameValueObject";
 import { formData as initialFormData } from "./data";
 import { isValidatorPermohonanSI } from "./validators";
+import ModalContentComponent from "../../components/ui/ModalContentComponent";
 
 
 function PermohonanSIPages() {
@@ -106,7 +107,7 @@ function PermohonanSIPages() {
       dispatch(isPending(false));
       if (response?.statusCode === 200) {
         if (JSON.parse(authProfile)?.role === "perangkat_daerah") {
-          const filteredSubmissions = response.result.data.filter(
+          const filteredSubmissions = response.result.data?.filter(
             (submission) => submission.submission_title === dataState
           );
           setListPermohonanSI(filteredSubmissions);
@@ -154,7 +155,7 @@ function PermohonanSIPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Pengajuan PermohonanSI Berhasil Dihapus",
+            title: "Pengajuan Permohonan Sistem Informasi Berhasil di Hapus",
             msg: response.result.msg,
             icon: PengajuanGagalIcon,
             color: "#FB4B4B",
@@ -218,7 +219,6 @@ function PermohonanSIPages() {
           {}
         ),
       };
-      console.log(JSON.stringify(combinedObject));
       if (combinedObject?.submission_title === "Rekomendasi Sistem Informasi") {
         if (isValidatorPermohonanSI(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
@@ -231,27 +231,33 @@ function PermohonanSIPages() {
     }
   };
   const handleImageUploadAndFetch = async (obj) => {
-    if (obj.skpd_request_letter) {
-      const result = await fetchUploadFiles(
-        authApiKey,
-        authToken,
-        obj.skpd_request_letter,
-        "permohonanSI",
-        dispatch
-      );
-      if (result !== null) {
-        const fixObject = {
-          ...obj,
-          skpd_request_letter: result,
-        };
-        fetchDataCreate(authApiKey, authToken, fixObject);
-      } else {
-        console.error("Error occurred during image upload.");
+    const fileFields = ["skpdRequestLetter", "kakAttachment"];
+    let fixObject = { ...obj };
+
+    for (const field of fileFields) {
+      if (obj[field]) {
+        const result = await fetchUploadFiles(
+          authApiKey,
+          authToken,
+          obj[field],
+          "permohonanSI",
+          dispatch
+        );
+        if (result !== null) {
+          fixObject = {
+            ...fixObject,
+            [field]: result,
+          };
+        } else {
+          console.error(`Error occurred during ${field} upload.`);
+        }
       }
-    } else {
-      fetchDataCreate(authApiKey, authToken, obj);
     }
+
+    fetchDataCreate(authApiKey, authToken, fixObject);
   };
+
+
   const updatePic = (name, number) => {
     const updatedData = formData.map((form) => {
       return {
@@ -287,8 +293,8 @@ function PermohonanSIPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Pengajuan Teknologi dan Sistem Informasi Berhasil",
-            msg: "Selamat, Pengajuan anda sudah diterima",
+            title: "Pengajuan Permohonan Sistem Informasi Berhasil",
+            msg: "Selamat! Pengajuan Permohonan Sistem Informasi Anda telah berhasil diterima dan diproses.",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
           },
@@ -307,7 +313,7 @@ function PermohonanSIPages() {
   return (
     <div className="flex flex-col gap-3 flex-1 p-4">
       <TitleHeader
-        title={JSON.parse(authProfile)?.role === "perangkat_daerah" ? "Layanan Pengajuan" : "Layanan Permohonan Sistem Informasi"}
+        title={JSON.parse(authProfile)?.role === "perangkat_daerah" ? "Layanan Pengajuan " + dataState : "Layanan Permohonan Sistem Informasi"}
         link1={"dashboard"}
         link2={"Layanan Permohonan Sistem Informasi"}
       />
@@ -386,11 +392,11 @@ function PermohonanSIPages() {
             <div className="flex flex-col relative">
               <TableCostum
                 dataHeader={[
-                  { name: "ID", field: "id" },
+                  { name: "No Pengajuan", field: "id" },
                   { name: "Nama PIC", field: "name_pic" },
-                  { name: "Jenis Pengajuan", field: "submission_title" },
-                  { name: "Status", field: "submission_status" },
-                  { name: "Tanggal", field: "createdAt" },
+                  { name: "Jenis Layanan", field: "submission_title" },
+                  { name: "Status Layanan", field: "submission_status" },
+                  { name: "Tanggal Pengajuan", field: "createdAt" },
                   { name: "Aksi", field: "action" },
                 ]}
                 showAction={{
@@ -405,8 +411,6 @@ function PermohonanSIPages() {
                 onClickShow={(data) => {
                   if (JSON.parse(authProfile)?.role === "op_pmo") {
                     fetchSetProgress(authApiKey, authToken, data);
-                    console.log(data.submission_title);
-
                   } else {
                     navigate("/detail-permohonan-sistem-informasi", { state: { slug: data.id } });
                   }
@@ -415,10 +419,22 @@ function PermohonanSIPages() {
                   if (
                     data.submission_status === 2 ||
                     data.submission_status === 4 ||
-                    data.submission_status === 6
+                    data.submission_status === 6 ||
+                    data.submission_status === 8 ||
+                    data.submission_status === 9 ||
+                    data.submission_status === 11
                   ) {
                     toast.error(
                       "Pengajuan dalam proses validasi, tidak bisa di hapus",
+                      {
+                        position: toast.POSITION.TOP_RIGHT,
+                      }
+                    );
+                  } else if (
+                    data.submission_status === 12
+                  ) {
+                    toast.error(
+                      "Pengajuan yang sudah selesai, tidak bisa di hapus",
                       {
                         position: toast.POSITION.TOP_RIGHT,
                       }
@@ -445,46 +461,8 @@ function PermohonanSIPages() {
           </div>
         </div>
       </section>
-      <ModalContent
-        className={"sm:max-w-xl"}
-        children={
-          <div className="flex flex-col gap-2">
-            <div className="flex flex-col items-center justify-center ">
-              {isModalVerif.data?.icon && (
-                <isModalVerif.data.icon
-                  className={`flex flex-col flex-1 max-w-[150%] aspect-square bg-[${isModalVerif.data.color}] rounded-full`}
-                />
-              )}
-            </div>
-            <div className="flex  flex-col items-center justify-center ">
-              <span className="text-lg font-bold">
-                {isModalVerif.data?.title}
-              </span>
-              <span className="text-sm font-light opacity-70">
-                {isModalVerif.data?.msg}
-              </span>
-            </div>
-            <div className="flex flex-col gap-2 ">
-              <DynamicButton
-                initialValue={"Kembali"}
-                type="fill"
-                color={"#ffffff"}
-                className={`inline-flex flex-1 bg-[${isModalVerif.data.color}] text-darkColor`}
-                onClick={() => {
-                  setisModalVerif({ data: {}, status: false });
-                  setisModalCreate({ data: {}, status: false });
-                  fetchDataPermohonanSI(
-                    authApiKey,
-                    authToken,
-                    JSON.parse(authProfile)?.role
-                  );
-                }}
-              />
-            </div>
-          </div>
-        }
-        active={isModalVerif.status}
-      />
+
+
       <ModalContent
         className={"sm:max-w-5xl "}
         children={
@@ -559,6 +537,15 @@ function PermohonanSIPages() {
           </div>
         }
         active={isModalCreate.status}
+      />
+      <ModalContentComponent
+        isModalVerif={isModalVerif}
+        setisModalVerif={setisModalVerif}
+        setisModalCreate={setisModalCreate}
+        fetchData={fetchDataPermohonanSI}
+        authApiKey={authApiKey}
+        authToken={authToken}
+        authProfile={authProfile}
       />
     </div>
   );
