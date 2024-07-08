@@ -3,7 +3,8 @@ import { toast } from "react-toastify";
 import DynamicButton from "../../../components/common/DynamicButton";
 import DynamicInput from "../../../components/common/DynamicInput";
 import DynamicShow from "../../../components/common/DynamicShow";
-import DynamicDetails from "../../../components/ui/DynamicDetails";
+import DynamicDetails from '../DynamicDetails';
+import DynamicDetailsPermohonanSI from "../DynamicDetailsPermohonanSI";
 
 const ValidationStatus = ({
   submissionStatus,
@@ -23,12 +24,13 @@ const ValidationStatus = ({
               Cek Kelengkapan Berkas
             </span>
           </div>
-          <DynamicDetails
-            detailData={detailData}
-            loading={loading}
-          />
+          {detailData.submission_title === "Rekomendasi Sistem Informasi" ?
+            <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
+            :
+            <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
+          }
           <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
-            <span className="text-lg font-bold">Status Kelengkapan Dokumen</span>
+            <span className="text-lg font-bold">Status Validasi Dokumen</span>
             {[
               {
                 value: validationData.status_validation,
@@ -61,7 +63,6 @@ const ValidationStatus = ({
                   value={inputProps.value}
                   type={inputProps.type}
                   options={inputProps.options}
-                  placeholder={'Masukan ' + inputProps.label}
                   onChange={(value) => {
                     setValidationData((prevState) => ({
                       ...prevState,
@@ -92,7 +93,7 @@ const ValidationStatus = ({
           </div>
         </div>
         :
-        <div className='flex flex-col lg:flex-row gap-3'>
+        <div className='flex flex-col gap-3'>
           <div className="flex flex-col flex-1">
             <div className="flex flex-col bg-lightColor dark:bg-cardDark p-5 gap-3 items-center rounded-lg">
               <img
@@ -107,15 +108,19 @@ const ValidationStatus = ({
               </span>
             </div>
           </div>
-          <DynamicDetails location={"infrastruktur"} detailData={detailData} loading={loading} />
+          {detailData.submission_title === "Rekomendasi Sistem Informasi" ?
+            <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
+            :
+            <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
+          }
         </div>
       )}
       {submissionStatus === 3 && (
-        <div className='flex flex-col lg:flex-row gap-3'>
+        <div className='flex flex-col gap-3'>
           <div className={`flex-1 flex flex-col gap-3`}>
             <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
               <div className="flex flex-row gap-2 items-center">
-                <span className="text-base font-semibold">Status Kelengkapan Dokumen :</span>
+                <span className="text-base font-semibold">Status Validasi Dokumen :</span>
                 <div
                   className={`flex flex-row gap-2 p-1 px-3 rounded-md text-darkColor bg-[#FF0000]`}
                 >
@@ -126,12 +131,17 @@ const ValidationStatus = ({
               </div>
               <DynamicShow
                 label={"Tanggapan"}
+                location={'permohonanSI'}
                 value={validationData?.response}
                 type={"html"}
               />
             </div>
           </div>
-          <DynamicDetails location={"infrastruktur"} detailData={detailData} loading={loading} />
+          {detailData.submission_title === "Rekomendasi Sistem Informasi" ?
+            <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
+            :
+            <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
+          }
         </div>
       )}
     </>

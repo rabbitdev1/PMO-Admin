@@ -31,7 +31,7 @@ import {
 } from "../controllers/Infrastruktur/index.js";
 import { editDataInfrastruktur } from "../controllers/Infrastruktur/edit.js";
 import { deleteDataInfrastruktur } from "../controllers/Infrastruktur/delete.js";
-import { getListDataTools } from "../controllers/Infrastruktur/list_tools.js";
+import { getListDataTools, getListDataToolsbyArray } from "../controllers/Infrastruktur/list_tools.js";
 import { getListDataSekretariat } from "../controllers/Sekretariat/list.js";
 import { getDetailDataSekretariat } from "../controllers/Sekretariat/detail.js";
 import {
@@ -58,14 +58,6 @@ import {
 import { editDataLayananData } from "../controllers/Layanan Data/edit.js";
 import { deleteDataLayananData } from "../controllers/Layanan Data/delete.js";
 
-import { getListDataUptRadio } from "../controllers/UptRadio/list.js";
-import { getDetailDataUptRadio } from "../controllers/UptRadio/detail.js";
-import {
-  editProcessDataUptRadio,
-  setStatusDataUptRadio,
-} from "../controllers/UptRadio/index.js";
-import { editDataUptRadio } from "../controllers/UptRadio/edit.js";
-import { deleteDataUptRadio } from "../controllers/UptRadio/delete.js";
 import { getListDataSistemVirtual } from "../controllers/Layanan Sistem Virtual/list.js";
 import { getDetailDataSistemVirtual } from "../controllers/Layanan Sistem Virtual/detail.js";
 import {
@@ -92,7 +84,7 @@ router.post("/infrastruktur/create", verifyToken, setStatusDataInfrastruktur);
 router.post("/infrastruktur/set_process", verifyToken, editProcessDataInfrastruktur);
 router.post("/infrastruktur/edit", verifyToken, editDataInfrastruktur);
 router.post("/infrastruktur/delete", verifyToken, deleteDataInfrastruktur);
-router.post("/infrastruktur/list_tools", verifyToken, getListDataTools);
+router.post("/infrastruktur/list_tools", verifyToken, getListDataToolsbyArray);
 
 // Sekretariat routes
 router.post("/sekretariat", verifyToken, getListDataSekretariat);
@@ -117,14 +109,6 @@ router.post("/layanan-data/create", verifyToken, setStatusDataLayananData);
 router.post("/layanan-data/set_process", verifyToken, editProcessDataLayananData);
 router.post("/layanan-data/edit", verifyToken, editDataLayananData);
 router.post("/layanan-data/delete", verifyToken, deleteDataLayananData);
-
-// Upt Radio routes
-router.post("/uptradio", verifyToken, getListDataUptRadio);
-router.post("/uptradio/detail", verifyToken, getDetailDataUptRadio);
-router.post("/uptradio/create", verifyToken, setStatusDataUptRadio);
-router.post("/uptradio/set_process", verifyToken, editProcessDataUptRadio);
-router.post("/uptradio/edit", verifyToken, editDataUptRadio);
-router.post("/uptradio/delete", verifyToken, deleteDataUptRadio);
 
 // Teknologi SI routes
 router.post("/sistem-virtual", verifyToken, getListDataSistemVirtual);

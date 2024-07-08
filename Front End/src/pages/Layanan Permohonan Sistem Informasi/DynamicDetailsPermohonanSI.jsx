@@ -83,8 +83,6 @@ const DynamicDetailsPermohonanSI = ({ detailData, loading, location }) => {
 
 const getKeyLabel = (key) => {
   switch (key) {
-    case "submission_type":
-      return "Jenis Pengajuan";
     case "name_pic":
       return "Nama PIC";
     case "telp_pic":
@@ -96,7 +94,7 @@ const getKeyLabel = (key) => {
     case "period":
       return "Periode Jangka Waktu";
     case "submission_type":
-      return "Jenis Pengajuan";
+      return "Jenis Layanan";
     case "device_specifications":
       return "Spesifikasi Alat";
     case "proposed_bandwidth":
@@ -241,7 +239,7 @@ const getKeyLabel = (key) => {
       return "Lingkup Pekerjaan";
     case 'jumlah_tenaga':
       return "Jumlah Tenaga yang dibutuhkan";
-    case 'skpd_request_letter':
+    case 'skpdRequestLetter':
       return "SKPD";
     default:
       return key;
@@ -264,7 +262,7 @@ const getFieldType = (key) => {
     case "anggaranAttachment":
     case "technicalRecommendationLetter":
     case "file_scema_integration":
-    case "skpd_request_letter":
+    case "skpdRequestLetter":
       return "pdf";
     case "type_tools":
       return "array";
@@ -272,7 +270,7 @@ const getFieldType = (key) => {
       return "multi_date";
     case "period":
     case "letterDate":
-      return "multidate";
+      return "multi_date";
     default:
       return "text";
   }

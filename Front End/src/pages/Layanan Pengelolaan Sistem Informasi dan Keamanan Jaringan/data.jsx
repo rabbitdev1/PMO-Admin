@@ -15,7 +15,7 @@ export const formData = [
       {
         name: "app_name",
         label: "Nama Aplikasi",
-        value: [],
+        value: "",
         type: "text",
       },
       {
@@ -54,14 +54,8 @@ export const formData = [
       {
         name: "app_name",
         label: "Nama Aplikasi",
-        value: [],
-        type: "selection",
-        options: [
-          { value: "15", label: "15 Mbps" },
-          { value: "20", label: "20 Mbps" },
-          { value: "25", label: "25 Mbps" },
-          { value: "30", label: "30 Mbps" },
-        ]
+        value: "",
+        type: "text",
       },
       {
         name: "app_desc",
@@ -84,11 +78,8 @@ export const formData = [
       {
         name: "period",
         label: "Jadwal Penerapan",
-        value: {
-          startDate: null,
-          endDate: null,
-        },
-        type: "multi_date",
+        value:"",
+        type: "date",
         visible: true,
       }
     ],
@@ -106,7 +97,13 @@ export const formData = [
     fields: [
       { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
-      { name: "jabatan", label: "Jabatan", value: "", type: "text" },
+      {
+        name: "occupation",
+        label: "jabatan",
+        value: [],
+        type: "selection",
+        options: []
+      },
       { name: "nip", label: "NIP", value: "", type: "text" },
       {
         name: "peruntukan",
@@ -147,14 +144,34 @@ export const formData = [
         ]
       },
       { name: "username", label: "Nama Akun", value: "", type: "text" },
-      { name: "password", label: "Kata Sandi", value: "", type: "password", noted: "Contoh: Example!123"},
+      { name: "password", label: "Kata Sandi", value: "", type: "password", noted: "Contoh: Example!123" },
       { name: "domain_url", label: "Domain URL", value: "", type: "text", noted: "Contoh: www.example.go.id" },
-      { name: "file_process_bisiness", label: "Dokumen Proses Bisnis", value: "", type: "file_upload", noted: "File berekstensi: pdf,xlsx,docs"}
+      { name: "file_process_bisiness", label: "Dokumen Proses Bisnis", value: "", type: "file_upload", noted: "File berekstensi: pdf,xlsx,docs" }
     ]
   }
 ]
 
 // Integrasi
+const getIntergasiSIValidation = (inputLocal) => [
+  {
+    label: "Skema Integrasi",
+    value: inputLocal.file_scema_integration,
+    name: "file_scema_integration",
+    type: "file_upload",
+  },
+  {
+    label: "Tanggapan Tim Teknis",
+    value: inputLocal.team_response,
+    type: "textarea",
+    name: 'team_response'
+  },
+  {
+    label: "Jadwal Pengerjaan",
+    value: inputLocal.working_schedule,
+    type: "date",
+    name: 'working_schedule'
+  },
+];
 const getIntergasiSIProcess = (inputLocal) => [
   {
     label: "Unggah File Hasil Integrasi",
@@ -177,8 +194,9 @@ const getIntergasiSIFinish = (finishData) => [
   {
     label: "Unggah Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
+    type: "file_upload",
     name: 'file_submission',
-    type: "file_upload"
+
   },
   {
     label: "Tanggapan",
@@ -189,6 +207,22 @@ const getIntergasiSIFinish = (finishData) => [
 ];
 
 // Penerapan Modul TTE
+
+const getModulTTEValidation = (inputLocal) => [
+  {
+    label: "Tanggapan Tim Teknis",
+    value: inputLocal.team_response,
+    type: "textarea",
+    name: 'team_response'
+  },
+  {
+    label: "Jadwal Pengerjaan",
+    value: inputLocal.working_schedule,
+    type: "date",
+    name: 'working_schedule'
+  },
+];
+
 const getModulTTEProcess = (inputLocal) => [
   {
     label: "Unggah Surat Pengesahan",
@@ -224,6 +258,21 @@ const getModulTTEFinish = (finishData) => [
 ];
 
 // User Account SI
+const getUserAccountSIValidation = (inputLocal) => 
+  [
+    {
+      label: "Tanggapan Tim Teknis",
+      value: inputLocal.team_response,
+      type: "textarea",
+      name: 'team_response'
+    },
+    {
+      label: "Jadwal Pengerjaan",
+      value: inputLocal.working_schedule,
+      type: "date",
+      name: 'working_schedule'
+    },
+  ];
 const getUserAccountSIProcess = (inputLocal) => [
   {
     label: "Unggah Dokumen Laporan Hasil Pembuatan Akun",
@@ -232,7 +281,6 @@ const getUserAccountSIProcess = (inputLocal) => [
     name: 'upload_dokumen_laporan_pembuatan_akun'
   },
 ];
-
 const getUserAccountSIFinish = (finishData) => [
   {
     label: "Status Pengajuan",
@@ -265,8 +313,23 @@ const getEmailProcess = (inputLocal) => [
     type: "file_upload",
     name: 'upload_surat_pengesahan'
   },
-  
+
 ];
+const getEmailValidation = (inputLocal) => 
+  [
+    {
+      label: "Tanggapan Tim Teknis",
+      value: inputLocal.team_response,
+      type: "textarea",
+      name: 'team_response'
+    },
+    {
+      label: "Jadwal Pengerjaan",
+      value: inputLocal.working_schedule,
+      type: "date",
+      name: 'working_schedule'
+    },
+  ];
 
 const getEmailFinish = (finishData) => [
   {
@@ -293,6 +356,32 @@ const getEmailFinish = (finishData) => [
   }
 ];
 
+const getCelahKeamananValidation = (inputLocal) => [
+  {
+    label: "Upload Dokumen Pembangunan",
+    value: inputLocal.dokumen_pembangunan,
+    type: "file_upload",
+    name: 'dokumen_pembangunan'
+  },
+  {
+    label: "Upload Dokumen NDA",
+    value: inputLocal.dokumen_nda,
+    type: "file_upload",
+    name: 'dokumen_nda'
+  },
+  {
+    label: "Tanggapan Tim Teknis",
+    value: inputLocal.team_response,
+    type: "textarea",
+    name: 'team_response'
+  },
+  {
+    label: "Jadwal Pengerjaan",
+    value: inputLocal.working_schedule,
+    type: "date",
+    name: 'working_schedule'
+  },
+];
 const getCelahKeamananProcess = (inputLocal) => [
   {
     label: "Unggah Dokumen Laporan Hasil Pengujian",
@@ -335,6 +424,7 @@ const getCelahKeamananFinish = (finishData) => [
 
 
 export {
+  getIntergasiSIValidation, getModulTTEValidation,getUserAccountSIValidation,getEmailValidation,getCelahKeamananValidation,
   getIntergasiSIProcess, getIntergasiSIFinish, getModulTTEProcess, getModulTTEFinish, getUserAccountSIProcess, getUserAccountSIFinish,
   getEmailProcess, getEmailFinish, getCelahKeamananProcess, getCelahKeamananFinish
 };

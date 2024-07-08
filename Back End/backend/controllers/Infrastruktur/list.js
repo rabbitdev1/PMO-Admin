@@ -25,7 +25,7 @@ export const getListDataInfrastruktur = async(req, res) => {
                 );
 
                 if (validinfrastruktur.length === 0) {
-                    return res.status(400).json({
+                    return res.status(200).json({
                         status: "error",
                         msg: "Item not found",
                     });

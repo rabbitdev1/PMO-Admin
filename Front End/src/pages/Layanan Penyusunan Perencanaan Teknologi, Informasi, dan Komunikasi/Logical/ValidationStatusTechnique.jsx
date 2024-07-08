@@ -7,7 +7,7 @@ import DynamicInput from "../../../components/common/DynamicInput";
 import DynamicShow from "../../../components/common/DynamicShow";
 import DynamicDetails from "../../../components/ui/DynamicDetails";
 import { apiClient } from "../../../utils/api/apiClient";
-import { validatePeriod, validateText } from "../../../utils/helpers/validateForm";
+import { validateDate, validateText } from "../../../utils/helpers/validateForm";
 
 const ValidationStatusTechnique = ({
   submissionStatus,
@@ -154,7 +154,7 @@ const ValidationStatusTechnique = ({
                       );
                       let isValid = true;
                       isValid = isValid && validateText(inputLocal.team_response, "Tanggapan Tim Teknis")
-                      isValid = isValid && validatePeriod(inputLocal.working_schedule, "Jadwal Pengerjaan")
+                      isValid = isValid && validateDate(inputLocal.working_schedule, "Jadwal Pengerjaan")
 
                       if (isValid) {
                         checkingFormData('validation_technique', filteredDataResult);
@@ -177,7 +177,7 @@ const ValidationStatusTechnique = ({
                       key={key}
                       label={key === "team_response" ? "Tanggapan dari Tim Teknis" : key === "working_schedule" ? "Jadwal Kerja" : key}
                       value={value}
-                      type={key === "team_response" ? 'text' : key === "working_schedule" ? "multidate" : 'text'}
+                      type={key === "team_response" ? 'text' : key === "working_schedule" ? "multi_date" : 'text'}
                     />
                   ))}
                 </div>
@@ -193,7 +193,7 @@ const ValidationStatusTechnique = ({
                       key={key}
                       label={key === "team_response" ? "Tanggapan dari Tim Teknis" : key === "working_schedule" ? "Jadwal Kerja" : key}
                       value={value}
-                      type={key === "team_response" ? 'text' : key === "working_schedule" ? "multidate" : 'text'}
+                      type={key === "team_response" ? 'text' : key === "working_schedule" ? "multi_date" : 'text'}
                     />
                 ))}
 
@@ -301,7 +301,7 @@ const ValidationStatusTechnique = ({
                   key={key}
                   label={key === "team_response" ? "Tanggapan dari Tim Teknis" : key === "working_schedule" ? "Jadwal Kerja" : key === "response_katim" ? "Tanggapan dari Ketua Tim" : key}
                   value={value}
-                  type={key === "team_response" ? 'text' : key === "working_schedule" ? "multidate" : key === "response" ? "html" : 'text'}
+                  type={key === "team_response" ? 'text' : key === "working_schedule" ? "multi_date" : key === "response" ? "html" : 'text'}
                 />
               ))}
             </div>

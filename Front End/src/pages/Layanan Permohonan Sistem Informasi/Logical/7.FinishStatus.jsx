@@ -85,7 +85,7 @@ const FinishStatus = ({
                   <DynamicShow
                     key={key}
                     location={'permohonanSI'}
-                    label={key === "recommendation_letter_technical" ? "Surat Rekomendasi" : key}
+                    label={key === "recommendation_letter_technical" ? "Surat Rekomendasi" :"kepala_dinas_note" ? "Catatan Kepala Dinas" : key}
                     value={value}
                     type={key === "recommendation_letter_technical" ? 'pdf' : 'text'}
                   />
@@ -98,12 +98,6 @@ const FinishStatus = ({
               <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
             }
           </div>
-
-          {detailData.submission_title === "Rekomendasi Sistem Informasi" ?
-            <DynamicDetails location={"permohonanSI"} detailData={detailData} loading={loading} />
-            :
-            <DynamicDetailsPermohonanSI location={"permohonanSI"} detailData={detailData} loading={loading} />
-          }
         </div>
       }
     </>

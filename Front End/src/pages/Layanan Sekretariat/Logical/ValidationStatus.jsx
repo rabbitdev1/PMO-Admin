@@ -30,7 +30,7 @@ const ValidationStatus = ({
             loading={loading}
           />
           <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
-            <span className="text-lg font-bold">Status Kelengkapan Dokumen</span>
+            <span className="text-lg font-bold">Status Validasi Dokumen</span>
             {[
               {
                 value: validationData.status_validation,
@@ -116,7 +116,7 @@ const ValidationStatus = ({
           <div className={`flex-1 flex flex-col gap-3`}>
             <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
               <div className="flex flex-row gap-2 items-center">
-                <span className="text-base font-semibold">Status Kelengkapan Dokumen :</span>
+                <span className="text-base font-semibold">Status Validasi Dokumen :</span>
                 <div
                   className={`flex flex-row gap-2 p-1 px-3 rounded-md text-darkColor bg-[#FF0000]`}
                 >

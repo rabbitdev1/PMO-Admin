@@ -64,7 +64,7 @@ function DataAlatInfraPage() {
       setlistdataAlatLoading(false);
       if (response?.statusCode === 200) {
         if (JSON.parse(authProfile)?.role === "perangkat_daerah") {
-          const filteredSubmissions = response.result.data.filter(submission => submission.submission_title === dataState);
+          const filteredSubmissions = response.result.data?.filter(submission => submission.submission_title === dataState);
           setlistdataAlat(filteredSubmissions);
         } else {
           setlistdataAlat(response.result.data);

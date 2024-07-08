@@ -16,12 +16,13 @@ import SubmissionStatus from "../../components/ui/SubmissionStatus";
 import { apiClient } from "../../utils/api/apiClient";
 import fetchUploadFiles from "../../utils/api/uploadFiles";
 import fetchUploadImages from "../../utils/api/uploadImages";
-import DalamAntrianView from "./Logical/DalamAntrianView";
-import FinishStatus from "./Logical/FinishStatus";
-import ProcessStatus from "./Logical/ProcessStatus";
-import ValidationStatus from "./Logical/ValidationStatus";
-import ValidationStatusTechnique from "./Logical/ValidationStatusTechnique";
+import DalamAntrianView from "./Logical/1.DalamAntrianView";
+import FinishStatus from "./Logical/5.FinishStatus";
+import ProcessStatus from "./Logical/4.ProcessStatus";
+import ValidationStatus from "./Logical/2.ValidationStatus";
+import ValidationStatusTechnique from "./Logical/3.ValidationStatusTechnique";
 import ConditionalRender from "../../components/ui/ConditionalRender";
+import ModalContentComponent from "../../components/ui/ModalContentComponent";
 
 function DetailAplikasiPages() {
   const { isDarkMode } = useTheme();
@@ -98,7 +99,7 @@ function DetailAplikasiPages() {
     let htmlConvert = "";
 
     if (
-      ["validation", "validation_technique", "process"].includes(type) &&
+      ["validation_technique", "process"].includes(type) &&
       data?.response
     ) {
       const contentState = convertToRaw(data.response.getCurrentContent());
@@ -115,7 +116,6 @@ function DetailAplikasiPages() {
           ...data,
           status_validation:
             parseInt(data.status_validation) === 0 ? "Ditolak" : "Disetujui",
-          response: htmlConvert,
         })
       );
     } else if (["validation_technique", "process"].includes(type)) {
@@ -141,9 +141,6 @@ function DetailAplikasiPages() {
         })
       );
     }
-
-    // if (filename) params.append("fileuploaded", filename);
-
     try {
       const response = await apiClient({
         baseurl: "aplikasi/edit",
@@ -156,8 +153,8 @@ function DetailAplikasiPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Pengajuan Aplikasi Berhasil di-update",
-            msg: "Selamat, Pengajuan sudah di-update",
+            title: "Pembaharuan Pengajuan Aplikasi Berhasil",
+            msg: "Selamat! Pengajuan Aplikasi Anda telah berhasil diperbarui.",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
           },
@@ -500,7 +497,7 @@ function DetailAplikasiPages() {
         );
         if (result !== null) {
           let combineData = {};
-          combineData = { ...data, file_upload: result };
+          combineData = { ...data, file_submission: result };
           fetchEditaplikasi(
             authApiKey,
             authToken,
@@ -530,7 +527,7 @@ function DetailAplikasiPages() {
         model={"emptyData"}
       >
         <section className="flex flex-col gap-3">
-          <SubmissionStatus status={submissionStatus} />
+          <SubmissionStatus status={submissionStatus} data={null} />
           <div className={`flex  flex-col gap-3`}>
             <DalamAntrianView
               submissionStatus={submissionStatus}
@@ -549,8 +546,9 @@ function DetailAplikasiPages() {
             <ValidationStatusTechnique
               slug={slug}
               submissionStatus={submissionStatus}
-              validationData={validationDataTechnique}
-              setValidationData={setValidationDataTechnique}
+              validationData={validationData}
+              validationDataTechnique={validationDataTechnique}
+              setvalidationDataTechnique={setValidationDataTechnique}
               authProfile={authProfile}
               detailData={detailData}
               loading={aplikasiLoading}
@@ -559,9 +557,9 @@ function DetailAplikasiPages() {
             />
             <ProcessStatus
               slug={slug}
-              validationData={validationDataTechnique}
-              submissionStatus={submissionStatus}
+              validationDataTechnique={validationDataTechnique}
               processData={processData}
+              submissionStatus={submissionStatus}
               authProfile={authProfile}
               detailData={detailData}
               loading={aplikasiLoading}
@@ -570,11 +568,11 @@ function DetailAplikasiPages() {
               finishData={finishData}
               setfinishData={setfinishData}
             />
-
             <FinishStatus
               detailData={detailData}
               loading={aplikasiLoading}
-              validationData={validationDataTechnique}
+              validationData={validationData}
+              validationDataTechnique={validationDataTechnique}
               processData={processData}
               submissionStatus={submissionStatus}
               finishData={finishData}
@@ -583,44 +581,15 @@ function DetailAplikasiPages() {
         </section>
       </ConditionalRender>
 
-      <ModalContent
-        className={"sm:max-w-xl"}
-        children={
-          <div className="flex flex-col gap-2">
-            <div className="flex flex-col items-center justify-center ">
-              {isModalVerif.data?.icon && (
-                <isModalVerif.data.icon
-                  className={`flex flex-col flex-1 max-w-[150%] aspect-square bg-[${isModalVerif.data.color}] rounded-full`}
-                />
-              )}
-            </div>
-            <div className="flex  flex-col items-center justify-center ">
-              <span className="text-lg font-bold">
-                {isModalVerif.data?.title}
-              </span>
-              <span className="text-sm font-light opacity-70">
-                {isModalVerif.data?.msg}
-              </span>
-            </div>
-            <div className="flex flex-col gap-2 ">
-              <DynamicButton
-                initialValue={"Kembali"}
-                type="fill"
-                color={"#ffffff"}
-                className={`inline-flex flex-1 bg-[${isModalVerif.data.color}] text-darkColor`}
-                onClick={() => {
-                  setisModalVerif({ data: {}, status: false });
-                  fetchDataAplikasi(
-                    authApiKey,
-                    authToken,
-                    JSON.parse(authProfile)?.role
-                  );
-                }}
-              />
-            </div>
-          </div>
-        }
-        active={isModalVerif.status}
+
+      <ModalContentComponent
+        isModalVerif={isModalVerif}
+        setisModalVerif={setisModalVerif}
+        setisModalCreate={() => { }}
+        fetchData={fetchDataAplikasi}
+        authApiKey={authApiKey}
+        authToken={authToken}
+        authProfile={authProfile}
       />
     </div>
   );

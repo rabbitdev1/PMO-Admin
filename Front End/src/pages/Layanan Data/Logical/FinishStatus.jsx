@@ -34,7 +34,7 @@ const FinishStatus = ({
                     key={key}
                     label={key === "working_schedule" ? "Jadwal Kerja" : key}
                     value={value}
-                    type={"working_schedule" ? "multidate" : "text"}
+                    type={"working_schedule" ? "multi_date" : "text"}
                   />
                 )
             )}

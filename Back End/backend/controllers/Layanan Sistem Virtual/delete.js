@@ -30,6 +30,7 @@ export const deleteDataSistemVirtual = async (req, res) => {
         const mergedDataProcess = {
             ...JSON.parse(SistemVirtualItem.on_validation),
             ...JSON.parse(SistemVirtualItem.on_process),
+            ...JSON.parse(aplikasiItem.on_validation_technique),
             ...JSON.parse(SistemVirtualItem.on_finish),
             ...JSON.parse(SistemVirtualItem.fields),
         };
@@ -37,13 +38,19 @@ export const deleteDataSistemVirtual = async (req, res) => {
 
         const findValueByTitle = (data, title) => data[title];
 
-        const upload_dokumen_hasil_integrasiValue = findValueByTitle(mergedDataProcess, 'upload_dokumen_hasil_integrasi');
+        const file_pengajuan_zoomValue = findValueByTitle(mergedDataProcess, 'file_pengajuan_zoom');
+        const upload_dokumen_liputanValue = findValueByTitle(mergedDataProcess, 'upload_dokumen_liputan');
+        const upload_dokumen_zoomValue = findValueByTitle(mergedDataProcess, 'upload_dokumen_zoom');
+        const file_pengajuan_podcastValue = findValueByTitle(mergedDataProcess, 'file_pengajuan_podcast');
         const file_submissionValue = findValueByTitle(mergedDataProcess, 'file_submission');
         const file_uploadValue = findValueByTitle(mergedDataProcess, 'file_upload');
 
         const foundValues = [
-            upload_dokumen_hasil_integrasiValue,
+            file_pengajuan_zoomValue,
             file_submissionValue,
+            upload_dokumen_liputanValue,
+            upload_dokumen_zoomValue,
+            file_pengajuan_podcastValue,
             file_uploadValue
         ].filter(Boolean);
 

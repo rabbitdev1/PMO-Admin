@@ -1,11 +1,16 @@
+import crypto from "crypto";
 import {
+  deleteObject,
+  getDownloadURL,
   getStorage,
   ref,
   uploadBytes,
-  getDownloadURL,
-  deleteObject,
 } from "firebase/storage";
-import crypto from "crypto";
+
+// Function untuk mendapatkan ekstensi dari nama file
+const getFileExtension = (filename) => {
+  return filename.slice(filename.lastIndexOf("."));
+};
 
 export const uploadFiles = async (req, res) => {
   try {
@@ -25,7 +30,7 @@ export const uploadFiles = async (req, res) => {
     const hash = crypto.createHash("sha256");
     const randomSalt = crypto.randomBytes(16).toString("hex");
     hash.update(file.originalname + randomSalt);
-    const encryptedFileName = apiKey + hash.digest("hex");
+    const encryptedFileName = apiKey + hash.digest("hex") + getFileExtension(file.originalname);
 
     const storage = getStorage();
     const storageRef = ref(storage, `files/${location}/${encryptedFileName}`);
