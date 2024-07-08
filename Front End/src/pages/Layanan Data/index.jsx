@@ -19,13 +19,12 @@ import { apiClient } from "../../utils/api/apiClient";
 import { convertToNameValueObject } from "../../utils/helpers/convertToNameValueObject";
 
 
+import resetFormData from "../../components/common/ResetFormData";
 import fetchUploadFiles from "../../utils/api/uploadFiles";
 import { formData as initialFormData } from "./data";
 import {
   isValidatorPendampinganPengolahandanAnalisisData, isValidatorProduksiDataSitusWeb
 } from "./validators";
-import fetchUploadImages from "../../utils/api/uploadImages";
-import resetFormData from "../../components/common/ResetFormData";
 
 function LayananDataPages() {
   const { isDarkMode } = useTheme();
@@ -64,7 +63,6 @@ function LayananDataPages() {
   useEffect(() => {
     if (authToken) {
       fetchDataLayananData(authApiKey, authToken, JSON.parse(authProfile)?.role)
-      fetchDataAlat(authApiKey, authToken)
     }
   }, [dataState, authToken]);
 
@@ -105,42 +103,7 @@ function LayananDataPages() {
       console.error("Error fetching data:", error);
     }
   };
-  const fetchDataAlat = async (api_key, token) => {
-    const params = new URLSearchParams();
-    try {
-      const response = await apiClient({
-        baseurl: "layanan-data/list_tools",
-        method: "POST",
-        body: params,
-        apiKey: api_key,
-        token: token,
-      });
-      if (response?.statusCode === 200) {
-        const formattedOptions = response.result.data.map(item => ({
-          value: item.name_tools,
-          label: item.name_tools
-        }));
-        setFormData(prevFormData =>
-          prevFormData.map(form =>
-            form.name === "Pengajuan Relokasi Alat" || form.name === "Pengajuan Penambahan Alat"
-              ? {
-                ...form,
-                fields: form.fields.map(field =>
-                  field.name === "type_tools"
-                    ? { ...field, options: formattedOptions }
-                    : field
-                )
-              }
-              : form
-          )
-        );
-      } else {
 
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
   const fetchDataCreate = async (api_key, token, data) => {
     dispatch(isPending(true));
     const raw = JSON.stringify(data);
