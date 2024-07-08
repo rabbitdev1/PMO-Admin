@@ -311,7 +311,20 @@ function SistemVirtualPages() {
       } else {
         console.error("Error occurred during image upload.");
       }
-    } else {
+    }
+    if (obj.file_pengajuan_zoom) {
+      const result = await fetchUploadFiles(authApiKey, authToken, obj.file_pengajuan_zoom, "sistem-virtual", dispatch);
+      if (result !== null) {
+        const fixObject = {
+          ...obj,
+          file_pengajuan_zoom: result,
+        };
+        fetchDataCreate(authApiKey, authToken, fixObject);
+      } else {
+        console.error("Error occurred during image upload.");
+      }
+    }
+    else {
       fetchDataCreate(authApiKey, authToken, obj);
     }
   };
@@ -403,7 +416,7 @@ function SistemVirtualPages() {
                     type="transparent"
                     className="bg-[#0185FF] text-darkColor px-3"
                     onClick={() => {
-                      setisModalCreate({ data: "Pengajuan "+dataState, status: true });
+                      setisModalCreate({ data: "Pengajuan " + dataState, status: true });
                       updatePic(JSON.parse(authProfile).fullname, JSON.parse(authProfile).telp);
                     }}
                   />
@@ -473,7 +486,7 @@ function SistemVirtualPages() {
         </div>
       </section>
 
-    
+
       <ModalContent
         className={"sm:max-w-5xl "}
         children={
@@ -555,7 +568,7 @@ function SistemVirtualPages() {
                             item?.field?.map(
                               (itemField, indexField) =>
                                 item?.value?.value ===
-                                  itemField.type_select && (
+                                itemField.type_select && (
                                   <DynamicInput
                                     key={indexField}
                                     name={itemField.name}
@@ -606,7 +619,7 @@ function SistemVirtualPages() {
         }
         active={isModalCreate.status}
       />
-       <ModalContentComponent
+      <ModalContentComponent
         isModalVerif={isModalVerif}
         setisModalVerif={setisModalVerif}
         setisModalCreate={setisModalCreate}

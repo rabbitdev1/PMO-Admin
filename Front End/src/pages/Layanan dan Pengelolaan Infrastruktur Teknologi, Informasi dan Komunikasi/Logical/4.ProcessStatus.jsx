@@ -44,7 +44,7 @@ const ProcessStatus = ({
 
         try {
             const response = await apiClient({
-                baseurl: "infra/set_process",
+                baseurl: "infrastruktur/set_process",
                 method: "POST",
                 body: params,
                 apiKey: api_key,

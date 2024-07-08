@@ -20,7 +20,6 @@ import ModalContent from "../../../components/ui/Modal/ModalContent";
 import { apiClient } from "../../../utils/api/apiClient";
 import fetchUploadImages from "../../../utils/api/uploadImages";
 import { validateAddress, validateEmail, validateFullname, validateImage, validatePassword, validateRepeatPassword, validateRole, validateTelp } from "../../../utils/helpers/validateForm";
-import resetFormData from "../../../components/common/ResetFormData";
 
 function AccountPages() {
   const { isDarkMode } = useTheme();
@@ -256,7 +255,31 @@ function AccountPages() {
     updatedFormData[index].value = value;
     setFormData(updatedFormData);
   };
- 
+
+  const resetFormData = () => {
+    const resetFields = formData.map(field => {
+      if (field.type === 'input_array') {
+        const resetFields1 = field.value.map(field1 => {
+          return { ...field1, value: "" };
+        });
+        return { ...field, value: resetFields1 };
+      } else if (field.type === 'selection') {
+        return { ...field, value: [] };
+      } else if (field.type === 'multi_selection') {
+        return { ...field, value: [] };
+      } else if (field.type === "multi_date") {
+        return {
+          ...field, value: {
+            startDate: null,
+            endDate: null,
+          },
+        };
+      } else {
+        return { ...field, value: "" };
+      }
+    });
+    setFormData(resetFields);
+  }
 
   return (
     <div className="flex flex-col gap-3 flex-1 p-3" >

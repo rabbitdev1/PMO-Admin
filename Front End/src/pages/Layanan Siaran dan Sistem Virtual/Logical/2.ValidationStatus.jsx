@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import DynamicButton from "../../../components/common/DynamicButton";
 import DynamicInput from "../../../components/common/DynamicInput";
 import DynamicShow from "../../../components/common/DynamicShow";
-import DynamicDetails from "../../../components/ui/DynamicDetails";
+import DynamicDetails from '../DynamicDetails';
 
 const ValidationStatus = ({
   submissionStatus,
@@ -23,12 +23,7 @@ const ValidationStatus = ({
               Cek Kelengkapan Berkas
             </span>
           </div>
-          <DynamicDetails
-
-            location={'sistem-virtual'}
-            detailData={detailData}
-            loading={loading}
-          />
+          <DynamicDetails location={"sistem-virtual"} detailData={detailData} loading={loading} />
           <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
             <span className="text-lg font-bold">Status Validasi Dokumen</span>
             {[
@@ -44,7 +39,7 @@ const ValidationStatus = ({
               {
                 label: "Tanggapan",
                 value: validationData.response,
-                type: "editor",
+                type: "textarea",
                 name: "response",
               },
             ].map((inputProps, index) => {
@@ -109,31 +104,38 @@ const ValidationStatus = ({
             </div>
           </div>
           <DynamicDetails location={"sistem-virtual"} detailData={detailData} loading={loading} />
+
         </div>
       )}
       {submissionStatus === 3 && (
-        <div className='flex flex-col lg:flex-row gap-3'>
-          <div className={`flex-1 flex flex-col gap-3`}>
-            <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
-              <div className="flex flex-row gap-2 items-center">
-                <span className="text-base font-semibold">Status Validasi Dokumen :</span>
-                <div
-                  className={`flex flex-row gap-2 p-1 px-3 rounded-md text-darkColor bg-[#FF0000]`}
-                >
-                  <span className="text-base">
-                    {validationData.status_validation}
-                  </span>
-                </div>
+        <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+            <div className="flex flex-row gap-2 items-center">
+              <span className="text-lg font-bold">Status Validasi Dokumen :</span>
+              <div
+                className={`flex flex-row gap-2 p-1 px-3 rounded-md text-darkColor bg-[#FF0000]`}
+              >
+                <span className="text-base">
+                  {validationData.status_validation}
+                </span>
               </div>
-              <DynamicShow
-                label={"Tanggapan"}
-                location={'sistem-virtual'}
-                value={validationData?.response}
-                type={"html"}
-              />
             </div>
           </div>
-          <DynamicDetails location={"sistem-virtual"} detailData={detailData} loading={loading} />
+          <div className='flex  flex-col lg:flex-row gap-3'>
+            <div className={`flex-1 flex flex-col gap-3`}>
+              <div className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+              <span className='text-lg font-bold'>Tahapan Validasi Dokumen</span>
+                <DynamicShow
+                  label={"Tanggapan"}
+                  location={'sistem-virtual'}
+                  value={validationData?.response}
+                  type={"textarea"}
+                />
+              </div>
+            </div>
+            <DynamicDetails location={"sistem-virtual"} detailData={detailData} loading={loading} />
+
+          </div>
         </div>
       )}
     </>

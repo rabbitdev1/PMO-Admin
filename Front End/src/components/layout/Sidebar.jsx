@@ -53,7 +53,7 @@ const Sidebar = () => {
 
   const menuItems = [
     { title: "MENU", role: ['/'], icon: "" },
-    { title: "Dashboard", role: ['kadis','op_pmo', 'perangkat_daerah','katim_aplikasi','kabid_aplikasi','teknis_aplikasi','kabid_infra','katim_infra','teknis_infra','katim_perencanaan','kabid_perencanaan'], icon: AllBerandaIcon, href: ["/dashboard"], },
+    { title: "Dashboard", role: ['kadis','op_pmo', 'perangkat_daerah','katim_aplikasi','kabid_aplikasi','teknis_aplikasi','kabid_infra','katim_infra','teknis_infra','katim_perencanaan','kabid_perencanaan','katim_desiminasi','kabid_desiminasi','teknis_desiminasi'], icon: AllBerandaIcon, href: ["/dashboard"], },
     {
       title: "Data Alat", role: ['kabid_infra', 'teknis_infra', 'katim_infra'],
       icon: AllBerandaIcon, href: ["/data-alat-infrastruktur", "/detail-infrastruktur"],
@@ -99,7 +99,7 @@ const Sidebar = () => {
       icon: AllBerandaIcon, href: ["/layanan-pengelolaan-infrastruktur-teknologi-informasi-komunikasi", "/detail-infrastruktur"],
     },
     {
-      title: "Layanan Siaran dan Sistem Virtual", role: ['kadis','op_pmo', 'perangkat_daerah', 'teknis_aplikasi', 'katim_aplikasi'],
+      title: "Layanan Siaran dan Sistem Virtual", role: ['kadis','op_pmo', 'perangkat_daerah', 'teknis_desiminasi', 'katim_desiminasi','kabid_desiminasi'],
       submenu: [
         { title: 'Layanan ZOOM', href: '/layanan-siaran-dan-sistem-virtual', state: 'Layanan ZOOM' },
         { title: 'Permohonan Liputan', href: '/layanan-siaran-dan-sistem-virtual', state: 'Permohonan Liputan' },
