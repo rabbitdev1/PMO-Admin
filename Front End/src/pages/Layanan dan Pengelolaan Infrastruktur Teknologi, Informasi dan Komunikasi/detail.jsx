@@ -16,11 +16,11 @@ import SubmissionStatus from "../../components/ui/SubmissionStatus";
 import { apiClient } from "../../utils/api/apiClient";
 import fetchUploadFiles from "../../utils/api/uploadFiles";
 import fetchUploadImages from "../../utils/api/uploadImages";
-import DalamAntrianView from "./Logical/DalamAntrianView";
-import FinishStatus from "./Logical/FinishStatus";
-import ProcessStatus from "./Logical/ProcessStatus";
-import ValidationStatus from "./Logical/ValidationStatus";
-import ValidationStatusTechnique from "./Logical/ValidationStatusTechnique";
+import DalamAntrianView from "./Logical/1.DalamAntrianView";
+import FinishStatus from "./Logical/5.FinishStatus";
+import ProcessStatus from "./Logical/4.ProcessStatus";
+import ValidationStatus from "./Logical/2.ValidationStatus";
+import ValidationStatusTechnique from "./Logical/3.ValidationStatusTechnique";
 
 function DetailInfrastrukturPages() {
   const { isDarkMode } = useTheme();
@@ -97,7 +97,7 @@ function DetailInfrastrukturPages() {
     let htmlConvert = "";
 
     if (
-      ["validation", "validation_technique", "process"].includes(type) &&
+      [ "validation_technique", "process"].includes(type) &&
       data?.response
     ) {
       const contentState = convertToRaw(data.response.getCurrentContent());
@@ -114,7 +114,6 @@ function DetailInfrastrukturPages() {
           ...data,
           status_validation:
             parseInt(data.status_validation) === 0 ? "Ditolak" : "Disetujui",
-          response: htmlConvert,
         })
       );
     } else if (["validation_technique", "process"].includes(type)) {
@@ -293,7 +292,7 @@ function DetailInfrastrukturPages() {
         );
         if (result !== null) {
           let combineData = {};
-          combineData = { ...data, file_upload: result };
+          combineData = { ...data, file_submission: result };
           fetchEditinfrastruktur(
             authApiKey,
             authToken,
@@ -317,57 +316,58 @@ function DetailInfrastrukturPages() {
         link2={"Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi"}
       />
       <section className="flex flex-col gap-3">
-        <SubmissionStatus status={submissionStatus} />
-        <div className={`flex  flex-col gap-3`}>
-          <DalamAntrianView
-            submissionStatus={submissionStatus}
-            detailData={detailData}
-            loading={infrastrukturLoading}
-          />
-          <ValidationStatus
-            submissionStatus={submissionStatus}
-            validationData={validationData}
-            authProfile={authProfile}
-            detailData={detailData}
-            loading={infrastrukturLoading}
-            setValidationData={setValidationData}
-            checkingFormData={checkingFormData}
-          />
-          <ValidationStatusTechnique
-            slug={slug}
-            submissionStatus={submissionStatus}
-            validationData={validationDataTechnique}
-            setValidationData={setValidationDataTechnique}
-            authProfile={authProfile}
-            detailData={detailData}
-            loading={infrastrukturLoading}
-            checkingFormData={checkingFormData}
-            setisModalVerif={setisModalVerif}
-          />
-          <ProcessStatus
-            slug={slug}
-            validationData={validationDataTechnique}
-            submissionStatus={submissionStatus}
-            processData={processData}
-            authProfile={authProfile}
-            detailData={detailData}
-            loading={infrastrukturLoading}
-            checkingFormData={checkingFormData}
-            setisModalVerif={setisModalVerif}
-            finishData={finishData}
-            setfinishData={setfinishData}
-          />
-
-          <FinishStatus
-            detailData={detailData}
-            loading={infrastrukturLoading}
-            validationData={validationDataTechnique}
-            processData={processData}
-            submissionStatus={submissionStatus}
-            finishData={finishData}
-          />
-        </div>
-      </section>
+          <SubmissionStatus status={submissionStatus} data={null} />
+          <div className={`flex  flex-col gap-3`}>
+            <DalamAntrianView
+              submissionStatus={submissionStatus}
+              detailData={detailData}
+              loading={infrastrukturLoading}
+            />
+            <ValidationStatus
+              submissionStatus={submissionStatus}
+              validationData={validationData}
+              authProfile={authProfile}
+              detailData={detailData}
+              loading={infrastrukturLoading}
+              setValidationData={setValidationData}
+              checkingFormData={checkingFormData}
+            />
+            <ValidationStatusTechnique
+              slug={slug}
+              submissionStatus={submissionStatus}
+              validationData={validationData}
+              validationDataTechnique={validationDataTechnique}
+              setvalidationDataTechnique={setValidationDataTechnique}
+              authProfile={authProfile}
+              detailData={detailData}
+              loading={infrastrukturLoading}
+              checkingFormData={checkingFormData}
+              setisModalVerif={setisModalVerif}
+            />
+            <ProcessStatus
+              slug={slug}
+              validationDataTechnique={validationDataTechnique}
+              processData={processData}
+              submissionStatus={submissionStatus}
+              authProfile={authProfile}
+              detailData={detailData}
+              loading={infrastrukturLoading}
+              checkingFormData={checkingFormData}
+              setisModalVerif={setisModalVerif}
+              finishData={finishData}
+              setfinishData={setfinishData}
+            />
+            <FinishStatus
+              detailData={detailData}
+              loading={infrastrukturLoading}
+              validationData={validationData}
+              validationDataTechnique={validationDataTechnique}
+              processData={processData}
+              submissionStatus={submissionStatus}
+              finishData={finishData}
+            />
+          </div>
+        </section>
 
       <ModalContent
         className={"sm:max-w-xl"}

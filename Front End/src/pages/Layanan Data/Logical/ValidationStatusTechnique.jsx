@@ -7,7 +7,7 @@ import DynamicInput from "../../../components/common/DynamicInput";
 import DynamicShow from "../../../components/common/DynamicShow";
 import DynamicDetails from "../../../components/ui/DynamicDetails";
 import { apiClient } from "../../../utils/api/apiClient";
-import { validateFile, validatePeriod, validateText } from "../../../utils/helpers/validateForm";
+import { validateFile, validateDate, validateText } from "../../../utils/helpers/validateForm";
 
 const ValidationStatusTechnique = ({
   submissionStatus,
@@ -160,7 +160,7 @@ const ValidationStatusTechnique = ({
                       let isValid = true;
                       // isValid = isValid && validateFile(inputLocal.file_scema_integration, "Skema Integrasi")
                       isValid = isValid && validateText(inputLocal.team_response, "Tanggapan Tim Teknis")
-                      isValid = isValid && validatePeriod(inputLocal.working_schedule, "Jadwal Pengerjaan")
+                      isValid = isValid && validateDate(inputLocal.working_schedule, "Jadwal Pengerjaan")
 
                       if (isValid) {
                         checkingFormData('validation_technique', filteredDataResult);
@@ -183,7 +183,7 @@ const ValidationStatusTechnique = ({
                       key={key}
                       label={key === "file_scema_integration" ? "Skema Integrasi" : key === "team_response" ? "Tanggapan dari Tim Teknis" : key === "working_schedule" ? "Jadwal Kerja" : key}
                       value={value}
-                      type={key === "file_scema_integration" ? 'pdf' : key === "team_response" ? 'text' : key === "working_schedule" ? "multidate" : 'text'}
+                      type={key === "file_scema_integration" ? 'pdf' : key === "team_response" ? 'text' : key === "working_schedule" ? "multi_date" : 'text'}
                     />
                   ))}
                 </div>
@@ -200,7 +200,7 @@ const ValidationStatusTechnique = ({
                       location={'layanan-data'}
                       label={key === "file_scema_integration" ? "Skema Integrasi" : key === "team_response" ? "Tanggapan dari Tim Teknis" : key === "working_schedule" ? "Jadwal Kerja" : key}
                       value={value}
-                      type={key === "file_scema_integration" ? 'pdf' : key === "team_response" ? 'text' : key === "working_schedule" ? "multidate" : 'text'}
+                      type={key === "file_scema_integration" ? 'pdf' : key === "team_response" ? 'text' : key === "working_schedule" ? "multi_date" : 'text'}
                     />
                 ))}
 
@@ -309,7 +309,7 @@ const ValidationStatusTechnique = ({
                   location={'layanan-data'}
                   label={key === "team_response" ? "Tanggapan dari Tim" : key === "working_schedule" ? "Jadwal Kerja" : key === "response_katim" ? "Tanggapan dari Ketua Tim" : key}
                   value={value}
-                  type={key === "team_response" ? 'text' : key === "working_schedule" ? "multidate" : key === "response" ? "html" : 'text'}
+                  type={key === "team_response" ? 'text' : key === "working_schedule" ? "multi_date" : key === "response" ? "html" : 'text'}
                 />
               ))}
             </div>

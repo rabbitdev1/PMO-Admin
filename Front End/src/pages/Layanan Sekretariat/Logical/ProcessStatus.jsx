@@ -113,7 +113,7 @@ const ProcessStatus = ({
                                     key={key}
                                     label={key === "working_schedule" ? "Jadwal Kerja" : key}
                                     value={value}
-                                    type={"working_schedule" ? "multidate" : 'text'}
+                                    type={"working_schedule" ? "multi_date" : 'text'}
                                 />
                             ))}
                             {renderProcessInputs(detailData.submission_title === "Pendaftaran Magang" ?
@@ -164,7 +164,7 @@ const ProcessStatus = ({
                                         key={key}
                                         label={key === "working_schedule" ? "Jadwal Kerja" : key}
                                         value={value}
-                                        type={"working_schedule" ? "multidate" : 'text'}
+                                        type={"working_schedule" ? "multi_date" : 'text'}
                                     />
                                 ))}
                                 {Object.entries(processData).map(([key, value]) => (
@@ -203,7 +203,7 @@ const ProcessStatus = ({
                                         key={key}
                                         label={key === "working_schedule" ? "Jadwal Kerja" : key}
                                         value={value}
-                                        type={"working_schedule" ? "multidate" : 'text'}
+                                        type={"working_schedule" ? "multi_date" : 'text'}
                                     />
                                 ))}
                                 {Object.entries(processData).map(([key, value]) => (
@@ -290,7 +290,7 @@ const ProcessStatus = ({
                                     key={key}
                                     label={key === "working_schedule" ? "Jadwal Kerja" : key}
                                     value={value}
-                                    type={"working_schedule" ? "multidate" : 'text'}
+                                    type={"working_schedule" ? "multi_date" : 'text'}
                                 />
                             ))}
                             {Object.entries(processData).map(([key, value]) => (

@@ -15,8 +15,7 @@ import SekretariatPages from "../pages/Layanan Sekretariat";
 import DetailSekretariatPages from "../pages/Layanan Sekretariat/detail";
 import LayananPenyusunanPerencanaanTIKPages from "../pages/Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi";
 import DetailPerencanaanTIKPages from "../pages/Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi/detail";
-import UptRadioPages from "../pages/Layanan Upt Radio Sonata";
-import DetailUptRadioPages from "../pages/Layanan Upt Radio Sonata/detail";
+
 import TeknologiSIPages from "../pages/Layanan Siaran dan Sistem Virtual";
 import DetailTeknologiSIPages from "../pages/Layanan Siaran dan Sistem Virtual/detail";
 import LayananDataPages from "../pages/Layanan Data";
@@ -24,11 +23,12 @@ import DetailLayananDataPages from "../pages/Layanan Data/detail";
 import PermohonanSIPages from "../pages/Layanan Permohonan Sistem Informasi";
 import DetailPermohonanSIPages from "../pages/Layanan Permohonan Sistem Informasi/detail";
 import CreatePermohonanSIPages from "../pages/Layanan Permohonan Sistem Informasi/create";
+import LandingPages from "../pages/LandingPages";
 
 
 
 const userRoutes = [
-  { path: "/", component: <DashboardPages /> },
+  { path: "/dashboard", component: <DashboardPages /> },
 
   { path: "/layanan-pengelolaan-infrastruktur-teknologi-informasi-komunikasi", component: <InfrastrukturPages /> },
   { path: "/detail-infrastruktur", component: <DetailInfrastrukturPages /> },
@@ -50,10 +50,6 @@ const userRoutes = [
   { path: "/layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi", component: <LayananPenyusunanPerencanaanTIKPages /> },
   { path: "/detail-layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi", component: <DetailPerencanaanTIKPages /> },
 
-
-  { path: "/layanan-upt-radio-sonata", component: <UptRadioPages /> },
-  { path: "/detail-upt-radio-sonata", component: <DetailUptRadioPages /> },
-
   { path: "/layanan-sekretariat", component: <SekretariatPages /> },
   { path: "/detail-sekretariat", component: <DetailSekretariatPages /> },
 
@@ -70,6 +66,7 @@ const operatorRoutes = [
   { path: "/detail-account", component: <DetailsAccountPages /> },
 ]
 const nonUserRoutes = [
+  { path: "/", component:<LandingPages/>},
 
 ];
 

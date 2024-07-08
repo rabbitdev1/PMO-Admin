@@ -18,7 +18,6 @@ export const isValidatorPenambahanAlat = (obj) => {
   isValid = isValid && validateTelp(obj.telp_pic, "Nomor PIC");
   isValid = isValid && validateArray(obj.type_tools, "Jenis Alat yang dibutuhkan");
   isValid = isValid && validateHTML(obj.reason, "Alasan Pengajuan");
-  isValid = isValid && validateText(obj.distance_estimation, "Estimati Jarak");
 
   return isValid;
 };
@@ -30,10 +29,9 @@ export const isValidatorPenambahanBandwith = (obj) => {
   isValid = isValid && validateArray(obj.initial_bandwith, "Bandtwith Awal");
   isValid = isValid && validateArray(obj.proposed_bandwidth, "Bandtwith Usulan");
   isValid = isValid && validateHTML(obj.reason, "Alasan Pengajuan");
-  isValid = isValid && validatePeriod1(obj.period, "Periode Jangka Waktu");
 
   // if (obj.status_BDO === 'temporary') {
-  //   isValid = isValid && validatePeriod(obj.period, "Periode Jangka Waktu");
+  //   isValid = isValid && validateDate(obj.period, "Periode Jangka Waktu");
   // }
 
   return isValid;
@@ -52,10 +50,15 @@ export const isValidatorTroubleShooting = (obj) => {
 
 export const isValidatorHosting = (obj) => {
   let isValid = true;
+  console.log(obj.device_specifications?.ram);
   isValid = isValid && validateFullname(obj.name_pic, "Nama PIC");
   isValid = isValid && validateTelp(obj.telp_pic, "Nomor PIC");
   isValid = isValid && validateArray(obj.app, "Nama Aplikasi");
-  isValid = isValid && validateTextArea(obj.other_requirements, "Requirement Lainnya");
+  isValid = isValid && validateTextArea(obj.other_requirements, "Kebutuhan Lainnya");
+  isValid = isValid && validateArray(obj.device_specifications?.ram, "RAM");
+  isValid = isValid && validateArray(obj.device_specifications?.processor, "Processor");
+  isValid = isValid && validateArray(obj.device_specifications?.storage, "Storage");
+  isValid = isValid && validateArray(obj.device_specifications?.system_operation, "System Operation");
   isValid = isValid && validateHTML(obj.reason, "Alasan Pengajuan");
 
   return isValid;

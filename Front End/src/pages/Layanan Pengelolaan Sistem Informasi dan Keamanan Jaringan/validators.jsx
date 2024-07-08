@@ -1,5 +1,4 @@
-import { validateArray, validateEmail, validateFile, validateFullname, validateHTML, validatePassword, validatePeriod, validatePeriod1, validateRadioBottom, validateRepeatPassword, validateTelp, validateText, validateTextArea } from "../../utils/helpers/validateForm";
-
+import { validateArray, validateEmail, validateFile, validateFullname, validateHTML, validatePassword, validateDate, validatePeriod1, validateRadioBottom, validateRepeatPassword, validateTelp, validateText, validateTextArea } from "../../utils/helpers/validateForm";
 
 export const isValidatorUserAccountSI = (obj) => {
   let isValid = true;
@@ -25,6 +24,7 @@ export const isValidatorUserAccountSI = (obj) => {
   }
   return isValid;
 };
+
 export const isValidatorPenerapanModulTTE = (obj) => {
   let isValid = true;
   isValid = isValid && validateFullname(obj.name_pic, "Nama PIC");
@@ -33,7 +33,7 @@ export const isValidatorPenerapanModulTTE = (obj) => {
   isValid = isValid && validateHTML(obj.app_desc, "Deskripsi Aplikasi");
   isValid = isValid && validateHTML(obj.reason, "Alasan Pengajuan");
   isValid = isValid && validateFile(obj.file_process_bisiness, 'Dokumen Proses Bisnis');
-  isValid = isValid && validatePeriod1(obj.period, 'Jadwal Penerapan');
+  isValid = isValid && validateDate(obj.period, 'Jadwal Penerapan');
 
   return isValid;
 };
@@ -42,7 +42,7 @@ export const isValidatorIntegrasi = (obj) => {
   let isValid = true;
   isValid = isValid && validateFullname(obj.name_pic, "Nama PIC");
   isValid = isValid && validateTelp(obj.telp_pic, "Nomor PIC");
-  isValid = isValid && validateArray(obj.app_name, "Nama Aplikasi");
+  isValid = isValid && validateText(obj.app_name, "Nama Aplikasi");
   isValid = isValid && validateHTML(obj.app_desc, "Deskripsi Aplikasi");
   isValid = isValid && validateHTML(obj.needed_data, "Data Yang di Butuhkan");
   isValid = isValid && validateHTML(obj.integration, "Tujuan Integrasi");
@@ -54,7 +54,7 @@ export const isValidatorEmail = (obj) => {
   let isValid = true;
   isValid = isValid && validateFullname(obj.name_pic, "Nama PIC");
   isValid = isValid && validateTelp(obj.telp_pic, "Nomor PIC");
-  isValid = isValid && validateText(obj.jabatan, "Jabatan");
+  isValid = isValid && validateText(obj.occupation, "Jabatan");
   isValid = isValid && validateText(obj.nip, "NIP");
   isValid = isValid && validateArray(obj.peruntukan, "Peruntukan");
   isValid = isValid && validateHTML(obj.reason, "Alasan");
@@ -70,7 +70,7 @@ export const isValidatorPengujianCelahKeamanan = (obj) => {
   isValid = isValid && validateHTML(obj.app_desc, "Deskripsi Aplikasi");
   isValid = isValid && validateText(obj.app_version, "Versi Aplikasi");
   isValid = isValid && validateArray(obj.app_ownership, "Kepemilikan Aplikasi");
-  isValid = isValid && validateText(obj.username, "Username");
+  isValid = isValid && validateText(obj.username, "Nama Akun");
   isValid = isValid && validatePassword(obj.password, "Password");
   isValid = isValid && validateText(obj.domain_url, "Domain URL");
   isValid = isValid && validateFile(obj.file_process_bisiness, "Dokumen Proses Bisnis");

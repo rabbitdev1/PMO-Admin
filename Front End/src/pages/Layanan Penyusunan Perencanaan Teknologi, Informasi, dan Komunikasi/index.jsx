@@ -26,7 +26,7 @@ import {
   isValidatorPenambahanAlat,
   isValidatorPenambahanBandwith,
   isValidatorPendataanAhli,
-  isValidatorPenyusunaKebijakan,
+  isValidatorSuratKeputusan,
   isValidatorpermohonanLiputan,
   isValidatorPerwalKepwal,
   isValidatorRelokasiAlat,
@@ -120,7 +120,7 @@ function LayananPenyusunanPerencanaanTIKPages() {
       dispatch(isPending(false));
       if (response?.statusCode === 200) {
         if (JSON.parse(authProfile)?.role === "perangkat_daerah") {
-          const filteredSubmissions = response.result.data.filter(
+          const filteredSubmissions = response.result.data?.filter(
             (submission) => submission.submission_title === dataState
           );
           setListPerencanaanTIK(filteredSubmissions);
@@ -313,7 +313,7 @@ function LayananPenyusunanPerencanaanTIKPages() {
       const { result: nameValueObject, newObject: newObjectFromConversion } =
         convertToNameValueObject(foundObject);
       const nameValueObject2 = {
-        submission_type: isModalType.data,
+        submission_type: "Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi",
         role: foundObject.role,
         submission_title: isModalCreate.data.replace("Pengajuan ", ""),
       };
@@ -327,7 +327,7 @@ function LayananPenyusunanPerencanaanTIKPages() {
       };
       console.log(JSON.stringify(combinedObject));
 
-      if (combinedObject?.submission_title === "Penyusunan Kebijakan") {
+      if (combinedObject?.submission_title === "Surat Keputusan") {
         if (isValidatorPenyusunaKebijakan(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
         } else {
@@ -419,7 +419,7 @@ function LayananPenyusunanPerencanaanTIKPages() {
       <TitleHeader
         title={
           JSON.parse(authProfile)?.role === "perangkat_daerah"
-            ? "Layanan Pengajuan"
+            ? "Layanan Pengajuan " + dataState
             : "Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi"
         }
         link1={"dashboard"}
@@ -500,7 +500,7 @@ function LayananPenyusunanPerencanaanTIKPages() {
                 dataHeader={[
                   { name: "ID", field: "id" },
                   { name: "Nama PIC", field: "name_pic" },
-                  { name: "Jenis Pengajuan", field: "submission_title" },
+                  { name: "Jenis Layanan", field: "submission_title" },
                   { name: "Status", field: "submission_status" },
                   { name: "Tanggal", field: "createdAt" },
                   { name: "Aksi", field: "action" },

@@ -1,67 +1,134 @@
 export const formData = [
   {
-    name: "Layanan ZOOM",
+    name: "Pengajuan Layanan ZOOM",
     type: "Layanan Siaran dan Sistem Virtual",
     role: [
       "op_pmo",
       "perangkat_daerah",
-      "kabid_aplikasi",
-      "katim_aplikasi",
-      "teknis_aplikasi"
+      "kabid_desiminasi",
+      "katim_desiminasi",
+      "teknis_desiminasi"
     ],
     fields: [
-      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
+      { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
+      {
+        name: "file_pengajuan_zoom",
+        label: "Dokumen Pengajuan Zoom",
+        value: "",
+        type: "file_upload"
+      },
       { name: "reason", label: "Alasan Dibutuhkan", value: "", type: "editor" },
-      { name: "period", label: "Periode Jangka Waktu", value: "", type: "multi_date" },
     ],
   },
   {
-    name: "Permohonan Liputan",
+    name: "Pengajuan Permohonan Liputan",
     type: "Layanan Siaran dan Sistem Virtual",
     role: [
       "op_pmo",
       "perangkat_daerah",
-      "kabid_aplikasi",
-      "katim_aplikasi",
-      "teknis_aplikasi"
+      "kabid_desiminasi",
+      "katim_desiminasi",
+      "teknis_desiminasi"
     ],
     fields: [
-      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
+      { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
-      { name: "reason", label: "Alasan Pengajuan", value: "", type: "textarea" },
-      { name: "location_implementation", label: "Tempat Pelaksanaan", value: "", type: "textarea" },
-      { name: "period", label: "Periode Jangka Waktu", value: "", type: "multi_date" },
+      { name: "type_activity", label: "Jenis Kegiatan", value: "", type: "text" },
+      { name: "location_implementation", label: "Tempat Pelaksanaan", value: "", type: "editor" },
+      { name: "period", label: "Waktu", value: "", type: "multi_date" },
+      { name: "needed_tools", label: "Kebutuhan Alat", value: "", type: "editor" },
+      {
+        name: "live_streaming",
+        label: "Live Streaming",
+        value: "",
+        type: "radio_button",
+        options: [
+          { value: "Iya", label: "Iya" },
+          { value: "Tidak", label: "Tidak" },
+        ],
+      },
+      { name: "reason", label: "Alasan Pengajuan", value: "", type: "editor" },
     ],
   },
   {
-    name: "Permohonan Podcast",
+    name: "Pengajuan Permohonan Podcast",
     type: "Layanan Siaran dan Sistem Virtual",
     role: [
       "op_pmo",
       "perangkat_daerah",
-      "katim_aplikasi",
-      "teknis_aplikasi"
+      "kabid_desiminasi",
+      "katim_desiminasi",
+      "teknis_desiminasi"
     ],
     fields: [
-      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
+      { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
+      { name: "type_activity", label: "Jenis Kegiatan", value: "", type: "text" },
+      { name: "location_implementation", label: "Tempat Pelaksanaan", value: "", type: "editor" },
+      { name: "period", label: "Waktu", value: "", type: "multi_date" },
+      { name: "needed_tools", label: "Kebutuhan Alat", value: "", type: "editor" },
+      { name: "speaker", label: "Narasumber/Pembicara", value: "", type: "text" },
+      { name: "topic", label: "Tema/Topik", value: "", type: "text" },
       { name: "reason", label: "Alasan Pengajuan", value: "", type: "editor"},
-      { name: "location_implementation", label: "Tempat Pelaksanaan", value: "", type: "editor"},
-      { name: "period", label: "Periode Jangka Waktu", value: "", type: "multi_date"}
-
     ],
   },
 ]
+
+const getZoomValidateTechnique = (inputLocal) => [
+  {
+    label: "Tanggapan Tim Teknis",
+    value: inputLocal.team_response,
+    type: "textarea",
+    name: "team_response",
+  },
+  {
+    label: "Jadwal Pengerjaan",
+    value: inputLocal.working_schedule,
+    type: "date",
+    name: "working_schedule",
+  },
+];
+
+const getPermohonanLiputanValidateTechnique = (inputLocal) => [
+  {
+    label: "Tanggapan Tim Teknis",
+    value: inputLocal.team_response,
+    type: "textarea",
+    name: "team_response",
+  },
+  {
+    label: "Jadwal Pengerjaan",
+    value: inputLocal.working_schedule,
+    type: "date",
+    name: "working_schedule",
+  },
+];
+
+const getPodcastValidateTechnique = (inputLocal) => [
+  {
+    label: "Tanggapan Tim Teknis",
+    value: inputLocal.team_response,
+    type: "textarea",
+    name: 'team_response',
+  },
+  {
+    label: "Jadwal Pengerjaan",
+    value: inputLocal.working_schedule,
+    type: "date",
+    name: 'working_schedule',
+  },
+];
 
 const getZoomProcess = (inputLocal) => [
   {
     label: "Upload Dokumen Hasil Pengajuan Permohonan Zoom",
     value: inputLocal.upload_dokumen_zoom,
     type: "file_upload",
-    name: 'upload_dokumen_zoom'
+    name: 'upload_dokumen_zoom',
   },
 ];
+
 const getZoomFinish = (finishData) => [
   {
     label: "Status Pengajuan",
@@ -158,5 +225,6 @@ const getPodcastFinish = (finishData) => [
 
 
 export {
+  getZoomValidateTechnique,getPermohonanLiputanValidateTechnique,getPodcastValidateTechnique,
   getZoomProcess, getZoomFinish, getPermohonanLiputanProcess, getPermohonanLiputanFinish, getPodcastProcess, getPodcastFinish
 };

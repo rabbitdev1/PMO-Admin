@@ -19,13 +19,12 @@ import { apiClient } from "../../utils/api/apiClient";
 import { convertToNameValueObject } from "../../utils/helpers/convertToNameValueObject";
 
 
+import resetFormData from "../../components/common/ResetFormData";
 import fetchUploadFiles from "../../utils/api/uploadFiles";
 import { formData as initialFormData } from "./data";
 import {
   isValidatorPendampinganPengolahandanAnalisisData, isValidatorProduksiDataSitusWeb
 } from "./validators";
-import fetchUploadImages from "../../utils/api/uploadImages";
-import resetFormData from "../../components/common/ResetFormData";
 
 function LayananDataPages() {
   const { isDarkMode } = useTheme();
@@ -64,7 +63,6 @@ function LayananDataPages() {
   useEffect(() => {
     if (authToken) {
       fetchDataLayananData(authApiKey, authToken, JSON.parse(authProfile)?.role)
-      fetchDataAlat(authApiKey, authToken)
     }
   }, [dataState, authToken]);
 
@@ -85,7 +83,7 @@ function LayananDataPages() {
       dispatch(isPending(false));
       if (response?.statusCode === 200) {
         if (JSON.parse(authProfile)?.role === "perangkat_daerah") {
-          const filteredSubmissions = response.result.data.filter(submission => submission.submission_title === dataState);
+          const filteredSubmissions = response.result.data?.filter(submission => submission.submission_title === dataState);
           setListLayananData(filteredSubmissions);
           console.log(dataState);
         } else {
@@ -105,42 +103,7 @@ function LayananDataPages() {
       console.error("Error fetching data:", error);
     }
   };
-  const fetchDataAlat = async (api_key, token) => {
-    const params = new URLSearchParams();
-    try {
-      const response = await apiClient({
-        baseurl: "layanan-data/list_tools",
-        method: "POST",
-        body: params,
-        apiKey: api_key,
-        token: token,
-      });
-      if (response?.statusCode === 200) {
-        const formattedOptions = response.result.data.map(item => ({
-          value: item.name_tools,
-          label: item.name_tools
-        }));
-        setFormData(prevFormData =>
-          prevFormData.map(form =>
-            form.name === "Pengajuan Relokasi Alat" || form.name === "Pengajuan Penambahan Alat"
-              ? {
-                ...form,
-                fields: form.fields.map(field =>
-                  field.name === "type_tools"
-                    ? { ...field, options: formattedOptions }
-                    : field
-                )
-              }
-              : form
-          )
-        );
-      } else {
 
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
   const fetchDataCreate = async (api_key, token, data) => {
     dispatch(isPending(true));
     const raw = JSON.stringify(data);
@@ -256,7 +219,7 @@ function LayananDataPages() {
     if (foundObject) {
       const { result: nameValueObject, newObject: newObjectFromConversion } = convertToNameValueObject(foundObject);
       const nameValueObject2 = {
-        submission_type: isModalType.data,
+        submission_type: "Layanan Data",
         role: foundObject.role,
         submission_title: isModalCreate.data.replace('Pengajuan ', '')
       };
@@ -349,7 +312,7 @@ function LayananDataPages() {
 
   return (
     <div className="flex flex-col gap-3 flex-1 p-4" >
-      <TitleHeader title={JSON.parse(authProfile)?.role === "perangkat_daerah" ? "Layanan Pengajuan" : "Layanan Data"}
+      <TitleHeader title={JSON.parse(authProfile)?.role === "perangkat_daerah" ? "Layanan Pengajuan " + dataState : "Layanan Data"}
 
         link1={"dashboard"}
         link2={'Bidang Data'} />
@@ -410,7 +373,8 @@ function LayananDataPages() {
                     type="transparent"
                     className="bg-[#0185FF] text-darkColor px-3"
                     onClick={() => {
-                      setisModalType({ data: "Layanan Data", status: true });
+                      setisModalCreate({ data: "Pengajuan "+dataState, status: true });
+                      updatePic(JSON.parse(authProfile).fullname, JSON.parse(authProfile).telp);
                     }}
                   />
 
@@ -422,7 +386,7 @@ function LayananDataPages() {
                 dataHeader={[
                   { name: "ID", field: "id" },
                   { name: "Nama PIC", field: "name_pic" },
-                  { name: "Jenis Pengajuan", field: "submission_title" },
+                  { name: "Jenis Layanan", field: "submission_title" },
                   { name: "Status", field: "submission_status" },
                   { name: "Tanggal", field: "createdAt" },
                   { name: "Aksi", field: "action" },

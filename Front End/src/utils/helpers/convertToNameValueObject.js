@@ -7,7 +7,7 @@ export const convertToNameValueObject = (obj) => {
   obj.fields.forEach((field) => {
     if (field.type === "selection") {
       const selectedOption = field.options.find(
-        (option) => option.value === field.value.value
+        (option) => option.value === field?.value?.value
       );
       result[field.name] = selectedOption ? selectedOption.value : "";
       const filterByTypeSelect = (dataArray, typeSelect) => {
@@ -39,7 +39,7 @@ export const convertToNameValueObject = (obj) => {
       const resultArray = field.value.map((item) => {
         return item.quantity
           ? { name: item.value, value: item.quantity }
-          : { name: item.value };
+          : item.value;
       });
       result[field.name] = resultArray;
     } else if (field.type === "input_array") {

@@ -21,6 +21,7 @@ import { convertToNameValueObject } from "../../utils/helpers/convertToNameValue
 import fetchUploadFiles from "../../utils/api/uploadFiles";
 import { formData as initialFormData } from "./data";
 import { isValidatorPendaftaranMagang } from "./validators";
+import { isValidatorPendataanAhli } from "./validators";
 import resetFormData from "../../components/common/ResetFormData";
 
 function SekretariatPages() {
@@ -106,7 +107,7 @@ function SekretariatPages() {
       dispatch(isPending(false));
       if (response?.statusCode === 200) {
         if (JSON.parse(authProfile)?.role === "perangkat_daerah") {
-          const filteredSubmissions = response.result.data.filter(
+          const filteredSubmissions = response.result.data?.filter(
             (submission) => submission.submission_title === dataState
           );
           setListSekretariat(filteredSubmissions);
@@ -250,24 +251,27 @@ function SekretariatPages() {
   const checkingFormData = async () => {
     const foundObject = formData.find((obj) => obj.name === isModalCreate.data);
     if (foundObject) {
-      const { result: nameValueObject, newObject: newObjectFromConversion } =
-        convertToNameValueObject(foundObject);
+      const { result: nameValueObject, newObject: newObjectFromConversion } = convertToNameValueObject(foundObject);
       const nameValueObject2 = {
-        submission_type: isModalType.data,
+        submission_type: "Layanan Sekretariat",
         role: foundObject.role,
-        submission_title: isModalCreate.data.replace("Pengajuan ", ""),
+        submission_title: isModalCreate.data.replace('Pengajuan ', '')
       };
       const combinedObject = {
         ...nameValueObject,
         ...nameValueObject2,
-        ...newObjectFromConversion.reduce(
-          (acc, cur) => ({ ...acc, [cur.name]: cur.value }),
-          {}
-        ),
+        ...newObjectFromConversion.reduce((acc, cur) => ({ ...acc, [cur.name]: cur.value }), {})
       };
       console.log(JSON.stringify(combinedObject));
-      if (combinedObject?.submission_title === "Pendaftaran Magang") {
+
+      if (combinedObject?.submission_title === "Layanan Pendaftaran Magang") {
         if (isValidatorPendaftaranMagang(combinedObject)) {
+          await handleImageUploadAndFetch(combinedObject);
+        } else {
+          return false;
+        }
+      } else if (combinedObject?.submission_title === "Layanan Pendataan Tenaga Ahli") {
+        if (isValidatorPendataanAhli(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
         } else {
           return false;
@@ -276,7 +280,7 @@ function SekretariatPages() {
     } else {
       console.log("Objek tidak ditemukan dalam formData");
     }
-  };
+  }
   const handleImageUploadAndFetch = async (obj) => {
     if (obj.file_process_bisiness) {
       const result = await fetchUploadFiles(
@@ -323,7 +327,7 @@ function SekretariatPages() {
       <TitleHeader
         title={
           JSON.parse(authProfile)?.role === "perangkat_daerah"
-            ? "Layanan Pengajuan"
+            ? "Layanan Pengajuan " + dataState
             : "Layanan Sekretariat"
         }
         link1={"dashboard"}
@@ -387,10 +391,8 @@ function SekretariatPages() {
                     type="transparent"
                     className="bg-[#0185FF] text-darkColor px-3"
                     onClick={() => {
-                      setisModalType({
-                        data: "Pengajuan Layanan Sekretariat",
-                        status: true,
-                      });
+                      setisModalCreate({ data: "Pengajuan "+dataState, status: true });
+                      updatePic(JSON.parse(authProfile).fullname, JSON.parse(authProfile).telp);
                     }}
                   />
                 </div>
@@ -401,7 +403,7 @@ function SekretariatPages() {
                 dataHeader={[
                   { name: "ID", field: "id" },
                   { name: "Nama PIC", field: "name_pic" },
-                  { name: "Jenis Pengajuan", field: "submission_title" },
+                  { name: "Jenis Layanan", field: "submission_title" },
                   { name: "Status", field: "submission_status" },
                   { name: "Tanggal", field: "createdAt" },
                   { name: "Aksi", field: "action" },

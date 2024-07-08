@@ -26,6 +26,10 @@ const ListToolsModel = db.define(
             type: DataTypes.TEXT,
             allowNull: false,
         },
+        unit_price: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
     }, {
         freezeTableName: true,
     }
