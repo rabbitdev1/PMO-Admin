@@ -30,6 +30,7 @@ export const deleteDataInfrastruktur = async (req, res) => {
         const mergedDataProcess = {
             ...JSON.parse(infrastrukturItem.on_validation),
             ...JSON.parse(infrastrukturItem.on_process),
+            ...JSON.parse(aplikasiItem.on_validation_technique),
             ...JSON.parse(infrastrukturItem.on_finish),
             ...JSON.parse(infrastrukturItem.fields),
         };

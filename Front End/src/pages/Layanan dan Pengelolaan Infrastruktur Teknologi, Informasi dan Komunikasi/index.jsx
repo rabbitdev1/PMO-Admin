@@ -446,39 +446,6 @@ function InfrastrukturPages() {
           </div>
         </div>
       </section>
-
-      <ModalContent
-        className={"sm:max-w-xl"}
-        children={
-          <div className="flex flex-col gap-3">
-            <span className="text-lg font-bold font-gilroy">
-              {isModalType.data}
-            </span>
-            <div className="flex flex-col overflow-hidden rounded-b-md pb-2">
-              {formData.map((item, index) => {
-                return (
-                  isModalType.data === item.type && (
-                    <button
-                      key={index}
-                      className={`flex flex-row justify-start items-center gap-2 flex-1 ${index % 2 ? "" : "bg-[#f1f5f9] dark:bg-[#f1f5f907]"} py-2.5 p-3 hover:opacity-70`}
-                      onClick={() => {
-                        setisModalCreate({ data: item.name, status: true });
-                        updatePic(JSON.parse(authProfile).fullname, JSON.parse(authProfile).telp);
-                      }}
-                    >
-                      <span className=" text-base text-left line-clamp-2 font-gilroy">
-                        {item.name}
-                      </span>
-                    </button>
-                  )
-                );
-              })}
-            </div>
-          </div>
-        }
-        active={isModalType.status}
-        onClose={() => setisModalType({ data: {}, status: false })}
-      /> 
       <ModalContent
         className={"sm:max-w-5xl "}
         children={
@@ -544,23 +511,7 @@ function InfrastrukturPages() {
                               </div>
                             )
                           )}
-                          {item?.field && item?.field?.map((itemField, indexField) => (
-                            item?.value?.value === itemField.type_select &&
-                            <DynamicInput
-                              key={indexField}
-                              name={itemField.name}
-                              label={itemField.label}
-                              value={itemField.value}
-                              options={itemField.options}
-                              onChange={(value) => {
-                                const updatedFormData = [...formData];
-                                updatedFormData[sectionIndex].fields[index].field[indexField].value = value;
-                                setFormData(updatedFormData);
-                              }}
-                              type={itemField.type}
-                              placeholder={"Masukan " + itemField.label}
-                            />
-                          ))}
+                         
                         </div>
                       ))}
                     </div>

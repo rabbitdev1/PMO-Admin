@@ -43,13 +43,12 @@ export const deleteDataPermohonanSI = async (req, res) => {
 
         const skpdRequestLetterValue = findValueByTitle(mergedDataProcess, 'skpdRequestLetter');
         const kakAttachmentValue = findValueByTitle(mergedDataProcess, 'kakAttachment');
-
+        const recommendation_letter_technicalValue = findValueByTitle(mergedDataProcess, 'recommendation_letter_technical');
         
         const technicalRecommendationLetterValue = findValueByTitle(mergedDataProcess, 'technicalRecommendationLetter');
         const anggaranAttachmentValue = findValueByTitle(mergedDataProcess, 'anggaranAttachment');
         const file_submissionValue = findValueByTitle(mergedDataProcess, 'file_submission');
         const file_uploadValue = findValueByTitle(mergedDataProcess, 'file_upload');
-        const recommendation_letter_technicalValue = findValueByTitle(mergedDataProcess, 'recommendation_letter_technical');
 
         const foundValues = [
             skpdRequestLetterValue,

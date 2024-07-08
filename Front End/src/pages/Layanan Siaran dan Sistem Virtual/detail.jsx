@@ -15,8 +15,7 @@ import ModalContent from "../../components/ui/Modal/ModalContent";
 import SubmissionStatus from "../../components/ui/SubmissionStatus";
 import { apiClient } from "../../utils/api/apiClient";
 import fetchUploadFiles from "../../utils/api/uploadFiles";
-import fetchUploadImages from "../../utils/api/uploadImages";
-import DalamAntrianView from "./Logical/DalamAntrianView";
+import DalamAntrianView from "./Logical/1.DalamAntrianView";
 import FinishStatus from "./Logical/FinishStatus";
 import ProcessStatus from "./Logical/ProcessStatus";
 import ValidationStatus from "./Logical/ValidationStatus";
@@ -350,7 +349,7 @@ function DetailSistemVirtualPages() {
         link2={"Layanan Siaran dan Sistem Virtual"}
       />
       <section className="flex flex-col gap-3">
-        <SubmissionStatus status={submissionStatus} />
+        <SubmissionStatus status={submissionStatus} data={null} />
         <div className={`flex  flex-col gap-3`}>
           <DalamAntrianView
             submissionStatus={submissionStatus}
