@@ -18,12 +18,10 @@ import ModalContent from "../../components/ui/Modal/ModalContent";
 import { apiClient } from "../../utils/api/apiClient";
 import { convertToNameValueObject } from "../../utils/helpers/convertToNameValueObject";
 
-
 import fetchUploadFiles from "../../utils/api/uploadFiles";
 import { formData as initialFormData } from "./data";
-import {
-  isValidatorPendaftaranMagang
-} from "./validators";
+import { isValidatorPendaftaranMagang } from "./validators";
+import { isValidatorPendataanAhli } from "./validators";
 import resetFormData from "../../components/common/ResetFormData";
 
 function SekretariatPages() {
@@ -66,8 +64,7 @@ function SekretariatPages() {
   ]);
 
   const [listSekretariat, setListSekretariat] = useState([]);
-  const [listSekretariatLoading, setListSekretariatLoading] =
-    useState(true);
+  const [listSekretariatLoading, setListSekretariatLoading] = useState(true);
 
   const [formData, setFormData] = useState(initialFormData);
 
@@ -110,7 +107,7 @@ function SekretariatPages() {
       dispatch(isPending(false));
       if (response?.statusCode === 200) {
         if (JSON.parse(authProfile)?.role === "perangkat_daerah") {
-          const filteredSubmissions = response.result.data.filter(
+          const filteredSubmissions = response.result.data?.filter(
             (submission) => submission.submission_title === dataState
           );
           setListSekretariat(filteredSubmissions);
@@ -164,7 +161,7 @@ function SekretariatPages() {
           },
           status: true,
         });
-        resetFormData(isModalCreate.data,formData,setFormData);
+        resetFormData(isModalCreate.data, formData, setFormData);
       } else {
         toast.error(response.result.msg, {
           position: toast.POSITION.TOP_RIGHT,
@@ -254,33 +251,36 @@ function SekretariatPages() {
   const checkingFormData = async () => {
     const foundObject = formData.find((obj) => obj.name === isModalCreate.data);
     if (foundObject) {
-      const { result: nameValueObject, newObject: newObjectFromConversion } =
-        convertToNameValueObject(foundObject);
+      const { result: nameValueObject, newObject: newObjectFromConversion } = convertToNameValueObject(foundObject);
       const nameValueObject2 = {
-        submission_type: isModalType.data,
+        submission_type: "Layanan Sekretariat",
         role: foundObject.role,
-        submission_title: isModalCreate.data.replace("Pengajuan ", ""),
+        submission_title: isModalCreate.data.replace('Pengajuan ', '')
       };
       const combinedObject = {
         ...nameValueObject,
         ...nameValueObject2,
-        ...newObjectFromConversion.reduce(
-          (acc, cur) => ({ ...acc, [cur.name]: cur.value }),
-          {}
-        ),
+        ...newObjectFromConversion.reduce((acc, cur) => ({ ...acc, [cur.name]: cur.value }), {})
       };
       console.log(JSON.stringify(combinedObject));
-      if (combinedObject?.submission_title === "Pendaftaran Magang") {
+
+      if (combinedObject?.submission_title === "Layanan Pendaftaran Magang") {
         if (isValidatorPendaftaranMagang(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
         } else {
           return false;
         }
-      } 
+      } else if (combinedObject?.submission_title === "Layanan Pendataan Tenaga Ahli") {
+        if (isValidatorPendataanAhli(combinedObject)) {
+          await handleImageUploadAndFetch(combinedObject);
+        } else {
+          return false;
+        }
+      }
     } else {
       console.log("Objek tidak ditemukan dalam formData");
     }
-  };
+  }
   const handleImageUploadAndFetch = async (obj) => {
     if (obj.file_process_bisiness) {
       const result = await fetchUploadFiles(
@@ -322,11 +322,14 @@ function SekretariatPages() {
     setFormData(updatedData);
   };
 
-
   return (
     <div className="flex flex-col gap-3 flex-1 p-4">
       <TitleHeader
-        title={JSON.parse(authProfile)?.role === "perangkat_daerah" ? "Layanan Pengajuan" : "Layanan Sekretariat"}
+        title={
+          JSON.parse(authProfile)?.role === "perangkat_daerah"
+            ? "Layanan Pengajuan " + dataState
+            : "Layanan Sekretariat"
+        }
         link1={"dashboard"}
         link2={"Layanan Sekretariat"}
       />
@@ -340,7 +343,7 @@ function SekretariatPages() {
                 </span>
                 <div className="flex flex-col flex-1 justify-end items-end">
                   <DynamicButton
-                    initialValue={"Tutorial Pengajuan"}
+                    initialValue={"Panduan Pengajuan"}
                     color={"#ffffff"}
                     type="transparent"
                     className="bg-[#ffffff] text-[#0185FF] px-3"
@@ -388,10 +391,8 @@ function SekretariatPages() {
                     type="transparent"
                     className="bg-[#0185FF] text-darkColor px-3"
                     onClick={() => {
-                      setisModalType({
-                        data: "Pengajuan Layanan Sekretariat",
-                        status: true,
-                      });
+                      setisModalCreate({ data: "Pengajuan "+dataState, status: true });
+                      updatePic(JSON.parse(authProfile).fullname, JSON.parse(authProfile).telp);
                     }}
                   />
                 </div>
@@ -402,7 +403,7 @@ function SekretariatPages() {
                 dataHeader={[
                   { name: "ID", field: "id" },
                   { name: "Nama PIC", field: "name_pic" },
-                  { name: "Jenis Pengajuan", field: "submission_title" },
+                  { name: "Jenis Layanan", field: "submission_title" },
                   { name: "Status", field: "submission_status" },
                   { name: "Tanggal", field: "createdAt" },
                   { name: "Aksi", field: "action" },
@@ -420,7 +421,9 @@ function SekretariatPages() {
                   if (JSON.parse(authProfile)?.role === "op_pmo") {
                     fetchSetProgress(authApiKey, authToken, data.id);
                   } else {
-                    navigate("/detail-sekretariat", { state: { slug: data.id } });
+                    navigate("/detail-sekretariat", {
+                      state: { slug: data.id },
+                    });
                   }
                 }}
                 onClickRemove={(data) => {
@@ -549,7 +552,7 @@ function SekretariatPages() {
                 className="inline-flex p-2"
                 onClick={() => {
                   setisModalCreate({ data: {}, status: false });
-                  resetFormData(isModalCreate.data,formData,setFormData);
+                  resetFormData(isModalCreate.data, formData, setFormData);
                 }}
               />
             </div>
@@ -615,7 +618,7 @@ function SekretariatPages() {
                             item?.field?.map(
                               (itemField, indexField) =>
                                 item?.value?.value ===
-                                itemField.type_select && (
+                                  itemField.type_select && (
                                   <DynamicInput
                                     key={indexField}
                                     name={itemField.name}
@@ -649,7 +652,7 @@ function SekretariatPages() {
                 className="inline-flex bg-cardLight dark:bg-cardDark text-cardDark dark:text-cardLight"
                 onClick={() => {
                   setisModalCreate({ data: {}, status: false });
-                  resetFormData(isModalCreate.data,formData,setFormData);
+                  resetFormData(isModalCreate.data, formData, setFormData);
                 }}
               />
               <DynamicButton

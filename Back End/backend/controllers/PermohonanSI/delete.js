@@ -33,6 +33,7 @@ export const deleteDataPermohonanSI = async (req, res) => {
             ...JSON.parse(permohonanSIItem.feasibility_validation),
             ...JSON.parse(permohonanSIItem.technical_analysis),
             ...JSON.parse(permohonanSIItem.technical_validation),
+            ...JSON.parse(permohonanSIItem.recommendation_letter_technical),
             ...JSON.parse(permohonanSIItem.fields),
         };
 
@@ -40,16 +41,23 @@ export const deleteDataPermohonanSI = async (req, res) => {
 
         const findValueByTitle = (data, title) => data[title];
 
+        const skpdRequestLetterValue = findValueByTitle(mergedDataProcess, 'skpdRequestLetter');
+        const kakAttachmentValue = findValueByTitle(mergedDataProcess, 'kakAttachment');
+        const recommendation_letter_technicalValue = findValueByTitle(mergedDataProcess, 'recommendation_letter_technical');
+        
         const technicalRecommendationLetterValue = findValueByTitle(mergedDataProcess, 'technicalRecommendationLetter');
         const anggaranAttachmentValue = findValueByTitle(mergedDataProcess, 'anggaranAttachment');
         const file_submissionValue = findValueByTitle(mergedDataProcess, 'file_submission');
         const file_uploadValue = findValueByTitle(mergedDataProcess, 'file_upload');
 
         const foundValues = [
+            skpdRequestLetterValue,
+            kakAttachmentValue,
             technicalRecommendationLetterValue,
             anggaranAttachmentValue,
             file_submissionValue,
-            file_uploadValue
+            file_uploadValue,
+            recommendation_letter_technicalValue
         ].filter(Boolean);
 
         if (foundValues.length > 0) {

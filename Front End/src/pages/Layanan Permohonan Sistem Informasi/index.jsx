@@ -3,17 +3,25 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
 import { toast } from "react-toastify";
+import { ReactComponent as CloseIcon } from "../../assets/icon/ic_close.svg";
 import { ReactComponent as DocumentIcon } from "../../assets/icon/ic_document.svg";
+import { ReactComponent as PengajuanBerahasilIcon } from "../../assets/icon/ic_pengajuan_berhasil.svg";
 import { ReactComponent as PengajuanGagalIcon } from "../../assets/icon/ic_pengajuan_gagal.svg";
 import { ReactComponent as PlusIcon } from "../../assets/icon/ic_plus.svg";
 import DynamicButton from "../../components/common/DynamicButton";
+import DynamicInput from "../../components/common/DynamicInput";
+import resetFormData from "../../components/common/ResetFormData";
 import useTheme from "../../components/context/useTheme";
 import TableCostum from "../../components/data-display/TableCostum";
 import TitleHeader from "../../components/layout/TitleHeader";
 import { isPending } from "../../components/store/actions/todoActions";
 import ModalContent from "../../components/ui/Modal/ModalContent";
 import { apiClient } from "../../utils/api/apiClient";
-
+import fetchUploadFiles from "../../utils/api/uploadFiles";
+import { convertToNameValueObject } from "../../utils/helpers/convertToNameValueObject";
+import { formData as initialFormData } from "./data";
+import { isValidatorPermohonanSI } from "./validators";
+import ModalContentComponent from "../../components/ui/ModalContentComponent";
 
 
 function PermohonanSIPages() {
@@ -59,8 +67,6 @@ function PermohonanSIPages() {
   const [listPermohonanSILoading, setListPermohonanSILoading] =
     useState(true);
 
-
-  const [isModalType, setisModalType] = useState({ status: false, data: {} });
   const [isModalCreate, setisModalCreate] = useState({
     status: false,
     data: {},
@@ -70,6 +76,7 @@ function PermohonanSIPages() {
     data: {},
   });
 
+  const [formData, setFormData] = useState(initialFormData);
   const dispatch = useDispatch();
   const dataState = location.state;
 
@@ -82,6 +89,7 @@ function PermohonanSIPages() {
       );
     }
   }, [dataState, authToken]);
+
 
   const fetchDataPermohonanSI = async (api_key, token, role) => {
     setListPermohonanSILoading(true);
@@ -99,7 +107,7 @@ function PermohonanSIPages() {
       dispatch(isPending(false));
       if (response?.statusCode === 200) {
         if (JSON.parse(authProfile)?.role === "perangkat_daerah") {
-          const filteredSubmissions = response.result.data.filter(
+          const filteredSubmissions = response.result.data?.filter(
             (submission) => submission.submission_title === dataState
           );
           setListPermohonanSI(filteredSubmissions);
@@ -147,7 +155,7 @@ function PermohonanSIPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Pengajuan PermohonanSI Berhasil Dihapus",
+            title: "Pengajuan Permohonan Sistem Informasi Berhasil di Hapus",
             msg: response.result.msg,
             icon: PengajuanGagalIcon,
             color: "#FB4B4B",
@@ -183,13 +191,131 @@ function PermohonanSIPages() {
     }
   };
 
+  const handleInputChange = (fieldName, value, sectionIndex) => {
+    const updatedFormData = [...formData];
+    const currentSection = updatedFormData[sectionIndex];
+    const fieldToUpdateIndex = currentSection.fields.findIndex(
+      (field) => field.name === fieldName
+    );
+    // Update the value of the field
+    updatedFormData[sectionIndex].fields[fieldToUpdateIndex].value = value;
 
+    setFormData(updatedFormData);
+  };
+  const checkingFormData = async () => {
+    const foundObject = formData.find((obj) => obj.name === isModalCreate.data);
+    if (foundObject) {
+      const { result: nameValueObject, newObject: newObjectFromConversion } = convertToNameValueObject(foundObject);
+      const nameValueObject2 = {
+        submission_type: "Layanan Permohonan Sistem Informasi",
+        role: foundObject.role,
+        submission_title: isModalCreate.data.replace("Pengajuan ", ""),
+      };
+      const combinedObject = {
+        ...nameValueObject,
+        ...nameValueObject2,
+        ...newObjectFromConversion.reduce(
+          (acc, cur) => ({ ...acc, [cur.name]: cur.value }),
+          {}
+        ),
+      };
+      if (combinedObject?.submission_title === "Rekomendasi Sistem Informasi") {
+        if (isValidatorPermohonanSI(combinedObject)) {
+          await handleImageUploadAndFetch(combinedObject);
+        } else {
+          return false;
+        }
+      }
+    } else {
+      console.log("Objek tidak ditemukan dalam formData");
+    }
+  };
+  const handleImageUploadAndFetch = async (obj) => {
+    const fileFields = ["skpdRequestLetter", "kakAttachment"];
+    let fixObject = { ...obj };
+
+    for (const field of fileFields) {
+      if (obj[field]) {
+        const result = await fetchUploadFiles(
+          authApiKey,
+          authToken,
+          obj[field],
+          "permohonanSI",
+          dispatch
+        );
+        if (result !== null) {
+          fixObject = {
+            ...fixObject,
+            [field]: result,
+          };
+        } else {
+          console.error(`Error occurred during ${field} upload.`);
+        }
+      }
+    }
+
+    fetchDataCreate(authApiKey, authToken, fixObject);
+  };
+
+
+  const updatePic = (name, number) => {
+    const updatedData = formData.map((form) => {
+      return {
+        ...form,
+        fields: form.fields.map((field) => {
+          if (field.name === "name_pic") {
+            return { ...field, value: name };
+          }
+          if (field.name === "telp_pic") {
+            return { ...field, value: number };
+          }
+          return field;
+        }),
+      };
+    });
+
+    setFormData(updatedData);
+  };
+  const fetchDataCreate = async (api_key, token, data) => {
+    dispatch(isPending(true));
+    const raw = JSON.stringify(data);
+
+    try {
+      const response = await apiClient({
+        baseurl: "permohonan-sistem-informasi/create",
+        method: "POST",
+        customHeaders: { "Content-Type": "application/json" },
+        body: raw,
+        apiKey: api_key,
+        token: token,
+      });
+      dispatch(isPending(false));
+      if (response?.statusCode === 200) {
+        setisModalVerif({
+          data: {
+            title: "Pengajuan Permohonan Sistem Informasi Berhasil",
+            msg: "Selamat! Pengajuan Permohonan Sistem Informasi Anda telah berhasil diterima dan diproses.",
+            icon: PengajuanBerahasilIcon,
+            color: "#13C39C",
+          },
+          status: true,
+        });
+        resetFormData(isModalCreate.data, formData, setFormData);
+      } else {
+        toast.error(response.result.msg, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
   return (
     <div className="flex flex-col gap-3 flex-1 p-4">
       <TitleHeader
-        title={JSON.parse(authProfile)?.role === "perangkat_daerah" ? "Layanan Pengajuan" : "Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan"}
+        title={JSON.parse(authProfile)?.role === "perangkat_daerah" ? "Layanan Pengajuan " + dataState : "Layanan Permohonan Sistem Informasi"}
         link1={"dashboard"}
-        link2={"Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan"}
+        link2={"Layanan Permohonan Sistem Informasi"}
       />
       <section className="flex xl:flex-row flex-col gap-3">
         <div className="flex-1 flex flex-col gap-3">
@@ -197,12 +323,11 @@ function PermohonanSIPages() {
             {JSON.parse(authProfile)?.role === "perangkat_daerah" && (
               <div className="flex flex-col gap-2 bg-[#0185FF] p-3 rounded-lg flex-1 md:max-w-xs shadow-sm">
                 <span className="sm:text-xl text-sm text-darkColor font-semibold">
-                  Selamat datang di Layanan Pengelolaan Sistem Informasi dan
-                  Keamanan Jaringan
+                  Selamat datang di Layanan Permohonan Sistem Informasi
                 </span>
                 <div className="flex flex-col flex-1 justify-end items-end">
                   <DynamicButton
-                    initialValue={"Tutorial Pengajuan"}
+                    initialValue={"Panduan Pengajuan"}
                     color={"#ffffff"}
                     type="transparent"
                     className="bg-[#ffffff] text-[#0185FF] px-3"
@@ -250,10 +375,15 @@ function PermohonanSIPages() {
                     type="transparent"
                     className="bg-[#0185FF] text-darkColor px-3"
                     onClick={() => {
-                      setisModalType({
-                        data: "Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan",
-                        status: true,
-                      });
+                      if (dataState === 'Rekomendasi Sistem Informasi') {
+                        setisModalCreate({ data: dataState, status: true });
+                        updatePic(
+                          JSON.parse(authProfile).fullname,
+                          JSON.parse(authProfile).telp
+                        );
+                      } else {
+                        navigate("/permohonan-sistem-informasi", { state: dataState });
+                      }
                     }}
                   />
                 </div>
@@ -262,11 +392,11 @@ function PermohonanSIPages() {
             <div className="flex flex-col relative">
               <TableCostum
                 dataHeader={[
-                  { name: "ID", field: "id" },
+                  { name: "No Pengajuan", field: "id" },
                   { name: "Nama PIC", field: "name_pic" },
-                  { name: "Jenis Pengajuan", field: "submission_title" },
-                  { name: "Status", field: "submission_status" },
-                  { name: "Tanggal", field: "createdAt" },
+                  { name: "Jenis Layanan", field: "submission_title" },
+                  { name: "Status Layanan", field: "submission_status" },
+                  { name: "Tanggal Pengajuan", field: "createdAt" },
                   { name: "Aksi", field: "action" },
                 ]}
                 showAction={{
@@ -281,8 +411,6 @@ function PermohonanSIPages() {
                 onClickShow={(data) => {
                   if (JSON.parse(authProfile)?.role === "op_pmo") {
                     fetchSetProgress(authApiKey, authToken, data);
-                    console.log(data.submission_title);
-
                   } else {
                     navigate("/detail-permohonan-sistem-informasi", { state: { slug: data.id } });
                   }
@@ -291,10 +419,22 @@ function PermohonanSIPages() {
                   if (
                     data.submission_status === 2 ||
                     data.submission_status === 4 ||
-                    data.submission_status === 6
+                    data.submission_status === 6 ||
+                    data.submission_status === 8 ||
+                    data.submission_status === 9 ||
+                    data.submission_status === 11
                   ) {
                     toast.error(
                       "Pengajuan dalam proses validasi, tidak bisa di hapus",
+                      {
+                        position: toast.POSITION.TOP_RIGHT,
+                      }
+                    );
+                  } else if (
+                    data.submission_status === 12
+                  ) {
+                    toast.error(
+                      "Pengajuan yang sudah selesai, tidak bisa di hapus",
                       {
                         position: toast.POSITION.TOP_RIGHT,
                       }
@@ -322,81 +462,91 @@ function PermohonanSIPages() {
         </div>
       </section>
 
+
       <ModalContent
-        className={"sm:max-w-xl"}
+        className={"sm:max-w-5xl "}
         children={
           <div className="flex flex-col gap-3">
-            <span className="text-lg font-bold font-gilroy">
-              {isModalType.data}
-            </span>
-            <div className="flex flex-col overflow-hidden rounded-b-md pb-2">
-              {[{
-                name: 'Pembangunan Sistem Informasi'
-              }, {
-                name: 'Pengembangan Sistem Informasi'
-              }].map((item, index) => {
-                return (
-                  <button
-                    key={index}
-                    className={`flex flex-row justify-start items-center gap-2 flex-1 ${index % 2 ? "" : "bg-[#f1f5f9] dark:bg-[#f1f5f907]"} py-2.5 p-3 hover:opacity-70`}
-                    onClick={() => {
-                      navigate("/permohonan-sistem-informasi", { state: item.name });
-                    }}
-                  >
-                    <span className=" text-base text-left line-clamp-2 font-gilroy">
-                      {item.name}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        }
-        active={isModalType.status}
-        onClose={() => setisModalType({ data: {}, status: false })}
-      />
-      <ModalContent
-        className={"sm:max-w-xl"}
-        children={
-          <div className="flex flex-col gap-2">
-            <div className="flex flex-col items-center justify-center ">
-              {isModalVerif.data?.icon && (
-                <isModalVerif.data.icon
-                  className={`flex flex-col flex-1 max-w-[150%] aspect-square bg-[${isModalVerif.data.color}] rounded-full`}
-                />
-              )}
-            </div>
-            <div className="flex  flex-col items-center justify-center ">
-              <span className="text-lg font-bold">
-                {isModalVerif.data?.title}
+            <div className="flex flex-row justify-between">
+              <span className="text-lg font-bold font-gilroy">
+                Buat Rekomendasi Sistem Informasi
               </span>
-              <span className="text-sm font-light opacity-70">
-                {isModalVerif.data?.msg}
-              </span>
-            </div>
-            <div className="flex flex-col gap-2 ">
               <DynamicButton
-                initialValue={"Kembali"}
+                iconLeft={<CloseIcon className="w-4 h-4 " />}
+                color={isDarkMode ? "#ffffff" : "#212121"}
+                type="transparent"
+                className="inline-flex p-2"
+                onClick={() => {
+                  setisModalCreate({ data: {}, status: false });
+                  resetFormData("Rekomendasi Sistem Informasi", formData, setFormData);
+                }}
+              />
+            </div>
+            <div className="flex flex-col overflow-hidden rounded-b-md gap-3">
+              {formData.map(
+                (section, sectionIndex) =>
+                  <div key={sectionIndex} className="flex flex-col gap-3">
+                    {section.fields.map((item, index) => (
+                      <div key={index} className="flex flex-col gap-2">
+                        {item.visible !== false && (
+                          <DynamicInput
+                            name={item.name}
+                            label={item.label}
+                            noted={item.noted}
+                            value={item.value}
+                            options={item.options}
+                            onChange={(value) =>
+                              handleInputChange(
+                                item.name,
+                                value,
+                                sectionIndex
+                              )
+                            }
+                            type={item.type}
+                            placeholder={"Masukan " + item.label}
+                          />
+                        )}
+                      </div>
+                    ))}
+                  </div>
+              )
+              }
+            </div>
+
+            <div className="flex flex-row gap-2 justify-end">
+              <DynamicButton
+                initialValue={"Batal"}
                 type="fill"
                 color={"#ffffff"}
-                className={`inline-flex flex-1 bg-[${isModalVerif.data.color}] text-darkColor`}
+                className="inline-flex bg-cardLight dark:bg-cardDark text-cardDark dark:text-cardLight"
                 onClick={() => {
-                  setisModalVerif({ data: {}, status: false });
                   setisModalCreate({ data: {}, status: false });
-                  setisModalType({ data: {}, status: false });
-                  fetchDataPermohonanSI(
-                    authApiKey,
-                    authToken,
-                    JSON.parse(authProfile)?.role
-                  );
+                  resetFormData("Rekomendasi Sistem Informasi", formData, setFormData);
+                }}
+              />
+              <DynamicButton
+                initialValue={"Ajukan Permohonan"}
+                type="fill"
+                color={"#ffffff"}
+                className="inline-flex  bg-[#0185FF] text-darkColor"
+                onClick={() => {
+                  checkingFormData();
                 }}
               />
             </div>
           </div>
         }
-        active={isModalVerif.status}
+        active={isModalCreate.status}
       />
-
+      <ModalContentComponent
+        isModalVerif={isModalVerif}
+        setisModalVerif={setisModalVerif}
+        setisModalCreate={setisModalCreate}
+        fetchData={fetchDataPermohonanSI}
+        authApiKey={authApiKey}
+        authToken={authToken}
+        authProfile={authProfile}
+      />
     </div>
   );
 }

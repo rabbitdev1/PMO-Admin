@@ -9,33 +9,23 @@ const DynamicDetails = ({ detailData, loading, location }) => {
         <ConditionalRender
           data={detailData}
           loading={loading}
-          className={"flex flex-col min-h-[200px]"}
-          model={"emptyData"}
+          className="flex flex-col min-h-[200px]"
+          model="emptyData"
         >
           <div className="flex flex-col gap-3">
             <span className="text-lg font-bold">Rincian Pengajuan</span>
             {Object.entries(detailData).map(([key, value]) =>
-              key === "device_specifications" ? (
+              value ? (
                 <DynamicShow
                   key={key}
                   name={key}
                   label={getKeyLabel(key)}
-                  value={JSON.stringify(value)}
+                  value={key === "device_specifications" ? JSON.stringify(value) : value}
                   location={location}
                   type={getFieldType(key)}
                   disabled={true}
                 />
-              ) : (
-                <DynamicShow
-                  key={key}
-                  name={key}
-                  label={getKeyLabel(key)}
-                  value={value}
-                  location={location}
-                  type={getFieldType(key)}
-                  disabled={true}
-                />
-              )
+              ) : null
             )}
           </div>
         </ConditionalRender>
@@ -45,199 +35,124 @@ const DynamicDetails = ({ detailData, loading, location }) => {
 };
 
 const getKeyLabel = (key) => {
-  switch (key) {
-    case "submission_type":
-      return "Jenis Pengajuan";
-    case "name_pic":
-      return "Nama PIC";
-    case "telp_pic":
-      return "Nomor PIC";
-    case "type_tools":
-      return "Jenis Alat";
-    case "image_screenshoot":
-      return "Screenshot";
-    case "period":
-      return "Periode Jangka Waktu";
-    case "submission_type":
-      return "Jenis Pengajuan";
-    case "device_specifications":
-      return "Spesifikasi Alat";
-    case "proposed_bandwidth":
-      return "Pengajuan Bandwidth";
-    case "total_tools":
-      return "Total Alat";
-    case "reason":
-      return "Alasan Pengajuan";
-    case "needed_reason":
-      return "Alasan Dibutuhkan";
-    case "location_implementation":
-      return "Tempat Pelaksanaan";
-    case "full_address":
-      return "Alamat Lengkap";
-    case "status":
-      return "Status";
-    case "submission_title":
-      return "Nama Pengajuan";
-    case "createdAt":
-      return "Tanggal Pembuatan";
-    case "other_requirements":
-      return "Requirement Lainnya";
-    case "app":
-      return "Nama Aplikasi";
-    case "distance_estimation":
-      return "Estimasi Jarak";
-    case "initial_bandwith":
-      return "Bandwidth Awal";
-    case "file_process_bisiness":
-      return "Proses Bisnis";
-    case "app_name":
-      return "Nama Aplikasi";
-    case "app_desc":
-      return "Deskripsi Aplikasi";
-    case "fullname":
-      return "Nama Lengkap";
-    case "account_type":
-      return "Jenis Akun";
-    case "needed_data":
-      return "Data yang dibutuhkan";
-    case "integration":
-      return "Tujuan Integrasi";
-    case "file_scema_integration":
-      return "Skema Integrasi";
+  const labels = {
+    submission_type: "Jenis Layanan",
+    name_pic: "Nama PIC",
+    name: "Nama",
+    telp: "Nomor Telepon",
+    email: "Email",
+    origin_agency: "Asal Instansi",
+    new_password: "Kata Sandi Baru",
+    repeat_password: "Ulangi Kata Sandi",
+    telp_pic: "Nomor PIC",
+    type_tools: "Jenis Alat",
+    image_screenshoot: "Screenshot",
+    period: "Periode Jangka Waktu",
+    device_specifications: "Spesifikasi Alat",
+    proposed_bandwidth: "Pengajuan Bandwidth",
+    total_tools: "Total Alat",
+    reason: "Alasan Pengajuan",
+    location_implementation: "Tempat Pelaksanaan",
+    full_address: "Alamat Lengkap",
+    status: "Status",
+    submission_title: "Nama Pengajuan",
+    createdAt: "Tanggal Pembuatan",
+    other_requirements: "Kebutuhan Lainnya",
+    app: "Nama Aplikasi",
+    distance_estimation: "Estimasi Jarak",
+    initial_bandwith: "Bandwidth Awal",
+    file_process_bisiness: "Proses Bisnis",
+    app_name: "Nama Aplikasi",
+    app_desc: "Deskripsi Aplikasi",
+    fullname: "Nama Lengkap",
+    account_type: "Jenis Akun",
+    needed_data: "Data yang dibutuhkan",
+    integration: "Tujuan Integrasi",
+    file_scema_integration: "Skema Integrasi",
+    ram: "RAM",
+    name_PPK: "Nama PPK",
+    title_kak: "Judul KAK",
+    besaran_anggaran: "Besar Anggaran",
+    anggaran_attachment: "Sumber Anggaran",
+    lingkup_job: "Lingkup Pekerjaan",
+    number_of_people_required: "Jumlah Tenaga Kerja yang Dibutuhkan",
+    needed_tools: "Kebutuhan Alat",
+    topic: "Tema/Topik",
+    type_activity: "Jenis Kegiatan",
+    speaker: "Narasumber/Pembicara",
+    user_qty: "Jumlah User",
+    incident: "Waktu Kejadian",
+    app_version: "Versi Aplikasi",
+    app_ownership: "Kepemilikan Aplikasi",
+    username: "Nama Pengguna",
+    password: "Kata Sandi",
+    domain_url: "URL Domain",
+    file_hasil_pengajuan_podcast: "Dokumen Hasil Podcast",
+    submission_type_user_account: "Jenis Akun Pengguna",
+    bidang: "Bidang",
+    nip: "NIP",
+    peruntukan: "Peruntukan",
+    file_data: "File Data",
+    surat_permohonan: "Surat Permohonan",
+    alamat_website: "Alamat Website",
+    jenis_kebijakan: "Jenis Kebijakan",
+    ruang_lingkup: "Ruang Lingkup",
+    draft_perwal: "Draft Perwal",
+    nama_ahli: "Nama Ahli",
+    bidang_keahlian: "Bidang Keahlian",
+    pengalaman: "Pengalaman",
+    job_desk: "Job Desk",
+    timeline_kontrak: "Timeline Kontrak",
+    terdaftar_lpse: "Terdaftar di LPSE",
+    nilai_kontrak: "Nilai Kontrak",
+    applicationType: "Jenis Aplikasi",
+    applicationName: "Nama Aplikasi",
+    developmentAspect: "Hal yang dikembangkan",
+    developmentGoal: "Tujuan Pengembangan",
+    applicationOwnership: "Kepemilikan Aplikasi",
+    developerName1: "Nama Pengembang 1",
+    developerName2: "Nama Pengembang 2",
+    developmentDuration: "Durasi Pengembangan",
+    fundingSource: "Sumber Anggaran",
+    budgetAmount: "Besar Anggaran",
+    clusterCategory: "Kategori Klaster",
+    programmingLanguage: "Bahasa Pemrograman",
+    applicationDescription: "Deskripsi Aplikasi",
+    Otherdatabase: "Database Lainnya",
+    otherProgrammingLanguage: "Bahasa Pemrograman Lainnya",
+    developmentTechnique: "Teknik Pengembangan",
+    storageMedia: "Media Penyimpanan",
+    dataSource: "Sumber Data",
+    reasonForChoosingStorageMedia: "Alasan Pemilihan Media Penyimpanan",
+    serverRentalLocation: "Lokasi Penyewaan Server",
+    serverRentalPeriod: "Periode Penyewaan Server",
+    serverRentalCost: "Harga Penyewaan Server",
+    kakAttachment: "Lampiran KAK",
+    cloudLocation: "Lokasi Cloud",
+    cloudStoragePeriod: "Periode Penyimpanan Cloud",
+    cloudStorageCost: "Harga Penyimpanan Cloud",
+    skpdRequestLetter: "Surat Permohonan SKPD",
+    reformasiBirokrasi: "Reformasi Birokrasi (RB) Tematik",
+    ramSpecifications: "Spesifikasi RAM",
+    cpuSpecifications: "Spesifikasi CPU",
+    storageSpecifications: "Spesifikasi Storage",
+    gpuSpecifications: "Spesifikasi GPU",
+    otherSpecifications: "Spesifikasi Lainnya",
+    hardDiskSpecifications: "Spesifikasi Hard Disk",
+    integrationWithSystem: "Integrasi dengan Sistem",
+    reasonForIntegration: "Alasan Integrasi",
+    exchangeFormat: "Format Penyimpanan",
+    proposedDomain: "Domain Yang Diusulkan",
+    letterNumber: "Nomor Surat",
+    letterDate: "Tanggal Surat",
+    otherRequirements: "Requirement Lainnya",
+    spbePlan: "PETA Rencana SPBE OPD",
+    riskManagement: "Manajemen Risiko SPBE",
+    unit_price: "Harga Satuan",
+    total_price: "Jumlah",
+  };
 
-    case "file_hasil_pengajuan_podcast":
-      return "Dokumen Hasil Podcast";
-    case "submission_type_user_account":
-      return "Jenis Akun User";
-    case "bidang" :
-      return "Bidang";
-    case "nip":
-      return "NIP";
-    case "peruntukan":
-      return "Peruntukan";
-    case "file_data":
-      return "File Data";
-    case "surat_permohonan":
-      return "Surat Permohonan";
-    case "alamat_website":
-      return "Alamat Website";
-    case "jenis_kebijakan":
-      return "Jenis Kebijakan";
-    case "ruang_lingkup":
-      return "Ruang Lingkup";
-    case "draft_perwal":
-      return "Draft Perwal";
-    case "nama_ahli":
-      return "Nama Ahli";
-    case "bidang_keahlian":
-      return "Bidang Keahlian";
-    case "pengalaman":
-      return "Pengalaman";
-    case "job_desk":
-      return "Job Desk";
-    case "timeline_kontrak":
-      return "Timeline Kontrak";
-    case "terdaftar_lpse":
-      return "Terdaftar di LPSE";
-    case "nilai_kontrak":
-      return "Nilai Kontrak";
-
-    // case "applicationType":
-    //   return "Jenis Aplikasi";
-    // case "applicationName":
-    //   return "Nama Aplikasi";
-    // case "developmentAspect":
-    //   return "Hal yang dikembangkan";
-    // case "developmentGoal":
-    //   return "Tujuan Pengembangan";
-    // case "applicationOwnership":
-    //   return "Kepemilikan Aplikasi";
-    // case "developerName1":
-    //   return "Developer 1";
-    // case "developerName2":
-    //   return "Developer 2";
-    // case "developmentDuration":
-    //   return "Durasi Pengembangan";
-    // case "fundingSource":
-    //   return "Sumber Anggaran";
-    // case "budgetAmount":
-    //   return "Besar Anggaran";
-    // case "clusterCategory":
-    //   return "Kategori Klaster";
-    // case "programmingLanguage":
-    //   return "Bahasa Pemrograman";
-    // case "applicationDescription":
-    //   return "Deskripsi Aplikasi";
-    // case "Otherdatabase":
-    //   return "Database Lainnya";
-    // case "otherProgrammingLanguage":
-    //   return "Bahasa Pemrograman Lainnya";
-    // case "developmentTechnique":
-    //   return "Teknik Pengembangan";
-    // case "storageMedia":
-    //   return "Media Penyimpanan";
-    // case "dataSource":
-    //   return "Sumber Data";
-    // case "reasonForChoosingStorageMedia":
-    //   return "Alasan Pemilihan Media Penyimpanan";
-    // case "serverRentalLocation":
-    //   return "Lokasi Penyewaan Server";
-    // case "serverRentalPeriod":
-    //   return "Periode Penyewaan Server";
-    // case "serverRentalCost":
-    //   return "Harga Penyewaan Server";
-    // case "kakAttachment":
-    //   return "Lampiran KAK";
-    // case "cloudLocation":
-    //   return "Lokasi Cloud";
-    // case "cloudStoragePeriod":
-    //   return "Periode Penyimpanan Cloud";
-    // case "cloudStorageCost":
-    //   return "Harga Penyimpanan Cloud";
-    // case "skpdRequestLetter":
-    //   return "Surat Permohonan SKPD";
-    // case "reformasiBirokrasi":
-    //   return "Reformasi Birokrasi (RB) Tematik";
-    // case "reformasiBirokrasi2":
-    //   return "Reformasi Birokrasi (RB) Tematik Lainnya";
-    // case "reformasiBirokrasi3":
-    //   return "Reformasi Birokrasi (RB) Tematik Lainnya";
-    // case "reformasiBirokrasi4":
-    // case 'ramSpecifications':
-    //   return "Spesifikasi RAM";
-    // case 'cpuSpecifications':
-    //   return "Spesifikasi CPU";
-    // case 'storageSpecifications':
-    //   return "Spesifikasi Storage";
-    // case 'gpuSpecifications':
-    //   return "Spesifikasi GPU";
-    // case 'otherSpecifications':
-    //   return "Spesifikasi Lainnya";
-    // case 'hardDiskSpecifications':
-    //   return "Spesifikasi Hard Disk";
-    // case 'integrationWithSystem':
-    //   return "Integrasi dengan Sistem";
-    // case 'reasonForIntegration':
-    //   return "Alasan Integrasi";
-    // case 'storage':
-    //   return "Penyimpanan";
-    // case 'exchangeFormat':
-    //   return "Format Penyimpanan";
-    // case 'proposedDomain':
-    //   return "Domain Yang Diusulkan";
-    // case 'letterNumber':
-    //   return "Nomor Surat";
-    // case 'letterDate':
-    //   return "Tanggal Surat";
-    // case 'otherRequirements':
-    //   return "Requirement Lainnya";
-    // case 'spbePlan':
-    //   return "PETA Rencana SPBE OPD";
-    // case 'riskManagement':
-    //   return "manajemen risiko SPBE";
-    default:
-      return key;
-  }
+  return labels[key] || key;
 };
 
 const getFieldType = (key) => {
@@ -265,19 +180,21 @@ const getFieldType = (key) => {
     case "nilai_kontrak":
     case "file_data":
     case "surat_permohonan":
+    case "skpdRequestLetter":
+    case "kakAttachment":
+    case "file_decison":
       return "pdf";
     case "type_tools":
       return "array";
     case "createdAt":
       return "multi_date";
     case "period":
+    case "date1":
     case "letterDate":
-      return "multidate";
-      
+      return "multi_date";
     default:
       return "text";
   }
-
 };
 
 export default DynamicDetails;

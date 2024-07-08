@@ -10,25 +10,22 @@ export const formData = [
       "teknis_infra",
     ],
     fields: [
-      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
+      { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
       {
         name: "type_tools",
         label: "Jenis Alat yang direlokasikan",
         value: [],
         type: "multi_selection",
-        options: [
-          { value: "alat_1", label: "Alat 1" },
-          { value: "alat_2", label: "Alat 2" },
-          { value: "alat_3", label: "Alat 3" },
-        ],
+        options: [],
       },
       {
         name: "distance_estimation",
         label: "Estimasi Jarak",
         value: "",
         type: "textarea",
-        noted: "Contoh: Ruang A ke Ruang B sekitar 30 Meter",
+        noted:
+          "Contoh: Perangkat utama (router) ke lokasi perangkat yang akan ditambahkan (router) sekitar 30 Meter",
       },
       {
         name: "reason",
@@ -59,32 +56,20 @@ export const formData = [
       "teknis_infra",
     ],
     fields: [
-      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
+      { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
       {
         name: "type_tools",
         label: "Jenis Alat yang dibutuhkan",
         value: [],
         type: "multi_selection",
-        options: [
-          { value: "Akses Point (Wifi)", label: "Akses Point (Wifi)" },
-          { value: "Kabel LAN", label: "Kabel LAN" },
-          { value: "Switch", label: "Switch" },
-        ],
+        options: [],
       },
       {
         name: "reason",
         label: "Alasan Pengajuan",
         value: "",
         type: "editor",
-      },
-      {
-        name: "distance_estimation",
-        label: "Estimasi Jarak",
-        value: "",
-        type: "textarea",
-        noted:
-          "Contoh: Perangkat utama (router) ke lokasi perangkat yang akan ditambahkan (router) sekitar 30 Meter",
       },
     ],
   },
@@ -99,7 +84,7 @@ export const formData = [
       "teknis_infra",
     ],
     fields: [
-      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
+      { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
       {
         name: "initial_bandwith",
@@ -138,27 +123,6 @@ export const formData = [
         value: "",
         type: "editor",
       },
-      // {
-      //   name: "status_BDO",
-      //   label: "Status BDO",
-      //   value: "",
-      //   type: "radio_button",
-      //   options: [
-      //     { value: "permanent", label: "Permanen" },
-      //     { value: "temporary", label: "Sementara" },
-      //   ],
-      // },
-      {
-        name: "period",
-        label: "Periode Jangka Waktu",
-        value: {
-          startDate: null,
-          endDate: null,
-        },
-        type: "multi_date",
-        visible: true,
-        // visible: false,
-      },
     ],
   },
   {
@@ -172,7 +136,7 @@ export const formData = [
       "teknis_infra",
     ],
     fields: [
-      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
+      { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
       { name: "incident", label: "Waktu Kejadian", value: "", type: "text" },
       {
@@ -183,7 +147,7 @@ export const formData = [
       },
       {
         name: "image_screenshoot",
-        label: "Screenshot",
+        label: "Tangkapan Layar",
         value: "",
         type: "image_upload",
       },
@@ -200,22 +164,17 @@ export const formData = [
       "teknis_infra",
     ],
     fields: [
-      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
+      { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
       {
         name: "app",
         label: "Nama Aplikasi",
         value: [],
-        type: "selection",
-        options: [
-          { value: "aplikasi_1", label: "Aplikasi 1" },
-          { value: "aplikasi_2", label: "Aplikasi 2" },
-          { value: "aplikasi_3", label: "Aplikasi 3" },
-        ],
+        type: "text",
       },
       {
         name: "other_requirements",
-        label: "Requirement Lainnya",
+        label: "Kebutuhan Lainnya",
         value: "",
         type: "textarea",
       },
@@ -223,10 +182,58 @@ export const formData = [
         name: "device_specifications",
         label: "Spesifikasi Perangkat",
         value: [
-          { label: "RAM", name: "ram", value: "" },
-          { label: "Processor", name: "processor", value: "" },
-          { label: "Storage", name: "storage", value: "" },
-          { label: "System Operation", name: "system_operation", value: "" },
+          {
+            label: "RAM",
+            name: "ram",
+            value: [],
+            type: "selection",
+            options: [
+              { value: "2gb", label: "2 GB", labelItem: 'RAM' },
+              { value: "4gb", label: "4 GB", labelItem: 'RAM' },
+              { value: "8gb", label: "8 GB", labelItem: 'RAM' },
+              { value: "16gb", label: "16 GB", labelItem: 'RAM' },
+              { value: "32gb", label: "32 GB", labelItem: 'RAM' },
+              { value: "64gb", label: "64 GB", labelItem: 'RAM' },
+            ],
+          },
+          {
+            label: "Processor",
+            name: "processor",
+            value: [],
+            type: "selection",
+            options: [
+              { value: "i3", label: "Intel Core i3", labelItem: 'Processor' },
+              { value: "i5", label: "Intel Core i5" , labelItem: 'Processor'},
+              { value: "i7", label: "Intel Core i7", labelItem: 'Processor' },
+              { value: "i9", label: "Intel Core i9", labelItem: 'Processor' },
+              { value: "r5", label: "AMD Ryzen 5", labelItem: 'Processor' },
+              { value: "r7", label: "AMD Ryzen 7", labelItem: 'Processor' },
+            ],
+          },
+          {
+            label: "Storage",
+            name: "storage",
+            value: [],
+            type: "selection",
+            options: [
+              { value: "256gb", label: "256 GB" , labelItem: 'Storage'},
+              { value: "512gb", label: "512 GB", labelItem: 'Storage' },
+              { value: "1tb", label: "1 TB", labelItem: 'Storage' },
+              { value: "2tb", label: "2 TB", labelItem: 'Storage'},
+            ],
+          },
+          {
+            label: "System Operation",
+            name: "system_operation",
+            value: [],
+            type: "selection",
+            options: [
+              { value: "windows", label: "Windows" , labelItem: 'System Operation'},
+              { value: "macos", label: "macOS", labelItem: 'System Operation' },
+              { value: "linux", label: "Linux", labelItem: 'System Operation' },
+              { value: "other", label: "Other", labelItem: 'System Operation' },
+            ],
+          },
         ],
         type: "input_array",
       },
@@ -249,28 +256,24 @@ export const formData = [
       "teknis_infra",
     ],
     fields: [
-      { name: "name_pic", label: "Name PIC", value: "", type: "text" },
+      { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
       {
         name: "app",
         label: "Nama Aplikasi",
-        value: [],
-        type: "selection",
-        options: [
-          { value: "alat_1", label: "Alat 1" },
-          { value: "alat_2", label: "Alat 2" },
-          { value: "alat_3", label: "Alat 3" },
-        ],
+        value: "",
+        type: "text",
       },
       {
         name: "domain_name",
         label: "Usulan Nama Domain",
         value: "",
         type: "text",
+        noted: "Contoh: www.example.go.id"
       },
       {
         name: "ip_address",
-        label: "Usulan IP Address",
+        label: "Usulan Alamat IP ",
         value: "",
         type: "ipaddress",
       },
@@ -284,49 +287,153 @@ export const formData = [
   },
 ];
 
-// Function to get RelokasiAlatProcess
+
+const getRelokasiAlatValidation = (inputLocal) => [
+  {
+    label: "Tanggapan Tim Teknis",
+    value: inputLocal.team_response,
+    type: "textarea",
+    name: 'team_response'
+  },
+  {
+    label: "Jadwal Pengerjaan",
+    value: inputLocal.working_schedule,
+    type: "multi_date",
+    name: 'working_schedule'
+  }
+];
+const getPenambahanBandwidthValidation = (inputLocal) => [
+  {
+    label: "Tanggapan Tim Teknis",
+    value: inputLocal.team_response,
+    type: "textarea",
+    name: 'team_response'
+  },
+  {
+    label: "Jadwal Pengerjaan",
+    value: inputLocal.working_schedule,
+    type: "multi_date",
+    name: 'working_schedule'
+  }
+];
+const getPenambahanAlatValidation = (inputLocal) => [
+  {
+    label: "Tanggapan Tim Teknis",
+    value: inputLocal.team_response,
+    type: "textarea",
+    name: 'team_response'
+  },
+  {
+    label: "Jadwal Pengerjaan",
+    value: inputLocal.working_schedule,
+    type: "multi_date",
+    name: 'working_schedule'
+  }
+];
+const getTroubleshootingValidation = (inputLocal) => [
+  {
+    label: "Tanggapan Tim Teknis",
+    value: inputLocal.team_response,
+    type: "textarea",
+    name: 'team_response'
+  },
+  {
+    label: "Jadwal Pengerjaan",
+    value: inputLocal.working_schedule,
+    type: "multi_date",
+    name: 'working_schedule'
+  }
+];
+const getDomainValidation = (inputLocal) => [
+  {
+    label: "Tanggapan Tim Teknis",
+    value: inputLocal.team_response,
+    type: "textarea",
+    name: 'team_response'
+  },
+  {
+    label: "Jadwal Pengerjaan",
+    value: inputLocal.working_schedule,
+    type: "multi_date",
+    name: 'working_schedule'
+  }
+];
+const getHostingValidation = (inputLocal) => [
+  {
+    label: "Tanggapan Tim Teknis",
+    value: inputLocal.team_response,
+    type: "textarea",
+    name: 'team_response'
+  },
+  {
+    label: "Jadwal Pengerjaan",
+    value: inputLocal.working_schedule,
+    type: "multi_date",
+    name: 'working_schedule'
+  }
+];
+
 const getRelokasiAlatProcess = (inputLocal) => [
   {
-    label: "Upload Foto Alat Sebelum di Relokasi",
+    label: "Unggah Foto Alat Sebelum di Relokasi",
     value: inputLocal.upload_foto_alat_sebelum_di_relokasi,
     type: "image_upload",
     name: "upload_foto_alat_sebelum_di_relokasi",
   },
   {
-    label: "Upload Foto Alat Sesudah di Relokasi",
+    label: "Unggah Foto Alat Sesudah di Relokasi",
     value: inputLocal.upload_foto_alat_sesudah_di_relokasi,
     type: "image_upload",
     name: "upload_foto_alat_sesudah_di_relokasi",
   },
 ];
-
-// Function to get PenambahanAlatProcess
 const getPenambahanAlatProcess = (inputLocal) => [
   {
-    label: "Upload Foto Alat Sebelum Penambahan Alat",
+    label: "Unggah Foto Alat Sebelum Penambahan Alat",
     value: inputLocal.upload_foto_alat_sebelum_di_tambahkan,
     type: "image_upload",
     name: "upload_foto_alat_sebelum_di_tambahkan",
   },
   {
-    label: "Upload Foto Alat Sesudah Penambahan Alat",
+    label: "Unggah Foto Alat Sesudah Penambahan Alat",
     value: inputLocal.upload_foto_alat_sesudah_di_tambahkan,
     type: "image_upload",
     name: "upload_foto_alat_sesudah_di_tambahkan",
   },
 ];
-
-// Function to get PenambahanBandwidthProcess
 const getPenambahanBandwidthProcess = (inputLocal) => [
   {
-    label: "Upload Foto Kegiatan",
+    label: "Unggah Foto Kegiatan",
+    value: inputLocal.upload_foto_kegiatan,
+    type: "image_upload",
+    name: "upload_foto_kegiatan",
+  },
+];
+const getTroubleshotingProcess = (inputLocal) => [
+  {
+    label: "Unggah Foto Kegiatan",
+    value: inputLocal.upload_foto_kegiatan,
+    type: "image_upload",
+    name: "upload_foto_kegiatan",
+  },
+];
+const getDomainProcess = (inputLocal) => [
+  {
+    label: "Unggah Foto Kegiatan",
+    value: inputLocal.upload_foto_kegiatan,
+    type: "image_upload",
+    name: "upload_foto_kegiatan",
+  },
+];
+const getHostingProcess = (inputLocal) => [
+  {
+    label: "Unggah Foto Kegiatan",
     value: inputLocal.upload_foto_kegiatan,
     type: "image_upload",
     name: "upload_foto_kegiatan",
   },
 ];
 
-// Function to get RelokasiAlatFinish
 const getRelokasiAlatFinish = (finishData) => [
   {
     label: "Status Pengajuan",
@@ -339,7 +446,7 @@ const getRelokasiAlatFinish = (finishData) => [
     ],
   },
   {
-    label: "Upload Surat Pemberitahuan untuk OPD",
+    label: "Unggah Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
     name: "file_submission",
     type: "file_upload",
@@ -351,8 +458,6 @@ const getRelokasiAlatFinish = (finishData) => [
     name: "response",
   },
 ];
-
-// Function to get PenambahanBandwidthFinish
 const getPenambahanBandwidthFinish = (finishData) => [
   {
     label: "Status Pengajuan",
@@ -365,7 +470,7 @@ const getPenambahanBandwidthFinish = (finishData) => [
     ],
   },
   {
-    label: "Upload Surat Pemberitahuan untuk OPD",
+    label: "Unggah Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
     name: "file_submission",
     type: "file_upload",
@@ -377,8 +482,6 @@ const getPenambahanBandwidthFinish = (finishData) => [
     name: "response",
   },
 ];
-
-// Function to get PenambahanAlatFinish
 const getPenambahanAlatFinish = (finishData) => [
   {
     label: "Status Pengajuan",
@@ -391,7 +494,7 @@ const getPenambahanAlatFinish = (finishData) => [
     ],
   },
   {
-    label: "Upload Surat Pemberitahuan untuk OPD",
+    label: "Unggah Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
     name: "file_submission",
     type: "file_upload",
@@ -403,16 +506,6 @@ const getPenambahanAlatFinish = (finishData) => [
     name: "response",
   },
 ];
-
-const getTroubleshotingProcess = (inputLocal) => [
-  {
-    label: "Upload Foto Kegiatan",
-    value: inputLocal.upload_foto_kegiatan,
-    type: "image_upload",
-    name: "upload_foto_kegiatan",
-  },
-];
-
 const getTroubleshotingFinish = (finishData) => [
   {
     label: "Status Pengajuan",
@@ -425,7 +518,55 @@ const getTroubleshotingFinish = (finishData) => [
     ],
   },
   {
-    label: "Upload Surat Pemberitahuan untuk OPD",
+    label: "Unggah Surat Pemberitahuan untuk OPD",
+    value: finishData.file_submission,
+    name: "file_submission",
+    type: "file_upload",
+  },
+  {
+    label: "Tanggapan",
+    value: finishData.response || null,
+    type: "textarea",
+    name: "response",
+  },
+];
+const getDomainFinish = (finishData) => [
+  {
+    label: "Status Pengajuan",
+    value: finishData.submission_status,
+    name: "submission_status",
+    type: "radio_button",
+    options: [
+      { value: "1", label: "Menyetujui" },
+      { value: "0", label: "Tidak Menyetujui" },
+    ],
+  },
+  {
+    label: "Unggah Surat Pemberitahuan untuk OPD",
+    value: finishData.file_submission,
+    name: "file_submission",
+    type: "file_upload",
+  },
+  {
+    label: "Tanggapan",
+    value: finishData.response || null,
+    type: "textarea",
+    name: "response",
+  },
+];
+const getHostingFinish = (finishData) => [
+  {
+    label: "Status Pengajuan",
+    value: finishData.submission_status,
+    name: "submission_status",
+    type: "radio_button",
+    options: [
+      { value: "1", label: "Menyetujui" },
+      { value: "0", label: "Tidak Menyetujui" },
+    ],
+  },
+  {
+    label: "Unggah Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
     name: "file_submission",
     type: "file_upload",
@@ -438,8 +579,23 @@ const getTroubleshotingFinish = (finishData) => [
   },
 ];
 
-
 export {
-  getPenambahanAlatFinish, getPenambahanAlatProcess, getPenambahanBandwidthFinish, getPenambahanBandwidthProcess,
-  getRelokasiAlatFinish, getRelokasiAlatProcess, getTroubleshotingProcess, getTroubleshotingFinish
+  getRelokasiAlatValidation,
+  getPenambahanAlatValidation,
+  getPenambahanBandwidthValidation,
+  getTroubleshootingValidation,
+  getPenambahanAlatFinish,
+  getPenambahanAlatProcess,
+  getPenambahanBandwidthFinish,
+  getPenambahanBandwidthProcess,
+  getRelokasiAlatFinish,
+  getRelokasiAlatProcess,
+  getTroubleshotingProcess,
+  getTroubleshotingFinish,
+  getDomainValidation,
+  getHostingValidation,
+  getDomainProcess,
+  getHostingProcess,
+  getDomainFinish,
+  getHostingFinish,
 };

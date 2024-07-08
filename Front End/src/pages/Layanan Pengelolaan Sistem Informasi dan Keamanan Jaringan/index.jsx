@@ -25,9 +25,11 @@ import {
   isValidatorEmail,
   isValidatorIntegrasi,
   isValidatorPenerapanModulTTE,
+  isValidatorPengujianCelahKeamanan,
   isValidatorUserAccountSI
 } from "./validators";
 import resetFormData from "../../components/common/ResetFormData";
+import ModalContentComponent from "../../components/ui/ModalContentComponent";
 
 function AplikasiPages() {
   const { isDarkMode } = useTheme();
@@ -94,6 +96,7 @@ function AplikasiPages() {
         authToken,
         JSON.parse(authProfile)?.role
       );
+      fetchDataCheckRole(authApiKey, authToken)
     }
   }, [dataState, authToken]);
 
@@ -113,7 +116,7 @@ function AplikasiPages() {
       dispatch(isPending(false));
       if (response?.statusCode === 200) {
         if (JSON.parse(authProfile)?.role === "perangkat_daerah") {
-          const filteredSubmissions = response.result.data.filter(
+          const filteredSubmissions = response.result.data?.filter(
             (submission) => submission.submission_title === dataState
           );
           setListAplikasi(filteredSubmissions);
@@ -122,7 +125,7 @@ function AplikasiPages() {
         }
 
         setStatusData([
-          { ...statusData[0], value: response?.result?.totalItems },
+          { ...statusData[0], value: response?.result?.totalItems || 0 },
           {
             ...statusData[1],
             value: response?.result?.totalItemsByStatus?.diproses || 0,
@@ -138,6 +141,34 @@ function AplikasiPages() {
         ]);
       } else {
         setListAplikasi([]);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  const fetchDataCheckRole = async (api_key, token) => {
+    try {
+      const response = await apiClient({
+        baseurl: "user/check_role",
+        method: "POST",
+        apiKey: api_key,
+        token: token,
+      });
+      if (response?.statusCode === 200) {
+        const updatedData = formData.map((form) => {
+          return {
+            ...form,
+            fields: form.fields.map((field) => {
+              if (field.name === "occupation") {
+                return { ...field, options:  response.result.data  };
+              } 
+              return field;
+            }),
+          };
+        });
+        setFormData(updatedData);
+      } else {
+
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -161,7 +192,7 @@ function AplikasiPages() {
         setisModalVerif({
           data: {
             title: "Pengajuan Aplikasi Berhasil",
-            msg: "Selamat, Pengajuan anda sudah diterima",
+            msg: "Selamat! Pengajuan aplikasi Anda telah berhasil diterima dan diproses.",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
           },
@@ -242,25 +273,30 @@ function AplikasiPages() {
       const isNewAccount = value.value === 'new_account';
 
       // Set visibility for reset_password related fields
-      ['password', 'new_password', 'repeat_password'].forEach(name => {
+      ['new_password', 'repeat_password'].forEach(name => {
         const fieldIndex = currentSection.fields.findIndex(field => field.name === name);
         if (fieldIndex !== -1) {
-          updatedFormData[sectionIndex].fields[fieldIndex].visible = isResetPassword;
+          currentSection.fields[fieldIndex].visible = isResetPassword;
         }
       });
 
       // Set visibility for new_account related fields
-      const accountTypeFieldIndex = currentSection.fields.findIndex(field => field.name === 'account_type');
-      if (accountTypeFieldIndex !== -1) {
-        updatedFormData[sectionIndex].fields[accountTypeFieldIndex].visible = isNewAccount;
-      }
+      ['account_type', 'name', 'telp', 'email', 'origin_agency'].forEach(name => {
+        const fieldIndex = currentSection.fields.findIndex(field => field.name === name);
+        if (fieldIndex !== -1) {
+          currentSection.fields[fieldIndex].visible = isNewAccount;
+        }
+      });
     }
 
     // Update the value of the field
-    updatedFormData[sectionIndex].fields[fieldToUpdateIndex].value = value;
+    if (fieldToUpdateIndex !== -1) {
+      currentSection.fields[fieldToUpdateIndex].value = value;
+    }
 
     setFormData(updatedFormData);
   };
+
 
 
   const checkingFormData = async () => {
@@ -269,7 +305,7 @@ function AplikasiPages() {
       const { result: nameValueObject, newObject: newObjectFromConversion } =
         convertToNameValueObject(foundObject);
       const nameValueObject2 = {
-        submission_type: isModalType.data,
+        submission_type: "Layanan Pengelolaan Sistem Informasi dan Keamanan Sistem Informasi",
         role: foundObject.role,
         submission_title: isModalCreate.data.replace("Pengajuan ", ""),
       };
@@ -307,6 +343,12 @@ function AplikasiPages() {
         } else {
           return false;
         }
+      } else if (combinedObject?.submission_title === "Permohonan Pengujian Celah Keamanan") {
+        if (isValidatorPengujianCelahKeamanan(combinedObject)) {
+          await handleImageUploadAndFetch(combinedObject);
+        } else {
+          return false;
+        }
       }
     } else {
       console.log("Objek tidak ditemukan dalam formData");
@@ -333,7 +375,7 @@ function AplikasiPages() {
     } else {
       fetchDataCreate(authApiKey, authToken, obj);
     }
-    
+
   };
   const updatePic = (name, number) => {
     const updatedData = formData.map((form) => {
@@ -350,7 +392,23 @@ function AplikasiPages() {
         }),
       };
     });
-
+    setFormData(updatedData);
+  };
+  const updateRole = (name, number) => {
+    const updatedData = formData.map((form) => {
+      return {
+        ...form,
+        fields: form.fields.map((field) => {
+          if (field.name === "name_pic") {
+            return { ...field, value: name };
+          }
+          if (field.name === "telp_pic") {
+            return { ...field, value: number };
+          }
+          return field;
+        }),
+      };
+    });
     setFormData(updatedData);
   };
 
@@ -359,7 +417,7 @@ function AplikasiPages() {
   return (
     <div className="flex flex-col gap-3 flex-1 p-4">
       <TitleHeader
-        title={JSON.parse(authProfile)?.role === "perangkat_daerah" ? "Layanan Pengajuan" : "Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan"}
+        title={JSON.parse(authProfile)?.role === "perangkat_daerah" ? "Layanan Pengajuan " + dataState : "Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan"}
         link1={"dashboard"}
         link2={"Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan"}
       />
@@ -374,7 +432,7 @@ function AplikasiPages() {
                 </span>
                 <div className="flex flex-col flex-1 justify-end items-end">
                   <DynamicButton
-                    initialValue={"Tutorial Pengajuan"}
+                    initialValue={"Panduan Pengajuan"}
                     color={"#ffffff"}
                     type="transparent"
                     className="bg-[#ffffff] text-[#0185FF] px-3"
@@ -422,10 +480,8 @@ function AplikasiPages() {
                     type="transparent"
                     className="bg-[#0185FF] text-darkColor px-3"
                     onClick={() => {
-                      setisModalType({
-                        data: "Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan",
-                        status: true,
-                      });
+                      setisModalCreate({ data: "Pengajuan " + dataState, status: true });
+                      updatePic(JSON.parse(authProfile).fullname, JSON.parse(authProfile).telp);
                     }}
                   />
                 </div>
@@ -434,11 +490,11 @@ function AplikasiPages() {
             <div className="flex flex-col relative">
               <TableCostum
                 dataHeader={[
-                  { name: "ID", field: "id" },
+                  { name: "No Pengajuan", field: "id" },
                   { name: "Nama PIC", field: "name_pic" },
-                  { name: "Jenis Pengajuan", field: "submission_title" },
-                  { name: "Status", field: "submission_status" },
-                  { name: "Tanggal", field: "createdAt" },
+                  { name: "Jenis Layanan", field: "submission_title" },
+                  { name: "Status Layanan", field: "submission_status" },
+                  { name: "Tanggal Pengajuan", field: "createdAt" },
                   { name: "Aksi", field: "action" },
                 ]}
                 showAction={{
@@ -530,47 +586,6 @@ function AplikasiPages() {
         onClose={() => setisModalType({ data: {}, status: false })}
       />
       <ModalContent
-        className={"sm:max-w-xl"}
-        children={
-          <div className="flex flex-col gap-2">
-            <div className="flex flex-col items-center justify-center ">
-              {isModalVerif.data?.icon && (
-                <isModalVerif.data.icon
-                  className={`flex flex-col flex-1 max-w-[150%] aspect-square bg-[${isModalVerif.data.color}] rounded-full`}
-                />
-              )}
-            </div>
-            <div className="flex  flex-col items-center justify-center ">
-              <span className="text-lg font-bold">
-                {isModalVerif.data?.title}
-              </span>
-              <span className="text-sm font-light opacity-70">
-                {isModalVerif.data?.msg}
-              </span>
-            </div>
-            <div className="flex flex-col gap-2 ">
-              <DynamicButton
-                initialValue={"Kembali"}
-                type="fill"
-                color={"#ffffff"}
-                className={`inline-flex flex-1 bg-[${isModalVerif.data.color}] text-darkColor`}
-                onClick={() => {
-                  setisModalVerif({ data: {}, status: false });
-                  setisModalCreate({ data: {}, status: false });
-                  setisModalType({ data: {}, status: false });
-                  fetchDataAplikasi(
-                    authApiKey,
-                    authToken,
-                    JSON.parse(authProfile)?.role
-                  );
-                }}
-              />
-            </div>
-          </div>
-        }
-        active={isModalVerif.status}
-      />
-      <ModalContent
         className={"sm:max-w-5xl "}
         children={
           <div className="flex flex-col gap-3">
@@ -593,15 +608,16 @@ function AplikasiPages() {
               {formData.map(
                 (section, sectionIndex) =>
                   section.name === isModalCreate.data && (
-                    <div key={sectionIndex} className="flex flex-col gap-3">
+                    <div key={sectionIndex} className="flex flex-col gap-2">
                       {section.fields.map((item, index) => (
-                        <div key={index} className="flex flex-col gap-2">
+                        <div key={index} className="flex flex-col ">
                           {item.visible !== false && (
                             <DynamicInput
                               name={item.name}
                               label={item.label}
                               noted={item.noted}
                               value={item.value}
+                              className={'mb-2'}
                               options={item.options}
                               onChange={(value) =>
                                 handleInputChange(
@@ -646,7 +662,7 @@ function AplikasiPages() {
                                   )}
                                 </div>
                               </div>
-                            )} 
+                            )}
                         </div>
                       ))}
                     </div>
@@ -678,6 +694,16 @@ function AplikasiPages() {
           </div>
         }
         active={isModalCreate.status}
+      />
+
+      <ModalContentComponent
+        isModalVerif={isModalVerif}
+        setisModalVerif={setisModalVerif}
+        setisModalCreate={setisModalCreate}
+        fetchData={fetchDataAplikasi}
+        authApiKey={authApiKey}
+        authToken={authToken}
+        authProfile={authProfile}
       />
     </div>
   );

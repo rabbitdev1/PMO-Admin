@@ -64,7 +64,7 @@ function DataAlatInfraPage() {
       setlistdataAlatLoading(false);
       if (response?.statusCode === 200) {
         if (JSON.parse(authProfile)?.role === "perangkat_daerah") {
-          const filteredSubmissions = response.result.data.filter(submission => submission.submission_title === dataState);
+          const filteredSubmissions = response.result.data?.filter(submission => submission.submission_title === dataState);
           setlistdataAlat(filteredSubmissions);
         } else {
           setlistdataAlat(response.result.data);
@@ -167,20 +167,10 @@ function DataAlatInfraPage() {
             </span>
             {[
               {
-                label: "Tambah Alat",
+                label: "Nama Barang",
                 value: formData.name_tools,
                 type: "text",
                 name: "name_tools",
-              },
-              {
-                label: "Jenis Alat",
-                value: formData.type_tools,
-                type: "selection",
-                options: [
-                  { value: "1", label: "Disetujui" },
-                  { value: "0", label: "Ditolak" },
-                ],
-                name: "type_tools",
               },
               {
                 label: "Jumlah Alat",
@@ -194,6 +184,18 @@ function DataAlatInfraPage() {
                 type: "textarea",
                 name: "spec_tools",
               },
+              {
+                label: "Harga Satuan",
+                value: formData.unit_pray,
+                type: "currency",
+                name: "unit_price",
+              },
+              {
+                label: "Jumlah",
+                value: (formData.total_tools || 0) * (formData.unit_price || 0),
+                type: "currency",
+                name: "total_price",
+            }
             ].map((inputProps, index) => {
               return (
                 <DynamicInput
@@ -219,6 +221,7 @@ function DataAlatInfraPage() {
               className="inline-flex  bg-[#0185FF] text-darkColor"
               onClick={() => {
                 console.log(formData);
+                
                 // if (
                 //   validationData.status_validation === "0" &&
                 //   validationData?.response === undefined

@@ -1,30 +1,24 @@
 import React, { useEffect, useState } from "react";
 
+import {
+  Button,
+  Popover,
+  PopoverContent,
+  PopoverHandler
+} from "@material-tailwind/react";
 import Cookies from "js-cookie";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as Ic_dark_mode } from "../../assets/icon/ic_dark-mode.svg";
 import { ReactComponent as Ic_light_mode } from "../../assets/icon/ic_light-mode.svg";
 import { ReactComponent as LogoutIcon } from "../../assets/icon/ic_logout.svg";
 import { ReactComponent as Ic_menu } from "../../assets/icon/ic_menus.svg";
-import DynamicButton from "../common/DynamicButton";
-import LoadingLink from "../common/LoadingLink";
-import useTheme from "../context/useTheme";
-import { isPending, isSideBar } from "../store/actions/todoActions";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import {
-  Popover,
-  PopoverHandler,
-  PopoverContent,
-  Button,
-  Typography,
-  ListItem,
-  ListItemPrefix,
-  List,
-  Avatar,
-} from "@material-tailwind/react";
 import { storage } from "../../config/Firebase";
 import { apiClient } from "../../utils/api/apiClient";
+import DynamicButton from "../common/DynamicButton";
+import useTheme from "../context/useTheme";
+import { isPending, isSideBar } from "../store/actions/todoActions";
 
 const Header = () => {
   const { isDarkMode, toggleTheme } = useTheme();
@@ -58,13 +52,16 @@ const Header = () => {
         token,
       });
       if (response?.statusCode === 200) {
-        setShowOverlay(true); 
+        setShowOverlay(true);
+        dispatch(isPending(true));
         setTimeout(() => {
-      dispatch(isPending(false));
-          window.location.reload("/");
           Cookies.remove("authData");
           Cookies.remove("authApiKey");
           Cookies.remove("authToken");
+        }, 500);
+        setTimeout(() => {
+          dispatch(isPending(false));
+          window.location.replace("/login");
         }, 500);
       } else {
 
@@ -91,7 +88,7 @@ const Header = () => {
 
   return (
     <header className=" flex flex-row flex-1 bg-lightColor transition duration-300 ease-in-out dark:bg-cardDark border-b-[1px] border-[#dddddd] dark:border-[#ffffff20] h-16">
-      <div className={`lg:flex flex-col hidden w-full max-w-[280px] flex-1 p-3 py-2 border-r-[1px] border-[#dddddd] dark:border-[#ffffff20]`}>
+      <div className={`lg:flex flex-col hidden w-full max-w-[300px] flex-1 p-3 py-2 border-r-[1px] border-[#dddddd] dark:border-[#ffffff20]`}>
         <div
           onClick={() => {
             setShowOverlay(false);

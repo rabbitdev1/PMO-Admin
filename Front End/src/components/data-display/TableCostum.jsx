@@ -26,39 +26,69 @@ const TableCostum = ({
   const statusBody = (rowData) => {
     return (
       <div
-        className={`${rowData.submission_status === 1
-          ? "bg-[#333333]"
-          : rowData.submission_status === 2 || rowData.submission_status === 4
-            ? "bg-[#F5CF08]"
-            : rowData.submission_status === 3 || rowData.submission_status === 5 || rowData.submission_status === 8
-              ? "bg-[#FF0000]"
-              : rowData.submission_status === 6
-                ? "bg-[#FFA500]"
-                : rowData.submission_status === 7 || rowData.status_account === "Aktif"
-                  ? "bg-[#13C39C]"
-                  : null
+        className={`${rowData.submission_title === "Rekomendasi Sistem Informasi" ?
+          (rowData.submission_status === 1
+            ? "bg-[#333333]"
+            : rowData.submission_status === 2 || rowData.submission_status === 4 || rowData.submission_status === 6
+              ? "bg-[#F5CF08]"
+              : rowData.submission_status === 3 || rowData.submission_status === 5 || rowData.submission_status === 7 || rowData.submission_status === 10
+                ? "bg-[#FF0000]"
+                : rowData.submission_status === 8 || rowData.submission_status === 9
+                  ? "bg-[#FFA500]"
+                  : rowData.submission_status === 11 || rowData.submission_status === 12
+                    ? "bg-[#13C39C]"
+                    : null)
+          : (rowData.submission_status === 1
+            ? "bg-[#333333]"
+            : rowData.submission_status === 2 || rowData.submission_status === 4
+              ? "bg-[#F5CF08]"
+              : rowData.submission_status === 3 || rowData.submission_status === 5 || rowData.submission_status === 8
+                ? "bg-[#FF0000]"
+                : rowData.submission_status === 6
+                  ? "bg-[#FFA500]"
+                  : rowData.submission_status === 7 || rowData.status_account === "Aktif"
+                    ? "bg-[#13C39C]"
+                    : null)
           } p-1 py-2 rounded-md text-xs  text-center text-darkColor`}
       >
-        {(rowData.submission_status === 1
-          ? "Dalam Antrian"
-          : rowData.submission_status === 2
-            ? "Validasi Dokumen"
-            : rowData.submission_status === 3
-              ? "Ditolak"
-              : rowData.submission_status === 4
-                ? "Validasi Kelengkapan"
-                : rowData.submission_status === 5
-                  ? 'Ditolak'
+        {rowData.submission_title === "Rekomendasi Sistem Informasi" ?
+          (rowData.submission_status === 1
+            ? "Dalam Antrian"
+            : rowData.submission_status === 2
+              ? "Validasi Dokumen"
+              : rowData.submission_status === 3 || rowData.submission_status === 5 || rowData.submission_status === 7 || rowData.submission_status === 10
+                ? "Ditolak"
+                : rowData.submission_status === 4
+                  ? "Analisis Kelayakan"
                   : rowData.submission_status === 6
-                    ? 'Diproses'
-                    : rowData.submission_status === 7
-                      ? 'Pengajuan Selesai'
-                      : rowData.submission_status === 8
-                        ? 'Tidak Menyetujui'
-                        : rowData.submission_status) ||
+                    ? 'Validasi Kelayakan'
+                    : rowData.submission_status === 8
+                      ? 'Analisis Teknis'
+                      : rowData.submission_status === 9
+                        ? 'Validasi Teknis'
+                        : rowData.submission_status === 11
+                          ? 'Proses Surat Rekomendasi'
+                          : rowData.submission_status === 12
+                            ? 'Pengajuan Selesai'
+                            : null) :
+          (rowData.submission_status === 1
+            ? "Dalam Antrian"
+            : rowData.submission_status === 2
+              ? "Validasi Dokumen"
+              : rowData.submission_status === 3
+                ? "Ditolak"
+                : rowData.submission_status === 4
+                  ? "Validasi Kelengkapan"
+                  : rowData.submission_status === 5
+                    ? 'Ditolak'
+                    : rowData.submission_status === 6
+                      ? 'Diproses'
+                      : rowData.submission_status === 7
+                        ? 'Pengajuan Selesai'
+                        : rowData.submission_status === 8
+                          ? 'Tidak Menyetujui'
+                          : rowData.submission_status) ||
           (rowData.status_account) || null}
-
-        { }
       </div>
     );
   };
@@ -110,7 +140,7 @@ const TableCostum = ({
         value={globalFilterValue}
         onChange={onGlobalFilterChange}
         className="bg-cardLight border-1 border-[#dddddd] dark:border-[#ffffff20] rounded p-2 px-3 text-lightColor text-sm font-normal"
-        placeholder="Keyword Search"
+        placeholder="Cari Data"
       />
     </div>
   );

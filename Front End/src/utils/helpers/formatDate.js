@@ -14,15 +14,25 @@ export const formatDate = (isoString) => {
   return `${formattedDate} ${formattedTime}`;
 };
 
-export const formatMultiDate = (isoStringArray) => {
-  const formattedDates = isoStringArray.map((isoString) => {
+export const formatMultiDate = (dateArray) => {
+  const formatDate = (isoString) => {
     const date = new Date(isoString);
     return date.toLocaleDateString("id-ID", {
-      day: "2-digit",
+      day: "numeric",
       month: "long",
       year: "numeric",
     });
-  });
+  };
 
-  return `${formattedDates[0]} s/d ${formattedDates[1]}`;
+  if (dateArray.length === 0) {
+    return '';
+  }
+
+  const formattedDates = dateArray.map(formatDate);
+
+  if (dateArray.length === 1 || (dateArray.length === 2 && dateArray[0] === dateArray[1])) {
+    return formattedDates[0];
+  } else {
+    return `${formattedDates[0]} s/d ${formattedDates[dateArray.length - 1]}`;
+  }
 };
