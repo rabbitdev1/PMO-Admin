@@ -83,6 +83,7 @@ export const formData = [
         label: "Nilai Kontrak",
         value: "",
         type: "file_upload",
+        noted: "File berekstensi: pdf, xlsx, docs"
       },
     ],
   },
@@ -95,6 +96,7 @@ const getMagangProcess = (inputLocal) => [
     value: inputLocal.upload_dokumen_hasil_integrasi,
     type: "file_upload",
     name: "upload_dokumen_hasil_integrasi",
+    noted: "File berekstensi: pdf, xlsx, docs"
   },
 ];
 const getMagangFinish = (finishData) => [
@@ -113,6 +115,7 @@ const getMagangFinish = (finishData) => [
     value: finishData.file_submission,
     name: "file_submission",
     type: "file_upload",
+    noted: "File berekstensi: pdf, xlsx, docs"
   },
   {
     label: "Tanggapan",

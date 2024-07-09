@@ -121,8 +121,8 @@ function LayananDataPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: 'Pengajuan Data Berhasil',
-            msg: 'Selamat, Pengajuan anda sudah diterima',
+            title: "Pengajuan Layanan Data Berhasil",
+            msg: "Selamat! Pengajuan Layanan Data Anda telah berhasil diterima dan diproses.",
             icon: PengajuanBerahasilIcon,
             color: '#13C39C'
           },

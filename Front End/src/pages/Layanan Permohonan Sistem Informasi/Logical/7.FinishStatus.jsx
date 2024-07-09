@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import DynamicInput from "../../../components/common/DynamicInput";
 import DynamicShow from "../../../components/common/DynamicShow";
-import DynamicDetails from "../../../components/ui/DynamicDetails";
+import DynamicDetails from "../DynamicDetails";
 import { apiClient } from "../../../utils/api/apiClient";
 import DynamicDetailsPermohonanSI from "../DynamicDetailsPermohonanSI";
 

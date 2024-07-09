@@ -43,7 +43,7 @@ export const isValidatorTroubleShooting = (obj) => {
   isValid = isValid && validateTelp(obj.telp_pic, "Nomor PIC");
   isValid = isValid && validateText(obj.incident, "Waktu Kejadian");
   isValid = isValid && validateHTML(obj.reason, "Alasan Pengajuan");
-  isValid = isValid && validateImage(obj.image_screenshoot, "Screenshot");
+  isValid = isValid && validateImage(obj.image_screenshoot, "Tangkapan Layar");
 
   return isValid;
 };

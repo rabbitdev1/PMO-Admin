@@ -472,8 +472,8 @@ const ValidationStatusTechnique = ({
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: 'sistem-virtual Berhasil Diupdate',
-            msg: 'Selamat, Pengajuan sistem-virtual sudah diupdate',
+            title: "Pembaharuan Layanan Siaran dan Virtual Berhasil",
+            msg: "Selamat! Pengajuan Layanan Siaran dan Virtual Anda Telah Berhasil Diperbarui.",
             icon: PengajuanBerahasilIcon,
             color: '#13C39C'
           },

@@ -203,9 +203,8 @@ function LayananPenyusunanPerencanaanTIKPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title:
-              "Pengajuan Perencanaan TIK Berhasil",
-            msg: "Selamat, Pengajuan anda sudah diterima",
+            title: "Pengajuan Penyusunan Perencanaan TIK Berhasil",
+            msg: "Selamat! Pengajuan Penyusunan Perencanaan TIK Anda telah berhasil diterima dan diproses.",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
           },
@@ -328,7 +327,7 @@ function LayananPenyusunanPerencanaanTIKPages() {
       console.log(JSON.stringify(combinedObject));
 
       if (combinedObject?.submission_title === "Surat Keputusan") {
-        if (isValidatorPenyusunaKebijakan(combinedObject)) {
+        if (isValidatorSuratKeputusan(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
         } else {
           return false;
