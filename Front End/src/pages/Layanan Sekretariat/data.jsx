@@ -89,12 +89,72 @@ export const formData = [
   
 ];
 
+const getPendataanTenagaAhliValidateTechnique = (inputLocal) => [
+  {
+    label: "Tanggapan Tim Teknis",
+    value: inputLocal.team_response,
+    type: "textarea",
+    name: 'team_response',
+  },
+  {
+    label: "Jadwal Pengerjaan",
+    value: inputLocal.working_schedule,
+    type: "date",
+    name: 'working_schedule',
+  },
+];
+const getPendaftaranMagangValidateTechnique = (inputLocal) => [
+  {
+    label: "Tanggapan Tim Teknis",
+    value: inputLocal.team_response,
+    type: "textarea",
+    name: 'team_response',
+  },
+  {
+    label: "Jadwal Pengerjaan",
+    value: inputLocal.working_schedule,
+    type: "date",
+    name: 'working_schedule',
+  },
+];
 const getMagangProcess = (inputLocal) => [
   {
-    label: "Unggah Dokumen Laporan Hasil Integrasi",
-    value: inputLocal.upload_dokumen_hasil_integrasi,
+    label: "Unggah Dokumen Laporan Hasil",
+    value: inputLocal.upload_dokumen_hasil,
     type: "file_upload",
-    name: "upload_dokumen_hasil_integrasi",
+    name: "upload_dokumen_hasil",
+  },
+];
+const getPendataanTenagaAhliProcess = (inputLocal) => [
+  {
+    label: "Unggah Dokumen Laporan Hasil",
+    value: inputLocal.upload_dokumen_hasil,
+    type: "file_upload",
+    name: "upload_dokumen_hasil",
+  },
+];
+const getPendataanTenagaAhliFinish = (finishData) => [
+  {
+    label: "Status Pengajuan",
+    value: finishData.submission_status,
+    name: "submission_status",
+    type: "radio_button",
+    options: [
+      { value: "1", label: "Menyetujui" },
+      { value: "0", label: "Tidak Menyetujui" },
+    ],
+  },
+  {
+    label: "Unggah Surat Pemberitahuan untuk OPD",
+    value: finishData.file_submission,
+    name: "file_submission",
+    type: "file_upload",
+  },
+  {
+    label: "Tanggapan",
+    value: finishData.response || null,
+    type: "textarea",
+    name: "response",
   },
 ];
 const getMagangFinish = (finishData) => [
@@ -122,4 +182,4 @@ const getMagangFinish = (finishData) => [
   },
 ];
 
-export { getMagangProcess, getMagangFinish };
+export { getPendataanTenagaAhliFinish,getMagangProcess,getPendataanTenagaAhliProcess, getMagangFinish ,getPendataanTenagaAhliValidateTechnique,getPendaftaranMagangValidateTechnique};

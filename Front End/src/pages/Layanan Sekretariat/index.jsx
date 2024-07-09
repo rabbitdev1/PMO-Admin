@@ -18,11 +18,11 @@ import ModalContent from "../../components/ui/Modal/ModalContent";
 import { apiClient } from "../../utils/api/apiClient";
 import { convertToNameValueObject } from "../../utils/helpers/convertToNameValueObject";
 
+import resetFormData from "../../components/common/ResetFormData";
+import ModalContentComponent from "../../components/ui/ModalContentComponent";
 import fetchUploadFiles from "../../utils/api/uploadFiles";
 import { formData as initialFormData } from "./data";
-import { isValidatorPendaftaranMagang } from "./validators";
-import { isValidatorPendataanAhli } from "./validators";
-import resetFormData from "../../components/common/ResetFormData";
+import { isValidatorPendaftaranMagang, isValidatorPendataanAhli } from "./validators";
 
 function SekretariatPages() {
   const { isDarkMode } = useTheme();
@@ -67,8 +67,6 @@ function SekretariatPages() {
   const [listSekretariatLoading, setListSekretariatLoading] = useState(true);
 
   const [formData, setFormData] = useState(initialFormData);
-
-  const [isModalType, setisModalType] = useState({ status: false, data: {} });
   const [isModalCreate, setisModalCreate] = useState({
     status: false,
     data: {},
@@ -116,7 +114,7 @@ function SekretariatPages() {
         }
 
         setStatusData([
-          { ...statusData[0], value: response?.result?.totalItems },
+          { ...statusData[0], value: response?.result?.totalItems || 0 },
           {
             ...statusData[1],
             value: response?.result?.totalItemsByStatus?.diproses || 0,
@@ -282,6 +280,23 @@ function SekretariatPages() {
     }
   }
   const handleImageUploadAndFetch = async (obj) => {
+    if (obj.nilai_kontrak) {
+      const result = await fetchUploadFiles(
+        authApiKey,
+        authToken,
+        obj.nilai_kontrak,
+        "sekretariat",
+        dispatch
+      );
+      if (result !== null) {
+        const fixObject = {
+          ...obj,
+          nilai_kontrak: result,
+        };
+      } else {
+        console.error("Error occurred during image upload.");
+      }
+    }
     if (obj.file_process_bisiness) {
       const result = await fetchUploadFiles(
         authApiKey,
@@ -295,13 +310,11 @@ function SekretariatPages() {
           ...obj,
           file_process_bisiness: result,
         };
-        fetchDataCreate(authApiKey, authToken, fixObject);
       } else {
         console.error("Error occurred during image upload.");
       }
-    } else {
-      fetchDataCreate(authApiKey, authToken, obj);
     }
+    fetchDataCreate(authApiKey, authToken, obj);
   };
   const updatePic = (name, number) => {
     const updatedData = formData.map((form) => {
@@ -391,7 +404,7 @@ function SekretariatPages() {
                     type="transparent"
                     className="bg-[#0185FF] text-darkColor px-3"
                     onClick={() => {
-                      setisModalCreate({ data: "Pengajuan "+dataState, status: true });
+                      setisModalCreate({ data: "Pengajuan " + dataState, status: true });
                       updatePic(JSON.parse(authProfile).fullname, JSON.parse(authProfile).telp);
                     }}
                   />
@@ -401,11 +414,11 @@ function SekretariatPages() {
             <div className="flex flex-col relative">
               <TableCostum
                 dataHeader={[
-                  { name: "ID", field: "id" },
+                  { name: "No Pengajuan", field: "id" },
                   { name: "Nama PIC", field: "name_pic" },
                   { name: "Jenis Layanan", field: "submission_title" },
-                  { name: "Status", field: "submission_status" },
-                  { name: "Tanggal", field: "createdAt" },
+                  { name: "Status Layanan", field: "submission_status" },
+                  { name: "Tanggal Pengajuan", field: "createdAt" },
                   { name: "Aksi", field: "action" },
                 ]}
                 showAction={{
@@ -460,83 +473,6 @@ function SekretariatPages() {
           </div>
         </div>
       </section>
-
-      <ModalContent
-        className={"sm:max-w-xl"}
-        children={
-          <div className="flex flex-col gap-3">
-            <span className="text-lg font-bold font-gilroy">
-              {isModalType.data}
-            </span>
-            <div className="flex flex-col overflow-hidden rounded-b-md pb-2">
-              {formData.map((item, index) => {
-                return (
-                  isModalType.data === item.type && (
-                    <button
-                      key={index}
-                      className={`flex flex-row justify-start items-center gap-2 flex-1 ${index % 2 ? "" : "bg-[#f1f5f9] dark:bg-[#f1f5f907]"} py-2.5 p-3 hover:opacity-70`}
-                      onClick={() => {
-                        setisModalCreate({ data: item.name, status: true });
-                        updatePic(
-                          JSON.parse(authProfile).fullname,
-                          JSON.parse(authProfile).telp
-                        );
-                      }}
-                    >
-                      <span className=" text-base text-left line-clamp-2 font-gilroy">
-                        {item.name}
-                      </span>
-                    </button>
-                  )
-                );
-              })}
-            </div>
-          </div>
-        }
-        active={isModalType.status}
-        onClose={() => setisModalType({ data: {}, status: false })}
-      />
-      <ModalContent
-        className={"sm:max-w-xl"}
-        children={
-          <div className="flex flex-col gap-2">
-            <div className="flex flex-col items-center justify-center ">
-              {isModalVerif.data?.icon && (
-                <isModalVerif.data.icon
-                  className={`flex flex-col flex-1 max-w-[150%] aspect-square bg-[${isModalVerif.data.color}] rounded-full`}
-                />
-              )}
-            </div>
-            <div className="flex  flex-col items-center justify-center ">
-              <span className="text-lg font-bold">
-                {isModalVerif.data?.title}
-              </span>
-              <span className="text-sm font-light opacity-70">
-                {isModalVerif.data?.msg}
-              </span>
-            </div>
-            <div className="flex flex-col gap-2 ">
-              <DynamicButton
-                initialValue={"Kembali"}
-                type="fill"
-                color={"#ffffff"}
-                className={`inline-flex flex-1 bg-[${isModalVerif.data.color}] text-darkColor`}
-                onClick={() => {
-                  setisModalVerif({ data: {}, status: false });
-                  setisModalCreate({ data: {}, status: false });
-                  setisModalType({ data: {}, status: false });
-                  fetchDataSekretariat(
-                    authApiKey,
-                    authToken,
-                    JSON.parse(authProfile)?.role
-                  );
-                }}
-              />
-            </div>
-          </div>
-        }
-        active={isModalVerif.status}
-      />
       <ModalContent
         className={"sm:max-w-5xl "}
         children={
@@ -618,7 +554,7 @@ function SekretariatPages() {
                             item?.field?.map(
                               (itemField, indexField) =>
                                 item?.value?.value ===
-                                  itemField.type_select && (
+                                itemField.type_select && (
                                   <DynamicInput
                                     key={indexField}
                                     name={itemField.name}
@@ -668,6 +604,15 @@ function SekretariatPages() {
           </div>
         }
         active={isModalCreate.status}
+      />
+      <ModalContentComponent
+        isModalVerif={isModalVerif}
+        setisModalVerif={setisModalVerif}
+        setisModalCreate={setisModalCreate}
+        fetchData={fetchDataSekretariat}
+        authApiKey={authApiKey}
+        authToken={authToken}
+        authProfile={authProfile}
       />
     </div>
   );

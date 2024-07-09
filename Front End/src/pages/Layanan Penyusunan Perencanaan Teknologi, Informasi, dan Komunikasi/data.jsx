@@ -13,10 +13,7 @@ export const formData = [
       {
         name: "app_name", label: "Nama Aplikasi", value: "", type: "selection",
         options: [
-          { value: "15", label: "15 Mbps" },
-          { value: "20", label: "20 Mbps" },
-          { value: "25", label: "25 Mbps" },
-          { value: "30", label: "30 Mbps" },
+          { value: "Aplikasi 1", label: "Aplikasi 1" },
         ]
       },
 
@@ -31,8 +28,7 @@ export const formData = [
     role: [
       "op_pmo",
       "perangkat_daerah",
-      "teknis_aplikasi",
-      "katim_aplikasi",
+      'katim_perencanaan', 'kabid_perencanaan', 'teknis_perencanaan'
     ],
     fields: [
       { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
