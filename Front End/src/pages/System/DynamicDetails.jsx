@@ -19,23 +19,13 @@ const DynamicDetails = ({ detailData, loading, location }) => {
                 value &&
                 <div
                   key={key}
-                  className={`flex flex-col ${["name_pic", "telp_pic"].includes(key)
+                  className={`flex flex-col ${["email", "telp"].includes(key)
                     ? "sm:col-span-2 col-span-4"
                     : "col-span-4"
                     }`}
-                    
                 >
-                  {key === "device_specifications" ?
-                    <div className="flex flex-col gap-3">
-                      <span className="text-lg font-bold">{getKeyLabel(key)}</span>
-                      <div className="flex flex-col gap-1">
-                        {Object.values(value).map((spec, index) => (
-                          <li key={index}>
-                            <strong>{spec.labelItem}:</strong> {spec.label + " - " + spec.value}
-                          </li>
-                        ))}
-                      </div>
-                    </div>
+                  {key === "image" || key === "role" ?
+                    null
                     :
                     <DynamicShow
                       name={key}
@@ -58,17 +48,13 @@ const DynamicDetails = ({ detailData, loading, location }) => {
 
 const getKeyLabel = (key) => {
   const labels = {
-    createdAt: "Tanggal Pembuatan",
-    submission_type: "Jenis Layanan",
-    submission_title: "Nama Pengajuan",
-    name_pic: "Nama PIC",
-    telp_pic: "Nomor PIC",
-    type_tools: "Jenis Alat",
-    distance_estimation: "Estimasi Jarak",
-    reason: "Alasan Pengajuan",
-    status: "Status Pengajuan",
-    image_screenshoot: "Tangkapan Layar",
-    device_specifications: "Spesifikasi Perangkat",
+    createdAt: 'Tanggal Pembuatan',
+    fullname: "Nama Lengkap",
+    email: "Email Pengguna",
+    address: 'Tempat Tinggal',
+    telp: 'Nomor Telepon',
+    status_account: 'Status Akun',
+    role: 'Role',
   };
 
   return labels[key] || key;
@@ -78,12 +64,16 @@ const getFieldType = (key) => {
   switch (key) {
     case "createdAt":
       return "single_date";
+    case "timeline_kontrak":
+      return "multi_date";
     case "type_tools":
       return "array";
     case "reason":
+    case "pengalaman":
+    case "job_desk":
       return "html";
-    case "image_screenshoot":
-      return "images";
+    case "nilai_kontrak":
+      return "pdf";
     default:
       return "text";
   }

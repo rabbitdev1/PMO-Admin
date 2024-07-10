@@ -1,4 +1,4 @@
-import { validateArray, validateFile, validateFullname, validateHTML, validateDate, validatePeriod1, validateTelp, validateText, validateTextArea, validateTime } from "../../utils/helpers/validateForm";
+import { validateFile, validateFullname, validateHTML, validatePeriod1, validateTelp, validateText } from "../../utils/helpers/validateForm";
 
 
 export const isValidatorZoom = (obj) => {

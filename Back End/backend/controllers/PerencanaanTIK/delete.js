@@ -29,6 +29,7 @@ export const deleteDataPerencanaanTIK = async (req, res) => {
 
         const mergedDataProcess = {
             ...JSON.parse(perencanaantikItem.on_validation),
+            ...JSON.parse(perencanaantikItem.on_validation_technique),
             ...JSON.parse(perencanaantikItem.on_process),
             ...JSON.parse(perencanaantikItem.on_finish),
             ...JSON.parse(perencanaantikItem.fields),
@@ -37,16 +38,16 @@ export const deleteDataPerencanaanTIK = async (req, res) => {
 
         const findValueByTitle = (data, title) => data[title];
 
-        const upload_foto_alat_sebelum_di_relokasiValue = findValueByTitle(mergedDataProcess, 'upload_foto_alat_sebelum_di_relokasi');
-        const upload_foto_alat_sesudah_di_relokasiValue = findValueByTitle(mergedDataProcess, 'upload_foto_alat_sesudah_di_relokasi');
+        const upload_dokumen_kebijakanValue = findValueByTitle(mergedDataProcess, 'upload_dokumen_kebijakan');
+        const draft_perwalValue = findValueByTitle(mergedDataProcess, 'draft_perwal');
+        const upload_dokumen_laporan_perkepValue = findValueByTitle(mergedDataProcess, 'upload_dokumen_laporan_perkep');
         const file_submissionValue = findValueByTitle(mergedDataProcess, 'file_submission');
-        const file_uploadValue = findValueByTitle(mergedDataProcess, 'file_upload');
 
         const foundValue = [
-            upload_foto_alat_sebelum_di_relokasiValue,
-            upload_foto_alat_sesudah_di_relokasiValue,
+            upload_dokumen_kebijakanValue,
+            draft_perwalValue,
+            upload_dokumen_laporan_perkepValue,
             file_submissionValue,
-            file_uploadValue
         ].filter(Boolean);
 
         if (foundValue) {

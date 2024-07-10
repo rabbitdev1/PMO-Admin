@@ -1,21 +1,18 @@
+
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { ReactComponent as PengajuanBerahasilIcon } from "../../../assets/icon/ic_pengajuan_berhasil.svg";
 import DynamicButton from "../../../components/common/DynamicButton";
 import DynamicInput from "../../../components/common/DynamicInput";
 import DynamicShow from "../../../components/common/DynamicShow";
+import { validateImage } from "../../../utils/helpers/validateForm";
 import DynamicDetails from "../DynamicDetails";
-import { apiClient } from "../../../utils/api/apiClient";
-import { validateFile, validateImage } from "../../../utils/helpers/validateForm";
-import { getIntergasiSIFinish, getIntergasiSIProcess, getModulTTEProcess, getModulTTEFinish, getUserAccountSIProcess, getUserAccountSIFinish, getEmailProcess, getEmailFinish, getCelahKeamananProcess, getCelahKeamananFinish } from "../data";
+import { getMagangFinish, getMagangProcess, getPendataanTenagaAhliFinish, getPendataanTenagaAhliProcess } from "../data";
 
 const ProcessStatus = ({
     submissionStatus,
     validationDataTechnique,
     processData,
     authProfile,
-    slug,
-    setisModalVerif,
     checkingFormData,
     detailData,
     loading,
@@ -23,59 +20,11 @@ const ProcessStatus = ({
 }) => {
 
     const [inputLocal, setInputLocal] = useState({});
+    const MagangProcess = getMagangProcess(inputLocal);
+    const MagangFinish = getMagangFinish(finishData);
 
-    const IntergasiSIProcess = getIntergasiSIProcess(inputLocal);
-
-    const IntergasiSIFinish = getIntergasiSIFinish(finishData);
-
-    const ModulTTEProcess = getModulTTEProcess(inputLocal);
-
-    const ModulTTEFinish = getModulTTEFinish(finishData);
-
-    const UserAkunSIProcess = getUserAccountSIProcess(inputLocal);
-
-    const UserAkunSIFinish = getUserAccountSIFinish(finishData);
-
-    const EmailProcess = getEmailProcess(inputLocal);
-
-    const EmailFinish = getEmailFinish(finishData);
-
-    const CelahKeamananProcess = getCelahKeamananProcess(inputLocal);
-
-    const CelahKeamananFinish = getCelahKeamananFinish(finishData);
-
-    const fetchSetProgress = async (api_key, token, status) => {
-        const params = new URLSearchParams();
-        params.append("id", slug);
-        params.append("status", status);
-
-        try {
-            const response = await apiClient({
-                baseurl: "aplikasi/set_process",
-                method: "POST",
-                body: params,
-                apiKey: api_key,
-                token: token,
-            });
-            if (response?.statusCode === 200) {
-                setisModalVerif({
-                    data: {
-                        title: 'aplikasi Berhasil diupdate',
-                        msg: 'Selamat, Pengajuan aplikasi sudah diupdate',
-                        icon: PengajuanBerahasilIcon,
-                        color: '#13C39C'
-                    },
-                    status: true
-                })
-            } else {
-                toast.error(response.result.msg, {
-                    position: toast.POSITION.TOP_RIGHT,
-                });
-            }
-        } catch (error) {
-            console.error("Error fetching data:", error);
-        }
-    };
+    const PendataanTenagaAhliProcess = getPendataanTenagaAhliProcess(inputLocal);
+    const PendataanTenagaAhliFinish = getPendataanTenagaAhliFinish(finishData);
 
     const renderProcessInputs = (inputs) => {
         return inputs.map((inputProps, index) => (
@@ -87,7 +36,6 @@ const ProcessStatus = ({
                         value={inputProps.value}
                         type={inputProps.type}
                         options={inputProps.options}
-                        noted={inputProps.noted}
                         onChange={(value) => {
                             setInputLocal(prevState => ({
                                 ...prevState,
@@ -108,7 +56,6 @@ const ProcessStatus = ({
                 value={inputProps.value}
                 type={inputProps.type}
                 options={inputProps.options}
-                noted={inputProps.noted}
                 onChange={(value) => {
                     setfinishData(prevState => ({
                         ...prevState,
@@ -134,9 +81,9 @@ const ProcessStatus = ({
                             </div>
                         </div>
                     </div>
-                    {(JSON.parse(authProfile)?.role === "teknis_aplikasi" || JSON.parse(authProfile)?.role === "katim_aplikasi" ?
+                    {(JSON.parse(authProfile)?.role === "teknis_sekre" || JSON.parse(authProfile)?.role === "katim_sekre" ?
                         <div className="flex flex-col gap-3">
-                            {JSON.parse(authProfile)?.role === "katim_aplikasi" && (
+                            {JSON.parse(authProfile)?.role === "katim_sekre" && (
                                 Object.entries(processData).length === 0 &&
                                 <div className="flex flex-col bg-[#0185FF]/10 border-1 border-[#0185FF] text-[#0185FF] p-3 gap-3 items-center rounded-lg">
                                     <span className="text-base font-semibold text-center">
@@ -145,7 +92,7 @@ const ProcessStatus = ({
                                 </div>
 
                             )}
-                            {JSON.parse(authProfile)?.role === "teknis_aplikasi" && (
+                            {JSON.parse(authProfile)?.role === "teknis_sekre" && (
                                 Object.entries(processData).length !== 0 &&
                                 <div className="flex flex-col gap-3">
                                     <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
@@ -154,27 +101,14 @@ const ProcessStatus = ({
                                             <DynamicShow
                                                 key={key}
                                                 label={
-                                                    key === "upload_dokumen_hasil_integrasi"
-                                                        ? "File Dokumen Hasil Integrasi"
-                                                        : "upload_dokumen_laporan_modul_tte"
-                                                            ? "Surat Pengesahan"
-                                                            : "upload_dokumen_laporan_pembuatan_akun"
-                                                                ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
-                                                                : "upload_surat_pengesahan"
-                                                                    ? "Surat Pengesahan"
-                                                                    : "upload_hasil_pengujian"
-                                                                        ? "Dokumen Laporan Hasil Pengujian"
-                                                                        : "upload_hasil_penetrasi"
-                                                                            ? "Dokumen Hasil Uji Penetrasi"
-                                                                            :
-                                                                            key === "file_scema_integration" ? "File Skema Integrasi" : key
+                                                    key === "upload_dokumen_hasil"
+                                                        ? "Dokument Hasil"
+                                                        : key
                                                 }
                                                 value={value}
-                                                location={"aplikasi"}
+                                                location={"sekretariat"}
                                                 type={
-                                                    key === "upload_dokumen_hasil_integrasi" || "upload_dokumen_laporan_modul_tte" ||
-                                                        "upload_dokumen_laporan_pembuatan_akun" || "upload_surat_pengesahan" ||
-                                                        "upload_hasil_pengujian" || "upload_hasil_penetrasi"
+                                                    key === "upload_dokumen_hasil"
                                                         ? "pdf"
                                                         : "text"
                                                 }
@@ -197,41 +131,37 @@ const ProcessStatus = ({
                                         {Object.entries(validationDataTechnique).map(([key, value]) => (
                                             <DynamicShow
                                                 key={key}
-                                                label={key === "team_response" ? "Tanggapan dari Tim Teknis" :
-                                                    key === "working_schedule" ? "Jadwal Kerja" :
-                                                        key === "file_scema_integration" ? "File Skema Integrasi" :
-                                                            key === "dokumen_pembangunan" ? "File Dokumen Pembangunan" :
-                                                                key === "dokumen_nda" ? "File Dokumen NDA" :
-                                                                    key}
+                                                label={
+                                                    key === "working_schedule"
+                                                        ? "Jadwal Kerja"
+                                                        : key === "team_response"
+                                                            ? "Respon dari Tim Teknis"
+                                                            : key
+                                                }
                                                 value={value}
-                                                location={'aplikasi'}
+                                                location={"sekretariat"}
                                                 type={
-                                                    key === "file_scema_integration" ||
-                                                        key === "dokumen_pembangunan" ||
-                                                        key === "dokumen_nda" ? 'pdf' :
-                                                        key === "working_schedule" ? "single_date" : 'text'}
+                                                    key === "working_schedule"
+                                                        ? "multi_date"
+                                                        : "text"
+                                                }
                                             />
                                         ))}
                                     </div>
                                 </div>
                                 <DynamicDetails
-                                    location={'aplikasi'}
+                                    location={'sekretariat'}
                                     detailData={detailData}
                                     loading={loading}
                                 />
                             </div>
-                            {JSON.parse(authProfile)?.role === "teknis_aplikasi" && (
+                            {JSON.parse(authProfile)?.role === "teknis_sekre" && (
                                 Object.entries(processData).length === 0 &&
                                 <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                                     <span className='text-lg font-bold'>Tahapan Proses</span>
-                                    {renderProcessInputs(detailData.submission_title === "Integrasi Sistem Informasi" ?
-                                        IntergasiSIProcess :
-                                        detailData.submission_title === "Penerapan Modul TTE" ? ModulTTEProcess :
-                                            detailData.submission_title === "User Akun Sistem Informasi" ? UserAkunSIProcess :
-                                                detailData.submission_title === "Permohonan Email" ? EmailProcess :
-                                                    detailData.submission_title === "Permohonan Pengujian Celah Keamanan" ? CelahKeamananProcess :
-                                                        []
-
+                                    {renderProcessInputs(detailData.submission_title === "Layanan Pendataan Tenaga Ahli" ?
+                                        PendataanTenagaAhliProcess : detailData.submission_title === "Layanan Pendaftaran Magang" ?
+                                            MagangProcess : []
                                     )}
                                     <div className='flex sm:flex-row flex-col gap-2'>
                                         <DynamicButton
@@ -252,21 +182,20 @@ const ProcessStatus = ({
 
                                                 let isValid = true;
 
-                                                if (detailData.submission_title === "Integrasi Sistem Informasi") {
-                                                    isValid = isValid && validateFile(inputLocal.upload_dokumen_hasil_integrasi, "Upload File Dokumen Hasil Integrasi");
-                                                }
-                                                if (detailData.submission_title === "Penerapan Modul TTE") {
-                                                    isValid = isValid && validateFile(inputLocal.upload_dokumen_laporan_modul_tte, "Upload Surat Pengesahan");
-                                                }
-                                                if (detailData.submission_title === "User Akun Sistem Informasi") {
-                                                    isValid = isValid && validateFile(inputLocal.upload_dokumen_laporan_pembuatan_akun, "Upload Dokumen Laporan Hasil Pembuatan Akun");
-                                                }
-                                                if (detailData.submission_title === "Permohonan Email") {
-                                                    isValid = isValid && validateFile(inputLocal.upload_surat_pengesahan, "Upload Surat Pengesahan");
-                                                } 
-                                                if (detailData.submission_title === "Permohonan Pengujian Celah Keamanan") {
-                                                    isValid = isValid && validateFile(inputLocal.upload_hasil_pengujian, "Unggah Dokumen Laporan Hasil Pengujian");
-                                                    isValid = isValid && validateFile(inputLocal.upload_hasil_penetrasi, "Unggah Dokumen Hasil Uji Penetrasi");
+                                                if (detailData.submission_title === "Relokasi Alat") {
+                                                    isValid = isValid && validateImage(inputLocal.upload_foto_alat_sebelum_di_relokasi, "Upload Foto Alat Sebelum di Relokasi");
+                                                    isValid = isValid && validateImage(inputLocal.upload_foto_alat_sesudah_di_relokasi, "Upload Foto Alat Sesudah di Relokasi");
+                                                } else if (detailData.submission_title === "Penambahan Alat") {
+                                                    isValid = isValid && validateImage(inputLocal.upload_foto_alat_sebelum_di_tambahkan, "Upload Foto Alat Sebelum di Tambahkan");
+                                                    isValid = isValid && validateImage(inputLocal.upload_foto_alat_sesudah_di_tambahkan, "Upload Foto Alat Sesudah di Tambahkan");
+                                                } else if (detailData.submission_title === "Penambahan Bandwidth") {
+                                                    isValid = isValid && validateImage(inputLocal.upload_foto_kegiatan, "Upload Foto Kegiatan");
+                                                } else if (detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan") {
+                                                    isValid = isValid && validateImage(inputLocal.upload_foto_kegiatan, "Upload Foto Kegiatan");
+                                                } else if (detailData.submission_title === "Hosting") {
+                                                    isValid = isValid && validateImage(inputLocal.upload_foto_kegiatan, "Upload Foto Kegiatan");
+                                                } else if (detailData.submission_title === "Domain") {
+                                                    isValid = isValid && validateImage(inputLocal.upload_foto_kegiatan, "Upload Foto Kegiatan");
                                                 }
                                                 if (isValid) {
                                                     checkingFormData('process', filteredDataResult);
@@ -277,7 +206,7 @@ const ProcessStatus = ({
                                     </div>
                                 </div>
                             )}
-                            {JSON.parse(authProfile)?.role === "katim_aplikasi" && (
+                            {JSON.parse(authProfile)?.role === "katim_sekre" && (
                                 Object.entries(processData).length !== 0 &&
                                 <div className="flex flex-col gap-3">
                                     <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
@@ -286,27 +215,14 @@ const ProcessStatus = ({
                                             <DynamicShow
                                                 key={key}
                                                 label={
-                                                    key === "upload_dokumen_hasil_integrasi"
-                                                        ? "File Dokumen Hasil Integrasi"
-                                                        : "upload_dokumen_laporan_modul_tte"
-                                                            ? "Surat Pengesahan"
-                                                            : "upload_dokumen_laporan_pembuatan_akun"
-                                                                ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
-                                                                : "upload_surat_pengesahan"
-                                                                    ? "Surat Pengesahan"
-                                                                    : "upload_hasil_pengujian"
-                                                                        ? "Dokumen Laporan Hasil Pengujian"
-                                                                        : "upload_hasil_penetrasi"
-                                                                            ? "Dokumen Hasil Uji Penetrasi"
-                                                                            :
-                                                                            key === "file_scema_integration" ? "File Skema Integrasi" : key
+                                                    key === "upload_dokumen_hasil"
+                                                        ? "Dokument Hasil"
+                                                        : key
                                                 }
                                                 value={value}
-                                                location={"aplikasi"}
+                                                location={"sekretariat"}
                                                 type={
-                                                    key === "upload_dokumen_hasil_integrasi" || "upload_dokumen_laporan_modul_tte" ||
-                                                        "upload_dokumen_laporan_pembuatan_akun" || "upload_surat_pengesahan" ||
-                                                        "upload_hasil_pengujian" || "upload_hasil_penetrasi"
+                                                    key === "upload_dokumen_hasil"
                                                         ? "pdf"
                                                         : "text"
                                                 }
@@ -315,13 +231,9 @@ const ProcessStatus = ({
                                     </div>
                                     <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                                         <span className='text-lg font-bold'>Proses Selesai</span>
-                                        {renderFinishInputs(detailData.submission_title === "Integrasi Sistem Informasi" ?
-                                            IntergasiSIFinish :
-                                            detailData.submission_title === "Penerapan Modul TTE" ? ModulTTEFinish :
-                                                detailData.submission_title === "User Akun Sistem Informasi" ? UserAkunSIFinish :
-                                                    detailData.submission_title === "Permohonan Email" ? EmailFinish :
-                                                        detailData.submission_title === "Permohonan Pengujian Celah Keamanan" ? CelahKeamananFinish :
-                                                            []
+                                        {renderFinishInputs(detailData.submission_title === "Layanan Pendataan Tenaga Ahli" ?
+                                            PendataanTenagaAhliFinish : detailData.submission_title === "Layanan Pendaftaran Magang" ?
+                                                MagangFinish : []
                                         )}
                                         <DynamicButton
                                             initialValue={"Pengajuan Selesai"}
@@ -344,7 +256,7 @@ const ProcessStatus = ({
                         </div>
                         :
                         <div className='flex flex-col  gap-3'>
-                            <DynamicDetails location={"aplikasi"} detailData={detailData} loading={loading} />
+                            <DynamicDetails location={"sekretariat"} detailData={detailData} loading={loading} />
                             <div className="flex flex-col flex-1 gap-3">
                                 {Object.entries(processData).length === 0 ?
                                     <div className="flex flex-col bg-lightColor dark:bg-cardDark p-5 gap-3 items-center rounded-lg">
@@ -374,28 +286,23 @@ const ProcessStatus = ({
                                             <DynamicShow
                                                 key={key}
                                                 label={
-                                                    key === "upload_dokumen_hasil_integrasi"
-                                                        ? "File Dokumen Hasil Integrasi"
-                                                        : "upload_dokumen_laporan_modul_tte"
-                                                            ? "Surat Pengesahan"
-                                                            : "upload_dokumen_laporan_pembuatan_akun"
-                                                                ? "Upload Dokumen Laporan Hasil Pembuatan Akun"
-                                                                : "upload_surat_pengesahan"
-                                                                    ? "Surat Pengesahan"
-                                                                    : "upload_hasil_pengujian"
-                                                                        ? "Dokumen Laporan Hasil Pengujian"
-                                                                        : "upload_hasil_penetrasi"
-                                                                            ? "Dokumen Hasil Uji Penetrasi"
-                                                                            :
-                                                                            key === "file_scema_integration" ? "File Skema Integrasi" : key
+                                                    key === "upload_foto_alat_sebelum_di_relokasi"
+                                                        ? "Foto Alat Sebelum Di Relokasikan"
+                                                        : key === "upload_foto_alat_sesudah_di_relokasi"
+                                                            ? "Foto Alat Sesudah Di Relokasikan"
+                                                            : key === "upload_foto_alat_sebelum_di_tambahkan"
+                                                                ? "Foto Alat Sebelum Di Tambahkan"
+                                                                : key === "upload_foto_alat_sesudah_di_tambahkan"
+                                                                    ? "Foto Alat Sesudah Di Tambahkan"
+                                                                    : key === "upload_foto_kegiatan"
+                                                                        ? "Foto Kegiatan"
+                                                                        : key
                                                 }
                                                 value={value}
-                                                location={"aplikasi"}
+                                                location={"sekretariat"}
                                                 type={
-                                                    key === "upload_dokumen_hasil_integrasi" || "upload_dokumen_laporan_modul_tte" ||
-                                                        "upload_dokumen_laporan_pembuatan_akun" || "upload_surat_pengesahan" ||
-                                                        "upload_hasil_pengujian" || "upload_hasil_penetrasi"
-                                                        ? "pdf"
+                                                    key === "upload_foto_alat_sebelum_di_relokasi" || key === "upload_foto_alat_sesudah_di_relokasi" || key === "upload_foto_alat_sebelum_di_tambahkan" || key === "upload_foto_alat_sesudah_di_tambahkan" || key === "upload_foto_kegiatan"
+                                                        ? "images"
                                                         : "text"
                                                 }
                                             />

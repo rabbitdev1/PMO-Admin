@@ -16,7 +16,8 @@ export const formData = [
         name: "file_pengajuan_zoom",
         label: "Dokumen Pengajuan Zoom",
         value: "",
-        type: "file_upload"
+        type: "file_upload",
+        noted: "File berekstensi: pdf, xlsx, docs"
       },
       { name: "reason", label: "Alasan Dibutuhkan", value: "", type: "editor" },
     ],
@@ -126,6 +127,7 @@ const getZoomProcess = (inputLocal) => [
     value: inputLocal.upload_dokumen_zoom,
     type: "file_upload",
     name: 'upload_dokumen_zoom',
+    noted: "File berekstensi: pdf, xlsx, docs"
   },
 ];
 
@@ -144,7 +146,8 @@ const getZoomFinish = (finishData) => [
     label: "Upload Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
     name: 'file_submission',
-    type: "file_upload"
+    type: "file_upload",
+    noted: "File berekstensi: pdf, xlsx, docs"
   },
   {
     label: "Tanggapan",
@@ -161,7 +164,8 @@ const getPermohonanLiputanProcess = (inputLocal) => [
     label: "Upload Dokumen Hasil Pengajuan Permohonan Liputan",
     value: inputLocal.upload_dokumen_liputan,
     type: "file_upload",
-    name: 'upload_dokumen_liputan'
+    name: 'upload_dokumen_liputan',
+    noted: "File berekstensi: pdf, xlsx, docs"
   },
 ];
 const getPermohonanLiputanFinish = (finishData) => [
@@ -179,7 +183,8 @@ const getPermohonanLiputanFinish = (finishData) => [
     label: "Upload Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
     name: 'file_submission',
-    type: "file_upload"
+    type: "file_upload",
+    noted: "File berekstensi: pdf, xlsx, docs"
   },
   {
     label: "Tanggapan",
@@ -194,7 +199,8 @@ const getPodcastProcess = (inputLocal) => [
     label: "Upload Dokumen Hasil Pengajuan Permohonan Podcast",
     value: inputLocal.file_pengajuan_podcast,
     type: "file_upload",
-    name: 'file_pengajuan_podcast'
+    name: 'file_pengajuan_podcast',
+    noted: "File berekstensi: pdf, xlsx, docs"
   },
 ];
 const getPodcastFinish = (finishData) => [
@@ -212,7 +218,8 @@ const getPodcastFinish = (finishData) => [
     label: "Upload Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
     name: 'file_submission',
-    type: "file_upload"
+    type: "file_upload",
+    noted: "File berekstensi: pdf, xlsx, docs"
   },
   {
     label: "Tanggapan",

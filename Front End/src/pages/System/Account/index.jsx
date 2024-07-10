@@ -35,7 +35,6 @@ function AccountPages() {
   ]);
 
   const [listAccount, setListAccount] = useState([]);
-
   const [listAccountLoading, setListAccountLoading] = useState(true);
   const [formData, setFormData] = useState([
     { name: "fullname", label: "Nama Lengkap", value: "", type: "text" },
@@ -83,7 +82,7 @@ function AccountPages() {
       fetchDataAccount(authApiKey, authToken)
       fetchDataCheckRole(authApiKey, authToken)
     }
-  }, []);
+  }, [authToken, authApiKey,]);
 
   const fetchDataAccount = async (api_key, token) => {
     setListAccountLoading(true);

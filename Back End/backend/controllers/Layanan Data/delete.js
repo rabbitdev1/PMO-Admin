@@ -30,6 +30,7 @@ export const deleteDataLayananData = async (req, res) => {
         const mergedDataProcess = {
             ...JSON.parse(LayananDataItem.on_validation),
             ...JSON.parse(LayananDataItem.on_process),
+            ...JSON.parse(LayananDataItem.on_validation_technique),
             ...JSON.parse(LayananDataItem.on_finish),
             ...JSON.parse(LayananDataItem.fields),
         };
@@ -37,18 +38,18 @@ export const deleteDataLayananData = async (req, res) => {
 
         const findValueByTitle = (data, title) => data[title];
 
-        const upload_dokumen_hasil_integrasiValue = findValueByTitle(mergedDataProcess, 'upload_dokumen_hasil_integrasi');
-        const upload_dokumen_laporan_modul_tteValue = findValueByTitle(mergedDataProcess, 'upload_dokumen_laporan_modul_tte');
-        const upload_dokumen_laporan_pembuatan_akunValue = findValueByTitle(mergedDataProcess, 'upload_dokumen_laporan_pembuatan_akun');
+        const file_dataValue = findValueByTitle(mergedDataProcess, 'file_data');
+        const surat_permohonanaValue = findValueByTitle(mergedDataProcess, 'surat_permohonan');
+        const upload_dokumen_hasil_analisaValue = findValueByTitle(mergedDataProcess, 'upload_dokumen_hasil_analisa');
+        const upload_file_data_validValue = findValueByTitle(mergedDataProcess, 'upload_file_data_valid');
         const file_submissionValue = findValueByTitle(mergedDataProcess, 'file_submission');
-        const file_uploadValue = findValueByTitle(mergedDataProcess, 'file_upload');
 
         const foundValue = [
-            upload_dokumen_hasil_integrasiValue,
-            upload_dokumen_laporan_modul_tteValue,
-            upload_dokumen_laporan_pembuatan_akunValue,
+            file_dataValue,
+            surat_permohonanaValue,
+            upload_dokumen_hasil_analisaValue,
             file_submissionValue,
-            file_uploadValue
+            upload_file_data_validValue
         ].filter(Boolean);
 
         if (foundValue) {
