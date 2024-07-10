@@ -10,11 +10,11 @@ export const formData = [
     fields: [
       { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
-      {
-        name: "app_name",
-        label: "Nama Aplikasi",
-        value: "",
-        type: "text",
+      { 
+        name: "app_name", label: "Nama Aplikasi", value: "", type: "selection",
+        options: [
+          { value: "Aplikasi 1", label: "Aplikasi 1" },
+        ] 
       },
       { name: "app_desc", label: "Deskripsi Aplikasi", value: "", type: "editor" },
       { name: "needed_data", label: "Data yang dibutuhkan", value: "", type: "editor" },
@@ -27,8 +27,7 @@ export const formData = [
     role: [
       "op_pmo",
       "perangkat_daerah",
-      "teknis_aplikasi",
-      "katim_aplikasi",
+      'katim_perencanaan', 'kabid_perencanaan', 'teknis_perencanaan'
     ],
     fields: [
       { name: "name_pic", label: "Nama PIC", value: "", type: "text" },

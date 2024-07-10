@@ -85,7 +85,7 @@ const FinishStatus = ({
                   <DynamicShow
                     key={key}
                     location={'permohonanSI'}
-                    label={key === "recommendation_letter_technical" ? "Surat Rekomendasi" :"kepala_dinas_note" ? "Catatan Kepala Dinas" : key}
+                    label={key === "recommendation_letter_technical" ? "Surat Rekomendasi" : "kepala_dinas_note" ? "Catatan Kepala Dinas" : key}
                     value={value}
                     type={key === "recommendation_letter_technical" ? 'pdf' : 'text'}
                   />
