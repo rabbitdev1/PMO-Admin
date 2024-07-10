@@ -156,7 +156,7 @@ function SistemVirtualPages() {
         setisModalVerif({
           data: {
             title: "Pengajuan Layanan Siaran dan Sistem Virtual Berhasil",
-            msg: "Selamat, Pengajuan anda sudah diterima",
+            msg: "Selamat! Pengajuan Layanan Siaran dan Sistem Virtual Anda telah berhasil diterima dan diproses.",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
           },

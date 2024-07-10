@@ -73,7 +73,8 @@ export const formData = [
         name: "file_process_bisiness",
         label: "Dokumen Proses Bisnis",
         value: "",
-        type: "file_upload"
+        type: "file_upload",
+        noted: "File berekstensi: pdf,xlsx,docs"
       },
       {
         name: "period",
@@ -99,7 +100,7 @@ export const formData = [
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
       {
         name: "occupation",
-        label: "jabatan",
+        label: "Jabatan",
         value: [],
         type: "selection",
         options: []
@@ -158,6 +159,7 @@ const getIntergasiSIValidation = (inputLocal) => [
     value: inputLocal.file_scema_integration,
     name: "file_scema_integration",
     type: "file_upload",
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
   {
     label: "Tanggapan Tim Teknis",
@@ -177,7 +179,8 @@ const getIntergasiSIProcess = (inputLocal) => [
     label: "Unggah File Hasil Integrasi",
     value: inputLocal.upload_dokumen_hasil_integrasi,
     type: "file_upload",
-    name: 'upload_dokumen_hasil_integrasi'
+    name: 'upload_dokumen_hasil_integrasi',
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
 ];
 const getIntergasiSIFinish = (finishData) => [
@@ -196,7 +199,7 @@ const getIntergasiSIFinish = (finishData) => [
     value: finishData.file_submission,
     type: "file_upload",
     name: 'file_submission',
-
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
   {
     label: "Tanggapan",
@@ -228,7 +231,8 @@ const getModulTTEProcess = (inputLocal) => [
     label: "Unggah Surat Pengesahan",
     value: inputLocal.upload_dokumen_laporan_modul_tte,
     type: "file_upload",
-    name: 'upload_dokumen_laporan_modul_tte'
+    name: 'upload_dokumen_laporan_modul_tte',
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
 ];
 
@@ -247,7 +251,8 @@ const getModulTTEFinish = (finishData) => [
     label: "Unggah Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
     name: 'file_submission',
-    type: "file_upload"
+    type: "file_upload",
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
   {
     label: "Tanggapan",
@@ -278,7 +283,8 @@ const getUserAccountSIProcess = (inputLocal) => [
     label: "Unggah Dokumen Laporan Hasil Pembuatan Akun",
     value: inputLocal.upload_dokumen_laporan_pembuatan_akun,
     type: "file_upload",
-    name: 'upload_dokumen_laporan_pembuatan_akun'
+    name: 'upload_dokumen_laporan_pembuatan_akun',
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
 ];
 const getUserAccountSIFinish = (finishData) => [
@@ -296,7 +302,8 @@ const getUserAccountSIFinish = (finishData) => [
     label: "Unggah Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
     name: 'file_submission',
-    type: "file_upload"
+    type: "file_upload",
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
   {
     label: "Tanggapan",
@@ -311,7 +318,8 @@ const getEmailProcess = (inputLocal) => [
     label: "Unggah Surat Pengesahan",
     value: inputLocal.upload_surat_pengesahan,
     type: "file_upload",
-    name: 'upload_surat_pengesahan'
+    name: 'upload_surat_pengesahan',
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
 
 ];
@@ -346,7 +354,8 @@ const getEmailFinish = (finishData) => [
     label: "Unggah Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
     name: 'file_submission',
-    type: "file_upload"
+    type: "file_upload",
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
   {
     label: "Tanggapan",
@@ -361,13 +370,15 @@ const getCelahKeamananValidation = (inputLocal) => [
     label: "Upload Dokumen Pembangunan",
     value: inputLocal.dokumen_pembangunan,
     type: "file_upload",
-    name: 'dokumen_pembangunan'
+    name: 'dokumen_pembangunan',
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
   {
     label: "Upload Dokumen NDA",
     value: inputLocal.dokumen_nda,
     type: "file_upload",
-    name: 'dokumen_nda'
+    name: 'dokumen_nda',
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
   {
     label: "Tanggapan Tim Teknis",
@@ -387,13 +398,15 @@ const getCelahKeamananProcess = (inputLocal) => [
     label: "Unggah Dokumen Laporan Hasil Pengujian",
     value: inputLocal.upload_hasil_pengujian,
     type: "file_upload",
-    name: 'upload_hasil_pengujian'
+    name: 'upload_hasil_pengujian',
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
   {
     label: "Unggah Dokumen Hasil Uji Penetrasi",
     value: inputLocal.upload_hasil_penetrasi,
     type: "file_upload",
-    name: 'upload_hasil_penetrasi'
+    name: 'upload_hasil_penetrasi',
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
 ];
 
@@ -412,7 +425,8 @@ const getCelahKeamananFinish = (finishData) => [
     label: "Unggah Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
     name: 'file_submission',
-    type: "file_upload"
+    type: "file_upload",
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
   {
     label: "Tanggapan",

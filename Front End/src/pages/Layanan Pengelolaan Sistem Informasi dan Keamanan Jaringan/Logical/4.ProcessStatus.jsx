@@ -87,6 +87,7 @@ const ProcessStatus = ({
                         value={inputProps.value}
                         type={inputProps.type}
                         options={inputProps.options}
+                        noted={inputProps.noted}
                         onChange={(value) => {
                             setInputLocal(prevState => ({
                                 ...prevState,
@@ -107,6 +108,7 @@ const ProcessStatus = ({
                 value={inputProps.value}
                 type={inputProps.type}
                 options={inputProps.options}
+                noted={inputProps.noted}
                 onChange={(value) => {
                     setfinishData(prevState => ({
                         ...prevState,

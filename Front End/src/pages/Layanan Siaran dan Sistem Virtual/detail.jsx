@@ -154,8 +154,8 @@ function DetailSistemVirtualPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Pengajuan Layanan Siaran dan Virtual Berhasil di-update",
-            msg: "Selamat, Pengajuan sudah di-update",
+            title: "Pembaharuan Layanan Siaran dan Virtual Berhasil",
+            msg: "Selamat! Pengajuan Layanan Siaran dan Virtual Anda Telah Berhasil Diperbarui.",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
           },

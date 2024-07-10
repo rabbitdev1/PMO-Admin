@@ -146,7 +146,7 @@ function DetailPermohonanSIPages() {
         setisModalVerif({
           data: {
             title: "Pembaharuan Sistem Informasi Berhasil",
-            msg: "Selamat! Pengajuan permohonan sistem informasi Anda telah berhasil diperbarui.",
+            msg: "Selamat! Pengajuan Permohonan Sistem Informasi Anda Telah Berhasil Diperbarui.",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
           },

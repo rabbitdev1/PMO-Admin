@@ -23,6 +23,7 @@ const DynamicDetails = ({ detailData, loading, location }) => {
                     ? "sm:col-span-2 col-span-4"
                     : "col-span-4"
                     }`}
+                    
                 >
                   {key === "device_specifications" ?
                     <div className="flex flex-col gap-3">

@@ -473,7 +473,8 @@ const ProcessStatus = ({
             label={inputProps.label}
             value={inputProps.value}
             type={inputProps.type}
-            options={inputProps.options}
+            options={inputProps.options}  
+            noted={inputProps.noted}
             onChange={(value) => {
               setInputLocal(prevState => ({
                 ...prevState,
@@ -494,6 +495,7 @@ const ProcessStatus = ({
         value={inputProps.value}
         type={inputProps.type}
         options={inputProps.options}
+        noted={inputProps.noted}
         onChange={(value) => {
           setfinishData(prevState => ({
             ...prevState,
@@ -661,15 +663,17 @@ const ProcessStatus = ({
                       key={key}
                       label={
                         key === "upload_dokumen_liputan"
-                          ? "Dokumen Liputan"
-                           : key === "upload_dokumen_zoom"
-                                  ? "Dokumen Zoom"
-                                  : key
+                        ? "Dokumen Liputan"
+                        : key === "upload_dokumen_zoom"
+                        ? "Dokumen Zoom"
+                        : key === "file_pengajuan_podcast"
+                        ? "Dokumen Pengajuan Podcast"
+                        : key
                       }
                       value={value}
                       location={"sistem-virtual"}
                       type={
-                        key === "upload_dokumen_zoom" || key === "upload_dokumen_liputan"
+                        key === "upload_dokumen_zoom" || key === "upload_dokumen_liputan" || key === "file_pengajuan_podcast"
                           ? "pdf"
                           : "text"
                       }

@@ -152,8 +152,8 @@ function SekretariatPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Pengajuan Sekretariat Berhasil",
-            msg: "Selamat, Pengajuan anda sudah diterima",
+            title: "Pengajuan Layanan Sekretariat Berhasil",
+            msg: "Selamat! Pengajuan Layanan Sekretariat Anda telah berhasil diterima dan diproses.",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
           },

@@ -48,8 +48,8 @@ const ValidationStatusTechnique = ({
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: 'Aplikasi Berhasil Diupdate',
-            msg: 'Selamat, Pengajuan aplikasi sudah diupdate',
+            title: "Pembaharuan Pengajuan Aplikasi Berhasil",
+            msg: "Selamat! Pengajuan Aplikasi Anda telah berhasil diperbarui.",
             icon: PengajuanBerahasilIcon,
             color: '#13C39C'
           },
@@ -73,6 +73,7 @@ const ValidationStatusTechnique = ({
         value={inputProps.value}
         type={inputProps.type}
         options={inputProps.options}
+        noted={inputProps.noted}
         onChange={(value) => {
           setInputLocal(prevState => ({
             ...prevState,

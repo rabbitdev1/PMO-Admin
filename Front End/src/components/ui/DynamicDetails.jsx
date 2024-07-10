@@ -150,6 +150,7 @@ const getKeyLabel = (key) => {
     riskManagement: "Manajemen Risiko SPBE",
     unit_price: "Harga Satuan",
     total_price: "Jumlah",
+    
   };
 
   return labels[key] || key;

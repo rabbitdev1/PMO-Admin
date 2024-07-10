@@ -10,13 +10,12 @@ export const formData = [
     fields: [
       { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
-      {
+      { 
         name: "app_name", label: "Nama Aplikasi", value: "", type: "selection",
         options: [
           { value: "Aplikasi 1", label: "Aplikasi 1" },
-        ]
+        ] 
       },
-
       { name: "app_desc", label: "Deskripsi Aplikasi", value: "", type: "editor" },
       { name: "needed_data", label: "Data yang dibutuhkan", value: "", type: "editor" },
       { name: "integration", label: "Tujuan Integrasi", value: "", type: "editor" },
@@ -41,7 +40,7 @@ export const formData = [
         ]
       },
       { name: "ruang_lingkup", label: "Ruang Lingkup", value: "", type: "editor" },
-      { name: "draft_perwal", label: "Draft Perwal", value: "", type: "file_upload" },
+      { name: "draft_perwal", label: "Draft Perwal", value: "", type: "file_upload", noted: "File berekstensi: pdf,xlsx,docs"},
       { name: "reason", label: "Alasan dibutuhkan", value: "", type: "editor" },
     ],
   },
@@ -90,6 +89,7 @@ const getPenyusunanKebijakanProcess = (inputLocal) => [
     value: inputLocal.upload_dokumen_kebijakan,
     type: "file_upload",
     name: "upload_dokumen_kebijakan",
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
 ];
 const getPenyusunanKebijakanFinish = (finishData) => [
@@ -108,6 +108,7 @@ const getPenyusunanKebijakanFinish = (finishData) => [
     value: finishData.file_submission,
     name: "file_submission",
     type: "file_upload",
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
   {
     label: "Tanggapan",
@@ -123,6 +124,7 @@ const getPerwalProcess = (inputLocal) => [
     value: inputLocal.upload_dokumen_laporan_perkep,
     type: "file_upload",
     name: "upload_dokumen_laporan_perkep",
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
 ];
 const getPerwalFinish = (finishData) => [
@@ -141,6 +143,7 @@ const getPerwalFinish = (finishData) => [
     value: finishData.file_submission,
     name: "file_submission",
     type: "file_upload",
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
   {
     label: "Tanggapan",
@@ -156,6 +159,7 @@ const getAhliProcess = (inputLocal) => [
     value: inputLocal.upload_dokumen_ahli,
     type: "file_upload",
     name: "upload_dokumen_ahli",
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
 ];
 const getAhliFinish = (finishData) => [
@@ -174,6 +178,7 @@ const getAhliFinish = (finishData) => [
     value: finishData.file_submission,
     name: "file_submission",
     type: "file_upload",
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
   {
     label: "Tanggapan",
