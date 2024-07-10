@@ -8,22 +8,19 @@ import { useLocation, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { ReactComponent as PengajuanBerahasilIcon } from "../../assets/icon/ic_pengajuan_berhasil.svg";
 import DynamicButton from "../../components/common/DynamicButton";
-import useTheme from "../../components/context/useTheme";
 import TitleHeader from "../../components/layout/TitleHeader";
 import { isPending } from "../../components/store/actions/todoActions";
 import ModalContent from "../../components/ui/Modal/ModalContent";
 import SubmissionStatus from "../../components/ui/SubmissionStatus";
 import { apiClient } from "../../utils/api/apiClient";
 import fetchUploadFiles from "../../utils/api/uploadFiles";
-import fetchUploadImages from "../../utils/api/uploadImages";
 import DalamAntrianView from "./Logical/1.DalamAntrianView";
-import FinishStatus from "./Logical/5.FinishStatus";
-import ProcessStatus from "./Logical/4.ProcessStatus";
 import ValidationStatus from "./Logical/2.ValidationStatus";
 import ValidationStatusTechnique from "./Logical/3.ValidationStatusTechnique";
+import ProcessStatus from "./Logical/4.ProcessStatus";
+import FinishStatus from "./Logical/5.FinishStatus";
 
 function DetailSekretariatPages() {
-  const { isDarkMode } = useTheme();
   const navigate = useNavigate();
   const authApiKey = Cookies.get("authApiKey");
   const authToken = Cookies.get("authToken");
@@ -55,7 +52,7 @@ function DetailSekretariatPages() {
         JSON.parse(authProfile)?.role
       );
     }
-  }, [dispatch]);
+  }, [authToken,authApiKey,authProfile]);
 
   const fetchDataSekretariat = async (api_key, token, role) => {
     setSekretariatLoading(true);
@@ -82,7 +79,7 @@ function DetailSekretariatPages() {
         setfinishData(JSON.parse(response.result.data?.on_finish));
       } else {
         setDetailData([]);
-        navigate("/");
+        navigate("/dashboard");
         toast.error(response.result.msg, {
           position: toast.POSITION.TOP_RIGHT,
         });

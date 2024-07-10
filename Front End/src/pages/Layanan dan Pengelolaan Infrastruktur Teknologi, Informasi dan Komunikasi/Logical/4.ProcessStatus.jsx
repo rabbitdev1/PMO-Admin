@@ -1,37 +1,32 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { ReactComponent as PengajuanBerahasilIcon } from "../../../assets/icon/ic_pengajuan_berhasil.svg";
 import DynamicButton from "../../../components/common/DynamicButton";
 import DynamicInput from "../../../components/common/DynamicInput";
 import DynamicShow from "../../../components/common/DynamicShow";
-import DynamicDetails from "../DynamicDetails";
-import { apiClient } from "../../../utils/api/apiClient";
 import {
-  validateFile,
-  validateImage,
+  validateImage
 } from "../../../utils/helpers/validateForm";
 import {
-  getRelokasiAlatProcess,
-  getPenambahanAlatProcess,
-  getPenambahanBandwidthProcess,
-  getTroubleshotingProcess,
-  getRelokasiAlatFinish,
-  getPenambahanBandwidthFinish,
-  getPenambahanAlatFinish,
-  getTroubleshotingFinish,
-  getHostingProcess,
-  getDomainProcess,
   getDomainFinish,
+  getDomainProcess,
   getHostingFinish,
+  getHostingProcess,
+  getPenambahanAlatFinish,
+  getPenambahanAlatProcess,
+  getPenambahanBandwidthFinish,
+  getPenambahanBandwidthProcess,
+  getRelokasiAlatFinish,
+  getRelokasiAlatProcess,
+  getTroubleshotingFinish,
+  getTroubleshotingProcess,
 } from "../data";
+import DynamicDetails from "../DynamicDetails";
 
 const ProcessStatus = ({
   submissionStatus,
   validationDataTechnique,
   processData,
   authProfile,
-  slug,
-  setisModalVerif,
   checkingFormData,
   detailData,
   loading,
@@ -52,39 +47,6 @@ const ProcessStatus = ({
   const TroubleshotingFinish = getTroubleshotingFinish(finishData);
   const DomainFinish = getDomainFinish(finishData);
   const HostingFinish = getHostingFinish(finishData);
-
-  const fetchSetProgress = async (api_key, token, status) => {
-    const params = new URLSearchParams();
-    params.append("id", slug);
-    params.append("status", status);
-
-    try {
-      const response = await apiClient({
-        baseurl: "infrastruktur/set_process",
-        method: "POST",
-        body: params,
-        apiKey: api_key,
-        token: token,
-      });
-      if (response?.statusCode === 200) {
-        setisModalVerif({
-          data: {
-            title: "Pembaharuan Infrastruktur Berhasil",
-            msg: "Selamat! Pengajuan Infrastruktur Anda Telah Berhasil Diperbarui.",
-            icon: PengajuanBerahasilIcon,
-            color: "#13C39C",
-          },
-          status: true,
-        });
-      } else {
-        toast.error(response.result.msg, {
-          position: toast.POSITION.TOP_RIGHT,
-        });
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
 
   const renderProcessInputs = (inputs) => {
     return inputs.map((inputProps, index) => (

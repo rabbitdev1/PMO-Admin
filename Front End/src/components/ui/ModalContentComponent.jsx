@@ -16,7 +16,7 @@ const ModalContentComponent = ({ isModalVerif, setisModalVerif, setisModalCreate
             )}
           </div>
           <div className="flex flex-col items-center justify-center ">
-            <span className="text-lg font-bold">
+            <span className="text-lg font-bold text-center">
               {isModalVerif.data?.title}
             </span>
             <span className="text-sm font-light text-center opacity-70">

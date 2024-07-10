@@ -1,4 +1,4 @@
-import { validateArray, validateFile, validateFullname, validateHTML, validateImage, validateIPAddress, validatePeriod1, validateRadioBottom, validateTelp, validateText, validateTextArea } from "../../utils/helpers/validateForm";
+import { validateArray, validateFile, validateFullname, validateHTML, validateTelp, validateText } from "../../utils/helpers/validateForm";
 
 export const isValidatorPenyusunaKebijakan = (obj) => {
   let isValid = true;

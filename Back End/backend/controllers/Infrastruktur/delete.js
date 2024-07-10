@@ -30,7 +30,7 @@ export const deleteDataInfrastruktur = async (req, res) => {
         const mergedDataProcess = {
             ...JSON.parse(infrastrukturItem.on_validation),
             ...JSON.parse(infrastrukturItem.on_process),
-            ...JSON.parse(aplikasiItem.on_validation_technique),
+            ...JSON.parse(infrastrukturItem.on_validation_technique),
             ...JSON.parse(infrastrukturItem.on_finish),
             ...JSON.parse(infrastrukturItem.fields),
         };
@@ -45,7 +45,6 @@ export const deleteDataInfrastruktur = async (req, res) => {
         const upload_foto_alat_sesudah_di_tambahkanValue = findValueByTitle(mergedDataProcess, 'upload_foto_alat_sesudah_di_tambahkan');
         const upload_foto_kegiatanValue = findValueByTitle(mergedDataProcess, 'upload_foto_kegiatan');
         const file_submissionValue = findValueByTitle(mergedDataProcess, 'file_submission');
-        const file_uploadValue = findValueByTitle(mergedDataProcess, 'file_upload');
 
         const foundValue = [
             image_screenshootValue,
@@ -55,7 +54,6 @@ export const deleteDataInfrastruktur = async (req, res) => {
             upload_foto_alat_sesudah_di_tambahkanValue,
             upload_foto_kegiatanValue,
             file_submissionValue,
-            file_uploadValue
         ].filter(Boolean);
 
         if (foundValue) {
