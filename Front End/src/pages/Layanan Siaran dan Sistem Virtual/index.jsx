@@ -19,10 +19,10 @@ import { apiClient } from "../../utils/api/apiClient";
 import { convertToNameValueObject } from "../../utils/helpers/convertToNameValueObject";
 
 import resetFormData from "../../components/common/ResetFormData";
+import ModalContentComponent from "../../components/ui/ModalContentComponent";
 import fetchUploadFiles from "../../utils/api/uploadFiles";
 import { formData as initialFormData } from "./data";
 import { isValidatorPermohonanLiputan, isValidatorPermohonanPodcast, isValidatorZoom } from "./validators";
-import ModalContentComponent from "../../components/ui/ModalContentComponent";
 
 function SistemVirtualPages() {
   const { isDarkMode } = useTheme();
@@ -65,10 +65,7 @@ function SistemVirtualPages() {
 
   const [listSistemVirtual, setListSistemVirtual] = useState([]);
   const [listSistemVirtualLoading, setListSistemVirtualLoading] = useState(true);
-
   const [formData, setFormData] = useState(initialFormData);
-
-  const [isModalType, setisModalType] = useState({ status: false, data: {} });
   const [isModalCreate, setisModalCreate] = useState({
     status: false,
     data: {},
@@ -89,7 +86,7 @@ function SistemVirtualPages() {
         JSON.parse(authProfile)?.role
       );
     }
-  }, [dataState, authToken]);
+  }, [dataState,authApiKey, authProfile,authToken]);
 
   const fetchDataSistemVirtual = async (api_key, token, role) => {
     setListSistemVirtualLoading(true);
@@ -117,7 +114,7 @@ function SistemVirtualPages() {
         }
 
         setStatusData([
-          { ...statusData[0], value: response?.result?.totalItems },
+          { ...statusData[0], value: response?.result?.totalItems ||0},
           {
             ...statusData[1],
             value: response?.result?.totalItemsByStatus?.diproses || 0,
@@ -156,7 +153,7 @@ function SistemVirtualPages() {
         setisModalVerif({
           data: {
             title: "Pengajuan Layanan Siaran dan Sistem Virtual Berhasil",
-            msg: "Selamat, Pengajuan anda sudah diterima",
+            msg: "Selamat! Pengajuan Layanan Siaran dan Sistem Virtual Anda telah berhasil diterima dan diproses.",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
           },

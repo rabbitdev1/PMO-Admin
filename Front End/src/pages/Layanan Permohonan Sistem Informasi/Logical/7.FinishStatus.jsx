@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import DynamicInput from "../../../components/common/DynamicInput";
 import DynamicShow from "../../../components/common/DynamicShow";
-import DynamicDetails from "../../../components/ui/DynamicDetails";
+import DynamicDetails from "../DynamicDetails";
 import { apiClient } from "../../../utils/api/apiClient";
 import DynamicDetailsPermohonanSI from "../DynamicDetailsPermohonanSI";
 
@@ -85,7 +85,7 @@ const FinishStatus = ({
                   <DynamicShow
                     key={key}
                     location={'permohonanSI'}
-                    label={key === "recommendation_letter_technical" ? "Surat Rekomendasi" :"kepala_dinas_note" ? "Catatan Kepala Dinas" : key}
+                    label={key === "recommendation_letter_technical" ? "Surat Rekomendasi" : "kepala_dinas_note" ? "Catatan Kepala Dinas" : key}
                     value={value}
                     type={key === "recommendation_letter_technical" ? 'pdf' : 'text'}
                   />

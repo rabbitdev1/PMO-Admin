@@ -16,13 +16,12 @@ import TableCostum from "../../components/data-display/TableCostum";
 import TitleHeader from "../../components/layout/TitleHeader";
 import { isPending } from "../../components/store/actions/todoActions";
 import ModalContent from "../../components/ui/Modal/ModalContent";
+import ModalContentComponent from "../../components/ui/ModalContentComponent";
 import { apiClient } from "../../utils/api/apiClient";
 import fetchUploadFiles from "../../utils/api/uploadFiles";
 import { convertToNameValueObject } from "../../utils/helpers/convertToNameValueObject";
 import { formData as initialFormData } from "./data";
 import { isValidatorPermohonanSI } from "./validators";
-import ModalContentComponent from "../../components/ui/ModalContentComponent";
-
 
 function PermohonanSIPages() {
   const { isDarkMode } = useTheme();
@@ -197,7 +196,6 @@ function PermohonanSIPages() {
     const fieldToUpdateIndex = currentSection.fields.findIndex(
       (field) => field.name === fieldName
     );
-    // Update the value of the field
     updatedFormData[sectionIndex].fields[fieldToUpdateIndex].value = value;
 
     setFormData(updatedFormData);

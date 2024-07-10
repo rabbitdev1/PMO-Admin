@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import DynamicButton from "../../../components/common/DynamicButton";
 import DynamicInput from "../../../components/common/DynamicInput";
 import DynamicShow from "../../../components/common/DynamicShow";
-import DynamicDetails from '../DynamicDetails';
+import DynamicDetails from "../DynamicDetails";
 
 const ValidationStatus = ({
   submissionStatus,

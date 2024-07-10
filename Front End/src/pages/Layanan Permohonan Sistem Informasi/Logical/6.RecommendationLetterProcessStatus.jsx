@@ -58,6 +58,7 @@ const RecommendationLetterProcessStatus = ({
         value={inputProps.value}
         type={inputProps.type}
         options={inputProps.options}
+        noted={inputProps.noted}
         onChange={(value) => {
           setInputLocal(prevState => ({
             ...prevState,

@@ -8,7 +8,6 @@ import { useLocation, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { ReactComponent as PengajuanBerahasilIcon } from "../../assets/icon/ic_pengajuan_berhasil.svg";
 import DynamicButton from "../../components/common/DynamicButton";
-import useTheme from "../../components/context/useTheme";
 import TitleHeader from "../../components/layout/TitleHeader";
 import { isPending } from "../../components/store/actions/todoActions";
 import ModalContent from "../../components/ui/Modal/ModalContent";
@@ -16,14 +15,13 @@ import SubmissionStatus from "../../components/ui/SubmissionStatus";
 import { apiClient } from "../../utils/api/apiClient";
 import fetchUploadFiles from "../../utils/api/uploadFiles";
 import fetchUploadImages from "../../utils/api/uploadImages";
-import DalamAntrianView from "./Logical/DalamAntrianView";
-import FinishStatus from "./Logical/FinishStatus";
-import ProcessStatus from "./Logical/ProcessStatus";
-import ValidationStatus from "./Logical/ValidationStatus";
-import ValidationStatusTechnique from "./Logical/ValidationStatusTechnique";
+import DalamAntrianView from "./Logical/1.DalamAntrianView";
+import ValidationStatus from "./Logical/2.ValidationStatus";
+import ValidationStatusTechnique from "./Logical/3.ValidationStatusTechnique";
+import ProcessStatus from "./Logical/4.ProcessStatus";
+import FinishStatus from "./Logical/5.FinishStatus";
 
 function DetailPerencanaanTIKPages() {
-  const { isDarkMode } = useTheme();
   const navigate = useNavigate();
   const authApiKey = Cookies.get("authApiKey");
   const authToken = Cookies.get("authToken");
@@ -55,7 +53,7 @@ function DetailPerencanaanTIKPages() {
         JSON.parse(authProfile)?.role
       );
     }
-  }, [dispatch]);
+  }, [authToken,authApiKey,authProfile]);
 
   const fetchPerencanaanTIK = async (api_key, token, role) => {
     setPerencanaaTIKLoading(true);
@@ -82,7 +80,7 @@ function DetailPerencanaanTIKPages() {
         setfinishData(JSON.parse(response.result.data?.on_finish));
       } else {
         setDetailData([]);
-        navigate("/");
+        navigate("/dashboard");
         toast.error(response.result.msg, {
           position: toast.POSITION.TOP_RIGHT,
         });
@@ -329,7 +327,7 @@ function DetailPerencanaanTIKPages() {
         );
         if (result !== null) {
           let combineData = {};
-          combineData = { ...data, file_upload: result };
+          combineData = { ...data, file_submission: result };
           fetchEditperencanaantik(
             authApiKey,
             authToken,
@@ -353,56 +351,57 @@ function DetailPerencanaanTIKPages() {
         link2={"Bidang Manajemen Infrastruktur Teknologi Informasi dan Komunikasi"}
       />
       <section className="flex flex-col gap-3">
-        <SubmissionStatus status={submissionStatus} />
+      <SubmissionStatus status={submissionStatus} data={null} />
         <div className={`flex  flex-col gap-3`}>
-          <DalamAntrianView
-            submissionStatus={submissionStatus}
-            detailData={detailData}
-            loading={perencanaantikLoading}
-          />
-          <ValidationStatus
-            submissionStatus={submissionStatus}
-            validationData={validationData}
-            authProfile={authProfile}
-            detailData={detailData}
-            loading={perencanaantikLoading}
-            setValidationData={setValidationData}
-            checkingFormData={checkingFormData}
-          />
-          <ValidationStatusTechnique
-            slug={slug}
-            submissionStatus={submissionStatus}
-            validationData={validationDataTechnique}
-            setValidationData={setValidationDataTechnique}
-            authProfile={authProfile}
-            detailData={detailData}
-            loading={perencanaantikLoading}
-            checkingFormData={checkingFormData}
-            setisModalVerif={setisModalVerif}
-          />
-          <ProcessStatus
-            slug={slug}
-            validationData={validationDataTechnique}
-            submissionStatus={submissionStatus}
-            processData={processData}
-            authProfile={authProfile}
-            detailData={detailData}
-            loading={perencanaantikLoading}
-            checkingFormData={checkingFormData}
-            setisModalVerif={setisModalVerif}
-            finishData={finishData}
-            setfinishData={setfinishData}
-          />
-
-          <FinishStatus
-            detailData={detailData}
-            loading={perencanaantikLoading}
-            validationData={validationDataTechnique}
-            processData={processData}
-            submissionStatus={submissionStatus}
-            finishData={finishData}
-          />
-        </div>
+            <DalamAntrianView
+              submissionStatus={submissionStatus}
+              detailData={detailData}
+              loading={perencanaantikLoading}
+            />
+            <ValidationStatus
+              submissionStatus={submissionStatus}
+              validationData={validationData}
+              authProfile={authProfile}
+              detailData={detailData}
+              loading={perencanaantikLoading}
+              setValidationData={setValidationData}
+              checkingFormData={checkingFormData}
+            />
+            <ValidationStatusTechnique
+              slug={slug}
+              submissionStatus={submissionStatus}
+              validationData={validationData}
+              validationDataTechnique={validationDataTechnique}
+              setvalidationDataTechnique={setValidationDataTechnique}
+              authProfile={authProfile}
+              detailData={detailData}
+              loading={perencanaantikLoading}
+              checkingFormData={checkingFormData}
+              setisModalVerif={setisModalVerif}
+            />
+            <ProcessStatus
+              slug={slug}
+              validationDataTechnique={validationDataTechnique}
+              processData={processData}
+              submissionStatus={submissionStatus}
+              authProfile={authProfile}
+              detailData={detailData}
+              loading={perencanaantikLoading}
+              checkingFormData={checkingFormData}
+              setisModalVerif={setisModalVerif}
+              finishData={finishData}
+              setfinishData={setfinishData}
+            />
+            <FinishStatus
+              detailData={detailData}
+              loading={perencanaantikLoading}
+              validationData={validationData}
+              validationDataTechnique={validationDataTechnique}
+              processData={processData}
+              submissionStatus={submissionStatus}
+              finishData={finishData}
+            />
+          </div>
       </section>
 
       <ModalContent

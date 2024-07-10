@@ -1,4 +1,4 @@
-import { validateArray, validateFullname, validateHTML, validateImage, validateIPAddress, validatePeriod1, validateRadioBottom, validateTelp, validateText, validateTextArea } from "../../utils/helpers/validateForm";
+import { validateArray, validateFullname, validateHTML, validateImage, validateIPAddress, validateRadioBottom, validateTelp, validateText, validateTextArea } from "../../utils/helpers/validateForm";
 
 export const isValidatorRelokasiAlat = (obj) => {
   let isValid = true;
@@ -29,11 +29,6 @@ export const isValidatorPenambahanBandwith = (obj) => {
   isValid = isValid && validateArray(obj.initial_bandwith, "Bandtwith Awal");
   isValid = isValid && validateArray(obj.proposed_bandwidth, "Bandtwith Usulan");
   isValid = isValid && validateHTML(obj.reason, "Alasan Pengajuan");
-
-  // if (obj.status_BDO === 'temporary') {
-  //   isValid = isValid && validateDate(obj.period, "Periode Jangka Waktu");
-  // }
-
   return isValid;
 };
 
@@ -43,7 +38,7 @@ export const isValidatorTroubleShooting = (obj) => {
   isValid = isValid && validateTelp(obj.telp_pic, "Nomor PIC");
   isValid = isValid && validateText(obj.incident, "Waktu Kejadian");
   isValid = isValid && validateHTML(obj.reason, "Alasan Pengajuan");
-  isValid = isValid && validateImage(obj.image_screenshoot, "Screenshot");
+  isValid = isValid && validateImage(obj.image_screenshoot, "Tangkapan Layar");
 
   return isValid;
 };

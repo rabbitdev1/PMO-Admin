@@ -17,7 +17,7 @@ export const formData = [
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
       { name: "title_kak", label: "Judul KAK", value: "", type: "text" },
       { name: "name_PPK", label: "Nama PPK", value: "", type: "text" },
-      { name: "besaran_anggaran", label: "Besaran Anggaran", value: "", type: "currency" },
+      { name: "besaran_anggaran", label: "Besaran Anggaran", value: "", type: "currency", noted: "Minimal 10 Ribu dan Maksimal 10 Triliun"},
       {
         name: "anggaran_attachment", label: "Sumber Anggaran", type: 'selection',
         options: [
@@ -28,8 +28,8 @@ export const formData = [
       },
       { name: "lingkup_job", label: "Lingkup Pekerjaan", value: "", type: "text" },
       { name: "number_of_people_required", label: "Jumlah Tenaga yang di butuhkan", value: "", type: "select_number" },
-      { name: "skpdRequestLetter", label: "Surat Permohonan SKPD", value: "", type: "file_upload" },
-      { name: "kakAttachment", label: "File KAK", value: "", type: "file_upload" },
+      { name: "skpdRequestLetter", label: "Surat Permohonan SKPD", value: "", type: "file_upload", noted: "File berekstensi: pdf, xlsx, docs" },
+      { name: "kakAttachment", label: "File KAK", value: "", type: "file_upload", noted: "File berekstensi: pdf, xlsx, docs" },
     ],
   },
 ]
@@ -73,7 +73,8 @@ const getRecommendationLetterProcess = (inputLocal) => [
     label: "Surat Rekomendasi Teknis",
     value: inputLocal.recommendation_letter_technical,
     type: "file_upload",
-    name: 'recommendation_letter_technical'
+    name: 'recommendation_letter_technical',
+    noted: "File berekstensi: pdf, xlsx, docs"
   },
   {
     label: "Catatan Kepala Dinas",

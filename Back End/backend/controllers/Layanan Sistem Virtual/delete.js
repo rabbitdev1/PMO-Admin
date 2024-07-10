@@ -30,7 +30,7 @@ export const deleteDataSistemVirtual = async (req, res) => {
         const mergedDataProcess = {
             ...JSON.parse(SistemVirtualItem.on_validation),
             ...JSON.parse(SistemVirtualItem.on_process),
-            ...JSON.parse(aplikasiItem.on_validation_technique),
+            ...JSON.parse(SistemVirtualItem.on_validation_technique),
             ...JSON.parse(SistemVirtualItem.on_finish),
             ...JSON.parse(SistemVirtualItem.fields),
         };

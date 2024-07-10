@@ -8,7 +8,7 @@ import DynamicShow from "../../../components/common/DynamicShow";
 import { apiClient } from "../../../utils/api/apiClient";
 import { validateDate, validateFile, validateText } from "../../../utils/helpers/validateForm";
 import DynamicDetails from '../DynamicDetails';
-import { getPermohonanLiputanValidateTechnique, getPodcastValidateTechnique, getZoomValidateTechnique } from "../data";
+import { getPendampinganPengolahanAnalisisDataValidateTechnique, getProduksiDataSitusWebValidateTechnique } from "../data";
 
 const ValidationStatusTechnique = ({
   submissionStatus,
@@ -26,9 +26,8 @@ const ValidationStatusTechnique = ({
   const authToken = Cookies.get('authToken');
 
   const [inputLocal, setInputLocal] = useState({});
-  const ZoomValidateTechnique = getZoomValidateTechnique(inputLocal);
-  const PermohonanLiputanValidateTechnique = getPermohonanLiputanValidateTechnique(inputLocal);
-  const PodcastValidateTechnique = getPodcastValidateTechnique(inputLocal); 
+  const PendampinganPengolahanAnalisisDataValidateTechnique = getPendampinganPengolahanAnalisisDataValidateTechnique(inputLocal);
+  const ProduksiDataSitusWebValidateTechnique = getProduksiDataSitusWebValidateTechnique(inputLocal);
 
   const fetchSetProgress = async (api_key, token, status) => {
     const params = new URLSearchParams();
@@ -37,7 +36,7 @@ const ValidationStatusTechnique = ({
 
     try {
       const response = await apiClient({
-        baseurl: "sistem-virtual/set_process",
+        baseurl: "layanan-data/set_process",
         method: "POST",
         body: params,
         apiKey: api_key,
@@ -46,8 +45,8 @@ const ValidationStatusTechnique = ({
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Pembaharuan Layanan Siaran dan Virtual Berhasil",
-            msg: "Selamat! Pengajuan Layanan Siaran dan Virtual Anda Telah Berhasil Diperbarui.",
+            title: 'layanan-data Berhasil Diupdate',
+            msg: 'Selamat, Pengajuan layanan-data sudah diupdate',
             icon: PengajuanBerahasilIcon,
             color: '#13C39C'
           },
@@ -98,7 +97,7 @@ const ValidationStatusTechnique = ({
             {validationData?.response &&
               <DynamicShow
                 label={"Tanggapan"}
-                location={'sistem-virtual'}
+                location={'layanan-data'}
                 value={validationData?.response}
                 type={"html"}
               />
@@ -119,7 +118,7 @@ const ValidationStatusTechnique = ({
                             key === "response_katim" ? "Tanggapan dari Kepala Tim" :
                               key}
                         value={value}
-                        location={'sistem-virtual'}
+                        location={'layanan-data'}
                         type={
                           key === "file_scema_integration" ? 'pdf' :
                             key === "working_schedule" ? "multi_date" : 'text'}
@@ -133,7 +132,7 @@ const ValidationStatusTechnique = ({
                   </div>
                 </div>
               )}
-              {( JSON.parse(authProfile)?.role === "katim_desiminasi") && (
+              {(JSON.parse(authProfile)?.role === "katim_desiminasi") && (
                 Object.entries(validationDataTechnique).length === 0 &&
                 <div className="flex flex-col bg-[#0185FF]/10 border-1 border-[#0185FF] text-[#0185FF] p-3 gap-3 items-center rounded-lg">
                   <span className="text-base font-semibold text-center">
@@ -142,22 +141,18 @@ const ValidationStatusTechnique = ({
                 </div>
               )}
               <DynamicDetails
-                location={'sistem-virtual'}
+                location={'layanan-data'}
                 detailData={detailData}
                 loading={loading}
               />
-              {( JSON.parse(authProfile)?.role === "teknis_desiminasi") && (
+              {(JSON.parse(authProfile)?.role === "teknis_desiminasi") && (
                 Object.entries(validationDataTechnique).length === 0 &&
                 <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                   <span className='text-lg font-bold'>Tahapan Validasi</span>
-                  {renderProcessInputs(
-                    detailData.submission_title === "Layanan ZOOM"
-                      ? ZoomValidateTechnique
-                      : detailData.submission_title === "Permohonan Liputan"
-                        ? PermohonanLiputanValidateTechnique
-                          : detailData.submission_title === "Permohonan Podcast"
-                            ? PodcastValidateTechnique
-                            : []
+                  {renderProcessInputs(detailData.submission_title === "Layanan Pendampingan Pengolahan dan Analisis Data" ?
+                    PendampinganPengolahanAnalisisDataValidateTechnique :
+                    detailData.submission_title === "Layanan Produksi Data dari Situs Web" ? ProduksiDataSitusWebValidateTechnique :
+                      []
                   )}
                   <div className='flex sm:flex-row flex-col gap-2'>
                     <DynamicButton
@@ -203,7 +198,7 @@ const ValidationStatusTechnique = ({
                   </div>
                 </div>
               )}
-              {( JSON.parse(authProfile)?.role === "katim_desiminasi") && (
+              {(JSON.parse(authProfile)?.role === "katim_desiminasi") && (
                 Object.entries(validationDataTechnique).length !== 0 &&
                 <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                   <span className='text-lg font-bold'>Tahapan Validasi</span>
@@ -217,7 +212,7 @@ const ValidationStatusTechnique = ({
 
                               key}
                         value={value}
-                        location={'sistem-virtual'}
+                        location={'layanan-data'}
                         type={
                           key === "file_scema_integration" ? 'pdf' :
                             key === "working_schedule" ? "multi_date" : 'text'}
@@ -296,7 +291,7 @@ const ValidationStatusTechnique = ({
                   </span>
                 </div>
               </div>
-              <DynamicDetails location={"sistem-virtual"} detailData={detailData} loading={loading} />
+              <DynamicDetails location={"layanan-data"} detailData={detailData} loading={loading} />
             </div>
           )}
         </div>
@@ -331,7 +326,7 @@ const ValidationStatusTechnique = ({
 
                           key}
                     value={value}
-                    location={'sistem-virtual'}
+                    location={'layanan-data'}
                     type={
                       key === "file_scema_integration" ? 'pdf' :
                         key === "working_schedule" ? "multi_date" : 'text'}
@@ -339,7 +334,7 @@ const ValidationStatusTechnique = ({
                 ))}
               </div>
             </div>
-            <DynamicDetails location={"sistem-virtual"} detailData={detailData} loading={loading} />
+            <DynamicDetails location={"layanan-data"} detailData={detailData} loading={loading} />
 
           </div>
         </div>

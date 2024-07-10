@@ -23,7 +23,6 @@ const DynamicDetails = ({ detailData, loading, location }) => {
                     ? "sm:col-span-2 col-span-4"
                     : "col-span-4"
                     }`}
-                    
                 >
                   {key === "device_specifications" ?
                     <div className="flex flex-col gap-3">
@@ -63,12 +62,15 @@ const getKeyLabel = (key) => {
     submission_title: "Nama Pengajuan",
     name_pic: "Nama PIC",
     telp_pic: "Nomor PIC",
-    type_tools: "Jenis Alat",
-    distance_estimation: "Estimasi Jarak",
-    reason: "Alasan Pengajuan",
-    status: "Status Pengajuan",
-    image_screenshoot: "Tangkapan Layar",
-    device_specifications: "Spesifikasi Perangkat",
+    bidang: "Bidang",
+    jenis_kebijakan: 'Jenis Kebijakan',
+    ruang_lingkup: 'Ruang Lingkup',
+    draft_perwal: 'Draf Perwal',
+    reason: 'Alasan Pengajuan',
+    app_name: "Nama Aplikasi",
+    app_desc: 'Deskripsi Aplikasi',
+    needed_data: 'Data yang dibutuhkan',
+    integration: "Tujuan Integrasi"
   };
 
   return labels[key] || key;
@@ -78,12 +80,14 @@ const getFieldType = (key) => {
   switch (key) {
     case "createdAt":
       return "single_date";
-    case "type_tools":
-      return "array";
     case "reason":
+    case "needed_data":
+    case "app_desc":
+    case "ruang_lingkup":
+    case "integration":
       return "html";
-    case "image_screenshoot":
-      return "images";
+    case "draft_perwal":
+      return "pdf";
     default:
       return "text";
   }

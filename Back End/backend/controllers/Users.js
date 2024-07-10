@@ -333,11 +333,6 @@ export const checkRoleUser = async(req, res) => {
                 isDisabled: false,
             },
             {
-                value: "kabid_upt_radio",
-                label: "Kepala Bidang UPT RADIO SONATA",
-                isDisabled: false,
-            },
-            {
                 value: "kabid_aplikasi",
                 label: "Kepala Bidang Aplikasi Informatika,Persandian dan Keamanan Informasi",
                 isDisabled: false,
@@ -360,11 +355,6 @@ export const checkRoleUser = async(req, res) => {
             {
                 value: "katim_perencanaan",
                 label: "Ketua TIm Pokja Perencanaan teknologi,Informasi dan Komunikasi",
-                isDisabled: false,
-            },
-            {
-                value: "katim_upt_radio",
-                label: "Ketua Tim Pokja UPD RADIO SONATA",
                 isDisabled: false,
             },
             {
@@ -393,11 +383,6 @@ export const checkRoleUser = async(req, res) => {
                 isDisabled: false,
             },
             {
-                value: "teknis_upt_radio",
-                label: "Anggota Tim Pokja UPD RADIO SONATA",
-                isDisabled: false,
-            },
-            {
                 value: "teknis_aplikasi",
                 label: "Anggota Tim Pokja Aplikasi Informatika,Persandian an Keamanan Informasi",
                 isDisabled: false,
@@ -406,7 +391,7 @@ export const checkRoleUser = async(req, res) => {
 
         const updatedRolesList = rolesList.map((role) => {
             if (existingRoles.includes(role.value)) {
-                if (role.value === "perangkat_daerah" || role.value === "teknis_infra" || role.value === "teknis_aplikasi") {
+                if (role.value === "perangkat_daerah" || role.value === "teknis_infra" || role.value === "teknis_aplikasi"|| role.value === "teknis_perencanaan"|| role.value === "teknis_desiminasi"|| role.value ==="teknis_sekre") {
                     return {...role, isDisabled: false };
                 } else {
                     return {...role, isDisabled: true };

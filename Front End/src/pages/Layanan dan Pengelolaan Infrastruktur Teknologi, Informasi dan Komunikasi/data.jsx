@@ -450,6 +450,7 @@ const getRelokasiAlatFinish = (finishData) => [
     value: finishData.file_submission,
     name: "file_submission",
     type: "file_upload",
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
   {
     label: "Tanggapan",
@@ -474,6 +475,7 @@ const getPenambahanBandwidthFinish = (finishData) => [
     value: finishData.file_submission,
     name: "file_submission",
     type: "file_upload",
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
   {
     label: "Tanggapan",
@@ -498,6 +500,7 @@ const getPenambahanAlatFinish = (finishData) => [
     value: finishData.file_submission,
     name: "file_submission",
     type: "file_upload",
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
   {
     label: "Tanggapan",
@@ -522,6 +525,7 @@ const getTroubleshotingFinish = (finishData) => [
     value: finishData.file_submission,
     name: "file_submission",
     type: "file_upload",
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
   {
     label: "Tanggapan",
@@ -546,6 +550,7 @@ const getDomainFinish = (finishData) => [
     value: finishData.file_submission,
     name: "file_submission",
     type: "file_upload",
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
   {
     label: "Tanggapan",
@@ -570,6 +575,7 @@ const getHostingFinish = (finishData) => [
     value: finishData.file_submission,
     name: "file_submission",
     type: "file_upload",
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
   {
     label: "Tanggapan",
