@@ -22,6 +22,7 @@ import fetchUploadFiles from "../../utils/api/uploadFiles";
 import { convertToNameValueObject } from "../../utils/helpers/convertToNameValueObject";
 import { formData as initialFormData } from "./data";
 import { isValidatorPermohonanSI } from "./validators";
+import PanduanPengajuanModal from "../../components/ui/PanduanPengajuanModal";
 
 function PermohonanSIPages() {
   const { isDarkMode } = useTheme();
@@ -63,8 +64,9 @@ function PermohonanSIPages() {
   ]);
 
   const [listPermohonanSI, setListPermohonanSI] = useState([]);
-  const [listPermohonanSILoading, setListPermohonanSILoading] =
-    useState(true);
+  const [listPermohonanSILoading, setListPermohonanSILoading] = useState(true);
+
+  const [isModalPanduan, setisModalPanduan] = useState(false);
 
   const [isModalCreate, setisModalCreate] = useState({
     status: false,
@@ -88,7 +90,6 @@ function PermohonanSIPages() {
       );
     }
   }, [dataState, authToken]);
-
 
   const fetchDataPermohonanSI = async (api_key, token, role) => {
     setListPermohonanSILoading(true);
@@ -183,7 +184,9 @@ function PermohonanSIPages() {
         token: token,
       });
       if (response?.statusCode === 200) {
-        navigate("/detail-permohonan-sistem-informasi", { state: { slug: data.id } });
+        navigate("/detail-permohonan-sistem-informasi", {
+          state: { slug: data.id },
+        });
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -203,7 +206,8 @@ function PermohonanSIPages() {
   const checkingFormData = async () => {
     const foundObject = formData.find((obj) => obj.name === isModalCreate.data);
     if (foundObject) {
-      const { result: nameValueObject, newObject: newObjectFromConversion } = convertToNameValueObject(foundObject);
+      const { result: nameValueObject, newObject: newObjectFromConversion } =
+        convertToNameValueObject(foundObject);
       const nameValueObject2 = {
         submission_type: "Layanan Permohonan Sistem Informasi",
         role: foundObject.role,
@@ -254,7 +258,6 @@ function PermohonanSIPages() {
 
     fetchDataCreate(authApiKey, authToken, fixObject);
   };
-
 
   const updatePic = (name, number) => {
     const updatedData = formData.map((form) => {
@@ -311,7 +314,11 @@ function PermohonanSIPages() {
   return (
     <div className="flex flex-col gap-3 flex-1 p-4">
       <TitleHeader
-        title={JSON.parse(authProfile)?.role === "perangkat_daerah" ? "Layanan Pengajuan " + dataState : "Layanan Permohonan Sistem Informasi"}
+        title={
+          JSON.parse(authProfile)?.role === "perangkat_daerah"
+            ? "Layanan Pengajuan " + dataState
+            : "Layanan Permohonan Sistem Informasi"
+        }
         link1={"dashboard"}
         link2={"Layanan Permohonan Sistem Informasi"}
       />
@@ -330,7 +337,7 @@ function PermohonanSIPages() {
                     type="transparent"
                     className="bg-[#ffffff] text-[#0185FF] px-3"
                     onClick={() => {
-                      // setisModalType({ data: 'Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan', status: true });
+                      setisModalPanduan(true);
                     }}
                   />
                 </div>
@@ -373,14 +380,16 @@ function PermohonanSIPages() {
                     type="transparent"
                     className="bg-[#0185FF] text-darkColor px-3"
                     onClick={() => {
-                      if (dataState === 'Rekomendasi Sistem Informasi') {
+                      if (dataState === "Rekomendasi Sistem Informasi") {
                         setisModalCreate({ data: dataState, status: true });
                         updatePic(
                           JSON.parse(authProfile).fullname,
                           JSON.parse(authProfile).telp
                         );
                       } else {
-                        navigate("/permohonan-sistem-informasi", { state: dataState });
+                        navigate("/permohonan-sistem-informasi", {
+                          state: dataState,
+                        });
                       }
                     }}
                   />
@@ -410,7 +419,9 @@ function PermohonanSIPages() {
                   if (JSON.parse(authProfile)?.role === "op_pmo") {
                     fetchSetProgress(authApiKey, authToken, data);
                   } else {
-                    navigate("/detail-permohonan-sistem-informasi", { state: { slug: data.id } });
+                    navigate("/detail-permohonan-sistem-informasi", {
+                      state: { slug: data.id },
+                    });
                   }
                 }}
                 onClickRemove={(data) => {
@@ -428,9 +439,7 @@ function PermohonanSIPages() {
                         position: toast.POSITION.TOP_RIGHT,
                       }
                     );
-                  } else if (
-                    data.submission_status === 12
-                  ) {
+                  } else if (data.submission_status === 12) {
                     toast.error(
                       "Pengajuan yang sudah selesai, tidak bisa di hapus",
                       {
@@ -460,7 +469,6 @@ function PermohonanSIPages() {
         </div>
       </section>
 
-
       <ModalContent
         className={"sm:max-w-5xl "}
         children={
@@ -476,39 +484,37 @@ function PermohonanSIPages() {
                 className="inline-flex p-2"
                 onClick={() => {
                   setisModalCreate({ data: {}, status: false });
-                  resetFormData("Rekomendasi Sistem Informasi", formData, setFormData);
+                  resetFormData(
+                    "Rekomendasi Sistem Informasi",
+                    formData,
+                    setFormData
+                  );
                 }}
               />
             </div>
             <div className="flex flex-col overflow-hidden rounded-b-md gap-3">
-              {formData.map(
-                (section, sectionIndex) =>
-                  <div key={sectionIndex} className="flex flex-col gap-3">
-                    {section.fields.map((item, index) => (
-                      <div key={index} className="flex flex-col gap-2">
-                        {item.visible !== false && (
-                          <DynamicInput
-                            name={item.name}
-                            label={item.label}
-                            noted={item.noted}
-                            value={item.value}
-                            options={item.options}
-                            onChange={(value) =>
-                              handleInputChange(
-                                item.name,
-                                value,
-                                sectionIndex
-                              )
-                            }
-                            type={item.type}
-                            placeholder={"Masukan " + item.label}
-                          />
-                        )}
-                      </div>
-                    ))}
-                  </div>
-              )
-              }
+              {formData.map((section, sectionIndex) => (
+                <div key={sectionIndex} className="flex flex-col gap-3">
+                  {section.fields.map((item, index) => (
+                    <div key={index} className="flex flex-col gap-2">
+                      {item.visible !== false && (
+                        <DynamicInput
+                          name={item.name}
+                          label={item.label}
+                          noted={item.noted}
+                          value={item.value}
+                          options={item.options}
+                          onChange={(value) =>
+                            handleInputChange(item.name, value, sectionIndex)
+                          }
+                          type={item.type}
+                          placeholder={"Masukan " + item.label}
+                        />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ))}
             </div>
 
             <div className="flex flex-row gap-2 justify-end">
@@ -519,7 +525,11 @@ function PermohonanSIPages() {
                 className="inline-flex bg-cardLight dark:bg-cardDark text-cardDark dark:text-cardLight"
                 onClick={() => {
                   setisModalCreate({ data: {}, status: false });
-                  resetFormData("Rekomendasi Sistem Informasi", formData, setFormData);
+                  resetFormData(
+                    "Rekomendasi Sistem Informasi",
+                    formData,
+                    setFormData
+                  );
                 }}
               />
               <DynamicButton
@@ -535,6 +545,37 @@ function PermohonanSIPages() {
           </div>
         }
         active={isModalCreate.status}
+      />
+
+      <PanduanPengajuanModal
+        isModalPanduan={isModalPanduan}
+        setisModalPanduan={setisModalPanduan}
+        isDarkMode={isDarkMode}
+        children={
+          <div className="flex flex-col overflow-hidden rounded-b-md">
+            <p>
+              1. Klik layanan yang akan diajukan pada Side Bar Menu atau Menu
+              Bar Samping.
+            </p>
+            <img src={require('../../assets/image/image_not_found.jpg')} alt="notfouund" className="w-40 aspect-[2/1] object-cover mb-2"/>
+            <p>
+              2. Lalu muncul submenu atau menu sekunder klik Rekomendasi Sistem Informasi
+            </p>
+            <p>3. Klik tombol ajukan permohonan.</p>
+            <p>
+              4. Lalu akan muncul formulir yang harus diisi oleh Operator
+              Perangkat Daerah (Nama PIC dan Nomor PIC akan terisi otomatis).
+            </p>
+            <p>
+              5. Jika ada formulir yang mengharuskan input file mohon inputkan file yang berekstensi
+              pdf, xlsx dan docs.
+            </p>
+            <p>
+              6. Jika dirasa sudah cukup maka klik tombol Ajukan Permohonan.
+            </p>
+            <p className="font-bold">Dengan catatan semua formulir harus terisi!</p>
+          </div>
+        }
       />
       <ModalContentComponent
         isModalVerif={isModalVerif}

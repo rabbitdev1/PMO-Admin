@@ -23,8 +23,9 @@ import { convertToNameValueObject } from "../../utils/helpers/convertToNameValue
 import { formData as initialFormData } from "./data";
 import {
   isValidatorPenyusunaKebijakan,
-  isValidatorPerwalKepwal
+  isValidatorPerwalKepwal,
 } from "./validators";
+import PanduanPengajuanModal from "../../components/ui/PanduanPengajuanModal";
 
 function LayananPenyusunanPerencanaanTIKPages() {
   const { isDarkMode } = useTheme();
@@ -70,6 +71,8 @@ function LayananPenyusunanPerencanaanTIKPages() {
     useState(true);
 
   const [formData, setFormData] = useState(initialFormData);
+
+  const [isModalPanduan, setisModalPanduan] = useState(false);
 
   const [isModalType, setisModalType] = useState({ status: false, data: {} });
   const [isModalCreate, setisModalCreate] = useState({
@@ -264,7 +267,8 @@ function LayananPenyusunanPerencanaanTIKPages() {
       const { result: nameValueObject, newObject: newObjectFromConversion } =
         convertToNameValueObject(foundObject);
       const nameValueObject2 = {
-        submission_type: "Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi",
+        submission_type:
+          "Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi",
         role: foundObject.role,
         submission_title: isModalCreate.data.replace("Pengajuan ", ""),
       };
@@ -285,7 +289,9 @@ function LayananPenyusunanPerencanaanTIKPages() {
           return false;
         }
       }
-      if (combinedObject?.submission_title === "Permohonan Perwal dan Kepwal TIK") {
+      if (
+        combinedObject?.submission_title === "Permohonan Perwal dan Kepwal TIK"
+      ) {
         if (isValidatorPerwalKepwal(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
         } else {
@@ -357,7 +363,6 @@ function LayananPenyusunanPerencanaanTIKPages() {
     setFormData(updatedData);
   };
 
-
   return (
     <div className="flex flex-col gap-3 flex-1 p-4">
       <TitleHeader
@@ -388,6 +393,7 @@ function LayananPenyusunanPerencanaanTIKPages() {
                     className="bg-[#ffffff] text-[#0185FF] px-3"
                     onClick={() => {
                       // setisModalType({ data: 'Pengajuan Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi', status: true });
+                      setisModalPanduan(true);
                     }}
                   />
                 </div>
@@ -450,7 +456,14 @@ function LayananPenyusunanPerencanaanTIKPages() {
                   { name: "Aksi", field: "action" },
                 ]}
                 loading={listPerencanaanTIKLoading}
-                showAction={{ read: true, remove: JSON.parse(authProfile)?.role === "perangkat_daerah" ? true : false, edit: true }}
+                showAction={{
+                  read: true,
+                  remove:
+                    JSON.parse(authProfile)?.role === "perangkat_daerah"
+                      ? true
+                      : false,
+                  edit: true,
+                }}
                 onClickShow={(data) => {
                   if (JSON.parse(authProfile)?.role === "op_pmo") {
                     fetchSetProgress(authApiKey, authToken, data.id);
@@ -531,6 +544,39 @@ function LayananPenyusunanPerencanaanTIKPages() {
         active={isModalType.status}
         onClose={() => setisModalType({ data: {}, status: false })}
       />
+
+      <PanduanPengajuanModal
+        isModalPanduan={isModalPanduan}
+        setisModalPanduan={setisModalPanduan}
+        isDarkMode={isDarkMode}
+        children={
+          <div className="flex flex-col overflow-hidden rounded-b-md">
+            <p>
+              1. Klik layanan yang akan diajukan pada Side Bar Menu atau Menu
+              Bar Samping.
+            </p>
+            <p>
+              2. Lalu muncul submenu atau menu sekunder klik salah satu layanan.
+            </p>
+            <p>3. Klik tombol ajukan permohonan.</p>
+            <p>
+              4. Lalu akan muncul formulir yang harus diisi oleh Operator
+              Perangkat Daerah (Nama PIC dan Nomor PIC akan terisi otomatis).
+            </p>
+            <p>
+              5. Jika ada formulir yang mengharuskan input file mohon inputkan file yang berekstensi
+              pdf, xlsx dan docs.
+            </p>
+            <p>
+              6. Jika dirasa sudah cukup maka klik tombol Ajukan Permohonan.
+            </p>
+            <p className="font-bold">
+              Dengan catatan semua formulir harus terisi!
+            </p>
+          </div>
+        }
+      />
+
       <ModalContent
         className={"sm:max-w-5xl "}
         children={
@@ -612,7 +658,7 @@ function LayananPenyusunanPerencanaanTIKPages() {
                             item?.field?.map(
                               (itemField, indexField) =>
                                 item?.value?.value ===
-                                itemField.type_select && (
+                                  itemField.type_select && (
                                   <DynamicInput
                                     key={indexField}
                                     name={itemField.name}
