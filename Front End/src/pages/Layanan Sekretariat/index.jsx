@@ -22,7 +22,10 @@ import resetFormData from "../../components/common/ResetFormData";
 import ModalContentComponent from "../../components/ui/ModalContentComponent";
 import fetchUploadFiles from "../../utils/api/uploadFiles";
 import { formData as initialFormData } from "./data";
-import { isValidatorPendaftaranMagang, isValidatorPendataanAhli } from "./validators";
+import {
+  isValidatorPendaftaranMagang,
+  isValidatorPendataanAhli,
+} from "./validators";
 import PanduanPengajuanModal from "../../components/ui/PanduanPengajuanModal";
 
 function SekretariatPages() {
@@ -68,7 +71,6 @@ function SekretariatPages() {
   const [listSekretariatLoading, setListSekretariatLoading] = useState(true);
 
   const [isModalPanduan, setisModalPanduan] = useState(false);
-  
 
   const [formData, setFormData] = useState(initialFormData);
   const [isModalCreate, setisModalCreate] = useState({
@@ -239,16 +241,20 @@ function SekretariatPages() {
   const checkingFormData = async () => {
     const foundObject = formData.find((obj) => obj.name === isModalCreate.data);
     if (foundObject) {
-      const { result: nameValueObject, newObject: newObjectFromConversion } = convertToNameValueObject(foundObject);
+      const { result: nameValueObject, newObject: newObjectFromConversion } =
+        convertToNameValueObject(foundObject);
       const nameValueObject2 = {
         submission_type: "Layanan Sekretariat",
         role: foundObject.role,
-        submission_title: isModalCreate.data.replace('Pengajuan ', '')
+        submission_title: isModalCreate.data.replace("Pengajuan ", ""),
       };
       const combinedObject = {
         ...nameValueObject,
         ...nameValueObject2,
-        ...newObjectFromConversion.reduce((acc, cur) => ({ ...acc, [cur.name]: cur.value }), {})
+        ...newObjectFromConversion.reduce(
+          (acc, cur) => ({ ...acc, [cur.name]: cur.value }),
+          {}
+        ),
       };
       console.log(JSON.stringify(combinedObject));
 
@@ -258,7 +264,9 @@ function SekretariatPages() {
         } else {
           return false;
         }
-      } else if (combinedObject?.submission_title === "Layanan Pendataan Tenaga Ahli") {
+      } else if (
+        combinedObject?.submission_title === "Layanan Pendataan Tenaga Ahli"
+      ) {
         if (isValidatorPendataanAhli(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
         } else {
@@ -268,7 +276,7 @@ function SekretariatPages() {
     } else {
       console.log("Objek tidak ditemukan dalam formData");
     }
-  }
+  };
   const handleImageUploadAndFetch = async (obj) => {
     if (obj.nilai_kontrak) {
       const result = await fetchUploadFiles(
@@ -395,8 +403,14 @@ function SekretariatPages() {
                     type="transparent"
                     className="bg-[#0185FF] text-darkColor px-3"
                     onClick={() => {
-                      setisModalCreate({ data: "Pengajuan " + dataState, status: true });
-                      updatePic(JSON.parse(authProfile).fullname, JSON.parse(authProfile).telp);
+                      setisModalCreate({
+                        data: "Pengajuan " + dataState,
+                        status: true,
+                      });
+                      updatePic(
+                        JSON.parse(authProfile).fullname,
+                        JSON.parse(authProfile).telp
+                      );
                     }}
                   />
                 </div>
@@ -545,7 +559,7 @@ function SekretariatPages() {
                             item?.field?.map(
                               (itemField, indexField) =>
                                 item?.value?.value ===
-                                itemField.type_select && (
+                                  itemField.type_select && (
                                   <DynamicInput
                                     key={indexField}
                                     name={itemField.name}
@@ -615,8 +629,8 @@ function SekretariatPages() {
               Perangkat Daerah (Nama PIC dan Nomor PIC akan terisi otomatis).
             </p>
             <p>
-              5. Jika ada formulir yang mengharuskan input file mohon inputkan file yang berekstensi
-              pdf, xlsx dan docs.
+              5. Jika ada formulir yang mengharuskan input file mohon inputkan
+              file yang berekstensi pdf, xlsx dan docs.
             </p>
             <p>
               6. Jika dirasa sudah cukup maka klik tombol Ajukan Permohonan.
