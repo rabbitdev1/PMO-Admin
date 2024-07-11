@@ -1,40 +1,5 @@
 export const formData = [
   {
-    name: "Pengajuan Layanan Pendaftaran Magang",
-    type: "Layanan Sekretariat",
-    role: [
-      "op_pmo",
-      "perangkat_daerah",
-      "sekretariat",
-      "katim_sekre",
-      "teknis_sekre",
-    ],
-    fields: [
-      { name: "name_pemohon", label: "Nama Pemohon", value: "", type: "text" },
-      {
-        name: "surat_permohonan", label: "Surat Permohonan", value: "", type: "file_upload", noted:
-          "File berekstensi: pdf, xlsx, docs"
-      },
-      {
-        name: "period",
-        label: "Waktu",
-        value: "",
-        type: "multi_date",
-      },
-      {
-        name: "surat_ket_mahasiswa", label: "Surat Keterangan Mahasiswa Aktif", value: "", type: "file_upload", noted:
-          "File berekstensi: pdf, xlsx, docs"
-      },
-      { name: "pict_ktp", label: "Foto KTP", value: "", type: "image_upload" },
-      {
-        name: "reason",
-        label: "Alasan Pengajuan",
-        value: "",
-        type: "editor",
-      },
-    ],
-  },
-  {
     name: "Pengajuan Layanan Pendataan Tenaga Ahli",
     type: "Layanan Sekretariat",
     role: ["op_pmo",
