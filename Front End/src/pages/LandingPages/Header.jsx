@@ -1,33 +1,18 @@
-import { Button, Popover, PopoverContent, PopoverHandler, useTheme } from "@material-tailwind/react";
+import { Button, Popover, PopoverContent, PopoverHandler, } from "@material-tailwind/react";
 import Cookies from "js-cookie";
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { useNavigate } from "react-router";
 import { ReactComponent as Ic_dark_mode } from "../../assets/icon/ic_dark-mode.svg";
 import { ReactComponent as Ic_light_mode } from "../../assets/icon/ic_light-mode.svg";
 import DynamicButton from '../../components/common/DynamicButton';
+import useTheme from "../../components/context/useTheme";
 
 const Header = ({ }) => {
-  // const [hidden, setHidden] = useState(false);
   const { isDarkMode, toggleTheme } = useTheme();
   const authApiKey = Cookies.get('authApiKey');
   const authToken = Cookies.get('authToken');
   const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     if (window.scrollY > 500) {
-  //       setHidden(true);
-  //     } else {
-  //       setHidden(false);
-  //     }
-  //   };
-
-  //   window.addEventListener('scroll', handleScroll);
-  //   return () => {
-  //     window.removeEventListener('scroll', handleScroll);
-  //   };
-  // }, []);
 
   return (
     <div className={`flex flex-col font-gilroy`}>
@@ -72,11 +57,12 @@ const Header = ({ }) => {
       <div className="flex flex-col bg-lightColor dark:bg-darkColor">
         <div className="hidden lg:flex flex-row lg:container lg:mx-auto xl:max-w-screen-xl py-2">
           {[
+            { label: 'Home', herf: '/' },
             { label: 'Tentang PMO', submenu: [{ label: 'Label 1', herf: '' }, { label: 'Label 2', herf: '' }] },
             { label: 'Fungsi Utama', submenu: [{ label: 'Label 1', herf: '' }, { label: 'Label 2', herf: '' }] },
             { label: 'Layanan', submenu: [{ label: 'Label 1', herf: '' }, { label: 'Label 2', herf: '' }] },
             { label: 'Katalog Web Services', submenu: [{ label: 'Label 1', herf: '' }, { label: 'Label 2', herf: '' }] },
-            { label: 'Magang', submenu: [{ label: 'Label 1', herf: '' }, { label: 'Label 2', herf: '' }] },
+            { label: 'Magang', herf: '/pendaftaran-magang' },
             { label: 'Pusat Pengaduan / Layanan', submenu: [{ label: 'Label 1', herf: '' }, { label: 'Label 2', herf: '' }] },
           ].map((button, index) => (
             <Popover
@@ -90,22 +76,25 @@ const Header = ({ }) => {
                     color={isDarkMode ? "#ffffff" : "#0185FF"}
                     type="transparent"
                     className="bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor outline-0 px-3"
+                    onClick={() => { !button.submenu && navigate(button.herf) }}
                   />
                 </Button>
               </PopoverHandler>
-              <PopoverContent
-                className="flex  flex-col w-full font-gilroy p-3 rounded-none bg-[#0f5498d1] text-darkColor z-10">
-                <div className="lg:container lg:mx-auto xl:max-w-screen-xl w-full flex flex-col gap-2">
-                  <span className="font-bold text-2xl">{button.label}</span>
-                  <div className="flex flex-col gap-2">
-                    {button.submenu.map((sub, subIndex) => (
-                      <span key={subIndex} href={sub.herf} className="">
-                        {sub.label}
-                      </span>
-                    ))}
+              {button.submenu &&
+                <PopoverContent
+                  className="flex  flex-col w-full font-gilroy p-3 rounded-none bg-[#0f5498d1] text-darkColor z-10">
+                  <div className="lg:container lg:mx-auto xl:max-w-screen-xl w-full flex flex-col gap-2">
+                    <span className="font-bold text-2xl">{button.label}</span>
+                    <div className="flex flex-col gap-2">
+                      {button.submenu.map((sub, subIndex) => (
+                        <span key={subIndex} href={sub.herf} className="">
+                          {sub.label}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              </PopoverContent>
+                </PopoverContent>
+              }
             </Popover>
           ))}
         </div>

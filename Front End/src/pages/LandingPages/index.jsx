@@ -112,7 +112,7 @@ function LandingPages() {
                             <img
                               src={item.image_url}
                               alt={item.image_url}
-                              className=" object-cover flex flex-col flex-1 w-full aspect-[2/1] bg-green-400"
+                              className=" object-cover flex flex-col flex-1 w-full aspect-[2/1]"
                               effect="blur"
                             />
                           </button>
@@ -149,7 +149,7 @@ function LandingPages() {
             </div>
           </div>
         </div>
-        
+
         <div className="flex flex-col bg-lightColor dark:bg-darkColor">
           <div className="lg:container lg:mx-auto xl:max-w-screen-xl p-3 gap-3 ">
             <div className="flex flex-col">
