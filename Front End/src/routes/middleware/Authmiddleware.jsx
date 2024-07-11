@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 import StickyBox from "react-sticky-box";
 import LoadingLink from "../../components/common/LoadingLink";
 import Footer from "../../components/layout/Footer";
+import HeaderLandingPages from "../../pages/LandingPages/Header";
+import FooterLandingPages from "../../pages/LandingPages/Footer";
 import Header from "../../components/layout/Header";
 import Sidebar from "../../components/layout/Sidebar";
 import { useLocation } from "react-router";
@@ -14,6 +16,7 @@ const Authmiddleware = (props) => {
   const setSideBar = useSelector((state) => state.todoReducer.isSideBar);
 
   useEffect(() => {
+    console.log(location.pathname);
     const header = document.querySelector("header");
     setHeaderHeight(header?.offsetHeight);
 
@@ -31,8 +34,12 @@ const Authmiddleware = (props) => {
     };
   }, []);
   return (
-    location.pathname === "/" ?
-      <div className="flex flex-col ">{props.children}</div> :
+    location.pathname === "/" || location.pathname === "/pendaftaran-magang" ?
+      <div className="flex flex-col ">
+        <HeaderLandingPages/>
+        {props.children}
+      <FooterLandingPages />
+        </div> :
       <React.Fragment>
         <div
           className={`w-full h-screen z-20 ${setSideBar ? "translate-x-0 bg-[#021D3968] " : "-translate-x-full bg-[#021d3906] "} transition-transform duration-300 ease-in-out fixed `}

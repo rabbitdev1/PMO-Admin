@@ -115,7 +115,7 @@ function PermohonanSIPages() {
         }
 
         setStatusData([
-          { ...statusData[0], value: response?.result?.totalItems },
+          { ...statusData[0], value: response?.result?.totalItems || 0 },
           {
             ...statusData[1],
             value: response?.result?.totalItemsByStatus?.diproses || 0,
