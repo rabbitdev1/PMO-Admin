@@ -23,6 +23,7 @@ import ModalContentComponent from "../../components/ui/ModalContentComponent";
 import fetchUploadFiles from "../../utils/api/uploadFiles";
 import { formData as initialFormData } from "./data";
 import { isValidatorPendaftaranMagang, isValidatorPendataanAhli } from "./validators";
+import PanduanPengajuanModal from "../../components/ui/PanduanPengajuanModal";
 
 function SekretariatPages() {
   const { isDarkMode } = useTheme();
@@ -65,6 +66,9 @@ function SekretariatPages() {
 
   const [listSekretariat, setListSekretariat] = useState([]);
   const [listSekretariatLoading, setListSekretariatLoading] = useState(true);
+
+  const [isModalPanduan, setisModalPanduan] = useState(false);
+  
 
   const [formData, setFormData] = useState(initialFormData);
   const [isModalCreate, setisModalCreate] = useState({
@@ -348,6 +352,7 @@ function SekretariatPages() {
                     className="bg-[#ffffff] text-[#0185FF] px-3"
                     onClick={() => {
                       // setisModalType({ data: 'Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan', status: true });
+                      setisModalPanduan(true);
                     }}
                   />
                 </div>
@@ -590,6 +595,37 @@ function SekretariatPages() {
           </div>
         }
         active={isModalCreate.status}
+      />
+      <PanduanPengajuanModal
+        isModalPanduan={isModalPanduan}
+        setisModalPanduan={setisModalPanduan}
+        isDarkMode={isDarkMode}
+        children={
+          <div className="flex flex-col overflow-hidden rounded-b-md">
+            <p>
+              1. Klik layanan yang akan diajukan pada Side Bar Menu atau Menu
+              Bar Samping.
+            </p>
+            <p>
+              2. Lalu muncul submenu atau menu sekunder klik salah satu layanan.
+            </p>
+            <p>3. Klik tombol ajukan permohonan.</p>
+            <p>
+              4. Lalu akan muncul formulir yang harus diisi oleh Operator
+              Perangkat Daerah (Nama PIC dan Nomor PIC akan terisi otomatis).
+            </p>
+            <p>
+              5. Jika ada formulir yang mengharuskan input file mohon inputkan file yang berekstensi
+              pdf, xlsx dan docs.
+            </p>
+            <p>
+              6. Jika dirasa sudah cukup maka klik tombol Ajukan Permohonan.
+            </p>
+            <p className="font-bold">
+              Dengan catatan semua formulir harus terisi!
+            </p>
+          </div>
+        }
       />
       <ModalContentComponent
         isModalVerif={isModalVerif}
