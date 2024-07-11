@@ -44,41 +44,6 @@ export const formData = [
       { name: "reason", label: "Alasan dibutuhkan", value: "", type: "editor" },
     ],
   },
-  // {
-  //   name: "Pendataan Tenaga Ahli",
-  //   type: "Pengajuan Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi",
-  //   role: [
-  //     "op_pmo",
-  //     "perangkat_daerah",
-  //     "teknis_aplikasi",
-  //     "katim_aplikasi",
-  //   ],
-  //   fields: [
-  //     { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
-  //     { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
-  //     { name: "nama_ahli", label: "Nama Ahli", value: "", type: "text" },
-  //     { name: "bidang_keahlian", label: "Bidang Keahlian", value: "", type: "selection",
-  //       options: [
-  //         { value: "ijazah", label: "Ijazah" },
-  //         { value: "sertifikat", label: "Sertifikat" },
-  //       ]
-  //     },
-  //     { name: "pengalaman", label: "Pengalaman", value: "", type: "editor"},
-  //     { name: "job_desk", label: "Job Desk", value: "", type: "editor" },
-  //     { name: "timeline_kontrak", label: "Timeline Kontrak", value: {
-  //       startDate: null,
-  //       endDate: null,
-  //     },
-  //     type: "date",
-  //     visible: true, },
-  //     { name: "terdaftar_lpse", label: "Terdaftar di LPSE", value: "", type: "radio_button",
-  //     options: [
-  //       { value: "ya", label: "Ya" },
-  //       { value: "tidak", label: "Tidak" },
-  //     ], },
-  //     { name: "nilai_kontrak", label: "Nilai Kontrak", value: "", type: "file_upload"},
-  //   ],
-  // }
 ];
 
 
@@ -153,41 +118,7 @@ const getPerwalFinish = (finishData) => [
   },
 ];
 
-const getAhliProcess = (inputLocal) => [
-  {
-    label: "Unggah Dokumen Pendataan Tenaga Ahli",
-    value: inputLocal.upload_dokumen_ahli,
-    type: "file_upload",
-    name: "upload_dokumen_ahli",
-    noted: "File berekstensi: pdf,xlsx,docs"
-  },
-];
-const getAhliFinish = (finishData) => [
-  {
-    label: "Status Pengajuan",
-    value: finishData.submission_status,
-    name: "submission_status",
-    type: "radio_button",
-    options: [
-      { value: "1", label: "Menyetujui" },
-      { value: "0", label: "Tidak Menyetujui" },
-    ],
-  },
-  {
-    label: "Unggah Surat Pemberitahuan untuk OPD",
-    value: finishData.file_submission,
-    name: "file_submission",
-    type: "file_upload",
-    noted: "File berekstensi: pdf,xlsx,docs"
-  },
-  {
-    label: "Tanggapan",
-    value: finishData.response || null,
-    type: "textarea",
-    name: "response",
-  },
-];
 
 export {
-  getPenyusunanKebijakanProcess, getPenyusunanKebijakanFinish, getPerwalProcess, getPerwalFinish, getAhliProcess, getAhliFinish
+  getPenyusunanKebijakanProcess, getPenyusunanKebijakanFinish, getPerwalProcess, getPerwalFinish, 
 };

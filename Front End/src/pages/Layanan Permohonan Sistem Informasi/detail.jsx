@@ -87,7 +87,7 @@ function DetailPermohonanSIPages() {
         setRecommendationLetterTechnical(JSON.parse(response.result.data?.recommendation_letter_technical))
       } else {
         setDetailData([]);
-        navigate("/");
+        navigate("/dashboard");
         toast.error(response.result.msg, {
           position: toast.POSITION.TOP_RIGHT,
         });

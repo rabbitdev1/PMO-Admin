@@ -8,7 +8,6 @@ import { useLocation, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { ReactComponent as PengajuanBerahasilIcon } from "../../assets/icon/ic_pengajuan_berhasil.svg";
 import DynamicButton from "../../components/common/DynamicButton";
-import useTheme from "../../components/context/useTheme";
 import TitleHeader from "../../components/layout/TitleHeader";
 import { isPending } from "../../components/store/actions/todoActions";
 import ModalContent from "../../components/ui/Modal/ModalContent";
@@ -23,7 +22,6 @@ import ProcessStatus from "./Logical/4.ProcessStatus";
 import FinishStatus from "./Logical/5.FinishStatus";
 
 function DetaiLayananDataPages() {
-  const { isDarkMode } = useTheme();
   const navigate = useNavigate();
   const authApiKey = Cookies.get("authApiKey");
   const authToken = Cookies.get("authToken");
@@ -55,7 +53,7 @@ function DetaiLayananDataPages() {
         JSON.parse(authProfile)?.role
       );
     }
-  }, [dispatch]);
+  }, [authToken,authApiKey,authProfile]);
 
   const fetchDataLayananData = async (api_key, token, role) => {
     setLayananDataLoading(true);
@@ -82,7 +80,7 @@ function DetaiLayananDataPages() {
         setfinishData(JSON.parse(response.result.data?.on_finish));
       } else {
         setDetailData([]);
-        navigate("/");
+        navigate("/dashboard");
         toast.error(response.result.msg, {
           position: toast.POSITION.TOP_RIGHT,
         });

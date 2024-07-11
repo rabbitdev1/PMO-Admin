@@ -10,18 +10,18 @@ import { ReactComponent as PengajuanGagalIcon } from "../../assets/icon/ic_penga
 import { ReactComponent as PlusIcon } from "../../assets/icon/ic_plus.svg";
 import DynamicButton from "../../components/common/DynamicButton";
 import DynamicInput from "../../components/common/DynamicInput";
+import resetFormData from "../../components/common/ResetFormData";
 import useTheme from "../../components/context/useTheme";
 import TableCostum from "../../components/data-display/TableCostum";
 import TitleHeader from "../../components/layout/TitleHeader";
 import { isPending } from "../../components/store/actions/todoActions";
 import ModalContent from "../../components/ui/Modal/ModalContent";
+import ModalContentComponent from "../../components/ui/ModalContentComponent";
 import { apiClient } from "../../utils/api/apiClient";
 import fetchUploadImages from "../../utils/api/uploadImages";
 import { convertToNameValueObject } from "../../utils/helpers/convertToNameValueObject";
 import { formData as initialFormData } from './data';
 import { isValidatorDomain, isValidatorHosting, isValidatorPenambahanAlat, isValidatorPenambahanBandwith, isValidatorRelokasiAlat, isValidatorTroubleShooting } from "./validators";
-import resetFormData from "../../components/common/ResetFormData";
-import ModalContentComponent from "../../components/ui/ModalContentComponent";
 
 function InfrastrukturPages() {
   const { isDarkMode } = useTheme();
@@ -31,7 +31,6 @@ function InfrastrukturPages() {
   const authToken = Cookies.get('authToken');
   const authProfile = Cookies.get('authData');
 
-
   const [statusData, setStatusData] = useState([
     { title: "Pengajuan", value: "0", desc: "Data yang akan diproses", icon: DocumentIcon, color: '#333333' },
     { title: "Proses", value: "0", desc: "Data proses berjalan", icon: DocumentIcon, color: '#FFA500' },
@@ -39,13 +38,10 @@ function InfrastrukturPages() {
     { title: "Selesai", value: "0", desc: "Data pengajuan selesai", icon: DocumentIcon, color: '#13C39C' },
   ]);
 
-
   const [listInfrasturktur, setListInfrasturktur] = useState([]);
   const [listInfrasturkturLoading, setListInfrasturkturLoading] = useState(true);
 
   const [formData, setFormData] = useState(initialFormData);
-
-  const [isModalType, setisModalType] = useState({ status: false, data: {} });
   const [isModalCreate, setisModalCreate] = useState({
     status: false,
     data: {},
@@ -63,7 +59,7 @@ function InfrastrukturPages() {
       fetchDataInfrasturktur(authApiKey, authToken, JSON.parse(authProfile)?.role)
       fetchDataAlat(authApiKey, authToken)
     }
-  }, [dataState, authToken]);
+  }, [authApiKey,dataState, authToken,authProfile]);
 
 
   const fetchDataInfrasturktur = async (api_key, token, role) => {

@@ -1,19 +1,16 @@
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
 import { ReactComponent as DocumentIcon } from "../../../assets/icon/ic_document.svg";
 import { ReactComponent as PlusIcon } from "../../../assets/icon/ic_plus.svg";
 import DynamicButton from "../../../components/common/DynamicButton";
 import DynamicInput from "../../../components/common/DynamicInput";
-import useTheme from "../../../components/context/useTheme";
 import TableCostum from "../../../components/data-display/TableCostum";
 import TitleHeader from "../../../components/layout/TitleHeader";
 import ModalContent from "../../../components/ui/Modal/ModalContent";
 import { apiClient } from "../../../utils/api/apiClient";
 
 function DataAlatInfraPage() {
-  const { isDarkMode } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
   const authApiKey = Cookies.get('authApiKey');
@@ -39,14 +36,13 @@ function DataAlatInfraPage() {
   });
 
 
-  const dispatch = useDispatch();
   const dataState = location.state;
 
   useEffect(() => {
     if (authToken) {
       fetchDataAlat(authApiKey, authToken, JSON.parse(authProfile)?.role)
     }
-  }, [dataState, authToken]);
+  }, [dataState, authApiKey, authToken, authProfile]);
 
 
   const fetchDataAlat = async (api_key, token, role) => {
@@ -195,7 +191,7 @@ function DataAlatInfraPage() {
                 value: (formData.total_tools || 0) * (formData.unit_price || 0),
                 type: "currency",
                 name: "total_price",
-            }
+              }
             ].map((inputProps, index) => {
               return (
                 <DynamicInput
@@ -221,7 +217,7 @@ function DataAlatInfraPage() {
               className="inline-flex  bg-[#0185FF] text-darkColor"
               onClick={() => {
                 console.log(formData);
-                
+
                 // if (
                 //   validationData.status_validation === "0" &&
                 //   validationData?.response === undefined

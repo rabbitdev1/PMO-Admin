@@ -8,7 +8,6 @@ import { useLocation, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { ReactComponent as PengajuanBerahasilIcon } from "../../assets/icon/ic_pengajuan_berhasil.svg";
 import DynamicButton from "../../components/common/DynamicButton";
-import useTheme from "../../components/context/useTheme";
 import TitleHeader from "../../components/layout/TitleHeader";
 import { isPending } from "../../components/store/actions/todoActions";
 import ModalContent from "../../components/ui/Modal/ModalContent";
@@ -17,13 +16,12 @@ import { apiClient } from "../../utils/api/apiClient";
 import fetchUploadFiles from "../../utils/api/uploadFiles";
 import fetchUploadImages from "../../utils/api/uploadImages";
 import DalamAntrianView from "./Logical/1.DalamAntrianView";
-import FinishStatus from "./Logical/5.FinishStatus";
-import ProcessStatus from "./Logical/4.ProcessStatus";
 import ValidationStatus from "./Logical/2.ValidationStatus";
 import ValidationStatusTechnique from "./Logical/3.ValidationStatusTechnique";
+import ProcessStatus from "./Logical/4.ProcessStatus";
+import FinishStatus from "./Logical/5.FinishStatus";
 
 function DetailInfrastrukturPages() {
-  const { isDarkMode } = useTheme();
   const navigate = useNavigate();
   const authApiKey = Cookies.get("authApiKey");
   const authToken = Cookies.get("authToken");
@@ -55,7 +53,7 @@ function DetailInfrastrukturPages() {
         JSON.parse(authProfile)?.role
       );
     }
-  }, [dispatch]);
+  }, [authApiKey, authProfile, authToken]);
 
   const fetchDataInfrastruktur = async (api_key, token, role) => {
     setInfrastrukturLoading(true);
@@ -82,7 +80,7 @@ function DetailInfrastrukturPages() {
         setfinishData(JSON.parse(response.result.data?.on_finish));
       } else {
         setDetailData([]);
-        navigate("/");
+        navigate("/dashboard");
         toast.error(response.result.msg, {
           position: toast.POSITION.TOP_RIGHT,
         });
@@ -97,7 +95,7 @@ function DetailInfrastrukturPages() {
     let htmlConvert = "";
 
     if (
-      [ "validation_technique", "process"].includes(type) &&
+      ["validation_technique", "process"].includes(type) &&
       data?.response
     ) {
       const contentState = convertToRaw(data.response.getCurrentContent());
@@ -187,7 +185,7 @@ function DetailInfrastrukturPages() {
         try {
           const uploadPromises = [];
           const resultMapping = {};
-      
+
           if (data.upload_foto_alat_sebelum_di_relokasi) {
             uploadPromises.push(
               fetchUploadImages(
@@ -253,9 +251,9 @@ function DetailInfrastrukturPages() {
               })
             );
           }
-      
+
           await Promise.all(uploadPromises);
-      
+
           let combineData = { ...data };
           if (resultMapping.upload_foto_alat_sebelum_di_relokasi) {
             combineData.upload_foto_alat_sebelum_di_relokasi = resultMapping.upload_foto_alat_sebelum_di_relokasi;
@@ -272,7 +270,7 @@ function DetailInfrastrukturPages() {
           if (resultMapping.upload_foto_kegiatan) {
             combineData.upload_foto_kegiatan = resultMapping.upload_foto_kegiatan;
           }
-      
+
           fetchEditinfrastruktur(authApiKey, authToken, slug, type, combineData);
         } catch (error) {
           console.error("Error occurred during image upload:", error);
@@ -280,7 +278,7 @@ function DetailInfrastrukturPages() {
       } else {
         fetchEditinfrastruktur(authApiKey, authToken, slug, type, data);
       }
-      
+
     } else if (type === "finish") {
       if (data.file_submission) {
         const result = await fetchUploadFiles(
@@ -316,58 +314,58 @@ function DetailInfrastrukturPages() {
         link2={"Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi"}
       />
       <section className="flex flex-col gap-3">
-          <SubmissionStatus status={submissionStatus} data={null} />
-          <div className={`flex  flex-col gap-3`}>
-            <DalamAntrianView
-              submissionStatus={submissionStatus}
-              detailData={detailData}
-              loading={infrastrukturLoading}
-            />
-            <ValidationStatus
-              submissionStatus={submissionStatus}
-              validationData={validationData}
-              authProfile={authProfile}
-              detailData={detailData}
-              loading={infrastrukturLoading}
-              setValidationData={setValidationData}
-              checkingFormData={checkingFormData}
-            />
-            <ValidationStatusTechnique
-              slug={slug}
-              submissionStatus={submissionStatus}
-              validationData={validationData}
-              validationDataTechnique={validationDataTechnique}
-              setvalidationDataTechnique={setValidationDataTechnique}
-              authProfile={authProfile}
-              detailData={detailData}
-              loading={infrastrukturLoading}
-              checkingFormData={checkingFormData}
-              setisModalVerif={setisModalVerif}
-            />
-            <ProcessStatus
-              slug={slug}
-              validationDataTechnique={validationDataTechnique}
-              processData={processData}
-              submissionStatus={submissionStatus}
-              authProfile={authProfile}
-              detailData={detailData}
-              loading={infrastrukturLoading}
-              checkingFormData={checkingFormData}
-              setisModalVerif={setisModalVerif}
-              finishData={finishData}
-              setfinishData={setfinishData}
-            />
-            <FinishStatus
-              detailData={detailData}
-              loading={infrastrukturLoading}
-              validationData={validationData}
-              validationDataTechnique={validationDataTechnique}
-              processData={processData}
-              submissionStatus={submissionStatus}
-              finishData={finishData}
-            />
-          </div>
-        </section>
+        <SubmissionStatus status={submissionStatus} data={null} />
+        <div className={`flex  flex-col gap-3`}>
+          <DalamAntrianView
+            submissionStatus={submissionStatus}
+            detailData={detailData}
+            loading={infrastrukturLoading}
+          />
+          <ValidationStatus
+            submissionStatus={submissionStatus}
+            validationData={validationData}
+            authProfile={authProfile}
+            detailData={detailData}
+            loading={infrastrukturLoading}
+            setValidationData={setValidationData}
+            checkingFormData={checkingFormData}
+          />
+          <ValidationStatusTechnique
+            slug={slug}
+            submissionStatus={submissionStatus}
+            validationData={validationData}
+            validationDataTechnique={validationDataTechnique}
+            setvalidationDataTechnique={setValidationDataTechnique}
+            authProfile={authProfile}
+            detailData={detailData}
+            loading={infrastrukturLoading}
+            checkingFormData={checkingFormData}
+            setisModalVerif={setisModalVerif}
+          />
+          <ProcessStatus
+            slug={slug}
+            validationDataTechnique={validationDataTechnique}
+            processData={processData}
+            submissionStatus={submissionStatus}
+            authProfile={authProfile}
+            detailData={detailData}
+            loading={infrastrukturLoading}
+            checkingFormData={checkingFormData}
+            setisModalVerif={setisModalVerif}
+            finishData={finishData}
+            setfinishData={setfinishData}
+          />
+          <FinishStatus
+            detailData={detailData}
+            loading={infrastrukturLoading}
+            validationData={validationData}
+            validationDataTechnique={validationDataTechnique}
+            processData={processData}
+            submissionStatus={submissionStatus}
+            finishData={finishData}
+          />
+        </div>
+      </section>
 
       <ModalContent
         className={"sm:max-w-xl"}
