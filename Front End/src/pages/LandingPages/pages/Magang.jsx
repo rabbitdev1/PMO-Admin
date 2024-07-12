@@ -4,57 +4,60 @@ import { useNavigate } from "react-router";
 
 import DynamicButton from "../../../components/common/DynamicButton";
 import useTheme from "../../../components/context/useTheme";
+import fetchUploadImages from "../../../utils/api/uploadImages";
 
 import DynamicInput from "../../../components/common/DynamicInput";
 import { convertToNameValueObject } from "../../../utils/helpers/convertToNameValueObject";
+import { isValidatorPendaftaranMagang } from "../../Layanan Sekretariat/validators";
+
+import fetchUploadFiles from "../../../utils/api/uploadFiles";
 
 function MagangPages() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isDarkMode } = useTheme();
 
-  const [isModalCreate, setisModalCreate] = useState({
-    status: false,
-    data: {},
-  });
-
-
   const [formData, setFormData] = useState([
     {
       name: "Pengajuan Layanan Pendaftaran Magang",
       type: "Layanan Sekretariat",
-      role: [
-        "op_pmo",
-        "perangkat_daerah",
-        "sekretariat",
-        "katim_sekre",
-        "teknis_sekre",
-      ],
+      role: ["op_pmo", "sekretariat", "katim_sekre", "teknis_sekre"],
       fields: [
-        { name: "name_pemohon", label: "Nama Pemohon", value: "", type: "text" },
         {
-          name: "surat_permohonan", label: "Surat Permohonan", value: "", type: "file_upload", noted:
-            "File berekstensi: pdf, xlsx, docs"
+          name: "name_pemohon",
+          label: "Nama Pemohon",
+          value: "",
+          type: "text",
+        },
+        {
+          name: "surat_permohonan",
+          label: "Surat Permohonan",
+          value: "",
+          type: "file_upload",
+          noted: "File berekstensi: pdf, xlsx, docs",
         },
         {
           name: "period",
           label: "Waktu",
           value: "",
-          type: "multi_date",
+          type: "date",
         },
         {
-          name: "surat_ket_mahasiswa", label: "Surat Keterangan Mahasiswa Aktif", value: "", type: "file_upload", noted:
-            "File berekstensi: pdf, xlsx, docs"
-        },
-        { name: "pict_ktp", label: "Foto KTP", value: "", type: "image_upload" },
-        {
-          name: "reason",
-          label: "Alasan Pengajuan",
+          name: "surat_ket_mahasiswa",
+          label: "Surat Keterangan Mahasiswa Aktif",
           value: "",
-          type: "editor",
+          type: "file_upload",
+          noted: "File berekstensi: pdf, xlsx, docs",
+        },
+        {
+          name: "pict_ktp",
+          label: "Foto KTP",
+          value: "",
+          type: "image_upload",
         },
       ],
-    }]);
+    },
+  ]);
 
   const handleInputChange = (fieldName, value, sectionIndex) => {
     const updatedFormData = [...formData];
@@ -68,39 +71,84 @@ function MagangPages() {
   };
 
   const checkingFormData = async () => {
-    const foundObject = formData.find((obj) => obj.name === isModalCreate.data);
-    if (foundObject) {
-      const { result: nameValueObject, newObject: newObjectFromConversion } = convertToNameValueObject(foundObject);
-      const nameValueObject2 = {
-        submission_type: "Layanan Sekretariat",
-        role: foundObject.role,
-        submission_title: isModalCreate.data.replace('Pengajuan ', '')
-      };
-      const combinedObject = {
-        ...nameValueObject,
-        ...nameValueObject2,
-        ...newObjectFromConversion.reduce((acc, cur) => ({ ...acc, [cur.name]: cur.value }), {})
-      };
-      console.log(JSON.stringify(combinedObject));
-
-      if (combinedObject?.submission_title === "Layanan Pendaftaran Magang") {
-        if (isValidatorPendaftaranMagang(combinedObject)) {
-          await handleImageUploadAndFetch(combinedObject);
-        } else {
-          return false;
-        }
-      } else if (combinedObject?.submission_title === "Layanan Pendataan Tenaga Ahli") {
-        if (isValidatorPendataanAhli(combinedObject)) {
-          await handleImageUploadAndFetch(combinedObject);
-        } else {
-          return false;
-        }
+    const { result: nameValueObject, newObject: newObjectFromConversion } =
+      convertToNameValueObject(formData[0]);
+    const nameValueObject2 = {
+      submission_type: "Layanan Sekretariat",
+      role: formData[0].role,
+      submission_title: "Layanan Pendaftaran Magang",
+    };
+    const combinedObject = {
+      ...nameValueObject,
+      ...nameValueObject2,
+      ...newObjectFromConversion.reduce(
+        (acc, cur) => ({ ...acc, [cur.name]: cur.value }),
+        {}
+      ),
+    };
+    console.log(JSON.stringify(combinedObject));
+    if (combinedObject?.submission_title === "Layanan Pendaftaran Magang") {
+      if (isValidatorPendaftaranMagang(combinedObject)) {
+        // await handleImageUploadAndFetch(combinedObject);
+      } else {
+        return false;
       }
-    } else {
-      console.log("Objek tidak ditemukan dalam formData");
     }
-  }
-
+  };
+  const handleImageUploadAndFetch = async (obj) => {
+    if (obj.surat_permohonan) {
+      const result = await fetchUploadFiles(
+        authApiKey,
+        authToken,
+        obj.surat_permohonan,
+        "sekretariat",
+        dispatch
+      );
+      if (result !== null) {
+        const fixObject = {
+          ...obj,
+          surat_permohonan: result,
+        };
+      } else {
+        console.error("Error occurred during image upload.");
+      }
+    }
+    if (obj.surat_ket_mahasiswa) {
+      const result = await fetchUploadFiles(
+        authApiKey,
+        authToken,
+        obj.surat_ket_mahasiswa,
+        "sekretariat",
+        dispatch
+      );
+      if (result !== null) {
+        const fixObject = {
+          ...obj,
+          surat_ket_mahasiswa: result,
+        };
+      } else {
+        console.error("Error occurred during image upload.");
+      }
+    }
+    if (obj.pict_ktp) {
+      const result = await fetchUploadImages(
+        authApiKey,
+        authToken,
+        obj.pict_ktp,
+        "sekretariat",
+        dispatch
+      );
+      if (result !== null) {
+        const fixObject = {
+          ...obj,
+          pict_ktp: result,
+        };
+      } else {
+        console.error("Error occurred during image upload.");
+      }
+    }
+    fetchDataCreate(authApiKey, authToken, obj);
+  };
   return (
     <div className="flex flex-col min-h-screen bg-cardLight dark:bg-cardDark text-lightColor dark:text-darkColor font-gilroy">
       <main className="flex-grow flex flex-col ">
@@ -115,7 +163,11 @@ function MagangPages() {
           <div className="lg:container lg:mx-auto xl:max-w-screen-xl flex flex-col p-3 gap-3">
             <h3>​Pengantar</h3>
             <p className="flex text-base">
-              PKL adalah kegiatan praktik kerja yang diberikan kepada mahasiswa/siswa yang difasilitasi oleh Bank Indonesia. ​​​Memberikan kesempatan bagi mahasiswa/sis​wa untuk belajar dan mengembangkan diri melalui keterlibatan langsung dalam pelaksanaan tugas di Bank Indonesia.
+              PKL adalah kegiatan praktik kerja yang diberikan kepada
+              mahasiswa/siswa yang difasilitasi oleh Bank Indonesia.
+              Memberikan kesempatan bagi mahasiswa/sis​wa untuk belajar dan
+              mengembangkan diri melalui keterlibatan langsung dalam pelaksanaan
+              tugas di Bank Indonesia.
             </p>
             <h3>​Persyaratan Umum Akademis</h3>
             <p>
@@ -127,56 +179,28 @@ function MagangPages() {
             </p>
             <h3>Pendaftaran Magang</h3>
             <div className="flex flex-col gap-3">
-              <div className="flex sm:flex-row flex-col gap-3">
-                <DynamicInput
-                  label="Nama Pemohon"
-                  name="nama_pemohon"
-                  value={formData.nama_pemohon}
-                  onChange={(e) =>
-                    console.log(e)
-                    // handleInputChange(e.target.name, e.target.value)
-                  }
-                  type="text"
-                  placeholder="Masukan Nama Pemohon"
-                />
-                <DynamicInput
-                  label="Nama Kampus"
-                  name="nama_kampus"
-                  value={formData.nama_kampus}
-                  onChange={(e) =>
-                    handleInputChange(e.target.name, e.target.value)
-                  }
-                  type="text"
-                  placeholder="Masukan Nama Kampus"
-                />
-              </div>
-              <DynamicInput
-                label="Surat Permohonan"
-                name="surat_permohonan"
-                onChange={(e) =>
-                  handleInputChange(e.target.name, e.target.files[0])
-                }
-                type="file"
-                placeholder="Masukan Surat Permohonan"
-              />
-              <DynamicInput
-                label="Surat Keterangan Mahasiswa"
-                name="surat_ket_mahasiswa"
-                onChange={(e) =>
-                  handleInputChange(e.target.name, e.target.files[0])
-                }
-                type="file"
-                placeholder="Masukan Surat Keterangan Mahasiswa"
-              />
-              <DynamicInput
-                label="Foto KTP"
-                name="pict_ktp"
-                onChange={(e) =>
-                  handleInputChange(e.target.name, e.target.files[0])
-                }
-                type="file"
-                placeholder="Masukan Foto KTP"
-              />
+              {formData.map((section, sectionIndex) => (
+                <div key={sectionIndex} className="flex flex-col gap-3">
+                  {section.fields.map((item, index) => (
+                    <div key={index} className="flex flex-col gap-2">
+                      {item.visible !== false && (
+                        <DynamicInput
+                          name={item.name}
+                          label={item.label}
+                          noted={item.noted}
+                          value={item.value}
+                          options={item.options}
+                          onChange={(value) =>
+                            handleInputChange(item.name, value, sectionIndex)
+                          }
+                          type={item.type}
+                          placeholder={"Masukan " + item.label}
+                        />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ))}
               <div className="flex flex-row gap-2 justify-end">
                 <DynamicButton
                   initialValue="Ajukan Permohonan"

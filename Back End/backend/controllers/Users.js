@@ -36,7 +36,6 @@ export const Login = async(req, res) => {
             // clientTimezone: `Data processed using timezone: ${clientTimezone}`,
         });
     } catch (error) {
-        console.error("Login error:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 };
@@ -46,7 +45,6 @@ export const Logout = async(req, res) => {
 
     try {
         const user = await Users.findOne({ where: { activeSession: token } });
-        console.log(user);
         if (user) {
             user.activeSession = null;
             await user.save();
@@ -54,7 +52,6 @@ export const Logout = async(req, res) => {
 
         res.status(200).json({ status: "ok", msg: "Successfully logged out." });
     } catch (error) {
-        console.error("Logout error:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 };
@@ -89,7 +86,6 @@ export const getUser = async(req, res) => {
             data: user,
         });
     } catch (error) {
-        console.error(error);
         res.status(500).json({
             status: "error",
             msg: "Internal Server Error",
@@ -198,7 +194,6 @@ export const createUsers = async(req, res) => {
         const { fullname, email, address, role, image, telp, password } = req.body;
         const apiKey = req.headers["x-api-key"];
 
-        console.log(req.body);
         if (!apiKey) {
             return res.status(401).json({
                 status: "error",
@@ -234,7 +229,6 @@ export const createUsers = async(req, res) => {
             msg: "Successfully created the user.",
         });
     } catch (error) {
-        console.log(error);
         res.status(500).json({
             status: "error",
             msg: "Internal Server Error",
@@ -284,7 +278,6 @@ export const deleteUsers = async(req, res) => {
             });
         }
     } catch (error) {
-        console.error(error);
         res.status(500).json({
             status: "error",
             msg: "Internal Server Error",

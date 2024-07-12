@@ -43,7 +43,6 @@ export const uploadImages = async (req, res) => {
       data: snapshot.metadata.name,
     });
   } catch (error) {
-    console.error("Error uploading image:", error);
     res.status(500).json({ status: "error", msg: "Internal Server Error" });
   }
 };
@@ -60,7 +59,6 @@ export const deleteImage = async (fileName, location) => {
     if (error.code === "storage/object-not-found") {
       return { status: "error", msg: "Image not found" };
     } else {
-      console.error("Error deleting image:", error);
       throw error;
     }
   }

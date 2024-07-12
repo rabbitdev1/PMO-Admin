@@ -24,8 +24,8 @@ dotenv.config();
 
 const app = express();
 
-app.get('/hello', (req, res) => {
-    res.send('Hello, World!');
+app.get('/', (req, res) => {
+    res.send('JANGAN GANGGU');
 });
 
 app.use((req, res, next) => {
@@ -48,7 +48,7 @@ const startServer = async () => {
         await db.authenticate();
         console.log("Database Connected...");
         console.log("Firestorage initialized " + JSON.stringify(storage));
-        
+
         await Aplikasi.sync();
         await InfraModel.sync();
         await Users.sync();
@@ -56,7 +56,7 @@ const startServer = async () => {
 
         await PerencanaanTIK.sync();
         await LayananData.sync();
-        
+
         await UptRadio.sync();
         await TeknologiSI.sync();
 
@@ -69,11 +69,11 @@ const startServer = async () => {
     }
 
 
-    const PORT = process.env.DEV_PORT; // Default to port 3000 if PORT is not set
-    // const PORT = process.env.DB_PORT; // Default to port 3000 if PORT is not set
+    const PORT = process.env.DEV_PORT;
+    const HOSTNAME = process.env.DEV_HOSTNAME;
 
 
-    app.listen(PORT, () => console.log(`Server running at port ${PORT}`));
+    app.listen(PORT, HOSTNAME, () => console.log(`Server running at http://${HOSTNAME}:${PORT} `));
 };
 
 startServer();

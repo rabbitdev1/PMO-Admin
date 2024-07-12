@@ -69,7 +69,6 @@ export const getDetailDataPermohonanSI = async (req, res) => {
             },
         });
     } catch (error) {
-        console.error(error); // Log error for debugging purposes
         res.status(500).json({
             status: "error",
             msg: "Internal Server Error",

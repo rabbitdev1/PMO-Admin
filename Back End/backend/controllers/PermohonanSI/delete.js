@@ -37,7 +37,6 @@ export const deleteDataPermohonanSI = async (req, res) => {
             ...JSON.parse(permohonanSIItem.fields),
         };
 
-        console.log("Merged Data:", mergedDataProcess);
 
         const findValueByTitle = (data, title) => data[title];
 
@@ -86,7 +85,6 @@ export const deleteDataPermohonanSI = async (req, res) => {
             });
         }
     } catch (error) {
-        console.error(error);
         res.status(500).json({
             status: "error",
             msg: "Internal Server Error",
