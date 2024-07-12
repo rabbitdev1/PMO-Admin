@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { ReactComponent as DocumentIcon } from "../../../assets/icon/ic_document.svg";
 import { ReactComponent as PlusIcon } from "../../../assets/icon/ic_plus.svg";
+import { ReactComponent as PengajuanBerahasilIcon } from "../../../assets/icon/ic_pengajuan_berhasil.svg";
 import DynamicButton from "../../../components/common/DynamicButton";
 import DynamicInput from "../../../components/common/DynamicInput";
 import TableCostum from "../../../components/data-display/TableCostum";
@@ -10,10 +11,14 @@ import TitleHeader from "../../../components/layout/TitleHeader";
 import ModalContent from "../../../components/ui/Modal/ModalContent";
 import { apiClient } from "../../../utils/api/apiClient";
 import { isValidatorListTools } from "../validators";
+import { useDispatch } from "react-redux";
+import { isPending } from "../../../components/store/actions/todoActions";
+import { toast } from "react-toastify";
 
 function DataAlatInfraPage() {
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
   const authApiKey = Cookies.get('authApiKey');
   const authToken = Cookies.get('authToken');
   const authProfile = Cookies.get('authData');
@@ -78,11 +83,43 @@ function DataAlatInfraPage() {
       console.error("Error fetching data:", error);
     }
   };
-
+  const fetchDataCreate = async (api_key, token, data) => {
+    dispatch(isPending(true));
+    const urlEncodedData = new URLSearchParams(data).toString();
+    
+    try {
+      const response = await apiClient({
+        baseurl: "infrastruktur/set_tools",
+        method: "POST",
+        body: urlEncodedData,
+        apiKey: api_key,
+        token: token,
+      });
+      dispatch(isPending(false));
+      if (response?.statusCode === 200) {
+        setisModalVerif({
+          data: {
+            title: "Tambah Barang Berhasil",
+            msg: "Selamat! Barang Berhasil di Tambahkan",
+            icon: PengajuanBerahasilIcon,
+            color: "#13C39C",
+          },
+          status: true,
+        });
+      } else {
+        toast.error(response.result.msg, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  
+  
   const checkingFormData = async (combinedObject) => {
     if (isValidatorListTools(combinedObject)) {
-      // await isValidatorListTools(combinedObject);
-      console.log(combinedObject);
+      fetchDataCreate(authApiKey, authToken, combinedObject);
     } else {
       return false;
     }

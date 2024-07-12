@@ -77,7 +77,6 @@ export const getListDataToolsbyArray = async (req, res) => {
         });
     }
 };
-
 export const setListDataTools = async (req, res) => {
     try {
         const apiKey = req.headers["x-api-key"];
