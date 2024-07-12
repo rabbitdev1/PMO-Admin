@@ -31,7 +31,7 @@ import {
 } from "../controllers/Infrastruktur/index.js";
 import { editDataInfrastruktur } from "../controllers/Infrastruktur/edit.js";
 import { deleteDataInfrastruktur } from "../controllers/Infrastruktur/delete.js";
-import { getListDataTools, getListDataToolsbyArray } from "../controllers/Infrastruktur/list_tools.js";
+import { getListDataTools, getListDataToolsbyArray, setListDataTools } from "../controllers/Infrastruktur/list_tools.js";
 import { getListDataSekretariat } from "../controllers/Sekretariat/list.js";
 import { getDetailDataSekretariat } from "../controllers/Sekretariat/detail.js";
 import {
@@ -84,6 +84,8 @@ router.post("/infrastruktur/create", verifyToken, setStatusDataInfrastruktur);
 router.post("/infrastruktur/set_process", verifyToken, editProcessDataInfrastruktur);
 router.post("/infrastruktur/edit", verifyToken, editDataInfrastruktur);
 router.post("/infrastruktur/delete", verifyToken, deleteDataInfrastruktur);
+router.post("/infrastruktur/tools", verifyToken, getListDataTools);
+router.post("/infrastruktur/set_tools", verifyToken, setListDataTools);
 router.post("/infrastruktur/list_tools", verifyToken, getListDataToolsbyArray);
 
 // Sekretariat routes

@@ -3,7 +3,7 @@ export const formData = [
     name: "Pengajuan Relokasi Alat",
     type: "Pengajuan Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi",
     role: [
-      "op_pmo",
+      "op_pmo","kadis",
       "perangkat_daerah",
       "kabid_infra",
       "katim_infra",
@@ -49,7 +49,7 @@ export const formData = [
     name: "Pengajuan Penambahan Alat",
     type: "Pengajuan Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi",
     role: [
-      "op_pmo",
+      "op_pmo","kadis",
       "perangkat_daerah",
       "kabid_infra",
       "katim_infra",
@@ -77,7 +77,7 @@ export const formData = [
     name: "Pengajuan Penambahan Bandwidth",
     type: "Pengajuan Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi",
     role: [
-      "op_pmo",
+      "op_pmo","kadis",
       "perangkat_daerah",
       "kabid_infra",
       "katim_infra",
@@ -129,7 +129,7 @@ export const formData = [
     name: "Pengajuan Troubleshooting Aplikasi dan Jaringan",
     type: "Pengajuan Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi",
     role: [
-      "op_pmo",
+      "op_pmo","kadis",
       "perangkat_daerah",
       "kabid_infra",
       "katim_infra",
@@ -157,7 +157,7 @@ export const formData = [
     name: "Pengajuan Hosting",
     type: "Pengajuan Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi",
     role: [
-      "op_pmo",
+      "op_pmo","kadis",
       "perangkat_daerah",
       "kabid_infra",
       "katim_infra",
@@ -249,7 +249,7 @@ export const formData = [
     name: "Pengajuan Domain",
     type: "Pengajuan Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi",
     role: [
-      "op_pmo",
+      "op_pmo","kadis",
       "perangkat_daerah",
       "kabid_infra",
       "katim_infra",

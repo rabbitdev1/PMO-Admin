@@ -9,6 +9,7 @@ import TableCostum from "../../../components/data-display/TableCostum";
 import TitleHeader from "../../../components/layout/TitleHeader";
 import ModalContent from "../../../components/ui/Modal/ModalContent";
 import { apiClient } from "../../../utils/api/apiClient";
+import { isValidatorListTools } from "../validators";
 
 function DataAlatInfraPage() {
   const navigate = useNavigate();
@@ -51,7 +52,7 @@ function DataAlatInfraPage() {
     params.append("role", role);
     try {
       const response = await apiClient({
-        baseurl: "infrastruktur/list_tools",
+        baseurl: "infrastruktur/tools",
         method: "POST",
         body: params,
         apiKey: api_key,
@@ -78,7 +79,14 @@ function DataAlatInfraPage() {
     }
   };
 
-
+  const checkingFormData = async (combinedObject) => {
+    if (isValidatorListTools(combinedObject)) {
+      // await isValidatorListTools(combinedObject);
+      console.log(combinedObject);
+    } else {
+      return false;
+    }
+  };
   return (
     <div className="flex flex-col gap-3 flex-1 p-4" >
       <TitleHeader title={"Data Alat Infrastrukur"} link1={"dashboard"} link2={'Bidang Infrastruktur Teknologi, Informasi dan Komunikasi'} />
@@ -169,7 +177,7 @@ function DataAlatInfraPage() {
                 name: "name_tools",
               },
               {
-                label: "Jumlah Alat",
+                label: "Jumlah Barang",
                 value: formData.total_tools || 0,
                 type: "select_number",
                 name: "total_tools",
@@ -182,7 +190,7 @@ function DataAlatInfraPage() {
               },
               {
                 label: "Harga Satuan",
-                value: formData.unit_pray,
+                value: formData.unit_price,
                 type: "currency",
                 name: "unit_price",
               },
@@ -195,19 +203,25 @@ function DataAlatInfraPage() {
             ].map((inputProps, index) => {
               return (
                 <DynamicInput
-                  key={index}
-                  label={inputProps.label}
-                  value={inputProps.value}
-                  type={inputProps.type}
-                  options={inputProps.options}
-                  placeholder={'Masukan ' + inputProps.label}
-                  onChange={(value) => {
-                    setFormData((prevState) => ({
-                      ...prevState,
-                      [inputProps.name]: value,
-                    }));
-                  }}
-                />
+                key={index}
+                label={inputProps.label}
+                value={inputProps.value}
+                disabled={formData.total_price && false}
+                type={inputProps.type}
+                options={inputProps.options}
+                placeholder={'Masukan ' + inputProps.label}
+                onChange={(value) => {
+                  let updatedFormData = {
+                    ...formData,
+                    [inputProps.name]: inputProps.type === "currency" ? parseFloat(value) : value,
+                  };
+                  if (inputProps.name === "unit_price" || inputProps.name === "total_tools") {
+                    updatedFormData.total_price = (updatedFormData.total_tools || 0) * (updatedFormData.unit_price || 0);
+                  }
+                  setFormData(updatedFormData);
+                }}
+              />
+              
               );
             })}
             <DynamicButton
@@ -216,7 +230,7 @@ function DataAlatInfraPage() {
               color={"#ffffff"}
               className="inline-flex  bg-[#0185FF] text-darkColor"
               onClick={() => {
-                console.log(formData);
+                checkingFormData(formData);
 
                 // if (
                 //   validationData.status_validation === "0" &&
