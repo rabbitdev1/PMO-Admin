@@ -9,6 +9,7 @@ import fetchUploadImages from "../../../utils/api/uploadImages";
 import DynamicInput from "../../../components/common/DynamicInput";
 import { convertToNameValueObject } from "../../../utils/helpers/convertToNameValueObject";
 import { isValidatorPendaftaranMagang } from "../../Layanan Sekretariat/validators";
+
 import fetchUploadFiles from "../../../utils/api/uploadFiles";
 
 function MagangPages() {
@@ -86,12 +87,11 @@ function MagangPages() {
       ),
     };
     console.log(JSON.stringify(combinedObject));
-      if (combinedObject?.submission_title === "Layanan Pendaftaran Magang") {
-        if (isValidatorPendaftaranMagang(combinedObject)) {
-          // await handleImageUploadAndFetch(combinedObject);
-        } else {
-          return false;
-        }
+    if (combinedObject?.submission_title === "Layanan Pendaftaran Magang") {
+      if (isValidatorPendaftaranMagang(combinedObject)) {
+        // await handleImageUploadAndFetch(combinedObject);
+      } else {
+        return false;
       }
     }
   };
@@ -165,7 +165,7 @@ function MagangPages() {
             <p className="flex text-base">
               PKL adalah kegiatan praktik kerja yang diberikan kepada
               mahasiswa/siswa yang difasilitasi oleh Bank Indonesia.
-              ​​​Memberikan kesempatan bagi mahasiswa/sis​wa untuk belajar dan
+              Memberikan kesempatan bagi mahasiswa/sis​wa untuk belajar dan
               mengembangkan diri melalui keterlibatan langsung dalam pelaksanaan
               tugas di Bank Indonesia.
             </p>
