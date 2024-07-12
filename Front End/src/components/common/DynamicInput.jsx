@@ -73,13 +73,6 @@ function DynamicInput({
     onChange(updatedValue);
   };
 
-  let parsedOptions = [];
-  try {
-    parsedOptions = JSON.parse(options);
-  } catch (error) {
-    // Handle JSON parsing error here
-  }
-
   const renderDocument = (src, type) => {
     switch (type) {
       case "application/pdf":
@@ -214,7 +207,8 @@ function DynamicInput({
               placeholder={placeholder}
               value={value}
               disabled={disabled}
-              className="h-7 flex-1 text-sm w-full "
+              className="h-7 flex-1 text-sm w-full"
+              
               defaultCountry="ID"
               countries={["ID"]}
               onChange={handlePhoneInputChange}

@@ -54,21 +54,12 @@ const Footer = () => {
             <LoadingLink to="/about" className="no-underline">
               <span className="text-sm text-darkColor">Tentang</span>
             </LoadingLink>
-            <LoadingLink to="/faq" className="no-underline">
-              <span className="text-sm text-darkColor">FAQ</span>
-            </LoadingLink>
             <LoadingLink to="/term-and-conditional" className="no-underline">
               <span className="text-sm text-darkColor">Syarat & Ketentuan Layanan</span>
-            </LoadingLink>
-            <LoadingLink to="/daftar-layanan" className="no-underline">
-              <span className="text-sm text-darkColor">Daftar Layanan</span>
             </LoadingLink>
           </div>
           <div className="flex flex-1 flex-col">
             <span className="font-semibold text-lg mb-2">Akses Cepat</span>
-            <LoadingLink to="/allreviews" className="no-underline">
-              <span className="text-sm text-darkColor">Semua Review</span>
-            </LoadingLink>
             <LoadingLink to="/blog" className="no-underline">
               <span className="text-sm text-darkColor">Blog</span>
             </LoadingLink>

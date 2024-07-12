@@ -3,7 +3,7 @@ export const formData = [
     name: "Pengajuan Integrasi Sistem Informasi",
     type: "Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan",
     role: [
-      "op_pmo",
+      "op_pmo","kadis",
       "perangkat_daerah",
       "kabid_aplikasi",
       "katim_aplikasi",
@@ -42,7 +42,7 @@ export const formData = [
     name: "Pengajuan Penerapan Modul TTE",
     type: "Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan",
     role: [
-      "op_pmo",
+      "op_pmo","kadis",
       "perangkat_daerah",
       "kabid_aplikasi",
       "katim_aplikasi",
@@ -89,7 +89,7 @@ export const formData = [
     name: "Pengajuan Permohonan Email",
     type: "Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan",
     role: [
-      "op_pmo",
+      "op_pmo","kadis",
       "perangkat_daerah",
       "kabid_aplikasi",
       "katim_aplikasi",
@@ -123,7 +123,7 @@ export const formData = [
     name: "Pengajuan Permohonan Pengujian Celah Keamanan",
     type: "Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan",
     role: [
-      "op_pmo",
+      "op_pmo","kadis",
       "perangkat_daerah",
       "kabid_aplikasi",
       "katim_aplikasi",

@@ -11,6 +11,7 @@ import Authmiddleware from "./routes/middleware/Authmiddleware";
 // layouts Format
 import { ToastContainer } from "react-toastify";
 import { MaintenanceGuard } from "./components/layout/MaintenanceGuard";
+import { setMetaData } from "../src/utils/helpers/metaHelper";
 
 import NotFoundPage from "./components/layout/NotFoundPage";
 import NonAuthLayout from "./routes/NonAuthLayout";
@@ -25,6 +26,19 @@ function App() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    setMetaData({
+      "judul": "DISKOMINFO Kota Bandung",
+      "logo": "%PUBLIC_URL%/logo-diskominfo-bandung.png",
+      "favicon": "%PUBLIC_URL%/favicon.ico",
+      "keywords": "DISKOMINFO, Bandung, Kota Bandung, Informasi, Komunikasi",
+      "deskripsi_meta": "Portal Resmi Dinas Komunikasi dan Informatika Kota Bandung.",
+      "meta_image":  "%PUBLIC_URL%/logo-diskominfo-bandung.png",
+      "meta_deskripsi": "Selamat datang di portal resmi Dinas Komunikasi dan Informatika Kota Bandung. Temukan berbagai informasi terkini mengenai kegiatan dan layanan kami.",
+      "meta_keywords": "DISKOMINFO, Kota Bandung, Informasi, Komunikasi, Layanan Publik",
+      "analytics": "UA-XXXXX-Y", // Replace with actual analytics tracking code
+      "versionApp": "1.0"
+    }
+    , location);
   }, [location]);
 
   useEffect(() => {

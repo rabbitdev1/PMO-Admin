@@ -21,7 +21,7 @@ function MagangPages() {
     {
       name: "Pengajuan Layanan Pendaftaran Magang",
       type: "Layanan Sekretariat",
-      role: ["op_pmo", "sekretariat", "katim_sekre", "teknis_sekre"],
+      role: ["op_pmo","kadis", "sekretariat", "katim_sekre", "teknis_sekre"],
       fields: [
         {
           name: "name_pemohon",
