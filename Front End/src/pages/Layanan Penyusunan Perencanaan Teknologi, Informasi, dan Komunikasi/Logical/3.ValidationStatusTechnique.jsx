@@ -71,8 +71,8 @@ const ValidationStatusTechnique = ({
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: 'perencanaantik Berhasil Diupdate',
-            msg: 'Selamat, Pengajuan perencanaantik sudah diupdate',
+            title: "Pembaharuan Pengajuan Layanan Penyusunan Perencaan TIK Berhasil",
+            msg: "Selamat! Pengajuan layanan penyusunan perencanaan tik Anda telah berhasil diperbarui.",
             icon: PengajuanBerahasilIcon,
             color: '#13C39C'
           },

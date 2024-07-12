@@ -158,8 +158,8 @@ function LayananPenyusunanPerencanaanTIKPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Pengajuan Penyusunan Perencanaan TIK Berhasil",
-            msg: "Selamat! Pengajuan Penyusunan Perencanaan TIK Anda telah berhasil diterima dan diproses.",
+            title: "Pengajuan Layanan Penyusunan Perencanaan TIK Berhasil",
+            msg: "Selamat! Pengajuan Layanan Penyusunan Perencanaan TIK Anda telah berhasil diterima dan diproses.",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
           },

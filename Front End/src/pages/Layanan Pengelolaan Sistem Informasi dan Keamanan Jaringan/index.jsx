@@ -187,8 +187,8 @@ function AplikasiPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Pengajuan Aplikasi Berhasil",
-            msg: "Selamat! Pengajuan aplikasi Anda telah berhasil diterima dan diproses.",
+            title: "Pengajuan Layanan Aplikasi Berhasil",
+            msg: "Selamat! Pengajuan layanan aplikasi Anda telah berhasil diterima dan diproses.",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
           },

@@ -79,7 +79,7 @@ const FinishStatus = ({
                   key={key}
                   label={
                     key === "upload_dokumen_hasil"
-                      ? "Dokumen Laporan Hasil"
+                      ? "Dokumen Laporan Hasil Pendataan Ahli"
                       : key
                   }
                   value={value}

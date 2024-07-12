@@ -3,9 +3,9 @@ import { toast } from "react-toastify";
 import DynamicButton from "../../../components/common/DynamicButton";
 import DynamicInput from "../../../components/common/DynamicInput";
 import DynamicShow from "../../../components/common/DynamicShow";
-import { validateImage } from "../../../utils/helpers/validateForm";
+import { validateFile, validateImage } from "../../../utils/helpers/validateForm";
 import DynamicDetails from "../DynamicDetails";
-import { getPenyusunanKebijakanFinish, getPenyusunanKebijakanProcess, getPerwalFinish, getPerwalProcess } from "../data";
+import { getPenyusunanKebijakanFinish, getPenyusunanKebijakanProcess, getPerwalFinish, getPerwalProcess, getSuratKeputusanFinish, getSuratKeputusanProcess } from "../data";
 
 const ProcessStatus = ({
     submissionStatus,
@@ -19,8 +19,8 @@ const ProcessStatus = ({
 }) => {
 
     const [inputLocal, setInputLocal] = useState({});
-    const PenyusunanKebijakanProcess = getPenyusunanKebijakanProcess(inputLocal);
-    const PenyusunanKebijakanFinish = getPenyusunanKebijakanFinish(finishData);
+    const SuratKeputusanProcess = getSuratKeputusanProcess(inputLocal);
+    const SuratKeputusanFinish = getSuratKeputusanFinish(finishData);
     const PerkepProcess = getPerwalProcess(inputLocal);
     const PerkepFinish = getPerwalFinish(finishData);
 
@@ -99,16 +99,16 @@ const ProcessStatus = ({
                                             <DynamicShow
                                                 key={key}
                                                 label={
-                                                    key === "upload_dokumen_kebijakan"
-                                                        ? "Dokument Hasil"
+                                                    key === "upload_dokumen_keputusan"
+                                                        ? "Dokument Keputusan"
                                                         : key === "upload_dokumen_laporan_perkep"
-                                                            ? "Dokument Laporan PerKep"
+                                                            ? "Dokumen Laporan Permohonan Perwal dan Kepwal"
                                                             : key
                                                 }
                                                 value={value}
                                                 location={"perencanaantik"}
                                                 type={
-                                                    key === "upload_dokumen_kebijakan" || key === "upload_dokumen_laporan_perkep"
+                                                    key === "upload_dokumen_keputusan" || key === "upload_dokumen_laporan_perkep"
                                                         ? "pdf"
                                                         : "text"
                                                 }
@@ -135,7 +135,7 @@ const ProcessStatus = ({
                                                     key === "working_schedule"
                                                         ? "Jadwal Kerja"
                                                         : key === "team_response"
-                                                            ? "Respon dari Tim Teknis"
+                                                            ? "Tanggapan dari Tim Teknis"
                                                             : key
                                                 }
                                                 value={value}
@@ -160,7 +160,7 @@ const ProcessStatus = ({
                                 <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                                     <span className='text-lg font-bold'>Tahapan Proses</span>
                                     {renderProcessInputs(detailData.submission_title === "Surat Keputusan" ?
-                                        PenyusunanKebijakanProcess :
+                                        SuratKeputusanProcess :
                                         detailData.submission_title === "Permohonan Perwal dan Kepwal TIK" ? PerkepProcess :
                                             []
                                     )}
@@ -183,22 +183,11 @@ const ProcessStatus = ({
 
                                                 let isValid = true;
 
-                                                if (detailData.submission_title === "Relokasi Alat") {
-                                                    isValid = isValid && validateImage(inputLocal.upload_foto_alat_sebelum_di_relokasi, "Upload Foto Alat Sebelum di Relokasi");
-                                                    isValid = isValid && validateImage(inputLocal.upload_foto_alat_sesudah_di_relokasi, "Upload Foto Alat Sesudah di Relokasi");
-                                                } else if (detailData.submission_title === "Penambahan Alat") {
-                                                    isValid = isValid && validateImage(inputLocal.upload_foto_alat_sebelum_di_tambahkan, "Upload Foto Alat Sebelum di Tambahkan");
-                                                    isValid = isValid && validateImage(inputLocal.upload_foto_alat_sesudah_di_tambahkan, "Upload Foto Alat Sesudah di Tambahkan");
-                                                } else if (detailData.submission_title === "Penambahan Bandwidth") {
-                                                    isValid = isValid && validateImage(inputLocal.upload_foto_kegiatan, "Upload Foto Kegiatan");
-                                                } else if (detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan") {
-                                                    isValid = isValid && validateImage(inputLocal.upload_foto_kegiatan, "Upload Foto Kegiatan");
-                                                } else if (detailData.submission_title === "Hosting") {
-                                                    isValid = isValid && validateImage(inputLocal.upload_foto_kegiatan, "Upload Foto Kegiatan");
-                                                } else if (detailData.submission_title === "Domain") {
-                                                    isValid = isValid && validateImage(inputLocal.upload_foto_kegiatan, "Upload Foto Kegiatan");
-                                                }
-                                                if (isValid) {
+                                                if (detailData.submission_title === "Surat Keputusan") {
+                                                    isValid = isValid && validateFile(inputLocal.upload_dokumen_keputusan, "Unggah Dokumen Keputusan");
+                                                } else if (detailData.submission_title === "Permohonan Perwal dan Kepwal TIK") {
+                                                    isValid = isValid && validateFile(inputLocal.upload_dokumen_laporan_perkep, "Unggah Dokumen Laporan Permohonan Perwal dan Kepwal");
+                                                } if (isValid) {
                                                     checkingFormData('process', filteredDataResult);
                                                 }
                                             }}
@@ -216,16 +205,16 @@ const ProcessStatus = ({
                                             <DynamicShow
                                                 key={key}
                                                 label={
-                                                    key === "upload_dokumen_kebijakan"
-                                                        ? "Dokument Hasil"
+                                                    key === "upload_dokumen_keputusan"
+                                                        ? "Dokumen Keputusan"
                                                         : key === "upload_dokumen_laporan_perkep"
-                                                            ? "Dokument Laporan PerKep"
+                                                            ? "Dokumen Laporan Permohonan Perwal dan Kepwal"
                                                             : key
                                                 }
                                                 value={value}
                                                 location={"perencanaantik"}
                                                 type={
-                                                    key === "upload_dokumen_kebijakan" || key === "upload_dokumen_laporan_perkep"
+                                                    key === "upload_dokumen_keputusan" || key === "upload_dokumen_laporan_perkep"
                                                         ? "pdf"
                                                         : "text"
                                                 }
@@ -235,7 +224,7 @@ const ProcessStatus = ({
                                     <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                                         <span className='text-lg font-bold'>Proses Selesai</span>
                                         {renderFinishInputs(detailData.submission_title === "Surat Keputusan" ?
-                                            PenyusunanKebijakanFinish :
+                                            SuratKeputusanFinish :
                                             detailData.submission_title === "Permohonan Perwal dan Kepwal TIK" ? PerkepFinish :
                                                 []
                                         )}

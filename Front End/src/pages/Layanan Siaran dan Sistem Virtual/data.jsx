@@ -41,7 +41,7 @@ export const formData = [
       { name: "needed_tools", label: "Kebutuhan Alat", value: "", type: "editor" },
       {
         name: "live_streaming",
-        label: "Live Streaming",
+        label: "Siaran Langusng",
         value: "",
         type: "radio_button",
         options: [

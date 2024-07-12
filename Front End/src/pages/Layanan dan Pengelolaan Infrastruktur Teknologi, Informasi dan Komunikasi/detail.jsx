@@ -152,8 +152,8 @@ function DetailInfrastrukturPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Pembaharuan Infrastruktur Berhasil",
-            msg: "Selamat! Pengajuan Infrastruktur Anda Telah Berhasil Diperbarui.",
+            title: "Pembaharuan Layanan Infrastruktur Berhasil",
+            msg: "Selamat! Pengajuan Layanan Infrastruktur Anda Telah Berhasil Diperbarui.",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
           },
