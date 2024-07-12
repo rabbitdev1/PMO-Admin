@@ -19,8 +19,6 @@ export const setStatusDataSekretariat = async(req, res) => {
             }
         });
 
-        console.log("Processed data:", processedData);
-        console.log(1, rawData);
 
         if (Array.isArray(rawData.role) || typeof rawData.role === "object") {
             rawData.role = JSON.stringify(rawData.role);
@@ -39,7 +37,6 @@ export const setStatusDataSekretariat = async(req, res) => {
             msg: "Item created successfully",
         });
     } catch (error) {
-        console.error(error);
         res.status(500).json({
             status: "error",
             msg: "Internal Server Error",
@@ -70,11 +67,9 @@ export const editProcessDataSekretariat = async(req, res) => {
             });
         }
         if (parseInt(sekretariatItem.submission_status) === 1) {
-            console.log("jalan");
             sekretariatItem.submission_status = 2;
             await sekretariatItem.save();
         } else if (parseInt(sekretariatItem.submission_status) === 4) {
-            console.log("jalan");
             if (status === "Ditolak") {
                 sekretariatItem.submission_status = 5;
             } else if (status === "Lanjutkan") {
@@ -89,7 +84,6 @@ export const editProcessDataSekretariat = async(req, res) => {
             msg: "Item updated successfully",
         });
     } catch (error) {
-        console.error(error);
         return res.status(500).json({
             status: "error",
             msg: "Internal Server Error",

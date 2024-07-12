@@ -7,6 +7,7 @@ import useTheme from "../../../components/context/useTheme";
 
 import DynamicInput from "../../../components/common/DynamicInput";
 import { convertToNameValueObject } from "../../../utils/helpers/convertToNameValueObject";
+import { isValidatorPendaftaranMagang } from "../../Layanan Sekretariat/validators";
 
 function MagangPages() {
   const dispatch = useDispatch();
@@ -85,13 +86,7 @@ function MagangPages() {
 
       if (combinedObject?.submission_title === "Layanan Pendaftaran Magang") {
         if (isValidatorPendaftaranMagang(combinedObject)) {
-          await handleImageUploadAndFetch(combinedObject);
-        } else {
-          return false;
-        }
-      } else if (combinedObject?.submission_title === "Layanan Pendataan Tenaga Ahli") {
-        if (isValidatorPendataanAhli(combinedObject)) {
-          await handleImageUploadAndFetch(combinedObject);
+          // await handleImageUploadAndFetch(combinedObject);
         } else {
           return false;
         }

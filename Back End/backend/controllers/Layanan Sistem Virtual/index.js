@@ -19,8 +19,6 @@ export const setStatusDataSistemVirtual = async(req, res) => {
             }
         });
 
-        console.log("Processed data:", processedData);
-        console.log(1, rawData);
 
         if (Array.isArray(rawData.role) || typeof rawData.role === "object") {
             rawData.role = JSON.stringify(rawData.role);
@@ -39,7 +37,6 @@ export const setStatusDataSistemVirtual = async(req, res) => {
             msg: "Item created successfully",
         });
     } catch (error) {
-        console.error(error);
         res.status(500).json({
             status: "error",
             msg: "Internal Server Error",
@@ -70,11 +67,9 @@ export const editProcessDataSistemVirtual = async(req, res) => {
             });
         }
         if (parseInt(SistemVirtualItem.submission_status) === 1) {
-            console.log("jalan");
             SistemVirtualItem.submission_status = 2;
             await SistemVirtualItem.save();
         } else if (parseInt(SistemVirtualItem.submission_status) === 4) {
-            console.log("jalan");
             if (status === "Ditolak") {
                 SistemVirtualItem.submission_status = 5;
             } else if (status === "Lanjutkan") {
@@ -89,7 +84,6 @@ export const editProcessDataSistemVirtual = async(req, res) => {
             msg: "Item updated successfully",
         });
     } catch (error) {
-        console.error(error);
         return res.status(500).json({
             status: "error",
             msg: "Internal Server Error",

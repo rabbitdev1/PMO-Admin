@@ -34,7 +34,6 @@ export const deleteDataInfrastruktur = async (req, res) => {
             ...JSON.parse(infrastrukturItem.on_finish),
             ...JSON.parse(infrastrukturItem.fields),
         };
-        console.log("Merged Data:", mergedDataProcess);
 
         const findValueByTitle = (data, title) => data[title];
 
@@ -84,7 +83,6 @@ export const deleteDataInfrastruktur = async (req, res) => {
             });
         }
     } catch (error) {
-        console.error("Error deleting infrastructure data:", error);
         return res.status(500).json({
             status: "error",
             msg: "Internal Server Error",

@@ -22,8 +22,8 @@ import fetchUploadFiles from "../../utils/api/uploadFiles";
 import { convertToNameValueObject } from "../../utils/helpers/convertToNameValueObject";
 import { formData as initialFormData } from "./data";
 import {
-  isValidatorPenyusunaKebijakan,
-  isValidatorPerwalKepwal
+  isValidatorPerwalKepwal,
+  isValidatorSuratKeputusan
 } from "./validators";
 
 function LayananPenyusunanPerencanaanTIKPages() {
