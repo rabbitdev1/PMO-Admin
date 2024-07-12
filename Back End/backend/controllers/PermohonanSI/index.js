@@ -19,8 +19,6 @@ export const setStatusDataPermohonanSI = async(req, res) => {
             }
         });
 
-        console.log("Processed data:", processedData);
-        console.log(1, rawData);
 
         if (Array.isArray(rawData.role) || typeof rawData.role === "object") {
             rawData.role = JSON.stringify(rawData.role);
@@ -43,7 +41,6 @@ export const setStatusDataPermohonanSI = async(req, res) => {
             msg: "Item created successfully",
         });
     } catch (error) {
-        console.error(error);
         res.status(500).json({
             status: "error",
             msg: "Internal Server Error",
@@ -74,11 +71,9 @@ export const editProcessDataPermohonanSI = async(req, res) => {
             });
         }
         if (parseInt(permohonanSIItem.submission_status) === 1) {
-            console.log("jalan");
             permohonanSIItem.submission_status = 2;
             await permohonanSIItem.save();
         } else if (parseInt(permohonanSIItem.submission_status) === 4) {
-            console.log("jalan");
             if (status === "Ditolak") {
                 permohonanSIItem.submission_status = 5;
             } else if (status === "Lanjutkan") {
@@ -89,7 +84,6 @@ export const editProcessDataPermohonanSI = async(req, res) => {
             await permohonanSIItem.save();
         }
         else if (parseInt(permohonanSIItem.submission_status) === 6) {
-            console.log("jalan");
             if (status === "Ditolak") {
                 permohonanSIItem.submission_status = 7;
             } else if (status === "Lanjutkan") {
@@ -100,14 +94,12 @@ export const editProcessDataPermohonanSI = async(req, res) => {
             await permohonanSIItem.save();
         }
         else if (parseInt(permohonanSIItem.submission_status) === 8) {
-            console.log("jalan");
             if (status === "Lanjutkan") {
                 permohonanSIItem.submission_status = 9;
             } 
             await permohonanSIItem.save();
         }
         else if (parseInt(permohonanSIItem.submission_status) === 9) {
-            console.log("jalan");
             if (status === "Ditolak") {
                 permohonanSIItem.submission_status = 10;
             } else if (status === "Lanjutkan") {
@@ -118,7 +110,6 @@ export const editProcessDataPermohonanSI = async(req, res) => {
             await permohonanSIItem.save();
         }
         else if (parseInt(permohonanSIItem.submission_status) === 11) {
-            console.log("jalan");
             if (status === "Lanjutkan") {
                 permohonanSIItem.submission_status = 12;
             } 
@@ -129,7 +120,6 @@ export const editProcessDataPermohonanSI = async(req, res) => {
             msg: "Item updated successfully",
         });
     } catch (error) {
-        console.error(error);
         return res.status(500).json({
             status: "error",
             msg: "Internal Server Error",

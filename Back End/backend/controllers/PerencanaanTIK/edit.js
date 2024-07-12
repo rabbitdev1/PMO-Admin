@@ -22,7 +22,6 @@ export const editDataPerencanaanTIK = async(req, res) => {
             });
         }
         const convertData = JSON.parse(data);
-        console.log(convertData);
         if (type === "validation") {
             if (convertData.status_validation === "Disetujui") {
                 perencanaantikItem.submission_status = 4;
@@ -54,7 +53,6 @@ export const editDataPerencanaanTIK = async(req, res) => {
             msg: "Item updated successfully",
         });
     } catch (error) {
-        console.error(error);
         return res.status(500).json({
             status: "error",
             msg: "Internal Server Error",

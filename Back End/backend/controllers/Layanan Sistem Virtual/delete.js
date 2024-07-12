@@ -34,8 +34,6 @@ export const deleteDataSistemVirtual = async (req, res) => {
             ...JSON.parse(SistemVirtualItem.on_finish),
             ...JSON.parse(SistemVirtualItem.fields),
         };
-        console.log("Merged Data:", mergedDataProcess);
-
         const findValueByTitle = (data, title) => data[title];
 
         const file_pengajuan_zoomValue = findValueByTitle(mergedDataProcess, 'file_pengajuan_zoom');
@@ -82,7 +80,6 @@ export const deleteDataSistemVirtual = async (req, res) => {
             });
         }
     } catch (error) {
-        console.error("Error deleting Teknologi SI data:", error);
         return res.status(500).json({
             status: "error",
             msg: "Internal Server Error",

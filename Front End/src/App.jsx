@@ -1,15 +1,13 @@
+import Cookies from "js-cookie";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { connect, useSelector } from "react-redux";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
 
 // Import Routes all
-import { aplikasiRoutes, authRoutes, infraRoutes, nonUserRoutes, operatorRoutes, userRoutes } from "./routes/allRoutes";
-
+import { authRoutes, infraRoutes, nonUserRoutes, operatorRoutes, userRoutes } from "./routes/allRoutes";
 // Import all middleware
 import Authmiddleware from "./routes/middleware/Authmiddleware";
-
 // layouts Format
 import { ToastContainer } from "react-toastify";
 import { MaintenanceGuard } from "./components/layout/MaintenanceGuard";
@@ -40,9 +38,6 @@ function App() {
       }
     } else {
       setAuthToken(null);
-      // navigate('/');
-
-      // navigate('/login');
     }
   }, []);
 
@@ -96,23 +91,14 @@ function App() {
                     exact={true}
                   />
                 )) :
-                (role === 'kabid_aplikasi' || role === 'katim_aplikasi' || role === 'teknis_aplikasi') ?
-                  [...userRoutes, ...aplikasiRoutes].map((route, idx) => (
-                    <Route
-                      path={route.path}
-                      element={<Authmiddleware>{route.component}</Authmiddleware>}
-                      key={idx}
-                      exact={true}
-                    />
-                  )) :
-                  userRoutes.map((route, idx) => (
-                    <Route
-                      path={route.path}
-                      element={<Authmiddleware>{route.component}</Authmiddleware>}
-                      key={idx}
-                      exact={true}
-                    />
-                  ))
+                userRoutes.map((route, idx) => (
+                  <Route
+                    path={route.path}
+                    element={<Authmiddleware>{route.component}</Authmiddleware>}
+                    key={idx}
+                    exact={true}
+                  />
+                ))
           }
 
           {nonUserRoutes.map((route, idx) => (
@@ -128,7 +114,7 @@ function App() {
       </MaintenanceGuard>
       {isPending && (
         <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-[#21212195]  z-50">
-          <span>Loading</span>
+          {/* <span>Loading</span> */}
         </div>
       )}
     </React.Fragment>

@@ -34,7 +34,6 @@ export const deleteDataAplikasi = async (req, res) => {
             ...JSON.parse(aplikasiItem.on_finish),
             ...JSON.parse(aplikasiItem.fields),
         };
-        console.log("Merged Data:", mergedDataProcess);
 
         const findValueByTitle = (data, title) => data[title];
 
@@ -69,7 +68,6 @@ export const deleteDataAplikasi = async (req, res) => {
                 await deleteFiles(value, layanan);
                 await deleteImage(value, layanan);
             }));
-            console.log("Data ditemukan:", foundValues, layanan);
         }
 
         const deletedItem = await Aplikasi.destroy({
@@ -90,7 +88,6 @@ export const deleteDataAplikasi = async (req, res) => {
             });
         }
     } catch (error) {
-        console.error(error);
         res.status(500).json({
             status: "error",
             msg: "Internal Server Error",

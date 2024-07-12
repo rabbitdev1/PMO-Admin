@@ -34,7 +34,6 @@ export const deleteDataPerencanaanTIK = async (req, res) => {
             ...JSON.parse(perencanaantikItem.on_finish),
             ...JSON.parse(perencanaantikItem.fields),
         };
-        console.log("Merged Data:", mergedDataProcess);
 
         const findValueByTitle = (data, title) => data[title];
 
@@ -78,7 +77,6 @@ export const deleteDataPerencanaanTIK = async (req, res) => {
             });
         }
     } catch (error) {
-        console.error("Error deleting Perencanaan TIK data:", error);
         return res.status(500).json({
             status: "error",
             msg: "Internal Server Error",

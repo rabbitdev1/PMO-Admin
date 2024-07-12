@@ -19,9 +19,6 @@ export const setStatusDataAplikasi = async(req, res) => {
             }
         });
 
-        console.log("Processed data:", processedData);
-        console.log(1, rawData);
-
         if (Array.isArray(rawData.role) || typeof rawData.role === "object") {
             rawData.role = JSON.stringify(rawData.role);
         }
@@ -39,7 +36,6 @@ export const setStatusDataAplikasi = async(req, res) => {
             msg: "Item created successfully",
         });
     } catch (error) {
-        console.error(error);
         res.status(500).json({
             status: "error",
             msg: "Internal Server Error",
@@ -70,11 +66,9 @@ export const editProcessDataAplikasi = async(req, res) => {
             });
         }
         if (parseInt(aplikasiItem.submission_status) === 1) {
-            console.log("jalan");
             aplikasiItem.submission_status = 2;
             await aplikasiItem.save();
         } else if (parseInt(aplikasiItem.submission_status) === 4) {
-            console.log("jalan");
             if (status === "Ditolak") {
                 aplikasiItem.submission_status = 5;
             } else if (status === "Lanjutkan") {
@@ -89,7 +83,6 @@ export const editProcessDataAplikasi = async(req, res) => {
             msg: "Item updated successfully",
         });
     } catch (error) {
-        console.error(error);
         return res.status(500).json({
             status: "error",
             msg: "Internal Server Error",
