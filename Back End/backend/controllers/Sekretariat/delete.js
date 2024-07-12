@@ -34,8 +34,6 @@ export const deleteDataSekretariat = async (req, res) => {
             ...JSON.parse(sekretariatItem.on_finish),
             ...JSON.parse(sekretariatItem.fields),
         };
-        console.log("Merged Data:", mergedDataProcess);
-
         const findValueByTitle = (data, title) => data[title];
 
         const surat_permohonanValue = findValueByTitle(mergedDataProcess, 'surat_permohonan');
@@ -80,7 +78,6 @@ export const deleteDataSekretariat = async (req, res) => {
             });
         }
     } catch (error) {
-        console.error("Error deleting Sekretariat data:", error);
         return res.status(500).json({
             status: "error",
             msg: "Internal Server Error",

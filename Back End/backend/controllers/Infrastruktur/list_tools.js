@@ -34,7 +34,6 @@ export const getListDataTools = async (req, res) => {
             });
         }
     } catch (error) {
-        console.error(error);
         res.status(500).json({
             status: "error",
             msg: "Internal Server Error",
@@ -72,7 +71,6 @@ export const getListDataToolsbyArray = async (req, res) => {
             });
         }
     } catch (error) {
-        console.error(error);
         res.status(500).json({
             status: "error",
             msg: "Internal Server Error",

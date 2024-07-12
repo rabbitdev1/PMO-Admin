@@ -18,7 +18,6 @@ import ModalContent from "../../components/ui/Modal/ModalContent";
 import { apiClient } from "../../utils/api/apiClient";
 import { convertToNameValueObject } from "../../utils/helpers/convertToNameValueObject";
 
-
 import fetchUploadFiles from "../../utils/api/uploadFiles";
 import { formData as initialFormData } from "./data";
 import {
@@ -26,10 +25,11 @@ import {
   isValidatorIntegrasi,
   isValidatorPenerapanModulTTE,
   isValidatorPengujianCelahKeamanan,
-  isValidatorUserAccountSI
+  isValidatorUserAccountSI,
 } from "./validators";
 import resetFormData from "../../components/common/ResetFormData";
 import ModalContentComponent from "../../components/ui/ModalContentComponent";
+import PanduanPengajuanModal from "../../components/ui/PanduanPengajuanModal";
 
 function AplikasiPages() {
   const { isDarkMode } = useTheme();
@@ -71,10 +71,11 @@ function AplikasiPages() {
   ]);
 
   const [listAplikasi, setListAplikasi] = useState([]);
-  const [listAplikasiLoading, setListAplikasiLoading] =
-    useState(true);
+  const [listAplikasiLoading, setListAplikasiLoading] = useState(true);
 
   const [formData, setFormData] = useState(initialFormData);
+
+  const [isModalPanduan, setisModalPanduan] = useState(false);
 
   const [isModalType, setisModalType] = useState({ status: false, data: {} });
   const [isModalCreate, setisModalCreate] = useState({
@@ -91,12 +92,8 @@ function AplikasiPages() {
 
   useEffect(() => {
     if (authToken) {
-      fetchDataAplikasi(
-        authApiKey,
-        authToken,
-        JSON.parse(authProfile)?.role
-      );
-      fetchDataCheckRole(authApiKey, authToken)
+      fetchDataAplikasi(authApiKey, authToken, JSON.parse(authProfile)?.role);
+      fetchDataCheckRole(authApiKey, authToken);
     }
   }, [dataState, authToken]);
 
@@ -160,15 +157,14 @@ function AplikasiPages() {
             ...form,
             fields: form.fields.map((field) => {
               if (field.name === "occupation") {
-                return { ...field, options:  response.result.data  };
-              } 
+                return { ...field, options: response.result.data };
+              }
               return field;
             }),
           };
         });
         setFormData(updatedData);
       } else {
-
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -268,25 +264,31 @@ function AplikasiPages() {
       (field) => field.name === fieldName
     );
 
-    if (fieldName === 'submission_type_user_account') {
-      const isResetPassword = value.value === 'reset_password';
-      const isNewAccount = value.value === 'new_account';
+    if (fieldName === "submission_type_user_account") {
+      const isResetPassword = value.value === "reset_password";
+      const isNewAccount = value.value === "new_account";
 
       // Set visibility for reset_password related fields
-      ['new_password', 'repeat_password'].forEach(name => {
-        const fieldIndex = currentSection.fields.findIndex(field => field.name === name);
+      ["new_password", "repeat_password"].forEach((name) => {
+        const fieldIndex = currentSection.fields.findIndex(
+          (field) => field.name === name
+        );
         if (fieldIndex !== -1) {
           currentSection.fields[fieldIndex].visible = isResetPassword;
         }
       });
 
       // Set visibility for new_account related fields
-      ['account_type', 'name', 'telp', 'email', 'origin_agency'].forEach(name => {
-        const fieldIndex = currentSection.fields.findIndex(field => field.name === name);
-        if (fieldIndex !== -1) {
-          currentSection.fields[fieldIndex].visible = isNewAccount;
+      ["account_type", "name", "telp", "email", "origin_agency"].forEach(
+        (name) => {
+          const fieldIndex = currentSection.fields.findIndex(
+            (field) => field.name === name
+          );
+          if (fieldIndex !== -1) {
+            currentSection.fields[fieldIndex].visible = isNewAccount;
+          }
         }
-      });
+      );
     }
 
     // Update the value of the field
@@ -297,15 +299,14 @@ function AplikasiPages() {
     setFormData(updatedFormData);
   };
 
-
-
   const checkingFormData = async () => {
     const foundObject = formData.find((obj) => obj.name === isModalCreate.data);
     if (foundObject) {
       const { result: nameValueObject, newObject: newObjectFromConversion } =
         convertToNameValueObject(foundObject);
       const nameValueObject2 = {
-        submission_type: "Layanan Pengelolaan Sistem Informasi dan Keamanan Sistem Informasi",
+        submission_type:
+          "Layanan Pengelolaan Sistem Informasi dan Keamanan Sistem Informasi",
         role: foundObject.role,
         submission_title: isModalCreate.data.replace("Pengajuan ", ""),
       };
@@ -330,8 +331,9 @@ function AplikasiPages() {
         } else {
           return false;
         }
-
-      } else if (combinedObject?.submission_title === "Integrasi Sistem Informasi") {
+      } else if (
+        combinedObject?.submission_title === "Integrasi Sistem Informasi"
+      ) {
         if (isValidatorIntegrasi(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
         } else {
@@ -343,7 +345,10 @@ function AplikasiPages() {
         } else {
           return false;
         }
-      } else if (combinedObject?.submission_title === "Permohonan Pengujian Celah Keamanan") {
+      } else if (
+        combinedObject?.submission_title ===
+        "Permohonan Pengujian Celah Keamanan"
+      ) {
         if (isValidatorPengujianCelahKeamanan(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
         } else {
@@ -375,7 +380,6 @@ function AplikasiPages() {
     } else {
       fetchDataCreate(authApiKey, authToken, obj);
     }
-
   };
   const updatePic = (name, number) => {
     const updatedData = formData.map((form) => {
@@ -412,12 +416,14 @@ function AplikasiPages() {
     setFormData(updatedData);
   };
 
-
-
   return (
     <div className="flex flex-col gap-3 flex-1 p-4">
       <TitleHeader
-        title={JSON.parse(authProfile)?.role === "perangkat_daerah" ? "Layanan Pengajuan " + dataState : "Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan"}
+        title={
+          JSON.parse(authProfile)?.role === "perangkat_daerah"
+            ? "Layanan Pengajuan " + dataState
+            : "Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan"
+        }
         link1={"dashboard"}
         link2={"Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan"}
       />
@@ -438,6 +444,7 @@ function AplikasiPages() {
                     className="bg-[#ffffff] text-[#0185FF] px-3"
                     onClick={() => {
                       // setisModalType({ data: 'Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan', status: true });
+                      setisModalPanduan(true);
                     }}
                   />
                 </div>
@@ -480,8 +487,14 @@ function AplikasiPages() {
                     type="transparent"
                     className="bg-[#0185FF] text-darkColor px-3"
                     onClick={() => {
-                      setisModalCreate({ data: "Pengajuan " + dataState, status: true });
-                      updatePic(JSON.parse(authProfile).fullname, JSON.parse(authProfile).telp);
+                      setisModalCreate({
+                        data: "Pengajuan " + dataState,
+                        status: true,
+                      });
+                      updatePic(
+                        JSON.parse(authProfile).fullname,
+                        JSON.parse(authProfile).telp
+                      );
                     }}
                   />
                 </div>
@@ -510,7 +523,6 @@ function AplikasiPages() {
                   if (JSON.parse(authProfile)?.role === "op_pmo") {
                     fetchSetProgress(authApiKey, authToken, data);
                     console.log(data.submission_title);
-
                   } else {
                     navigate("/detail-aplikasi", { state: { slug: data.id } });
                   }
@@ -585,6 +597,39 @@ function AplikasiPages() {
         active={isModalType.status}
         onClose={() => setisModalType({ data: {}, status: false })}
       />
+
+      <PanduanPengajuanModal
+        isModalPanduan={isModalPanduan}
+        setisModalPanduan={setisModalPanduan}
+        isDarkMode={isDarkMode}
+        children={
+          <div className="flex flex-col overflow-hidden rounded-b-md">
+            <p>
+              1. Klik layanan yang akan diajukan pada Side Bar Menu atau Menu
+              Bar Samping.
+            </p>
+            <p>
+              2. Lalu muncul submenu atau menu sekunder klik salah satu layanan.
+            </p>
+            <p>3. Klik tombol ajukan permohonan.</p>
+            <p>
+              4. Lalu akan muncul formulir yang harus diisi oleh Operator
+              Perangkat Daerah (Nama PIC dan Nomor PIC akan terisi otomatis).
+            </p>
+            <p>
+              5. Jika ada formulir yang mengharuskan input file mohon inputkan file yang berekstensi
+              pdf, xlsx dan docs.
+            </p>
+            <p>
+              6. Jika dirasa sudah cukup maka klik tombol Ajukan Permohonan.
+            </p>
+            <p className="font-bold">
+              Dengan catatan semua formulir harus terisi!
+            </p>
+          </div>
+        }
+      />
+
       <ModalContent
         className={"sm:max-w-5xl "}
         children={
@@ -617,7 +662,7 @@ function AplikasiPages() {
                               label={item.label}
                               noted={item.noted}
                               value={item.value}
-                              className={'mb-2'}
+                              className={"mb-2"}
                               options={item.options}
                               onChange={(value) =>
                                 handleInputChange(

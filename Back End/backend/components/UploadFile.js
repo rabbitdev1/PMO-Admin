@@ -48,7 +48,6 @@ export const uploadFiles = async (req, res) => {
       data: snapshot.metadata.name,
     });
   } catch (error) {
-    console.error("Error uploading files:", error);
     res.status(500).json({ status: "error", msg: "Internal Server Error" });
   }
 };
@@ -65,7 +64,6 @@ export const deleteFiles = async (fileName, location) => {
     if (error.code === "storage/object-not-found") {
       return { status: "error", msg: "File not found" };
     } else {
-      console.error("Error deleting file:", error);
       throw error;
     }
   }

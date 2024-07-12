@@ -1,4 +1,3 @@
-import Cookies from "js-cookie";
 import React, { useEffect, useRef, useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useDispatch } from "react-redux";
@@ -6,128 +5,16 @@ import { useNavigate } from "react-router";
 import { Autoplay, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-import { ReactComponent as CloseIcon } from "../../assets/icon/ic_close.svg";
 import { ReactComponent as LeftArrowIcon } from "../../assets/icon/ic_left_arrow.svg";
-import { ReactComponent as InstagramIcon } from "../../assets/socialmedia/Instagram.svg";
-import { ReactComponent as TiktokIcon } from "../../assets/socialmedia/TikTok.svg";
-import { ReactComponent as FacebookIcon } from "../../assets/socialmedia/facebook.svg";
-import { ReactComponent as PlaystoreIcon } from "../../assets/socialmedia/playstore_light.svg";
-import { ReactComponent as WAIcon } from "../../assets/socialmedia/whatapps.svg";
-import { ReactComponent as XIcon } from "../../assets/socialmedia/x.svg";
 
 import DynamicButton from "../../components/common/DynamicButton";
 import LoadingLink from "../../components/common/LoadingLink";
-import useTheme from "../../components/context/useTheme";
 import ConditionalRender from "../../components/ui/ConditionalRender";
-import resetFormData from "../../components/common/ResetFormData";
 
-import Header from "./Header";
-import ModalContent from "../../components/ui/Modal/ModalContent";
-import { convertToNameValueObject } from "../../utils/helpers/convertToNameValueObject";
-import DynamicInput from "../../components/common/DynamicInput";
 
 function LandingPages() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isDarkMode, toggleTheme } = useTheme();
-  const authApiKey = Cookies.get('authApiKey');
-  const authToken = Cookies.get('authToken');
-
-  const [isModalCreate, setisModalCreate] = useState({
-    status: false,
-    data: {},
-  });
-  const [formData, setFormData] = useState([
-    {
-      name: "Pengajuan User Account",
-      type: "Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan",
-      role: [
-        "op_pmo",
-        "perangkat_daerah",
-        "kabid_aplikasi",
-        "katim_aplikasi",
-        "teknis_aplikasi",
-      ],
-      fields: [
-        { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
-        { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
-        {
-          name: "submission_type_user_account",
-          label: "Jenis Pengajuan",
-          value: [],
-          type: "selection",
-          options: [
-            {
-              value: "reset_password",
-              label: "Ganti Kata Sandi",
-            },
-            {
-              value: "new_account",
-              label: "Pembuatan Akun Baru",
-            },
-          ],
-        },
-        {
-          name: "account_type",
-          label: "Jenis Akun",
-          value: [],
-          type: "selection",
-          options: [
-            { value: "account_1", label: "Akun 1" },
-            { value: "account_2", label: "Akun 2" },
-          ],
-          visible: false,
-        },
-        {
-          name: "password",
-          label: "Kata Sandi Lama",
-          value: "",
-          type: "password",
-          visible: false,
-        },
-        {
-          name: "name", label: "Nama PPK", value: "", type: "text", visible: false
-        },
-        {
-          name: "telp", label: "Nomor Handphone", value: "", type: "tel", visible: false
-        },
-        {
-          name: "email", label: "Email", value: "", type: "email", visible: false
-        },
-        {
-          name: "origin_agency", label: "Asal Instansi", value: "", type: "text", visible: false
-        },
-        // {
-        //   name: "password",
-        //   label: "Password Lama",
-        //   value: "",
-        //   type: "password",
-        //   visible: false,
-        // },
-        {
-          name: "new_password",
-          label: "Kata Sandi Baru",
-          value: "",
-          type: "password",
-          visible: false,
-        },
-        {
-          name: "repeat_password",
-          label: "Ulangi Kata Sandi",
-          value: "",
-          type: "password",
-          visible: false,
-        },
-
-        {
-          name: "reason",
-          label: "Alasan Pengajuan",
-          value: "",
-          type: "editor",
-        },
-      ],
-    },
-  ]);
 
   const [activeSlide, setActiveSlide] = useState(0);
   const swiperRef = useRef(null);
@@ -173,85 +60,12 @@ function LandingPages() {
   useEffect(() => {
     // You can dispatch actions here if needed
   }, [dispatch]);
-  const checkingFormData = async () => {
-    const foundObject = formData.find((obj) => obj.name === isModalCreate.data);
-    if (foundObject) {
-      const { result: nameValueObject, newObject: newObjectFromConversion } =
-        convertToNameValueObject(foundObject);
-      const nameValueObject2 = {
-        submission_type: "",
-        role: foundObject.role,
-        submission_title: isModalCreate.data.replace("Pengajuan ", ""),
-      };
-      const combinedObject = {
-        ...nameValueObject,
-        ...nameValueObject2,
-        ...newObjectFromConversion.reduce(
-          (acc, cur) => ({ ...acc, [cur.name]: cur.value }),
-          {}
-        ),
-      };
-      console.log(JSON.stringify(combinedObject));
-      if (combinedObject?.submission_title === "Pendaftaran Magang") {
-        if (isValidatorPendaftaranMagang(combinedObject)) {
-          await handleImageUploadAndFetch(combinedObject);
-        } else {
-          return false;
-        }
-      }
-    } else {
-      console.log("Objek tidak ditemukan dalam formData");
-    }
-  };
-  const handleInputChange = (fieldName, value, sectionIndex) => {
-    const updatedFormData = [...formData];
-    const currentSection = updatedFormData[sectionIndex];
-    const fieldToUpdateIndex = currentSection.fields.findIndex(
-      (field) => field.name === fieldName
-    );
-
-    if (fieldName === 'submission_type_user_account') {
-      const isResetPassword = value.value === 'reset_password';
-      const isNewAccount = value.value === 'new_account';
-
-      // Set visibility for reset_password related fields
-      ['new_password', 'repeat_password'].forEach(name => {
-        const fieldIndex = currentSection.fields.findIndex(field => field.name === name);
-        if (fieldIndex !== -1) {
-          currentSection.fields[fieldIndex].visible = isResetPassword;
-        }
-      });
-
-      // Set visibility for new_account related fields
-      ['account_type', 'name', 'telp', 'email', 'origin_agency'].forEach(name => {
-        const fieldIndex = currentSection.fields.findIndex(field => field.name === name);
-        if (fieldIndex !== -1) {
-          currentSection.fields[fieldIndex].visible = isNewAccount;
-        }
-      });
-    }
-
-    // Update the value of the field
-    if (fieldToUpdateIndex !== -1) {
-      currentSection.fields[fieldToUpdateIndex].value = value;
-    }
-
-    setFormData(updatedFormData);
-  };
+ 
   return (
     <div className="flex flex-col min-h-screen bg-cardLight dark:bg-cardDark text-lightColor dark:text-darkColor font-gilroy">
-      <Header
-        isDarkMode={isDarkMode}
-        toggleTheme={toggleTheme}
-        navigate={navigate}
-        authToken={authToken}
-        authApiKey={authApiKey}
-        setisModalCreate={setisModalCreate}
-      />
 
       <main className="flex-grow flex flex-col ">
         <div className="flex flex-col bg-lightColor dark:bg-darkColor ">
-          <div className="h-28 w-full " />
           <div className="lg:container lg:mx-auto xl:max-w-screen-xl p-3 gap-3 ">
             <div className="flex flex-col h-full w-full ">
               <ConditionalRender
@@ -298,7 +112,7 @@ function LandingPages() {
                             <img
                               src={item.image_url}
                               alt={item.image_url}
-                              className=" object-cover flex flex-col flex-1 w-full aspect-[2/1] bg-green-400"
+                              className=" object-cover flex flex-col flex-1 w-full aspect-[2/1]"
                               effect="blur"
                             />
                           </button>
@@ -311,6 +125,7 @@ function LandingPages() {
             </div>
           </div>
         </div>
+
         <div className="flex flex-col  bg-[#cc3232] text-darkColor">
           <div className="flex md:flex-row flex-col justify-between lg:container lg:mx-auto xl:max-w-screen-xl p-3 gap-3 my-5">
             <div className="flex flex-col gap-2 flex-1 justify-between">
@@ -334,6 +149,7 @@ function LandingPages() {
             </div>
           </div>
         </div>
+
         <div className="flex flex-col bg-lightColor dark:bg-darkColor">
           <div className="lg:container lg:mx-auto xl:max-w-screen-xl p-3 gap-3 ">
             <div className="flex flex-col">
@@ -406,219 +222,8 @@ function LandingPages() {
           </div>
         </div>
 
-
-
       </main>
 
-      <footer className="flex flex-col gap-3 bg-[#242424] text-darkColor">
-        <div className="lg:container lg:mx-auto xl:max-w-screen-xl w-full flex  flex-col gap-3 ">
-          <div className="flex flex-col basis-6/12 gap-4 p-3">
-            <LoadingLink to="/" className="flex flex-row">
-              <LazyLoadImage
-                className="h-16 w-40 flex object-contain "
-                alt="logo"
-                src={require("../../assets/image/logo/light.png")}
-                effect="blur"
-              />
-            </LoadingLink>
-            <p className="text-sm">BAKOMINFO Kota Bandung merupakan Lembaga Teknis Daerah dibentuk berdasarkan Peraturan Daerah Kota Bandung Nomor 12 Tahun 2007, Tanggal 4 Desember 2007 serta merupakan penggabungan Satuan Kerja Pemerintah Daerah (SKPD) Dinas dan Kantor di lingkungan Pemerintah Kota Bandung yaitu Dinas Informasi dan Komunikasi dengan Kantor Pengolahan Data Elektronik (KPDE). Dengan demikian BAKOMINFO terbentuk sejak diberlakukannya PERDA Nomor 12 Tahun 2007 tentang Pembentukan dan Susunan Organisasi Dinas Daerah Kota Bandung.
-            </p>
-            <div className="flex flex-col gap-2 col-span-2">
-              <div className="flex gap-3 overflow-x-scroll no-scrollbar">
-                <button
-                  className="  "
-                  onClick={() => ""}
-                >
-                  <WAIcon
-                    className="h-7 w-7"
-                    fill={'#ffffff'}
-                  />
-                </button>
-                <button
-                  className="  "
-                  onClick={() => ""}
-                >
-                  <FacebookIcon
-                    className="h-7 w-7"
-                    fill={'#ffffff'}
-                  />
-                </button>
-                <button
-                  className="  "
-                  onClick={() => ""}
-                >
-                  <InstagramIcon
-                    className="h-7 w-7"
-                    fill={'#ffffff'}
-                  />
-                </button>
-                <button
-                  className="  "
-                  onClick={() => ""}
-                >
-                  <TiktokIcon
-                    className="h-7 w-7"
-                    fill={'#ffffff'}
-                  />
-                </button>
-                <button
-                  className="  "
-                  onClick={() => ""}
-                >
-                  <XIcon
-                    className="h-7 w-7"
-                    fill={'#ffffff'}
-                  />
-                </button>
-
-                <button
-                  className="  col-span-2"
-                  onClick={() => ""}
-                >
-                  <PlaystoreIcon
-                    className="h-6 w-auto"
-                    fill={'#ffffff'}
-                  />
-                </button>
-              </div>
-            </div>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 flex-1 no-underline px-3 py-3 text-darkColor">
-            <div className="flex flex-1 flex-col">
-              <span className="font-semibold text-lg mb-2">Peta Situs</span>
-              <LoadingLink to="/about" className="no-underline ">
-                <span className="text-sm text-darkColor ">Tentang</span>
-              </LoadingLink>
-              <LoadingLink to="/faq" className="no-underline ">
-                <span className="text-sm text-darkColor">FAQ</span>
-              </LoadingLink>
-              <LoadingLink
-                to="/term-and-conditional"
-                className="no-underline "
-              >
-                <span className="text-sm text-darkColor">Syarat & Ketentuan Layanan</span>
-              </LoadingLink>
-              <LoadingLink
-                to="/daftar-layanan"
-                className="no-underline "
-              >
-                <span className="text-sm text-darkColor">Daftar Layanan</span>
-              </LoadingLink>
-            </div>
-            <div className="flex flex-1 flex-col">
-              <span className="font-semibold text-lg mb-2">Akses Cepat</span>
-              <LoadingLink
-                to="/allreviews"
-                className="no-underline "
-              >
-                <span className="text-sm text-darkColor">Semua Review</span>
-              </LoadingLink>
-              <LoadingLink to="/blog" className="no-underline ">
-                <span className="text-sm text-darkColor">Blog</span>
-              </LoadingLink>
-            </div>
-            <div className="flex flex-1 flex-col sm:col-span-1 col-span-2">
-              <span className="font-semibold text-lg mb-2">Ketentuan</span>
-              <LoadingLink to="/dukungan" className="no-underline ">
-                <span className="text-sm text-darkColor">Dukungan Pelanggan</span>
-              </LoadingLink>
-              <LoadingLink
-                to="/term-and-conditional"
-                className="no-underline "
-              >
-                <span className="text-sm text-darkColor">Syarat & Ketentuan Layanan</span>
-              </LoadingLink>
-              <LoadingLink to="/privacy" className="no-underline ">
-                <span className="text-sm text-darkColor">Kebijakan Privasi</span>
-              </LoadingLink>
-            </div>
-          </div>
-          <div className="flex flex-row justify-between p-3 border-t-[1px] border-[#ffffff20] ">
-            <span className="text-sm opacity-70">COPYRIGHT © 2024 Diskominfo All rights Reserved
-
-            </span>
-            <span className="text-sm opacity-70">Hand-crafted & Made by TIM PMO</span>
-          </div>
-        </div>
-      </footer>
-
-      <ModalContent
-        className={"sm:max-w-2xl "}
-        children={
-          <div className="flex flex-col gap-3">
-            <div className="flex flex-row justify-between">
-              <span className="text-lg font-bold font-gilroy">
-                Buat {isModalCreate.data}
-              </span>
-              <DynamicButton
-                iconLeft={<CloseIcon className="w-4 h-4 " />}
-                color={isDarkMode ? "#ffffff" : "#212121"}
-                type="transparent"
-                className="inline-flex p-2"
-                onClick={() => {
-                  setisModalCreate({ data: {}, status: false });
-                  resetFormData(isModalCreate.data, formData, setFormData);
-                }}
-              />
-            </div>
-            <div className="flex flex-col overflow-hidden rounded-b-md gap-3">
-              {formData.map(
-                (section, sectionIndex) =>
-                  section.name === isModalCreate.data && (
-                    <div key={sectionIndex} className="flex flex-col gap-3">
-                      {section.fields.map((item, index) => (
-                        item.visible !== false && <div key={index} className="flex flex-col gap-2">
-                          <DynamicInput
-                            name={item.name}
-                            label={item.label}
-                            noted={item.noted}
-                            value={item.value}
-                            options={item.options}
-                            onChange={(value) =>
-                              handleInputChange(
-                                item.name,
-                                value,
-                                sectionIndex
-                              )
-                            }
-                            type={item.type}
-                            placeholder={"Masukan " + item.label}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  )
-              )}
-            </div>
-            <div className="flex flex-row gap-2 justify-end">
-              <DynamicButton
-                initialValue={"Batal"}
-                type="fill"
-                color={"#ffffff"}
-                className="inline-flex bg-cardLight dark:bg-cardDark text-cardDark dark:text-cardLight"
-                onClick={() => {
-                  setisModalCreate({ data: {}, status: false });
-                  resetFormData(isModalCreate.data, formData, setFormData);
-                }}
-              />
-              <DynamicButton
-                initialValue={"Ajukan Permohonan"}
-                type="fill"
-                color={"#ffffff"}
-                className="inline-flex  bg-[#0185FF] text-darkColor"
-                onClick={() => {
-                  checkingFormData();
-                }}
-              />
-            </div>
-          </div>
-        }
-        onClose={() => {
-          setisModalCreate({ data: {}, status: false });
-          resetFormData(isModalCreate.data, formData, setFormData);
-        }}
-        active={isModalCreate.status}
-      />
       <div id="modal-root" className="z-50"></div>
     </div>
   );

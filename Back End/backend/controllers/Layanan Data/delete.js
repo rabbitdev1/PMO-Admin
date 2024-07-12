@@ -34,7 +34,6 @@ export const deleteDataLayananData = async (req, res) => {
             ...JSON.parse(LayananDataItem.on_finish),
             ...JSON.parse(LayananDataItem.fields),
         };
-        console.log("Merged Data:", mergedDataProcess);
 
         const findValueByTitle = (data, title) => data[title];
 
@@ -80,7 +79,6 @@ export const deleteDataLayananData = async (req, res) => {
             });
         }
     } catch (error) {
-        console.error("Error deleting Layanan Data:", error);
         return res.status(500).json({
             status: "error",
             msg: "Internal Server Error",
