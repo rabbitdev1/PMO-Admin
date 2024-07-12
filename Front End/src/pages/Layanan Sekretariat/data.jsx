@@ -2,7 +2,7 @@ export const formData = [
   {
     name: "Pengajuan Layanan Pendataan Tenaga Ahli",
     type: "Layanan Sekretariat",
-    role: ["op_pmo",
+    role: ["op_pmo","kadis",
     "perangkat_daerah",
     "sekretariat",
     "katim_sekre",

@@ -4,7 +4,7 @@ export const formData = [
     name: "Rekomendasi Sistem Informasi",
     type: "Pengajuan Layanan Permohonan Sistem Informasi",
     role: [
-      'op_pmo',
+      'op_pmo',"kadis",
       'perangkat_daerah',
       'katim_perencanaan',
       'kabid_perencanaan',

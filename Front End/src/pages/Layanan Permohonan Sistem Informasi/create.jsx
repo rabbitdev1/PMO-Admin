@@ -204,7 +204,7 @@ function CreatePermohonanSIPages() {
       submission_title: dataState,
       submission_type: 'Permohonan Sistem Informasi',
       role: [
-        'op_pmo',
+        'op_pmo',"kadis",
         'perangkat_daerah',
         'katim_perencanaan',
         'kabid_perencanaan',

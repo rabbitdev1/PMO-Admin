@@ -1,4 +1,4 @@
-import { validateArray, validateFullname, validateHTML, validateImage, validateIPAddress, validateRadioBottom, validateTelp, validateText, validateTextArea } from "../../utils/helpers/validateForm";
+import { validateArray, validateFullname, validateHTML, validateImage, validateIPAddress, validateNominal, validateRadioBottom, validateTelp, validateText, validateTextArea } from "../../utils/helpers/validateForm";
 
 export const isValidatorRelokasiAlat = (obj) => {
   let isValid = true;
@@ -67,6 +67,16 @@ export const isValidatorDomain = (obj) => {
   isValid = isValid && validateText(obj.domain_name, "Usulan Domain");
   isValid = isValid && validateIPAddress(obj.ip_address, "IP Address");
   isValid = isValid && validateHTML(obj.reason, "Alasan Pengajuan");
+
+  return isValid;
+};
+
+export const isValidatorListTools = (obj) => {
+  let isValid = true;
+  isValid = isValid && validateText(obj.name_tools, "Nama Barang");
+  isValid = isValid && validateText(obj.total_tools, "Jumlah Barang");
+  isValid = isValid && validateTextArea(obj.spec_tools, "Spesifikasi");
+  isValid = isValid && validateNominal(obj.unit_price, "Harga Satuan");
 
   return isValid;
 };

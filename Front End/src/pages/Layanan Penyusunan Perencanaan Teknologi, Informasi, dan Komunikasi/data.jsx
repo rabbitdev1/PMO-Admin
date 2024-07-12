@@ -3,7 +3,7 @@ export const formData = [
     name: "Pengajuan Surat Keputusan",
     type: "Pengajuan Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi",
     role: [
-      "op_pmo",
+      "op_pmo","kadis",
       "perangkat_daerah",
       'katim_perencanaan', 'kabid_perencanaan', 'teknis_perencanaan'
     ],
@@ -25,7 +25,7 @@ export const formData = [
     name: "Pengajuan Permohonan Perwal dan Kepwal TIK",
     type: "Pengajuan Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi",
     role: [
-      "op_pmo",
+      "op_pmo","kadis",
       "perangkat_daerah",
       'katim_perencanaan', 'kabid_perencanaan', 'teknis_perencanaan'
     ],

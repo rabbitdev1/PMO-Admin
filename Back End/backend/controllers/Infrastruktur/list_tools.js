@@ -77,3 +77,40 @@ export const getListDataToolsbyArray = async (req, res) => {
         });
     }
 };
+export const setListDataTools = async (req, res) => {
+    try {
+        const apiKey = req.headers["x-api-key"];
+        if (!apiKey) {
+            return res.status(401).json({
+                status: "error",
+                msg: "API Key is required",
+            });
+        }
+        const { unit_price, total_price, spec_tools, total_tools, name_tools } = req.body;
+        if (!unit_price || !total_price || !spec_tools || !total_tools || !name_tools) {
+            return res.status(400).json({
+                status: "error",
+                msg: "All fields are required",
+            });
+        }
+
+        const newTool = await ListToolsModel.create({
+            unit_price,
+            total_price,
+            spec_tools,
+            total_tools,
+            name_tools,
+        });
+        res.status(201).json({
+            status: "ok",
+            msg: "Data successfully created",
+            data: newTool,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            status: "error",
+            msg: "Internal Server Error",
+        });
+    }
+};
