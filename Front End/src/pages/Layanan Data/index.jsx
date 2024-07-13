@@ -20,13 +20,13 @@ import { convertToNameValueObject } from "../../utils/helpers/convertToNameValue
 
 import resetFormData from "../../components/common/ResetFormData";
 import ModalContentComponent from "../../components/ui/ModalContentComponent";
+import PanduanPengajuanModal from "../../components/ui/PanduanPengajuanModal";
 import fetchUploadFiles from "../../utils/api/uploadFiles";
 import { formData as initialFormData } from "./data";
 import {
   isValidatorPendampinganPengolahandanAnalisisData,
   isValidatorProduksiDataSitusWeb,
 } from "./validators";
-import PanduanPengajuanModal from "../../components/ui/PanduanPengajuanModal";
 
 function LayananDataPages() {
   const { isDarkMode } = useTheme();
@@ -74,7 +74,6 @@ function LayananDataPages() {
 
   const [isModalPanduan, setisModalPanduan] = useState(false);
 
-  const [isModalType, setisModalType] = useState({ status: false, data: {} });
   const [isModalCreate, setisModalCreate] = useState({
     status: false,
     data: {},

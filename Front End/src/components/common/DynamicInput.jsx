@@ -73,13 +73,6 @@ function DynamicInput({
     onChange(updatedValue);
   };
 
-  let parsedOptions = [];
-  try {
-    parsedOptions = JSON.parse(options);
-  } catch (error) {
-    // Handle JSON parsing error here
-  }
-
   const renderDocument = (src, type) => {
     switch (type) {
       case "application/pdf":
@@ -124,63 +117,67 @@ function DynamicInput({
         {label && <span className=" text-sm text-left">{label} :</span>}
       </div>
       {type === "selection" ? (
-        <Select
-          className="p-0.5 "
-          placeholder={placeholder}
-          styles={{
-            control: (baseStyles, state) => ({
-              ...baseStyles,
-              height: 50,
-              backgroundColor: isDarkMode ? "#10172a" : "#fefdfe",
-              fontSize: 14,
-              borderColor: state.isFocused
-                ? "grey"
-                : isDarkMode
-                  ? "#ffffff20"
-                  : "#dddddd",
-            }),
-            option: (baseStyles, state) => ({
-              ...baseStyles,
-              backgroundColor: isDarkMode ? "#10172a" : "#fefdfe",
-            }),
-          }}
-          onChange={(selected) => {
-            onChange(selected);
-          }}
-          components={animatedComponents}
-          defaultValue={value}
-          options={options}
-        />
+        <div className="flex flex-col">
+          <Select
+            className="p-0.5 "
+            placeholder={placeholder}
+            styles={{
+              control: (baseStyles, state) => ({
+                ...baseStyles,
+                height: 50,
+                backgroundColor: isDarkMode ? "#10172a" : "#fefdfe",
+                fontSize: 14,
+                borderColor: state.isFocused
+                  ? "grey"
+                  : isDarkMode
+                    ? "#ffffff20"
+                    : "#dddddd",
+              }),
+              option: (baseStyles, state) => ({
+                ...baseStyles,
+                backgroundColor: isDarkMode ? "#10172a" : "#fefdfe",
+              }),
+            }}
+            onChange={(selected) => {
+              onChange(selected);
+            }}
+            components={animatedComponents}
+            // value={options.find((option) => option.value === value) || null}
+            options={options}
+          />
+        </div>
       ) : type === "multi_selection" ? (
-        <Select
-          className="p-0.5 "
-          placeholder={placeholder}
-          styles={{
-            control: (baseStyles, state) => ({
-              ...baseStyles,
-              padding: 5,
-              backgroundColor: isDarkMode ? "#10172a" : "#fefdfe",
-              fontSize: 14,
-              borderColor: state.isFocused
-                ? "grey"
-                : isDarkMode
-                  ? "#ffffff20"
-                  : "#dddddd",
-            }),
-            option: (baseStyles, state) => ({
-              ...baseStyles,
-              backgroundColor: isDarkMode ? "#10172a" : "#fefdfe",
-            }),
-          }}
-          onChange={(selected) => {
-            onChange(selected);
-          }}
-          closeMenuOnSelect={false}
-          components={animatedComponents}
-          defaultValue={value}
-          isMulti
-          options={options}
-        />
+        <div className="flex flex-col">
+          <Select
+            className="p-0.5 "
+            placeholder={placeholder}
+            styles={{
+              control: (baseStyles, state) => ({
+                ...baseStyles,
+                padding: 5,
+                backgroundColor: isDarkMode ? "#10172a" : "#fefdfe",
+                fontSize: 14,
+                borderColor: state.isFocused
+                  ? "grey"
+                  : isDarkMode
+                    ? "#ffffff20"
+                    : "#dddddd",
+              }),
+              option: (baseStyles, state) => ({
+                ...baseStyles,
+                backgroundColor: isDarkMode ? "#10172a" : "#fefdfe",
+              }),
+            }}
+            onChange={(selected) => {
+              onChange(selected);
+            }}
+            closeMenuOnSelect={false}
+            components={animatedComponents}
+            // value={options.find((option) => option.value === value) || null}
+            isMulti
+            options={options}
+          />
+        </div>
       ) : type === "radio_button" ? (
         <div className="flex flex-col gap-2">
           <div
@@ -214,7 +211,8 @@ function DynamicInput({
               placeholder={placeholder}
               value={value}
               disabled={disabled}
-              className="h-7 flex-1 text-sm w-full "
+              className="h-7 flex-1 text-sm w-full"
+
               defaultCountry="ID"
               countries={["ID"]}
               onChange={handlePhoneInputChange}

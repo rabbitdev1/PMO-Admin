@@ -121,7 +121,7 @@ const Header = () => {
         </div>
         <div className="flex flex-row flex-1" />
 
-        <DynamicButton
+        {/* <DynamicButton
           type="no-padding"
           color={isDarkMode ? "#ffffff" : "#0185FF"}
           iconLeft={isDarkMode ? <Ic_light_mode className={`h-5 w-5 aspect-square`} /> : <Ic_dark_mode className={`h-5 w-5 aspect-square`} />}
@@ -129,7 +129,7 @@ const Header = () => {
           onClick={() => {
             toggleTheme();
           }}
-        />
+        /> */}
         <Popover animate={{
           mount: { scale: 1, y: 0 },
           unmount: { scale: 0, y: 25 },

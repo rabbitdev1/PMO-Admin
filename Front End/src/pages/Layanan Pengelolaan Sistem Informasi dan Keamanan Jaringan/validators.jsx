@@ -66,7 +66,7 @@ export const isValidatorPengujianCelahKeamanan = (obj) => {
   let isValid = true;
   isValid = isValid && validateFullname(obj.name_pic, "Nama PIC");
   isValid = isValid && validateTelp(obj.telp_pic, "Nomor PIC");
-  isValid = isValid && validateText(obj.app, "Nama Aplikasi");
+  isValid = isValid && validateText(obj.app_name, "Nama Aplikasi");
   isValid = isValid && validateHTML(obj.app_desc, "Deskripsi Aplikasi");
   isValid = isValid && validateText(obj.app_version, "Versi Aplikasi");
   isValid = isValid && validateArray(obj.app_ownership, "Kepemilikan Aplikasi");

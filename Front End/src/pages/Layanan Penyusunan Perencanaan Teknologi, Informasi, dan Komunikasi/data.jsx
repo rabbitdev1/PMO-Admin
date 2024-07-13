@@ -3,7 +3,7 @@ export const formData = [
     name: "Pengajuan Surat Keputusan",
     type: "Pengajuan Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi",
     role: [
-      "op_pmo",
+      "op_pmo","kadis",
       "perangkat_daerah",
       'katim_perencanaan', 'kabid_perencanaan', 'teknis_perencanaan'
     ],
@@ -11,10 +11,11 @@ export const formData = [
       { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
       { 
-        name: "app_name", label: "Nama Aplikasi", value: "", type: "selection",
-        options: [
-          { value: "Aplikasi 1", label: "Aplikasi 1" },
-        ] 
+        name: "app_name", 
+        label: "Nama Aplikasi", 
+        value: [],
+        type: "selection",
+        options: []
       },
       { name: "app_desc", label: "Deskripsi Aplikasi", value: "", type: "editor" },
       { name: "needed_data", label: "Data yang dibutuhkan", value: "", type: "editor" },
@@ -25,7 +26,7 @@ export const formData = [
     name: "Pengajuan Permohonan Perwal dan Kepwal TIK",
     type: "Pengajuan Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi",
     role: [
-      "op_pmo",
+      "op_pmo","kadis",
       "perangkat_daerah",
       'katim_perencanaan', 'kabid_perencanaan', 'teknis_perencanaan'
     ],
@@ -48,16 +49,16 @@ export const formData = [
 
 
 
-const getPenyusunanKebijakanProcess = (inputLocal) => [
+const getSuratKeputusanProcess = (inputLocal) => [
   {
-    label: "Unggah Dokumen Kebijakan",
-    value: inputLocal.upload_dokumen_kebijakan,
+    label: "Unggah Dokumen Keputusan",
+    value: inputLocal.upload_dokumen_keputusan,
     type: "file_upload",
-    name: "upload_dokumen_kebijakan",
+    name: "upload_dokumen_keputusan",
     noted: "File berekstensi: pdf,xlsx,docs"
   },
 ];
-const getPenyusunanKebijakanFinish = (finishData) => [
+const getSuratKeputusanFinish = (finishData) => [
   {
     label: "Status Pengajuan",
     value: finishData.submission_status,
@@ -120,5 +121,5 @@ const getPerwalFinish = (finishData) => [
 
 
 export {
-  getPenyusunanKebijakanProcess, getPenyusunanKebijakanFinish, getPerwalProcess, getPerwalFinish, 
+  getSuratKeputusanProcess, getSuratKeputusanFinish, getPerwalProcess, getPerwalFinish, 
 };

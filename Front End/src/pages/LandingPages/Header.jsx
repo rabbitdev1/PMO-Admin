@@ -27,13 +27,13 @@ const Header = ({ }) => {
             />
           </div>
           <div className="flex flex-row gap-3 items-center">
-            <DynamicButton
+            {/* <DynamicButton
               type="no-padding"
               color={isDarkMode ? "#ffffff" : "#0185FF"}
               iconLeft={isDarkMode ? <Ic_light_mode className="h-5 w-5" /> : <Ic_dark_mode className="h-5 w-5" />}
               className="inline-flex"
               onClick={toggleTheme}
-            />
+            /> */}
             {authToken && authApiKey ? (
               <DynamicButton
                 initialValue="Dashboard"

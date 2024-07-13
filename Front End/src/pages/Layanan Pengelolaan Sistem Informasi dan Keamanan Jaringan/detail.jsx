@@ -7,25 +7,20 @@ import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { ReactComponent as PengajuanBerahasilIcon } from "../../assets/icon/ic_pengajuan_berhasil.svg";
-import DynamicButton from "../../components/common/DynamicButton";
-import useTheme from "../../components/context/useTheme";
 import TitleHeader from "../../components/layout/TitleHeader";
 import { isPending } from "../../components/store/actions/todoActions";
-import ModalContent from "../../components/ui/Modal/ModalContent";
+import ConditionalRender from "../../components/ui/ConditionalRender";
+import ModalContentComponent from "../../components/ui/ModalContentComponent";
 import SubmissionStatus from "../../components/ui/SubmissionStatus";
 import { apiClient } from "../../utils/api/apiClient";
 import fetchUploadFiles from "../../utils/api/uploadFiles";
-import fetchUploadImages from "../../utils/api/uploadImages";
 import DalamAntrianView from "./Logical/1.DalamAntrianView";
-import FinishStatus from "./Logical/5.FinishStatus";
-import ProcessStatus from "./Logical/4.ProcessStatus";
 import ValidationStatus from "./Logical/2.ValidationStatus";
 import ValidationStatusTechnique from "./Logical/3.ValidationStatusTechnique";
-import ConditionalRender from "../../components/ui/ConditionalRender";
-import ModalContentComponent from "../../components/ui/ModalContentComponent";
+import ProcessStatus from "./Logical/4.ProcessStatus";
+import FinishStatus from "./Logical/5.FinishStatus";
 
 function DetailAplikasiPages() {
-  const { isDarkMode } = useTheme();
   const navigate = useNavigate();
   const authApiKey = Cookies.get("authApiKey");
   const authToken = Cookies.get("authToken");
@@ -153,7 +148,7 @@ function DetailAplikasiPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Pembaharuan Pengajuan Aplikasi Berhasil",
+            title: "Pembaharuan Pengajuan Layanan Aplikasi Berhasil",
             msg: "Selamat! Pengajuan Aplikasi Anda telah berhasil diperbarui.",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",

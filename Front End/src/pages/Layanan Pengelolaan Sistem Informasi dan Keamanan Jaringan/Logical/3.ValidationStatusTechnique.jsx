@@ -48,8 +48,8 @@ const ValidationStatusTechnique = ({
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Pembaharuan Pengajuan Aplikasi Berhasil",
-            msg: "Selamat! Pengajuan Aplikasi Anda telah berhasil diperbarui.",
+            title: "Pembaharuan Layanan Pengajuan Aplikasi Berhasil",
+            msg: "Selamat! Pengajuan Layanan Aplikasi Anda telah berhasil diperbarui.",
             icon: PengajuanBerahasilIcon,
             color: '#13C39C'
           },
@@ -117,7 +117,7 @@ const ValidationStatusTechnique = ({
                     {Object.entries(validationDataTechnique).map(([key, value]) => (
                       <DynamicShow
                       key={key}
-                      label={key === "team_response" ? "Tanggapan dari Tim Teknis" :
+                      label={key === "team_response" ? "Tanggapan dari Ketua Tim Teknis" :
                           key === "working_schedule" ? "Jadwal Kerja" :
                               key === "file_scema_integration" ? "File Skema Integrasi" :
                                   key === "dokumen_pembangunan" ? "File Dokumen Pembangunan" :
@@ -167,7 +167,7 @@ const ValidationStatusTechnique = ({
                   )}
                   <div className='flex sm:flex-row flex-col gap-2'>
                     <DynamicButton
-                      initialValue={"Lapor Validasi Teknis ke Ketua Tim Teknis"}
+                      initialValue={detailData.submission_title === "Permohonan Pengujian Celah Keamanan" ? "Kirim Laporan Validasi ke Tim Teknis" : "Lapor Validasi Kelengkapan ke Ketua Tim Teknis"}
                       type="fill"
                       color={"#ffffff"}
                       className="inline-flex  bg-[#0185FF] text-darkColor"
@@ -192,7 +192,7 @@ const ValidationStatusTechnique = ({
                         if (detailData.submission_title === "Permohonan Pengujian Celah Keamanan") {
                           isValid = isValid && validateFile(inputLocal.dokumen_pembangunan, "Upload Dokumen Pembangunan")
                           isValid = isValid && validateFile(inputLocal.dokumen_nda, "Upload Dokumen NDA")
-                          isValid = isValid && validateText(inputLocal.team_response, "Tanggapan Tim Teknis")
+                          isValid = isValid && validateText(inputLocal.team_response, "Tanggapan Ketua Tim Teknis")
                           isValid = isValid && validateDate(inputLocal.working_schedule, "Jadwal Pengerjaan")
                         }
                         else {

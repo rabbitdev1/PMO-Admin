@@ -3,7 +3,7 @@ export const formData = [
     name: "Pengajuan Integrasi Sistem Informasi",
     type: "Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan",
     role: [
-      "op_pmo",
+      "op_pmo","kadis",
       "perangkat_daerah",
       "kabid_aplikasi",
       "katim_aplikasi",
@@ -15,8 +15,9 @@ export const formData = [
       {
         name: "app_name",
         label: "Nama Aplikasi",
-        value: "",
-        type: "text",
+        value: [],
+        type: "selection",
+        options: []
       },
       {
         name: "app_desc",
@@ -42,7 +43,7 @@ export const formData = [
     name: "Pengajuan Penerapan Modul TTE",
     type: "Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan",
     role: [
-      "op_pmo",
+      "op_pmo","kadis",
       "perangkat_daerah",
       "kabid_aplikasi",
       "katim_aplikasi",
@@ -54,8 +55,9 @@ export const formData = [
       {
         name: "app_name",
         label: "Nama Aplikasi",
-        value: "",
-        type: "text",
+        value: [],
+        type: "selection",
+        options: []
       },
       {
         name: "app_desc",
@@ -89,7 +91,7 @@ export const formData = [
     name: "Pengajuan Permohonan Email",
     type: "Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan",
     role: [
-      "op_pmo",
+      "op_pmo","kadis",
       "perangkat_daerah",
       "kabid_aplikasi",
       "katim_aplikasi",
@@ -123,7 +125,7 @@ export const formData = [
     name: "Pengajuan Permohonan Pengujian Celah Keamanan",
     type: "Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan",
     role: [
-      "op_pmo",
+      "op_pmo","kadis",
       "perangkat_daerah",
       "kabid_aplikasi",
       "katim_aplikasi",
@@ -133,7 +135,10 @@ export const formData = [
       { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
       {
-        name: "app", label: "Nama Aplikasi", value: [], type: "text"
+        name: "app_name", label: "Nama Aplikasi", 
+        value: [],
+        type: "selection",
+        options: []
       },
       { name: "app_desc", label: "Deskripsi Aplikasi", value: "", type: "editor" },
       { name: "app_version", label: "Versi Aplikasi", value: "", type: "text" },
@@ -381,7 +386,7 @@ const getCelahKeamananValidation = (inputLocal) => [
     noted: "File berekstensi: pdf,xlsx,docs"
   },
   {
-    label: "Tanggapan Tim Teknis",
+    label: "Tanggapan Ketua Tim Teknis",
     value: inputLocal.team_response,
     type: "textarea",
     name: 'team_response'

@@ -2,7 +2,7 @@ export const formData = [
   {
     name: "Pengajuan Layanan Pendataan Tenaga Ahli",
     type: "Layanan Sekretariat",
-    role: ["op_pmo",
+    role: ["op_pmo","kadis",
     "perangkat_daerah",
     "sekretariat",
     "katim_sekre",
@@ -93,7 +93,7 @@ const getMagangProcess = (inputLocal) => [
 ];
 const getPendataanTenagaAhliProcess = (inputLocal) => [
   {
-    label: "Unggah Dokumen Laporan Hasil",
+    label: "Unggah Dokumen Laporan Hasil Pendataan Ahli",
     value: inputLocal.upload_dokumen_hasil,
     type: "file_upload",
     name: "upload_dokumen_hasil",

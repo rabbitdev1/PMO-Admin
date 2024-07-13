@@ -3,7 +3,7 @@ export const formData = [
     name: "Pengajuan Layanan Pendampingan Pengolahan dan Analisis Data",
     type: "Layanan Data",
     role: [
-      "op_pmo",
+      "op_pmo","kadis",
       "perangkat_daerah",
       "kabid_desiminasi",
       "katim_desiminasi",
@@ -32,7 +32,7 @@ export const formData = [
     name: "Pengajuan Layanan Produksi Data dari Situs Web",
     type: "Layanan Data",
     role: [
-      "op_pmo",
+      "op_pmo","kadis",
       "perangkat_daerah",
       "kabid_desiminasi",
       "katim_desiminasi",

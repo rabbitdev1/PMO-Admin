@@ -3,7 +3,7 @@ export const formData = [
     name: "Pengajuan Layanan ZOOM",
     type: "Layanan Siaran dan Sistem Virtual",
     role: [
-      "op_pmo",
+      "op_pmo", "kadis",
       "perangkat_daerah",
       "kabid_desiminasi",
       "katim_desiminasi",
@@ -26,7 +26,7 @@ export const formData = [
     name: "Pengajuan Permohonan Liputan",
     type: "Layanan Siaran dan Sistem Virtual",
     role: [
-      "op_pmo",
+      "op_pmo", "kadis",
       "perangkat_daerah",
       "kabid_desiminasi",
       "katim_desiminasi",
@@ -41,7 +41,7 @@ export const formData = [
       { name: "needed_tools", label: "Kebutuhan Alat", value: "", type: "editor" },
       {
         name: "live_streaming",
-        label: "Live Streaming",
+        label: "Siaran Langusng",
         value: "",
         type: "radio_button",
         options: [
@@ -56,7 +56,7 @@ export const formData = [
     name: "Pengajuan Permohonan Podcast",
     type: "Layanan Siaran dan Sistem Virtual",
     role: [
-      "op_pmo",
+      "op_pmo", "kadis",
       "perangkat_daerah",
       "kabid_desiminasi",
       "katim_desiminasi",
@@ -71,7 +71,7 @@ export const formData = [
       { name: "needed_tools", label: "Kebutuhan Alat", value: "", type: "editor" },
       { name: "speaker", label: "Narasumber/Pembicara", value: "", type: "text" },
       { name: "topic", label: "Tema/Topik", value: "", type: "text" },
-      { name: "reason", label: "Alasan Pengajuan", value: "", type: "editor"},
+      { name: "reason", label: "Alasan Pengajuan", value: "", type: "editor" },
     ],
   },
 ]
@@ -232,6 +232,6 @@ const getPodcastFinish = (finishData) => [
 
 
 export {
-  getZoomValidateTechnique,getPermohonanLiputanValidateTechnique,getPodcastValidateTechnique,
+  getZoomValidateTechnique, getPermohonanLiputanValidateTechnique, getPodcastValidateTechnique,
   getZoomProcess, getZoomFinish, getPermohonanLiputanProcess, getPermohonanLiputanFinish, getPodcastProcess, getPodcastFinish
 };

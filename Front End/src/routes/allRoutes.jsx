@@ -24,6 +24,7 @@ import DetailsAccountPages from "../pages/System/Account/detail";
 
 import LandingPages from "../pages/LandingPages";
 import MagangPages from "../pages/LandingPages/pages/Magang";
+import DataAppPerangkatDaerah from "../pages/System/List App";
 
 const userRoutes = [
   { path: "/dashboard", component: <DashboardPages /> },
@@ -55,6 +56,9 @@ const userRoutes = [
 const infraRoutes = [
   { path: "/data-alat-infrastruktur", component: <DataAlatInfraPage /> },
 ]
+const perangkatdaerahRoutes = [
+  { path: "/data-alat-aplikasi", component: <DataAppPerangkatDaerah /> },
+]
 const operatorRoutes = [
   { path: "/account", component: <AccountPages /> },
   { path: "/detail-account", component: <DetailsAccountPages /> },
@@ -68,5 +72,5 @@ const authRoutes = [
   { path: "/login", component: <LoginPages /> },
 ];
 
-export { authRoutes, infraRoutes, nonUserRoutes, operatorRoutes, userRoutes };
+export { authRoutes, infraRoutes, nonUserRoutes, operatorRoutes, userRoutes ,perangkatdaerahRoutes};
 

@@ -1,23 +1,23 @@
-import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import morgan from "morgan";
 import dotenv from "dotenv";
+import express from "express";
+import morgan from "morgan";
 import db from "./config/Database.js";
-import router from "./routes/index.js";
 import storage from "./config/Firebase.js";
-import InfraModel from "./models/InfraModel.js";
-import Users from "./models/UserModel.js";
 import Aplikasi from "./models/Aplikasi.js";
+import InfraModel from "./models/InfraModel.js";
 import Sekretariat from "./models/SekretariatModel.js";
+import Users from "./models/UserModel.js";
+import router from "./routes/index.js";
 
-import PerencanaanTIK from "./models/PerencanaanTIKModel.js";
 import SistemVirtual from "./models/LayananSistemVirtualModel.js";
 
-import UptRadio from "./models/UptRadioModel.js";
-import TeknologiSI from "./models/TeknologiSIModel.js";
-import PermohonanSI from "./models/PermohonanSI.js";
 import LayananData from "./models/LayananDataModel.js";
+import { default as ListAppsModel, default as ListToolsModel } from "./models/ListToolsInfra.js";
+import PerencanaanTIKModel from "./models/PerencanaanTIKModel.js";
+import PermohonanSI from "./models/PermohonanSI.js";
+import TeknologiSI from "./models/TeknologiSIModel.js";
 
 
 dotenv.config();
@@ -54,14 +54,17 @@ const startServer = async () => {
         await Users.sync();
         await Sekretariat.sync();
 
-        await PerencanaanTIK.sync();
+        await PerencanaanTIKModel.sync();
         await LayananData.sync();
 
-        await UptRadio.sync();
         await TeknologiSI.sync();
 
         await SistemVirtual.sync();
         await PermohonanSI.sync();
+
+        await ListToolsModel.sync();
+        await ListAppsModel.sync();
+
 
     } catch (error) {
         console.error("Unable to connect to the database:", error);

@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { ReactComponent as PengajuanBerahasilIcon } from "../../../assets/icon/ic_pengajuan_berhasil.svg";
 import DynamicButton from "../../../components/common/DynamicButton";
 import DynamicInput from "../../../components/common/DynamicInput";
 import DynamicShow from "../../../components/common/DynamicShow";
+import { validateFile } from "../../../utils/helpers/validateForm";
+import { getCelahKeamananFinish, getCelahKeamananProcess, getEmailFinish, getEmailProcess, getIntergasiSIFinish, getIntergasiSIProcess, getModulTTEFinish, getModulTTEProcess, getUserAccountSIFinish, getUserAccountSIProcess } from "../data";
 import DynamicDetails from "../DynamicDetails";
-import { apiClient } from "../../../utils/api/apiClient";
-import { validateFile, validateImage } from "../../../utils/helpers/validateForm";
-import { getIntergasiSIFinish, getIntergasiSIProcess, getModulTTEProcess, getModulTTEFinish, getUserAccountSIProcess, getUserAccountSIFinish, getEmailProcess, getEmailFinish, getCelahKeamananProcess, getCelahKeamananFinish } from "../data";
 
 const ProcessStatus = ({
     submissionStatus,
@@ -43,39 +41,6 @@ const ProcessStatus = ({
     const CelahKeamananProcess = getCelahKeamananProcess(inputLocal);
 
     const CelahKeamananFinish = getCelahKeamananFinish(finishData);
-
-    const fetchSetProgress = async (api_key, token, status) => {
-        const params = new URLSearchParams();
-        params.append("id", slug);
-        params.append("status", status);
-
-        try {
-            const response = await apiClient({
-                baseurl: "aplikasi/set_process",
-                method: "POST",
-                body: params,
-                apiKey: api_key,
-                token: token,
-            });
-            if (response?.statusCode === 200) {
-                setisModalVerif({
-                    data: {
-                        title: 'aplikasi Berhasil diupdate',
-                        msg: 'Selamat, Pengajuan aplikasi sudah diupdate',
-                        icon: PengajuanBerahasilIcon,
-                        color: '#13C39C'
-                    },
-                    status: true
-                })
-            } else {
-                toast.error(response.result.msg, {
-                    position: toast.POSITION.TOP_RIGHT,
-                });
-            }
-        } catch (error) {
-            console.error("Error fetching data:", error);
-        }
-    };
 
     const renderProcessInputs = (inputs) => {
         return inputs.map((inputProps, index) => (

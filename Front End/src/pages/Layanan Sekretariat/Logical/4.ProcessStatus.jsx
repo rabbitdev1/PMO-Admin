@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import DynamicButton from "../../../components/common/DynamicButton";
 import DynamicInput from "../../../components/common/DynamicInput";
 import DynamicShow from "../../../components/common/DynamicShow";
-import { validateImage } from "../../../utils/helpers/validateForm";
+import { validateFile, validateImage } from "../../../utils/helpers/validateForm";
 import DynamicDetails from "../DynamicDetails";
 import { getMagangFinish, getMagangProcess, getPendataanTenagaAhliFinish, getPendataanTenagaAhliProcess } from "../data";
 
@@ -135,7 +135,7 @@ const ProcessStatus = ({
                                                     key === "working_schedule"
                                                         ? "Jadwal Kerja"
                                                         : key === "team_response"
-                                                            ? "Respon dari Tim Teknis"
+                                                            ? "Tanggapan dari Tim Teknis"
                                                             : key
                                                 }
                                                 value={value}
@@ -182,22 +182,9 @@ const ProcessStatus = ({
 
                                                 let isValid = true;
 
-                                                if (detailData.submission_title === "Relokasi Alat") {
-                                                    isValid = isValid && validateImage(inputLocal.upload_foto_alat_sebelum_di_relokasi, "Upload Foto Alat Sebelum di Relokasi");
-                                                    isValid = isValid && validateImage(inputLocal.upload_foto_alat_sesudah_di_relokasi, "Upload Foto Alat Sesudah di Relokasi");
-                                                } else if (detailData.submission_title === "Penambahan Alat") {
-                                                    isValid = isValid && validateImage(inputLocal.upload_foto_alat_sebelum_di_tambahkan, "Upload Foto Alat Sebelum di Tambahkan");
-                                                    isValid = isValid && validateImage(inputLocal.upload_foto_alat_sesudah_di_tambahkan, "Upload Foto Alat Sesudah di Tambahkan");
-                                                } else if (detailData.submission_title === "Penambahan Bandwidth") {
-                                                    isValid = isValid && validateImage(inputLocal.upload_foto_kegiatan, "Upload Foto Kegiatan");
-                                                } else if (detailData.submission_title === "Troubleshooting Aplikasi dan Jaringan") {
-                                                    isValid = isValid && validateImage(inputLocal.upload_foto_kegiatan, "Upload Foto Kegiatan");
-                                                } else if (detailData.submission_title === "Hosting") {
-                                                    isValid = isValid && validateImage(inputLocal.upload_foto_kegiatan, "Upload Foto Kegiatan");
-                                                } else if (detailData.submission_title === "Domain") {
-                                                    isValid = isValid && validateImage(inputLocal.upload_foto_kegiatan, "Upload Foto Kegiatan");
-                                                }
-                                                if (isValid) {
+                                                if (detailData.submission_title === "Layanan Pendataan Tenaga Ahli") {
+                                                    isValid = isValid && validateFile(inputLocal.upload_dokumen_hasil, "Unggah Dokumen Laporan Hasil Pendataan Ahli");
+                                                } if (isValid) {
                                                     checkingFormData('process', filteredDataResult);
                                                 }
                                             }}
@@ -216,7 +203,7 @@ const ProcessStatus = ({
                                                 key={key}
                                                 label={
                                                     key === "upload_dokumen_hasil"
-                                                        ? "Dokument Hasil"
+                                                        ? "Dokument Hasil Pendataan Ahli"
                                                         : key
                                                 }
                                                 value={value}
