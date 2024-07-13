@@ -44,6 +44,42 @@ export const setStatusDataSekretariat = async(req, res) => {
     }
 };
 
+export const createDataGuest = async(req, res) => {
+    try {
+        let rawData = req.body;
+        let processedData = {...rawData };
+        const notAllowedFields = ["role"];
+        notAllowedFields.forEach((field) => {
+            if (processedData.hasOwnProperty(field)) {
+                delete processedData[field];
+            }
+        });
+
+        if (Array.isArray(rawData.role) || typeof rawData.role === "object") {
+            rawData.role = JSON.stringify(rawData.role);
+        }
+        rawData.apiKey = "apiKeyGuest";
+        rawData.fields = JSON.stringify(processedData);
+        rawData.submission_status = 1;
+        rawData.on_process = JSON.stringify({});
+        rawData.on_validation = JSON.stringify({ status_validation: "1" });
+        rawData.on_validation_technique = JSON.stringify({});
+        rawData.on_finish = JSON.stringify({ submission_status: "0" });
+
+        console.log(rawData);
+        await SekretariatModel.create(rawData);
+        res.status(200).json({
+            status: "ok",
+            msg: "Item created successfully",
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: "error",
+            msg: "Internal Server Error",
+        });
+    }
+};
+
 export const editProcessDataSekretariat = async(req, res) => {
     try {
         const { id, status } = req.body;

@@ -1,27 +1,26 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router";
 
 import DynamicButton from "../../../components/common/DynamicButton";
 import useTheme from "../../../components/context/useTheme";
-import fetchUploadImages from "../../../utils/api/uploadImages";
 
 import DynamicInput from "../../../components/common/DynamicInput";
 import { convertToNameValueObject } from "../../../utils/helpers/convertToNameValueObject";
 import { isValidatorPendaftaranMagang } from "../../Layanan Sekretariat/validators";
 
-import fetchUploadFiles from "../../../utils/api/uploadFiles";
+import { toast } from "react-toastify";
+import { isPending } from "../../../components/store/actions/todoActions";
+import { apiClient } from "../../../utils/api/apiClient";
 
 function MagangPages() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { isDarkMode } = useTheme();
 
   const [formData, setFormData] = useState([
     {
       name: "Pengajuan Layanan Pendaftaran Magang",
       type: "Layanan Sekretariat",
-      role: ["op_pmo","kadis", "sekretariat", "katim_sekre", "teknis_sekre"],
+      role: ["op_pmo", "kadis", "sekretariat", "katim_sekre", "teknis_sekre"],
       fields: [
         {
           name: "name_pemohon",
@@ -29,32 +28,32 @@ function MagangPages() {
           value: "",
           type: "text",
         },
-        {
-          name: "surat_permohonan",
-          label: "Surat Permohonan",
-          value: "",
-          type: "file_upload",
-          noted: "File berekstensi: pdf, xlsx, docs",
-        },
+        // {
+        //   name: "surat_permohonan",
+        //   label: "Surat Permohonan",
+        //   value: "",
+        //   type: "file_upload",
+        //   noted: "File berekstensi: pdf, xlsx, docs",
+        // },
         {
           name: "period",
           label: "Waktu",
           value: "",
           type: "date",
         },
-        {
-          name: "surat_ket_mahasiswa",
-          label: "Surat Keterangan Mahasiswa Aktif",
-          value: "",
-          type: "file_upload",
-          noted: "File berekstensi: pdf, xlsx, docs",
-        },
-        {
-          name: "pict_ktp",
-          label: "Foto KTP",
-          value: "",
-          type: "image_upload",
-        },
+        // {
+        //   name: "surat_ket_mahasiswa",
+        //   label: "Surat Keterangan Mahasiswa Aktif",
+        //   value: "",
+        //   type: "file_upload",
+        //   noted: "File berekstensi: pdf, xlsx, docs",
+        // },
+        // {
+        //   name: "pict_ktp",
+        //   label: "Foto KTP",
+        //   value: "",
+        //   type: "image_upload",
+        // },
       ],
     },
   ]);
@@ -89,65 +88,40 @@ function MagangPages() {
     console.log(JSON.stringify(combinedObject));
     if (combinedObject?.submission_title === "Layanan Pendaftaran Magang") {
       if (isValidatorPendaftaranMagang(combinedObject)) {
-        // await handleImageUploadAndFetch(combinedObject);
+        await handleImageUploadAndFetch(combinedObject);
       } else {
         return false;
       }
     }
   };
   const handleImageUploadAndFetch = async (obj) => {
-    if (obj.surat_permohonan) {
-      const result = await fetchUploadFiles(
-        authApiKey,
-        authToken,
-        obj.surat_permohonan,
-        "sekretariat",
-        dispatch
-      );
-      if (result !== null) {
-        const fixObject = {
-          ...obj,
-          surat_permohonan: result,
-        };
+    fetchDataCreate(obj);
+  };
+  const fetchDataCreate = async (data) => {
+    dispatch(isPending(true));
+    const raw = JSON.stringify(data);
+
+    try {
+      const response = await apiClient({
+        baseurl: "pendaftaran-magang/create",
+        method: "POST",
+        customHeaders: { "Content-Type": "application/json" },
+        body: raw,
+      });
+      dispatch(isPending(false));
+      if (response?.statusCode === 200) {
+        toast.success(response.result.msg, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+
       } else {
-        console.error("Error occurred during image upload.");
+        toast.error(response.result.msg, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
       }
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
-    if (obj.surat_ket_mahasiswa) {
-      const result = await fetchUploadFiles(
-        authApiKey,
-        authToken,
-        obj.surat_ket_mahasiswa,
-        "sekretariat",
-        dispatch
-      );
-      if (result !== null) {
-        const fixObject = {
-          ...obj,
-          surat_ket_mahasiswa: result,
-        };
-      } else {
-        console.error("Error occurred during image upload.");
-      }
-    }
-    if (obj.pict_ktp) {
-      const result = await fetchUploadImages(
-        authApiKey,
-        authToken,
-        obj.pict_ktp,
-        "sekretariat",
-        dispatch
-      );
-      if (result !== null) {
-        const fixObject = {
-          ...obj,
-          pict_ktp: result,
-        };
-      } else {
-        console.error("Error occurred during image upload.");
-      }
-    }
-    fetchDataCreate(authApiKey, authToken, obj);
   };
   return (
     <div className="flex flex-col min-h-screen bg-cardLight dark:bg-cardDark text-lightColor dark:text-darkColor font-gilroy">

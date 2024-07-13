@@ -197,7 +197,9 @@ function AplikasiPages() {
             }),
           };
         });
-        setFormData(updatedData);
+        setTimeout(() => {
+          setFormData(updatedData);
+        }, 1000);
       } else {
       }
     } catch (error) {

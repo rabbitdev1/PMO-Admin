@@ -5,10 +5,10 @@ import { validateArray, validateDate, validateFile, validateFullname, validateHT
 export const isValidatorPendaftaranMagang = (obj) => {
   let isValid = true;
   isValid = isValid && validateText(obj.name_pemohon, "Nama Pemohon");
-  isValid = isValid && validateFile(obj.surat_permohonan, "Surat Permohonan");
+  // isValid = isValid && validateFile(obj.surat_permohonan, "Surat Permohonan");
   isValid = isValid && validateDate(obj.period, "Waktu");
-  isValid = isValid && validateFile(obj.surat_ket_mahasiswa, "Surat Keterangan Mahasiswa Aktif");
-  isValid = isValid && validateImage(obj.pict_ktp, "Foto KTP");
+  // isValid = isValid && validateFile(obj.surat_ket_mahasiswa, "Surat Keterangan Mahasiswa Aktif");
+  // isValid = isValid && validateImage(obj.pict_ktp, "Foto KTP");
 
   return isValid;
 };
