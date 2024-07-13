@@ -380,9 +380,6 @@ function LayananPenyusunanPerencanaanTIKPages() {
           if (field.name === "telp_pic") {
             return { ...field, value: number };
           }
-          if (field.name === "type_tools") {
-            return { ...field, options: dataAlat };
-          }
           if (field.name === "app_name") {
             return { ...field, options: dataApps };
           }
