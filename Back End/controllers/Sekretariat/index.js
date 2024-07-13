@@ -1,6 +1,6 @@
 import SekretariatModel from "../../models/SekretariatModel.js";
 
-export const setStatusDataSekretariat = async(req, res) => {
+export const setStatusDataSekretariat = async (req, res) => {
     try {
         let rawData = req.body;
         const apiKey = req.headers["x-api-key"];
@@ -11,7 +11,7 @@ export const setStatusDataSekretariat = async(req, res) => {
                 msg: "API Key is required",
             });
         }
-        let processedData = {...rawData };
+        let processedData = { ...rawData };
         const notAllowedFields = ["role", "apiKey"];
         notAllowedFields.forEach((field) => {
             if (processedData.hasOwnProperty(field)) {
@@ -44,10 +44,10 @@ export const setStatusDataSekretariat = async(req, res) => {
     }
 };
 
-export const createDataGuest = async(req, res) => {
+export const createDataGuest = async (req, res) => {
     try {
         let rawData = req.body;
-        let processedData = {...rawData };
+        let processedData = { ...rawData };
         const notAllowedFields = ["role"];
         notAllowedFields.forEach((field) => {
             if (processedData.hasOwnProperty(field)) {
@@ -58,7 +58,7 @@ export const createDataGuest = async(req, res) => {
         if (Array.isArray(rawData.role) || typeof rawData.role === "object") {
             rawData.role = JSON.stringify(rawData.role);
         }
-        rawData.apiKey = "apiKeyGuest";
+        rawData.apiKey = "APIGUESTTTTTT";
         rawData.fields = JSON.stringify(processedData);
         rawData.submission_status = 1;
         rawData.on_process = JSON.stringify({});
@@ -80,7 +80,7 @@ export const createDataGuest = async(req, res) => {
     }
 };
 
-export const editProcessDataSekretariat = async(req, res) => {
+export const editProcessDataSekretariat = async (req, res) => {
     try {
         const { id, status } = req.body;
         const apiKey = req.headers["x-api-key"];

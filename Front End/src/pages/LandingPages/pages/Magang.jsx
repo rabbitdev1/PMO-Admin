@@ -23,7 +23,7 @@ function MagangPages() {
       role: ["op_pmo", "kadis", "sekretariat", "katim_sekre", "teknis_sekre"],
       fields: [
         {
-          name: "name_pemohon",
+          name: "name_pic",
           label: "Nama Pemohon",
           value: "",
           type: "text",
@@ -37,9 +37,15 @@ function MagangPages() {
         // },
         {
           name: "period",
-          label: "Waktu",
+          label: "Jangka Waktu Magang",
           value: "",
-          type: "date",
+          type: "multi_date",
+        },
+        {
+          name: "nik",
+          label: "Nomor NIK / SIM",
+          value: "",
+          type: "text",
         },
         // {
         //   name: "surat_ket_mahasiswa",
@@ -100,7 +106,6 @@ function MagangPages() {
   const fetchDataCreate = async (data) => {
     dispatch(isPending(true));
     const raw = JSON.stringify(data);
-
     try {
       const response = await apiClient({
         baseurl: "pendaftaran-magang/create",
@@ -113,7 +118,53 @@ function MagangPages() {
         toast.success(response.result.msg, {
           position: toast.POSITION.TOP_RIGHT,
         });
-
+        setFormData([
+          {
+            name: "Pengajuan Layanan Pendaftaran Magang",
+            type: "Layanan Sekretariat",
+            role: ["op_pmo", "kadis", "sekretariat", "katim_sekre", "teknis_sekre"],
+            fields: [
+              {
+                name: "name_pic",
+                label: "Nama Pemohon",
+                value: "",
+                type: "text",
+              },
+              // {
+              //   name: "surat_permohonan",
+              //   label: "Surat Permohonan",
+              //   value: "",
+              //   type: "file_upload",
+              //   noted: "File berekstensi: pdf, xlsx, docs",
+              // },
+              {
+                name: "period",
+                label: "Jangka Waktu Magang",
+                value: "",
+                type: "multi_date",
+              },
+              {
+                name: "nik",
+                label: "Nomor NIK / SIM",
+                value: "",
+                type: "text",
+              },
+              // {
+              //   name: "surat_ket_mahasiswa",
+              //   label: "Surat Keterangan Mahasiswa Aktif",
+              //   value: "",
+              //   type: "file_upload",
+              //   noted: "File berekstensi: pdf, xlsx, docs",
+              // },
+              // {
+              //   name: "pict_ktp",
+              //   label: "Foto KTP",
+              //   value: "",
+              //   type: "image_upload",
+              // },
+            ],
+          },
+        ])
       } else {
         toast.error(response.result.msg, {
           position: toast.POSITION.TOP_RIGHT,

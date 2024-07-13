@@ -95,7 +95,7 @@ function DetailSekretariatPages() {
     let htmlConvert = "";
 
     if (
-      ["validation", "validation_technique", "process"].includes(type) &&
+      [ "validation_technique", "process"].includes(type) &&
       data?.response
     ) {
       const contentState = convertToRaw(data.response.getCurrentContent());
