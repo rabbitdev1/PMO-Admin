@@ -1,4 +1,14 @@
 import express from "express";
+import { uploadFiles } from "../components/UploadFile.js";
+import { uploadImages } from "../components/UploadImage.js";
+import { deleteDataAplikasi } from "../controllers/Aplikasi/delete.js";
+import { getDetailDataAplikasi } from "../controllers/Aplikasi/detail.js";
+import { editDataAplikasi } from "../controllers/Aplikasi/edit.js";
+import {
+  editProcessDataAplikasi,
+  setStatusDataAplikasi,
+} from "../controllers/Aplikasi/index.js";
+import { getListDataAplikasi } from "../controllers/Aplikasi/list.js";
 import {
   checkRoleUser,
   createUsers,
@@ -9,71 +19,63 @@ import {
   Login,
   Logout,
 } from "../controllers/Users.js";
-import { verifyToken } from "../middleware/VerifyToken.js";
-import { uploadImages } from "../components/UploadImage.js";
 import validateImage from "../middleware/Multer.js";
 import validatePDF from "../middleware/Multer2.js";
-import { uploadFiles } from "../components/UploadFile.js";
-import { getListDataAplikasi } from "../controllers/Aplikasi/list.js";
-import { getDetailDataAplikasi } from "../controllers/Aplikasi/detail.js";
-import {
-  editProcessDataAplikasi,
-  setStatusDataAplikasi,
-} from "../controllers/Aplikasi/index.js";
-import { editDataAplikasi } from "../controllers/Aplikasi/edit.js";
-import { deleteDataAplikasi } from "../controllers/Aplikasi/delete.js";
+import { verifyToken } from "../middleware/VerifyToken.js";
 
-import { getListDataInfrastruktur } from "../controllers/Infrastruktur/list.js";
+import { deleteDataInfrastruktur } from "../controllers/Infrastruktur/delete.js";
 import { getDetailDataInfrastruktur } from "../controllers/Infrastruktur/detail.js";
+import { editDataInfrastruktur } from "../controllers/Infrastruktur/edit.js";
 import {
   editProcessDataInfrastruktur,
   setStatusDataInfrastruktur,
 } from "../controllers/Infrastruktur/index.js";
-import { editDataInfrastruktur } from "../controllers/Infrastruktur/edit.js";
-import { deleteDataInfrastruktur } from "../controllers/Infrastruktur/delete.js";
-import { getListDataTools, getListDataToolsbyArray, setListDataTools } from "../controllers/Infrastruktur/list_tools.js";
-import { getListDataSekretariat } from "../controllers/Sekretariat/list.js";
+import { getListDataInfrastruktur } from "../controllers/Infrastruktur/list.js";
+import { deleteListDataTools, editListDataTools, getListDataTools, getListDataToolsbyArray, setListDataTools } from "../controllers/Infrastruktur/list_tools.js";
+import { deleteDataSekretariat } from "../controllers/Sekretariat/delete.js";
 import { getDetailDataSekretariat } from "../controllers/Sekretariat/detail.js";
+import { editDataSekretariat } from "../controllers/Sekretariat/edit.js";
 import {
   editProcessDataSekretariat,
   setStatusDataSekretariat,
 } from "../controllers/Sekretariat/index.js";
-import { editDataSekretariat } from "../controllers/Sekretariat/edit.js";
-import { deleteDataSekretariat } from "../controllers/Sekretariat/delete.js";
+import { getListDataSekretariat } from "../controllers/Sekretariat/list.js";
 
-import { getListDataLayananData } from "../controllers/Layanan Data/list.js";
-import { getListDataPerencanaanTIK } from "../controllers/PerencanaanTIK/list.js";
-import { getDetailDataPerencanaanTIK } from "../controllers/PerencanaanTIK/detail.js";
-import {
-  editProcessDataPerencanaanTIK,
-  setStatusDataPerencanaanTIK,
-} from "../controllers/PerencanaanTIK/index.js";
-import { editDataPerencanaanTIK } from "../controllers/PerencanaanTIK/edit.js";
-import { deleteDataPerencanaanTIK } from "../controllers/PerencanaanTIK/delete.js";
+import { deleteDataLayananData } from "../controllers/Layanan Data/delete.js";
 import { getDetailDataLayananData } from "../controllers/Layanan Data/detail.js";
+import { editDataLayananData } from "../controllers/Layanan Data/edit.js";
 import {
   editProcessDataLayananData,
   setStatusDataLayananData,
 } from "../controllers/Layanan Data/index.js";
-import { editDataLayananData } from "../controllers/Layanan Data/edit.js";
-import { deleteDataLayananData } from "../controllers/Layanan Data/delete.js";
+import { getListDataLayananData } from "../controllers/Layanan Data/list.js";
+import { deleteDataPerencanaanTIK } from "../controllers/PerencanaanTIK/delete.js";
+import { getDetailDataPerencanaanTIK } from "../controllers/PerencanaanTIK/detail.js";
+import { editDataPerencanaanTIK } from "../controllers/PerencanaanTIK/edit.js";
+import {
+  editProcessDataPerencanaanTIK,
+  setStatusDataPerencanaanTIK,
+} from "../controllers/PerencanaanTIK/index.js";
+import { getListDataPerencanaanTIK } from "../controllers/PerencanaanTIK/list.js";
 
-import { getListDataSistemVirtual } from "../controllers/Layanan Sistem Virtual/list.js";
+import { deleteDataSistemVirtual } from "../controllers/Layanan Sistem Virtual/delete.js";
 import { getDetailDataSistemVirtual } from "../controllers/Layanan Sistem Virtual/detail.js";
+import { editDataSistemVirtual } from "../controllers/Layanan Sistem Virtual/edit.js";
 import {
   editProcessDataSistemVirtual,
   setStatusDataSistemVirtual,
 } from "../controllers/Layanan Sistem Virtual/index.js";
-import { editDataSistemVirtual } from "../controllers/Layanan Sistem Virtual/edit.js";
-import { deleteDataSistemVirtual } from "../controllers/Layanan Sistem Virtual/delete.js";
-import { getListDataPermohonanSI } from "../controllers/PermohonanSI/list.js";
+import { getListDataSistemVirtual } from "../controllers/Layanan Sistem Virtual/list.js";
+import { deleteDataPermohonanSI } from "../controllers/PermohonanSI/delete.js";
 import { getDetailDataPermohonanSI } from "../controllers/PermohonanSI/detail.js";
+import { editDataPermohonanSI } from "../controllers/PermohonanSI/edit.js";
 import {
   editProcessDataPermohonanSI,
   setStatusDataPermohonanSI,
 } from "../controllers/PermohonanSI/index.js";
-import { editDataPermohonanSI } from "../controllers/PermohonanSI/edit.js";
-import { deleteDataPermohonanSI } from "../controllers/PermohonanSI/delete.js";
+import { getListDataPermohonanSI } from "../controllers/PermohonanSI/list.js";
+import { deleteListDataApps, editListDataApps, getListDataApps, getListDataAppsbyArray, setListDataApps } from "../controllers/PerangkatDaerah/list_apps.js";
+
 
 const router = express.Router();
 
@@ -86,6 +88,8 @@ router.post("/infrastruktur/edit", verifyToken, editDataInfrastruktur);
 router.post("/infrastruktur/delete", verifyToken, deleteDataInfrastruktur);
 router.post("/infrastruktur/tools", verifyToken, getListDataTools);
 router.post("/infrastruktur/set_tools", verifyToken, setListDataTools);
+router.post("/infrastruktur/delete_tools", verifyToken, deleteListDataTools);
+router.post("/infrastruktur/edit_tools", verifyToken, editListDataTools);
 router.post("/infrastruktur/list_tools", verifyToken, getListDataToolsbyArray);
 
 // Sekretariat routes
@@ -135,6 +139,13 @@ router.post("/permohonan-sistem-informasi/create", verifyToken, setStatusDataPer
 router.post("/permohonan-sistem-informasi/set_process", verifyToken, editProcessDataPermohonanSI);
 router.post("/permohonan-sistem-informasi/edit", verifyToken, editDataPermohonanSI);
 router.post("/permohonan-sistem-informasi/delete", verifyToken, deleteDataPermohonanSI);
+
+router.post("/perangkat-daerah/apps", verifyToken, getListDataApps);
+router.post("/perangkat-daerah/list_apps", verifyToken, getListDataAppsbyArray);
+router.post("/perangkat-daerah/set_apps", verifyToken, setListDataApps);
+router.post("/perangkat-daerah/delete_apps", verifyToken, deleteListDataApps);
+router.post("/perangkat-daerah/edit_apps", verifyToken, editListDataApps);
+
 
 // User routes
 router.post("/me", verifyToken, getUser);

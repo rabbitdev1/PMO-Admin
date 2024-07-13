@@ -305,9 +305,9 @@ function CreatePermohonanSIPages() {
                         <span className="flex text-lg font-semibold">Pembangunan Sistem Informasi</span>
                         <DynamicInput
                           label={"Nama Aplikasi"}
-                          value={inputData.applicationName || ''}
+                          value={inputData.app_name || ''}
                           type={'text'}
-                          onChange={(value) => handleInputChange('applicationName', value)}
+                          onChange={(value) => handleInputChange('app_name', value)}
                           placeholder={"Masukan Nama Aplikasi"}
                         />
                         <DynamicInput
@@ -334,12 +334,12 @@ function CreatePermohonanSIPages() {
                         <span className="flex text-lg font-semibold">Teknis Pengembangan</span>
                         <DynamicInput
                           label={"Nama Aplikasi"}
-                          value={inputData.applicationName}
+                          value={inputData.app_name}
                           type={'selection'}
                           options={[
                             { label: ' Aplikasi1', value: ' Aplikasi1' },
                           ]}
-                          onChange={(value) => handleInputChange('applicationName', value)}
+                          onChange={(value) => handleInputChange('app_name', value)}
                           placeholder={"Masukan Nama Aplikasi"}
                         />
                         <DynamicInput

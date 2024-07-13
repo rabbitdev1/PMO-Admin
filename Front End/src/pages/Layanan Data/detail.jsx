@@ -20,6 +20,7 @@ import ValidationStatus from "./Logical/2.ValidationStatus";
 import ValidationStatusTechnique from "./Logical/3.ValidationStatusTechnique";
 import ProcessStatus from "./Logical/4.ProcessStatus";
 import FinishStatus from "./Logical/5.FinishStatus";
+import ModalContentComponent from "../../components/ui/ModalContentComponent";
 
 function DetaiLayananDataPages() {
   const navigate = useNavigate();
@@ -53,7 +54,7 @@ function DetaiLayananDataPages() {
         JSON.parse(authProfile)?.role
       );
     }
-  }, [authToken,authApiKey,authProfile]);
+  }, [authToken, authApiKey, authProfile]);
 
   const fetchDataLayananData = async (api_key, token, role) => {
     setLayananDataLoading(true);
@@ -225,7 +226,7 @@ function DetaiLayananDataPages() {
               })
             );
           }
-      
+
           await Promise.all(uploadPromises);
 
           let combineData = { ...data };
@@ -351,96 +352,66 @@ function DetaiLayananDataPages() {
         link2={"Bidang Data"}
       />
       <section className="flex flex-col gap-3">
-          <SubmissionStatus status={submissionStatus} data={null} />
-          <div className={`flex  flex-col gap-3`}>
-            <DalamAntrianView
-              submissionStatus={submissionStatus}
-              detailData={detailData}
-              loading={LayananDataLoading}
-            />
-            <ValidationStatus
-              submissionStatus={submissionStatus}
-              validationData={validationData}
-              authProfile={authProfile}
-              detailData={detailData}
-              loading={LayananDataLoading}
-              setValidationData={setValidationData}
-              checkingFormData={checkingFormData}
-            />
-            <ValidationStatusTechnique
-              slug={slug}
-              submissionStatus={submissionStatus}
-              validationData={validationData}
-              validationDataTechnique={validationDataTechnique}
-              setvalidationDataTechnique={setValidationDataTechnique}
-              authProfile={authProfile}
-              detailData={detailData}
-              loading={LayananDataLoading}
-              checkingFormData={checkingFormData}
-              setisModalVerif={setisModalVerif}
-            />
-            <ProcessStatus
-              slug={slug}
-              validationDataTechnique={validationDataTechnique}
-              processData={processData}
-              submissionStatus={submissionStatus}
-              authProfile={authProfile}
-              detailData={detailData}
-              loading={LayananDataLoading}
-              checkingFormData={checkingFormData}
-              setisModalVerif={setisModalVerif}
-              finishData={finishData}
-              setfinishData={setfinishData}
-            />
-            <FinishStatus
-              detailData={detailData}
-              loading={LayananDataLoading}
-              validationData={validationData}
-              validationDataTechnique={validationDataTechnique}
-              processData={processData}
-              submissionStatus={submissionStatus}
-              finishData={finishData}
-            />
-          </div>
-        </section>
-      <ModalContent
-        className={"sm:max-w-xl"}
-        children={
-          <div className="flex flex-col gap-2">
-            <div className="flex flex-col items-center justify-center ">
-              {isModalVerif.data?.icon && (
-                <isModalVerif.data.icon
-                  className={`flex flex-col flex-1 max-w-[150%] aspect-square bg-[${isModalVerif.data.color}] rounded-full`}
-                />
-              )}
-            </div>
-            <div className="flex  flex-col items-center justify-center ">
-              <span className="text-lg font-bold">
-                {isModalVerif.data?.title}
-              </span>
-              <span className="text-sm font-light opacity-70">
-                {isModalVerif.data?.msg}
-              </span>
-            </div>
-            <div className="flex flex-col gap-2 ">
-              <DynamicButton
-                initialValue={"Kembali"}
-                type="fill"
-                color={"#ffffff"}
-                className={`inline-flex flex-1 bg-[${isModalVerif.data.color}] text-darkColor`}
-                onClick={() => {
-                  setisModalVerif({ data: {}, status: false });
-                  fetchDataLayananData(
-                    authApiKey,
-                    authToken,
-                    JSON.parse(authProfile)?.role
-                  );
-                }}
-              />
-            </div>
-          </div>
-        }
-        active={isModalVerif.status}
+        <SubmissionStatus status={submissionStatus} data={null} />
+        <div className={`flex  flex-col gap-3`}>
+          <DalamAntrianView
+            submissionStatus={submissionStatus}
+            detailData={detailData}
+            loading={LayananDataLoading}
+          />
+          <ValidationStatus
+            submissionStatus={submissionStatus}
+            validationData={validationData}
+            authProfile={authProfile}
+            detailData={detailData}
+            loading={LayananDataLoading}
+            setValidationData={setValidationData}
+            checkingFormData={checkingFormData}
+          />
+          <ValidationStatusTechnique
+            slug={slug}
+            submissionStatus={submissionStatus}
+            validationData={validationData}
+            validationDataTechnique={validationDataTechnique}
+            setvalidationDataTechnique={setValidationDataTechnique}
+            authProfile={authProfile}
+            detailData={detailData}
+            loading={LayananDataLoading}
+            checkingFormData={checkingFormData}
+            setisModalVerif={setisModalVerif}
+          />
+          <ProcessStatus
+            slug={slug}
+            validationDataTechnique={validationDataTechnique}
+            processData={processData}
+            submissionStatus={submissionStatus}
+            authProfile={authProfile}
+            detailData={detailData}
+            loading={LayananDataLoading}
+            checkingFormData={checkingFormData}
+            setisModalVerif={setisModalVerif}
+            finishData={finishData}
+            setfinishData={setfinishData}
+          />
+          <FinishStatus
+            detailData={detailData}
+            loading={LayananDataLoading}
+            validationData={validationData}
+            validationDataTechnique={validationDataTechnique}
+            processData={processData}
+            submissionStatus={submissionStatus}
+            finishData={finishData}
+          />
+        </div>
+      </section>
+      <ModalContentComponent
+        isModalVerif={isModalVerif}
+        setisModalVerif={setisModalVerif}
+        setisModalCreate={() => { }}
+        fetchData={fetchDataLayananData}
+        authApiKey={authApiKey}
+        authToken={authToken}
+        authProfile={authProfile}
       />
     </div>
   );

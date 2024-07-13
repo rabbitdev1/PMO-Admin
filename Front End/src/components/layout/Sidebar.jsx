@@ -53,10 +53,14 @@ const Sidebar = () => {
 
   const menuItems = [
     { title: "MENU", role: ['/'], icon: "" },
-    { title: "Dashboard", role: ['kadis','op_pmo', 'perangkat_daerah','katim_aplikasi','kabid_aplikasi','teknis_aplikasi','kabid_infra','katim_infra','teknis_infra','katim_perencanaan','kabid_perencanaan','katim_desiminasi','kabid_desiminasi','teknis_desiminasi','kabid_sekte','teknis_sekre','katim_sekre','teknis_perencanaan'], icon: AllBerandaIcon, href: ["/dashboard"], },
+    { title: "Dashboard", role: ['kadis', 'op_pmo', 'perangkat_daerah', 'katim_aplikasi', 'kabid_aplikasi', 'teknis_aplikasi', 'kabid_infra', 'katim_infra', 'teknis_infra', 'katim_perencanaan', 'kabid_perencanaan', 'katim_desiminasi', 'kabid_desiminasi', 'teknis_desiminasi', 'kabid_sekte', 'teknis_sekre', 'katim_sekre', 'teknis_perencanaan'], icon: AllBerandaIcon, href: ["/dashboard"], },
     {
       title: "Data Alat", role: ['kabid_infra', 'teknis_infra', 'katim_infra'],
-      icon: AllBerandaIcon, href: ["/data-alat-infrastruktur", "/detail-infrastruktur"],
+      icon: AllBerandaIcon, href: ["/data-alat-infrastruktur"],
+    },
+    {
+      title: "Data Aplikasi", role: ['perangkat_daerah',],
+      icon: AllBerandaIcon, href: ["/data-alat-aplikasi"],
     },
     { title: "Akun", role: ['op_pmo'], icon: AllBerandaIcon, href: ["/account", "/1"], },
 
@@ -78,7 +82,7 @@ const Sidebar = () => {
       ], icon: AllBerandaIcon, href: ["/layanan-permohonan-sistem-informasi", "/detail-permohonan-sistem-informasi", '/permohonan-sistem-informasi'],
     },
     {
-      title: "Layanan Pengelolaan Sistem Informasi dan Keamanan Sistem Informasi", role: ['kadis','op_pmo', 'perangkat_daerah', 'kabid_aplikasi', 'teknis_aplikasi', 'katim_aplikasi',],
+      title: "Layanan Pengelolaan Sistem Informasi dan Keamanan Sistem Informasi", role: ['kadis', 'op_pmo', 'perangkat_daerah', 'kabid_aplikasi', 'teknis_aplikasi', 'katim_aplikasi',],
       submenu: [
         { title: 'Intergrasi Sistem Informasi', href: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", state: 'Integrasi Sistem Informasi' },
         { title: 'Penerapan Modul TTE', href: "/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", state: 'Penerapan Modul TTE' },
@@ -87,7 +91,7 @@ const Sidebar = () => {
       ], icon: AllBerandaIcon, href: ["/layanan-pengelolaan-sistem-informasi-dan-keamanan-jaringan", "/detail-aplikasi"],
     },
     {
-      title: "Layanan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi", role: ['kadis','op_pmo', 'perangkat_daerah', 'kabid_infra', 'teknis_infra', 'katim_infra'],
+      title: "Layanan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi", role: ['kadis', 'op_pmo', 'perangkat_daerah', 'kabid_infra', 'teknis_infra', 'katim_infra'],
       submenu: [
         { title: 'Relokasi Alat', href: '/layanan-pengelolaan-infrastruktur-teknologi-informasi-komunikasi', state: 'Relokasi Alat' },
         { title: 'Penambahan Alat', href: '/layanan-pengelolaan-infrastruktur-teknologi-informasi-komunikasi', state: 'Penambahan Alat' },
@@ -99,7 +103,7 @@ const Sidebar = () => {
       icon: AllBerandaIcon, href: ["/layanan-pengelolaan-infrastruktur-teknologi-informasi-komunikasi", "/detail-infrastruktur"],
     },
     {
-      title: "Layanan Siaran dan Sistem Virtual", role: ['kadis','op_pmo', 'perangkat_daerah', 'teknis_desiminasi', 'katim_desiminasi','kabid_desiminasi'],
+      title: "Layanan Siaran dan Sistem Virtual", role: ['kadis', 'op_pmo', 'perangkat_daerah', 'teknis_desiminasi', 'katim_desiminasi', 'kabid_desiminasi'],
       submenu: [
         { title: 'Layanan ZOOM', href: '/layanan-siaran-dan-sistem-virtual', state: 'Layanan ZOOM' },
         { title: 'Permohonan Liputan', href: '/layanan-siaran-dan-sistem-virtual', state: 'Permohonan Liputan' },
@@ -109,7 +113,7 @@ const Sidebar = () => {
     },
     {
 
-      title: "Layanan Data", role: ['kadis','op_pmo', 'perangkat_daerah','teknis_desiminasi', 'katim_desiminasi','kabid_desiminasi'],
+      title: "Layanan Data", role: ['kadis', 'op_pmo', 'perangkat_daerah', 'teknis_desiminasi', 'katim_desiminasi', 'kabid_desiminasi'],
       submenu: [
         { title: 'Pendampingan Pengolahan dan Analisis Data', href: '/layanan-data', state: 'Layanan Pendampingan Pengolahan dan Analisis Data' },
         { title: 'Pelayanan Produksi Data dari Situs Web', href: '/layanan-data', state: 'Layanan Produksi Data dari Situs Web' },
@@ -117,14 +121,14 @@ const Sidebar = () => {
       icon: AllBerandaIcon, href: ["/layanan-data", "/detail-data"],
     },
     {
-      title: "Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi", role: ['kadis','op_pmo', 'perangkat_daerah', 'katim_perencanaan', 'kabid_perencanaan', 'teknis_perencanaan'],
+      title: "Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi", role: ['kadis', 'op_pmo', 'perangkat_daerah', 'katim_perencanaan', 'kabid_perencanaan', 'teknis_perencanaan'],
       submenu: [
         { title: 'Surat Keputusan', href: '/layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi', state: 'Surat Keputusan' },
       ],
       icon: AllBerandaIcon, href: ["/layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi", "/detail-layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi"],
     },
     {
-      title: "Layanan Sekretariat", role: ['kadis','op_pmo', 'perangkat_daerah', 'sekretariat', 'katim_sekre', 'teknis_sekre'],
+      title: "Layanan Sekretariat", role: ['kadis', 'op_pmo', 'perangkat_daerah', 'sekretariat', 'katim_sekre', 'teknis_sekre'],
       submenu: [
         // { title: 'Pendaftaran Magang', href: "/layanan-sekretariat", state: 'Layanan Pendaftaran Magang' },
         { title: 'Pendataan Tenaga Ahli', href: "/layanan-sekretariat", state: 'Layanan Pendataan Tenaga Ahli' },
