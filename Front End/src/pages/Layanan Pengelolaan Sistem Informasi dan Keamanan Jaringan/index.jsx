@@ -197,7 +197,7 @@ function AplikasiPages() {
             }),
           };
         });
-        setTimeout(() => {
+         setTimeout(() => {
           setFormData(updatedData);
         }, 1000);
       } else {
