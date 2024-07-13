@@ -71,6 +71,7 @@ function LayananPenyusunanPerencanaanTIKPages() {
     useState(true);
 
   const [formData, setFormData] = useState(initialFormData);
+  const [dataApps, setDataApps] = useState(initialFormData);
 
   const [isModalPanduan, setisModalPanduan] = useState(false);
 
@@ -154,20 +155,7 @@ function LayananPenyusunanPerencanaanTIKPages() {
         token: token,
       });
       if (response?.statusCode === 200) {
-        const updatedData = formData.map((form) => {
-          return {
-            ...form,
-            fields: form.fields.map((field) => {
-              if (field.name === "app_name") {
-                return { ...field, options: response.result.data };
-              }
-              return field;
-            }),
-          };
-        });
-        setTimeout(() => {
-          setFormData(updatedData);
-        }, 1000);
+        setDataApps(response.result.data);
       } else {
       }
     } catch (error) {
@@ -392,11 +380,13 @@ function LayananPenyusunanPerencanaanTIKPages() {
           if (field.name === "telp_pic") {
             return { ...field, value: number };
           }
+          if (field.name === "app_name") {
+            return { ...field, options: dataApps };
+          }
           return field;
         }),
       };
     });
-
     setFormData(updatedData);
   };
 

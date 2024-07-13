@@ -3,8 +3,6 @@ import Cookies from "js-cookie";
 import React from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { useNavigate } from "react-router";
-import { ReactComponent as Ic_dark_mode } from "../../assets/icon/ic_dark-mode.svg";
-import { ReactComponent as Ic_light_mode } from "../../assets/icon/ic_light-mode.svg";
 import DynamicButton from '../../components/common/DynamicButton';
 import useTheme from "../../components/context/useTheme";
 
@@ -61,7 +59,7 @@ const Header = ({ }) => {
             { label: 'Tentang PMO', submenu: [{ label: 'Label 1', herf: '' }, { label: 'Label 2', herf: '' }] },
             { label: 'Fungsi Utama', submenu: [{ label: 'Label 1', herf: '' }, { label: 'Label 2', herf: '' }] },
             { label: 'Layanan', submenu: [{ label: 'Label 1', herf: '' }, { label: 'Label 2', herf: '' }] },
-            { label: 'Katalog Web Services', submenu: [{ label: 'Label 1', herf: '' }, { label: 'Label 2', herf: '' }] },
+            { label: 'Katalog Web Services', herf: 'https://www.katalogweb.com' },
             { label: 'Magang', herf: '/pendaftaran-magang' },
             { label: 'Pusat Pengaduan / Layanan', submenu: [{ label: 'Label 1', herf: '' }, { label: 'Label 2', herf: '' }] },
           ].map((button, index) => (
@@ -76,7 +74,7 @@ const Header = ({ }) => {
                     color={isDarkMode ? "#ffffff" : "#0185FF"}
                     type="transparent"
                     className="bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor outline-0 px-3"
-                    onClick={() => { !button.submenu && navigate(button.herf) }}
+                    onClick={() => { !button.submenu && (button.label === "Katalog Web Services" ? window.open(button.herf, "_blank") : navigate(button.herf)) }}
                   />
                 </Button>
               </PopoverHandler>
