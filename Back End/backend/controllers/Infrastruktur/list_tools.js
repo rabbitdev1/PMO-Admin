@@ -18,7 +18,7 @@ export const getListDataTools = async (req, res) => {
 
             res.json({
                 status: "ok",
-                msg: "Data infrastruktur retrieved successfully",
+                msg: "Data Alat retrieved successfully",
                 data: infrastruktur.map((item) => {
                     return {
                         id: item.id,
@@ -59,7 +59,7 @@ export const getListDataToolsbyArray = async (req, res) => {
 
             res.json({
                 status: "ok",
-                msg: "Data infrastruktur retrieved successfully",
+                msg: "Data Alat retrieved successfully",
                 data: infrastruktur.map((item) => {
                     return {
                         value: item.name_tools + ' - (' + item.spec_tools + ')',
@@ -86,25 +86,24 @@ export const setListDataTools = async (req, res) => {
                 msg: "API Key is required",
             });
         }
-        const { unit_price, total_price, spec_tools, total_tools, name_tools } = req.body;
-        if (!unit_price || !total_price || !spec_tools || !total_tools || !name_tools) {
+        const { unit_price, total_price, spec_tools, total_tools, name_tools, type_tools } = req.body;
+        if (!unit_price || !total_price || !spec_tools || !total_tools || !name_tools || !type_tools) {
             return res.status(400).json({
                 status: "error",
                 msg: "All fields are required",
             });
         }
-
-        const newTool = await ListToolsModel.create({
+        ListToolsModel.create({
             unit_price,
+            type_tools,
             total_price,
             spec_tools,
             total_tools,
             name_tools,
         });
-        res.status(201).json({
+        res.status(200).json({
             status: "ok",
-            msg: "Data successfully created",
-            data: newTool,
+            msg: "Item created successfully",
         });
     } catch (error) {
         console.error(error);

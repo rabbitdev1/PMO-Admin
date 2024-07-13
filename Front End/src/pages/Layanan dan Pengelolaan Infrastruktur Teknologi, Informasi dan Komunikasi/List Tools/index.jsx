@@ -1,19 +1,18 @@
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
+import { toast } from "react-toastify";
 import { ReactComponent as DocumentIcon } from "../../../assets/icon/ic_document.svg";
 import { ReactComponent as PlusIcon } from "../../../assets/icon/ic_plus.svg";
-import { ReactComponent as PengajuanBerahasilIcon } from "../../../assets/icon/ic_pengajuan_berhasil.svg";
 import DynamicButton from "../../../components/common/DynamicButton";
 import DynamicInput from "../../../components/common/DynamicInput";
 import TableCostum from "../../../components/data-display/TableCostum";
 import TitleHeader from "../../../components/layout/TitleHeader";
+import { isPending } from "../../../components/store/actions/todoActions";
 import ModalContent from "../../../components/ui/Modal/ModalContent";
 import { apiClient } from "../../../utils/api/apiClient";
 import { isValidatorListTools } from "../validators";
-import { useDispatch } from "react-redux";
-import { isPending } from "../../../components/store/actions/todoActions";
-import { toast } from "react-toastify";
 
 function DataAlatInfraPage() {
   const navigate = useNavigate();
@@ -22,7 +21,6 @@ function DataAlatInfraPage() {
   const authApiKey = Cookies.get('authApiKey');
   const authToken = Cookies.get('authToken');
   const authProfile = Cookies.get('authData');
-
 
   const [statusData, setStatusData] = useState([
     { title: "Total Alat", value: "0", desc: "Data proses berjalan", icon: DocumentIcon, color: '#FFA500' },
@@ -36,11 +34,6 @@ function DataAlatInfraPage() {
   const [formData, setFormData] = useState({});
 
   const [isModalType, setisModalType] = useState({ status: false, data: {} });
-  const [isModalVerif, setisModalVerif] = useState({
-    status: false,
-    data: {},
-  });
-
 
   const dataState = location.state;
 
@@ -86,7 +79,7 @@ function DataAlatInfraPage() {
   const fetchDataCreate = async (api_key, token, data) => {
     dispatch(isPending(true));
     const urlEncodedData = new URLSearchParams(data).toString();
-    
+
     try {
       const response = await apiClient({
         baseurl: "infrastruktur/set_tools",
@@ -97,15 +90,12 @@ function DataAlatInfraPage() {
       });
       dispatch(isPending(false));
       if (response?.statusCode === 200) {
-        setisModalVerif({
-          data: {
-            title: "Tambah Barang Berhasil",
-            msg: "Selamat! Barang Berhasil di Tambahkan",
-            icon: PengajuanBerahasilIcon,
-            color: "#13C39C",
-          },
-          status: true,
+        toast.success(response.result.msg, {
+          position: toast.POSITION.TOP_RIGHT,
         });
+        setisModalType({ data: '', status: false });
+        setFormData({})
+        fetchDataAlat(authApiKey, authToken, JSON.parse(authProfile)?.role)
       } else {
         toast.error(response.result.msg, {
           position: toast.POSITION.TOP_RIGHT,
@@ -115,8 +105,8 @@ function DataAlatInfraPage() {
       console.error("Error fetching data:", error);
     }
   };
-  
-  
+
+
   const checkingFormData = async (combinedObject) => {
     if (isValidatorListTools(combinedObject)) {
       fetchDataCreate(authApiKey, authToken, combinedObject);
@@ -185,12 +175,7 @@ function DataAlatInfraPage() {
                   navigate("/detail-infrastruktur", { state: { slug: data.id } });
                 }}
                 onClickRemove={(data) => {
-                  const isConfirmed = window.confirm("Apakah kamu yakin ingin menghapus pengajuan ini?");
-                  if (isConfirmed) {
-                    // fetchDataDelete(authApiKey, authToken, data.id, "infrastruktur")
-                  } else {
-                    alert("Pengajuan tidak dihapus.");
-                  }
+                  // fetchDataDelete(authApiKey, authToken, data.id, "infrastruktur")
                 }}
                 data={listdataAlat}
               />
@@ -212,6 +197,19 @@ function DataAlatInfraPage() {
                 value: formData.name_tools,
                 type: "text",
                 name: "name_tools",
+              },
+              {
+                label: "Jenis Alat",
+                value: formData.type_tools,
+                type: "selection",
+                options: [
+                  { value: "Networking", label: "Networking" },
+                  { value: "Security", label: "Security" },
+                  { value: "Hardware", label: "Hardware" },
+                  { value: "Power Supply", label: "Power Supply" },
+                  { value: "Cabling", label: "Cabling" },
+                ],
+                name: 'type_tools'
               },
               {
                 label: "Jumlah Barang",
@@ -240,25 +238,28 @@ function DataAlatInfraPage() {
             ].map((inputProps, index) => {
               return (
                 <DynamicInput
-                key={index}
-                label={inputProps.label}
-                value={inputProps.value}
-                disabled={formData.total_price && false}
-                type={inputProps.type}
-                options={inputProps.options}
-                placeholder={'Masukan ' + inputProps.label}
-                onChange={(value) => {
-                  let updatedFormData = {
-                    ...formData,
-                    [inputProps.name]: inputProps.type === "currency" ? parseFloat(value) : value,
-                  };
-                  if (inputProps.name === "unit_price" || inputProps.name === "total_tools") {
-                    updatedFormData.total_price = (updatedFormData.total_tools || 0) * (updatedFormData.unit_price || 0);
-                  }
-                  setFormData(updatedFormData);
-                }}
-              />
-              
+                  key={index}
+                  label={inputProps.label}
+                  value={inputProps.value}
+                  disabled={formData.total_price && false}
+                  type={inputProps.type}
+                  options={inputProps.options}
+                  placeholder={'Masukan ' + inputProps.label}
+                  onChange={(value) => {
+                    let updatedFormData = {
+                      ...formData,
+                      [inputProps.name]: inputProps.type === "currency" ? parseFloat(value) : value,
+                    };
+                    if (inputProps.name === "unit_price" || inputProps.name === "total_tools") {
+                      updatedFormData.total_price = (updatedFormData.total_tools || 0) * (updatedFormData.unit_price || 0);
+                    }
+                    if (inputProps.name === "type_tools") {
+                      updatedFormData.type_tools = value.value;
+                    }
+                    setFormData(updatedFormData);
+                  }}
+                />
+
               );
             })}
             <DynamicButton
@@ -288,37 +289,6 @@ function DataAlatInfraPage() {
           setFormData({});
           setisModalType({ data: {}, status: false })
         }}
-      />
-      <ModalContent
-        className={"sm:max-w-xl"}
-        children={
-          <div className="flex flex-col gap-2">
-            <div className="flex flex-col items-center justify-center ">
-              {isModalVerif.data?.icon &&
-                <isModalVerif.data.icon
-                  className={`flex flex-col flex-1 max-w-[150%] aspect-square bg-[${isModalVerif.data.color}] rounded-full`}
-                />}
-            </div>
-            <div className="flex  flex-col items-center justify-center ">
-              <span className="text-lg font-bold">{isModalVerif.data?.title}</span>
-              <span className="text-sm font-light opacity-70">{isModalVerif.data?.msg}</span>
-            </div>
-            <div className="flex flex-col gap-2 ">
-              <DynamicButton
-                initialValue={"Kembali"}
-                type="fill"
-                color={"#ffffff"}
-                className={`inline-flex flex-1 bg-[${isModalVerif.data.color}] text-darkColor`}
-                onClick={() => {
-                  setisModalVerif({ data: {}, status: false })
-                  setisModalType({ data: {}, status: false })
-                  fetchDataAlat(authApiKey, authToken, JSON.parse(authProfile)?.role)
-                }}
-              />
-            </div>
-          </div>
-        }
-        active={isModalVerif.status}
       />
     </div>
   );

@@ -74,6 +74,7 @@ export const isValidatorDomain = (obj) => {
 export const isValidatorListTools = (obj) => {
   let isValid = true;
   isValid = isValid && validateText(obj.name_tools, "Nama Barang");
+  isValid = isValid && validateArray(obj.type_tools, "Jenis Barang");
   isValid = isValid && validateText(obj.total_tools, "Jumlah Barang");
   isValid = isValid && validateTextArea(obj.spec_tools, "Spesifikasi");
   isValid = isValid && validateNominal(obj.unit_price, "Harga Satuan");
