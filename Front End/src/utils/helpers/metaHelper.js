@@ -9,7 +9,7 @@ export const setMetaData = (response, location) => {
     }
   };
 
-  const defaultTitle = response.judul + " - Topup game terpercaya";
+  const defaultTitle = response.judul;
   const { hostname } = window.location;
 
   if (location.pathname === "/") {
@@ -26,10 +26,11 @@ export const setMetaData = (response, location) => {
 
   else {
     const judulHalaman = location.pathname
-      .replace("/", "")
+      .replaceAll("-", " ") // Mengganti semua "-" dengan spasi
+      .replace("/", "") // Menghilangkan "/" dari awal pathname
       .split("/")
-      .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
-      .join(" ");
+      .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1)) // Membuat huruf pertama dari setiap segmen menjadi kapital
+      .join(" "); // Menggabungkan segmen kembali menjadi string
 
     const pageTitle = response.judul + " - " + judulHalaman;
     document.title = pageTitle;
