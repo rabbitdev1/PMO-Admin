@@ -95,7 +95,10 @@ function InfrastrukturPages() {
         authToken,
         JSON.parse(authProfile)?.role
       );
-      fetchDataAlat(authApiKey, authToken);
+      if (JSON.parse(authProfile)?.role === "perangkat_daerah") {
+        fetchDataListApps(authApiKey, authToken);
+        fetchDataAlat(authApiKey, authToken);
+      }
     }
   }, [authApiKey, dataState, authToken, authProfile]);
 
@@ -168,6 +171,37 @@ function InfrastrukturPages() {
           };
         });
         setFormData(updatedData);
+      } else {
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  const fetchDataListApps = async (api_key, token) => {
+    const params = new URLSearchParams();
+    try {
+      const response = await apiClient({
+        baseurl: "perangkat-daerah/list_apps",
+        method: "POST",
+        body: params,
+        apiKey: api_key,
+        token: token,
+      });
+      if (response?.statusCode === 200) {
+        const updatedData = formData.map((form) => {
+          return {
+            ...form,
+            fields: form.fields.map((field) => {
+              if (field.name === "app_name") {
+                return { ...field, options: response.result.data };
+              }
+              return field;
+            }),
+          };
+        });
+        setTimeout(() => {
+          setFormData(updatedData);
+        }, 1000);
       } else {
       }
     } catch (error) {

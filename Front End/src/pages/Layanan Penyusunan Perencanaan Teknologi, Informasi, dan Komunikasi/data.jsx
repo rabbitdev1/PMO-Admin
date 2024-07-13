@@ -11,7 +11,11 @@ export const formData = [
       { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
       { 
-        name: "app_name", label: "Nama Aplikasi", value: "", type: "text" 
+        name: "app_name", 
+        label: "Nama Aplikasi", 
+        value: [],
+        type: "selection",
+        options: []
       },
       { name: "app_desc", label: "Deskripsi Aplikasi", value: "", type: "editor" },
       { name: "needed_data", label: "Data yang dibutuhkan", value: "", type: "editor" },

@@ -5,7 +5,7 @@ import { connect, useSelector } from "react-redux";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
 // Import Routes all
-import { authRoutes, infraRoutes, nonUserRoutes, operatorRoutes, userRoutes } from "./routes/allRoutes";
+import { authRoutes, infraRoutes, nonUserRoutes, operatorRoutes, perangkatdaerahRoutes, userRoutes } from "./routes/allRoutes";
 // Import all middleware
 import Authmiddleware from "./routes/middleware/Authmiddleware";
 // layouts Format
@@ -27,12 +27,12 @@ function App() {
   useEffect(() => {
     window.scrollTo(0, 0);
     setMetaData({
-      "judul": "DISKOMINFO Kota Bandung",
-      "logo": "%PUBLIC_URL%/logo-diskominfo-bandung.png",
-      "favicon": "%PUBLIC_URL%/favicon.ico",
+      "judul": "PMO DISKOMINFO",
+      "logo": "logo-diskominfo-bandung.png",
+      "favicon": "favicon.ico",
       "keywords": "DISKOMINFO, Bandung, Kota Bandung, Informasi, Komunikasi",
       "deskripsi_meta": "Portal Resmi Dinas Komunikasi dan Informatika Kota Bandung.",
-      "meta_image":  "%PUBLIC_URL%/logo-diskominfo-bandung.png",
+      "meta_image":  "logo-diskominfo-bandung.png",
       "meta_deskripsi": "Selamat datang di portal resmi Dinas Komunikasi dan Informatika Kota Bandung. Temukan berbagai informasi terkini mengenai kegiatan dan layanan kami.",
       "meta_keywords": "DISKOMINFO, Kota Bandung, Informasi, Komunikasi, Layanan Publik",
       "analytics": "UA-XXXXX-Y", // Replace with actual analytics tracking code
@@ -96,6 +96,15 @@ function App() {
                   exact={true}
                 />
               )) :
+              role === 'perangkat_daerah' ?
+                [...userRoutes, ...perangkatdaerahRoutes].map((route, idx) => (
+                  <Route
+                    path={route.path}
+                    element={<Authmiddleware>{route.component}</Authmiddleware>}
+                    key={idx}
+                    exact={true}
+                  />
+                )) :
               (role === 'kabid_infra' || role === 'katim_infra' || role === 'teknis_infra') ?
                 [...userRoutes, ...infraRoutes].map((route, idx) => (
                   <Route

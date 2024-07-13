@@ -48,7 +48,7 @@ export const isValidatorHosting = (obj) => {
   console.log(obj.device_specifications?.ram);
   isValid = isValid && validateFullname(obj.name_pic, "Nama PIC");
   isValid = isValid && validateTelp(obj.telp_pic, "Nomor PIC");
-  isValid = isValid && validateArray(obj.app, "Nama Aplikasi");
+  isValid = isValid && validateArray(obj.app_name, "Nama Aplikasi");
   isValid = isValid && validateTextArea(obj.other_requirements, "Kebutuhan Lainnya");
   isValid = isValid && validateArray(obj.device_specifications?.ram, "RAM");
   isValid = isValid && validateArray(obj.device_specifications?.processor, "Processor");
@@ -63,7 +63,7 @@ export const isValidatorDomain = (obj) => {
   let isValid = true;
   isValid = isValid && validateFullname(obj.name_pic, "Nama PIC");
   isValid = isValid && validateTelp(obj.telp_pic, "Nomor PIC");
-  isValid = isValid && validateArray(obj.app, "Nama Aplikasi");
+  isValid = isValid && validateArray(obj.app_name, "Nama Aplikasi");
   isValid = isValid && validateText(obj.domain_name, "Usulan Domain");
   isValid = isValid && validateIPAddress(obj.ip_address, "IP Address");
   isValid = isValid && validateHTML(obj.reason, "Alasan Pengajuan");

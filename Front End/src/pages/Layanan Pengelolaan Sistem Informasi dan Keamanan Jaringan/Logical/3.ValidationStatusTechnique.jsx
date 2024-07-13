@@ -167,7 +167,7 @@ const ValidationStatusTechnique = ({
                   )}
                   <div className='flex sm:flex-row flex-col gap-2'>
                     <DynamicButton
-                      initialValue={"Lapor Validasi Kelengkapan ke Tim Teknis"}
+                      initialValue={detailData.submission_title === "Permohonan Pengujian Celah Keamanan" ? "Kirim Laporan Validasi ke Tim Teknis" : "Lapor Validasi Kelengkapan ke Ketua Tim Teknis"}
                       type="fill"
                       color={"#ffffff"}
                       className="inline-flex  bg-[#0185FF] text-darkColor"

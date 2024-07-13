@@ -113,16 +113,14 @@ const getKeyLabel = (key) => {
       return "Tanggal Pembuatan";
     case "other_requirements":
       return "Requirement Lainnya";
-    case "app":
+    case "app_name":
       return "Nama Aplikasi";
     case "distance_estimation":
       return "Estimasi Jarak";
     case "initial_bandwith":
       return "Bandwidth Awal";
     case "file_process_bisiness":
-      return "Proses Bisnis";
-    case "app_name":
-      return "Nama Aplikasi";
+      return "Proses Bisnis"; 
     case "app_desc":
       return "Deskripsi Aplikasi";
     case "fullname":
@@ -168,9 +166,7 @@ const getKeyLabel = (key) => {
     case 'title':
       return "Judul";
     case "applicationType":
-      return "Jenis Aplikasi";
-    case "applicationName":
-      return "Nama Aplikasi"; 
+      return "Jenis Aplikasi"; 
     case "applicationOwnership":
       return "Kepemilikan Aplikasi"; 
     case "developmentDuration":

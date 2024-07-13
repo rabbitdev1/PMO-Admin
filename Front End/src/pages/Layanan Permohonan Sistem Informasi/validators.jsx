@@ -24,7 +24,7 @@ export const isValidatorPermohonanSI = (obj) => {
 export const isValidatorPembangunan = (obj) => {
   let isValid = true;
   isValid = isValid && validateText(obj.applicationType, "Jenis Pengajuan");
-  isValid = isValid && validateText(obj.applicationName, "Nama Aplikasi");
+  isValid = isValid && validateText(obj.app_name, "Nama Aplikasi");
   isValid = isValid && validateTextArea(obj.applicationDescription, "Deskripsi Aplikasi");
   isValid = isValid && validateArray(obj.applicationOwnership, "Kepemilikan Aplikasi");
 
@@ -34,7 +34,7 @@ export const isValidatorPembangunan = (obj) => {
 export const isValidatorPengembangan = (obj) => {
   let isValid = true;
   isValid = isValid && validateText(obj.applicationType, "Jenis Pengajuan");
-  isValid = isValid && validateArray(obj.applicationName, "Nama Aplikasi");
+  isValid = isValid && validateArray(obj.app_name, "Nama Aplikasi");
   isValid = isValid && validateTextArea(obj.developmentAspect, "Hal yang dikembangkan");
   isValid = isValid && validateArray(obj.developmentGoal, "Tujuan Pengembangan");
   isValid = isValid && validateArray(obj.applicationOwnership, "Kepemilikan Aplikasi");

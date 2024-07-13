@@ -64,7 +64,7 @@ const getKeyLabel = (key) => {
     name_pic: "Nama PIC",
     telp_pic: "Nomor PIC",
     type_tools: "Jenis Alat",
-    app: "Nama Aplikasi",
+    app_name: "Nama Aplikasi",
     other_requirements: "Kebutuhan Lainnya",
     domain_name: "Usulan Nama Domain",
     ip_address: "Usulan Alamat IP",
