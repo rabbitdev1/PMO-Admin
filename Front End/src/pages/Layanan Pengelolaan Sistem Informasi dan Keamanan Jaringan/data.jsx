@@ -3,7 +3,7 @@ export const formData = [
     name: "Pengajuan Integrasi Sistem Informasi",
     type: "Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan",
     role: [
-      "op_pmo",
+      "op_pmo","kadis",
       "perangkat_daerah",
       "kabid_aplikasi",
       "katim_aplikasi",
@@ -16,7 +16,8 @@ export const formData = [
         name: "app_name",
         label: "Nama Aplikasi",
         value: [],
-        type: "text",
+        type: "selection",
+        options: []
       },
       {
         name: "app_desc",
@@ -42,7 +43,7 @@ export const formData = [
     name: "Pengajuan Penerapan Modul TTE",
     type: "Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan",
     role: [
-      "op_pmo",
+      "op_pmo","kadis",
       "perangkat_daerah",
       "kabid_aplikasi",
       "katim_aplikasi",
@@ -56,12 +57,7 @@ export const formData = [
         label: "Nama Aplikasi",
         value: [],
         type: "selection",
-        options: [
-          { value: "15", label: "15 Mbps" },
-          { value: "20", label: "20 Mbps" },
-          { value: "25", label: "25 Mbps" },
-          { value: "30", label: "30 Mbps" },
-        ]
+        options: []
       },
       {
         name: "app_desc",
@@ -79,16 +75,14 @@ export const formData = [
         name: "file_process_bisiness",
         label: "Dokumen Proses Bisnis",
         value: "",
-        type: "file_upload"
+        type: "file_upload",
+        noted: "File berekstensi: pdf,xlsx,docs"
       },
       {
         name: "period",
         label: "Jadwal Penerapan",
-        value: {
-          startDate: null,
-          endDate: null,
-        },
-        type: "multi_date",
+        value:"",
+        type: "date",
         visible: true,
       }
     ],
@@ -97,7 +91,7 @@ export const formData = [
     name: "Pengajuan Permohonan Email",
     type: "Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan",
     role: [
-      "op_pmo",
+      "op_pmo","kadis",
       "perangkat_daerah",
       "kabid_aplikasi",
       "katim_aplikasi",
@@ -106,7 +100,13 @@ export const formData = [
     fields: [
       { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
-      { name: "jabatan", label: "Jabatan", value: "", type: "text" },
+      {
+        name: "occupation",
+        label: "Jabatan",
+        value: [],
+        type: "selection",
+        options: []
+      },
       { name: "nip", label: "NIP", value: "", type: "text" },
       {
         name: "peruntukan",
@@ -125,7 +125,7 @@ export const formData = [
     name: "Pengajuan Permohonan Pengujian Celah Keamanan",
     type: "Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan",
     role: [
-      "op_pmo",
+      "op_pmo","kadis",
       "perangkat_daerah",
       "kabid_aplikasi",
       "katim_aplikasi",
@@ -135,7 +135,10 @@ export const formData = [
       { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
       {
-        name: "app", label: "Nama Aplikasi", value: [], type: "text"
+        name: "app_name", label: "Nama Aplikasi", 
+        value: [],
+        type: "selection",
+        options: []
       },
       { name: "app_desc", label: "Deskripsi Aplikasi", value: "", type: "editor" },
       { name: "app_version", label: "Versi Aplikasi", value: "", type: "text" },
@@ -147,20 +150,42 @@ export const formData = [
         ]
       },
       { name: "username", label: "Nama Akun", value: "", type: "text" },
-      { name: "password", label: "Kata Sandi", value: "", type: "password", noted: "Contoh: Example!123"},
+      { name: "password", label: "Kata Sandi", value: "", type: "password", noted: "Contoh: Example!123" },
       { name: "domain_url", label: "Domain URL", value: "", type: "text", noted: "Contoh: www.example.go.id" },
-      { name: "file_process_bisiness", label: "Dokumen Proses Bisnis", value: "", type: "file_upload", noted: "File berekstensi: pdf,xlsx,docs"}
+      { name: "file_process_bisiness", label: "Dokumen Proses Bisnis", value: "", type: "file_upload", noted: "File berekstensi: pdf,xlsx,docs" }
     ]
   }
 ]
 
 // Integrasi
+const getIntergasiSIValidation = (inputLocal) => [
+  {
+    label: "Skema Integrasi",
+    value: inputLocal.file_scema_integration,
+    name: "file_scema_integration",
+    type: "file_upload",
+    noted: "File berekstensi: pdf,xlsx,docs"
+  },
+  {
+    label: "Tanggapan Tim Teknis",
+    value: inputLocal.team_response,
+    type: "textarea",
+    name: 'team_response'
+  },
+  {
+    label: "Jadwal Pengerjaan",
+    value: inputLocal.working_schedule,
+    type: "date",
+    name: 'working_schedule'
+  },
+];
 const getIntergasiSIProcess = (inputLocal) => [
   {
     label: "Unggah File Hasil Integrasi",
     value: inputLocal.upload_dokumen_hasil_integrasi,
     type: "file_upload",
-    name: 'upload_dokumen_hasil_integrasi'
+    name: 'upload_dokumen_hasil_integrasi',
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
 ];
 const getIntergasiSIFinish = (finishData) => [
@@ -177,8 +202,9 @@ const getIntergasiSIFinish = (finishData) => [
   {
     label: "Unggah Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
+    type: "file_upload",
     name: 'file_submission',
-    type: "file_upload"
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
   {
     label: "Tanggapan",
@@ -189,12 +215,29 @@ const getIntergasiSIFinish = (finishData) => [
 ];
 
 // Penerapan Modul TTE
+
+const getModulTTEValidation = (inputLocal) => [
+  {
+    label: "Tanggapan Tim Teknis",
+    value: inputLocal.team_response,
+    type: "textarea",
+    name: 'team_response'
+  },
+  {
+    label: "Jadwal Pengerjaan",
+    value: inputLocal.working_schedule,
+    type: "date",
+    name: 'working_schedule'
+  },
+];
+
 const getModulTTEProcess = (inputLocal) => [
   {
     label: "Unggah Surat Pengesahan",
     value: inputLocal.upload_dokumen_laporan_modul_tte,
     type: "file_upload",
-    name: 'upload_dokumen_laporan_modul_tte'
+    name: 'upload_dokumen_laporan_modul_tte',
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
 ];
 
@@ -213,7 +256,8 @@ const getModulTTEFinish = (finishData) => [
     label: "Unggah Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
     name: 'file_submission',
-    type: "file_upload"
+    type: "file_upload",
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
   {
     label: "Tanggapan",
@@ -224,15 +268,30 @@ const getModulTTEFinish = (finishData) => [
 ];
 
 // User Account SI
+const getUserAccountSIValidation = (inputLocal) => 
+  [
+    {
+      label: "Tanggapan Tim Teknis",
+      value: inputLocal.team_response,
+      type: "textarea",
+      name: 'team_response'
+    },
+    {
+      label: "Jadwal Pengerjaan",
+      value: inputLocal.working_schedule,
+      type: "date",
+      name: 'working_schedule'
+    },
+  ];
 const getUserAccountSIProcess = (inputLocal) => [
   {
     label: "Unggah Dokumen Laporan Hasil Pembuatan Akun",
     value: inputLocal.upload_dokumen_laporan_pembuatan_akun,
     type: "file_upload",
-    name: 'upload_dokumen_laporan_pembuatan_akun'
+    name: 'upload_dokumen_laporan_pembuatan_akun',
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
 ];
-
 const getUserAccountSIFinish = (finishData) => [
   {
     label: "Status Pengajuan",
@@ -248,7 +307,8 @@ const getUserAccountSIFinish = (finishData) => [
     label: "Unggah Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
     name: 'file_submission',
-    type: "file_upload"
+    type: "file_upload",
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
   {
     label: "Tanggapan",
@@ -263,10 +323,26 @@ const getEmailProcess = (inputLocal) => [
     label: "Unggah Surat Pengesahan",
     value: inputLocal.upload_surat_pengesahan,
     type: "file_upload",
-    name: 'upload_surat_pengesahan'
+    name: 'upload_surat_pengesahan',
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
-  
+
 ];
+const getEmailValidation = (inputLocal) => 
+  [
+    {
+      label: "Tanggapan Tim Teknis",
+      value: inputLocal.team_response,
+      type: "textarea",
+      name: 'team_response'
+    },
+    {
+      label: "Jadwal Pengerjaan",
+      value: inputLocal.working_schedule,
+      type: "date",
+      name: 'working_schedule'
+    },
+  ];
 
 const getEmailFinish = (finishData) => [
   {
@@ -283,7 +359,8 @@ const getEmailFinish = (finishData) => [
     label: "Unggah Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
     name: 'file_submission',
-    type: "file_upload"
+    type: "file_upload",
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
   {
     label: "Tanggapan",
@@ -293,18 +370,48 @@ const getEmailFinish = (finishData) => [
   }
 ];
 
+const getCelahKeamananValidation = (inputLocal) => [
+  {
+    label: "Upload Dokumen Pembangunan",
+    value: inputLocal.dokumen_pembangunan,
+    type: "file_upload",
+    name: 'dokumen_pembangunan',
+    noted: "File berekstensi: pdf,xlsx,docs"
+  },
+  {
+    label: "Upload Dokumen NDA",
+    value: inputLocal.dokumen_nda,
+    type: "file_upload",
+    name: 'dokumen_nda',
+    noted: "File berekstensi: pdf,xlsx,docs"
+  },
+  {
+    label: "Tanggapan Ketua Tim Teknis",
+    value: inputLocal.team_response,
+    type: "textarea",
+    name: 'team_response'
+  },
+  {
+    label: "Jadwal Pengerjaan",
+    value: inputLocal.working_schedule,
+    type: "date",
+    name: 'working_schedule'
+  },
+];
 const getCelahKeamananProcess = (inputLocal) => [
   {
     label: "Unggah Dokumen Laporan Hasil Pengujian",
     value: inputLocal.upload_hasil_pengujian,
     type: "file_upload",
-    name: 'upload_hasil_pengujian'
+    name: 'upload_hasil_pengujian',
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
   {
     label: "Unggah Dokumen Hasil Uji Penetrasi",
     value: inputLocal.upload_hasil_penetrasi,
     type: "file_upload",
-    name: 'upload_hasil_penetrasi'
+    name: 'upload_hasil_penetrasi',
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
 ];
 
@@ -323,7 +430,8 @@ const getCelahKeamananFinish = (finishData) => [
     label: "Unggah Surat Pemberitahuan untuk OPD",
     value: finishData.file_submission,
     name: 'file_submission',
-    type: "file_upload"
+    type: "file_upload",
+    noted: "File berekstensi: pdf,xlsx,docs"
   },
   {
     label: "Tanggapan",
@@ -335,6 +443,7 @@ const getCelahKeamananFinish = (finishData) => [
 
 
 export {
+  getIntergasiSIValidation, getModulTTEValidation,getUserAccountSIValidation,getEmailValidation,getCelahKeamananValidation,
   getIntergasiSIProcess, getIntergasiSIFinish, getModulTTEProcess, getModulTTEFinish, getUserAccountSIProcess, getUserAccountSIFinish,
   getEmailProcess, getEmailFinish, getCelahKeamananProcess, getCelahKeamananFinish
 };

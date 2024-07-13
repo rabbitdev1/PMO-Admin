@@ -83,8 +83,6 @@ const DynamicDetailsPermohonanSI = ({ detailData, loading, location }) => {
 
 const getKeyLabel = (key) => {
   switch (key) {
-    case "submission_type":
-      return "Jenis Pengajuan";
     case "name_pic":
       return "Nama PIC";
     case "telp_pic":
@@ -96,7 +94,7 @@ const getKeyLabel = (key) => {
     case "period":
       return "Periode Jangka Waktu";
     case "submission_type":
-      return "Jenis Pengajuan";
+      return "Jenis Layanan";
     case "device_specifications":
       return "Spesifikasi Alat";
     case "proposed_bandwidth":
@@ -115,16 +113,14 @@ const getKeyLabel = (key) => {
       return "Tanggal Pembuatan";
     case "other_requirements":
       return "Requirement Lainnya";
-    case "app":
+    case "app_name":
       return "Nama Aplikasi";
     case "distance_estimation":
       return "Estimasi Jarak";
     case "initial_bandwith":
       return "Bandwidth Awal";
     case "file_process_bisiness":
-      return "Proses Bisnis";
-    case "app_name":
-      return "Nama Aplikasi";
+      return "Proses Bisnis"; 
     case "app_desc":
       return "Deskripsi Aplikasi";
     case "fullname":
@@ -170,9 +166,7 @@ const getKeyLabel = (key) => {
     case 'title':
       return "Judul";
     case "applicationType":
-      return "Jenis Aplikasi";
-    case "applicationName":
-      return "Nama Aplikasi"; 
+      return "Jenis Aplikasi"; 
     case "applicationOwnership":
       return "Kepemilikan Aplikasi"; 
     case "developmentDuration":
@@ -241,7 +235,7 @@ const getKeyLabel = (key) => {
       return "Lingkup Pekerjaan";
     case 'jumlah_tenaga':
       return "Jumlah Tenaga yang dibutuhkan";
-    case 'skpd_request_letter':
+    case 'skpdRequestLetter':
       return "SKPD";
     default:
       return key;
@@ -264,7 +258,7 @@ const getFieldType = (key) => {
     case "anggaranAttachment":
     case "technicalRecommendationLetter":
     case "file_scema_integration":
-    case "skpd_request_letter":
+    case "skpdRequestLetter":
       return "pdf";
     case "type_tools":
       return "array";
@@ -272,7 +266,7 @@ const getFieldType = (key) => {
       return "multi_date";
     case "period":
     case "letterDate":
-      return "multidate";
+      return "multi_date";
     default:
       return "text";
   }

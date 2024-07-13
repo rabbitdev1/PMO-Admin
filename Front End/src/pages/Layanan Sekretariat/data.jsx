@@ -1,43 +1,8 @@
 export const formData = [
   {
-    name: "Pengajuan Layanan Pendaftaran Magang",
-    type: "Layanan Sekretariat",
-    role: [
-      "op_pmo",
-      "perangkat_daerah",
-      "sekretariat",
-      "katim_sekre",
-      "teknis_sekre",
-    ],
-    fields: [
-      { name: "name_pemohon", label: "Nama Pemohon", value: "", type: "text" },
-      {
-        name: "surat_permohonan", label: "Surat Permohonan", value: "", type: "file_upload", noted:
-          "File berekstensi: pdf, xlsx, docs"
-      },
-      {
-        name: "period",
-        label: "Waktu",
-        value: "",
-        type: "multi_date",
-      },
-      {
-        name: "surat_ket_mahasiswa", label: "Surat Keterangan Mahasiswa Aktif", value: "", type: "file_upload", noted:
-          "File berekstensi: pdf, xlsx, docs"
-      },
-      { name: "pict_ktp", label: "Foto KTP", value: "", type: "image_upload" },
-      {
-        name: "reason",
-        label: "Alasan Pengajuan",
-        value: "",
-        type: "editor",
-      },
-    ],
-  },
-  {
     name: "Pengajuan Layanan Pendataan Tenaga Ahli",
     type: "Layanan Sekretariat",
-    role: ["op_pmo",
+    role: ["op_pmo","kadis",
     "perangkat_daerah",
     "sekretariat",
     "katim_sekre",
@@ -83,21 +48,59 @@ export const formData = [
         label: "Nilai Kontrak",
         value: "",
         type: "file_upload",
+        noted: "File berekstensi: pdf, xlsx, docs"
       },
     ],
   },
   
 ];
 
-const getMagangProcess = (inputLocal) => [
+const getPendataanTenagaAhliValidateTechnique = (inputLocal) => [
   {
-    label: "Unggah Dokumen Laporan Hasil Integrasi",
-    value: inputLocal.upload_dokumen_hasil_integrasi,
-    type: "file_upload",
-    name: "upload_dokumen_hasil_integrasi",
+    label: "Tanggapan Tim Teknis",
+    value: inputLocal.team_response,
+    type: "textarea",
+    name: 'team_response',
+  },
+  {
+    label: "Jadwal Pengerjaan",
+    value: inputLocal.working_schedule,
+    type: "date",
+    name: 'working_schedule',
   },
 ];
-const getMagangFinish = (finishData) => [
+const getPendaftaranMagangValidateTechnique = (inputLocal) => [
+  {
+    label: "Tanggapan Tim Teknis",
+    value: inputLocal.team_response,
+    type: "textarea",
+    name: 'team_response',
+  },
+  {
+    label: "Jadwal Pengerjaan",
+    value: inputLocal.working_schedule,
+    type: "date",
+    name: 'working_schedule',
+  },
+];
+const getMagangProcess = (inputLocal) => [
+  {
+    label: "Unggah Dokumen Laporan Hasil",
+    value: inputLocal.upload_dokumen_hasil,
+    type: "file_upload",
+    name: "upload_dokumen_hasil",
+  },
+];
+const getPendataanTenagaAhliProcess = (inputLocal) => [
+  {
+    label: "Unggah Dokumen Laporan Hasil Pendataan Ahli",
+    value: inputLocal.upload_dokumen_hasil,
+    type: "file_upload",
+    name: "upload_dokumen_hasil",
+    noted: "File berekstensi: pdf, xlsx, docs"
+  },
+];
+const getPendataanTenagaAhliFinish = (finishData) => [
   {
     label: "Status Pengajuan",
     value: finishData.submission_status,
@@ -121,5 +124,30 @@ const getMagangFinish = (finishData) => [
     name: "response",
   },
 ];
+const getMagangFinish = (finishData) => [
+  {
+    label: "Status Pengajuan",
+    value: finishData.submission_status,
+    name: "submission_status",
+    type: "radio_button",
+    options: [
+      { value: "1", label: "Menyetujui" },
+      { value: "0", label: "Tidak Menyetujui" },
+    ],
+  },
+  {
+    label: "Unggah Surat Pemberitahuan untuk OPD",
+    value: finishData.file_submission,
+    name: "file_submission",
+    type: "file_upload",
+    noted: "File berekstensi: pdf, xlsx, docs"
+  },
+  {
+    label: "Tanggapan",
+    value: finishData.response || null,
+    type: "textarea",
+    name: "response",
+  },
+];
 
-export { getMagangProcess, getMagangFinish };
+export { getPendataanTenagaAhliFinish,getMagangProcess,getPendataanTenagaAhliProcess, getMagangFinish ,getPendataanTenagaAhliValidateTechnique,getPendaftaranMagangValidateTechnique};

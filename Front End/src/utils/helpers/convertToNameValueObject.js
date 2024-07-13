@@ -39,7 +39,7 @@ export const convertToNameValueObject = (obj) => {
       const resultArray = field.value.map((item) => {
         return item.quantity
           ? { name: item.value, value: item.quantity }
-          : { name: item.value };
+          : item.value;
       });
       result[field.name] = resultArray;
     } else if (field.type === "input_array") {
@@ -55,7 +55,7 @@ export const convertToNameValueObject = (obj) => {
         value = draftToHtml(contentState);
       }
       result[field.name] = value;
-    } else if (field.type === "multi_date") {
+    } else if (field.type === "multi_date"||field.type === "date") {
       const dateArray = Object.values(field.value);
       result[field.name] = dateArray;
     } else {

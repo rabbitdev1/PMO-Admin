@@ -88,7 +88,7 @@ const Header = () => {
 
   return (
     <header className=" flex flex-row flex-1 bg-lightColor transition duration-300 ease-in-out dark:bg-cardDark border-b-[1px] border-[#dddddd] dark:border-[#ffffff20] h-16">
-      <div className={`lg:flex flex-col hidden w-full max-w-[280px] flex-1 p-3 py-2 border-r-[1px] border-[#dddddd] dark:border-[#ffffff20]`}>
+      <div className={`lg:flex flex-col hidden w-full max-w-[300px] flex-1 p-3 py-2 border-r-[1px] border-[#dddddd] dark:border-[#ffffff20]`}>
         <div
           onClick={() => {
             setShowOverlay(false);
@@ -121,7 +121,7 @@ const Header = () => {
         </div>
         <div className="flex flex-row flex-1" />
 
-        <DynamicButton
+        {/* <DynamicButton
           type="no-padding"
           color={isDarkMode ? "#ffffff" : "#0185FF"}
           iconLeft={isDarkMode ? <Ic_light_mode className={`h-5 w-5 aspect-square`} /> : <Ic_dark_mode className={`h-5 w-5 aspect-square`} />}
@@ -129,7 +129,7 @@ const Header = () => {
           onClick={() => {
             toggleTheme();
           }}
-        />
+        /> */}
         <Popover animate={{
           mount: { scale: 1, y: 0 },
           unmount: { scale: 0, y: 25 },

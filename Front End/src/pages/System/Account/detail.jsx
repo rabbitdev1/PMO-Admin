@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from "react";
 
 import Cookies from "js-cookie";
-import { useDispatch } from "react-redux";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation } from "react-router";
 import DynamicButton from "../../../components/common/DynamicButton";
 import DynamicShow from "../../../components/common/DynamicShow";
-import useTheme from "../../../components/context/useTheme";
 import TitleHeader from "../../../components/layout/TitleHeader";
-import DynamicDetails from "../../../components/ui/DynamicDetails";
 import ModalContent from "../../../components/ui/Modal/ModalContent";
 import { apiClient } from "../../../utils/api/apiClient";
+import DynamicDetails from "../DynamicDetails";
 
 function DetailsAccountPages() {
-  const { isDarkMode } = useTheme();
-  const navigate = useNavigate();
   const authApiKey = Cookies.get('authApiKey');
   const authToken = Cookies.get('authToken');
   const authProfile = Cookies.get('authData');
@@ -29,13 +25,12 @@ function DetailsAccountPages() {
     data: {},
   });
 
-  const dispatch = useDispatch();
 
   useEffect(() => {
     if (authToken) {
       fetchDataAccount(authApiKey, authToken, JSON.parse(authProfile)?.role)
     }
-  }, [dispatch]);
+  }, [authToken,authApiKey,authProfile]);
 
   const fetchDataAccount = async (api_key, token, role) => {
     setAccountLoading(true);

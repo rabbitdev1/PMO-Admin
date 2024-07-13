@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 import StickyBox from "react-sticky-box";
 import LoadingLink from "../../components/common/LoadingLink";
 import Footer from "../../components/layout/Footer";
+import HeaderLandingPages from "../../pages/LandingPages/Header";
+import FooterLandingPages from "../../pages/LandingPages/Footer";
 import Header from "../../components/layout/Header";
 import Sidebar from "../../components/layout/Sidebar";
 import { useLocation } from "react-router";
@@ -14,6 +16,7 @@ const Authmiddleware = (props) => {
   const setSideBar = useSelector((state) => state.todoReducer.isSideBar);
 
   useEffect(() => {
+    console.log(location.pathname);
     const header = document.querySelector("header");
     setHeaderHeight(header?.offsetHeight);
 
@@ -31,14 +34,18 @@ const Authmiddleware = (props) => {
     };
   }, []);
   return (
-    location.pathname === "/" ?
-      <div className="flex flex-col ">{props.children}</div> :
+    location.pathname === "/" || location.pathname === "/pendaftaran-magang" ?
+      <div className="flex flex-col ">
+        <HeaderLandingPages/>
+        {props.children}
+      <FooterLandingPages />
+        </div> :
       <React.Fragment>
         <div
           className={`w-full h-screen z-20 ${setSideBar ? "translate-x-0 bg-[#021D3968] " : "-translate-x-full bg-[#021d3906] "} transition-transform duration-300 ease-in-out fixed `}
         >
           <div
-            className={`flex flex-col relative gap-2 bg-lightColor dark:bg-cardDark text-lightColor dark:text-darkColor items-start w-full max-w-[280px] h-screen ${setSideBar ? "translate-x-0" : "-translate-x-full"} transition-transform duration-300 ease-in-out `}
+            className={`flex flex-col relative gap-2 bg-lightColor dark:bg-cardDark text-lightColor dark:text-darkColor items-start w-full max-w-[300px] h-screen ${setSideBar ? "translate-x-0" : "-translate-x-full"} transition-transform duration-300 ease-in-out `}
           >
             <div className="flex flex-col w-full overflow-y-scroll gap-2">
               <LoadingLink
@@ -69,7 +76,7 @@ const Authmiddleware = (props) => {
             style={{ paddingTop: `${headerHeight}px` }}
           >
             <div
-              className={`transform transition-transform duration-500 ease-in-out flex-1 max-w-[280px] relative w-full pt-2 bg-lightColor dark:bg-cardDark  lg:block hidden border-r-[1px] border-[#dddddd] dark:border-[#ffffff20]`}
+              className={`transform transition-transform duration-500 ease-in-out flex-1 max-w-[300px] relative w-full pt-2 bg-lightColor dark:bg-cardDark  lg:block hidden border-r-[1px] border-[#dddddd] dark:border-[#ffffff20]`}
             >
               <StickyBox offsetTop={headerHeight}>
                 <Sidebar />

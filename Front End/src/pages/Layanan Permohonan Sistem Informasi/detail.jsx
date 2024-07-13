@@ -8,25 +8,23 @@ import { useLocation, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { ReactComponent as PengajuanBerahasilIcon } from "../../assets/icon/ic_pengajuan_berhasil.svg";
 import DynamicButton from "../../components/common/DynamicButton";
-import useTheme from "../../components/context/useTheme";
 import TitleHeader from "../../components/layout/TitleHeader";
 import { isPending } from "../../components/store/actions/todoActions";
+import ConditionalRender from "../../components/ui/ConditionalRender";
 import ModalContent from "../../components/ui/Modal/ModalContent";
 import SubmissionStatus from "../../components/ui/SubmissionStatus";
 import { apiClient } from "../../utils/api/apiClient";
 import fetchUploadFiles from "../../utils/api/uploadFiles";
-import fetchUploadImages from "../../utils/api/uploadImages";
-import DalamAntrianView from "./Logical/DalamAntrianView";
-import FinishStatus from "./Logical/FinishStatus";
-import ValidationStatus from "./Logical/ValidationStatus";
-import ConditionalRender from "../../components/ui/ConditionalRender";
-import FeasibilityAnalysisStatus from "./Logical/FeasibilityAnalysisStatus";
-import ValidationAnalysisStatus from "./Logical/ValidationAnalysisStatus";
-import TechnicalAnalysisStatus from "./Logical/TechnicalAnalysisStatus";
-import RecommendationLetterProcessStatus from "./Logical/RecommendationLetterProcessStatus";
+import DalamAntrianView from "./Logical/1.DalamAntrianView";
+import ValidationStatus from "./Logical/2.ValidationStatus";
+import FeasibilityAnalysisStatus from "./Logical/3.FeasibilityAnalysisStatus";
+import ValidationAnalysisStatus from "./Logical/4.ValidationAnalysisStatus";
+import TechnicalAnalysisStatus from "./Logical/5.TechnicalAnalysisStatus";
+import RecommendationLetterProcessStatus from "./Logical/6.RecommendationLetterProcessStatus";
+import FinishStatus from "./Logical/7.FinishStatus";
+import ModalContentComponent from "../../components/ui/ModalContentComponent";
 
 function DetailPermohonanSIPages() {
-  const { isDarkMode } = useTheme();
   const navigate = useNavigate();
   const authApiKey = Cookies.get("authApiKey");
   const authToken = Cookies.get("authToken");
@@ -42,8 +40,6 @@ function DetailPermohonanSIPages() {
   const [technicalAnalysis, setTechnicalAnalysis] = useState({});
   const [technicalValidation, setTechnicalValidation] = useState({});
   const [recommendationLetterTechnical, setRecommendationLetterTechnical] = useState({});
-  const [processData, setProcessData] = useState({});
-  const [finishData, setfinishData] = useState({});
 
   const [detailData, setDetailData] = useState([]);
 
@@ -89,12 +85,9 @@ function DetailPermohonanSIPages() {
         setTechnicalAnalysis(JSON.parse(response.result.data?.technical_analysis))
         setTechnicalValidation(JSON.parse(response.result.data?.technical_validation))
         setRecommendationLetterTechnical(JSON.parse(response.result.data?.recommendation_letter_technical))
-
-
-        setfinishData(JSON.parse(response.result.data?.on_finish));
       } else {
         setDetailData([]);
-        navigate("/");
+        navigate("/dashboard");
         toast.error(response.result.msg, {
           position: toast.POSITION.TOP_RIGHT,
         });
@@ -108,7 +101,7 @@ function DetailPermohonanSIPages() {
     dispatch(isPending(true));
     let htmlConvert = "";
     if (
-      ["validation", "feasibility_analysis", "feasibility_validation", "technical_analysis","recommendation_letter_technical"].includes(type) &&
+      ["validation", "feasibility_analysis", "feasibility_validation", "technical_analysis", "recommendation_letter_technical"].includes(type) &&
       data?.response
     ) {
       const contentState = convertToRaw(data.response.getCurrentContent());
@@ -128,7 +121,7 @@ function DetailPermohonanSIPages() {
           response: htmlConvert,
         })
       );
-    } else if (["feasibility_analysis", "feasibility_validation", 'technical_analysis', 'technical_validation','recommendation_letter_technical'].includes(type)) {
+    } else if (["feasibility_analysis", "feasibility_validation", 'technical_analysis', 'technical_validation', 'recommendation_letter_technical'].includes(type)) {
       const filteredData = {
         ...data,
         response: htmlConvert,
@@ -139,19 +132,7 @@ function DetailPermohonanSIPages() {
         )
       );
       params.append("data", JSON.stringify(cleanedData));
-    } else if (type === "finish") {
-      params.append(
-        "data",
-        JSON.stringify({
-          ...data,
-          submission_status:
-            parseInt(data.submission_status) === 0
-              ? "Tidak Menyetujui"
-              : "Menyetujui",
-        })
-      );
     }
-
     try {
       const response = await apiClient({
         baseurl: "permohonan-sistem-informasi/edit",
@@ -164,8 +145,8 @@ function DetailPermohonanSIPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "PermohonanSI Berhasil Diupdate",
-            msg: "Selamat, Pengajuan permohonanSI sudah diupdate",
+            title: "Pembaharuan Sistem Informasi Berhasil",
+            msg: "Selamat! Pengajuan Permohonan Sistem Informasi Anda Telah Berhasil Diperbarui.",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
           },
@@ -219,7 +200,6 @@ function DetailPermohonanSIPages() {
           }
 
           await Promise.all(uploadPromises);
-
           let combineData = { ...data };
           if (resultMapping.recommendation_letter_technical) {
             combineData.recommendation_letter_technical = resultMapping.recommendation_letter_technical;
@@ -227,105 +207,6 @@ function DetailPermohonanSIPages() {
           fetchEditpermohonanSI(authApiKey, authToken, slug, type, combineData);
         } catch (error) {
           console.error("Error occurred during image upload:", error);
-        }
-      } else {
-        fetchEditpermohonanSI(authApiKey, authToken, slug, type, data);
-      }
-    }
-
-    else if (type === "process") {
-      if (
-        data.upload_dokumen_hasil_integrasi ||
-        data.upload_dokumen_laporan_modul_tte ||
-        data.upload_dokumen_laporan_pembuatan_akun
-      ) {
-        try {
-          const uploadPromises = [];
-          const resultMapping = {};
-
-          if (data.upload_dokumen_hasil_integrasi) {
-            uploadPromises.push(
-              fetchUploadFiles(
-                authApiKey,
-                authToken,
-                data.upload_dokumen_hasil_integrasi,
-                "permohonanSI",
-                dispatch
-              ).then(result => {
-                resultMapping.upload_dokumen_hasil_integrasi = result;
-              })
-            );
-          }
-          if (data.upload_dokumen_laporan_modul_tte) {
-            uploadPromises.push(
-              fetchUploadFiles(
-                authApiKey,
-                authToken,
-                data.upload_dokumen_laporan_modul_tte,
-                "permohonanSI",
-                dispatch
-              ).then(result => {
-                resultMapping.upload_dokumen_laporan_modul_tte = result;
-              })
-            );
-          }
-          if (data.upload_dokumen_laporan_pembuatan_akun) {
-            uploadPromises.push(
-              fetchUploadFiles(
-                authApiKey,
-                authToken,
-                data.upload_dokumen_laporan_pembuatan_akun,
-                "permohonanSI",
-                dispatch
-              ).then(result => {
-                resultMapping.upload_dokumen_laporan_pembuatan_akun = result;
-              })
-            );
-          }
-
-          await Promise.all(uploadPromises);
-
-          let combineData = { ...data };
-          if (resultMapping.upload_dokumen_hasil_integrasi) {
-            combineData.upload_dokumen_hasil_integrasi = resultMapping.upload_dokumen_hasil_integrasi;
-          }
-          if (resultMapping.upload_dokumen_laporan_modul_tte) {
-            combineData.upload_dokumen_laporan_modul_tte = resultMapping.upload_dokumen_laporan_modul_tte;
-          }
-          if (resultMapping.upload_dokumen_laporan_pembuatan_akun) {
-            combineData.upload_dokumen_laporan_pembuatan_akun = resultMapping.upload_dokumen_laporan_pembuatan_akun;
-          }
-
-          fetchEditpermohonanSI(authApiKey, authToken, slug, type, combineData);
-        } catch (error) {
-          console.error("Error occurred during image upload:", error);
-        }
-      } else {
-        fetchEditpermohonanSI(authApiKey, authToken, slug, type, data);
-      }
-
-    }
-    else if (type === "finish") {
-      if (data.file_submission) {
-        const result = await fetchUploadFiles(
-          authApiKey,
-          authToken,
-          data.file_submission,
-          "permohonanSI",
-          dispatch
-        );
-        if (result !== null) {
-          let combineData = {};
-          combineData = { ...data, file_upload: result };
-          fetchEditpermohonanSI(
-            authApiKey,
-            authToken,
-            slug,
-            type,
-            combineData
-          );
-        } else {
-          console.error("Error occurred during image upload.");
         }
       } else {
         fetchEditpermohonanSI(authApiKey, authToken, slug, type, data);
@@ -346,85 +227,64 @@ function DetailPermohonanSIPages() {
         model={"emptyData"}
       >
         <section className="flex flex-col gap-3">
-          <div className="flex-1 flex flex-col gap-3">
-            <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
-              {[
-                {
-                  title: "Dalam Antrian",
-                  status: 1,
-                  color: "bg-[#333333]",
-                  border: "border-[#333333]",
-                  text: "text-[#333333]",
-                },
-                {
-                  title: 'Validasi Dokumen',
-                  status: 2,
-                  color: submissionStatus === 2 ? "bg-[#F5CF08]" : submissionStatus === 3 ? "bg-[#FF0000]" : "bg-[#F5CF08]",
-                  border: submissionStatus === 2 ? "border-[#F5CF08]" : submissionStatus === 3 ? "border-[#FF0000]" : "border-[#F5CF08]",
-                  text: submissionStatus === 2 ? "text-[#F5CF08]" : submissionStatus === 3 ? "text-[#FF0000]" : "text-[#F5CF08]",
-                },
-                {
-                  title: 'Analisis Kelayakan',
-                  status: 4,
-                  color: submissionStatus === 4 ? "bg-[#F5CF08]" : submissionStatus === 5 ? "bg-[#FF0000]" : "bg-[#F5CF08]",
-                  border: submissionStatus === 4 ? "border-[#F5CF08]" : submissionStatus === 5 ? "border-[#FF0000]" : "border-[#F5CF08]",
-                  text: submissionStatus === 4 ? "text-[#F5CF08]" : submissionStatus === 5 ? "text-[#FF0000]" : "text-[#F5CF08]",
-                },
-                {
-                  title: 'Validasi Kelayakan',
-                  status: 6,
-                  color: submissionStatus === 6 ? "bg-[#F5CF08]" : submissionStatus === 7 ? "bg-[#FF0000]" : "bg-[#F5CF08]",
-                  border: submissionStatus === 6 ? "border-[#F5CF08]" : submissionStatus === 7 ? "border-[#FF0000]" : "border-[#F5CF08]",
-                  text: submissionStatus === 6 ? "text-[#F5CF08]" : submissionStatus === 7 ? "text-[#FF0000]" : "text-[#F5CF08]",
-                },
-                {
-                  title: 'Analisis Teknis',
-                  status: 8,
-                  color: "bg-[#F5CF08]",
-                  border: "border-[#F5CF08]",
-                  text: "text-[#F5CF08]",
-                },
-                {
-                  title: 'Validasi Teknis',
-                  status: 9,
-                  color: submissionStatus === 9 ? "bg-[#F5CF08]" : submissionStatus === 10 ? "bg-[#FF0000]" : "bg-[#F5CF08]",
-                  border: submissionStatus === 9 ? "border-[#F5CF08]" : submissionStatus === 10 ? "border-[#FF0000]" : "border-[#F5CF08]",
-                  text: submissionStatus === 9 ? "text-[#F5CF08]" : submissionStatus === 10 ? "text-[#FF0000]" : "text-[#F5CF08]",
-                },
-                {
-                  title: "Proses Surat Rekomendasi",
-                  status: 11,
-                  color: "bg-[#13C39C]" ,
-                  border:  "border-[#13C39C]" ,
-                  text: "text-[#13C39C]",
-                },
-
-
-                {
-                  title: "Pengajuan Selesai",
-                  status: 12,
-                  color: submissionStatus === 12 ? "bg-[#13C39C]" : submissionStatus === 15 ? "bg-[#FF0000]" : "bg-[#13C39C]",
-                  border: submissionStatus === 12 ? "border-[#13C39C]" : submissionStatus === 15 ? "border-[#FF0000]" : "border-[#13C39C]",
-                  text: submissionStatus === 12 ? "text-[#13C39C]" : submissionStatus === 15 ? "text-[#FF0000]" : "text-[#13C39C]",
-                },
-              ].map((item, index) => (
-                <div key={index} className="flex flex-col flex-1 ">
-                  <div className="flex flex-1 gap-3 items-center flex-row py-2 text-center text-darkColor">
-                    <div className={`${"border-b-2"}  flex-1 flex ${submissionStatus >= item.status ? item.border : "border-[#dddddd] dark:border-[#ffffff20] "}`} />
-                    <div className={`flex p-2 rounded-full border-2 ${submissionStatus >= item.status ? item.border : "border-[#dddddd] dark:border-[#ffffff20] "}`}>
-                      <div className={`flex items-center w-12 aspect-square justify-center ${submissionStatus >= item.status ? item.color : "bg-[#D9D9D9]"} rounded-full`}>
-                        <span className="text-xl  aspect-square text-center align-text-bottom font-bold">{index + 1}</span>
-                      </div>
-                    </div>
-                    <div className={`${"border-b-2"}  flex-1 flex ${submissionStatus >= item.status ? item.border : "border-[#dddddd] dark:border-[#ffffff20] "}`} />
-                  </div>
-                  <div className={`flex flex-col items-center ${submissionStatus >= item.status ? item.text : "text-[#D9D9D9]"} `}>
-                    <span className="text-sm font-semibold">{item.title}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+          <SubmissionStatus status={submissionStatus} data={[
+            {
+              title: "Dalam Antrian",
+              status: 1,
+              color: "bg-[#333333]",
+              border: "border-[#333333]",
+              text: "text-[#333333]",
+            },
+            {
+              title: 'Validasi Dokumen',
+              status: 2,
+              color: submissionStatus === 2 ? "bg-[#F5CF08]" : submissionStatus === 3 ? "bg-[#FF0000]" : "bg-[#F5CF08]",
+              border: submissionStatus === 2 ? "border-[#F5CF08]" : submissionStatus === 3 ? "border-[#FF0000]" : "border-[#F5CF08]",
+              text: submissionStatus === 2 ? "text-[#F5CF08]" : submissionStatus === 3 ? "text-[#FF0000]" : "text-[#F5CF08]",
+            },
+            {
+              title: 'Analisis Kelayakan',
+              status: 4,
+              color: submissionStatus === 4 ? "bg-[#F5CF08]" : submissionStatus === 5 ? "bg-[#FF0000]" : "bg-[#F5CF08]",
+              border: submissionStatus === 4 ? "border-[#F5CF08]" : submissionStatus === 5 ? "border-[#FF0000]" : "border-[#F5CF08]",
+              text: submissionStatus === 4 ? "text-[#F5CF08]" : submissionStatus === 5 ? "text-[#FF0000]" : "text-[#F5CF08]",
+            },
+            {
+              title: 'Validasi Kelayakan',
+              status: 6,
+              color: submissionStatus === 6 ? "bg-[#F5CF08]" : submissionStatus === 7 ? "bg-[#FF0000]" : "bg-[#F5CF08]",
+              border: submissionStatus === 6 ? "border-[#F5CF08]" : submissionStatus === 7 ? "border-[#FF0000]" : "border-[#F5CF08]",
+              text: submissionStatus === 6 ? "text-[#F5CF08]" : submissionStatus === 7 ? "text-[#FF0000]" : "text-[#F5CF08]",
+            },
+            {
+              title: 'Analisis Teknis',
+              status: 8,
+              color: "bg-[#fba500]",
+              border: "border-[#fba500]",
+              text: "text-[#fba500]",
+            },
+            {
+              title: 'Validasi Teknis',
+              status: 9,
+              color: submissionStatus === 9 ? "bg-[#fba500]" : submissionStatus === 10 ? "bg-[#FF0000]" : "bg-[#fba500]",
+              border: submissionStatus === 9 ? "border-[#fba500]" : submissionStatus === 10 ? "border-[#FF0000]" : "border-[#fba500]",
+              text: submissionStatus === 9 ? "text-[#fba500]" : submissionStatus === 10 ? "text-[#FF0000]" : "text-[#fba500]",
+            },
+            {
+              title: "Proses Surat Rekomendasi",
+              status: 11,
+              color: "bg-[#13C39C]",
+              border: "border-[#13C39C]",
+              text: "text-[#13C39C]",
+            },
+            {
+              title: "Pengajuan Selesai",
+              status: 12,
+              color: submissionStatus === 12 ? "bg-[#13C39C]" : submissionStatus === 15 ? "bg-[#FF0000]" : "bg-[#13C39C]",
+              border: submissionStatus === 12 ? "border-[#13C39C]" : submissionStatus === 15 ? "border-[#FF0000]" : "border-[#13C39C]",
+              text: submissionStatus === 12 ? "text-[#13C39C]" : submissionStatus === 15 ? "text-[#FF0000]" : "text-[#13C39C]",
+            },
+          ]} />
           <div className={`flex  flex-col gap-3`}>
             <DalamAntrianView
               submissionStatus={submissionStatus}
@@ -445,12 +305,10 @@ function DetailPermohonanSIPages() {
               validationData={validationData}
               submissionStatus={submissionStatus}
               feasibilityData={feasibilityDataAnalysis}
-              setValidationData={setFeasibilityDataAnalysis}
               authProfile={authProfile}
               detailData={detailData}
               loading={permohonanSILoading}
               checkingFormData={checkingFormData}
-              setisModalVerif={setisModalVerif}
             />
             <ValidationAnalysisStatus
               slug={slug}
@@ -504,50 +362,19 @@ function DetailPermohonanSIPages() {
               detailData={detailData}
               loading={permohonanSILoading}
               checkingFormData={checkingFormData}
-              setisModalVerif={setisModalVerif}/>
-
+              setisModalVerif={setisModalVerif} />
           </div>
         </section>
       </ConditionalRender>
 
-      <ModalContent
-        className={"sm:max-w-xl"}
-        children={
-          <div className="flex flex-col gap-2">
-            <div className="flex flex-col items-center justify-center ">
-              {isModalVerif.data?.icon && (
-                <isModalVerif.data.icon
-                  className={`flex flex-col flex-1 max-w-[150%] aspect-square bg-[${isModalVerif.data.color}] rounded-full`}
-                />
-              )}
-            </div>
-            <div className="flex  flex-col items-center justify-center ">
-              <span className="text-lg font-bold">
-                {isModalVerif.data?.title}
-              </span>
-              <span className="text-sm font-light opacity-70">
-                {isModalVerif.data?.msg}
-              </span>
-            </div>
-            <div className="flex flex-col gap-2 ">
-              <DynamicButton
-                initialValue={"Kembali"}
-                type="fill"
-                color={"#ffffff"}
-                className={`inline-flex flex-1 bg-[${isModalVerif.data.color}] text-darkColor`}
-                onClick={() => {
-                  setisModalVerif({ data: {}, status: false });
-                  fetchDataPermohonanSI(
-                    authApiKey,
-                    authToken,
-                    JSON.parse(authProfile)?.role
-                  );
-                }}
-              />
-            </div>
-          </div>
-        }
-        active={isModalVerif.status}
+      <ModalContentComponent
+        isModalVerif={isModalVerif}
+        setisModalVerif={setisModalVerif}
+        setisModalCreate={()=>{}}
+        fetchData={fetchDataPermohonanSI}
+        authApiKey={authApiKey}
+        authToken={authToken}
+        authProfile={authProfile}
       />
     </div>
   );

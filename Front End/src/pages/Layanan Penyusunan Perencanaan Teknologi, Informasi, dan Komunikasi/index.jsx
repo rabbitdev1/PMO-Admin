@@ -10,30 +10,22 @@ import { ReactComponent as PengajuanGagalIcon } from "../../assets/icon/ic_penga
 import { ReactComponent as PlusIcon } from "../../assets/icon/ic_plus.svg";
 import DynamicButton from "../../components/common/DynamicButton";
 import DynamicInput from "../../components/common/DynamicInput";
+import resetFormData from "../../components/common/ResetFormData";
 import useTheme from "../../components/context/useTheme";
 import TableCostum from "../../components/data-display/TableCostum";
 import TitleHeader from "../../components/layout/TitleHeader";
 import { isPending } from "../../components/store/actions/todoActions";
 import ModalContent from "../../components/ui/Modal/ModalContent";
+import ModalContentComponent from "../../components/ui/ModalContentComponent";
 import { apiClient } from "../../utils/api/apiClient";
-import fetchUploadImages from "../../utils/api/uploadImages";
+import fetchUploadFiles from "../../utils/api/uploadFiles";
 import { convertToNameValueObject } from "../../utils/helpers/convertToNameValueObject";
 import { formData as initialFormData } from "./data";
 import {
-  isValidatorDomain,
-  isValidatorHosting,
-  isValidatorLayananZoom,
-  isValidatorPenambahanAlat,
-  isValidatorPenambahanBandwith,
-  isValidatorPendataanAhli,
-  isValidatorSuratKeputusan,
-  isValidatorpermohonanLiputan,
   isValidatorPerwalKepwal,
-  isValidatorRelokasiAlat,
-  isValidatorTroubleShooting,
+  isValidatorSuratKeputusan
 } from "./validators";
-import resetFormData from "../../components/common/ResetFormData";
-import fetchUploadFiles from "../../utils/api/uploadFiles";
+import PanduanPengajuanModal from "../../components/ui/PanduanPengajuanModal";
 
 function LayananPenyusunanPerencanaanTIKPages() {
   const { isDarkMode } = useTheme();
@@ -80,6 +72,8 @@ function LayananPenyusunanPerencanaanTIKPages() {
 
   const [formData, setFormData] = useState(initialFormData);
 
+  const [isModalPanduan, setisModalPanduan] = useState(false);
+
   const [isModalType, setisModalType] = useState({ status: false, data: {} });
   const [isModalCreate, setisModalCreate] = useState({
     status: false,
@@ -100,9 +94,11 @@ function LayananPenyusunanPerencanaanTIKPages() {
         authToken,
         JSON.parse(authProfile)?.role
       );
-      fetchDataAlat(authApiKey, authToken);
+      if (JSON.parse(authProfile)?.role === "perangkat_daerah") {
+        fetchDataListApps(authApiKey, authToken);
+      }
     }
-  }, [dataState, authToken]);
+  }, [authToken]);
 
   const fetchDataPerencanaanTIK = async (api_key, token, role) => {
     setListPerencanaanTIKLoading(true);
@@ -120,10 +116,7 @@ function LayananPenyusunanPerencanaanTIKPages() {
       dispatch(isPending(false));
       if (response?.statusCode === 200) {
         if (JSON.parse(authProfile)?.role === "perangkat_daerah") {
-          const filteredSubmissions = response.result.data.filter(
-            (submission) => submission.submission_title === dataState
-          );
-          setListPerencanaanTIK(filteredSubmissions);
+          setListPerencanaanTIK(response.result.data);
         } else {
           setListPerencanaanTIK(response.result.data);
         }
@@ -150,36 +143,31 @@ function LayananPenyusunanPerencanaanTIKPages() {
       console.error("Error fetching data:", error);
     }
   };
-  const fetchDataAlat = async (api_key, token) => {
+  const fetchDataListApps = async (api_key, token) => {
     const params = new URLSearchParams();
     try {
       const response = await apiClient({
-        baseurl: "perencanaantik",
+        baseurl: "perangkat-daerah/list_apps",
         method: "POST",
         body: params,
         apiKey: api_key,
         token: token,
       });
       if (response?.statusCode === 200) {
-        const formattedOptions = response.result.data.map((item) => ({
-          value: item.name_tools,
-          label: item.name_tools,
-        }));
-        setFormData((prevFormData) =>
-          prevFormData.map((form) =>
-            form.name === "Pengajuan Relokasi Alat" ||
-            form.name === "Pengajuan Penambahan Alat"
-              ? {
-                  ...form,
-                  fields: form.fields.map((field) =>
-                    field.name === "type_tools"
-                      ? { ...field, options: formattedOptions }
-                      : field
-                  ),
-                }
-              : form
-          )
-        );
+        const updatedData = formData.map((form) => {
+          return {
+            ...form,
+            fields: form.fields.map((field) => {
+              if (field.name === "app_name") {
+                return { ...field, options: response.result.data };
+              }
+              return field;
+            }),
+          };
+        });
+        setTimeout(() => {
+          setFormData(updatedData);
+        }, 1000);
       } else {
       }
     } catch (error) {
@@ -203,15 +191,18 @@ function LayananPenyusunanPerencanaanTIKPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title:
-              "Pengajuan Perencanaan TIK Berhasil",
-            msg: "Selamat, Pengajuan anda sudah diterima",
+            title: "Pengajuan Layanan Penyusunan Perencanaan TIK Berhasil",
+            msg: "Selamat! Pengajuan Layanan Penyusunan Perencanaan TIK Anda telah berhasil diterima dan diproses.",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
           },
           status: true,
         });
-        resetFormData(isModalCreate.data,formData,setFormData);
+        resetFormData(isModalCreate.data, formData, setFormData);
+        setisModalType({
+          data: "Pengajuan Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi",
+          status: false,
+        });
       } else {
         toast.error(response.result.msg, {
           position: toast.POSITION.TOP_RIGHT,
@@ -313,7 +304,8 @@ function LayananPenyusunanPerencanaanTIKPages() {
       const { result: nameValueObject, newObject: newObjectFromConversion } =
         convertToNameValueObject(foundObject);
       const nameValueObject2 = {
-        submission_type: "Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi",
+        submission_type:
+          "Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi",
         role: foundObject.role,
         submission_title: isModalCreate.data.replace("Pengajuan ", ""),
       };
@@ -328,21 +320,16 @@ function LayananPenyusunanPerencanaanTIKPages() {
       console.log(JSON.stringify(combinedObject));
 
       if (combinedObject?.submission_title === "Surat Keputusan") {
-        if (isValidatorPenyusunaKebijakan(combinedObject)) {
+        if (isValidatorSuratKeputusan(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
         } else {
           return false;
         }
       }
-      if (combinedObject?.submission_title === "Permohonan Perwal dan Kepwal TIK") {
+      if (
+        combinedObject?.submission_title === "Permohonan Perwal dan Kepwal TIK"
+      ) {
         if (isValidatorPerwalKepwal(combinedObject)) {
-          await handleImageUploadAndFetch(combinedObject);
-        } else {
-          return false;
-        }
-      }
-      if (combinedObject?.submission_title === "Pendataan Tenaga Ahli") {
-        if (isValidatorPendataanAhli(combinedObject)) {
           await handleImageUploadAndFetch(combinedObject);
         } else {
           return false;
@@ -352,48 +339,48 @@ function LayananPenyusunanPerencanaanTIKPages() {
       console.log("Objek tidak ditemukan dalam formData");
     }
   };
-    const handleImageUploadAndFetch = async (obj) => {
-      let fixObject = { ...obj };
-    
-      if (obj.draft_perwal) {
-        const draftPerwalResult = await fetchUploadFiles(
-          authApiKey,
-          authToken,
-          obj.draft_perwal,
-          "perencanaantik",
-          dispatch
-        );
-        if (draftPerwalResult !== null) {
-          fixObject = {
-            ...fixObject,
-            draft_perwal: draftPerwalResult,
-          };
-        } else {
-          console.error("Error occurred during draft_perwal upload.");
-        }
+  const handleImageUploadAndFetch = async (obj) => {
+    let fixObject = { ...obj };
+
+    if (obj.draft_perwal) {
+      const draftPerwalResult = await fetchUploadFiles(
+        authApiKey,
+        authToken,
+        obj.draft_perwal,
+        "perencanaantik",
+        dispatch
+      );
+      if (draftPerwalResult !== null) {
+        fixObject = {
+          ...fixObject,
+          draft_perwal: draftPerwalResult,
+        };
+      } else {
+        console.error("Error occurred during draft_perwal upload.");
       }
-    
-      if (obj.nilai_kontrak) {
-        const nilaiKontrakResult = await fetchUploadFiles(
-          authApiKey,
-          authToken,
-          obj.nilai_kontrak,
-          "perencanaantik",
-          dispatch
-        );
-        if (nilaiKontrakResult !== null) {
-          fixObject = {
-            ...fixObject,
-            nilai_kontrak: nilaiKontrakResult,
-          };
-        } else {
-          console.error("Error occurred during nilai_kontrak upload.");
-        }
+    }
+
+    if (obj.nilai_kontrak) {
+      const nilaiKontrakResult = await fetchUploadFiles(
+        authApiKey,
+        authToken,
+        obj.nilai_kontrak,
+        "perencanaantik",
+        dispatch
+      );
+      if (nilaiKontrakResult !== null) {
+        fixObject = {
+          ...fixObject,
+          nilai_kontrak: nilaiKontrakResult,
+        };
+      } else {
+        console.error("Error occurred during nilai_kontrak upload.");
       }
-    
-      fetchDataCreate(authApiKey, authToken, fixObject);
-    };
-    
+    }
+
+    fetchDataCreate(authApiKey, authToken, fixObject);
+  };
+
   const updatePic = (name, number) => {
     const updatedData = formData.map((form) => {
       return {
@@ -412,14 +399,13 @@ function LayananPenyusunanPerencanaanTIKPages() {
 
     setFormData(updatedData);
   };
- 
 
   return (
     <div className="flex flex-col gap-3 flex-1 p-4">
       <TitleHeader
         title={
           JSON.parse(authProfile)?.role === "perangkat_daerah"
-            ? "Layanan Pengajuan"
+            ? "Layanan Pengajuan " + dataState
             : "Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi"
         }
         link1={"dashboard"}
@@ -443,7 +429,7 @@ function LayananPenyusunanPerencanaanTIKPages() {
                     type="transparent"
                     className="bg-[#ffffff] text-[#0185FF] px-3"
                     onClick={() => {
-                      // setisModalType({ data: 'Pengajuan Layanan Penyusunan Perencanaan Teknologi, Informasi, dan Komunikasi', status: true });
+                      setisModalPanduan(true);
                     }}
                   />
                 </div>
@@ -498,16 +484,22 @@ function LayananPenyusunanPerencanaanTIKPages() {
             <div className="flex flex-col relative">
               <TableCostum
                 dataHeader={[
-                  { name: "ID", field: "id" },
+                  { name: "No Pengajuan", field: "id" },
                   { name: "Nama PIC", field: "name_pic" },
-                  { name: "Jenis Pengajuan", field: "submission_title" },
-                  { name: "Status", field: "submission_status" },
-                  { name: "Tanggal", field: "createdAt" },
+                  { name: "Jenis Layanan", field: "submission_title" },
+                  { name: "Status Layanan", field: "submission_status" },
+                  { name: "Tanggal Pengajuan", field: "createdAt" },
                   { name: "Aksi", field: "action" },
                 ]}
                 loading={listPerencanaanTIKLoading}
-                showAction={{ read: true, remove: JSON.parse(authProfile)?.role === "perangkat_daerah" ? true : false, edit: true }}
-
+                showAction={{
+                  read: true,
+                  remove:
+                    JSON.parse(authProfile)?.role === "perangkat_daerah"
+                      ? true
+                      : false,
+                  edit: true,
+                }}
                 onClickShow={(data) => {
                   if (JSON.parse(authProfile)?.role === "op_pmo") {
                     fetchSetProgress(authApiKey, authToken, data.id);
@@ -588,47 +580,39 @@ function LayananPenyusunanPerencanaanTIKPages() {
         active={isModalType.status}
         onClose={() => setisModalType({ data: {}, status: false })}
       />
-      <ModalContent
-        className={"sm:max-w-xl"}
+
+      <PanduanPengajuanModal
+        isModalPanduan={isModalPanduan}
+        setisModalPanduan={setisModalPanduan}
+        isDarkMode={isDarkMode}
         children={
-          <div className="flex flex-col gap-2">
-            <div className="flex flex-col items-center justify-center ">
-              {isModalVerif.data?.icon && (
-                <isModalVerif.data.icon
-                  className={`flex flex-col flex-1 max-w-[150%] aspect-square bg-[${isModalVerif.data.color}] rounded-full`}
-                />
-              )}
-            </div>
-            <div className="flex  flex-col items-center justify-center ">
-              <span className="text-lg font-bold">
-                {isModalVerif.data?.title}
-              </span>
-              <span className="text-sm font-light opacity-70">
-                {isModalVerif.data?.msg}
-              </span>
-            </div>
-            <div className="flex flex-col gap-2 ">
-              <DynamicButton
-                initialValue={"Kembali"}
-                type="fill"
-                color={"#ffffff"}
-                className={`inline-flex flex-1 bg-[${isModalVerif.data.color}] text-darkColor`}
-                onClick={() => {
-                  setisModalVerif({ data: {}, status: false });
-                  setisModalCreate({ data: {}, status: false });
-                  setisModalType({ data: {}, status: false });
-                  fetchDataPerencanaanTIK(
-                    authApiKey,
-                    authToken,
-                    JSON.parse(authProfile)?.role
-                  );
-                }}
-              />
-            </div>
+          <div className="flex flex-col overflow-hidden rounded-b-md">
+            <p>
+              1. Klik layanan yang akan diajukan pada Side Bar Menu atau Menu
+              Bar Samping.
+            </p>
+            <p>
+              2. Lalu muncul submenu atau menu sekunder klik salah satu layanan.
+            </p>
+            <p>3. Klik tombol ajukan permohonan.</p>
+            <p>
+              4. Lalu akan muncul formulir yang harus diisi oleh Operator
+              Perangkat Daerah (Nama PIC dan Nomor PIC akan terisi otomatis).
+            </p>
+            <p>
+              5. Jika ada formulir yang mengharuskan input file mohon inputkan file yang berekstensi
+              pdf, xlsx dan docs.
+            </p>
+            <p>
+              6. Jika dirasa sudah cukup maka klik tombol Ajukan Permohonan.
+            </p>
+            <p className="font-bold">
+              Dengan catatan semua formulir harus terisi!
+            </p>
           </div>
         }
-        active={isModalVerif.status}
       />
+
       <ModalContent
         className={"sm:max-w-5xl "}
         children={
@@ -644,7 +628,7 @@ function LayananPenyusunanPerencanaanTIKPages() {
                 className="inline-flex p-2"
                 onClick={() => {
                   setisModalCreate({ data: {}, status: false });
-                  resetFormData(isModalCreate.data,formData,setFormData);
+                  resetFormData(isModalCreate.data, formData, setFormData);
                 }}
               />
             </div>
@@ -744,7 +728,7 @@ function LayananPenyusunanPerencanaanTIKPages() {
                 className="inline-flex bg-cardLight dark:bg-cardDark text-cardDark dark:text-cardLight"
                 onClick={() => {
                   setisModalCreate({ data: {}, status: false });
-                  resetFormData(isModalCreate.data,formData,setFormData);
+                  resetFormData(isModalCreate.data, formData, setFormData);
                 }}
               />
               <DynamicButton
@@ -760,6 +744,15 @@ function LayananPenyusunanPerencanaanTIKPages() {
           </div>
         }
         active={isModalCreate.status}
+      />
+      <ModalContentComponent
+        isModalVerif={isModalVerif}
+        setisModalVerif={setisModalVerif}
+        setisModalCreate={setisModalCreate}
+        fetchData={fetchDataPerencanaanTIK}
+        authApiKey={authApiKey}
+        authToken={authToken}
+        authProfile={authProfile}
       />
     </div>
   );

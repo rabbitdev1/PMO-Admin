@@ -8,7 +8,6 @@ import { useLocation, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { ReactComponent as PengajuanBerahasilIcon } from "../../assets/icon/ic_pengajuan_berhasil.svg";
 import DynamicButton from "../../components/common/DynamicButton";
-import useTheme from "../../components/context/useTheme";
 import TitleHeader from "../../components/layout/TitleHeader";
 import { isPending } from "../../components/store/actions/todoActions";
 import ModalContent from "../../components/ui/Modal/ModalContent";
@@ -16,14 +15,14 @@ import SubmissionStatus from "../../components/ui/SubmissionStatus";
 import { apiClient } from "../../utils/api/apiClient";
 import fetchUploadFiles from "../../utils/api/uploadFiles";
 import fetchUploadImages from "../../utils/api/uploadImages";
-import DalamAntrianView from "./Logical/DalamAntrianView";
-import FinishStatus from "./Logical/FinishStatus";
-import ProcessStatus from "./Logical/ProcessStatus";
-import ValidationStatus from "./Logical/ValidationStatus";
-import ValidationStatusTechnique from "./Logical/ValidationStatusTechnique";
+import DalamAntrianView from "./Logical/1.DalamAntrianView";
+import ValidationStatus from "./Logical/2.ValidationStatus";
+import ValidationStatusTechnique from "./Logical/3.ValidationStatusTechnique";
+import ProcessStatus from "./Logical/4.ProcessStatus";
+import FinishStatus from "./Logical/5.FinishStatus";
+import ModalContentComponent from "../../components/ui/ModalContentComponent";
 
 function DetailPerencanaanTIKPages() {
-  const { isDarkMode } = useTheme();
   const navigate = useNavigate();
   const authApiKey = Cookies.get("authApiKey");
   const authToken = Cookies.get("authToken");
@@ -55,7 +54,7 @@ function DetailPerencanaanTIKPages() {
         JSON.parse(authProfile)?.role
       );
     }
-  }, [dispatch]);
+  }, [authToken, authApiKey, authProfile]);
 
   const fetchPerencanaanTIK = async (api_key, token, role) => {
     setPerencanaaTIKLoading(true);
@@ -82,7 +81,7 @@ function DetailPerencanaanTIKPages() {
         setfinishData(JSON.parse(response.result.data?.on_finish));
       } else {
         setDetailData([]);
-        navigate("/");
+        navigate("/dashboard");
         toast.error(response.result.msg, {
           position: toast.POSITION.TOP_RIGHT,
         });
@@ -155,8 +154,8 @@ function DetailPerencanaanTIKPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Pengajuan Perencanaan TIK Berhasil di-update",
-            msg: "Selamat, Pengajuan sudah di-update",
+            title: "Pembaharuan Pengajuan Layanan Penyusunan Perencaan TIK Berhasil",
+            msg: "Selamat! Pengajuan layanan penyusunan perencanaan tik Anda telah berhasil diperbarui.",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
           },
@@ -179,23 +178,23 @@ function DetailPerencanaanTIKPages() {
       fetchEditperencanaantik(authApiKey, authToken, slug, type, data);
     } else if (type === "process") {
       if (
-        data.upload_dokumen_kebijakan ||
+        data.upload_dokumen_keputusan ||
         data.upload_dokumen_laporan_perkep ||
         data.upload_dokumen_ahli
       ) {
         try {
           const uploadPromises = [];
           const resultMapping = {};
-          if (data.upload_dokumen_kebijakan) {
+          if (data.upload_dokumen_keputusan) {
             uploadPromises.push(
               fetchUploadFiles(
                 authApiKey,
                 authToken,
-                data.upload_dokumen_kebijakan,
+                data.upload_dokumen_keputusan,
                 "perencanaantik",
                 dispatch
               ).then(result => {
-                resultMapping.upload_dokumen_kebijakan = result;
+                resultMapping.upload_dokumen_keputusan = result;
               })
             );
           }
@@ -227,12 +226,12 @@ function DetailPerencanaanTIKPages() {
               })
             );
           }
-      
+
           await Promise.all(uploadPromises);
 
           let combineData = { ...data };
-          if (resultMapping.upload_dokumen_kebijakan) {
-            combineData.upload_dokumen_kebijakan = resultMapping.upload_dokumen_kebijakan;
+          if (resultMapping.upload_dokumen_keputusan) {
+            combineData.upload_dokumen_keputusan = resultMapping.upload_dokumen_keputusan;
           }
           if (resultMapping.upload_dokumen_laporan_perkep) {
             combineData.upload_dokumen_laporan_perkep = resultMapping.upload_dokumen_laporan_perkep;
@@ -249,7 +248,7 @@ function DetailPerencanaanTIKPages() {
       }
     } else if (type === "process") {
       if (
-        data.upload_dokumen_kebijakan ||
+        data.upload_dokumen_keputusan ||
         data.upload_dokumen_laporan_perkep ||
         data.upload_dokumen_ahli
       ) {
@@ -257,16 +256,16 @@ function DetailPerencanaanTIKPages() {
           const uploadPromises = [];
           const resultMapping = {};
 
-          if (data.upload_dokumen_kebijakan) {
+          if (data.upload_dokumen_keputusan) {
             uploadPromises.push(
               fetchUploadFiles(
                 authApiKey,
                 authToken,
-                data.upload_dokumen_kebijakan,
+                data.upload_dokumen_keputusan,
                 "perencanaantik",
                 dispatch
               ).then(result => {
-                resultMapping.upload_dokumen_kebijakan = result;
+                resultMapping.upload_dokumen_keputusan = result;
               })
             );
           }
@@ -300,8 +299,8 @@ function DetailPerencanaanTIKPages() {
           await Promise.all(uploadPromises);
 
           let combineData = { ...data };
-          if (resultMapping.upload_dokumen_kebijakan) {
-            combineData.upload_dokumen_kebijakan = resultMapping.upload_dokumen_kebijakan;
+          if (resultMapping.upload_dokumen_keputusan) {
+            combineData.upload_dokumen_keputusan = resultMapping.upload_dokumen_keputusan;
           }
           if (resultMapping.upload_dokumen_laporan_perkep) {
             combineData.upload_dokumen_laporan_perkep = resultMapping.upload_dokumen_laporan_perkep;
@@ -329,7 +328,7 @@ function DetailPerencanaanTIKPages() {
         );
         if (result !== null) {
           let combineData = {};
-          combineData = { ...data, file_upload: result };
+          combineData = { ...data, file_submission: result };
           fetchEditperencanaantik(
             authApiKey,
             authToken,
@@ -353,7 +352,7 @@ function DetailPerencanaanTIKPages() {
         link2={"Bidang Manajemen Infrastruktur Teknologi Informasi dan Komunikasi"}
       />
       <section className="flex flex-col gap-3">
-        <SubmissionStatus status={submissionStatus} />
+        <SubmissionStatus status={submissionStatus} data={null} />
         <div className={`flex  flex-col gap-3`}>
           <DalamAntrianView
             submissionStatus={submissionStatus}
@@ -372,8 +371,9 @@ function DetailPerencanaanTIKPages() {
           <ValidationStatusTechnique
             slug={slug}
             submissionStatus={submissionStatus}
-            validationData={validationDataTechnique}
-            setValidationData={setValidationDataTechnique}
+            validationData={validationData}
+            validationDataTechnique={validationDataTechnique}
+            setvalidationDataTechnique={setValidationDataTechnique}
             authProfile={authProfile}
             detailData={detailData}
             loading={perencanaantikLoading}
@@ -382,9 +382,9 @@ function DetailPerencanaanTIKPages() {
           />
           <ProcessStatus
             slug={slug}
-            validationData={validationDataTechnique}
-            submissionStatus={submissionStatus}
+            validationDataTechnique={validationDataTechnique}
             processData={processData}
+            submissionStatus={submissionStatus}
             authProfile={authProfile}
             detailData={detailData}
             loading={perencanaantikLoading}
@@ -393,11 +393,11 @@ function DetailPerencanaanTIKPages() {
             finishData={finishData}
             setfinishData={setfinishData}
           />
-
           <FinishStatus
             detailData={detailData}
             loading={perencanaantikLoading}
-            validationData={validationDataTechnique}
+            validationData={validationData}
+            validationDataTechnique={validationDataTechnique}
             processData={processData}
             submissionStatus={submissionStatus}
             finishData={finishData}
@@ -405,44 +405,14 @@ function DetailPerencanaanTIKPages() {
         </div>
       </section>
 
-      <ModalContent
-        className={"sm:max-w-xl"}
-        children={
-          <div className="flex flex-col gap-2">
-            <div className="flex flex-col items-center justify-center ">
-              {isModalVerif.data?.icon && (
-                <isModalVerif.data.icon
-                  className={`flex flex-col flex-1 max-w-[150%] aspect-square bg-[${isModalVerif.data.color}] rounded-full`}
-                />
-              )}
-            </div>
-            <div className="flex  flex-col items-center justify-center ">
-              <span className="text-lg font-bold">
-                {isModalVerif.data?.title}
-              </span>
-              <span className="text-sm font-light opacity-70">
-                {isModalVerif.data?.msg}
-              </span>
-            </div>
-            <div className="flex flex-col gap-2 ">
-              <DynamicButton
-                initialValue={"Kembali"}
-                type="fill"
-                color={"#ffffff"}
-                className={`inline-flex flex-1 bg-[${isModalVerif.data.color}] text-darkColor`}
-                onClick={() => {
-                  setisModalVerif({ data: {}, status: false });
-                  fetchPerencanaanTIK(
-                    authApiKey,
-                    authToken,
-                    JSON.parse(authProfile)?.role
-                  );
-                }}
-              />
-            </div>
-          </div>
-        }
-        active={isModalVerif.status}
+      <ModalContentComponent
+        isModalVerif={isModalVerif}
+        setisModalVerif={setisModalVerif}
+        setisModalCreate={() => { }}
+        fetchData={fetchPerencanaanTIK}
+        authApiKey={authApiKey}
+        authToken={authToken}
+        authProfile={authProfile}
       />
     </div>
   );

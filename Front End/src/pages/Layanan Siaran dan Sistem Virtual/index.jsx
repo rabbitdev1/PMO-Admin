@@ -18,10 +18,12 @@ import ModalContent from "../../components/ui/Modal/ModalContent";
 import { apiClient } from "../../utils/api/apiClient";
 import { convertToNameValueObject } from "../../utils/helpers/convertToNameValueObject";
 
+import resetFormData from "../../components/common/ResetFormData";
+import ModalContentComponent from "../../components/ui/ModalContentComponent";
 import fetchUploadFiles from "../../utils/api/uploadFiles";
 import { formData as initialFormData } from "./data";
 import { isValidatorPermohonanLiputan, isValidatorPermohonanPodcast, isValidatorZoom } from "./validators";
-import resetFormData from "../../components/common/ResetFormData";
+import PanduanPengajuanModal from "../../components/ui/PanduanPengajuanModal";
 
 function SistemVirtualPages() {
   const { isDarkMode } = useTheme();
@@ -65,9 +67,9 @@ function SistemVirtualPages() {
   const [listSistemVirtual, setListSistemVirtual] = useState([]);
   const [listSistemVirtualLoading, setListSistemVirtualLoading] = useState(true);
 
-  const [formData, setFormData] = useState(initialFormData);
+  const [isModalPanduan, setisModalPanduan] = useState(false);
 
-  const [isModalType, setisModalType] = useState({ status: false, data: {} });
+  const [formData, setFormData] = useState(initialFormData);
   const [isModalCreate, setisModalCreate] = useState({
     status: false,
     data: {},
@@ -88,7 +90,7 @@ function SistemVirtualPages() {
         JSON.parse(authProfile)?.role
       );
     }
-  }, [dataState, authToken]);
+  }, [dataState,authApiKey, authProfile,authToken]);
 
   const fetchDataSistemVirtual = async (api_key, token, role) => {
     setListSistemVirtualLoading(true);
@@ -107,7 +109,7 @@ function SistemVirtualPages() {
       setListSistemVirtualLoading(false);
       if (response?.statusCode === 200) {
         if (JSON.parse(authProfile)?.role === "perangkat_daerah") {
-          const filteredSubmissions = response.result.data.filter(
+          const filteredSubmissions = response.result.data?.filter(
             (submission) => submission.submission_title === dataState
           );
           setListSistemVirtual(filteredSubmissions);
@@ -116,7 +118,7 @@ function SistemVirtualPages() {
         }
 
         setStatusData([
-          { ...statusData[0], value: response?.result?.totalItems },
+          { ...statusData[0], value: response?.result?.totalItems ||0},
           {
             ...statusData[1],
             value: response?.result?.totalItemsByStatus?.diproses || 0,
@@ -155,7 +157,7 @@ function SistemVirtualPages() {
         setisModalVerif({
           data: {
             title: "Pengajuan Layanan Siaran dan Sistem Virtual Berhasil",
-            msg: "Selamat, Pengajuan anda sudah diterima",
+            msg: "Selamat! Pengajuan Layanan Siaran dan Sistem Virtual Anda telah berhasil diterima dan diproses.",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
           },
@@ -310,7 +312,20 @@ function SistemVirtualPages() {
       } else {
         console.error("Error occurred during image upload.");
       }
-    } else {
+    }
+    if (obj.file_pengajuan_zoom) {
+      const result = await fetchUploadFiles(authApiKey, authToken, obj.file_pengajuan_zoom, "sistem-virtual", dispatch);
+      if (result !== null) {
+        const fixObject = {
+          ...obj,
+          file_pengajuan_zoom: result,
+        };
+        fetchDataCreate(authApiKey, authToken, fixObject);
+      } else {
+        console.error("Error occurred during image upload.");
+      }
+    }
+    else {
       fetchDataCreate(authApiKey, authToken, obj);
     }
   };
@@ -338,7 +353,7 @@ function SistemVirtualPages() {
       <TitleHeader
         title={
           JSON.parse(authProfile)?.role === "perangkat_daerah"
-            ? "Layanan Pengajuan"
+            ? "Layanan Pengajuan " + dataState
             : "Layanan Siaran dan Sistem Virtual"
         }
         link1={"dashboard"}
@@ -360,6 +375,7 @@ function SistemVirtualPages() {
                     className="bg-[#ffffff] text-[#0185FF] px-3"
                     onClick={() => {
                       // setisModalType({ data: 'Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan', status: true });
+                      setisModalPanduan(true);
                     }}
                   />
                 </div>
@@ -402,7 +418,7 @@ function SistemVirtualPages() {
                     type="transparent"
                     className="bg-[#0185FF] text-darkColor px-3"
                     onClick={() => {
-                      setisModalCreate({ data: "Pengajuan "+dataState, status: true });
+                      setisModalCreate({ data: "Pengajuan " + dataState, status: true });
                       updatePic(JSON.parse(authProfile).fullname, JSON.parse(authProfile).telp);
                     }}
                   />
@@ -412,11 +428,11 @@ function SistemVirtualPages() {
             <div className="flex flex-col relative">
               <TableCostum
                 dataHeader={[
-                  { name: "ID", field: "id" },
+                  { name: "No Pengajuan", field: "id" },
                   { name: "Nama PIC", field: "name_pic" },
-                  { name: "Jenis Pengajuan", field: "submission_title" },
-                  { name: "Status", field: "submission_status" },
-                  { name: "Tanggal", field: "createdAt" },
+                  { name: "Jenis Layanan", field: "submission_title" },
+                  { name: "Status Layanan", field: "submission_status" },
+                  { name: "Tanggal Pengajuan", field: "createdAt" },
                   { name: "Aksi", field: "action" },
                 ]}
                 showAction={{
@@ -472,82 +488,7 @@ function SistemVirtualPages() {
         </div>
       </section>
 
-      <ModalContent
-        className={"sm:max-w-xl"}
-        children={
-          <div className="flex flex-col gap-3">
-            <span className="text-lg font-bold font-gilroy">
-              {isModalType.data}
-            </span>
-            <div className="flex flex-col overflow-hidden rounded-b-md pb-2">
-              {formData.map((item, index) => {
-                return (
-                  isModalType.data === item.type && (
-                    <button
-                      key={index}
-                      className={`flex flex-row justify-start items-center gap-2 flex-1 ${index % 2 ? "" : "bg-[#f1f5f9] dark:bg-[#f1f5f907]"} py-2.5 p-3 hover:opacity-70`}
-                      onClick={() => {
-                        setisModalCreate({ data: item.name, status: true });
-                        updatePic(
-                          JSON.parse(authProfile).fullname,
-                          JSON.parse(authProfile).telp
-                        );
-                      }}
-                    >
-                      <span className=" text-base text-left line-clamp-2 font-gilroy">
-                        {item.name}
-                      </span>
-                    </button>
-                  )
-                );
-              })}
-            </div>
-          </div>
-        }
-        active={isModalType.status}
-        onClose={() => setisModalType({ data: {}, status: false })}
-      />
-      <ModalContent
-        className={"sm:max-w-xl"}
-        children={
-          <div className="flex flex-col gap-2">
-            <div className="flex flex-col items-center justify-center ">
-              {isModalVerif.data?.icon && (
-                <isModalVerif.data.icon
-                  className={`flex flex-col flex-1 max-w-[150%] aspect-square bg-[${isModalVerif.data.color}] rounded-full`}
-                />
-              )}
-            </div>
-            <div className="flex  flex-col items-center justify-center ">
-              <span className="text-lg font-bold">
-                {isModalVerif.data?.title}
-              </span>
-              <span className="text-sm font-light opacity-70">
-                {isModalVerif.data?.msg}
-              </span>
-            </div>
-            <div className="flex flex-col gap-2 ">
-              <DynamicButton
-                initialValue={"Kembali"}
-                type="fill"
-                color={"#ffffff"}
-                className={`inline-flex flex-1 bg-[${isModalVerif.data.color}] text-darkColor`}
-                onClick={() => {
-                  setisModalVerif({ data: {}, status: false });
-                  setisModalCreate({ data: {}, status: false });
-                  setisModalType({ data: {}, status: false });
-                  fetchDataSistemVirtual(
-                    authApiKey,
-                    authToken,
-                    JSON.parse(authProfile)?.role
-                  );
-                }}
-              />
-            </div>
-          </div>
-        }
-        active={isModalVerif.status}
-      />
+
       <ModalContent
         className={"sm:max-w-5xl "}
         children={
@@ -629,7 +570,7 @@ function SistemVirtualPages() {
                             item?.field?.map(
                               (itemField, indexField) =>
                                 item?.value?.value ===
-                                  itemField.type_select && (
+                                itemField.type_select && (
                                   <DynamicInput
                                     key={indexField}
                                     name={itemField.name}
@@ -679,6 +620,46 @@ function SistemVirtualPages() {
           </div>
         }
         active={isModalCreate.status}
+      />
+      <PanduanPengajuanModal
+        isModalPanduan={isModalPanduan}
+        setisModalPanduan={setisModalPanduan}
+        isDarkMode={isDarkMode}
+        children={
+          <div className="flex flex-col overflow-hidden rounded-b-md">
+            <p>
+              1. Klik layanan yang akan diajukan pada Side Bar Menu atau Menu
+              Bar Samping.
+            </p>
+            <p>
+              2. Lalu muncul submenu atau menu sekunder klik salah satu layanan.
+            </p>
+            <p>3. Klik tombol ajukan permohonan.</p>
+            <p>
+              4. Lalu akan muncul formulir yang harus diisi oleh Operator
+              Perangkat Daerah (Nama PIC dan Nomor PIC akan terisi otomatis).
+            </p>
+            <p>
+              5. Jika ada formulir yang mengharuskan input file mohon inputkan file yang berekstensi
+              pdf, xlsx dan docs.
+            </p>
+            <p>
+              6. Jika dirasa sudah cukup maka klik tombol Ajukan Permohonan.
+            </p>
+            <p className="font-bold">
+              Dengan catatan semua formulir harus terisi!
+            </p>
+          </div>
+        }
+      />
+      <ModalContentComponent
+        isModalVerif={isModalVerif}
+        setisModalVerif={setisModalVerif}
+        setisModalCreate={setisModalCreate}
+        fetchData={fetchDataSistemVirtual}
+        authApiKey={authApiKey}
+        authToken={authToken}
+        authProfile={authProfile}
       />
     </div>
   );

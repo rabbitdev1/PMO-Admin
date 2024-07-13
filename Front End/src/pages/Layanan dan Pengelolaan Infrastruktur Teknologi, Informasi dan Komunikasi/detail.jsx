@@ -8,7 +8,6 @@ import { useLocation, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { ReactComponent as PengajuanBerahasilIcon } from "../../assets/icon/ic_pengajuan_berhasil.svg";
 import DynamicButton from "../../components/common/DynamicButton";
-import useTheme from "../../components/context/useTheme";
 import TitleHeader from "../../components/layout/TitleHeader";
 import { isPending } from "../../components/store/actions/todoActions";
 import ModalContent from "../../components/ui/Modal/ModalContent";
@@ -16,14 +15,14 @@ import SubmissionStatus from "../../components/ui/SubmissionStatus";
 import { apiClient } from "../../utils/api/apiClient";
 import fetchUploadFiles from "../../utils/api/uploadFiles";
 import fetchUploadImages from "../../utils/api/uploadImages";
-import DalamAntrianView from "./Logical/DalamAntrianView";
-import FinishStatus from "./Logical/FinishStatus";
-import ProcessStatus from "./Logical/ProcessStatus";
-import ValidationStatus from "./Logical/ValidationStatus";
-import ValidationStatusTechnique from "./Logical/ValidationStatusTechnique";
+import DalamAntrianView from "./Logical/1.DalamAntrianView";
+import ValidationStatus from "./Logical/2.ValidationStatus";
+import ValidationStatusTechnique from "./Logical/3.ValidationStatusTechnique";
+import ProcessStatus from "./Logical/4.ProcessStatus";
+import FinishStatus from "./Logical/5.FinishStatus";
+import ModalContentComponent from "../../components/ui/ModalContentComponent";
 
 function DetailInfrastrukturPages() {
-  const { isDarkMode } = useTheme();
   const navigate = useNavigate();
   const authApiKey = Cookies.get("authApiKey");
   const authToken = Cookies.get("authToken");
@@ -55,7 +54,7 @@ function DetailInfrastrukturPages() {
         JSON.parse(authProfile)?.role
       );
     }
-  }, [dispatch]);
+  }, [authApiKey, authProfile, authToken]);
 
   const fetchDataInfrastruktur = async (api_key, token, role) => {
     setInfrastrukturLoading(true);
@@ -82,7 +81,7 @@ function DetailInfrastrukturPages() {
         setfinishData(JSON.parse(response.result.data?.on_finish));
       } else {
         setDetailData([]);
-        navigate("/");
+        navigate("/dashboard");
         toast.error(response.result.msg, {
           position: toast.POSITION.TOP_RIGHT,
         });
@@ -97,7 +96,7 @@ function DetailInfrastrukturPages() {
     let htmlConvert = "";
 
     if (
-      ["validation", "validation_technique", "process"].includes(type) &&
+      ["validation_technique", "process"].includes(type) &&
       data?.response
     ) {
       const contentState = convertToRaw(data.response.getCurrentContent());
@@ -114,7 +113,6 @@ function DetailInfrastrukturPages() {
           ...data,
           status_validation:
             parseInt(data.status_validation) === 0 ? "Ditolak" : "Disetujui",
-          response: htmlConvert,
         })
       );
     } else if (["validation_technique", "process"].includes(type)) {
@@ -155,8 +153,8 @@ function DetailInfrastrukturPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "infrastruktur Berhasil diupdate",
-            msg: "Selamat, Pengajuan infrastruktur sudah diupdate",
+            title: "Pembaharuan Layanan Infrastruktur Berhasil",
+            msg: "Selamat! Pengajuan Layanan Infrastruktur Anda Telah Berhasil Diperbarui.",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
           },
@@ -188,7 +186,7 @@ function DetailInfrastrukturPages() {
         try {
           const uploadPromises = [];
           const resultMapping = {};
-      
+
           if (data.upload_foto_alat_sebelum_di_relokasi) {
             uploadPromises.push(
               fetchUploadImages(
@@ -254,9 +252,9 @@ function DetailInfrastrukturPages() {
               })
             );
           }
-      
+
           await Promise.all(uploadPromises);
-      
+
           let combineData = { ...data };
           if (resultMapping.upload_foto_alat_sebelum_di_relokasi) {
             combineData.upload_foto_alat_sebelum_di_relokasi = resultMapping.upload_foto_alat_sebelum_di_relokasi;
@@ -273,7 +271,7 @@ function DetailInfrastrukturPages() {
           if (resultMapping.upload_foto_kegiatan) {
             combineData.upload_foto_kegiatan = resultMapping.upload_foto_kegiatan;
           }
-      
+
           fetchEditinfrastruktur(authApiKey, authToken, slug, type, combineData);
         } catch (error) {
           console.error("Error occurred during image upload:", error);
@@ -281,7 +279,7 @@ function DetailInfrastrukturPages() {
       } else {
         fetchEditinfrastruktur(authApiKey, authToken, slug, type, data);
       }
-      
+
     } else if (type === "finish") {
       if (data.file_submission) {
         const result = await fetchUploadFiles(
@@ -293,7 +291,7 @@ function DetailInfrastrukturPages() {
         );
         if (result !== null) {
           let combineData = {};
-          combineData = { ...data, file_upload: result };
+          combineData = { ...data, file_submission: result };
           fetchEditinfrastruktur(
             authApiKey,
             authToken,
@@ -317,7 +315,7 @@ function DetailInfrastrukturPages() {
         link2={"Layanan dan Pengelolaan Infrastruktur Teknologi, Informasi dan Komunikasi"}
       />
       <section className="flex flex-col gap-3">
-        <SubmissionStatus status={submissionStatus} />
+        <SubmissionStatus status={submissionStatus} data={null} />
         <div className={`flex  flex-col gap-3`}>
           <DalamAntrianView
             submissionStatus={submissionStatus}
@@ -336,8 +334,9 @@ function DetailInfrastrukturPages() {
           <ValidationStatusTechnique
             slug={slug}
             submissionStatus={submissionStatus}
-            validationData={validationDataTechnique}
-            setValidationData={setValidationDataTechnique}
+            validationData={validationData}
+            validationDataTechnique={validationDataTechnique}
+            setvalidationDataTechnique={setValidationDataTechnique}
             authProfile={authProfile}
             detailData={detailData}
             loading={infrastrukturLoading}
@@ -346,9 +345,9 @@ function DetailInfrastrukturPages() {
           />
           <ProcessStatus
             slug={slug}
-            validationData={validationDataTechnique}
-            submissionStatus={submissionStatus}
+            validationDataTechnique={validationDataTechnique}
             processData={processData}
+            submissionStatus={submissionStatus}
             authProfile={authProfile}
             detailData={detailData}
             loading={infrastrukturLoading}
@@ -357,56 +356,25 @@ function DetailInfrastrukturPages() {
             finishData={finishData}
             setfinishData={setfinishData}
           />
-
           <FinishStatus
             detailData={detailData}
             loading={infrastrukturLoading}
-            validationData={validationDataTechnique}
+            validationData={validationData}
+            validationDataTechnique={validationDataTechnique}
             processData={processData}
             submissionStatus={submissionStatus}
             finishData={finishData}
           />
         </div>
       </section>
-
-      <ModalContent
-        className={"sm:max-w-xl"}
-        children={
-          <div className="flex flex-col gap-2">
-            <div className="flex flex-col items-center justify-center ">
-              {isModalVerif.data?.icon && (
-                <isModalVerif.data.icon
-                  className={`flex flex-col flex-1 max-w-[150%] aspect-square bg-[${isModalVerif.data.color}] rounded-full`}
-                />
-              )}
-            </div>
-            <div className="flex  flex-col items-center justify-center ">
-              <span className="text-lg font-bold">
-                {isModalVerif.data?.title}
-              </span>
-              <span className="text-sm font-light opacity-70">
-                {isModalVerif.data?.msg}
-              </span>
-            </div>
-            <div className="flex flex-col gap-2 ">
-              <DynamicButton
-                initialValue={"Kembali"}
-                type="fill"
-                color={"#ffffff"}
-                className={`inline-flex flex-1 bg-[${isModalVerif.data.color}] text-darkColor`}
-                onClick={() => {
-                  setisModalVerif({ data: {}, status: false });
-                  fetchDataInfrastruktur(
-                    authApiKey,
-                    authToken,
-                    JSON.parse(authProfile)?.role
-                  );
-                }}
-              />
-            </div>
-          </div>
-        }
-        active={isModalVerif.status}
+      <ModalContentComponent
+        isModalVerif={isModalVerif}
+        setisModalVerif={setisModalVerif}
+        setisModalCreate={() => { }}
+        fetchData={fetchDataInfrastruktur}
+        authApiKey={authApiKey}
+        authToken={authToken}
+        authProfile={authProfile}
       />
     </div>
   );

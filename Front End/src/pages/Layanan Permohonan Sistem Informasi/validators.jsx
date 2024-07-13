@@ -1,4 +1,4 @@
-import { validateArray, validateFile, validateFullname, validatePeriod, validateRadioBottom, validateTelp, validateText, validateTextArea } from "../../utils/helpers/validateForm";
+import { validateArray, validateFile, validateFullname, validateNominal, validateDate, validateRadioBottom, validateTelp, validateText, validateTextArea } from "../../utils/helpers/validateForm";
 
 export const isValidatorPermohonanSI = (obj) => {
   let isValid = true;
@@ -6,19 +6,25 @@ export const isValidatorPermohonanSI = (obj) => {
   isValid = isValid && validateTelp(obj.telp_pic, "Nomor PIC");
   isValid = isValid && validateText(obj.title_kak, "Judul KAK");
   isValid = isValid && validateFullname(obj.name_PPK, "Nama PPK");
-  isValid = isValid && validateText(obj.besaran_anggaran, "Besaran Anggaran");
+  isValid = isValid && validateNominal(obj.besaran_anggaran, "Besaran Anggaran");
   isValid = isValid && validateText(obj.anggaran_attachment, "Sumber Anggaran");
   isValid = isValid && validateText(obj.lingkup_job, "Lingkup Pekerjaan");
   isValid = isValid && validateText(obj.number_of_people_required, "Jumlah Tenaga yang dibutuhkan");
-  isValid = isValid && validateText(obj.skpd_request_letter, "SKPD");
+  isValid = isValid && validateText(obj.skpdRequestLetter, "Surat SKPD");
+  isValid = isValid && validateText(obj.kakAttachment, "File KAK");
 
   return isValid;
 };
 
+
+
+
+
+//belum fix
 export const isValidatorPembangunan = (obj) => {
   let isValid = true;
   isValid = isValid && validateText(obj.applicationType, "Jenis Pengajuan");
-  isValid = isValid && validateText(obj.applicationName, "Nama Aplikasi");
+  isValid = isValid && validateText(obj.app_name, "Nama Aplikasi");
   isValid = isValid && validateTextArea(obj.applicationDescription, "Deskripsi Aplikasi");
   isValid = isValid && validateArray(obj.applicationOwnership, "Kepemilikan Aplikasi");
 
@@ -28,7 +34,7 @@ export const isValidatorPembangunan = (obj) => {
 export const isValidatorPengembangan = (obj) => {
   let isValid = true;
   isValid = isValid && validateText(obj.applicationType, "Jenis Pengajuan");
-  isValid = isValid && validateArray(obj.applicationName, "Nama Aplikasi");
+  isValid = isValid && validateArray(obj.app_name, "Nama Aplikasi");
   isValid = isValid && validateTextArea(obj.developmentAspect, "Hal yang dikembangkan");
   isValid = isValid && validateArray(obj.developmentGoal, "Tujuan Pengembangan");
   isValid = isValid && validateArray(obj.applicationOwnership, "Kepemilikan Aplikasi");
@@ -86,7 +92,7 @@ export const isValidatorStepper5 = (obj) => {
   isValid = isValid && validateText(obj.lingkupJob, "Linkup Pekerjaan");
   isValid = isValid && validateText(obj.numberOfPeopleRequired, "Jumlah Tenaga Yang Dibutuhkan");
 
-  isValid = isValid && validatePeriod(obj.letterDate, "Tanggal Surat");
+  isValid = isValid && validateDate(obj.letterDate, "Tanggal Surat");
   isValid = isValid && validateFile(obj.technicalRecommendationLetter, "Surat Rekomendasi Teknis");
   isValid = isValid && validateFile(obj.anggaranAttachment, "Lampiran Dokumen Pelaksanaan Anggaran");
   isValid = isValid && validateRadioBottom(obj.spbePlan, "PETA Rencana SPBE OPD");

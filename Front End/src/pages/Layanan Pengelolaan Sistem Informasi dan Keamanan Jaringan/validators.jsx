@@ -1,4 +1,4 @@
-import { validateArray, validateEmail, validateFile, validateFullname, validateHTML, validatePassword, validatePeriod, validatePeriod1, validateRadioBottom, validateRepeatPassword, validateTelp, validateText, validateTextArea } from "../../utils/helpers/validateForm";
+import { validateArray, validateEmail, validateFile, validateFullname, validateHTML, validatePassword, validateDate, validatePeriod1, validateRadioBottom, validateRepeatPassword, validateTelp, validateText, validateTextArea } from "../../utils/helpers/validateForm";
 
 export const isValidatorUserAccountSI = (obj) => {
   let isValid = true;
@@ -33,7 +33,7 @@ export const isValidatorPenerapanModulTTE = (obj) => {
   isValid = isValid && validateHTML(obj.app_desc, "Deskripsi Aplikasi");
   isValid = isValid && validateHTML(obj.reason, "Alasan Pengajuan");
   isValid = isValid && validateFile(obj.file_process_bisiness, 'Dokumen Proses Bisnis');
-  isValid = isValid && validatePeriod1(obj.period, 'Jadwal Penerapan');
+  isValid = isValid && validateDate(obj.period, 'Jadwal Penerapan');
 
   return isValid;
 };
@@ -54,7 +54,7 @@ export const isValidatorEmail = (obj) => {
   let isValid = true;
   isValid = isValid && validateFullname(obj.name_pic, "Nama PIC");
   isValid = isValid && validateTelp(obj.telp_pic, "Nomor PIC");
-  isValid = isValid && validateText(obj.jabatan, "Jabatan");
+  isValid = isValid && validateText(obj.occupation, "Jabatan");
   isValid = isValid && validateText(obj.nip, "NIP");
   isValid = isValid && validateArray(obj.peruntukan, "Peruntukan");
   isValid = isValid && validateHTML(obj.reason, "Alasan");
@@ -66,7 +66,7 @@ export const isValidatorPengujianCelahKeamanan = (obj) => {
   let isValid = true;
   isValid = isValid && validateFullname(obj.name_pic, "Nama PIC");
   isValid = isValid && validateTelp(obj.telp_pic, "Nomor PIC");
-  isValid = isValid && validateText(obj.app, "Nama Aplikasi");
+  isValid = isValid && validateText(obj.app_name, "Nama Aplikasi");
   isValid = isValid && validateHTML(obj.app_desc, "Deskripsi Aplikasi");
   isValid = isValid && validateText(obj.app_version, "Versi Aplikasi");
   isValid = isValid && validateArray(obj.app_ownership, "Kepemilikan Aplikasi");

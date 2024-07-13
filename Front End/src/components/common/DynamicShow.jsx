@@ -1,11 +1,10 @@
 import React from "react";
 
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { formatDate, formatMultiDate } from "../../utils/helpers/formatDate";
 import ImageComponent from "../../utils/helpers/getImageURL";
 import PDFComponent from "../../utils/helpers/getPDFURL";
-import { formatDate, formatMultiDate } from "../../utils/helpers/formatDate";
-
-
+import { formatCurrency } from "../../utils/helpers/formatCurrency";
 
 function DynamicShow({ label, value, options, type, className, location }) {
   let parsedOptions = [];
@@ -45,34 +44,40 @@ function DynamicShow({ label, value, options, type, className, location }) {
         </div>
       ) : type === "array" ? (
         <div
-      className={`${value.length < 3 ? 'flex flex-row' : 'grid'} gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center p-2 ${className} rounded-lg border border-[#dddddd] dark:border-[#ffffff20]`}
-      style={value.length < 3 ? {} : { gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))' }}
-    >
-      {value.map((item, index) => {
-        const name = typeof item === 'object' ? item.name : item;
-        const displayValue = typeof item === 'object' && item.value ? ` : (${item.value})` : '';
+          className={`${value.length < 3 ? 'flex flex-row' : 'grid'} gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center p-2 ${className} rounded-lg border border-[#dddddd] dark:border-[#ffffff20]`}
+          style={value.length < 3 ? {} : { gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))' }}
+        >
+          {value.map((item, index) => {
+            const name = typeof item === 'object' ? item.name : item;
+            const displayValue = typeof item === 'object' && item.value ? ` : (${item.value})` : '';
 
-        return (
-          <div
-            key={index}
-            className="flex items-center p-1.5 px-3 text-lightColor bg-[#e6e6e6] dark:text-darkColor rounded-sm border border-[#dddddd] dark:border-[#ffffff20]"
-          >
-            <span className="text-xs">{name}{displayValue}</span>
-          </div>
-        );
-      })}
-    </div>
-      ) : type === "multi_date" ? (
+            return (
+              <div
+                key={index}
+                className="flex items-center p-1.5 px-3 text-lightColor bg-[#e6e6e6] dark:text-darkColor rounded-sm border border-[#dddddd] dark:border-[#ffffff20]"
+              >
+                <span className="text-xs">{name}{displayValue}</span>
+              </div>
+            );
+          })}
+        </div>
+      ) : type === "single_date" ? (
         <div
           className={`flex flex-row gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center p-3 ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}
         >
           <span className="text-sm">{formatDate(value)}</span>
         </div>
-      ) : type === "multidate" ? (
+      ) : type === "multi_date" ? (
         <div
           className={`flex flex-row gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center p-3 ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}
         >
           <span className="text-sm">{formatMultiDate(value)}</span>
+        </div>
+      ) : type === "currency" ? (
+        <div
+          className={`flex flex-row gap-2 bg-lightColor dark:bg-darkColor text-lightColor dark:text-darkColor items-center p-3 ${className} rounded-lg border-1 border-[#dddddd] dark:border-[#ffffff20]`}
+        >
+           <span className="text-sm  whitespace-normal">{formatCurrency(value)}</span>
         </div>
       ) : (
         <div
