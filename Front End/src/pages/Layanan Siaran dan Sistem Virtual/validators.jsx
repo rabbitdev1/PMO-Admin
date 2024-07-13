@@ -5,7 +5,7 @@ export const isValidatorZoom = (obj) => {
   let isValid = true;
   isValid = isValid && validateFullname(obj.name_pic, "Nama PIC");
   isValid = isValid && validateTelp(obj.telp_pic, "Nomor PIC");
-  isValid = isValid && validateFile(obj.file_pengajuan_zoom, "Dokumen Peminjaman Zoom");
+  isValid = isValid && validateFile(obj.file_pengajuan_zoom, "Dokumen Pengajuan Zoom");
   isValid = isValid && validateHTML(obj.reason, "Alasan Pengajuan");
 
   return isValid;
