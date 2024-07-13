@@ -33,7 +33,7 @@ export const isValidatorPenerapanModulTTE = (obj) => {
   isValid = isValid && validateHTML(obj.app_desc, "Deskripsi Aplikasi");
   isValid = isValid && validateHTML(obj.reason, "Alasan Pengajuan");
   isValid = isValid && validateFile(obj.file_process_bisiness, 'Dokumen Proses Bisnis');
-  isValid = isValid && validateDate(obj.period, 'Jadwal Penerapan');
+  isValid = isValid && validateText(obj.period, 'Jadwal Penerapan');
 
   return isValid;
 };

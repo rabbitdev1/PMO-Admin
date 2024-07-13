@@ -53,7 +53,7 @@ function DetailSistemVirtualPages() {
         JSON.parse(authProfile)?.role
       );
     }
-  }, [authApiKey,authToken,authProfile]);
+  }, [authApiKey, authToken, authProfile]);
 
   const fetchDataSistemVirtual = async (api_key, token, role) => {
     setSistemVirtualLoading(true);
@@ -95,7 +95,7 @@ function DetailSistemVirtualPages() {
     let htmlConvert = "";
 
     if (
-      ["validation", "validation_technique", "process"].includes(type) &&
+      ["validation_technique", "process"].includes(type) &&
       data?.response
     ) {
       const contentState = convertToRaw(data.response.getCurrentContent());
@@ -350,55 +350,55 @@ function DetailSistemVirtualPages() {
       <section className="flex flex-col gap-3">
         <SubmissionStatus status={submissionStatus} data={null} />
         <div className={`flex  flex-col gap-3`}>
-            <DalamAntrianView
-              submissionStatus={submissionStatus}
-              detailData={detailData}
-              loading={SistemVirtualLoading}
-            />
-            <ValidationStatus
-              submissionStatus={submissionStatus}
-              validationData={validationData}
-              authProfile={authProfile}
-              detailData={detailData}
-              loading={SistemVirtualLoading}
-              setValidationData={setValidationData}
-              checkingFormData={checkingFormData}
-            />
-            <ValidationStatusTechnique
-              slug={slug}
-              submissionStatus={submissionStatus}
-              validationData={validationData}
-              validationDataTechnique={validationDataTechnique}
-              setvalidationDataTechnique={setValidationDataTechnique}
-              authProfile={authProfile}
-              detailData={detailData}
-              loading={SistemVirtualLoading}
-              checkingFormData={checkingFormData}
-              setisModalVerif={setisModalVerif}
-            />
-            <ProcessStatus
-              slug={slug}
-              validationDataTechnique={validationDataTechnique}
-              processData={processData}
-              submissionStatus={submissionStatus}
-              authProfile={authProfile}
-              detailData={detailData}
-              loading={SistemVirtualLoading}
-              checkingFormData={checkingFormData}
-              setisModalVerif={setisModalVerif}
-              finishData={finishData}
-              setfinishData={setfinishData}
-            />
-            <FinishStatus
-              detailData={detailData}
-              loading={SistemVirtualLoading}
-              validationData={validationData}
-              validationDataTechnique={validationDataTechnique}
-              processData={processData}
-              submissionStatus={submissionStatus}
-              finishData={finishData}
-            />
-          </div>
+          <DalamAntrianView
+            submissionStatus={submissionStatus}
+            detailData={detailData}
+            loading={SistemVirtualLoading}
+          />
+          <ValidationStatus
+            submissionStatus={submissionStatus}
+            validationData={validationData}
+            authProfile={authProfile}
+            detailData={detailData}
+            loading={SistemVirtualLoading}
+            setValidationData={setValidationData}
+            checkingFormData={checkingFormData}
+          />
+          <ValidationStatusTechnique
+            slug={slug}
+            submissionStatus={submissionStatus}
+            validationData={validationData}
+            validationDataTechnique={validationDataTechnique}
+            setvalidationDataTechnique={setValidationDataTechnique}
+            authProfile={authProfile}
+            detailData={detailData}
+            loading={SistemVirtualLoading}
+            checkingFormData={checkingFormData}
+            setisModalVerif={setisModalVerif}
+          />
+          <ProcessStatus
+            slug={slug}
+            validationDataTechnique={validationDataTechnique}
+            processData={processData}
+            submissionStatus={submissionStatus}
+            authProfile={authProfile}
+            detailData={detailData}
+            loading={SistemVirtualLoading}
+            checkingFormData={checkingFormData}
+            setisModalVerif={setisModalVerif}
+            finishData={finishData}
+            setfinishData={setfinishData}
+          />
+          <FinishStatus
+            detailData={detailData}
+            loading={SistemVirtualLoading}
+            validationData={validationData}
+            validationDataTechnique={validationDataTechnique}
+            processData={processData}
+            submissionStatus={submissionStatus}
+            finishData={finishData}
+          />
+        </div>
       </section>
 
       <ModalContentComponent
