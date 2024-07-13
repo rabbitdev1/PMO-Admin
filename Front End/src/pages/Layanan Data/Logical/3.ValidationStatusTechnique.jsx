@@ -45,8 +45,8 @@ const ValidationStatusTechnique = ({
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: 'layanan-data Berhasil Diupdate',
-            msg: 'Selamat, Pengajuan layanan-data sudah diupdate',
+            title: "Pembaharuan Layanan Data Berhasil Berhasil",
+            msg: "Selamat! Pengajuan Layanan Data Anda Telah Berhasil Diperbarui.",
             icon: PengajuanBerahasilIcon,
             color: '#13C39C'
           },

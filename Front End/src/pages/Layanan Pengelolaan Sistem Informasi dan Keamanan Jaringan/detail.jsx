@@ -148,7 +148,7 @@ function DetailAplikasiPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Pembaharuan Pengajuan Aplikasi Berhasil",
+            title: "Pembaharuan Pengajuan Layanan Aplikasi Berhasil",
             msg: "Selamat! Pengajuan Aplikasi Anda telah berhasil diperbarui.",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",

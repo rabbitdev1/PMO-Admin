@@ -1,4 +1,4 @@
-import { validateFile, validateFullname, validateHTML, validatePeriod1, validateTelp, validateText } from "../../utils/helpers/validateForm";
+import { validateFile, validateFullname, validateHTML, validatePeriod1, validateRadioBottom, validateTelp, validateText } from "../../utils/helpers/validateForm";
 
 
 export const isValidatorZoom = (obj) => {
@@ -16,6 +16,7 @@ export const isValidatorPermohonanLiputan = (obj) => {
   isValid = isValid && validateTelp(obj.telp_pic, "Nomor PIC");
   isValid = isValid && validateText(obj.type_activity, "Jenis Kegiatan");
   isValid = isValid && validateHTML(obj.location_implementation, "Tempat Pelaksanaan");
+  isValid = isValid && validateRadioBottom(obj.live_streaming, "Siaran Langsung");
   isValid = isValid && validatePeriod1(obj.period, "Waktu");
   isValid = isValid && validateHTML(obj.needed_tools, "Kebutuhan Alat");
   isValid = isValid && validateHTML(obj.reason, "Alasan Pengajuan");

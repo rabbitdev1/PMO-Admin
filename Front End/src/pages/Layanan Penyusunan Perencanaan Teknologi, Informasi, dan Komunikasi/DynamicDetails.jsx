@@ -65,7 +65,7 @@ const getKeyLabel = (key) => {
     bidang: "Bidang",
     jenis_kebijakan: 'Jenis Kebijakan',
     ruang_lingkup: 'Ruang Lingkup',
-    draft_perwal: 'Draf Perwal',
+    draft_perwal: 'Draft Perwal',
     reason: 'Alasan Pengajuan',
     app_name: "Nama Aplikasi",
     app_desc: 'Deskripsi Aplikasi',

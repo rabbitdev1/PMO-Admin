@@ -95,7 +95,10 @@ function InfrastrukturPages() {
         authToken,
         JSON.parse(authProfile)?.role
       );
-      fetchDataAlat(authApiKey, authToken);
+      if (JSON.parse(authProfile)?.role === "perangkat_daerah") {
+        fetchDataListApps(authApiKey, authToken);
+        fetchDataAlat(authApiKey, authToken);
+      }
     }
   }, [authApiKey, dataState, authToken, authProfile]);
 
@@ -174,6 +177,37 @@ function InfrastrukturPages() {
       console.error("Error fetching data:", error);
     }
   };
+  const fetchDataListApps = async (api_key, token) => {
+    const params = new URLSearchParams();
+    try {
+      const response = await apiClient({
+        baseurl: "perangkat-daerah/list_apps",
+        method: "POST",
+        body: params,
+        apiKey: api_key,
+        token: token,
+      });
+      if (response?.statusCode === 200) {
+        const updatedData = formData.map((form) => {
+          return {
+            ...form,
+            fields: form.fields.map((field) => {
+              if (field.name === "app_name") {
+                return { ...field, options: response.result.data };
+              }
+              return field;
+            }),
+          };
+        });
+        setTimeout(() => {
+          setFormData(updatedData);
+        }, 1000);
+      } else {
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
   const fetchDataCreate = async (api_key, token, data) => {
     dispatch(isPending(true));
     const raw = JSON.stringify(data);
@@ -191,8 +225,8 @@ function InfrastrukturPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Pengajuan Infrastruktur Berhasil",
-            msg: "Selamat! Pengajuan Infrastruktur Anda telah berhasil diterima dan diproses.",
+            title: "Pengajuan Layanan Infrastruktur Berhasil",
+            msg: "Selamat! Pengajuan Layanan Infrastruktur Anda telah berhasil diterima dan diproses.",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
           },

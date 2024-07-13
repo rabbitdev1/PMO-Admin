@@ -93,7 +93,7 @@ const getMagangProcess = (inputLocal) => [
 ];
 const getPendataanTenagaAhliProcess = (inputLocal) => [
   {
-    label: "Unggah Dokumen Laporan Hasil",
+    label: "Unggah Dokumen Laporan Hasil Pendataan Ahli",
     value: inputLocal.upload_dokumen_hasil,
     type: "file_upload",
     name: "upload_dokumen_hasil",

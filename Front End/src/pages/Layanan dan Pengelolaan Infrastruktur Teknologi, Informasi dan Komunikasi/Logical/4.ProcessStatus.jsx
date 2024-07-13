@@ -3,9 +3,7 @@ import { toast } from "react-toastify";
 import DynamicButton from "../../../components/common/DynamicButton";
 import DynamicInput from "../../../components/common/DynamicInput";
 import DynamicShow from "../../../components/common/DynamicShow";
-import {
-  validateImage
-} from "../../../utils/helpers/validateForm";
+import { validateImage } from "../../../utils/helpers/validateForm";
 import {
   getDomainFinish,
   getDomainProcess,
@@ -172,19 +170,24 @@ const ProcessStatus = ({
                         <DynamicShow
                           key={key}
                           label={
-                            key === "upload_foto_alat_sebelum_di_relokasi"
-                              ? "Foto Alat Sebelum Di Relokasikan"
-                              : key === "upload_foto_alat_sesudah_di_relokasi"
-                                ? "Foto Alat Sesudah Di Relokasikan"
-                                : key ===
-                                    "upload_foto_alat_sebelum_di_tambahkan"
-                                  ? "Foto Alat Sebelum Di Tambahkan"
+                            key === "team_response"
+                              ? "Tanggapan dari Tim Teknis"
+                              : key === "working_schedule"
+                                ? "Jadwal Kerja"
+                                : key === "upload_foto_alat_sebelum_di_relokasi"
+                                  ? "Foto Alat Sebelum Di Relokasikan"
                                   : key ===
-                                      "upload_foto_alat_sesudah_di_tambahkan"
-                                    ? "Foto Alat Sesudah Di Tambahkan"
-                                    : key === "upload_foto_kegiatan"
-                                      ? "Foto Kegiatan"
-                                      : key
+                                      "upload_foto_alat_sesudah_di_relokasi"
+                                    ? "Foto Alat Sesudah Di Relokasikan"
+                                    : key ===
+                                        "upload_foto_alat_sebelum_di_tambahkan"
+                                      ? "Foto Alat Sebelum Di Tambahkan"
+                                      : key ===
+                                          "upload_foto_alat_sesudah_di_tambahkan"
+                                        ? "Foto Alat Sesudah Di Tambahkan"
+                                        : key === "upload_foto_kegiatan"
+                                          ? "Foto Kegiatan"
+                                          : key
                           }
                           value={value}
                           location={"infrastruktur"}
