@@ -381,7 +381,7 @@ const getCelahKeamananValidation = (inputLocal) => [
     noted: "File berekstensi: pdf,xlsx,docs"
   },
   {
-    label: "Tanggapan Tim Teknis",
+    label: "Tanggapan Ketua Tim Teknis",
     value: inputLocal.team_response,
     type: "textarea",
     name: 'team_response'

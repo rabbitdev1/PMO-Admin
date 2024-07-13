@@ -138,7 +138,7 @@ export const formData = [
     fields: [
       { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
       { name: "telp_pic", label: "Nomor PIC", value: "", type: "tel" },
-      { name: "incident", label: "Waktu Kejadian", value: "", type: "text" },
+      { name: "incident", label: "Waktu Kejadian", value: "", type: "text", noted: "Contoh: Jam 10 Pagi" },
       {
         name: "reason",
         label: "Alasan Pengajuan",

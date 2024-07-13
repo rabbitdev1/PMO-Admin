@@ -153,8 +153,8 @@ function DetailPerencanaanTIKPages() {
       if (response?.statusCode === 200) {
         setisModalVerif({
           data: {
-            title: "Pengajuan Perencanaan TIK Berhasil di-update",
-            msg: "Selamat, Pengajuan sudah di-update",
+            title: "Pembaharuan Pengajuan Layanan Penyusunan Perencaan TIK Berhasil",
+            msg: "Selamat! Pengajuan layanan penyusunan perencanaan tik Anda telah berhasil diperbarui.",
             icon: PengajuanBerahasilIcon,
             color: "#13C39C",
           },
@@ -177,23 +177,23 @@ function DetailPerencanaanTIKPages() {
       fetchEditperencanaantik(authApiKey, authToken, slug, type, data);
     } else if (type === "process") {
       if (
-        data.upload_dokumen_kebijakan ||
+        data.upload_dokumen_keputusan ||
         data.upload_dokumen_laporan_perkep ||
         data.upload_dokumen_ahli
       ) {
         try {
           const uploadPromises = [];
           const resultMapping = {};
-          if (data.upload_dokumen_kebijakan) {
+          if (data.upload_dokumen_keputusan) {
             uploadPromises.push(
               fetchUploadFiles(
                 authApiKey,
                 authToken,
-                data.upload_dokumen_kebijakan,
+                data.upload_dokumen_keputusan,
                 "perencanaantik",
                 dispatch
               ).then(result => {
-                resultMapping.upload_dokumen_kebijakan = result;
+                resultMapping.upload_dokumen_keputusan = result;
               })
             );
           }
@@ -229,8 +229,8 @@ function DetailPerencanaanTIKPages() {
           await Promise.all(uploadPromises);
 
           let combineData = { ...data };
-          if (resultMapping.upload_dokumen_kebijakan) {
-            combineData.upload_dokumen_kebijakan = resultMapping.upload_dokumen_kebijakan;
+          if (resultMapping.upload_dokumen_keputusan) {
+            combineData.upload_dokumen_keputusan = resultMapping.upload_dokumen_keputusan;
           }
           if (resultMapping.upload_dokumen_laporan_perkep) {
             combineData.upload_dokumen_laporan_perkep = resultMapping.upload_dokumen_laporan_perkep;
@@ -247,7 +247,7 @@ function DetailPerencanaanTIKPages() {
       }
     } else if (type === "process") {
       if (
-        data.upload_dokumen_kebijakan ||
+        data.upload_dokumen_keputusan ||
         data.upload_dokumen_laporan_perkep ||
         data.upload_dokumen_ahli
       ) {
@@ -255,16 +255,16 @@ function DetailPerencanaanTIKPages() {
           const uploadPromises = [];
           const resultMapping = {};
 
-          if (data.upload_dokumen_kebijakan) {
+          if (data.upload_dokumen_keputusan) {
             uploadPromises.push(
               fetchUploadFiles(
                 authApiKey,
                 authToken,
-                data.upload_dokumen_kebijakan,
+                data.upload_dokumen_keputusan,
                 "perencanaantik",
                 dispatch
               ).then(result => {
-                resultMapping.upload_dokumen_kebijakan = result;
+                resultMapping.upload_dokumen_keputusan = result;
               })
             );
           }
@@ -298,8 +298,8 @@ function DetailPerencanaanTIKPages() {
           await Promise.all(uploadPromises);
 
           let combineData = { ...data };
-          if (resultMapping.upload_dokumen_kebijakan) {
-            combineData.upload_dokumen_kebijakan = resultMapping.upload_dokumen_kebijakan;
+          if (resultMapping.upload_dokumen_keputusan) {
+            combineData.upload_dokumen_keputusan = resultMapping.upload_dokumen_keputusan;
           }
           if (resultMapping.upload_dokumen_laporan_perkep) {
             combineData.upload_dokumen_laporan_perkep = resultMapping.upload_dokumen_laporan_perkep;

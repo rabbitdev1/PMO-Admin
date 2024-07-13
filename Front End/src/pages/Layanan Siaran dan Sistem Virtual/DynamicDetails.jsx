@@ -69,7 +69,7 @@ const getKeyLabel = (key) => {
     needed_tools: "Kebutuhan Alat",
     reason: "Alasan Pengajuan",
     type_tools: "Jenis Alat",
-    live_streaming: "Live Streaming",
+    live_streaming: "Siaran Langsung",
     speaker: "Narasumber/Pembicara",
     topic: "Tema/Topik",
   };
