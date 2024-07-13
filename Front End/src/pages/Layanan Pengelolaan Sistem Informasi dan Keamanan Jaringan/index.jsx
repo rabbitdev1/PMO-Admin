@@ -18,6 +18,9 @@ import ModalContent from "../../components/ui/Modal/ModalContent";
 import { apiClient } from "../../utils/api/apiClient";
 import { convertToNameValueObject } from "../../utils/helpers/convertToNameValueObject";
 
+import resetFormData from "../../components/common/ResetFormData";
+import ModalContentComponent from "../../components/ui/ModalContentComponent";
+import PanduanPengajuanModal from "../../components/ui/PanduanPengajuanModal";
 import fetchUploadFiles from "../../utils/api/uploadFiles";
 import { formData as initialFormData } from "./data";
 import {
@@ -27,9 +30,6 @@ import {
   isValidatorPengujianCelahKeamanan,
   isValidatorUserAccountSI,
 } from "./validators";
-import resetFormData from "../../components/common/ResetFormData";
-import ModalContentComponent from "../../components/ui/ModalContentComponent";
-import PanduanPengajuanModal from "../../components/ui/PanduanPengajuanModal";
 
 function AplikasiPages() {
   const { isDarkMode } = useTheme();
@@ -74,6 +74,7 @@ function AplikasiPages() {
   const [listAplikasiLoading, setListAplikasiLoading] = useState(true);
 
   const [formData, setFormData] = useState(initialFormData);
+  const [dataApps, setDataApps] = useState(initialFormData);
 
   const [isModalPanduan, setisModalPanduan] = useState(false);
 
@@ -157,20 +158,7 @@ function AplikasiPages() {
         token: token,
       });
       if (response?.statusCode === 200) {
-        const updatedData = formData.map((form) => {
-          return {
-            ...form,
-            fields: form.fields.map((field) => {
-              if (field.name === "app_name") {
-                return { ...field, options: response.result.data };
-              }
-              return field;
-            }),
-          };
-        });
-        setTimeout(() => {
-          setFormData(updatedData);
-        }, 1000);
+        setDataApps(response.result.data);
       } else {
       }
     } catch (error) {
@@ -428,22 +416,11 @@ function AplikasiPages() {
           if (field.name === "telp_pic") {
             return { ...field, value: number };
           }
-          return field;
-        }),
-      };
-    });
-    setFormData(updatedData);
-  };
-  const updateRole = (name, number) => {
-    const updatedData = formData.map((form) => {
-      return {
-        ...form,
-        fields: form.fields.map((field) => {
-          if (field.name === "name_pic") {
-            return { ...field, value: name };
+          if (field.name === "type_tools") {
+            return { ...field, options: dataAlat };
           }
-          if (field.name === "telp_pic") {
-            return { ...field, value: number };
+          if (field.name === "app_name") {
+            return { ...field, options: dataApps };
           }
           return field;
         }),
@@ -451,7 +428,6 @@ function AplikasiPages() {
     });
     setFormData(updatedData);
   };
-
   return (
     <div className="flex flex-col gap-3 flex-1 p-4">
       <TitleHeader

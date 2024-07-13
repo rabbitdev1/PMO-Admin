@@ -410,7 +410,6 @@ function InfrastrukturPages() {
         }),
       };
     });
-
     setFormData(updatedData);
   };
 
