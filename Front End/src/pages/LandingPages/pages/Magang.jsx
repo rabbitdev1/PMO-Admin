@@ -188,11 +188,7 @@ function MagangPages() {
           <div className="lg:container lg:mx-auto xl:max-w-screen-xl flex flex-col p-3 gap-3">
             <h3>​Pengantar</h3>
             <p className="flex text-base">
-              PKL adalah kegiatan praktik kerja yang diberikan kepada
-              mahasiswa/siswa yang difasilitasi oleh Bank Indonesia.
-              Memberikan kesempatan bagi mahasiswa/sis​wa untuk belajar dan
-              mengembangkan diri melalui keterlibatan langsung dalam pelaksanaan
-              tugas di Bank Indonesia.
+              PKL adalah kegiatan praktik kerja yang diberikan kepada mahasiswa/siswa yang difasilitasi oleh Diskominfo Kota Bandung. Memberikan kesempatan bagi mahasiswa/siswa untuk belajar dan mengembangkan diri melalui keterlibatan langsung dalam pelaksanaan tugas di Diskominfo Kota Bandung.
             </p>
             <h3>​Persyaratan Umum Akademis</h3>
             <p>
