@@ -107,7 +107,7 @@ export const formData = [
         type: "selection",
         options: []
       },
-      { name: "nip", label: "NIP", value: "", type: "text" },
+      { name: "nip", label: "NIP", value: "", type: "number" },
       {
         name: "peruntukan",
         label: "Peruntukan",

@@ -36,6 +36,7 @@ import { deleteDataSekretariat } from "../controllers/Sekretariat/delete.js";
 import { getDetailDataSekretariat } from "../controllers/Sekretariat/detail.js";
 import { editDataSekretariat } from "../controllers/Sekretariat/edit.js";
 import {
+  createDataGuest,
   editProcessDataSekretariat,
   setStatusDataSekretariat,
 } from "../controllers/Sekretariat/index.js";
@@ -99,6 +100,8 @@ router.post("/sekretariat/create", verifyToken, setStatusDataSekretariat);
 router.post("/sekretariat/set_process", verifyToken, editProcessDataSekretariat);
 router.post("/sekretariat/edit", verifyToken, editDataSekretariat);
 router.post("/sekretariat/delete", verifyToken, deleteDataSekretariat);
+
+router.post("/pendaftaran-magang/create",  createDataGuest);
 
 // PerencanaanTIK routes
 router.post("/perencanaantik", verifyToken, getListDataPerencanaanTIK);
