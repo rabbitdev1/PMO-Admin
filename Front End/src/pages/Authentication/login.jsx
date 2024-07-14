@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 import React, { useState } from "react";
+import ReCAPTCHA from 'react-google-recaptcha';
 import { useDispatch } from "react-redux";
-import { useLocation, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { ReactComponent as UsernameIcon } from "../../assets/icon/ic_email.svg";
 import { ReactComponent as PasswordIcon } from "../../assets/icon/ic_password.svg";
@@ -11,15 +11,14 @@ import Input from "../../components/common/DynamicInput.jsx";
 import useTheme from "../../components/context/useTheme.js";
 import { isPending } from "../../components/store/actions/todoActions.js";
 import { apiClient } from "../../utils/api/apiClient.js";
-import ReCAPTCHA from 'react-google-recaptcha';
 
 const LoginPage = () => {
-  const location = useLocation();
   const dispatch = useDispatch();
   const { isDarkMode } = useTheme();
-  const navigate = useNavigate();
-  const [password, setPassword] = useState("Sadang!12");
-  const [email, setEmail] = useState("pmo@gmail.com");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("Sadang!12");
+  // const [email, setEmail] = useState("pmo@gmail.com");
   const [keepLogin, setKeepLogin] = useState(false);
   const [captchaValue, setCaptchaValue] = useState(null);
 
@@ -117,7 +116,7 @@ const LoginPage = () => {
             onChange={(event) => setPassword(event)}
           />
           <ReCAPTCHA
-            sitekey="6LfB-_UpAAAAADb4LZJuJweoaCxi6v7QPjUT6ISw" // Ganti dengan site key Anda
+            sitekey={process.env.REACT_APP_TOKEN_RECAPCHA}
             onChange={(value) => {
               console.log("Captcha value:", value)
               setCaptchaValue(value)
@@ -164,8 +163,7 @@ const LoginPage = () => {
               if (captchaValue) {
                 fetchLogin(email, password, keepLogin);
               } else {
-                fetchLogin(email, password, keepLogin);
-
+                // fetchLogin(email, password, keepLogin);
                 toast.error("Please complete the captcha", {
                   position: toast.POSITION.TOP_RIGHT,
                 });
