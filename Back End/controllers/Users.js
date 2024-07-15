@@ -70,7 +70,7 @@ export const getUser = async(req, res) => {
 
         const user = await Users.findOne({
             where: { apiKey: apiKey },
-            attributes: ["fullname", "email", "address", "telp", "role", "image"],
+            attributes: ["fullname", "nip", "email", "address", "telp", "role", "instansi" , "image"],
         });
 
         if (!user) {
@@ -112,6 +112,8 @@ export const getListUser = async(req, res) => {
                 "status_account",
                 "role",
                 "image",
+                "nip",
+                "instansi",
                 "createdAt",
                 "updatedAt",
             ],
@@ -164,6 +166,8 @@ export const getUserById = async(req, res) => {
                 "status_account",
                 "role",
                 "image",
+                "nip",
+                "instansi",
                 "createdAt",
             ],
         });
@@ -191,7 +195,7 @@ export const getUserById = async(req, res) => {
 
 export const createUsers = async(req, res) => {
     try {
-        const { fullname, email, address, role, image, telp, password } = req.body;
+        const { fullname, nip, email, address, role, instansi,image, telp, password } = req.body;
         const apiKey = req.headers["x-api-key"];
 
         if (!apiKey) {
@@ -221,6 +225,8 @@ export const createUsers = async(req, res) => {
             address,
             image,
             telp,
+            nip,
+            instansi,
             password: hashPassword,
             status_account: "Aktif",
         });

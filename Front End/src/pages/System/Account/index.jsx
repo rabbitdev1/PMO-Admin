@@ -19,7 +19,7 @@ import { isPending } from "../../../components/store/actions/todoActions";
 import ModalContent from "../../../components/ui/Modal/ModalContent";
 import { apiClient } from "../../../utils/api/apiClient";
 import fetchUploadImages from "../../../utils/api/uploadImages";
-import { validateAddress, validateEmail, validateFullname, validateImage, validatePassword, validateRepeatPassword, validateRole, validateTelp } from "../../../utils/helpers/validateForm";
+import { validateAddress, validateEmail, validateFullname, validateImage, validatePassword, validateRepeatPassword, validateRole, validateTelp, validateText } from "../../../utils/helpers/validateForm";
 
 function AccountPages() {
   const { isDarkMode } = useTheme();
@@ -38,6 +38,7 @@ function AccountPages() {
   const [listAccountLoading, setListAccountLoading] = useState(true);
   const [formData, setFormData] = useState([
     { name: "fullname", label: "Nama Lengkap", value: "", type: "text" },
+    { name: "nip", label: "NIP", value: "", type: "number" },
     { name: "email", label: "Email", value: "", type: "email" },
     { name: "address", label: "Alamat Lengkap", value: "", type: "textarea" },
     {
@@ -47,6 +48,7 @@ function AccountPages() {
       type: "selection",
       options: [],
     },
+    { name: "instansi", label: "Instansi", value: "", type: "text" },
     {
       name: "image",
       label: "Foto Profile",
@@ -212,9 +214,11 @@ function AccountPages() {
 
     const {
       fullname,
+      nip,
       email,
       address,
       role,
+      instansi,
       image,
       telp,
       password,
@@ -224,9 +228,11 @@ function AccountPages() {
     console.log(transformedData);
     if (
       !validateFullname(fullname, 'Nama Lengkap') ||
+      !validateText(nip, 'NIP') ||
       !validateEmail(email, 'Email Perangkat Daerah') ||
       !validateAddress(address, 'Alamat Lengkap') ||
       !validateRole(role, 'Role') ||
+      !validateText(instansi, 'Instansi') ||
       !validateTelp(telp, 'Nomor Telepon') ||
       !validatePassword(password, 'Password') ||
       !validateRepeatPassword(password, repeat_password) ||
@@ -328,8 +334,10 @@ function AccountPages() {
                 dataHeader={[
                   { name: "ID", field: "id" },
                   { name: "Nama ", field: "fullname" },
+                  { name: "NIP ", field: "nip" },
                   { name: "Email", field: "email" },
                   { name: "Role", field: "role" },
+                  { name: "Instansi", field: "instansi" },
                   { name: "Status", field: "status_account" },
                   { name: "Tanggal Buat", field: "createdAt" },
                   { name: "Aksi", field: "action" },
