@@ -16,6 +16,14 @@ const firebaseConfig = {
 let firebaseApp;
 if (!getApps().length) {
   firebaseApp = initializeApp(firebaseConfig);
+
+  // Check if running in a browser environment
+  if (typeof window !== 'undefined') {
+    const { getPerformance } = require('firebase/performance');
+    getPerformance(firebaseApp);
+    console.log("Firebase Performance has been initialized!");
+  }
+
   console.log("Firebase has been initialized!");
 } else {
   console.log("Firebase app already initialized!");
@@ -24,4 +32,3 @@ if (!getApps().length) {
 
 const storage = getStorage(firebaseApp);
 export default storage;
-
