@@ -78,6 +78,7 @@ function DetailsAccountPages() {
                 <span className="text-xl font-bold">{detailData?.fullname}</span>
                 <span className="text-base">{detailData?.role === "op_pmo" ? "Front Office" :
                   detailData?.role === "op_pmo" ? "Front Office" :
+                    detailData?.role === "kadis" ? "Kepala Dinas" :
                     detailData?.role === "perangkat_daerah" ? "Perangkat Daerah" :
                       detailData?.role === "kabid_infra" ? "Ketua Bidang Infrastruktur" :
                         detailData?.role === "katim_infra" ? "Ketua Tim Infrastruktur" :
@@ -85,12 +86,15 @@ function DetailsAccountPages() {
                             detailData?.role === "kabid_aplikasi" ? "Ketua Bidang Aplikasi" :
                               detailData?.role === "katim_aplikasi" ? "Ketua Tim Aplikasi" :
                                 detailData?.role === "teknis_aplikasi" ? "Tim Teknis Aplikasi" :
-                                  detailData?.role === "op_pmo" ? "Front Office" :
-                                    detailData?.role === "op_pmo" ? "Front Office" :
-                                      detailData?.role === "op_pmo" ? "Front Office" :
-                                        detailData?.role === "op_pmo" ? "Front Office" :
-                                          detailData?.role === "op_pmo" ? "Front Office" :
-                                            detailData?.role === "op_pmo" ? "Front Office" : null}</span>
+                                  detailData?.role === "kabid_perencanaan" ? "Ketua Bidang Perencanaan" :
+                                    detailData?.role === "katim_perencanaan" ? "Ketua Tim Perencanaan" :
+                                      detailData?.role === "teknis_perencanaan" ? "Tim Teknis Perencanaan" :
+                                        detailData?.role === "kabid_sekretariat" ? "Ketua Bidang Sekretariat" :
+                                          detailData?.role === "katim_sekretariat" ? "Ketua Tim Sekretariat" :
+                                            detailData?.role === "teknis_sekretariat" ? "Tim Teknis Sekretariat" :
+                                              detailData?.role === "kabid_desiminasi" ? "Ketua Bidang Desiminasi" :
+                                                detailData?.role === "katim_desiminasi" ? "Ketua Tim Desiminasi" :
+                                                  detailData?.role === "teknis_desiminasi" ? "Tim Teknis Desiminasi" : null}</span>
               </div>
             </div>
           </div>
