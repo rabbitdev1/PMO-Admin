@@ -13,7 +13,6 @@ const DynamicDetails = ({ detailData, loading, location }) => {
           model="emptyData"
         >
           <div className="flex flex-col gap-3">
-            <span className="text-lg font-bold">Rincian Pengajuan</span>
             <div className="grid grid-cols-4 gap-3">
               {Object.entries(detailData).map(([key, value]) =>
                 value &&
@@ -55,6 +54,8 @@ const getKeyLabel = (key) => {
     telp: 'Nomor Telepon',
     status_account: 'Status Akun',
     role: 'Role',
+    nip: 'Nomor Induk Pegawai',
+    instansi:'Instansi'
   };
 
   return labels[key] || key;

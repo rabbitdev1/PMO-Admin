@@ -160,7 +160,7 @@ const LoginPage = () => {
                 });
                 return;
               }
-              if (!captchaValue) {
+              if (captchaValue) {
                 fetchLogin(email, password, keepLogin);
               } else {
                 // fetchLogin(email, password, keepLogin);

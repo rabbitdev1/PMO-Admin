@@ -1,10 +1,10 @@
 import bcrypt from "bcrypt";
 import moment from "moment-timezone";
-import { deleteImage } from "../components/UploadImage.js";
-import { generateApiKey, generateToken } from "../middleware/VerifyToken.js";
-import Users from "../models/UserModel.js";
+import { deleteImage } from "../../components/UploadImage.js";
+import { generateApiKey, generateToken } from "../../middleware/VerifyToken.js";
+import Users from "../../models/UserModel.js";
 
-export const Login = async(req, res) => {
+export const Login = async (req, res) => {
     try {
         const clientTimezone = req.headers["client-timezone"] || "Asia/Jakarta";
         const { email, password, keepLogin } = req.body;
@@ -39,8 +39,7 @@ export const Login = async(req, res) => {
         res.status(500).json({ error: "Internal Server Error" });
     }
 };
-
-export const Logout = async(req, res) => {
+export const Logout = async (req, res) => {
     const token = req.header('Authorization').replace('Bearer ', '');
 
     try {
@@ -57,7 +56,7 @@ export const Logout = async(req, res) => {
 };
 
 
-export const getUser = async(req, res) => {
+export const getUser = async (req, res) => {
     try {
         const apiKey = req.headers["x-api-key"];
 
@@ -70,7 +69,7 @@ export const getUser = async(req, res) => {
 
         const user = await Users.findOne({
             where: { apiKey: apiKey },
-            attributes: ["fullname", "nip", "email", "address", "telp", "role", "instansi" , "image"],
+            attributes: ["fullname", "nip", "email", "telp", "address", "role", "instansi", "image"],
         });
 
         if (!user) {
@@ -93,7 +92,7 @@ export const getUser = async(req, res) => {
     }
 };
 
-export const getListUser = async(req, res) => {
+export const getListUser = async (req, res) => {
     try {
         const apiKey = req.headers["x-api-key"];
         if (!apiKey) {
@@ -107,8 +106,8 @@ export const getListUser = async(req, res) => {
                 "id",
                 "fullname",
                 "email",
-                "address",
                 "telp",
+                "address",
                 "status_account",
                 "role",
                 "image",
@@ -138,7 +137,7 @@ export const getListUser = async(req, res) => {
     }
 };
 
-export const getUserById = async(req, res) => {
+export const getUserById = async (req, res) => {
     try {
         const apiKey = req.headers["x-api-key"];
         if (!apiKey) {
@@ -159,16 +158,16 @@ export const getUserById = async(req, res) => {
 
         const user = await Users.findByPk(id, {
             attributes: [
+                "createdAt",
                 "fullname",
                 "email",
-                "address",
                 "telp",
+                "address",
                 "status_account",
-                "role",
-                "image",
                 "nip",
                 "instansi",
-                "createdAt",
+                "role",
+                "image",
             ],
         });
 
@@ -193,9 +192,9 @@ export const getUserById = async(req, res) => {
 };
 
 
-export const createUsers = async(req, res) => {
+export const createUsers = async (req, res) => {
     try {
-        const { fullname, nip, email, address, role, instansi,image, telp, password } = req.body;
+        const { fullname, nip, email, address, role, instansi, image, telp, password } = req.body;
         const apiKey = req.headers["x-api-key"];
 
         if (!apiKey) {
@@ -242,7 +241,7 @@ export const createUsers = async(req, res) => {
     }
 };
 
-export const deleteUsers = async(req, res) => {
+export const deleteUsers = async (req, res) => {
     try {
         const { id } = req.body;
         const apiKey = req.headers["x-api-key"];
@@ -291,7 +290,7 @@ export const deleteUsers = async(req, res) => {
     }
 };
 
-export const checkRoleUser = async(req, res) => {
+export const checkRoleUser = async (req, res) => {
     try {
         const apiKey = req.headers["x-api-key"];
         if (!apiKey) {
@@ -306,94 +305,94 @@ export const checkRoleUser = async(req, res) => {
         });
         const existingRoles = listuser.map((user) => user.role);
         const rolesList = [{
-                value: "perangkat_daerah",
-                label: "Perangkat Daerah",
-                isDisabled: false,
-            },
-            { value: "kadis", label: "Kepala Dinas", isDisabled: false },
-            {
-                value: "sekretariat",
-                label: "Kepala Bidang Sekretariat",
-                isDisabled: false,
-            },
-            {
-                value: "kabid_infra",
-                label: "Kepala Bidang Infrastruktur Teknologi, Informasi dan Komunikasi",
-                isDisabled: false,
-            },
-            {
-                value: "kabid_desiminasi",
-                label: "Kepala Bidang Desiminasi Informasi",
-                isDisabled: false,
-            },
-            {
-                value: "kabid_perencanaan",
-                label: "Kepala Bidang Perencanaan teknologi,Informasi,dan Komunikasi",
-                isDisabled: false,
-            },
-            {
-                value: "kabid_aplikasi",
-                label: "Kepala Bidang Aplikasi Informatika,Persandian dan Keamanan Informasi",
-                isDisabled: false,
-            },
-            {
-                value: "katim_sekre",
-                label: "Ketua Tim Pokja Sekretariat",
-                isDisabled: false,
-            },
-            {
-                value: "katim_infra",
-                label: "Ketua Tim Pokja Bidang Infrastruktur Teknologi, Informasi dan Komunikasi",
-                isDisabled: false,
-            },
-            {
-                value: "katim_desiminasi",
-                label: "Ketua TIm Pokja Desiminasi Informasi",
-                isDisabled: false,
-            },
-            {
-                value: "katim_perencanaan",
-                label: "Ketua TIm Pokja Perencanaan teknologi,Informasi dan Komunikasi",
-                isDisabled: false,
-            },
-            {
-                value: "katim_aplikasi",
-                label: "Ketua Tim Pokja Aplikasi Informatika,Persandian an Keamanan Informasi",
-                isDisabled: false,
-            },
-            {
-                value: "teknis_sekre",
-                label: "Anggota Tim Pokja Sekretariat",
-                isDisabled: false,
-            },
-            {
-                value: "teknis_infra",
-                label: "Anggota Tim Pokja Bidang Infrastruktur Teknologi, Informasi dan Komunikasi",
-                isDisabled: false,
-            },
-            {
-                value: "teknis_desiminasi",
-                label: "Anggota TIm Pokja Desiminasi Informasi",
-                isDisabled: false,
-            },
-            {
-                value: "teknis_perencanaan",
-                label: "Anggota TIm Pokja Perencanaan teknologi,Informasi dan Komunikasi",
-                isDisabled: false,
-            },
-            {
-                value: "teknis_aplikasi",
-                label: "Anggota Tim Pokja Aplikasi Informatika,Persandian an Keamanan Informasi",
-                isDisabled: false,
-            },
+            value: "perangkat_daerah",
+            label: "Perangkat Daerah",
+            isDisabled: false,
+        },
+        { value: "kadis", label: "Kepala Dinas", isDisabled: false },
+        {
+            value: "sekretariat",
+            label: "Kepala Bidang Sekretariat",
+            isDisabled: false,
+        },
+        {
+            value: "kabid_infra",
+            label: "Kepala Bidang Infrastruktur Teknologi, Informasi dan Komunikasi",
+            isDisabled: false,
+        },
+        {
+            value: "kabid_desiminasi",
+            label: "Kepala Bidang Desiminasi Informasi",
+            isDisabled: false,
+        },
+        {
+            value: "kabid_perencanaan",
+            label: "Kepala Bidang Perencanaan teknologi,Informasi,dan Komunikasi",
+            isDisabled: false,
+        },
+        {
+            value: "kabid_aplikasi",
+            label: "Kepala Bidang Aplikasi Informatika,Persandian dan Keamanan Informasi",
+            isDisabled: false,
+        },
+        {
+            value: "katim_sekre",
+            label: "Ketua Tim Pokja Sekretariat",
+            isDisabled: false,
+        },
+        {
+            value: "katim_infra",
+            label: "Ketua Tim Pokja Bidang Infrastruktur Teknologi, Informasi dan Komunikasi",
+            isDisabled: false,
+        },
+        {
+            value: "katim_desiminasi",
+            label: "Ketua TIm Pokja Desiminasi Informasi",
+            isDisabled: false,
+        },
+        {
+            value: "katim_perencanaan",
+            label: "Ketua TIm Pokja Perencanaan teknologi,Informasi dan Komunikasi",
+            isDisabled: false,
+        },
+        {
+            value: "katim_aplikasi",
+            label: "Ketua Tim Pokja Aplikasi Informatika,Persandian an Keamanan Informasi",
+            isDisabled: false,
+        },
+        {
+            value: "teknis_sekre",
+            label: "Anggota Tim Pokja Sekretariat",
+            isDisabled: false,
+        },
+        {
+            value: "teknis_infra",
+            label: "Anggota Tim Pokja Bidang Infrastruktur Teknologi, Informasi dan Komunikasi",
+            isDisabled: false,
+        },
+        {
+            value: "teknis_desiminasi",
+            label: "Anggota TIm Pokja Desiminasi Informasi",
+            isDisabled: false,
+        },
+        {
+            value: "teknis_perencanaan",
+            label: "Anggota TIm Pokja Perencanaan teknologi,Informasi dan Komunikasi",
+            isDisabled: false,
+        },
+        {
+            value: "teknis_aplikasi",
+            label: "Anggota Tim Pokja Aplikasi Informatika,Persandian an Keamanan Informasi",
+            isDisabled: false,
+        },
         ];
 
         const updatedRolesList = rolesList.map((role) => {
             if (existingRoles.includes(role.value)) {
-                if (role.value === "perangkat_daerah" || role.value === "teknis_infra" || role.value === "teknis_aplikasi"|| role.value === "teknis_perencanaan"|| role.value === "teknis_desiminasi"|| role.value ==="teknis_sekre") {
-                    return {...role, isDisabled: false };
+                if (role.value === "perangkat_daerah" || role.value === "teknis_infra" || role.value === "teknis_aplikasi" || role.value === "teknis_perencanaan" || role.value === "teknis_desiminasi" || role.value === "teknis_sekre") {
+                    return { ...role, isDisabled: false };
                 } else {
-                    return {...role, isDisabled: true };
+                    return { ...role, isDisabled: true };
                 }
             }
             return role;

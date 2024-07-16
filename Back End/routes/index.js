@@ -18,7 +18,7 @@ import {
   getUserById,
   Login,
   Logout,
-} from "../controllers/Users.js";
+} from "../controllers/Admin/Users.js";
 import validateImage from "../middleware/Multer.js";
 import validatePDF from "../middleware/Multer2.js";
 import { verifyToken } from "../middleware/VerifyToken.js";

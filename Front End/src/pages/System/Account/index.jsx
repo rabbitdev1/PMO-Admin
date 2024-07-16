@@ -332,12 +332,11 @@ function AccountPages() {
             <div className="flex flex-col relative">
               <TableCostum
                 dataHeader={[
-                  { name: "ID", field: "id" },
-                  { name: "Nama ", field: "fullname" },
+                  // { name: "ID", field: "id" },
                   { name: "NIP ", field: "nip" },
-                  { name: "Email", field: "email" },
+                  { name: "Nama ", field: "fullname" },
+                  // { name: "Email", field: "email" },
                   { name: "Role", field: "role" },
-                  { name: "Instansi", field: "instansi" },
                   { name: "Status", field: "status_account" },
                   { name: "Tanggal Buat", field: "createdAt" },
                   { name: "Aksi", field: "action" },

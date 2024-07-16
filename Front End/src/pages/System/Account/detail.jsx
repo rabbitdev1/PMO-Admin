@@ -30,7 +30,7 @@ function DetailsAccountPages() {
     if (authToken) {
       fetchDataAccount(authApiKey, authToken, JSON.parse(authProfile)?.role)
     }
-  }, [authToken,authApiKey,authProfile]);
+  }, [authToken, authApiKey, authProfile]);
 
   const fetchDataAccount = async (api_key, token, role) => {
     setAccountLoading(true);
@@ -65,7 +65,7 @@ function DetailsAccountPages() {
       />
       <section className="flex flex-col gap-3">
         <div className="flex md:flex-row flex-col flex-1 gap-3">
-          <div className="flex flex-col flex-1 md:max-w-sm">
+          <div className="flex flex-col flex-1 md:max-w-xs">
             <div className="flex flex-col  gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
               {detailData && detailData?.image &&
                 <DynamicShow
@@ -76,7 +76,21 @@ function DetailsAccountPages() {
               }
               <div className="flex flex-col">
                 <span className="text-xl font-bold">{detailData?.fullname}</span>
-                <span className="text-base">{detailData?.role}</span>
+                <span className="text-base">{detailData?.role === "op_pmo" ? "Front Office" :
+                  detailData?.role === "op_pmo" ? "Front Office" :
+                    detailData?.role === "perangkat_daerah" ? "Perangkat Daerah" :
+                      detailData?.role === "kabid_infra" ? "Ketua Bidang Infrastruktur" :
+                        detailData?.role === "katim_infra" ? "Ketua Tim Infrastruktur" :
+                          detailData?.role === "teknis_infra" ? "Tim Teknis Infrastruktur" :
+                            detailData?.role === "kabid_aplikasi" ? "Ketua Bidang Aplikasi" :
+                              detailData?.role === "katim_aplikasi" ? "Ketua Tim Aplikasi" :
+                                detailData?.role === "teknis_aplikasi" ? "Tim Teknis Aplikasi" :
+                                  detailData?.role === "op_pmo" ? "Front Office" :
+                                    detailData?.role === "op_pmo" ? "Front Office" :
+                                      detailData?.role === "op_pmo" ? "Front Office" :
+                                        detailData?.role === "op_pmo" ? "Front Office" :
+                                          detailData?.role === "op_pmo" ? "Front Office" :
+                                            detailData?.role === "op_pmo" ? "Front Office" : null}</span>
               </div>
             </div>
           </div>
