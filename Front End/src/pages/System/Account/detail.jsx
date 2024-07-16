@@ -140,7 +140,10 @@ function DetailsAccountPages() {
                                               detailData?.role === "teknis_sekretariat" ? "Tim Teknis Sekretariat" :
                                                 detailData?.role === "kabid_desiminasi" ? "Ketua Bidang Desiminasi" :
                                                   detailData?.role === "katim_desiminasi" ? "Ketua Tim Desiminasi" :
-                                                    detailData?.role === "teknis_desiminasi" ? "Tim Teknis Desiminasi" : detailData?.role}</span>
+                                                    detailData?.role === "teknis_desiminasi" ? "Tim Teknis Desiminasi" :
+                                                      detailData?.role === "kabid_data" ? "Ketua Bidang Data" :
+                                                        detailData?.role === "katim_data" ? "Ketua Tim Data" :
+                                                          detailData?.role === "teknis_data" ? "Tim Teknis Data" : detailData?.role}</span>
               </div>
             </div>
             <div className="flex flex-col  gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">

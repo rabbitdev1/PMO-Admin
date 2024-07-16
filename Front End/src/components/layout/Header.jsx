@@ -195,9 +195,12 @@ const Header = () => {
                                             profile?.role === "kabid_sekretariat" ? "Ketua Bidang Sekretariat" :
                                               profile?.role === "katim_sekretariat" ? "Ketua Tim Sekretariat" :
                                                 profile?.role === "teknis_sekretariat" ? "Tim Teknis Sekretariat" :
-                                                  profile?.role === "kabid_desiminasi" ? "Ketua Bidang Desiminasi" :
-                                                    profile?.role === "katim_desiminasi" ? "Ketua Tim Desiminasi" :
-                                                      profile?.role === "teknis_desiminasi" ? "Tim Teknis Desiminasi" : profile?.role)}
+                                                profile?.role === "kabid_desiminasi" ? "Ketua Bidang Desiminasi" :
+                                                profile?.role === "katim_desiminasi" ? "Ketua Tim Desiminasi" :
+                                                  profile?.role === "teknis_desiminasi" ? "Tim Teknis Desiminasi" : 
+                                                  profile?.role === "kabid_data" ? "Ketua Bidang Data" :
+                                                  profile?.role === "katim_data" ? "Ketua Tim Data" :
+                                                    profile?.role === "teknis_data" ? "Tim Teknis Data" : profile?.role)}
                 </span>
               </div>
             </div>

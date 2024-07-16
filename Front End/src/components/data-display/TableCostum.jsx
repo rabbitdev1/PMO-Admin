@@ -114,7 +114,10 @@ const TableCostum = ({
                                   rowData?.role === "teknis_sekretariat" ? "Tim Teknis Sekretariat" :
                                     rowData?.role === "kabid_desiminasi" ? "Ketua Bidang Desiminasi" :
                                       rowData?.role === "katim_desiminasi" ? "Ketua Tim Desiminasi" :
-                                        rowData?.role === "teknis_desiminasi" ? "Tim Teknis Desiminasi" : rowData?.role);
+                                        rowData?.role === "teknis_desiminasi" ? "Tim Teknis Desiminasi" :
+                                          rowData?.role === "kabid_data" ? "Ketua Bidang Data" :
+                                            rowData?.role === "katim_data" ? "Ketua Tim Data" :
+                                              rowData?.role === "teknis_data" ? "Tim Teknis Data" : rowData?.role);
   };
   const actionBody = (rowData) => {
     return (
