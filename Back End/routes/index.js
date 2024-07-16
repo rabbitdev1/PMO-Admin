@@ -18,6 +18,7 @@ import {
   getUserById,
   Login,
   Logout,
+  updateUserStatus,
 } from "../controllers/Admin/Users.js";
 import validateImage from "../middleware/Multer.js";
 import validatePDF from "../middleware/Multer2.js";
@@ -157,6 +158,7 @@ router.post("/user/check_role", verifyToken, checkRoleUser);
 router.post("/users/create", verifyToken, createUsers);
 router.post("/users/delete", verifyToken, deleteUsers);
 router.post("/users/detail", verifyToken, getUserById);
+router.post("/users/user_status", verifyToken, updateUserStatus);
 router.post("/login", Login);
 router.post("/logout", Logout);
 

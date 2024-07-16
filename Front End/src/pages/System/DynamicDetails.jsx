@@ -23,7 +23,7 @@ const DynamicDetails = ({ detailData, loading, location }) => {
                     : "col-span-4"
                     }`}
                 >
-                  {key === "image" || key === "role" ?
+                  {key === "image" || key === "role" || key === "status_account" ?
                     null
                     :
                     <DynamicShow
