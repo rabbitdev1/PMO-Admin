@@ -3,7 +3,7 @@ import React from 'react';
 import LoadingLink from '../common/LoadingLink';
 import { useLocation } from 'react-router';
 
-const TitleHeader = ({ title = '', link1, link2 }) => {
+const Breadcrumb = ({ title = '', link1, link2 }) => {
     const location = useLocation();
 
     const formattedTitle = location?.pathname?.replace('/', '').split('-').map(word => word?.charAt(0).toUpperCase() + word?.slice(1).toLowerCase()).join(' ');
@@ -22,4 +22,4 @@ const TitleHeader = ({ title = '', link1, link2 }) => {
     );
 }
 
-export default TitleHeader;
+export default Breadcrumb;

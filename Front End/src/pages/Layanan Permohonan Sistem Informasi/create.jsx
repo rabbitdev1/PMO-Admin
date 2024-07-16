@@ -7,7 +7,7 @@ import { ReactComponent as PengajuanBerahasilIcon } from "../../assets/icon/ic_p
 import DynamicButton from "../../components/common/DynamicButton";
 import DynamicInput from "../../components/common/DynamicInput";
 import useTheme from "../../components/context/useTheme";
-import TitleHeader from "../../components/layout/TitleHeader";
+import Breadcrumb from "../../components/layout/Breadcrumb";
 import { isPending } from "../../components/store/actions/todoActions";
 import ModalContent from "../../components/ui/Modal/ModalContent";
 import { apiClient } from "../../utils/api/apiClient";
@@ -249,7 +249,7 @@ function CreatePermohonanSIPages() {
   };
   return (
     <div className="flex flex-col gap-3 flex-1 p-4">
-      <TitleHeader
+      <Breadcrumb
         title={"Buat Pengajuan " + dataState}
         link1={"dashboard"}
         link2={"Layanan Permohonan Sistem Informasi"}

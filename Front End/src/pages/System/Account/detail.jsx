@@ -5,7 +5,7 @@ import { useLocation } from "react-router";
 import { toast } from "react-toastify";
 import DynamicButton from "../../../components/common/DynamicButton";
 import DynamicShow from "../../../components/common/DynamicShow";
-import TitleHeader from "../../../components/layout/TitleHeader";
+import Breadcrumb from "../../../components/layout/Breadcrumb";
 import ModalContent from "../../../components/ui/Modal/ModalContent";
 import { apiClient } from "../../../utils/api/apiClient";
 import { ReactComponent as PengajuanBerahasilIcon } from "../../../assets/icon/ic_pengajuan_berhasil.svg";
@@ -104,7 +104,7 @@ function DetailsAccountPages() {
 
   return (
     <div className="flex flex-col gap-3 flex-1 p-3">
-      <TitleHeader
+      <Breadcrumb
         title={`Detail Pengguna`}
         link1={"dashboard"}
         link2={"Account"}

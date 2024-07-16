@@ -78,7 +78,7 @@ export const getUser = async (req, res) => {
 
         const user = await Users.findOne({
             where: { apiKey: apiKey },
-            attributes: ["fullname", "nip", "email", "telp", "address", "role", "instansi", "image"],
+            attributes: ["fullname", "id", "nip", "email", "telp", "address", "role", "instansi", "image"],
         });
 
         if (!user) {
@@ -130,7 +130,7 @@ export const getListUser = async (req, res) => {
         const totalItems = listuser.length;
         const totalItemsByStatus = {
             aktif: listuser.filter((user) => user.status_account === "Aktif").length,
-            nonaktif: listuser.filter((user) => user.status_account === "Non Aktif").length,
+            nonaktif: listuser.filter((user) => user.status_account === "Nonaktif").length,
         };
         res.json({
             status: "ok",

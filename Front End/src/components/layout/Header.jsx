@@ -10,10 +10,11 @@ import Cookies from "js-cookie";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { ReactComponent as Ic_dark_mode } from "../../assets/icon/ic_dark-mode.svg";
+import { ReactComponent as Ic_notification } from "../../assets/icon/ic_notification.svg";
 import { ReactComponent as Ic_light_mode } from "../../assets/icon/ic_light-mode.svg";
 import { ReactComponent as LogoutIcon } from "../../assets/icon/ic_logout.svg";
 import { ReactComponent as Ic_menu } from "../../assets/icon/ic_menus.svg";
+import { ReactComponent as Ic_Document_Notfound } from "../../assets/icon/ic_document_notfound.svg";
 import { storage } from "../../config/Firebase";
 import { apiClient } from "../../utils/api/apiClient";
 import DynamicButton from "../common/DynamicButton";
@@ -136,6 +137,27 @@ const Header = () => {
         }} placement="bottom-end">
           <PopoverHandler>
             <Button>
+              <Ic_notification className={`h-6 w-6 aspect-square`} fill="#0185FF" />
+            </Button>
+          </PopoverHandler>
+          <PopoverContent className="flex flex-col  w-96 font-gilroy p-0 overflow-hidden shadow-none bg-lightColor text-lightColor dark:text-darkColor dark:bg-cardDark border-[1px] border-[#dddddd] dark:border-[#ffffff20]">
+            <div className="flex flex-row items-center justify-between gap-2 p-3 bg-[#0185FF] text-darkColor">
+              <span className="text-lg font-bold">Notifikasi</span>
+              <span className="text-sm font-light">Lihat Semua</span>
+            </div>
+            <div className="flex flex-col gap-2 p-3 min-h-[200px] justify-center items-center">
+              <Ic_Document_Notfound className={`w-32 h-32`} />
+              <span className="text-sm font-light">Data Tidak Tersedia</span>
+            </div>
+          </PopoverContent>
+        </Popover>
+
+        <Popover animate={{
+          mount: { scale: 1, y: 0 },
+          unmount: { scale: 0, y: 25 },
+        }} placement="bottom-end">
+          <PopoverHandler>
+            <Button>
               <img
                 src={imageUrl}
                 alt={profile?.fullname}
@@ -144,9 +166,8 @@ const Header = () => {
               />
             </Button>
           </PopoverHandler>
-
           <PopoverContent className="flex flex-col  w-72 font-gilroy p-0 shadow-none bg-lightColor text-lightColor dark:text-darkColor dark:bg-cardDark border-[1px] border-[#dddddd] dark:border-[#ffffff20]">
-            <div className="flex flex-row items-center gap-2 p-2.5 ">
+            <div className="flex flex-row items-center gap-2 p-3 ">
               <img
                 src={imageUrl}
                 alt={profile?.fullname}
@@ -180,7 +201,7 @@ const Header = () => {
                 </span>
               </div>
             </div>
-            <div className="flex flex-col gap-2 p-2.5 ">
+            <div className="flex flex-col gap-2 p-3 pt-1">
               <DynamicButton
                 initialValue={'Profile'}
                 type="no-padding"
@@ -189,12 +210,11 @@ const Header = () => {
                 className="inline-flex"
                 onClick={() => {
                   // dispatch(isSideBar(true));
-                  console.log(profile);
-                  // navigate("/detail-account", { state: { slug: profile?.id } });
+                  navigate("/detail-account", { state: { slug: profile } });
                 }}
               />
             </div>
-            <div className="flex flex-col gap-2 p-2.5 border-t-[1px] border-[#dddddd] dark:border-[#ffffff20]">
+            <div className="flex flex-col gap-2 p-3 border-t-[1px] border-[#dddddd] dark:border-[#ffffff20]">
               <DynamicButton
                 initialValue={'Log Out'}
                 type="no-padding"
@@ -207,7 +227,6 @@ const Header = () => {
               />
             </div>
           </PopoverContent>
-
         </Popover>
 
         <div
