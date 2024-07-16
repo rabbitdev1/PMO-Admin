@@ -94,7 +94,7 @@ function DetailsAccountPages() {
                                             detailData?.role === "teknis_sekretariat" ? "Tim Teknis Sekretariat" :
                                               detailData?.role === "kabid_desiminasi" ? "Ketua Bidang Desiminasi" :
                                                 detailData?.role === "katim_desiminasi" ? "Ketua Tim Desiminasi" :
-                                                  detailData?.role === "teknis_desiminasi" ? "Tim Teknis Desiminasi" : null}</span>
+                                                  detailData?.role === "teknis_desiminasi" ? "Tim Teknis Desiminasi" :  detailData?.role}</span>
               </div>
             </div>
           </div>
