@@ -381,8 +381,9 @@ export const checkRoleUser = async (req, res) => {
 
         const updatedRolesList = rolesList.map(role => ({
             ...role,
-            isDisabled: roleCounts[role.value] >= 3
+            isDisabled: roleCounts[role.value] >= (role.value.startsWith("katim_") ? 3 : role.value.startsWith("kabid_") ? 1 : role.value.startsWith("sekretariat") ? 1 : 1000000)
         }));
+        
 
         res.json({
             status: "ok",

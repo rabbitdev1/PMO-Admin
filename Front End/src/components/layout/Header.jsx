@@ -137,7 +137,7 @@ const Header = () => {
         }} placement="bottom-end">
           <PopoverHandler>
             <Button>
-              <Ic_notification className={`h-6 w-6 aspect-square`} fill="#0185FF" />
+              <Ic_notification className={`h-6 w-6 aspect-square`} fill="#212121" />
             </Button>
           </PopoverHandler>
           <PopoverContent className="flex flex-col  w-96 font-gilroy p-0 overflow-hidden shadow-none bg-lightColor text-lightColor dark:text-darkColor dark:bg-cardDark border-[1px] border-[#dddddd] dark:border-[#ffffff20]">

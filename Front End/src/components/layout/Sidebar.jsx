@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ReactComponent as AllBerandaIcon } from "../../assets/icon/ic_homapages.svg";
+import { ReactComponent as UserIcon } from "../../assets/icon/ic_user.svg";
 import { ReactComponent as LeftArrowIcon } from "../../assets/icon/ic_leftarrow.svg";
 import useTheme from "../context/useTheme";
 import { isSideBar } from "../store/actions/todoActions";
@@ -62,7 +63,7 @@ const Sidebar = () => {
       title: "Data Aplikasi", role: ['perangkat_daerah',],
       icon: AllBerandaIcon, href: ["/data-alat-aplikasi"],
     },
-    { title: "Akun", role: ['op_pmo'], icon: AllBerandaIcon, href: ["/account", "/1"], },
+    { title: "Akun", role: ['op_pmo'], icon: UserIcon, href: ["/account", "/1"], },
 
     { title: "LAYANAN", role: ['/'], icon: "" },
     {
