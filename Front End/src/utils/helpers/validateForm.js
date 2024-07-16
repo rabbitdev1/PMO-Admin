@@ -1,8 +1,8 @@
 import { toast } from "react-toastify";
 
 export const validateFullname = (value, title) => {
-    if (!value || value.length < 4 || value.length > 20) {
-        toast.error(title + " harus memiliki panjang antara 4 dan 20 karakter", {
+    if (!value || value.length < 4 || value.length > 30) {
+        toast.error(title + " harus memiliki panjang antara 4 dan 30 karakter", {
             position: toast.POSITION.TOP_RIGHT,
         });
         return false;

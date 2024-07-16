@@ -157,17 +157,18 @@ function DetailsAccountPages() {
                   </span>
                 </div>
               </div>
-              <div className="flex flex-row items-end justify-end">
-                <DynamicButton
-                  initialValue={detailData?.status_account === "Aktif" ? 'Nonaktifkan Akun' : 'Aktifkan Akun'}
-                  color={"#ffffff"}
-                  type="transparent"
-                  className={`${detailData?.status_account === "Aktif" ? 'text-[#FB4B4B]' : 'text-[#13C39C]'}  text-xs `}
-                  onClick={() => {
-                    fetchEditUserStatus(authApiKey, authToken, slug.id, (detailData?.status_account === "Aktif" ? "Nonaktif" : "Aktif"))
-                  }}
-                />
-              </div>
+              {detailData.role !== "op_pmo" &&
+                <div className="flex flex-row items-end justify-end">
+                  <DynamicButton
+                    initialValue={detailData?.status_account === "Aktif" ? 'Nonaktifkan Akun' : 'Aktifkan Akun'}
+                    color={"#ffffff"}
+                    type="transparent"
+                    className={`${detailData?.status_account === "Aktif" ? 'text-[#FB4B4B]' : 'text-[#13C39C]'}  text-xs `}
+                    onClick={() => {
+                      fetchEditUserStatus(authApiKey, authToken, slug.id, (detailData?.status_account === "Aktif" ? "Nonaktif" : "Aktif"))
+                    }}
+                  />
+                </div>}
             </div>
           </div>
           <div className="flex flex-1 flex-col ">

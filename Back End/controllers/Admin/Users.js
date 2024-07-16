@@ -15,9 +15,18 @@ export const Login = async (req, res) => {
         if (!moment.tz.zone(clientTimezone)) {
             return res.status(400).json({ status: "error", msg: "Invalid timezone provided" });
         }
+
         const user = await Users.findOne({ where: { email } });
-        if (!user || !await user.comparePassword(password)) {
+        if (!user) {
             return res.status(400).json({ status: "error", msg: "Invalid email or password" });
+        }
+
+        if (!await user.comparePassword(password)) {
+            return res.status(400).json({ status: "error", msg: "Invalid email or password" });
+        }
+
+        if (user.status_account === "Nonaktif") {
+            return res.status(400).json({ status: "error", msg: "Akun Anda telah dinonaktifkan. Silakan hubungi admin untuk informasi lebih lanjut." });
         }
 
         user.activeSession = null;
@@ -39,6 +48,7 @@ export const Login = async (req, res) => {
         res.status(500).json({ error: "Internal Server Error" });
     }
 };
+
 export const Logout = async (req, res) => {
     const token = req.header('Authorization').replace('Bearer ', '');
 
@@ -54,7 +64,6 @@ export const Logout = async (req, res) => {
         res.status(500).json({ error: "Internal Server Error" });
     }
 };
-
 
 export const getUser = async (req, res) => {
     try {
@@ -115,7 +124,7 @@ export const getListUser = async (req, res) => {
                 "instansi",
                 "createdAt",
                 "updatedAt",
-                
+
             ],
         });
         const totalItems = listuser.length;
@@ -229,8 +238,6 @@ export const updateUserStatus = async (req, res) => {
         });
     }
 };
-
-
 
 export const createUsers = async (req, res) => {
     try {

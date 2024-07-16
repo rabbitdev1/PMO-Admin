@@ -42,7 +42,7 @@ const TableCostum = ({
             ? "bg-[#333333]"
             : rowData.submission_status === 2 || rowData.submission_status === 4
               ? "bg-[#F5CF08]"
-              : rowData.submission_status === 3 || rowData.submission_status === 5 || rowData.submission_status === 8
+              : rowData.submission_status === 3 || rowData.submission_status === 5 || rowData.submission_status === 8 || rowData.status_account === "Nonaktif"
                 ? "bg-[#FF0000]"
                 : rowData.submission_status === 6
                   ? "bg-[#FFA500]"
@@ -94,6 +94,27 @@ const TableCostum = ({
   };
   const dateBody = (rowData) => {
     return formatDate(rowData?.createdAt);
+  };
+  const roleBody = (rowData) => {
+    return (rowData?.role === "op_pmo" ? "Front Office" :
+      rowData?.role === "op_pmo" ? "Front Office" :
+        rowData?.role === "kadis" ? "Kepala Dinas" :
+          rowData?.role === "perangkat_daerah" ? "Perangkat Daerah" :
+            rowData?.role === "kabid_infra" ? "Ketua Bidang Infrastruktur" :
+              rowData?.role === "katim_infra" ? "Ketua Tim Infrastruktur" :
+                rowData?.role === "teknis_infra" ? "Tim Teknis Infrastruktur" :
+                  rowData?.role === "kabid_aplikasi" ? "Ketua Bidang Aplikasi" :
+                    rowData?.role === "katim_aplikasi" ? "Ketua Tim Aplikasi" :
+                      rowData?.role === "teknis_aplikasi" ? "Tim Teknis Aplikasi" :
+                        rowData?.role === "kabid_perencanaan" ? "Ketua Bidang Perencanaan" :
+                          rowData?.role === "katim_perencanaan" ? "Ketua Tim Perencanaan" :
+                            rowData?.role === "teknis_perencanaan" ? "Tim Teknis Perencanaan" :
+                              rowData?.role === "kabid_sekretariat" ? "Ketua Bidang Sekretariat" :
+                                rowData?.role === "katim_sekretariat" ? "Ketua Tim Sekretariat" :
+                                  rowData?.role === "teknis_sekretariat" ? "Tim Teknis Sekretariat" :
+                                    rowData?.role === "kabid_desiminasi" ? "Ketua Bidang Desiminasi" :
+                                      rowData?.role === "katim_desiminasi" ? "Ketua Tim Desiminasi" :
+                                        rowData?.role === "teknis_desiminasi" ? "Tim Teknis Desiminasi" : rowData?.role);
   };
   const actionBody = (rowData) => {
     return (
@@ -182,6 +203,16 @@ const TableCostum = ({
             bodyClassName={`${isDarkMode ? "bg-cardDark text-darkColor text-sm font-normal" : " text-lightColor text-sm font-normal"}`}
             header={item.name}
             body={dateBody}
+            sortable
+          ></Column>
+        ) : item.field === "role" ? (
+          <Column
+            key={index}
+            field={item.field}
+            headerClassName={`bg-[#0185FF] text-darkColor`}
+            bodyClassName={`${isDarkMode ? "bg-cardDark text-darkColor text-sm font-normal" : " text-lightColor text-sm font-normal"}`}
+            header={item.name}
+            body={roleBody}
             sortable
           ></Column>
         ) : item.field === "action" ? (

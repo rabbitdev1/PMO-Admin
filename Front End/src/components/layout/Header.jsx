@@ -158,7 +158,25 @@ const Header = () => {
                   {(profile?.fullname?.split(' ')[0])}
                 </span>
                 <span className="text-sm font-light line-clamp-1 opacity-70">
-                  {(profile?.role)}
+                  {(profile?.role === "op_pmo" ? "Front Office" :
+                    profile?.role === "op_pmo" ? "Front Office" :
+                      profile?.role === "kadis" ? "Kepala Dinas" :
+                        profile?.role === "perangkat_daerah" ? "Perangkat Daerah" :
+                          profile?.role === "kabid_infra" ? "Ketua Bidang Infrastruktur" :
+                            profile?.role === "katim_infra" ? "Ketua Tim Infrastruktur" :
+                              profile?.role === "teknis_infra" ? "Tim Teknis Infrastruktur" :
+                                profile?.role === "kabid_aplikasi" ? "Ketua Bidang Aplikasi" :
+                                  profile?.role === "katim_aplikasi" ? "Ketua Tim Aplikasi" :
+                                    profile?.role === "teknis_aplikasi" ? "Tim Teknis Aplikasi" :
+                                      profile?.role === "kabid_perencanaan" ? "Ketua Bidang Perencanaan" :
+                                        profile?.role === "katim_perencanaan" ? "Ketua Tim Perencanaan" :
+                                          profile?.role === "teknis_perencanaan" ? "Tim Teknis Perencanaan" :
+                                            profile?.role === "kabid_sekretariat" ? "Ketua Bidang Sekretariat" :
+                                              profile?.role === "katim_sekretariat" ? "Ketua Tim Sekretariat" :
+                                                profile?.role === "teknis_sekretariat" ? "Tim Teknis Sekretariat" :
+                                                  profile?.role === "kabid_desiminasi" ? "Ketua Bidang Desiminasi" :
+                                                    profile?.role === "katim_desiminasi" ? "Ketua Tim Desiminasi" :
+                                                      profile?.role === "teknis_desiminasi" ? "Tim Teknis Desiminasi" : profile?.role)}
                 </span>
               </div>
             </div>
@@ -170,25 +188,9 @@ const Header = () => {
                 iconLeft={<Ic_light_mode className={`h-5 aspect-square`} />}
                 className="inline-flex"
                 onClick={() => {
-                  dispatch(isSideBar(true));
-                }}
-              />
-              <DynamicButton
-                initialValue={'1'}
-                type="no-padding"
-                color={isDarkMode ? "#ffffff" : "#212121"}
-                iconLeft={<Ic_light_mode className={`h-5 aspect-square`} />}
-                className="inline-flex"
-                onClick={() => {
-                }}
-              />
-              <DynamicButton
-                initialValue={'2'}
-                type="no-padding"
-                color={isDarkMode ? "#ffffff" : "#212121"}
-                iconLeft={<Ic_light_mode className={`h-5 aspect-square`} />}
-                className="inline-flex"
-                onClick={() => {
+                  // dispatch(isSideBar(true));
+                  console.log(profile);
+                  // navigate("/detail-account", { state: { slug: profile?.id } });
                 }}
               />
             </div>
