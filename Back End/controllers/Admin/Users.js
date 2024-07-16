@@ -367,16 +367,19 @@ export const checkRoleUser = async (req, res) => {
             { value: "kabid_desiminasi", label: "Kepala Bidang Desiminasi Informasi", isDisabled: false },
             { value: "kabid_perencanaan", label: "Kepala Bidang Perencanaan teknologi,Informasi,dan Komunikasi", isDisabled: false },
             { value: "kabid_aplikasi", label: "Kepala Bidang Aplikasi Informatika,Persandian dan Keamanan Informasi", isDisabled: false },
+            { value: "kabid_data", label: "Kepala Bidang Data", isDisabled: false },
             { value: "katim_sekre", label: "Ketua Tim Pokja Sekretariat", isDisabled: false },
             { value: "katim_infra", label: "Ketua Tim Pokja Bidang Infrastruktur Teknologi, Informasi dan Komunikasi", isDisabled: false },
             { value: "katim_desiminasi", label: "Ketua TIm Pokja Desiminasi Informasi", isDisabled: false },
             { value: "katim_perencanaan", label: "Ketua TIm Pokja Perencanaan teknologi,Informasi dan Komunikasi", isDisabled: false },
             { value: "katim_aplikasi", label: "Ketua Tim Pokja Aplikasi Informatika,Persandian an Keamanan Informasi", isDisabled: false },
+            { value: "katim_data", label: "Ketua Tim Pokja Data", isDisabled: false },
             { value: "teknis_sekre", label: "Anggota Tim Pokja Sekretariat", isDisabled: false },
             { value: "teknis_infra", label: "Anggota Tim Pokja Bidang Infrastruktur Teknologi, Informasi dan Komunikasi", isDisabled: false },
             { value: "teknis_desiminasi", label: "Anggota TIm Pokja Desiminasi Informasi", isDisabled: false },
             { value: "teknis_perencanaan", label: "Anggota TIm Pokja Perencanaan teknologi,Informasi dan Komunikasi", isDisabled: false },
             { value: "teknis_aplikasi", label: "Anggota Tim Pokja Aplikasi Informatika,Persandian an Keamanan Informasi", isDisabled: false },
+            { value: "teknis_data", label: "Anggota Tim Pokja Data", isDisabled: false },
         ];
 
         const updatedRolesList = rolesList.map(role => ({

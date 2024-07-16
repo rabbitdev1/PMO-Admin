@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ReactComponent as AllBerandaIcon } from "../../assets/icon/ic_homapages.svg";
+import { ReactComponent as DataIcon } from "../../assets/icon/ic_data.svg";
 import { ReactComponent as UserIcon } from "../../assets/icon/ic_user.svg";
 import { ReactComponent as LeftArrowIcon } from "../../assets/icon/ic_leftarrow.svg";
 import useTheme from "../context/useTheme";
@@ -57,11 +58,11 @@ const Sidebar = () => {
     { title: "Dashboard", role: ['kadis', 'op_pmo', 'perangkat_daerah', 'katim_aplikasi', 'kabid_aplikasi', 'teknis_aplikasi', 'kabid_infra', 'katim_infra', 'teknis_infra', 'katim_perencanaan', 'kabid_perencanaan', 'katim_desiminasi', 'kabid_desiminasi', 'teknis_desiminasi', 'kabid_sekte', 'teknis_sekre', 'katim_sekre', 'teknis_perencanaan'], icon: AllBerandaIcon, href: ["/dashboard"], },
     {
       title: "Data Alat", role: ['kabid_infra', 'teknis_infra', 'katim_infra'],
-      icon: AllBerandaIcon, href: ["/data-alat-infrastruktur"],
+      icon: DataIcon, href: ["/data-alat-infrastruktur"],
     },
     {
       title: "Data Aplikasi", role: ['perangkat_daerah',],
-      icon: AllBerandaIcon, href: ["/data-alat-aplikasi"],
+      icon: DataIcon, href: ["/data-alat-aplikasi"],
     },
     { title: "Akun", role: ['op_pmo'], icon: UserIcon, href: ["/account", "/1"], },
 
