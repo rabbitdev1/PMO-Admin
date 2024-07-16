@@ -19,7 +19,7 @@ import { isPending } from "../../../components/store/actions/todoActions";
 import ModalContent from "../../../components/ui/Modal/ModalContent";
 import { apiClient } from "../../../utils/api/apiClient";
 import fetchUploadImages from "../../../utils/api/uploadImages";
-import { validateAddress, validateEmail, validateFullname, validateImage, validatePassword, validateRepeatPassword, validateRole, validateTelp, validateText } from "../../../utils/helpers/validateForm";
+import { validateAddress, validateEmail, validateFullname, validateImage, validateNIP, validatePassword, validateRepeatPassword, validateRole, validateTelp, validateText } from "../../../utils/helpers/validateForm";
 
 function AccountPages() {
   const { isDarkMode } = useTheme();
@@ -228,7 +228,7 @@ function AccountPages() {
     console.log(transformedData);
     if (
       !validateFullname(fullname, 'Nama Lengkap') ||
-      !validateText(nip, 'NIP') ||
+      !validateNIP(nip, 'NIP') ||
       !validateEmail(email, 'Email Perangkat Daerah') ||
       !validateAddress(address, 'Alamat Lengkap') ||
       !validateRole(role, 'Role') ||

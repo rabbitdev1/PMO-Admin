@@ -333,3 +333,13 @@ export const validatePeriod1 = (value, title) => {
     console.log('Validation succeeded: ', value);
     return true;
 };
+
+export const validateNIP = (value, title) => {
+    if (!value || value.length < 18) {
+        toast.error(title + " Minimal 18 Digit", {
+            position: toast.POSITION.TOP_RIGHT,
+        });
+        return false;
+    }
+    return true;
+};
