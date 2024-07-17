@@ -12,7 +12,7 @@ import DynamicButton from "../../components/common/DynamicButton";
 import DynamicInput from "../../components/common/DynamicInput";
 import useTheme from "../../components/context/useTheme";
 import TableCostum from "../../components/data-display/TableCostum";
-import TitleHeader from "../../components/layout/TitleHeader";
+import Breadcrumb from "../../components/layout/Breadcrumb";
 import { isPending } from "../../components/store/actions/todoActions";
 import ModalContent from "../../components/ui/Modal/ModalContent";
 import { apiClient } from "../../utils/api/apiClient";
@@ -335,7 +335,7 @@ function SekretariatPages() {
 
   return (
     <div className="flex flex-col gap-3 flex-1 p-4">
-      <TitleHeader
+      <Breadcrumb
         title={
           JSON.parse(authProfile)?.role === "perangkat_daerah"
             ? "Layanan Pengajuan " + dataState

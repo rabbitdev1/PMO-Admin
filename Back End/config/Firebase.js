@@ -1,18 +1,29 @@
 import { getApps, initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const firebaseConfig = {
-apiKey: "AIzaSyCBbaAuNuwQdmQbADNN8mZkN571yw56c1Y",
-authDomain: "pmoadmindemo.firebaseapp.com",
-projectId: "pmoadmindemo",
-storageBucket: "pmoadmindemo.appspot.com",
-messagingSenderId: "412317160291",
-appId: "1:412317160291:web:f77a65c5ed2eb9c3d87956"
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.FIREBASE_APP_ID,
 };
 
 let firebaseApp;
 if (!getApps().length) {
   firebaseApp = initializeApp(firebaseConfig);
+
+  // Check if running in a browser environment
+  if (typeof window !== 'undefined') {
+    const { getPerformance } = require('firebase/performance');
+    getPerformance(firebaseApp);
+    console.log("Firebase Performance has been initialized!");
+  }
+
   console.log("Firebase has been initialized!");
 } else {
   console.log("Firebase app already initialized!");
@@ -21,4 +32,3 @@ if (!getApps().length) {
 
 const storage = getStorage(firebaseApp);
 export default storage;
-

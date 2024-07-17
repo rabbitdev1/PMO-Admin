@@ -145,6 +145,11 @@ function DynamicInput({
             // value={options.find((option) => option.value === value) || null}
             options={options}
           />
+           {noted && (
+            <div className="flex flex-row gap-2">
+              <span className="text-xs text-[#FB4B4B]">*{noted}</span>
+            </div>
+          )}
         </div>
       ) : type === "multi_selection" ? (
         <div className="flex flex-col">
@@ -177,6 +182,11 @@ function DynamicInput({
             isMulti
             options={options}
           />
+           {noted && (
+            <div className="flex flex-row gap-2">
+              <span className="text-xs text-[#FB4B4B]">*{noted}</span>
+            </div>
+          )}
         </div>
       ) : type === "radio_button" ? (
         <div className="flex flex-col gap-2">
@@ -198,7 +208,7 @@ function DynamicInput({
           </div>
           {noted && (
             <div className="flex flex-row gap-2">
-              <span className="text-sm ">{noted}</span>
+              <span className="text-xs text-[#FB4B4B]">*{noted}</span>
             </div>
           )}
         </div>
@@ -220,7 +230,7 @@ function DynamicInput({
           </div>
           {noted && (
             <div className="flex flex-row gap-2">
-              <span className="text-sm ">{noted}</span>
+              <span className="text-xs text-[#FB4B4B]">*{noted}</span>
             </div>
           )}
         </div>
@@ -239,7 +249,7 @@ function DynamicInput({
           </div>
           {noted && (
             <div className="flex flex-row gap-2">
-              <span className="text-sm ">{noted}</span>
+              <span className="text-xs text-[#FB4B4B]">*{noted}</span>
             </div>
           )}
         </div>
@@ -263,7 +273,7 @@ function DynamicInput({
           </div>
           {noted && (
             <div className="flex flex-row gap-2">
-              <span className="text-sm ">{noted}</span>
+              <span className="text-xs text-[#FB4B4B]">*{noted}</span>
             </div>
           )}
         </div>
@@ -308,13 +318,13 @@ function DynamicInput({
               >
                 <PlusIcon className="h-3 w-4" fill="#ffffff" />
               </button>
-            </div>
-            {noted && (
-              <div className="flex flex-row gap-2">
-                <span className="text-sm ">{noted}</span>
-              </div>
-            )}
+            </div> 
           </div>
+          {noted && (
+            <div className="flex flex-row gap-2">
+              <span className="text-xs text-[#FB4B4B]">*{noted}</span>
+            </div>
+          )}
         </div>
       ) : type === "time" ? (
         <div className="flex flex-col gap-2">
@@ -330,7 +340,7 @@ function DynamicInput({
           </div>
           {noted && (
             <div className="flex flex-row gap-2">
-              <span className="text-sm">{noted}</span>
+              <span className="text-xs text-[#FB4B4B]">*{noted}</span>
             </div>
           )}
         </div>
@@ -346,13 +356,13 @@ function DynamicInput({
                 onChange(newValue);
               }}
               showShortcuts={false}
-            />
-            {noted && (
-              <div className="flex flex-row gap-2">
-                <span className="text-sm ">{noted}</span>
-              </div>
-            )}
+            /> 
           </div>
+          {noted && (
+            <div className="flex flex-row gap-2">
+              <span className="text-xs text-[#FB4B4B]">*{noted}</span>
+            </div>
+          )}
         </div>
       ) : type === "multi_date" ? (
         <div className="flex flex-col gap-2">
@@ -367,6 +377,11 @@ function DynamicInput({
               showShortcuts={false}
             />
           </div>
+          {noted && (
+            <div className="flex flex-row gap-2">
+              <span className="text-xs text-[#FB4B4B]">*{noted}</span>
+            </div>
+          )}
         </div>
       ) : type === "image_upload" ? (
         <div className="flex flex-col gap-2">
@@ -393,6 +408,11 @@ function DynamicInput({
               </div>
             )}
           </div>
+          {noted && (
+            <div className="flex flex-row gap-2">
+              <span className="text-xs text-[#FB4B4B]">*{noted}</span>
+            </div>
+          )}
         </div>
       ) : type === "file_upload" ? (
         <div className="flex flex-col gap-2">
@@ -417,7 +437,7 @@ function DynamicInput({
           </div>
           {noted && (
             <div className="flex flex-row gap-2">
-              <span className="text-sm ">{noted}</span>
+              <span className="text-xs text-[#FB4B4B]">*{noted}</span>
             </div>
           )}
         </div>
@@ -493,6 +513,11 @@ function DynamicInput({
               </div>
             ))}
           </div>
+          {noted && (
+            <div className="flex flex-row gap-2">
+              <span className="text-xs text-[#FB4B4B]">*{noted}</span>
+            </div>
+          )}
         </div>
       ) : type === "ipaddress" ? (
         <div className="flex flex-col gap-2">
@@ -519,6 +544,11 @@ function DynamicInput({
               )}
             </InputMask>
           </div>
+          {noted && (
+            <div className="flex flex-row gap-2">
+              <span className="text-xs text-[#FB4B4B]">*{noted}</span>
+            </div>
+          )}
         </div>
       ) : type === "currency" ? (
         <div className="flex flex-col gap-2">
@@ -550,7 +580,7 @@ function DynamicInput({
           </div>
           {noted && (
             <div className="flex flex-row gap-2">
-              <span className="text-sm ">{noted}</span>
+              <span className="text-xs text-[#FB4B4B]">*{noted}</span>
             </div>
           )}
         </div>
@@ -592,7 +622,7 @@ function DynamicInput({
           </div>
           {noted && (
             <div className="flex flex-row gap-2">
-              <span className="text-sm ">{noted}</span>
+              <span className="text-xs text-[#FB4B4B]">*{noted}</span>
             </div>
           )}
         </div>

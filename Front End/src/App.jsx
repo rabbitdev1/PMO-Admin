@@ -10,10 +10,11 @@ import { authRoutes, infraRoutes, nonUserRoutes, operatorRoutes, perangkatdaerah
 import Authmiddleware from "./routes/middleware/Authmiddleware";
 // layouts Format
 import { ToastContainer } from "react-toastify";
-import { MaintenanceGuard } from "./components/layout/MaintenanceGuard";
 import { setMetaData } from "../src/utils/helpers/metaHelper";
+import { MaintenanceGuard } from "./components/layout/MaintenanceGuard";
 
 import NotFoundPage from "./components/layout/NotFoundPage";
+import { performance } from "./config/Firebase";
 import NonAuthLayout from "./routes/NonAuthLayout";
 import { apiClient } from "./utils/api/apiClient";
 
@@ -32,13 +33,13 @@ function App() {
       "favicon": "favicon.ico",
       "keywords": "DISKOMINFO, Bandung, Kota Bandung, Informasi, Komunikasi",
       "deskripsi_meta": "Portal Resmi Dinas Komunikasi dan Informatika Kota Bandung.",
-      "meta_image":  "logo-diskominfo-bandung.png",
+      "meta_image": "logo-diskominfo-bandung.png",
       "meta_deskripsi": "Selamat datang di portal resmi Dinas Komunikasi dan Informatika Kota Bandung. Temukan berbagai informasi terkini mengenai kegiatan dan layanan kami.",
       "meta_keywords": "DISKOMINFO, Kota Bandung, Informasi, Komunikasi, Layanan Publik",
       "analytics": "UA-XXXXX-Y", // Replace with actual analytics tracking code
       "versionApp": "1.0"
     }
-    , location);
+      , location);
   }, [location]);
 
   useEffect(() => {
@@ -52,6 +53,17 @@ function App() {
       }
     } else {
       setAuthToken(null);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (performance) {
+      const trace = performance.trace('custom_trace_name');
+      trace.start();
+      setTimeout(() => {
+        trace.stop();
+        console.log('Custom trace stopped');
+      }, 2000); // Simulate a 2-second task
     }
   }, []);
 
@@ -105,23 +117,23 @@ function App() {
                     exact={true}
                   />
                 )) :
-              (role === 'kabid_infra' || role === 'katim_infra' || role === 'teknis_infra') ?
-                [...userRoutes, ...infraRoutes].map((route, idx) => (
-                  <Route
-                    path={route.path}
-                    element={<Authmiddleware>{route.component}</Authmiddleware>}
-                    key={idx}
-                    exact={true}
-                  />
-                )) :
-                userRoutes.map((route, idx) => (
-                  <Route
-                    path={route.path}
-                    element={<Authmiddleware>{route.component}</Authmiddleware>}
-                    key={idx}
-                    exact={true}
-                  />
-                ))
+                (role === 'kabid_infra' || role === 'katim_infra' || role === 'teknis_infra') ?
+                  [...userRoutes, ...infraRoutes].map((route, idx) => (
+                    <Route
+                      path={route.path}
+                      element={<Authmiddleware>{route.component}</Authmiddleware>}
+                      key={idx}
+                      exact={true}
+                    />
+                  )) :
+                  userRoutes.map((route, idx) => (
+                    <Route
+                      path={route.path}
+                      element={<Authmiddleware>{route.component}</Authmiddleware>}
+                      key={idx}
+                      exact={true}
+                    />
+                  ))
           }
 
           {nonUserRoutes.map((route, idx) => (

@@ -1,0 +1,101 @@
+kabid perencanaan
+email: mulyana@bandung.go.id
+pass: b!4Gsqd1
+
+katim perencanaan
+email: arief.mujahidillah@bandung.go.id
+pass: 7i5c!!fB
+
+teknis perencanaan
+email: iramonellia@bandung.go.id
+pass: Qu78KT!R
+
+
+--------------------------------------------------------
+kabid infra
+email: mahyudin@bandung.go.id
+pass: a8DG!0t2
+
+katim infra
+email: furqon@bandung.go.id
+pass: !12SBtygo
+
+katim infra
+email: gungun@bandung.go.id
+pass: 3!IZh42f
+
+anggota tim infra
+email: deninr@bandung.go.id
+pass: o807DNt!
+
+anggota tim infra
+email: hardian@bandung.go.id
+pass: tSt!2mRL
+
+anggota tim infra
+email: interkoneksi.bdg@gmail.com
+pass: Oasm!80G194
+--------------------------------------------------------
+
+kabid aplikasi
+email: ayirachmat6802@bandung.go.id
+pass: cMFBO12!
+
+katim aplikasi
+email: arifmrizal@bandung.go.id
+pass: 7l27A9!t
+
+katim persandian
+email: nugrahaf7@gbandung.go.id
+pass: m3AW4V!
+
+tim teknis integrasi
+email: anthony@bandung.go.id
+pass: 1n0!qYW
+
+tim teknis persandian
+email: ryan.aditya@bandung.go.id
+pass: os9!iO0u
+
+tim teknis persandian
+email: ardi.triawan@bandung.go.id
+pass: 4!a9Qwsf
+
+tim teknis persandian
+email: asmunanda.imams@bandung.go.id
+pass: 8tgv!zA0
+
+tim teknis aplikasi
+email: dwikuntarto@bandung.go.id
+pass: sdE23B!Mas
+
+tim teknis integrasi
+email: yatmoel@bandung.go.id
+pass: 29k18nUi!
+
+--------------------------------------------------------
+
+kabid data
+email: rinakarlina@bandung.go.id
+pass: 39pi65QB!
+
+katim survey & akuisisi
+email: budhy.aditya@bandung.go.id
+pass: !23aaBRl3
+
+katim publikasi & data terbuka
+email: ineagustina@bandung.go.id
+pass: d4!AQ1pwir
+
+katim pengolahan & analisis data
+email: eka3tc51@bandung.go.id
+pass: asd!9r0N5k
+
+tim teknis publikasi & data terbuka
+email: mulyawan@bandung.go.id
+pass: e6c4m!SDc4
+
+--------------------------------------------------------
+pranata computer/operator pmo
+email: martinseptian@bandung.go.id
+pass: 

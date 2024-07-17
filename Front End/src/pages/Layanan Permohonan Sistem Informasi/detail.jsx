@@ -8,7 +8,7 @@ import { useLocation, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { ReactComponent as PengajuanBerahasilIcon } from "../../assets/icon/ic_pengajuan_berhasil.svg";
 import DynamicButton from "../../components/common/DynamicButton";
-import TitleHeader from "../../components/layout/TitleHeader";
+import Breadcrumb from "../../components/layout/Breadcrumb";
 import { isPending } from "../../components/store/actions/todoActions";
 import ConditionalRender from "../../components/ui/ConditionalRender";
 import ModalContent from "../../components/ui/Modal/ModalContent";
@@ -215,7 +215,7 @@ function DetailPermohonanSIPages() {
   };
   return (
     <div className="flex flex-col gap-3 flex-1 p-3">
-      <TitleHeader
+      <Breadcrumb
         title={`Detail Pengajuan ${detailData.submission_title} #${slug}`}
         link1={"dashboard"}
         link2={"Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan"}
