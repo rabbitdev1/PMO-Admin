@@ -192,7 +192,7 @@ const Header = () => {
                                       profile?.role === "kabid_perencanaan" ? "Ketua Bidang Perencanaan" :
                                         profile?.role === "katim_perencanaan" ? "Ketua Tim Perencanaan" :
                                           profile?.role === "teknis_perencanaan" ? "Tim Teknis Perencanaan" :
-                                            profile?.role === "kabid_sekretariat" ? "Ketua Bidang Sekretariat" :
+                                            profile?.role === "sekretariat" ? "Sekretariat" :
                                               profile?.role === "katim_sekretariat" ? "Ketua Tim Sekretariat" :
                                                 profile?.role === "teknis_sekretariat" ? "Tim Teknis Sekretariat" :
                                                 profile?.role === "kabid_desiminasi" ? "Ketua Bidang Desiminasi" :

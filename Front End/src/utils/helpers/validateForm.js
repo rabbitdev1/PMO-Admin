@@ -97,21 +97,22 @@ export const validateTelp = (value, title) => {
     return true;
 };
 
+
 export const validatePassword = (value, title) => {
-    const passwordRegex =
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\[\]{}|;:,.<>?])[A-Za-z\d!@#$%^&*()_+\[\]{}|;:,.<>?]{6,}$/;
+
     if (!value || !passwordRegex.test(value)) {
         toast.error(
-            "Password pada " +
-            title +
-            " harus mengandung minimal 6 karakter, termasuk 1 huruf besar, 1 huruf kecil, 1 angka, dan 1 simbol", {
-            position: toast.POSITION.TOP_RIGHT,
-        }
+            `Password pada ${title} harus mengandung minimal 6 karakter, termasuk 1 huruf besar, 1 huruf kecil, 1 angka, dan 1 simbol`,
+            {
+                position: toast.POSITION.TOP_RIGHT,
+            }
         );
         return false;
     }
     return true;
 };
+
 
 export const validateRepeatPassword = (password, repeatPassword) => {
     if (password !== repeatPassword) {
@@ -213,7 +214,7 @@ export const validateHTML = (value, title) => {
     const regex = /<p>(.*?)<\/p>/g;
     let match;
     let content = '';
-    
+
     while ((match = regex.exec(value)) !== null) {
         content += match[1].trim() + ' ';
     }

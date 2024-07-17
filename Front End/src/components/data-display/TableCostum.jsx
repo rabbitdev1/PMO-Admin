@@ -109,7 +109,7 @@ const TableCostum = ({
                         rowData?.role === "kabid_perencanaan" ? "Ketua Bidang Perencanaan" :
                           rowData?.role === "katim_perencanaan" ? "Ketua Tim Perencanaan" :
                             rowData?.role === "teknis_perencanaan" ? "Tim Teknis Perencanaan" :
-                              rowData?.role === "kabid_sekretariat" ? "Ketua Bidang Sekretariat" :
+                              rowData?.role === "sekretariat" ? "Sekretariat" :
                                 rowData?.role === "katim_sekretariat" ? "Ketua Tim Sekretariat" :
                                   rowData?.role === "teknis_sekretariat" ? "Tim Teknis Sekretariat" :
                                     rowData?.role === "kabid_desiminasi" ? "Ketua Bidang Desiminasi" :

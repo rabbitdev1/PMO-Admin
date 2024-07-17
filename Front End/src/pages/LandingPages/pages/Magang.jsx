@@ -20,7 +20,7 @@ function MagangPages() {
     {
       name: "Pengajuan Layanan Pendaftaran Magang",
       type: "Layanan Sekretariat",
-      role: ["op_pmo", "kadis", "sekretariat", "katim_sekre", "teknis_sekre"],
+      role: ["op_pmo", "kadis", "sekretariat", "katim_sekretariat", "teknis_sekretariat"],
       fields: [
         {
           name: "name_pic",
@@ -28,13 +28,7 @@ function MagangPages() {
           value: "",
           type: "text",
         },
-        // {
-        //   name: "surat_permohonan",
-        //   label: "Surat Permohonan",
-        //   value: "",
-        //   type: "file_upload",
-        //   noted: "File berekstensi: pdf, xlsx, docs",
-        // },
+        { name: "telp_pic", label: "Nomor Pemohon", value: "", type: "tel" },
         {
           name: "period",
           label: "Jangka Waktu Magang",
@@ -47,19 +41,20 @@ function MagangPages() {
           value: "",
           type: "text",
         },
-        // {
-        //   name: "surat_ket_mahasiswa",
-        //   label: "Surat Keterangan Mahasiswa Aktif",
-        //   value: "",
-        //   type: "file_upload",
-        //   noted: "File berekstensi: pdf, xlsx, docs",
-        // },
-        // {
-        //   name: "pict_ktp",
-        //   label: "Foto KTP",
-        //   value: "",
-        //   type: "image_upload",
-        // },
+        {
+          name: "surat_ket_mahasiswa",
+          label: "Surat Keterangan Mahasiswa Aktif",
+          value: "",
+          type: "text",
+          noted: "Bentuk Berupa Link Google Drive",
+        },
+        {
+          name: "pict_ktp",
+          label: "KTP",
+          value: "",
+          type: "text",
+          noted: "Bentuk Berupa Link Google Drive",
+        },
       ],
     },
   ]);
@@ -122,7 +117,7 @@ function MagangPages() {
           {
             name: "Pengajuan Layanan Pendaftaran Magang",
             type: "Layanan Sekretariat",
-            role: ["op_pmo", "kadis", "sekretariat", "katim_sekre", "teknis_sekre"],
+            role: ["op_pmo", "kadis", "sekretariat", "katim_sekretariat", "teknis_sekretariat"],
             fields: [
               {
                 name: "name_pic",
@@ -130,13 +125,7 @@ function MagangPages() {
                 value: "",
                 type: "text",
               },
-              // {
-              //   name: "surat_permohonan",
-              //   label: "Surat Permohonan",
-              //   value: "",
-              //   type: "file_upload",
-              //   noted: "File berekstensi: pdf, xlsx, docs",
-              // },
+              { name: "telp_pic", label: "Nomor Pemohon", value: "", type: "tel" },
               {
                 name: "period",
                 label: "Jangka Waktu Magang",
@@ -149,19 +138,20 @@ function MagangPages() {
                 value: "",
                 type: "text",
               },
-              // {
-              //   name: "surat_ket_mahasiswa",
-              //   label: "Surat Keterangan Mahasiswa Aktif",
-              //   value: "",
-              //   type: "file_upload",
-              //   noted: "File berekstensi: pdf, xlsx, docs",
-              // },
-              // {
-              //   name: "pict_ktp",
-              //   label: "Foto KTP",
-              //   value: "",
-              //   type: "image_upload",
-              // },
+              {
+                name: "surat_ket_mahasiswa",
+                label: "Surat Keterangan Mahasiswa Aktif",
+                value: "",
+                type: "text",
+                noted: "Bentuk Berupa Link Google Drive",
+              },
+              {
+                name: "pict_ktp",
+                label: "KTP",
+                value: "",
+                type: "text",
+                noted: "Bentuk Berupa Link Google Drive",
+              },
             ],
           },
         ])

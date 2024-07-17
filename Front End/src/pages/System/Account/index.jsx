@@ -19,7 +19,7 @@ import { isPending } from "../../../components/store/actions/todoActions";
 import ModalContent from "../../../components/ui/Modal/ModalContent";
 import { apiClient } from "../../../utils/api/apiClient";
 import fetchUploadImages from "../../../utils/api/uploadImages";
-import { validateAddress, validateEmail, validateFullname, validateImage, validateNIP, validatePassword, validateRepeatPassword, validateRole, validateTelp, validateText } from "../../../utils/helpers/validateForm";
+import { isValidatorCreateProfile } from "../validators";
 
 function AccountPages() {
   const { isDarkMode } = useTheme();
@@ -206,52 +206,39 @@ function AccountPages() {
   };
 
   const checkingFormData = async (data) => {
-    const transformedData = data.reduce((acc, curr) => {
+    const combinedObject = data.reduce((acc, curr) => {
       const value = curr.value;
       acc[curr.name] = typeof value === 'object' && value.hasOwnProperty('value') ? value.value : value;
       return acc;
     }, {});
-
-    const {
-      fullname,
-      nip,
-      email,
-      address,
-      role,
-      instansi,
-      image,
-      telp,
-      password,
-      repeat_password,
-    } = transformedData;
-
-    console.log(transformedData);
-    if (
-      !validateFullname(fullname, 'Nama Lengkap') ||
-      !validateNIP(nip, 'NIP') ||
-      !validateEmail(email, 'Email Perangkat Daerah') ||
-      !validateAddress(address, 'Alamat Lengkap') ||
-      !validateRole(role, 'Role') ||
-      !validateText(instansi, 'Instansi') ||
-      !validateTelp(telp, 'Nomor Telepon') ||
-      !validatePassword(password, 'Password') ||
-      !validateRepeatPassword(password, repeat_password) ||
-      !validateImage(image, 'Foto profle')
-    ) {
-      return false;
+    if (isValidatorCreateProfile(combinedObject)) {
+      await handleImageUploadAndFetch(combinedObject);
     } else {
-      const result = await fetchUploadImages(authApiKey, authToken, image, 'users', dispatch);
+      return false;
+    }
+  };
+
+  const handleImageUploadAndFetch = async (obj) => {
+    if (obj.image) {
+      const result = await fetchUploadImages(
+        authApiKey,
+        authToken,
+        obj.image,
+        "users",
+        dispatch
+      );
       if (result !== null) {
         const fixObject = {
-          ...transformedData,
+          ...obj,
           image: result,
         };
         fetchDataCreate(authApiKey, authToken, fixObject);
       } else {
-        toast.error("Error occurred during image upload.", {
-          position: toast.POSITION.TOP_RIGHT,
-        });
+        console.error("Error occurred during image upload.");
       }
+    }
+    else {
+      fetchDataCreate(authApiKey, authToken, obj);
     }
   };
 
@@ -351,6 +338,13 @@ function AccountPages() {
                   if (a.role === "op_pmo") {
                     toast.error(
                       "Admin tidak bisa di hapus",
+                      {
+                        position: toast.POSITION.TOP_RIGHT,
+                      }
+                    );
+                  }else if (a.role === "guest") {
+                    toast.error(
+                      "Guest tidak bisa di hapus",
                       {
                         position: toast.POSITION.TOP_RIGHT,
                       }
