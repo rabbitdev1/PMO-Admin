@@ -89,10 +89,10 @@ const ProcessStatus = ({
               </div>
             </div>
           </div>
-          {JSON.parse(authProfile)?.role === "teknis_desiminasi" ||
-          JSON.parse(authProfile)?.role === "katim_desiminasi" ? (
+          {JSON.parse(authProfile)?.role === "teknis_data" ||
+          JSON.parse(authProfile)?.role === "katim_data" ? (
             <div className="flex flex-col gap-3">
-              {JSON.parse(authProfile)?.role === "katim_desiminasi" &&
+              {JSON.parse(authProfile)?.role === "katim_data" &&
                 Object.entries(processData).length === 0 && (
                   <div className="flex flex-col bg-[#0185FF]/10 border-1 border-[#0185FF] text-[#0185FF] p-3 gap-3 items-center rounded-lg">
                     <span className="text-base font-semibold text-center">
@@ -100,7 +100,7 @@ const ProcessStatus = ({
                     </span>
                   </div>
                 )}
-              {JSON.parse(authProfile)?.role === "teknis_desiminasi" &&
+              {JSON.parse(authProfile)?.role === "teknis_data" &&
                 Object.entries(processData).length !== 0 && (
                   <div className="flex flex-col gap-3">
                     <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
@@ -168,7 +168,7 @@ const ProcessStatus = ({
                   loading={loading}
                 />
               </div>
-              {JSON.parse(authProfile)?.role === "teknis_desiminasi" &&
+              {JSON.parse(authProfile)?.role === "teknis_data" &&
                 Object.entries(processData).length === 0 && (
                   <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                     <span className="text-lg font-bold">Tahapan Proses</span>
@@ -234,7 +234,7 @@ const ProcessStatus = ({
                     </div>
                   </div>
                 )}
-              {JSON.parse(authProfile)?.role === "katim_desiminasi" &&
+              {JSON.parse(authProfile)?.role === "katim_data" &&
                 Object.entries(processData).length !== 0 && (
                   <div className="flex flex-col gap-3">
                     <div className="flex flex-1 flex-col gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">

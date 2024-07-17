@@ -8,7 +8,7 @@ import { ReactComponent as PlusIcon } from "../../../assets/icon/ic_plus.svg";
 import DynamicButton from "../../../components/common/DynamicButton";
 import DynamicInput from "../../../components/common/DynamicInput";
 import TableCostum from "../../../components/data-display/TableCostum";
-import TitleHeader from "../../../components/layout/TitleHeader";
+import Breadcrumb from "../../../components/layout/Breadcrumb";
 import { isPending } from "../../../components/store/actions/todoActions";
 import ModalContent from "../../../components/ui/Modal/ModalContent";
 import { apiClient } from "../../../utils/api/apiClient";
@@ -173,7 +173,7 @@ function DataAlatInfraPage() {
   };
   return (
     <div className="flex flex-col gap-3 flex-1 p-4" >
-      <TitleHeader title={"Data Alat Infrastrukur"} link1={"dashboard"} link2={'Data Alat'} />
+      <Breadcrumb title={"Data Alat Infrastrukur"} link1={"dashboard"} link2={'Data Alat'} />
       <section className="flex xl:flex-row flex-col gap-3" >
         <div className="flex-1 flex flex-col gap-3">
           <div className={`flex-1 grid ${JSON.parse(authProfile)?.role === "perangkat_daerah" ? "md:grid-cols-2 grid-cols-1" : "lg:grid-cols-4 grid-cols-2"}  gap-3`}>

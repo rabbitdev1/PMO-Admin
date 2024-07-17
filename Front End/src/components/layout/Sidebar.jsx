@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ReactComponent as AllBerandaIcon } from "../../assets/icon/ic_homapages.svg";
+import { ReactComponent as DataIcon } from "../../assets/icon/ic_data.svg";
+import { ReactComponent as UserIcon } from "../../assets/icon/ic_user.svg";
 import { ReactComponent as LeftArrowIcon } from "../../assets/icon/ic_leftarrow.svg";
 import useTheme from "../context/useTheme";
 import { isSideBar } from "../store/actions/todoActions";
@@ -53,16 +55,16 @@ const Sidebar = () => {
 
   const menuItems = [
     { title: "MENU", role: ['/'], icon: "" },
-    { title: "Dashboard", role: ['kadis', 'op_pmo', 'perangkat_daerah', 'katim_aplikasi', 'kabid_aplikasi', 'teknis_aplikasi', 'kabid_infra', 'katim_infra', 'teknis_infra', 'katim_perencanaan', 'kabid_perencanaan', 'katim_desiminasi', 'kabid_desiminasi', 'teknis_desiminasi', 'kabid_sekte', 'teknis_sekre', 'katim_sekre', 'teknis_perencanaan'], icon: AllBerandaIcon, href: ["/dashboard"], },
+    { title: "Dashboard", role: ['kadis', 'op_pmo', 'perangkat_daerah', 'katim_aplikasi', 'kabid_aplikasi', 'teknis_aplikasi', 'kabid_infra', 'katim_infra', 'teknis_infra', 'katim_perencanaan', 'kabid_perencanaan', 'katim_desiminasi', 'kabid_desiminasi', 'teknis_desiminasi', 'sekretariat', 'teknis_sekretariat', 'katim_sekretariat', 'teknis_perencanaan'], icon: AllBerandaIcon, href: ["/dashboard"], },
     {
       title: "Data Alat", role: ['kabid_infra', 'teknis_infra', 'katim_infra'],
-      icon: AllBerandaIcon, href: ["/data-alat-infrastruktur"],
+      icon: DataIcon, href: ["/data-alat-infrastruktur"],
     },
     {
       title: "Data Aplikasi", role: ['perangkat_daerah',],
-      icon: AllBerandaIcon, href: ["/data-alat-aplikasi"],
+      icon: DataIcon, href: ["/data-alat-aplikasi"],
     },
-    { title: "Akun", role: ['op_pmo'], icon: AllBerandaIcon, href: ["/account", "/1"], },
+    { title: "Akun", role: ['op_pmo'], icon: UserIcon, href: ["/account", "/1"], },
 
     { title: "LAYANAN", role: ['/'], icon: "" },
     {
@@ -113,7 +115,7 @@ const Sidebar = () => {
     },
     {
 
-      title: "Layanan Data", role: ['kadis', 'op_pmo', 'perangkat_daerah', 'teknis_desiminasi', 'katim_desiminasi', 'kabid_desiminasi'],
+      title: "Layanan Data", role: ['kadis', 'op_pmo', 'perangkat_daerah', 'teknis_data', 'katim_data', 'kabid_data'],
       submenu: [
         { title: 'Pendampingan Pengolahan dan Analisis Data', href: '/layanan-data', state: 'Layanan Pendampingan Pengolahan dan Analisis Data' },
         { title: 'Pelayanan Produksi Data dari Situs Web', href: '/layanan-data', state: 'Layanan Produksi Data dari Situs Web' },
@@ -128,7 +130,7 @@ const Sidebar = () => {
       icon: AllBerandaIcon, href: ["/layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi", "/detail-layanan-penyusunan-perencanaan-teknologi-informasi-dan-komunikasi"],
     },
     {
-      title: "Layanan Sekretariat", role: ['kadis', 'op_pmo', 'perangkat_daerah', 'sekretariat', 'katim_sekre', 'teknis_sekre'],
+      title: "Layanan Sekretariat", role: ['kadis', 'op_pmo', 'perangkat_daerah', 'sekretariat', 'katim_sekretariat', 'teknis_sekretariat'],
       submenu: [
         // { title: 'Pendaftaran Magang', href: "/layanan-sekretariat", state: 'Layanan Pendaftaran Magang' },
         { title: 'Pendataan Tenaga Ahli', href: "/layanan-sekretariat", state: 'Layanan Pendataan Tenaga Ahli' },

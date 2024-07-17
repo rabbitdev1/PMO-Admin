@@ -16,6 +16,10 @@ const Users = db.define(
             type: DataTypes.STRING,
             allowNull: false,
         },
+        nip: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
         apiKey: {
             type: DataTypes.STRING(100),
             allowNull: false,
@@ -37,6 +41,10 @@ const Users = db.define(
             allowNull: false,
         },
         role: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        instansi: {
             type: DataTypes.STRING,
             allowNull: false,
         },
