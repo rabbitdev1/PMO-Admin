@@ -15,7 +15,7 @@ import ModalContent from "../../../components/ui/Modal/ModalContent";
 import ModalContentComponent from "../../../components/ui/ModalContentComponent";
 import { apiClient } from "../../../utils/api/apiClient";
 import { generatePassword } from "../../../utils/helpers/passwordGenerator";
-import { validatePassword } from "../../../utils/helpers/validateForm";
+import { validatePassword, validateRepeatPassword } from "../../../utils/helpers/validateForm";
 import DynamicDetails from "../DynamicDetails";
 import { isValidatorEditPengguna } from "../validators";
 
@@ -31,6 +31,7 @@ function DetailsAccountPages() {
   const [detailData, setDetailData] = useState([]);
   const [formData, setFormData] = useState({});
   const [captchaValue, setCaptchaValue] = useState(null);
+  const [resetPasswordgenerate, setResetPasswordgenerate] = useState(null);
   const [resetPassword, setResetPassword] = useState(null);
 
   const [isModalType, setisModalType] = useState({ status: false, data: {} });
@@ -135,6 +136,8 @@ function DetailsAccountPages() {
         setisModalType({ data: '', status: false });
         setFormData({})
         setCaptchaValue(null)
+        setResetPasswordgenerate(null)
+        setResetPassword(null)
         fetchDataAccount(authApiKey, authToken, JSON.parse(authProfile)?.role)
       } else {
         toast.error(response.result.msg, {
@@ -267,7 +270,9 @@ function DetailsAccountPages() {
                 <span className="text-sm">
                   Edit Akun Pengguna:
                 </span>
-                {detailData.role === "guest" ? null :
+                {detailData.role === "guest" ? <span className="text-xs text-[#FB4B4B]">
+                  Tidak Tersedia
+                </span> :
                   <DynamicButton
                     initialValue={'Edit Akun'}
                     color={"#ffffff"}
@@ -283,7 +288,9 @@ function DetailsAccountPages() {
                 <span className="text-sm">
                   Reset Password Pengguna:
                 </span>
-                {(detailData.role === "op_pmo" || detailData.role === "guest") ? null :
+                {(detailData.role === "op_pmo" || detailData.role === "guest") ? <span className="text-xs text-[#FB4B4B]">
+                  Tidak Tersedia
+                </span> :
                   <DynamicButton
                     initialValue={'Reset'}
                     color={"#ffffff"}
@@ -372,7 +379,6 @@ function DetailsAccountPages() {
                   color={"#ffffff"}
                   className="inline-flex  bg-[#0185FF] text-darkColor"
                   onClick={() => {
-                    // console.log(formData);
                     checkingFormData(formData);
                   }}
                 />
@@ -380,6 +386,16 @@ function DetailsAccountPages() {
               <div className="flex flex-col gap-3">
                 <DynamicInput
                   label={"Password Baru"}
+                  value={resetPasswordgenerate}
+                  type={'password'}
+                  disabled={false}
+                  onChange={(value) => {
+                    setResetPasswordgenerate(value);
+                  }}
+                  placeholder={'Masukan Password Baru'}
+                />
+                <DynamicInput
+                  label={"Ulangi Password Baru"}
                   value={resetPassword}
                   type={'password'}
                   placeholder={'Masukan Password Baru'}
@@ -395,7 +411,7 @@ function DetailsAccountPages() {
                     className="inline-flex  bg-[#0185FF] text-darkColor flex-1"
                     onClick={() => {
                       const newPassword = generatePassword();
-                      setResetPassword(newPassword);
+                      setResetPasswordgenerate(newPassword);
                     }}
                   />
                 </div>
@@ -413,7 +429,7 @@ function DetailsAccountPages() {
                   color={"#ffffff"}
                   className="inline-flex  bg-[#0185FF] text-darkColor"
                   onClick={() => {
-                    if (validatePassword(resetPassword, "Password Baru")) {
+                    if (validatePassword(resetPassword, "Password Baru") && validateRepeatPassword(resetPassword, resetPasswordgenerate)) {
                       if (captchaValue) {
                         fetchDataEditPassword(authApiKey, authToken, slug.id, resetPassword);
                       } else {
@@ -429,7 +445,11 @@ function DetailsAccountPages() {
         }
         active={isModalType.status}
         onClose={() => {
-          setisModalType({ data: {}, status: false })
+          setisModalType({ data: '', status: false });
+          setFormData({})
+          setResetPasswordgenerate(null)
+          setResetPassword(null)
+          setCaptchaValue(null)
         }}
       />
 
