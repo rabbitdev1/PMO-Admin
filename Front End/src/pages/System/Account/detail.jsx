@@ -239,70 +239,71 @@ function DetailsAccountPages() {
                                                           detailData?.role === "teknis_data" ? "Tim Teknis Data" : detailData?.role}</span>
               </div>
             </div>
-            <div className="flex flex-col  gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+            {detailData?.role === "op_pmo" &&
+              <div className="flex flex-col  gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+                <div className="flex flex-row gap-2 items-center justify-between">
+                  <span className="text-md font-bold">
+                    Status Akun :
+                  </span>
+                  <div className="flex flex-col gap-2 items-end">
+                    <div
+                      className={`flex flex-row gap-2 p-1 px-3 rounded-md text-darkColor ${detailData?.status_account === "Aktif" ? "bg-[#13C39C]" : "bg-[#FF0000]"}`}
+                    >
+                      <span className="text-base">
+                        {detailData?.status_account}
+                      </span>
+                    </div>
 
-              <div className="flex flex-row gap-2 items-center justify-between">
-                <span className="text-md font-bold">
-                  Status Akun :
-                </span>
-                <div className="flex flex-col gap-2 items-end">
-                  <div
-                    className={`flex flex-row gap-2 p-1 px-3 rounded-md text-darkColor ${detailData?.status_account === "Aktif" ? "bg-[#13C39C]" : "bg-[#FF0000]"}`}
-                  >
-                    <span className="text-base">
-                      {detailData?.status_account}
-                    </span>
+                    {(detailData.role === "op_pmo" || detailData.role === "guest") ? null :
+                      <DynamicButton
+                        initialValue={detailData?.status_account === "Aktif" ? 'Nonaktifkan Akun' : 'Aktifkan Akun'}
+                        color={"#ffffff"}
+                        type="transparent"
+                        className={`${detailData?.status_account === "Aktif" ? 'text-[#FB4B4B]' : 'text-[#13C39C]'}  text-xs `}
+                        onClick={() => {
+                          fetchEditUserStatus(authApiKey, authToken, slug.id, (detailData?.status_account === "Aktif" ? "Nonaktif" : "Aktif"))
+                        }}
+                      />}
                   </div>
-
-                  {(detailData.role === "op_pmo" || detailData.role === "guest") ? null :
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm">
+                    Edit Akun Pengguna:
+                  </span>
+                  {detailData.role === "guest" ? <span className="text-xs text-[#FB4B4B]">
+                    Tidak Tersedia
+                  </span> :
                     <DynamicButton
-                      initialValue={detailData?.status_account === "Aktif" ? 'Nonaktifkan Akun' : 'Aktifkan Akun'}
+                      initialValue={'Edit Akun'}
                       color={"#ffffff"}
                       type="transparent"
-                      className={`${detailData?.status_account === "Aktif" ? 'text-[#FB4B4B]' : 'text-[#13C39C]'}  text-xs `}
+                      className={`bg-[#0185FF] text-darkColor text-xs `}
                       onClick={() => {
-                        fetchEditUserStatus(authApiKey, authToken, slug.id, (detailData?.status_account === "Aktif" ? "Nonaktif" : "Aktif"))
+                        setisModalType({ data: "Edit Pengguna", status: true })
                       }}
-                    />}
+                    />
+                  }
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm">
+                    Reset Password Pengguna:
+                  </span>
+                  {(detailData.role === "op_pmo" || detailData.role === "guest") ? <span className="text-xs text-[#FB4B4B]">
+                    Tidak Tersedia
+                  </span> :
+                    <DynamicButton
+                      initialValue={'Reset'}
+                      color={"#ffffff"}
+                      type="transparent"
+                      className={`bg-[#FB4B4B] text-darkColor text-xs `}
+                      onClick={() => {
+                        setisModalType({ data: "Reset Password Pengguna", status: true })
+                      }}
+                    />
+                  }
                 </div>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm">
-                  Edit Akun Pengguna:
-                </span>
-                {detailData.role === "guest" ? <span className="text-xs text-[#FB4B4B]">
-                  Tidak Tersedia
-                </span> :
-                  <DynamicButton
-                    initialValue={'Edit Akun'}
-                    color={"#ffffff"}
-                    type="transparent"
-                    className={`bg-[#0185FF] text-darkColor text-xs `}
-                    onClick={() => {
-                      setisModalType({ data: "Edit Pengguna", status: true })
-                    }}
-                  />
-                }
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm">
-                  Reset Password Pengguna:
-                </span>
-                {(detailData.role === "op_pmo" || detailData.role === "guest") ? <span className="text-xs text-[#FB4B4B]">
-                  Tidak Tersedia
-                </span> :
-                  <DynamicButton
-                    initialValue={'Reset'}
-                    color={"#ffffff"}
-                    type="transparent"
-                    className={`bg-[#FB4B4B] text-darkColor text-xs `}
-                    onClick={() => {
-                      setisModalType({ data: "Reset Password Pengguna", status: true })
-                    }}
-                  />
-                }
-              </div>
-            </div>
+            }
           </div>
           <div className="flex flex-1 flex-col ">
             <DynamicDetails location={"users"} detailData={detailData} loading={accountLoading} />
@@ -368,7 +369,6 @@ function DetailsAccountPages() {
                 <ReCAPTCHA
                   sitekey={process.env.REACT_APP_TOKEN_RECAPCHA}
                   onChange={(value) => {
-                    console.log("Captcha value:", value)
                     setCaptchaValue(value)
                   }
                   }
@@ -418,7 +418,6 @@ function DetailsAccountPages() {
                 <ReCAPTCHA
                   sitekey={process.env.REACT_APP_TOKEN_RECAPCHA}
                   onChange={(value) => {
-                    console.log("Captcha value:", value)
                     setCaptchaValue(value)
                   }
                   }

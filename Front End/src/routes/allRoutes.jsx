@@ -58,6 +58,7 @@ const infraRoutes = [
 ]
 const perangkatdaerahRoutes = [
   { path: "/data-alat-aplikasi", component: <DataAppPerangkatDaerah /> },
+  { path: "/detail-account", component: <DetailsAccountPages /> },
 ]
 const operatorRoutes = [
   { path: "/account", component: <AccountPages /> },
