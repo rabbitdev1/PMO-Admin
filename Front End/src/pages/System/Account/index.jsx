@@ -14,12 +14,12 @@ import DynamicButton from "../../../components/common/DynamicButton";
 import DynamicInput from "../../../components/common/DynamicInput";
 import useTheme from "../../../components/context/useTheme";
 import TableCostum from "../../../components/data-display/TableCostum";
-import TitleHeader from "../../../components/layout/TitleHeader";
+import Breadcrumb from "../../../components/layout/Breadcrumb";
 import { isPending } from "../../../components/store/actions/todoActions";
 import ModalContent from "../../../components/ui/Modal/ModalContent";
 import { apiClient } from "../../../utils/api/apiClient";
 import fetchUploadImages from "../../../utils/api/uploadImages";
-import { validateAddress, validateEmail, validateFullname, validateImage, validatePassword, validateRepeatPassword, validateRole, validateTelp } from "../../../utils/helpers/validateForm";
+import { isValidatorCreateProfile } from "../validators";
 
 function AccountPages() {
   const { isDarkMode } = useTheme();
@@ -38,6 +38,7 @@ function AccountPages() {
   const [listAccountLoading, setListAccountLoading] = useState(true);
   const [formData, setFormData] = useState([
     { name: "fullname", label: "Nama Lengkap", value: "", type: "text" },
+    { name: "nip", label: "NIP", value: "", type: "number" },
     { name: "email", label: "Email", value: "", type: "email" },
     { name: "address", label: "Alamat Lengkap", value: "", type: "textarea" },
     {
@@ -47,6 +48,7 @@ function AccountPages() {
       type: "selection",
       options: [],
     },
+    { name: "instansi", label: "Instansi", value: "", type: "text" },
     {
       name: "image",
       label: "Foto Profile",
@@ -204,48 +206,39 @@ function AccountPages() {
   };
 
   const checkingFormData = async (data) => {
-    const transformedData = data.reduce((acc, curr) => {
+    const combinedObject = data.reduce((acc, curr) => {
       const value = curr.value;
       acc[curr.name] = typeof value === 'object' && value.hasOwnProperty('value') ? value.value : value;
       return acc;
     }, {});
-
-    const {
-      fullname,
-      email,
-      address,
-      role,
-      image,
-      telp,
-      password,
-      repeat_password,
-    } = transformedData;
-
-    console.log(transformedData);
-    if (
-      !validateFullname(fullname, 'Nama Lengkap') ||
-      !validateEmail(email, 'Email Perangkat Daerah') ||
-      !validateAddress(address, 'Alamat Lengkap') ||
-      !validateRole(role, 'Role') ||
-      !validateTelp(telp, 'Nomor Telepon') ||
-      !validatePassword(password, 'Password') ||
-      !validateRepeatPassword(password, repeat_password) ||
-      !validateImage(image, 'Foto profle')
-    ) {
-      return false;
+    if (isValidatorCreateProfile(combinedObject)) {
+      await handleImageUploadAndFetch(combinedObject);
     } else {
-      const result = await fetchUploadImages(authApiKey, authToken, image, 'users', dispatch);
+      return false;
+    }
+  };
+
+  const handleImageUploadAndFetch = async (obj) => {
+    if (obj.image) {
+      const result = await fetchUploadImages(
+        authApiKey,
+        authToken,
+        obj.image,
+        "users",
+        dispatch
+      );
       if (result !== null) {
         const fixObject = {
-          ...transformedData,
+          ...obj,
           image: result,
         };
         fetchDataCreate(authApiKey, authToken, fixObject);
       } else {
-        toast.error("Error occurred during image upload.", {
-          position: toast.POSITION.TOP_RIGHT,
-        });
+        console.error("Error occurred during image upload.");
       }
+    }
+    else {
+      fetchDataCreate(authApiKey, authToken, obj);
     }
   };
 
@@ -282,7 +275,7 @@ function AccountPages() {
 
   return (
     <div className="flex flex-col gap-3 flex-1 p-3" >
-      <TitleHeader title={"Pengguna"} link1={"dashboard"} link2={"Account"} />
+      <Breadcrumb title={"Pengguna"} link1={"dashboard"} link2={"Account"} />
       <section className="flex md:flex-row flex-col gap-3" >
         <div className="flex-1 flex flex-col gap-3">
           <div className="grid md:grid-cols-3 grid-cols-2 gap-3">
@@ -326,9 +319,8 @@ function AccountPages() {
             <div className="flex flex-col relative">
               <TableCostum
                 dataHeader={[
-                  { name: "ID", field: "id" },
+                  { name: "NIP ", field: "nip" },
                   { name: "Nama ", field: "fullname" },
-                  { name: "Email", field: "email" },
                   { name: "Role", field: "role" },
                   { name: "Status", field: "status_account" },
                   { name: "Tanggal Buat", field: "createdAt" },
@@ -346,6 +338,13 @@ function AccountPages() {
                   if (a.role === "op_pmo") {
                     toast.error(
                       "Admin tidak bisa di hapus",
+                      {
+                        position: toast.POSITION.TOP_RIGHT,
+                      }
+                    );
+                  }else if (a.role === "guest") {
+                    toast.error(
+                      "Guest tidak bisa di hapus",
                       {
                         position: toast.POSITION.TOP_RIGHT,
                       }

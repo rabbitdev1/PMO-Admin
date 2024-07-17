@@ -13,12 +13,15 @@ import {
   checkRoleUser,
   createUsers,
   deleteUsers,
+  editUserPassword,
+  editUsers,
   getListUser,
   getUser,
   getUserById,
   Login,
   Logout,
-} from "../controllers/Users.js";
+  updateUserStatus,
+} from "../controllers/Admin/Users.js";
 import validateImage from "../middleware/Multer.js";
 import validatePDF from "../middleware/Multer2.js";
 import { verifyToken } from "../middleware/VerifyToken.js";
@@ -157,6 +160,9 @@ router.post("/user/check_role", verifyToken, checkRoleUser);
 router.post("/users/create", verifyToken, createUsers);
 router.post("/users/delete", verifyToken, deleteUsers);
 router.post("/users/detail", verifyToken, getUserById);
+router.post("/users/edit", verifyToken, editUsers);
+router.post("/users/edit-password", verifyToken, editUserPassword);
+router.post("/users/user_status", verifyToken, updateUserStatus);
 router.post("/login", Login);
 router.post("/logout", Logout);
 

@@ -12,7 +12,7 @@ import DynamicButton from "../../components/common/DynamicButton";
 import DynamicInput from "../../components/common/DynamicInput";
 import useTheme from "../../components/context/useTheme";
 import TableCostum from "../../components/data-display/TableCostum";
-import TitleHeader from "../../components/layout/TitleHeader";
+import Breadcrumb from "../../components/layout/Breadcrumb";
 import { isPending } from "../../components/store/actions/todoActions";
 import ModalContent from "../../components/ui/Modal/ModalContent";
 import { apiClient } from "../../utils/api/apiClient";
@@ -233,21 +233,7 @@ function SistemVirtualPages() {
     const currentSection = updatedFormData[sectionIndex];
     const fieldToUpdateIndex = currentSection.fields.findIndex(
       (field) => field.name === fieldName
-    );
-
-    // if (fieldName === 'status_BDO') {
-    //   // Check if the selected value is 'temporary'
-    //   const isTemporary = value === 'temporary';
-    //   // Update the visibility of the 'period' field based on the status
-    //   const periodFieldIndex = currentSection.fields.findIndex(field => field.name === 'period');
-    //   updatedFormData[sectionIndex].fields[periodFieldIndex].visible = isTemporary;
-
-    //   if (!isTemporary) {
-    //     updatedFormData[sectionIndex].fields[periodFieldIndex].value = { startDate: null, endDate: null };
-    //   }
-    // }
-
-    // Update the value of the field
+    ); 
     updatedFormData[sectionIndex].fields[fieldToUpdateIndex].value = value;
 
     setFormData(updatedFormData);
@@ -350,7 +336,7 @@ function SistemVirtualPages() {
 
   return (
     <div className="flex flex-col gap-3 flex-1 p-4">
-      <TitleHeader
+      <Breadcrumb
         title={
           JSON.parse(authProfile)?.role === "perangkat_daerah"
             ? "Layanan Pengajuan " + dataState
@@ -374,7 +360,6 @@ function SistemVirtualPages() {
                     type="transparent"
                     className="bg-[#ffffff] text-[#0185FF] px-3"
                     onClick={() => {
-                      // setisModalType({ data: 'Pengajuan Layanan Pengelolaan Sistem Informasi dan Keamanan Jaringan', status: true });
                       setisModalPanduan(true);
                     }}
                   />
