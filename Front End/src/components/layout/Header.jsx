@@ -10,10 +10,11 @@ import Cookies from "js-cookie";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { ReactComponent as Ic_dark_mode } from "../../assets/icon/ic_dark-mode.svg";
+import { ReactComponent as Ic_notification } from "../../assets/icon/ic_notification.svg";
 import { ReactComponent as Ic_light_mode } from "../../assets/icon/ic_light-mode.svg";
 import { ReactComponent as LogoutIcon } from "../../assets/icon/ic_logout.svg";
 import { ReactComponent as Ic_menu } from "../../assets/icon/ic_menus.svg";
+import { ReactComponent as Ic_Document_Notfound } from "../../assets/icon/ic_document_notfound.svg";
 import { storage } from "../../config/Firebase";
 import { apiClient } from "../../utils/api/apiClient";
 import DynamicButton from "../common/DynamicButton";
@@ -136,6 +137,27 @@ const Header = () => {
         }} placement="bottom-end">
           <PopoverHandler>
             <Button>
+              <Ic_notification className={`h-6 w-6 aspect-square`} fill="#212121" />
+            </Button>
+          </PopoverHandler>
+          <PopoverContent className="flex flex-col  w-96 font-gilroy p-0 overflow-hidden shadow-none bg-lightColor text-lightColor dark:text-darkColor dark:bg-cardDark border-[1px] border-[#dddddd] dark:border-[#ffffff20]">
+            <div className="flex flex-row items-center justify-between gap-2 p-3 bg-[#0185FF] text-darkColor">
+              <span className="text-lg font-bold">Notifikasi</span>
+              <span className="text-sm font-light">Lihat Semua</span>
+            </div>
+            <div className="flex flex-col gap-2 p-3 min-h-[200px] justify-center items-center">
+              <Ic_Document_Notfound className={`w-32 h-32`} />
+              <span className="text-sm font-light">Data Tidak Tersedia</span>
+            </div>
+          </PopoverContent>
+        </Popover>
+
+        <Popover animate={{
+          mount: { scale: 1, y: 0 },
+          unmount: { scale: 0, y: 25 },
+        }} placement="bottom-end">
+          <PopoverHandler>
+            <Button>
               <img
                 src={imageUrl}
                 alt={profile?.fullname}
@@ -144,9 +166,8 @@ const Header = () => {
               />
             </Button>
           </PopoverHandler>
-
           <PopoverContent className="flex flex-col  w-72 font-gilroy p-0 shadow-none bg-lightColor text-lightColor dark:text-darkColor dark:bg-cardDark border-[1px] border-[#dddddd] dark:border-[#ffffff20]">
-            <div className="flex flex-row items-center gap-2 p-2.5 ">
+            <div className="flex flex-row items-center gap-2 p-3 ">
               <img
                 src={imageUrl}
                 alt={profile?.fullname}
@@ -158,11 +179,32 @@ const Header = () => {
                   {(profile?.fullname?.split(' ')[0])}
                 </span>
                 <span className="text-sm font-light line-clamp-1 opacity-70">
-                  {(profile?.role)}
+                  {(profile?.role === "op_pmo" ? "Front Office" :
+                    profile?.role === "op_pmo" ? "Front Office" :
+                      profile?.role === "kadis" ? "Kepala Dinas" :
+                        profile?.role === "perangkat_daerah" ? "Perangkat Daerah" :
+                          profile?.role === "kabid_infra" ? "Ketua Bidang Infrastruktur" :
+                            profile?.role === "katim_infra" ? "Ketua Tim Infrastruktur" :
+                              profile?.role === "teknis_infra" ? "Tim Teknis Infrastruktur" :
+                                profile?.role === "kabid_aplikasi" ? "Ketua Bidang Aplikasi" :
+                                  profile?.role === "katim_aplikasi" ? "Ketua Tim Aplikasi" :
+                                    profile?.role === "teknis_aplikasi" ? "Tim Teknis Aplikasi" :
+                                      profile?.role === "kabid_perencanaan" ? "Ketua Bidang Perencanaan" :
+                                        profile?.role === "katim_perencanaan" ? "Ketua Tim Perencanaan" :
+                                          profile?.role === "teknis_perencanaan" ? "Tim Teknis Perencanaan" :
+                                            profile?.role === "sekretariat" ? "Sekretariat" :
+                                              profile?.role === "katim_sekretariat" ? "Ketua Tim Sekretariat" :
+                                                profile?.role === "teknis_sekretariat" ? "Tim Teknis Sekretariat" :
+                                                profile?.role === "kabid_desiminasi" ? "Ketua Bidang Desiminasi" :
+                                                profile?.role === "katim_desiminasi" ? "Ketua Tim Desiminasi" :
+                                                  profile?.role === "teknis_desiminasi" ? "Tim Teknis Desiminasi" : 
+                                                  profile?.role === "kabid_data" ? "Ketua Bidang Data" :
+                                                  profile?.role === "katim_data" ? "Ketua Tim Data" :
+                                                    profile?.role === "teknis_data" ? "Tim Teknis Data" : profile?.role)}
                 </span>
               </div>
             </div>
-            <div className="flex flex-col gap-2 p-2.5 ">
+            <div className="flex flex-col gap-2 p-3 pt-1">
               <DynamicButton
                 initialValue={'Profile'}
                 type="no-padding"
@@ -170,29 +212,12 @@ const Header = () => {
                 iconLeft={<Ic_light_mode className={`h-5 aspect-square`} />}
                 className="inline-flex"
                 onClick={() => {
-                  dispatch(isSideBar(true));
-                }}
-              />
-              <DynamicButton
-                initialValue={'1'}
-                type="no-padding"
-                color={isDarkMode ? "#ffffff" : "#212121"}
-                iconLeft={<Ic_light_mode className={`h-5 aspect-square`} />}
-                className="inline-flex"
-                onClick={() => {
-                }}
-              />
-              <DynamicButton
-                initialValue={'2'}
-                type="no-padding"
-                color={isDarkMode ? "#ffffff" : "#212121"}
-                iconLeft={<Ic_light_mode className={`h-5 aspect-square`} />}
-                className="inline-flex"
-                onClick={() => {
+                  // dispatch(isSideBar(true));
+                  navigate("/detail-account", { state: { slug: profile } });
                 }}
               />
             </div>
-            <div className="flex flex-col gap-2 p-2.5 border-t-[1px] border-[#dddddd] dark:border-[#ffffff20]">
+            <div className="flex flex-col gap-2 p-3 border-t-[1px] border-[#dddddd] dark:border-[#ffffff20]">
               <DynamicButton
                 initialValue={'Log Out'}
                 type="no-padding"
@@ -205,7 +230,6 @@ const Header = () => {
               />
             </div>
           </PopoverContent>
-
         </Popover>
 
         <div

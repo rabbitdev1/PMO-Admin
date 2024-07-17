@@ -5,9 +5,9 @@ export const formData = [
     role: [
       "op_pmo","kadis",
       "perangkat_daerah",
-      "kabid_desiminasi",
-      "katim_desiminasi",
-      "teknis_desiminasi"
+      "kabid_data",
+      "katim_data",
+      "teknis_data"
     ],
     fields: [
       { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
@@ -34,9 +34,9 @@ export const formData = [
     role: [
       "op_pmo","kadis",
       "perangkat_daerah",
-      "kabid_desiminasi",
-      "katim_desiminasi",
-      "teknis_desiminasi"
+      "kabid_data",
+      "katim_data",
+      "teknis_data"
     ],
     fields: [
       { name: "name_pic", label: "Nama PIC", value: "", type: "text" },
