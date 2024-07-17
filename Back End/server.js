@@ -51,7 +51,6 @@ const startServer = async () => {
 
         await Aplikasi.sync();
         await InfraModel.sync();
-        await Users.sync();
         await Sekretariat.sync();
 
         await PerencanaanTIKModel.sync();
@@ -66,16 +65,23 @@ const startServer = async () => {
         await ListAppsModel.sync();
 
 
+        await Users.sync({alter: true});
+
+
     } catch (error) {
         console.error("Unable to connect to the database:", error);
         process.exit(1); // Exit process with failure
     }
 
 
+    // const PORT = process.env.DEV_PORT;
+    // const HOSTNAME = process.env.DEV_HOSTNAME;
+
     const PORT = process.env.DEV_PORT;
     const HOSTNAME = process.env.DEV_HOSTNAME;
 
 
+    // app.listen(PORT, HOSTNAME, () => console.log(`Server running at http://${HOSTNAME}:${PORT} `));
     app.listen(PORT, HOSTNAME, () => console.log(`Server running at http://${HOSTNAME}:${PORT} `));
 };
 

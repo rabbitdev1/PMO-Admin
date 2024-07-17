@@ -13,7 +13,7 @@ import DynamicInput from "../../components/common/DynamicInput";
 import resetFormData from "../../components/common/ResetFormData";
 import useTheme from "../../components/context/useTheme";
 import TableCostum from "../../components/data-display/TableCostum";
-import TitleHeader from "../../components/layout/TitleHeader";
+import Breadcrumb from "../../components/layout/Breadcrumb";
 import { isPending } from "../../components/store/actions/todoActions";
 import ModalContent from "../../components/ui/Modal/ModalContent";
 import ModalContentComponent from "../../components/ui/ModalContentComponent";
@@ -392,7 +392,7 @@ function LayananPenyusunanPerencanaanTIKPages() {
 
   return (
     <div className="flex flex-col gap-3 flex-1 p-4">
-      <TitleHeader
+      <Breadcrumb
         title={
           JSON.parse(authProfile)?.role === "perangkat_daerah"
             ? "Layanan Pengajuan " + dataState

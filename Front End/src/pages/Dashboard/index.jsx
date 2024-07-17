@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { useDispatch } from "react-redux";
-import TitleHeader from "../../components/layout/TitleHeader";
+import Breadcrumb from "../../components/layout/Breadcrumb";
 
 
 function DashboardPages() {
@@ -18,7 +18,7 @@ function DashboardPages() {
 
   return (
     <div className="flex flex-col gap-3 flex-1 p-3">
-      <TitleHeader link1={"dashboard"} />
+      <Breadcrumb link1={"dashboard"} />
       <div className="flex flex-1 gap-3 flex-row">
         <div className="bg-lightColor dark:bg-cardDark p-3 rounded-lg flex-1">
           Belum Tersedia

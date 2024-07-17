@@ -118,7 +118,6 @@ const LoginPage = () => {
           <ReCAPTCHA
             sitekey={process.env.REACT_APP_TOKEN_RECAPCHA}
             onChange={(value) => {
-              console.log("Captcha value:", value)
               setCaptchaValue(value)
             }
             }
