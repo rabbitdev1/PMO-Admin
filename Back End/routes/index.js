@@ -21,6 +21,7 @@ import {
   Login,
   Logout,
   updateUserStatus,
+  verifyUserDetails,
 } from "../controllers/Admin/Users.js";
 import validateImage from "../middleware/Multer.js";
 import validatePDF from "../middleware/Multer2.js";
@@ -152,7 +153,6 @@ router.post("/perangkat-daerah/set_apps", verifyToken, setListDataApps);
 router.post("/perangkat-daerah/delete_apps", verifyToken, deleteListDataApps);
 router.post("/perangkat-daerah/edit_apps", verifyToken, editListDataApps);
 
-
 // User routes
 router.post("/me", verifyToken, getUser);
 router.post("/list_users", verifyToken, getListUser);
@@ -163,6 +163,7 @@ router.post("/users/detail", verifyToken, getUserById);
 router.post("/users/edit", verifyToken, editUsers);
 router.post("/users/edit-password", verifyToken, editUserPassword);
 router.post("/users/user_status", verifyToken, updateUserStatus);
+router.post("/users/verification", verifyToken, verifyUserDetails);
 router.post("/login", Login);
 router.post("/logout", Logout);
 

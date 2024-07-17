@@ -339,6 +339,31 @@ export const editUserPassword = async (req, res) => {
     }
 };
 
+export const verifyUserDetails = async (req, res) => {
+    try {
+        const { email, password, nip, fullname, telp } = req.body;
+
+        if (!email || !password || !nip || !fullname || !telp) {
+            return res.status(400).json({ status: "error", msg: "All fields are required" });
+        }
+
+        const user = await Users.findOne({ where: { email, nip, fullname, telp } });
+        if (!user) {
+            return res.status(400).json({ status: "error", msg: "Invalid " });
+        }
+
+        if (!await user.comparePassword(password)) {
+            return res.status(400).json({ status: "error", msg: "Invalid" });
+        }
+
+        res.status(200).json({
+            status: "ok",
+            msg: "User details verification successful.",
+        });
+    } catch (error) {
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
 
 export const editUsers = async (req, res) => {
     try {
