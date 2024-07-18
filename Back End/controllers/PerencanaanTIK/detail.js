@@ -1,4 +1,5 @@
 import PerencanaanTIK from "../../models/PerencanaanTIKModel.js";
+import ListReviewsModel from "../../models/ReviewModel.js";
 
 export const getDetailDataPerencanaanTIK = async(req, res) => {
     try {
@@ -50,6 +51,22 @@ export const getDetailDataPerencanaanTIK = async(req, res) => {
         // Add createdAt to fields before rearranging
         fields.createdAt = perencanaantikDetail.createdAt;
         const rearrangedData = rearrangeObject(fields, propertiesToMoveUp);
+        const reviews = await ListReviewsModel.findAll({
+            attributes: ['rating', 'comment'],
+            where: {
+                id_submission: id,
+                submission_title: rearrangedData.submission_title,
+            },
+        });
+
+        // Prepare review data from the query result
+        let reviewData = null;
+        if (reviews.length > 0) {
+            reviewData = {
+                rating: reviews[0].rating,
+                comment: reviews[0].comment,
+            };
+        }
         res.json({
             status: "ok",
             msg: "Data retrieved successfully",
@@ -63,6 +80,7 @@ export const getDetailDataPerencanaanTIK = async(req, res) => {
                 on_validation_technique: perencanaantikDetail.on_validation_technique,
                 on_process: perencanaantikDetail.on_process,
                 on_finish: perencanaantikDetail.on_finish,
+                review: reviewData,
             },
         });
     } catch (error) {

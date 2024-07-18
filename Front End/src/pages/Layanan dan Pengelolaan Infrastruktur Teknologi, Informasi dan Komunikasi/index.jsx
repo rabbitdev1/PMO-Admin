@@ -368,26 +368,30 @@ function InfrastrukturPages() {
     }
   };
   const handleImageUploadAndFetch = async (obj) => {
-    if (obj.image_screenshoot) {
-      const result = await fetchUploadImages(
-        authApiKey,
-        authToken,
-        obj.image_screenshoot,
-        "infrastruktur",
-        dispatch
-      );
-      if (result !== null) {
-        const fixObject = {
-          ...obj,
-          image_screenshoot: result,
-        };
-        fetchDataCreate(authApiKey, authToken, fixObject);
-      } else {
-        console.error("Error occurred during image upload.");
+    const fileFields = ["image_screenshoot"];
+    const location =   "infrastruktur";
+    let fixObject = { ...obj };
+
+    for (const field of fileFields) {
+      if (obj[field]) {
+        const result = await fetchUploadImages(
+          authApiKey,
+          authToken,
+          obj[field],
+          location,
+          dispatch
+        );
+        if (result !== null) {
+          fixObject = {
+            ...fixObject,
+            [field]: result,
+          };
+        } else {
+          console.error(`Error occurred during ${field} upload.`);
+        }
       }
-    } else {
-      fetchDataCreate(authApiKey, authToken, obj);
     }
+    fetchDataCreate(authApiKey, authToken, fixObject);
   };
   const updatePic = (name, number) => {
     const updatedData = formData.map((form) => {

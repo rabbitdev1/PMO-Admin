@@ -142,59 +142,31 @@ function CreatePermohonanSIPages() {
     return output;
   };
 
+  const handleImageUploadAndFetch = async (obj) => {
+    const fileFields = ["technicalRecommendationLetter", "anggaranAttachment",];
+    const location = "aplikasi";
+    let fixObject = { ...obj };
 
-  const handleImageUploadAndFetch = async (data) => {
-    if (
-      data.technicalRecommendationLetter ||
-      data.anggaranAttachment
-    ) {
-      try {
-        const uploadPromises = [];
-        const resultMapping = {};
-        if (data.technicalRecommendationLetter) {
-          uploadPromises.push(
-            fetchUploadFiles(
-              authApiKey,
-              authToken,
-              data.technicalRecommendationLetter,
-              "permohonanSI",
-              dispatch
-            ).then(result => {
-              resultMapping.technicalRecommendationLetter = result;
-            })
-          );
+    for (const field of fileFields) {
+      if (obj[field]) {
+        const result = await fetchUploadFiles(
+          authApiKey,
+          authToken,
+          obj[field],
+          location,
+          dispatch
+        );
+        if (result !== null) {
+          fixObject = {
+            ...fixObject,
+            [field]: result,
+          };
+        } else {
+          console.error(`Error occurred during ${field} upload.`);
         }
-
-        if (data.anggaranAttachment) {
-          uploadPromises.push(
-            fetchUploadFiles(
-              authApiKey,
-              authToken,
-              data.anggaranAttachment,
-              "permohonanSI",
-              dispatch
-            ).then(result => {
-              resultMapping.anggaranAttachment = result;
-            })
-          );
-        }
-
-        await Promise.all(uploadPromises);
-
-        let combineData = { ...data };
-        if (resultMapping.technicalRecommendationLetter) {
-          combineData.technicalRecommendationLetter = resultMapping.technicalRecommendationLetter;
-        }
-        if (resultMapping.anggaranAttachment) {
-          combineData.anggaranAttachment = resultMapping.anggaranAttachment;
-        }
-        fetchDataCreate(authApiKey, authToken, combineData);
-      } catch (error) {
-        console.error("Error occurred during image upload:", error);
       }
-    } else {
-      fetchDataCreate(authApiKey, authToken, data);
     }
+    fetchDataCreate(authApiKey, authToken, fixObject);
   };
   const fetchDataCreate = async (api_key, token, data) => {
     dispatch(isPending(true));

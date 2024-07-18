@@ -17,6 +17,7 @@ import LayananData from "./models/LayananDataModel.js";
 import { default as ListAppsModel, default as ListToolsModel } from "./models/ListToolsInfra.js";
 import PerencanaanTIKModel from "./models/PerencanaanTIKModel.js";
 import PermohonanSI from "./models/PermohonanSI.js";
+import ListReview from "./models/ReviewModel.js";
 import TeknologiSI from "./models/TeknologiSIModel.js";
 
 
@@ -63,7 +64,7 @@ const startServer = async () => {
 
         await ListToolsModel.sync();
         await ListAppsModel.sync();
-
+        await ListReview.sync();
 
         await Users.sync({alter: true});
 

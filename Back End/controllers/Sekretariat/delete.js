@@ -50,6 +50,7 @@ export const deleteDataSekretariat = async (req, res) => {
             file_submissionValue,
         ].filter(Boolean);
 
+        console.log(mergedDataProcess);
         if (foundValue) {
             await Promise.all(foundValue.map(async value => {
                 await deleteFiles(value, layanan);
