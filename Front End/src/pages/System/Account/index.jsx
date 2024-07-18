@@ -7,9 +7,7 @@ import { ReactComponent as CloseIcon } from "../../../assets/icon/ic_close.svg";
 import { ReactComponent as PengajuanBerahasilIcon } from "../../../assets/icon/ic_pengajuan_berhasil.svg";
 import { ReactComponent as PengajuanGagalIcon } from "../../../assets/icon/ic_pengajuan_gagal.svg";
 import { ReactComponent as PlusIcon } from "../../../assets/icon/ic_plus.svg";
-import { ReactComponent as DitolakIcon } from "../../../assets/icon/status/ic_ditolak.svg";
-import { ReactComponent as PengajuanIcon } from "../../../assets/icon/status/ic_pengajuan.svg";
-import { ReactComponent as DiprosesIcon } from "../../../assets/icon/status/ic_proses.svg";
+import { ReactComponent as DocumentIcon } from "../../../assets/icon/ic_document.svg";
 import DynamicButton from "../../../components/common/DynamicButton";
 import DynamicInput from "../../../components/common/DynamicInput";
 import useTheme from "../../../components/context/useTheme";
@@ -20,6 +18,7 @@ import ModalContent from "../../../components/ui/Modal/ModalContent";
 import { apiClient } from "../../../utils/api/apiClient";
 import fetchUploadImages from "../../../utils/api/uploadImages";
 import { isValidatorCreateProfile } from "../validators";
+import { validatePassword } from "../../../utils/helpers/validateForm";
 
 function AccountPages() {
   const { isDarkMode } = useTheme();
@@ -27,11 +26,24 @@ function AccountPages() {
   const dispatch = useDispatch();
   const authApiKey = Cookies.get('authApiKey');
   const authToken = Cookies.get('authToken');
+  const authProfile = Cookies.get('authData');
 
   const [statusData, setStatusData] = useState([
-    { title: "Total Pengguna", value: "0", desc: "Data yang harus diproses", icon: PengajuanIcon, },
-    { title: "Aktif", value: "0", desc: "Data aktif", icon: DiprosesIcon, },
-    { title: "Tidak Aktif", value: "0", desc: "Data tidak aktif", icon: DitolakIcon, },
+    {
+      title: "Total Pengguna", value: "0", desc: "Data yang harus diproses",
+      icon: DocumentIcon,
+      color: "#333333",
+    },
+    {
+      title: "Aktif", value: "0", desc: "Data aktif",
+      icon: DocumentIcon,
+      color: "#FFA500",
+    },
+    {
+      title: "Tidak Aktif", value: "0", desc: "Data tidak aktif",
+      icon: DocumentIcon,
+      color: "#FF0000",
+    },
   ]);
 
   const [listAccount, setListAccount] = useState([]);
@@ -78,6 +90,9 @@ function AccountPages() {
     status: false,
     data: {},
   });
+  const [id, setID] = useState(0);
+  const [isModalVerification, setisModalVerification] = useState(false);
+  const [verifictionPassword, setVerifictionPassword] = useState("");
 
   useEffect(() => {
     if (authToken) {
@@ -195,6 +210,8 @@ function AccountPages() {
           },
           status: true
         })
+        setVerifictionPassword("")
+        setisModalVerification(false)
       } else {
         toast.error(response.result.msg, {
           position: toast.POSITION.TOP_RIGHT,
@@ -204,7 +221,35 @@ function AccountPages() {
       console.error("Error fetching data:", error);
     }
   };
+  const fetchDataVerification = async (api_key, token, data) => {
+    dispatch(isPending(true));
+    const formData = new URLSearchParams();
 
+    formData.append("email", data.email);
+    formData.append("password", data.password);
+    formData.append("fullname", data.fullname);
+    formData.append("nip", data.nip);
+    formData.append("telp", data.telp);
+    try {
+      const response = await apiClient({
+        baseurl: "users/verification",
+        method: "POST",
+        body: formData,
+        apiKey: api_key,
+        token: token,
+      });
+      dispatch(isPending(false));
+      if (response?.statusCode === 200) {
+        fetchDataDelete(id, authApiKey, authToken)
+      } else {
+        toast.error(response.result.msg, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
   const checkingFormData = async (data) => {
     const combinedObject = data.reduce((acc, curr) => {
       const value = curr.value;
@@ -219,29 +264,31 @@ function AccountPages() {
   };
 
   const handleImageUploadAndFetch = async (obj) => {
-    if (obj.image) {
-      const result = await fetchUploadImages(
-        authApiKey,
-        authToken,
-        obj.image,
-        "users",
-        dispatch
-      );
-      if (result !== null) {
-        const fixObject = {
-          ...obj,
-          image: result,
-        };
-        fetchDataCreate(authApiKey, authToken, fixObject);
-      } else {
-        console.error("Error occurred during image upload.");
+    const fileFields = ["image",];
+    const location =  "users";
+    let fixObject = { ...obj };
+
+    for (const field of fileFields) {
+      if (obj[field]) {
+        const result = await fetchUploadImages(
+          authApiKey,
+          authToken,
+          obj[field],
+          location,
+          dispatch
+        );
+        if (result !== null) {
+          fixObject = {
+            ...fixObject,
+            [field]: result,
+          };
+        } else {
+          console.error(`Error occurred during ${field} upload.`);
+        }
       }
     }
-    else {
-      fetchDataCreate(authApiKey, authToken, obj);
-    }
+    fetchDataCreate(authApiKey, authToken, fixObject);
   };
-
   const handleInputChange = (name, value, index) => {
     const updatedFormData = [...formData];
     updatedFormData[index].value = value;
@@ -282,15 +329,13 @@ function AccountPages() {
             {statusData.map((item, index) => (
               <div
                 key={index}
-                className={`flex ${index === 0 ? 'md:col-span-1 col-span-2' : 'col-span-1'} flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg flex-1`}
+                className="flex flex-col gap-2 bg-lightColor dark:bg-cardDark p-3 rounded-lg flex-1 shadow-sm"
               >
                 <span className="text-lg font-semibold">{item.title}</span>
                 <div className="flex flex-row gap-2 flex-1 ">
                   <div className="flex flex-row">
                     {item.icon && (
-                      <item.icon
-                        className="w-12 h-12" fill="#ffffff"
-                      />
+                      <item.icon className="w-12 h-12" fill={item.color} />
                     )}
                   </div>
                   <div className="flex flex-col flex-1 justify-end">
@@ -342,7 +387,7 @@ function AccountPages() {
                         position: toast.POSITION.TOP_RIGHT,
                       }
                     );
-                  }else if (a.role === "guest") {
+                  } else if (a.role === "guest") {
                     toast.error(
                       "Guest tidak bisa di hapus",
                       {
@@ -353,7 +398,8 @@ function AccountPages() {
                   else {
                     const isConfirmed = window.confirm("Apakah kamu yakin ingin menghapus akun ini?");
                     if (isConfirmed) {
-                      fetchDataDelete(a, authApiKey, authToken)
+                      setID(a)
+                      setisModalVerification(true)
                     } else {
                       alert("Pengajuan tidak dihapus.");
                     }
@@ -428,6 +474,55 @@ function AccountPages() {
           </div>
         }
         active={isModalCreate.status}
+      />
+      <ModalContent
+        className={"sm:max-w-2xl "}
+        children={
+          <div className="flex flex-col gap-3">
+            <div className="flex flex-row justify-between">
+              <span className="text-lg font-bold font-gilroy">
+                Verifikasi Akun
+              </span>
+            </div>
+            <div className="flex flex-col overflow-hidden rounded-b-md gap-3">
+              <DynamicInput
+                label={"Masukan Password"}
+                value={verifictionPassword}
+                onChange={(value) => {
+                  setVerifictionPassword(value)
+                }}
+                type={'password'}
+                placeholder={"Masukan Password"}
+              />
+            </div>
+            <div className="flex flex-row gap-2 justify-end">
+              <DynamicButton
+                initialValue={"Hapus Akun"}
+                type="fill"
+                color={"#ffffff"}
+                className="inline-flex  bg-[#0185FF] text-darkColor"
+                onClick={() => {
+                  if (validatePassword(verifictionPassword, 'Verifikasi Password')) {
+                    // checkingFormData(formData);
+                    const data = JSON.parse(authProfile)
+                    console.log(data.fullname, data.nip, data.telp, data.email, verifictionPassword);
+                    const datafinal = {
+                      fullname: data.fullname,
+                      nip: data.nip,
+                      telp: data.telp,
+                      email: data.email,
+                      password: verifictionPassword
+                    };
+                    fetchDataVerification(authApiKey, authToken, datafinal);
+                  }
+                }}
+
+              />
+            </div>
+          </div>
+        }
+        active={isModalVerification}
+        onClose={() => setisModalVerification(false)}
       />
 
       <ModalContent

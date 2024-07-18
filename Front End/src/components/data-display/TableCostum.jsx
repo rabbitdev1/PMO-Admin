@@ -181,9 +181,9 @@ const TableCostum = ({
       scrollHeight="700px"
       virtualScrollerOptions={{ itemSize: 46 }}
       tableStyle={{ minWidth: "50rem" }}
-      rows={10}
+      rows={15}
       filters={filters}
-      rowsPerPageOptions={[10, 25, 50]}
+      rowsPerPageOptions={[15, 30, 45]}
       className="border-1 rounded-lg overflow-hidden border-[#dddddd] dark:border-[#ffffff20]"
       loading={loading}
     >

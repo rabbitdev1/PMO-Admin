@@ -277,43 +277,34 @@ function SekretariatPages() {
       console.log("Objek tidak ditemukan dalam formData");
     }
   };
+
   const handleImageUploadAndFetch = async (obj) => {
-    if (obj.nilai_kontrak) {
-      const result = await fetchUploadFiles(
-        authApiKey,
-        authToken,
-        obj.nilai_kontrak,
-        "sekretariat",
-        dispatch
-      );
-      if (result !== null) {
-        const fixObject = {
-          ...obj,
-          nilai_kontrak: result,
-        };
-      } else {
-        console.error("Error occurred during image upload.");
+    const fileFields = ["nilai_kontrak", "file_process_bisiness",];
+    const location = "sekretariat";
+    let fixObject = { ...obj };
+
+    for (const field of fileFields) {
+      if (obj[field]) {
+        const result = await fetchUploadFiles(
+          authApiKey,
+          authToken,
+          obj[field],
+          location,
+          dispatch
+        );
+        if (result !== null) {
+          fixObject = {
+            ...fixObject,
+            [field]: result,
+          };
+        } else {
+          console.error(`Error occurred during ${field} upload.`);
+        }
       }
     }
-    if (obj.file_process_bisiness) {
-      const result = await fetchUploadFiles(
-        authApiKey,
-        authToken,
-        obj.file_process_bisiness,
-        "sekretariat",
-        dispatch
-      );
-      if (result !== null) {
-        const fixObject = {
-          ...obj,
-          file_process_bisiness: result,
-        };
-      } else {
-        console.error("Error occurred during image upload.");
-      }
-    }
-    fetchDataCreate(authApiKey, authToken, obj);
+    fetchDataCreate(authApiKey, authToken, fixObject);
   };
+
   const updatePic = (name, number) => {
     const updatedData = formData.map((form) => {
       return {
@@ -559,7 +550,7 @@ function SekretariatPages() {
                             item?.field?.map(
                               (itemField, indexField) =>
                                 item?.value?.value ===
-                                  itemField.type_select && (
+                                itemField.type_select && (
                                   <DynamicInput
                                     key={indexField}
                                     name={itemField.name}
