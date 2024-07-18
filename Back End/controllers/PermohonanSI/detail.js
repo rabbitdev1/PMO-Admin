@@ -1,4 +1,5 @@
 import PermohonanSI from "../../models/PermohonanSI.js";
+import ListReviewsModel from "../../models/ReviewModel.js";
 
 export const getDetailDataPermohonanSI = async (req, res) => {
     try {
@@ -50,6 +51,22 @@ export const getDetailDataPermohonanSI = async (req, res) => {
         // Add createdAt to fields before rearranging
         fields.createdAt = permohonanSIDetail.createdAt;
         const rearrangedData = rearrangeObject(fields, propertiesToMoveUp);
+          const reviews = await ListReviewsModel.findAll({
+            attributes: ['rating', 'comment'],
+            where: {
+                id_submission: id,
+                submission_title: rearrangedData.submission_title,
+            },
+        });
+
+        // Prepare review data from the query result
+        let reviewData = null;
+        if (reviews.length > 0) {
+            reviewData = {
+                rating: reviews[0].rating,
+                comment: reviews[0].comment,
+            };
+        }
         res.json({
             status: "ok",
             msg: "Data retrieved successfully",
@@ -66,6 +83,8 @@ export const getDetailDataPermohonanSI = async (req, res) => {
                 technical_validation: permohonanSIDetail.technical_validation,
                 recommendation_letter_technical: permohonanSIDetail.recommendation_letter_technical,
                 on_finish: permohonanSIDetail.on_finish,
+                review: reviewData,
+
             },
         });
     } catch (error) {

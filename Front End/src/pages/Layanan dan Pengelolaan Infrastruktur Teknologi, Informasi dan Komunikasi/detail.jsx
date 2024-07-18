@@ -87,10 +87,12 @@ function DetailInfrastrukturPages() {
         setProcessData(JSON.parse(response.result.data?.on_process));
         setfinishData(JSON.parse(response.result.data?.on_finish));
         if (response.result.data?.review === null) {
-          setIsModalPenilaian({
-            status: true,
-          })
-          setPopupPenilaian(false)
+          if (JSON.parse(authProfile)?.role === "perangkat_daerah") {
+            setIsModalPenilaian({
+              status: true,
+            })
+            setPopupPenilaian(false)
+          }
         } else {
           setPenilaian(response.result.data?.review);
           setPopupPenilaian(true)
@@ -358,7 +360,7 @@ function DetailInfrastrukturPages() {
       <section className="flex flex-col gap-3">
         <SubmissionStatus status={submissionStatus} data={null} />
         <div className={`flex  flex-col gap-3`}>
-          {popupPenilaian && (
+          {(JSON.parse(authProfile)?.role === "perangkat_daerah" && popupPenilaian) && (
             <div className="flex flex-col bg-[#f3a826]/10 border-1 border-[#f3a826] text-[#f3a826] p-3 gap-3 items-center rounded-lg">
               <span className="text-base font-semibold text-center">
                 Penilaian berhasil dilampirkan. Terima kasih telah menyempatkan waktu untuk menilainya.
