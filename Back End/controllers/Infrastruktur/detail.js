@@ -1,4 +1,5 @@
 import InfraModel from "../../models/InfraModel.js";
+import ListReviewsModel from "../../models/ReviewModel.js";
 
 export const getDetailDataInfrastruktur = async(req, res) => {
     try {
@@ -50,6 +51,23 @@ export const getDetailDataInfrastruktur = async(req, res) => {
         // Add createdAt to fields before rearranging
         fields.createdAt = infrastrukturDetail.createdAt;
         const rearrangedData = rearrangeObject(fields, propertiesToMoveUp);
+
+        const reviews = await ListReviewsModel.findAll({
+            attributes: ['rating', 'comment'],
+            where: {
+                id_submission: id,
+                submission_title: rearrangedData.submission_title,
+            },
+        });
+
+        // Prepare review data from the query result
+        let reviewData = null;
+        if (reviews.length > 0) {
+            reviewData = {
+                rating: reviews[0].rating,
+                comment: reviews[0].comment,
+            };
+        }
         res.json({
             status: "ok",
             msg: "Data retrieved successfully",
@@ -63,6 +81,7 @@ export const getDetailDataInfrastruktur = async(req, res) => {
                 on_validation_technique: infrastrukturDetail.on_validation_technique,
                 on_process: infrastrukturDetail.on_process,
                 on_finish: infrastrukturDetail.on_finish,
+                review: reviewData,
             },
         });
     } catch (error) {

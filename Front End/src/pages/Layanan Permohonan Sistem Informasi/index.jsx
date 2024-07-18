@@ -234,6 +234,7 @@ function PermohonanSIPages() {
   };
   const handleImageUploadAndFetch = async (obj) => {
     const fileFields = ["skpdRequestLetter", "kakAttachment"];
+    const location = "permohonanSI";
     let fixObject = { ...obj };
 
     for (const field of fileFields) {
@@ -242,7 +243,7 @@ function PermohonanSIPages() {
           authApiKey,
           authToken,
           obj[field],
-          "permohonanSI",
+          location,
           dispatch
         );
         if (result !== null) {
@@ -255,7 +256,6 @@ function PermohonanSIPages() {
         }
       }
     }
-
     fetchDataCreate(authApiKey, authToken, fixObject);
   };
 
@@ -557,7 +557,7 @@ function PermohonanSIPages() {
               1. Klik layanan yang akan diajukan pada Side Bar Menu atau Menu
               Bar Samping.
             </p>
-            <img src={require('../../assets/image/image_not_found.jpg')} alt="notfouund" className="w-40 aspect-[2/1] object-cover mb-2"/>
+            <img src={require('../../assets/image/image_not_found.jpg')} alt="notfouund" className="w-40 aspect-[2/1] object-cover mb-2" />
             <p>
               2. Lalu muncul submenu atau menu sekunder klik Rekomendasi Sistem Informasi
             </p>

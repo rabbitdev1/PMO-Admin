@@ -384,27 +384,32 @@ function AplikasiPages() {
     }
   };
   const handleImageUploadAndFetch = async (obj) => {
-    if (obj.file_process_bisiness) {
-      const result = await fetchUploadFiles(
-        authApiKey,
-        authToken,
-        obj.file_process_bisiness,
-        "aplikasi",
-        dispatch
-      );
-      if (result !== null) {
-        const fixObject = {
-          ...obj,
-          file_process_bisiness: result,
-        };
-        fetchDataCreate(authApiKey, authToken, fixObject);
-      } else {
-        console.error("Error occurred during image upload.");
+    const fileFields = ["file_process_bisiness"];
+    const location = "aplikasi";
+    let fixObject = { ...obj };
+
+    for (const field of fileFields) {
+      if (obj[field]) {
+        const result = await fetchUploadFiles(
+          authApiKey,
+          authToken,
+          obj[field],
+          location,
+          dispatch
+        );
+        if (result !== null) {
+          fixObject = {
+            ...fixObject,
+            [field]: result,
+          };
+        } else {
+          console.error(`Error occurred during ${field} upload.`);
+        }
       }
-    } else {
-      fetchDataCreate(authApiKey, authToken, obj);
     }
+    fetchDataCreate(authApiKey, authToken, fixObject);
   };
+  
   const updatePic = (name, number) => {
     const updatedData = formData.map((form) => {
       return {

@@ -304,47 +304,31 @@ function LayananDataPages() {
     }
   };
   const handleImageUploadAndFetch = async (obj) => {
+    const fileFields = ["file_data","surat_permohonan"];
+    const location =   "layanan-data";
     let fixObject = { ...obj };
 
-    if (obj.file_data) {
-      const draftPerwalResult = await fetchUploadFiles(
-        authApiKey,
-        authToken,
-        obj.file_data,
-        "layanan-data",
-        dispatch
-      );
-      if (draftPerwalResult !== null) {
-        fixObject = {
-          ...fixObject,
-          file_data: draftPerwalResult,
-        };
-      } else {
-        console.error("Error occurred during file_data upload.");
+    for (const field of fileFields) {
+      if (obj[field]) {
+        const result = await fetchUploadFiles(
+          authApiKey,
+          authToken,
+          obj[field],
+          location,
+          dispatch
+        );
+        if (result !== null) {
+          fixObject = {
+            ...fixObject,
+            [field]: result,
+          };
+        } else {
+          console.error(`Error occurred during ${field} upload.`);
+        }
       }
     }
-
-    if (obj.surat_permohonan) {
-      const nilaiKontrakResult = await fetchUploadFiles(
-        authApiKey,
-        authToken,
-        obj.surat_permohonan,
-        "layanan-data",
-        dispatch
-      );
-      if (nilaiKontrakResult !== null) {
-        fixObject = {
-          ...fixObject,
-          surat_permohonan: nilaiKontrakResult,
-        };
-      } else {
-        console.error("Error occurred during surat_permohonan upload.");
-      }
-    }
-
     fetchDataCreate(authApiKey, authToken, fixObject);
   };
-
   const updatePic = (name, number) => {
     const updatedData = formData.map((form) => {
       return {
