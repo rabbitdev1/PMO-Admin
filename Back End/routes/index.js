@@ -79,7 +79,8 @@ import {
   setStatusDataPermohonanSI,
 } from "../controllers/PermohonanSI/index.js";
 import { getListDataPermohonanSI } from "../controllers/PermohonanSI/list.js";
-import { deleteListDataApps, editListDataApps, getListDataApps, getListDataAppsbyArray, setListDataApps } from "../controllers/PerangkatDaerah/list_apps.js";
+import { deleteListDataApps, editListDataApps, getListDataApps, getListDataAppsbyArray, setListDataApps } from "../controllers/PerangkatDaerah/Apps.js";
+import { setListDataReviews } from "../controllers/Admin/Review.js";
 
 
 const router = express.Router();
@@ -153,7 +154,9 @@ router.post("/perangkat-daerah/set_apps", verifyToken, setListDataApps);
 router.post("/perangkat-daerah/delete_apps", verifyToken, deleteListDataApps);
 router.post("/perangkat-daerah/edit_apps", verifyToken, editListDataApps);
 
-// User routes
+router.post("/reviews/set", verifyToken, setListDataReviews);
+
+// User routes‚
 router.post("/me", verifyToken, getUser);
 router.post("/list_users", verifyToken, getListUser);
 router.post("/user/check_role", verifyToken, checkRoleUser);
