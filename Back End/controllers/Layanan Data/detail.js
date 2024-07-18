@@ -1,6 +1,7 @@
 import LayananDataModel from "../../models/LayananDataModel.js";
+import ListReviewsModel from "../../models/ReviewModel.js";
 
-export const getDetailDataLayananData = async(req, res) => {
+export const getDetailDataLayananData = async (req, res) => {
     try {
         const { id, role } = req.body;
         const apiKey = req.headers["x-api-key"];
@@ -21,7 +22,7 @@ export const getDetailDataLayananData = async(req, res) => {
         }
 
         const userHasPermission =
-        LayananDataDetail.dataValues.role.includes(role);
+            LayananDataDetail.dataValues.role.includes(role);
         if (!userHasPermission) {
             return res.status(403).json({
                 status: "error",
@@ -44,12 +45,29 @@ export const getDetailDataLayananData = async(req, res) => {
                     delete obj[prop];
                 }
             });
-            return {...rearrangedObj, ...obj };
+            return { ...rearrangedObj, ...obj };
         };
 
         // Add createdAt to fields before rearranging
         fields.createdAt = LayananDataDetail.createdAt;
         const rearrangedData = rearrangeObject(fields, propertiesToMoveUp);
+
+        const reviews = await ListReviewsModel.findAll({
+            attributes: ['rating', 'comment'],
+            where: {
+                id_submission: id,
+                submission_title: rearrangedData.submission_title,
+            },
+        });
+
+        // Prepare review data from the query result
+        let reviewData = null;
+        if (reviews.length > 0) {
+            reviewData = {
+                rating: reviews[0].rating,
+                comment: reviews[0].comment,
+            };
+        }
         res.json({
             status: "ok",
             msg: "Data retrieved successfully",
@@ -63,6 +81,7 @@ export const getDetailDataLayananData = async(req, res) => {
                 on_validation_technique: LayananDataDetail.on_validation_technique,
                 on_process: LayananDataDetail.on_process,
                 on_finish: LayananDataDetail.on_finish,
+                review: reviewData,
             },
         });
     } catch (error) {

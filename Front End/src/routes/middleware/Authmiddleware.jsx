@@ -76,14 +76,14 @@ const Authmiddleware = (props) => {
             style={{ paddingTop: `${headerHeight}px` }}
           >
             <div
-              className={`transform transition-transform duration-500 ease-in-out flex-1 max-w-[300px] relative w-full pt-2 bg-lightColor dark:bg-cardDark  lg:block hidden border-r-[1px] border-[#dddddd] dark:border-[#ffffff20]`}
+              className={`transform transition-transform duration-500 ease-in-out flex-1 min-w-[300px] max-w-[300px] relative w-full pt-2 bg-lightColor dark:bg-cardDark  lg:block hidden border-r-[1px] border-[#dddddd] dark:border-[#ffffff20]`}
             >
               <StickyBox offsetTop={headerHeight}>
                 <Sidebar />
               </StickyBox>
             </div>
-            <div className="flex flex-1 flex-col w-full lg:w-auto">
-              <div className="grow ">{props.children}</div>
+            <div className="flex flex-1 flex-col lg:w-auto">
+              <div className="grow">{props.children}</div>
               <Footer />
             </div>
           </div>

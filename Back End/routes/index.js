@@ -21,6 +21,7 @@ import {
   Login,
   Logout,
   updateUserStatus,
+  verifyUserDetails,
 } from "../controllers/Admin/Users.js";
 import validateImage from "../middleware/Multer.js";
 import validatePDF from "../middleware/Multer2.js";
@@ -78,7 +79,8 @@ import {
   setStatusDataPermohonanSI,
 } from "../controllers/PermohonanSI/index.js";
 import { getListDataPermohonanSI } from "../controllers/PermohonanSI/list.js";
-import { deleteListDataApps, editListDataApps, getListDataApps, getListDataAppsbyArray, setListDataApps } from "../controllers/PerangkatDaerah/list_apps.js";
+import { deleteListDataApps, editListDataApps, getListDataApps, getListDataAppsbyArray, setListDataApps } from "../controllers/PerangkatDaerah/Apps.js";
+import { setListDataReviews } from "../controllers/Admin/Review.js";
 
 
 const router = express.Router();
@@ -152,8 +154,9 @@ router.post("/perangkat-daerah/set_apps", verifyToken, setListDataApps);
 router.post("/perangkat-daerah/delete_apps", verifyToken, deleteListDataApps);
 router.post("/perangkat-daerah/edit_apps", verifyToken, editListDataApps);
 
+router.post("/reviews/set", verifyToken, setListDataReviews);
 
-// User routes
+// User routes‚
 router.post("/me", verifyToken, getUser);
 router.post("/list_users", verifyToken, getListUser);
 router.post("/user/check_role", verifyToken, checkRoleUser);
@@ -163,6 +166,7 @@ router.post("/users/detail", verifyToken, getUserById);
 router.post("/users/edit", verifyToken, editUsers);
 router.post("/users/edit-password", verifyToken, editUserPassword);
 router.post("/users/user_status", verifyToken, updateUserStatus);
+router.post("/users/verification", verifyToken, verifyUserDetails);
 router.post("/login", Login);
 router.post("/logout", Logout);
 
