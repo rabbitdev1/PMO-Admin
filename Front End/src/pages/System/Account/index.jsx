@@ -264,29 +264,31 @@ function AccountPages() {
   };
 
   const handleImageUploadAndFetch = async (obj) => {
-    if (obj.image) {
-      const result = await fetchUploadImages(
-        authApiKey,
-        authToken,
-        obj.image,
-        "users",
-        dispatch
-      );
-      if (result !== null) {
-        const fixObject = {
-          ...obj,
-          image: result,
-        };
-        fetchDataCreate(authApiKey, authToken, fixObject);
-      } else {
-        console.error("Error occurred during image upload.");
+    const fileFields = ["image",];
+    const location =  "users";
+    let fixObject = { ...obj };
+
+    for (const field of fileFields) {
+      if (obj[field]) {
+        const result = await fetchUploadImages(
+          authApiKey,
+          authToken,
+          obj[field],
+          location,
+          dispatch
+        );
+        if (result !== null) {
+          fixObject = {
+            ...fixObject,
+            [field]: result,
+          };
+        } else {
+          console.error(`Error occurred during ${field} upload.`);
+        }
       }
     }
-    else {
-      fetchDataCreate(authApiKey, authToken, obj);
-    }
+    fetchDataCreate(authApiKey, authToken, fixObject);
   };
-
   const handleInputChange = (name, value, index) => {
     const updatedFormData = [...formData];
     updatedFormData[index].value = value;

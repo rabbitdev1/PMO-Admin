@@ -281,39 +281,30 @@ function SistemVirtualPages() {
     }
   };
   const handleImageUploadAndFetch = async (obj) => {
-    if (obj.file_process_bisiness) {
-      const result = await fetchUploadFiles(
-        authApiKey,
-        authToken,
-        obj.file_process_bisiness,
-        "sistem-virtual",
-        dispatch
-      );
-      if (result !== null) {
-        const fixObject = {
-          ...obj,
-          file_process_bisiness: result,
-        };
-        fetchDataCreate(authApiKey, authToken, fixObject);
-      } else {
-        console.error("Error occurred during image upload.");
+    const fileFields = ["file_process_bisiness", "file_pengajuan_zoom",];
+    const location =  "sistem-virtual";
+    let fixObject = { ...obj };
+
+    for (const field of fileFields) {
+      if (obj[field]) {
+        const result = await fetchUploadFiles(
+          authApiKey,
+          authToken,
+          obj[field],
+          location,
+          dispatch
+        );
+        if (result !== null) {
+          fixObject = {
+            ...fixObject,
+            [field]: result,
+          };
+        } else {
+          console.error(`Error occurred during ${field} upload.`);
+        }
       }
     }
-    if (obj.file_pengajuan_zoom) {
-      const result = await fetchUploadFiles(authApiKey, authToken, obj.file_pengajuan_zoom, "sistem-virtual", dispatch);
-      if (result !== null) {
-        const fixObject = {
-          ...obj,
-          file_pengajuan_zoom: result,
-        };
-        fetchDataCreate(authApiKey, authToken, fixObject);
-      } else {
-        console.error("Error occurred during image upload.");
-      }
-    }
-    else {
-      fetchDataCreate(authApiKey, authToken, obj);
-    }
+    fetchDataCreate(authApiKey, authToken, fixObject);
   };
   const updatePic = (name, number) => {
     const updatedData = formData.map((form) => {
