@@ -20,6 +20,7 @@ import ValidationStatusTechnique from "./Logical/3.ValidationStatusTechnique";
 import ProcessStatus from "./Logical/4.ProcessStatus";
 import FinishStatus from "./Logical/5.FinishStatus";
 import ModalContentComponent from "../../components/ui/ModalContentComponent";
+import PenilaianModal from "../../components/ui/PenilaianModal";
 
 function DetailSekretariatPages() {
   const navigate = useNavigate();
@@ -42,6 +43,13 @@ function DetailSekretariatPages() {
     status: false,
     data: {},
   });
+  const [isModalPenilaian, setIsModalPenilaian] = useState({
+    status: false,
+    data: {},
+  });
+  const [penilaian, setPenilaian] = useState({ rating: 5, comment: "" });
+  const [popupPenilaian, setPopupPenilaian] = useState(false);
+
 
   const dispatch = useDispatch();
 
@@ -53,7 +61,7 @@ function DetailSekretariatPages() {
         JSON.parse(authProfile)?.role
       );
     }
-  }, [authToken,authApiKey,authProfile]);
+  }, [authToken, authApiKey, authProfile]);
 
   const fetchDataSekretariat = async (api_key, token, role) => {
     setSekretariatLoading(true);
@@ -78,6 +86,17 @@ function DetailSekretariatPages() {
         );
         setProcessData(JSON.parse(response.result.data?.on_process));
         setfinishData(JSON.parse(response.result.data?.on_finish));
+        if (response.result.data?.review === null) {
+          if (JSON.parse(authProfile)?.role === "perangkat_daerah") {
+            setIsModalPenilaian({
+              status: true,
+            })
+            setPopupPenilaian(false)
+          }
+        } else {
+          setPenilaian(response.result.data?.review);
+          setPopupPenilaian(true)
+        }
       } else {
         setDetailData([]);
         navigate("/dashboard");
@@ -95,7 +114,7 @@ function DetailSekretariatPages() {
     let htmlConvert = "";
 
     if (
-      [ "validation_technique", "process"].includes(type) &&
+      ["validation_technique", "process"].includes(type) &&
       data?.response
     ) {
       const contentState = convertToRaw(data.response.getCurrentContent());
@@ -170,6 +189,34 @@ function DetailSekretariatPages() {
     }
   };
 
+  const fetchSetReview = async (api_key, token, data) => {
+    dispatch(isPending(true));
+    const urlEncodedData = new URLSearchParams(data).toString();
+
+    try {
+      const response = await apiClient({
+        baseurl: "reviews/set",
+        method: "POST",
+        body: urlEncodedData,
+        apiKey: api_key,
+        token: token,
+      });
+      dispatch(isPending(false));
+      if (response?.statusCode === 200) {
+        toast.success(response.result.msg, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+        setIsModalPenilaian({ data: {}, status: false });
+        setPopupPenilaian(true)
+      } else {
+        toast.error(response.result.msg, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
   const checkingFormData = async (type, data) => {
     if (type === "validation") {
       fetchEditsekretariat(authApiKey, authToken, slug, type, data);
@@ -244,7 +291,7 @@ function DetailSekretariatPages() {
       }
     } else if (type === "process") {
       if (
-        data.upload_dokumen_hasil 
+        data.upload_dokumen_hasil
       ) {
         try {
           const uploadPromises = [];
@@ -262,14 +309,14 @@ function DetailSekretariatPages() {
                 resultMapping.upload_dokumen_hasil = result;
               })
             );
-          } 
+          }
 
           await Promise.all(uploadPromises);
 
           let combineData = { ...data };
           if (resultMapping.upload_dokumen_hasil) {
             combineData.upload_dokumen_hasil = resultMapping.upload_dokumen_hasil;
-          } 
+          }
 
           fetchEditsekretariat(authApiKey, authToken, slug, type, combineData);
         } catch (error) {
@@ -314,59 +361,77 @@ function DetailSekretariatPages() {
         link2={"Layanan Sekretariat"}
       />
       <section className="flex flex-col gap-3">
-      <SubmissionStatus status={submissionStatus} data={null} />
+        <SubmissionStatus status={submissionStatus} data={null} />
         <div className={`flex  flex-col gap-3`}>
-            <DalamAntrianView
-              submissionStatus={submissionStatus}
-              detailData={detailData}
-              loading={sekretariatLoading}
-            />
-            <ValidationStatus
-              submissionStatus={submissionStatus}
-              validationData={validationData}
-              authProfile={authProfile}
-              detailData={detailData}
-              loading={sekretariatLoading}
-              setValidationData={setValidationData}
-              checkingFormData={checkingFormData}
-            />
-            <ValidationStatusTechnique
-              slug={slug}
-              submissionStatus={submissionStatus}
-              validationData={validationData}
-              validationDataTechnique={validationDataTechnique}
-              setvalidationDataTechnique={setValidationDataTechnique}
-              authProfile={authProfile}
-              detailData={detailData}
-              loading={sekretariatLoading}
-              checkingFormData={checkingFormData}
-              setisModalVerif={setisModalVerif}
-            />
-            <ProcessStatus
-              slug={slug}
-              validationDataTechnique={validationDataTechnique}
-              processData={processData}
-              submissionStatus={submissionStatus}
-              authProfile={authProfile}
-              detailData={detailData}
-              loading={sekretariatLoading}
-              checkingFormData={checkingFormData}
-              setisModalVerif={setisModalVerif}
-              finishData={finishData}
-              setfinishData={setfinishData}
-            />
-            <FinishStatus
-              detailData={detailData}
-              loading={sekretariatLoading}
-              validationData={validationData}
-              validationDataTechnique={validationDataTechnique}
-              processData={processData}
-              submissionStatus={submissionStatus}
-              finishData={finishData}
-            />
-          </div>
+          {(JSON.parse(authProfile)?.role === "perangkat_daerah" && popupPenilaian) && (
+            <div className="flex flex-col bg-[#f3a826]/10 border-1 border-[#f3a826] text-[#f3a826] p-3 gap-3 items-center rounded-lg">
+              <span className="text-base font-semibold text-center">
+                Penilaian berhasil dilampirkan. Terima kasih telah menyempatkan waktu untuk menilainya.
+              </span>
+            </div>
+          )}
+          <DalamAntrianView
+            submissionStatus={submissionStatus}
+            detailData={detailData}
+            loading={sekretariatLoading}
+          />
+          <ValidationStatus
+            submissionStatus={submissionStatus}
+            validationData={validationData}
+            authProfile={authProfile}
+            detailData={detailData}
+            loading={sekretariatLoading}
+            setValidationData={setValidationData}
+            checkingFormData={checkingFormData}
+          />
+          <ValidationStatusTechnique
+            slug={slug}
+            submissionStatus={submissionStatus}
+            validationData={validationData}
+            validationDataTechnique={validationDataTechnique}
+            setvalidationDataTechnique={setValidationDataTechnique}
+            authProfile={authProfile}
+            detailData={detailData}
+            loading={sekretariatLoading}
+            checkingFormData={checkingFormData}
+            setisModalVerif={setisModalVerif}
+          />
+          <ProcessStatus
+            slug={slug}
+            validationDataTechnique={validationDataTechnique}
+            processData={processData}
+            submissionStatus={submissionStatus}
+            authProfile={authProfile}
+            detailData={detailData}
+            loading={sekretariatLoading}
+            checkingFormData={checkingFormData}
+            setisModalVerif={setisModalVerif}
+            finishData={finishData}
+            setfinishData={setfinishData}
+          />
+          <FinishStatus
+            detailData={detailData}
+            loading={sekretariatLoading}
+            validationData={validationData}
+            validationDataTechnique={validationDataTechnique}
+            processData={processData}
+            submissionStatus={submissionStatus}
+            finishData={finishData}
+          />
+        </div>
       </section>
 
+      <PenilaianModal
+        isModalPenilaian={isModalPenilaian}
+        setIsModalPenilaian={setIsModalPenilaian}
+        penilaian={penilaian}
+        setPenilaian={setPenilaian}
+        fetchSetReview={fetchSetReview}
+        authApiKey={authApiKey}
+        authToken={authToken}
+        slug={slug}
+        detailData={detailData}
+      />
       <ModalContentComponent
         isModalVerif={isModalVerif}
         setisModalVerif={setisModalVerif}

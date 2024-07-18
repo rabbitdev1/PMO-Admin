@@ -239,7 +239,7 @@ function DetailsAccountPages() {
                                                           detailData?.role === "teknis_data" ? "Tim Teknis Data" : detailData?.role}</span>
               </div>
             </div>
-            {detailData?.role === "op_pmo" &&
+            {JSON.parse(authProfile)?.role === "op_pmo" &&
               <div className="flex flex-col  gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
                 <div className="flex flex-row gap-2 items-center justify-between">
                   <span className="text-md font-bold">
@@ -253,7 +253,6 @@ function DetailsAccountPages() {
                         {detailData?.status_account}
                       </span>
                     </div>
-
                     {(detailData.role === "op_pmo" || detailData.role === "guest") ? null :
                       <DynamicButton
                         initialValue={detailData?.status_account === "Aktif" ? 'Nonaktifkan Akun' : 'Aktifkan Akun'}

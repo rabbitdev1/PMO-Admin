@@ -21,6 +21,7 @@ import ValidationStatusTechnique from "./Logical/3.ValidationStatusTechnique";
 import ProcessStatus from "./Logical/4.ProcessStatus";
 import FinishStatus from "./Logical/5.FinishStatus";
 import ModalContentComponent from "../../components/ui/ModalContentComponent";
+import PenilaianModal from "../../components/ui/PenilaianModal";
 
 function DetailPerencanaanTIKPages() {
   const navigate = useNavigate();
@@ -43,6 +44,13 @@ function DetailPerencanaanTIKPages() {
     status: false,
     data: {},
   });
+  const [isModalPenilaian, setIsModalPenilaian] = useState({
+    status: false,
+    data: {},
+  });
+  const [penilaian, setPenilaian] = useState({ rating: 5, comment: "" });
+  const [popupPenilaian, setPopupPenilaian] = useState(false);
+
 
   const dispatch = useDispatch();
 
@@ -79,6 +87,17 @@ function DetailPerencanaanTIKPages() {
         );
         setProcessData(JSON.parse(response.result.data?.on_process));
         setfinishData(JSON.parse(response.result.data?.on_finish));
+        if (response.result.data?.review === null) {
+          if (JSON.parse(authProfile)?.role === "perangkat_daerah") {
+            setIsModalPenilaian({
+              status: true,
+            })
+            setPopupPenilaian(false)
+          }
+        } else {
+          setPenilaian(response.result.data?.review);
+          setPopupPenilaian(true)
+        }
       } else {
         setDetailData([]);
         navigate("/dashboard");
@@ -171,6 +190,34 @@ function DetailPerencanaanTIKPages() {
     }
   };
 
+  const fetchSetReview = async (api_key, token, data) => {
+    dispatch(isPending(true));
+    const urlEncodedData = new URLSearchParams(data).toString();
+
+    try {
+      const response = await apiClient({
+        baseurl: "reviews/set",
+        method: "POST",
+        body: urlEncodedData,
+        apiKey: api_key,
+        token: token,
+      });
+      dispatch(isPending(false));
+      if (response?.statusCode === 200) {
+        toast.success(response.result.msg, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+        setIsModalPenilaian({ data: {}, status: false });
+        setPopupPenilaian(true)
+      } else {
+        toast.error(response.result.msg, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
   const checkingFormData = async (type, data) => {
     if (type === "validation") {
       fetchEditperencanaantik(authApiKey, authToken, slug, type, data);
@@ -354,6 +401,13 @@ function DetailPerencanaanTIKPages() {
       <section className="flex flex-col gap-3">
         <SubmissionStatus status={submissionStatus} data={null} />
         <div className={`flex  flex-col gap-3`}>
+        {(JSON.parse(authProfile)?.role === "perangkat_daerah" && popupPenilaian) && (
+            <div className="flex flex-col bg-[#f3a826]/10 border-1 border-[#f3a826] text-[#f3a826] p-3 gap-3 items-center rounded-lg">
+              <span className="text-base font-semibold text-center">
+                Penilaian berhasil dilampirkan. Terima kasih telah menyempatkan waktu untuk menilainya.
+              </span>
+            </div>
+          )}
           <DalamAntrianView
             submissionStatus={submissionStatus}
             detailData={detailData}
@@ -404,7 +458,17 @@ function DetailPerencanaanTIKPages() {
           />
         </div>
       </section>
-
+      <PenilaianModal
+        isModalPenilaian={isModalPenilaian}
+        setIsModalPenilaian={setIsModalPenilaian}
+        penilaian={penilaian}
+        setPenilaian={setPenilaian}
+        fetchSetReview={fetchSetReview}
+        authApiKey={authApiKey}
+        authToken={authToken}
+        slug={slug}
+        detailData={detailData}
+      />
       <ModalContentComponent
         isModalVerif={isModalVerif}
         setisModalVerif={setisModalVerif}

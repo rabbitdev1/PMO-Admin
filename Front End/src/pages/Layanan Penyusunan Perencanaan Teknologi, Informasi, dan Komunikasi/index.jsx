@@ -327,48 +327,33 @@ function LayananPenyusunanPerencanaanTIKPages() {
       console.log("Objek tidak ditemukan dalam formData");
     }
   };
+
   const handleImageUploadAndFetch = async (obj) => {
+    const fileFields = ["draft_perwal", "nilai_kontrak",];
+    const location = "perencanaantik";
     let fixObject = { ...obj };
 
-    if (obj.draft_perwal) {
-      const draftPerwalResult = await fetchUploadFiles(
-        authApiKey,
-        authToken,
-        obj.draft_perwal,
-        "perencanaantik",
-        dispatch
-      );
-      if (draftPerwalResult !== null) {
-        fixObject = {
-          ...fixObject,
-          draft_perwal: draftPerwalResult,
-        };
-      } else {
-        console.error("Error occurred during draft_perwal upload.");
+    for (const field of fileFields) {
+      if (obj[field]) {
+        const result = await fetchUploadFiles(
+          authApiKey,
+          authToken,
+          obj[field],
+          location,
+          dispatch
+        );
+        if (result !== null) {
+          fixObject = {
+            ...fixObject,
+            [field]: result,
+          };
+        } else {
+          console.error(`Error occurred during ${field} upload.`);
+        }
       }
     }
-
-    if (obj.nilai_kontrak) {
-      const nilaiKontrakResult = await fetchUploadFiles(
-        authApiKey,
-        authToken,
-        obj.nilai_kontrak,
-        "perencanaantik",
-        dispatch
-      );
-      if (nilaiKontrakResult !== null) {
-        fixObject = {
-          ...fixObject,
-          nilai_kontrak: nilaiKontrakResult,
-        };
-      } else {
-        console.error("Error occurred during nilai_kontrak upload.");
-      }
-    }
-
     fetchDataCreate(authApiKey, authToken, fixObject);
   };
-
   const updatePic = (name, number) => {
     const updatedData = formData.map((form) => {
       return {
