@@ -239,8 +239,8 @@ function DetailsAccountPages() {
                                                           detailData?.role === "teknis_data" ? "Tim Teknis Data" : detailData?.role}</span>
               </div>
             </div>
-            {JSON.parse(authProfile)?.role === "op_pmo" &&
-              <div className="flex flex-col  gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+            <div className="flex flex-col  gap-3 bg-lightColor dark:bg-cardDark p-3 rounded-lg">
+              {JSON.parse(authProfile)?.role === "op_pmo" &&
                 <div className="flex flex-row gap-2 items-center justify-between">
                   <span className="text-md font-bold">
                     Status Akun :
@@ -265,24 +265,26 @@ function DetailsAccountPages() {
                       />}
                   </div>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm">
-                    Edit Akun Pengguna:
-                  </span>
-                  {detailData.role === "guest" ? <span className="text-xs text-[#FB4B4B]">
-                    Tidak Tersedia
-                  </span> :
-                    <DynamicButton
-                      initialValue={'Edit Akun'}
-                      color={"#ffffff"}
-                      type="transparent"
-                      className={`bg-[#0185FF] text-darkColor text-xs `}
-                      onClick={() => {
-                        setisModalType({ data: "Edit Pengguna", status: true })
-                      }}
-                    />
-                  }
-                </div>
+              }
+              <div className="flex justify-between items-center">
+                <span className="text-sm">
+                  Edit Akun Pengguna:
+                </span>
+                {detailData.role === "guest" ? <span className="text-xs text-[#FB4B4B]">
+                  Tidak Tersedia
+                </span> :
+                  <DynamicButton
+                    initialValue={'Edit Akun'}
+                    color={"#ffffff"}
+                    type="transparent"
+                    className={`bg-[#0185FF] text-darkColor text-xs `}
+                    onClick={() => {
+                      setisModalType({ data: "Edit Pengguna", status: true })
+                    }}
+                  />
+                }
+              </div>
+              {JSON.parse(authProfile)?.role === "op_pmo" &&
                 <div className="flex justify-between items-center">
                   <span className="text-sm">
                     Reset Password Pengguna:
@@ -300,9 +302,8 @@ function DetailsAccountPages() {
                       }}
                     />
                   }
-                </div>
-              </div>
-            }
+                </div>}
+            </div>
           </div>
           <div className="flex flex-1 flex-col ">
             <DynamicDetails location={"users"} detailData={detailData} loading={accountLoading} />

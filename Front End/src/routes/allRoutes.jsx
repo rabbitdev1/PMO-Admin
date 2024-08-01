@@ -52,17 +52,16 @@ const userRoutes = [
   { path: "/detail-sekretariat", component: <DetailSekretariatPages /> },
 
 
+  { path: "/detail-account", component: <DetailsAccountPages /> },
 ];
 const infraRoutes = [
   { path: "/data-alat-infrastruktur", component: <DataAlatInfraPage /> },
 ]
 const perangkatdaerahRoutes = [
   { path: "/data-alat-aplikasi", component: <DataAppPerangkatDaerah /> },
-  { path: "/detail-account", component: <DetailsAccountPages /> },
 ]
 const operatorRoutes = [
   { path: "/account", component: <AccountPages /> },
-  { path: "/detail-account", component: <DetailsAccountPages /> },
 ]
 const nonUserRoutes = [
   { path: "/", component: <LandingPages /> },
